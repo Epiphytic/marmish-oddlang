@@ -1,0 +1,100 @@
+
+# Beads / Dolt files (added by bd init)
+.dolt/
+*.db
+.beads-credential-key
+.beads/proxieddb/
+.beads.gate.lock
+
+# Private runtime state (may contain identities, commands and output)
+.marmish/
+.marmish-supervisor-*/
+.marmish-command-check-*/
+.marmish-stream-check-*/
+# Native copy staging, retained checkpoints, locks and commit receipts
+.marmish-copy-v1-*/
+/state/
+/fixtures-output/
+.whitenoise/
+.wn/
+
+# Master/identity keys, interrupted publication and worker credentials
+engine.key
+.engine.key.pending
+*.key
+*.key.*
+*.nsec
+*.nsec.*
+*.pem
+*.p12
+*.pfx
+*.keychain
+*.keychain-db
+**/accounts/*/secret.json
+id_rsa
+id_ed25519
+**/jobs/*/credential
+# Native v0.2 profile metadata, provider files and Tor state
+profile.json
+owner.lock
+arti-state/
+arti-cache/
+**/keys/
+
+# SQLite/SQLCipher databases and all journal modes, including hot sidecars
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+
+# Build products and local analysis/cache data
+target/
+/dist/
+/release-output/
+/.ripwire_quality_baseline
+.cache/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+node_modules/
+.npmrc
+
+# Python developer tools
+__pycache__/
+*.py[cod]
+
+# Local environment and credentials (no environment examples currently needed)
+.env
+.env.*
+.envrc
+.cargo/credentials*
+secrets/
+credentials.json
+
+# Temporary files, editor state and process output
+/tmp/
+/temp/
+*.tmp
+*.temp
+*.log
+*.pid
+*.sock
+*.swp
+*.swo
+*~
+.#*
+\#*\#
+.vscode/
+.idea/
+.DS_Store
+
+# Linux/macOS crash dumps; leave marmish-core and core source files trackable
+core
+core.[0-9]*
+*.core
+
+# Keep source directories named core visible while excluding core dump files
+!core/

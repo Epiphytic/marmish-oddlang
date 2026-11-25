@@ -1,0 +1,284 @@
+// CI tooling only. Never imported by an installed Marmish executable.
+import {createHash} from 'node:crypto';
+import {constants, promises as fs} from 'node:fs';
+import path from 'node:path';
+import yauzl from 'yauzl';
+
+import {isStreamingCohort} from './streaming-policy.mjs';
+
+export const ROLES = ['linux-amd64', 'linux-arm64', 'macos-arm64'];
+export const RECORD_LIMIT = 16 * 1024 * 1024;
+export const digest = bytes => createHash('sha256').update(bytes).digest('hex');
+export function requireThat(ok, category) { if (!ok) throw new Error(category); }
+
+export function binding(context, role) {
+  requireThat(context.schema === 1 && ROLES.includes(role), 'invalid_context');
+  requireThat(/^[A-Za-z0-9][A-Za-z0-9-]{0,38}\/[A-Za-z0-9_.-]{1,100}$/.test(context.repository)
+    && !['.', '..'].includes(context.repository.split('/')[1]), 'invalid_repository');
+  for (const value of [context.run_id, context.run_attempt]) {
+    requireThat(/^[1-9][0-9]{0,15}$/.test(String(value)), 'invalid_run');
+  }
+  requireThat(/^[0-9a-f]{40}$/.test(context.source_commit), 'invalid_source');
+  requireThat(context.cohort === 'matrix' || isStreamingCohort(context.cohort), 'unsupported_cohort');
+  return `v02-installed-${context.run_id}-${context.run_attempt}-${context.source_commit.slice(0, 12)}-${context.cohort}`;
+}
+export function artifactName(prefix, role, kind) {
+  requireThat(ROLES.includes(role), 'invalid_role');
+  requireThat(['identity-ready', 'server-ready', 'client-result', 'server-result'].includes(kind), 'invalid_kind');
+  return `${prefix}-${role}-${kind}`;
+}
+export function safeBlobUrl(value) {
+  const url = new URL(value);
+  requireThat(url.protocol === 'https:' && !url.username && !url.password && !url.port
+    && (url.hostname.endsWith('.blob.core.windows.net')
+      || url.hostname.endsWith('.results.githubusercontent.com')), 'invalid_redirect');
+  return url;
+}
+export function childEnvironment(env) {
+  const clean = {PATH: '/usr/bin:/bin:/usr/sbin:/sbin'};
+  for (const key of ['HOME', 'TMPDIR', 'LANG']) if (env[key]) clean[key] = env[key];
+  return clean;
+}
+export async function boundedFile(file, limit = RECORD_LIMIT) {
+  const handle = await fs.open(file, constants.O_RDONLY | constants.O_NOFOLLOW | constants.O_NONBLOCK);
+  try {
+    const stat = await handle.stat();
+    requireThat(stat.isFile() && stat.size <= limit, 'invalid_record_file');
+    const bytes = Buffer.alloc(stat.size + 1);
+    let read = 0;
+    while (read < bytes.length) {
+      const next = await handle.read(bytes, read, bytes.length - read, null);
+      if (!next.bytesRead) break;
+      read += next.bytesRead;
+    }
+    requireThat(read === stat.size, 'record_changed');
+    return bytes.subarray(0, read);
+  } finally { await handle.close(); }
+}
+export async function putImmutable(directory, basename, bytes) {
+  requireThat(path.basename(basename) === basename, 'invalid_basename');
+  await fs.mkdir(directory, {recursive: true, mode: 0o700});
+  const target = path.join(directory, basename);
+  try {
+    requireThat((await boundedFile(target)).equals(bytes), 'record_conflict');
+    return;
+  } catch (error) { if (error.code !== 'ENOENT') throw error; }
+  // Only this single supervisor writes its owned inbox. Exclusive temp + link
+  // publishes without replacing an existing record, even if another writer races.
+  const staging = await fs.mkdtemp(path.join(path.dirname(directory), '.marmish-record-'));
+  const temporary = path.join(staging, basename);
+  await fs.writeFile(temporary, bytes, {flag: 'wx', mode: 0o600});
+  try {
+    await fs.link(temporary, target);
+  } catch (error) {
+    if (error.code !== 'EEXIST') throw error;
+    requireThat((await boundedFile(target)).equals(bytes), 'record_conflict');
+  } finally { await fs.rm(staging, {recursive: true, force: true}); }
+}
+export async function singleJson(zip, basename) {
+  requireThat(zip.length <= RECORD_LIMIT, 'archive_oversized');
+  return new Promise((resolve, reject) => {
+    yauzl.fromBuffer(zip, {lazyEntries: true, strictFileNames: true, validateEntrySizes: true}, (error, archive) => {
+      if (error) { reject(new Error('invalid_archive')); return; }
+      let count = 0;
+      let bytes;
+      let failed = false;
+      const fail = () => {
+        if (!failed) { failed = true; archive.close(); reject(new Error('invalid_archive')); }
+      };
+      archive.on('error', fail);
+      archive.on('entry', entry => {
+        const type = (entry.externalFileAttributes >>> 16) & 0o170000;
+        if (++count !== 1 || entry.fileName !== basename || (type !== 0 && type !== 0o100000)
+          || entry.uncompressedSize > RECORD_LIMIT || entry.compressedSize > RECORD_LIMIT
+          || (entry.generalPurposeBitFlag & 1)) { fail(); return; }
+        archive.openReadStream(entry, (error, stream) => {
+          if (error) { fail(); return; }
+          const chunks = [];
+          let size = 0;
+          stream.on('error', fail);
+          stream.on('data', chunk => {
+            size += chunk.length;
+            if (size > RECORD_LIMIT) { stream.destroy(); fail(); }
+            else chunks.push(chunk);
+          });
+          stream.on('end', () => {
+            if (failed) return;
+            bytes = Buffer.concat(chunks);
+            if (bytes.length !== entry.uncompressedSize) { fail(); return; }
+            archive.readEntry();
+          });
+        });
+      });
+      archive.on('end', () => {
+        if (failed) return;
+        if (count !== 1 || !bytes) { fail(); return; }
+        try { JSON.parse(bytes.toString('utf8')); } catch { fail(); return; }
+        resolve(bytes);
+      });
+      archive.readEntry();
+    });
+  });
+}
+
+async function body(response, limit) {
+  const declared = response.headers.get('content-length');
+  requireThat(declared === null || (/^[0-9]+$/.test(declared) && Number(declared) <= limit), 'response_oversized');
+  requireThat(response.body, 'response_body_missing');
+  const reader = response.body.getReader();
+  const chunks = [];
+  let size = 0;
+  try {
+    for (;;) {
+      const {done, value} = await reader.read();
+      if (done) break;
+      size += value.length;
+      requireThat(size <= limit, 'response_oversized');
+      chunks.push(value);
+    }
+  } finally { await reader.cancel(); }
+  return Buffer.concat(chunks);
+}
+
+const ARTIFACT_PAGE_SIZE = 100;
+const MAX_ARTIFACT_PAGES = 5;
+
+function artifactListError(category, reason, total, count) {
+  const error = new Error(category);
+  error.artifactList = {reason,
+    total_count: Number.isSafeInteger(total) && total >= 0 && total <= ARTIFACT_PAGE_SIZE ? total : null,
+    artifact_count: count !== null && count <= ARTIFACT_PAGE_SIZE ? count : null};
+  if (category === 'artifact_retry') error.retryAfter = 30_000;
+  return error;
+}
+
+function parseArtifactList(bytes, pageLimit) {
+  let result;
+  const fail = (category, reason) => {
+    const count = Array.isArray(result?.artifacts) ? result.artifacts.length : null;
+    throw artifactListError(category, reason, result?.total_count, count);
+  };
+  try { result = JSON.parse(bytes); }
+  catch { fail('artifact_list_json', 'invalid_json'); }
+  if (!result || typeof result !== 'object' || Array.isArray(result)) fail('artifact_list_shape', 'invalid_object');
+  if (!Number.isSafeInteger(result.total_count) || result.total_count < 0) fail('artifact_list_total', 'invalid_total');
+  if (result.total_count > pageLimit * ARTIFACT_PAGE_SIZE) fail('artifact_list_total', 'total_bound');
+  if (!Array.isArray(result.artifacts)) fail('artifact_list_items', 'invalid_items');
+  if (result.artifacts.length > ARTIFACT_PAGE_SIZE) fail('artifact_list_items', 'items_bound');
+  return result;
+}
+
+function artifactPageIdentities(artifacts) {
+  const ids = new Set(), names = new Set();
+  for (const artifact of artifacts) {
+    requireThat(Number.isSafeInteger(artifact?.id) && artifact.id > 0
+      && typeof artifact.name === 'string' && artifact.name.length > 0, 'artifact_metadata');
+    requireThat(!ids.has(artifact.id) && !names.has(artifact.name), 'artifact_duplicate');
+    ids.add(artifact.id);
+    names.add(artifact.name);
+  }
+}
+
+export class ArtifactTransport {
+  constructor({context, token, budgetFile, fetcher = fetch, paginate = false}) {
+    requireThat(typeof token === 'string' && token.length > 0, 'missing_api_token');
+    this.context = context; this.token = token; this.budgetFile = budgetFile;
+    this.fetcher = fetcher; this.used = null; this.paginate = paginate === true;
+  }
+  async request(url, api, limit, deadline, signal, retryListedZip404 = false) {
+    signal?.throwIfAborted();
+    requireThat(Date.now() < deadline, 'artifact_deadline');
+    if (api) {
+      if (this.used === null) {
+        try { this.used = JSON.parse(await fs.readFile(this.budgetFile, 'utf8')).used; }
+        catch (error) { if (error.code !== 'ENOENT') throw error; this.used = 0; }
+      }
+      requireThat(Number.isInteger(this.used) && this.used >= 0 && this.used < 120, 'artifact_budget');
+      this.used++;
+      const temporary = `${this.budgetFile}.${process.pid}.tmp`;
+      await fs.writeFile(temporary, JSON.stringify({used: this.used}), {flag: 'wx', mode: 0o600});
+      await fs.rename(temporary, this.budgetFile);
+    }
+    const headers = api ? {Authorization: `Bearer ${this.token}`, Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28'} : {};
+    let response;
+    try {
+      response = await this.fetcher(url, {headers, redirect: 'manual',
+        signal: AbortSignal.any([...(signal ? [signal] : []),
+          AbortSignal.timeout(Math.max(1, Math.min(30_000, deadline - Date.now())))])});
+    } catch {
+      signal?.throwIfAborted();
+      const error = new Error('artifact_retry'); error.retryAfter = 30_000; throw error;
+    }
+    if ([429, 500, 502, 503, 504].includes(response.status)
+      || (response.status === 403 && (response.headers.has('retry-after')
+        || response.headers.get('x-ratelimit-remaining') === '0'))) {
+      await response.body?.cancel();
+      const retry = response.headers.get('retry-after');
+      const seconds = /^[0-9]{1,5}$/.test(retry ?? '') ? Math.min(Number(retry), 300) : 30;
+      const error = new Error('artifact_retry'); error.retryAfter = seconds * 1000; throw error;
+    }
+    if ([301, 302, 303, 307, 308].includes(response.status)) {
+      await response.body?.cancel();
+      return {redirect: response.headers.get('location')};
+    }
+    if (response.status !== 200) {
+      const error = new Error('artifact_http');
+      error.artifactHttp = {status: response.status, target: api ? 'api' : 'blob'};
+      try { await response.body?.cancel(); }
+      catch { signal?.throwIfAborted(); throw error; }
+      signal?.throwIfAborted();
+      // Only validated selected ZIP downloads opt in; list and blob stay hard.
+      if (retryListedZip404 === true && api && response.status === 404) {
+        const retry = new Error('artifact_retry');
+        retry.retryAfter = 30_000; retry.artifactHttp = error.artifactHttp;
+        throw retry;
+      }
+      throw error;
+    }
+    return {bytes: await body(response, limit)};
+  }
+  async list(deadline, signal) {
+    const url = `https://api.github.com/repos/${this.context.repository}/actions/runs/${this.context.run_id}/artifacts?per_page=${ARTIFACT_PAGE_SIZE}`;
+    const pageLimit = this.paginate ? MAX_ARTIFACT_PAGES : 1;
+    const entries = [], ids = new Map(), names = new Set();
+    let snapshotTotal;
+    for (let page = 1; page <= pageLimit; page++) {
+      const reply = await this.request(this.paginate ? `${url}&page=${page}` : url,
+        true, 2 * 1024 * 1024, deadline, signal);
+      requireThat(reply.bytes, 'artifact_api_redirect');
+      const {total_count: total, artifacts} = parseArtifactList(reply.bytes, pageLimit);
+      if (this.paginate) artifactPageIdentities(artifacts);
+      snapshotTotal ??= total;
+      const expected = Math.min(ARTIFACT_PAGE_SIZE, snapshotTotal - entries.length);
+      const inconsistent = () => artifactListError('artifact_retry', 'count_mismatch', total, artifacts.length);
+      // Reject an inconsistent snapshot before exposing any of its records.
+      if (total !== snapshotTotal || artifacts.length !== expected) throw inconsistent();
+      if (!this.paginate) return artifacts;
+      for (const {id, name} of artifacts) {
+        if (ids.get(id) === name) throw inconsistent();
+        requireThat(!ids.has(id) && !names.has(name), 'artifact_duplicate');
+        ids.set(id, name);
+        names.add(name);
+      }
+      entries.push(...artifacts);
+      if (entries.length === snapshotTotal) return entries;
+    }
+    throw artifactListError('artifact_list_total', 'total_bound', snapshotTotal, null);
+  }
+  async download(entries, name, basename, deadline, signal, retryListedZip404 = false) {
+    const matching = entries.filter(entry => entry.name === name);
+    requireThat(matching.length <= 1, 'artifact_duplicate');
+    if (!matching.length) return null;
+    const entry = matching[0];
+    requireThat(!entry.expired && Number.isSafeInteger(entry.id) && entry.id > 0
+      && Number.isSafeInteger(entry.size_in_bytes) && entry.size_in_bytes > 0 && entry.size_in_bytes <= RECORD_LIMIT
+      && /^sha256:[0-9a-f]{64}$/.test(entry.digest), 'artifact_metadata');
+    const url = `https://api.github.com/repos/${this.context.repository}/actions/artifacts/${entry.id}/zip`;
+    const redirect = await this.request(url, true, RECORD_LIMIT, deadline, signal, retryListedZip404);
+    requireThat(redirect.redirect, 'artifact_redirect_missing');
+    const reply = await this.request(safeBlobUrl(redirect.redirect), false, RECORD_LIMIT, deadline, signal);
+    requireThat(reply.bytes && `sha256:${digest(reply.bytes)}` === entry.digest, 'artifact_digest');
+    return singleJson(reply.bytes, basename);
+  }
+}

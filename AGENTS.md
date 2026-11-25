@@ -1,0 +1,123 @@
+# Working on Marmish
+
+## Active direction: v0.2, native Rust
+
+The user reset the architecture on 2026-11-02. Stop v0.1 implementation and
+release work. Read [the v0.2 plan](docs/v0.2-plan.md) before making changes;
+it supersedes the legacy architecture requirements below and in older specs.
+v0.2 uses upstream mainline MDK, embedded Arti and native Rust application,
+daemon, CLI and setup tooling. Do not add a Python/uv runtime, private MDK fork,
+`wnd` subprocess, WASM/browser layer or mandatory namespace/broker dependency.
+Keep the Python implementation available as an isolated optional protocol
+reference fixture; it must not become a v0.2 runtime dependency. The user permits
+breaking both legacy wire and on-disk formats. Use the reviewed native protocol
+and test Rust interoperability; legacy Python compatibility is not a release
+gate. Source compatibility, wire compatibility and storage migration are
+separate claims and require separate evidence. The user permits breaking
+on-disk compatibility because there is no installed base. Use fresh v0.2 formats;
+do not add legacy storage migration work to preserve experimental state.
+
+The user explicitly authorized building and publishing the new v0.2 release.
+The phased Claude-review, Beads, validation and dual-mirror rules still apply.
+Do not resume cancelled v0.1 work or publish its cancelled experimental.3
+candidate while implementing the replacement.
+
+Read [the agent specification](docs/agent-spec.md) before planning or changing
+behavior. It records what works, intended capabilities, design decisions and
+known limits. Consult [the build plan](docs/build-plan.md) for phase boundaries,
+[the README](README.md) for usage, and Beads for current task status.
+
+## Phased build workflow
+
+The user has authorized phased implementation using agents, independent Claude
+reviews, and committing and pushing each completed, reviewed phase or increment.
+Continue through implementation and validation; a plan alone does not complete
+an implementation request. Existing authorization carries across turns unless
+the user changes it.
+
+1. **Track the work.** Use Beads (`bd`) for tasks, dependencies, blockers, review
+   dispositions and handoffs. Claim the task before implementation. Use
+   `bd prime` when context is missing. Keep durable project memory in Beads;
+   do not create parallel Markdown task lists or ad hoc memory files.
+2. **Review the overall plan.** For a new initiative or material change in scope,
+   write or update the high-level phased build plan and review it with Claude.
+   Define phase deliverables, dependencies, boundaries and exit criteria.
+3. **Design each phase before coding.** At the start of each phase, write its
+   detailed plan under `docs/phases/`. Specify interfaces, authenticated trust
+   boundaries, persistence/recovery behavior, limits, test cases and acceptance
+   criteria. Inspect the actual code and dependency contracts rather than
+   assuming support. Obtain Claude's independent design review, incorporate
+   useful findings and repeat until blocking design findings are resolved.
+   Record the approval before implementation starts.
+4. **Implement with agents.** Delegate bounded components to agents with explicit
+   interfaces and disjoint file ownership. Coordinate integration centrally;
+   avoid overwriting another agent's work. Use isolated worktrees when branches
+   or task isolation require them. Preserve unrelated user changes and sibling
+   repository work.
+5. **Validate the result.** Run checks appropriate to the change and the phase's
+   acceptance criteria. For transport changes, use actual client/server command
+   execution through Marmot, not just mocks or successful relay publication.
+   Include relevant negative, byte-preservation, replay, retry and recovery
+   checks. Use disposable keys, explicit relay selection and bounded workloads;
+   clean up owned test processes and private state. Keep sanitized evidence
+   under `docs/validation/` and report failures and limitations honestly.
+6. **Review the completed code with Claude.** Use Claude Code in
+   `--permission-mode auto`, permitting repository inspection and local tests.
+   The review must inspect the integrated result, including new files and tests,
+   against the approved design. Give the reviewer precise scope and prevent
+   conflicting live tests or unrelated edits. Store review evidence under
+   `docs/reviews/`, including reviewer/model, reviewed scope, verdict, findings
+   and validation. Incorporate useful changes, run affected checks and obtain
+   another review after substantive fixes. No phase closes with unresolved
+   blocking findings. If Claude or a required dependency is unavailable, record
+   the specific blocker rather than inventing approval or silently substituting
+   another reviewer.
+7. **Publish each completed phase or increment.** Update specifications and usage
+   to match the implementation. Audit `.gitignore` and the exact staged diff;
+   exclude identities, keys, runtime databases, command journals, output,
+   temporary files and logs. Stage intended source and sanitized documentation
+   explicitly. Commit and push to the configured project remote, verify the
+   push, and record the commit, branch, review and test evidence in Beads before
+   closing the task. Do not rewrite history to fabricate earlier phase commits.
+
+### Source publication to GitHub and Radicle
+
+Every completed change must be committed and pushed to both GitHub (`origin`,
+https://github.com/Epiphytic/marmish) and Radicle (`rad`,
+rad:z3x7GVHywRtV2nR9qA5V4VqAVvCDg). Push the explicit branch and any release tags
+to both remotes. Binary release assets are published on GitHub only. Do not add
+Radicle release publication or credentials to GitHub Actions; source/tag mirroring
+and Iris synchronization remain manual agent duties. Verify their refs, synchronize Radicle with Iris, and verify
+external availability before reporting both mirrors current. If either push or
+replication fails, record the partial publication in Beads and tell the user;
+do not silently treat one successful push as completion. Preserve existing
+history and exclude private runtime state and secrets from both sources.
+
+The user's 2026-10-29 distribution request (Beads `marmish-ic3`) explicitly
+authorizes creating this public Radicle repository and publishing experimental
+binary releases for Linux AMD64/ARM64 and macOS ARM64. This scoped authorization
+does not authorize unrelated deployments or future release initiatives.
+
+Scale the plan and review to the change. Small documentation corrections do not
+require inventing a new implementation phase. Deployment, release publication
+and third-party messaging require their own authorization; commit/push authority
+does not imply those actions.
+
+## Keeping the specification accurate
+
+Update `docs/agent-spec.md` when a phase changes supported behavior, an important
+decision or a known limit. Distinguish implemented and tested behavior from
+intent. Link concrete evidence instead of inferring support from an API name or
+fresh encryption keys. Beads remains the task tracker; the specification is the
+behavioral and architectural handoff, not a second queue.
+
+## Code ontology freshness
+
+Any commit that changes tracked code, tests, scripts, dependencies, build or
+packaging configuration, workflows, or release versions must contain the
+matching regenerated [code ontology](docs/ontology/README.md). Stage the
+intended changes, run the ontology update, stage its outputs, and run the
+check on the final staged tree. Regenerate after any further input change.
+A failing check blocks pushing, tagging, and publishing that revision.
+Release operators must also verify the exact source revision they package
+or publish. The generation tool and graph are development tooling.

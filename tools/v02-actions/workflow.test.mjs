@@ -1,0 +1,468 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {promises as fs} from 'node:fs';
+import os from 'node:os';
+import path from 'node:path';
+import {candidateInputs, checkRun, checkTooling, verifyTools, verifyContext, gather, sourceDigest, SOURCE_PATHS, TARGETS, cohortLifetime, PROVIDER_DIAGNOSTIC, DIAGNOSTIC_PATHS, checkDiagnosticJobs, checkDiagnosticChanges, validateCandidate, providerDiagnostic} from './workflow.mjs';
+import {inspectCandidate} from './release-candidate.mjs';
+import {INSTALLED_CANDIDATE_PATHS, releaseQualificationSource} from './workflow.mjs';
+import {LOCAL_COHORTS} from './local.mjs';
+import {ArtifactTransport, digest, ROLES} from './transport.mjs';
+import {execFileSync} from 'node:child_process';
+const source = 'a'.repeat(40), harness = 'b'.repeat(64);
+const env = {CANDIDATE_RUN_ID:'12', CANDIDATE_RUN_ATTEMPT:'3', GITHUB_REPOSITORY:'Epiphytic/marmish',
+  SOURCE_COMMIT:source, GITHUB_SHA:source, TEST_RELAY:'wss://relay.example'};
+const run = {id:12,run_attempt:3,status:'completed',conclusion:'success',path:'.github/workflows/v02-release.yml',
+  event:'workflow_dispatch',head_branch:'master',head_repository:{full_name:'Epiphytic/marmish'},
+  repository:{full_name:'Epiphytic/marmish'},head_sha:'c'.repeat(40)};
+test('closed cohort lifetimes preserve matrix and original local wave bounds', () => {
+  assert.deepEqual(cohortLifetime({}), {name:'matrix',seconds:2220});
+  for (const name of ['autoexit','uptime','benchmark','recovery','policy']) assert.deepEqual(cohortLifetime({TEST_COHORT:name}), {name,seconds:3300});
+  assert.deepEqual(cohortLifetime({TEST_COHORT:'version-lifecycle'}), {name:'version-lifecycle',seconds:1800});
+  for (const name of ['unknown','constructor','__proto__','']) assert.throws(()=>cohortLifetime({TEST_COHORT:name}));
+});
+test('candidate inputs bind control source and require explicit direct relay', () => {
+  assert.equal(candidateInputs(env).relay,'wss://relay.example/');
+  for (const change of [{CANDIDATE_RUN_ID:'../1'},{CANDIDATE_RUN_ATTEMPT:'0'},{GITHUB_SHA:'c'.repeat(40)},
+    {GITHUB_REPOSITORY:'fork/marmish'},{TEST_RELAY:'ws://relay.example'},{TEST_RELAY:'wss://u:p@relay.example'},
+    {TEST_RELAY:'wss://hidden.onion'},{TEST_RELAY:'wss://relay.example/#x'}]) {
+    assert.throws(()=>candidateInputs({...env,...change}));
+  }
+});
+test('release qualification recovery only permits the exact executable installer child', () => {
+  const control = 'b'.repeat(40);
+  const releaseEnv = {...env, GITHUB_SHA: control, GITHUB_REF: 'refs/heads/master',
+    GITHUB_EVENT_NAME: 'workflow_dispatch', RELEASE_GATE: 'true'};
+  const bootstrap = Buffer.from('#!/bin/sh\n');
+  const replies = {
+    'rev-list': `${control} ${source}\n`,
+    'diff-tree': 'M\tscripts/install.sh\n',
+    'ls-tree': `100755 blob ${source}\tscripts/install.sh\n`,
+    show: bootstrap,
+  };
+  const qualify = (changes = {}, responses = {}, expected = bootstrap) =>
+    releaseQualificationSource({...releaseEnv, ...changes}, {bootstrap: expected,
+      git: ([command]) => Buffer.from({...replies, ...responses}[command])});
+  assert.equal(qualify(), source);
+  assert.equal(releaseQualificationSource(env), source);
+  for (const changes of [{RELEASE_GATE: 'false'}, {GITHUB_REF: 'refs/heads/topic'},
+    {GITHUB_REPOSITORY: 'fork/marmish'}, {GITHUB_EVENT_NAME: 'pull_request'}]) {
+    assert.throws(() => qualify(changes), /invalid_candidate_source/);
+  }
+  for (const responses of [
+    {'rev-list': `${control} ${source} ${'c'.repeat(40)}\n`},
+    {'rev-list': `${control} ${'c'.repeat(40)}\n`},
+    {'diff-tree': 'M\tscripts/install.sh\nM\tREADME.md\n'},
+    {'diff-tree': 'A\tscripts/install.sh\n'},
+    {'ls-tree': `120000 blob ${source}\tscripts/install.sh\n`},
+  ]) assert.throws(() => qualify({}, responses), /qualification_source_changed/);
+  assert.throws(() => qualify({}, {}, Buffer.from('different')), /qualification_bootstrap_mismatch/);
+});
+
+test('release qualification accepts only an ordinary candidate with the exact source', async () => {
+  const validate = (data) => validateCandidate({...env, RELEASE_GATE: 'true'}, 0, {
+    request: async () => ({bytes: Buffer.from(JSON.stringify(data))}),
+    list: async () => assert.fail('artifact listing must follow a valid run'),
+  });
+  await assert.rejects(validate(run), /invalid_candidate_provenance/);
+  await assert.rejects(validate({...run, head_sha: source, path: INSTALLED_CANDIDATE_PATHS[1]}),
+    /invalid_candidate_provenance/);
+});
+
+test('exact candidate attempt and workflow required; dispatch head is not selected source', () => {
+  const c=candidateInputs(env);
+  for (const event of ['workflow_dispatch','push']) checkRun({...run,event},c);
+  for (const event of ['pull_request','pull_request_target','workflow_run','release',undefined,null,'Push']) {
+    assert.throws(()=>checkRun({...run,event},c));
+  }
+  for (const change of [{run_attempt:2},{id:13},{conclusion:'failure'},{status:'in_progress'},
+    {path:'.github/workflows/other.yml'},{head_branch:'feature'},{event:'pull_request'},
+    {head_repository:{full_name:'fork/marmish'}}]) assert.throws(()=>checkRun({...run,...change},c));
+});
+function record(bytes) {
+  return {schema:1,target:TARGETS[0],source_commit:source,harness_sha256:harness,
+    files:Object.fromEntries(['marmish-installed-check','marmish-installed-fixture'].map(name=>
+      [name,{sha256:digest(bytes),bytes:bytes.length}]))};
+}
+test('tooling records reject open schemas, mismatched source and malformed size pins', () => {
+  const good=record(Buffer.from('x')); checkTooling(good,'linux-amd64',source,harness);
+  for(const change of [{target:TARGETS[1]},{source_commit:'c'.repeat(40)},{harness_sha256:'d'.repeat(64)},
+    {extra:true},{files:{...good.files,extra:{sha256:harness,bytes:1}}}]) {
+    assert.throws(()=>checkTooling({...good,...change},'linux-amd64',source,harness));
+  }
+  assert.throws(()=>checkTooling(good,'invalid',source,harness));
+  assert.throws(()=>checkTooling({...good,files:{...good.files,'marmish-installed-check':{sha256:harness,bytes:0}}},'linux-amd64',source,harness));
+});
+test('bytes and original record digest authenticated before executable permission', async t => {
+  const directory=await fs.mkdtemp(path.join(os.tmpdir(),'marmish-workflow-'));
+  t.after(()=>fs.rm(directory,{recursive:true,force:true}));
+  const bytes=Buffer.from('not an executable'), good=record(bytes), serialized=Buffer.from(JSON.stringify(good));
+  for(const name of Object.keys(good.files)) await fs.writeFile(path.join(directory,name),bytes,{mode:0o600});
+  await fs.writeFile(path.join(directory,'linux-amd64-tooling.json'),serialized);
+  await assert.rejects(verifyTools(directory,'linux-amd64',source,harness,'e'.repeat(64)),/record_digest/);
+  assert.equal((await fs.stat(path.join(directory,'marmish-installed-check'))).mode&0o777,0o600);
+  await fs.writeFile(path.join(directory,'marmish-installed-check'),Buffer.from('wrong'));
+  await assert.rejects(verifyTools(directory,'linux-amd64',source,harness,digest(serialized)),/tool_digest/);
+  assert.equal((await fs.stat(path.join(directory,'marmish-installed-check'))).mode&0o777,0o600);
+  await fs.writeFile(path.join(directory,'marmish-installed-check'),bytes);
+  await verifyTools(directory,'linux-amd64',source,harness,digest(serialized));
+  assert.equal((await fs.stat(path.join(directory,'marmish-installed-check'))).mode&0o777,0o500);
+});
+
+test('source digest matches the candidate immutable git-tree pipeline', () => {
+  const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const tree=execFileSync('git',['ls-tree','-r',sha,'--',...SOURCE_PATHS]);
+  const expected=execFileSync('shasum',['-a','256'],{input:tree,encoding:'utf8'}).split(' ')[0];
+  assert.equal(sourceDigest(sha),expected);
+});
+test('both candidate producers hash the exact source path set', async () => {
+  for (const name of ['v02-release.yml','streaming-candidate.yml']) {
+    const yaml=await fs.readFile(new URL(`../../.github/workflows/${name}`,import.meta.url),'utf8');
+    const match=yaml.match(/git ls-tree -r "\$MARMISH_BUILD_COMMIT" -- ([\s\S]*?)\| shasum/);
+    assert.ok(match,name);
+    assert.deepEqual(match[1].replaceAll('\\','').trim().split(/\s+/),SOURCE_PATHS,name);
+  }
+});
+test('source fingerprint closes native local path dependencies and build inputs', async () => {
+  const visited=new Set();
+  async function visit(directory) {
+    if(visited.has(directory)) return;
+    visited.add(directory);
+    assert.ok(SOURCE_PATHS.includes(directory),directory);
+    const manifest=await fs.readFile(new URL(`../../${directory}/Cargo.toml`,import.meta.url),'utf8');
+    for(const match of manifest.matchAll(/path\s*=\s*"(\.\.[^"]+)"/g)) {
+      await visit(path.posix.normalize(path.posix.join(directory,match[1])));
+    }
+  }
+  await visit('crates/marmish-native');
+  for(const name of ['engine','stream','core','vault']) assert.ok(visited.has(`crates/marmish-${name}`));
+  for(const name of ['Cargo.toml','Cargo.lock','rust-toolchain.toml','scripts',
+    '.github/workflows/streaming-candidate.yml','.github/workflows/streaming-installed.yml','tools/release-version-vectors.json']) {
+    assert.ok(SOURCE_PATHS.includes(name),name);
+  }
+});
+test('streaming candidates require exact reviewed workflow head and dispatch', () => {
+  const c=candidateInputs(env);
+  const streaming={...run,path:'.github/workflows/streaming-candidate.yml',head_sha:source};
+  assert.throws(()=>checkRun(streaming,c),/invalid_candidate_provenance/);
+  checkRun(streaming,c,undefined,INSTALLED_CANDIDATE_PATHS);
+  for(const change of [{event:'push'},{head_sha:'c'.repeat(40)},
+    {path:'.github/workflows/streaming-candidate.yml@master'},
+    {path:'.github/workflows/streaming-installed.yml'}]) {
+    assert.throws(()=>checkRun({...streaming,...change},c,undefined,INSTALLED_CANDIDATE_PATHS));
+  }
+});
+test('release publication rejects streaming candidate before reading artifacts', async()=>{
+  let calls=0;
+  await assert.rejects(inspectCandidate({run_id:'12',run_attempt:'3',publisher_sha:'b'.repeat(40)}, {
+    api:async()=>{calls++;return {...run,path:'.github/workflows/streaming-candidate.yml',head_sha:source};},
+    git:()=>{throw new Error('must_not_read_git');},
+    transport:{list:async()=>{throw new Error('must_not_read_artifacts');}},
+  }),/invalid_candidate_provenance/);
+  assert.equal(calls,1);
+});
+test('missing tooling pin or different candidate attempt fails before executing a tool', async t => {
+  const directory=await fs.mkdtemp(path.join(os.tmpdir(),'marmish-context-'));
+  t.after(()=>fs.rm(directory,{recursive:true,force:true}));
+  const sha=execFileSync('git',['rev-parse','HEAD'],{encoding:'utf8'}).trim();
+  const context={cohort:'matrix',repository:'Epiphytic/marmish',source_commit:sha,run_id:12,run_attempt:3,
+    candidate_run_id:10,candidate_run_attempt:2,harness_sha256:sourceDigest(sha),bootstrap_sha256:harness};
+  const file=path.join(directory,'context.json'); await fs.writeFile(file,JSON.stringify(context));
+  const e={GITHUB_REPOSITORY:context.repository,GITHUB_SHA:sha,GITHUB_RUN_ID:'12',GITHUB_RUN_ATTEMPT:'3',
+    CANDIDATE_RUN_ID:'10',CANDIDATE_RUN_ATTEMPT:'2',CONTEXT:file,ROLE:'linux-amd64',TOOLS_ROOT:directory};
+  await assert.rejects(verifyContext(e),/context_pins/);
+  await assert.rejects(verifyContext({...e,TEST_COHORT:'benchmark'}),/workflow_cohort/);
+  context.tooling_manifests={'linux-amd64':harness}; await fs.writeFile(file,JSON.stringify(context));
+  await assert.rejects(verifyContext({...e,CANDIDATE_RUN_ATTEMPT:'1'}),/context_pins/);
+});
+test('gather writes available exact role records and preserves missing records for FAIL rollup', async t => {
+  const directory=await fs.mkdtemp(path.join(os.tmpdir(),'marmish-gather-'));
+  t.after(()=>fs.rm(directory,{recursive:true,force:true}));
+  const context={schema:1,repository:'Epiphytic/marmish',source_commit:source,run_id:12,run_attempt:3,cohort:'matrix'};
+  const file=path.join(directory,'context.json');await fs.writeFile(file,JSON.stringify(context));
+  const e={GITHUB_REPOSITORY:context.repository,GITHUB_SHA:source,GITHUB_RUN_ID:'12',GITHUB_RUN_ATTEMPT:'3',
+    CONTEXT:file,RECORDS_ROOT:path.join(directory,'records')};
+  const requested=[];
+  const transport={list:async()=>[],download:async(_entries,name,basename)=>{
+    requested.push({name,basename});return Buffer.from('{}');}};
+  await gather(e,transport);
+  const names=ROLES.flatMap(role=>['identity-ready','server-ready','client-result','server-result'].map(k=>`${role}-${k}.json`));
+  assert.deepEqual((await fs.readdir(e.RECORDS_ROOT)).sort(),names.sort());
+  assert.equal(requested.length,12);
+  assert.ok(requested.every(r=>r.name.startsWith('v02-installed-12-3-aaaaaaaaaaaa-matrix-') && !r.basename.includes('linux')));
+  await gather({...e,RECORDS_ROOT:path.join(directory,'missing')},
+    {list:async()=>[],download:async()=>null});
+  assert.deepEqual(await fs.readdir(path.join(directory,'missing')),[]);
+});
+
+const gatherZip = Buffer.from('UEsDBBQAAAAAABIGY12MwfuJDAAAAAwAAAATAAAAaWRlbnRpdHktcmVhZHkuanNvbnsic2NoZW1hIjoxfVBLAQIUAxQAAAAAABIGY12MwfuJDAAAAAwAAAATAAAAAAAAAAAAAACAAQAAAABpZGVudGl0eS1yZWFkeS5qc29uUEsFBgAAAAABAAEAQQAAAD0AAAAAAA==', 'base64');
+async function gatherFixture(t) {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'marmish-gather-'));
+  t.after(() => fs.rm(directory, {recursive: true, force: true}));
+  const context = {schema: 1, repository: 'Epiphytic/marmish', source_commit: source,
+    run_id: 12, run_attempt: 3, cohort: 'matrix'};
+  const file = path.join(directory, 'context.json');
+  await fs.writeFile(file, JSON.stringify(context));
+  const e = {GITHUB_REPOSITORY: context.repository, GITHUB_SHA: source,
+    GITHUB_RUN_ID: '12', GITHUB_RUN_ATTEMPT: '3', CONTEXT: file,
+    RECORDS_ROOT: path.join(directory, 'records')};
+  const entry = {name: 'v02-installed-12-3-aaaaaaaaaaaa-matrix-linux-amd64-identity-ready',
+    id: 42, expired: false, size_in_bytes: gatherZip.length, digest: `sha256:${digest(gatherZip)}`};
+  let clock = Date.now();
+  const sleeps = [];
+  const timing = {now: () => clock, delay: async ms => {sleeps.push(ms); clock += ms;}};
+  const transport = fetcher => new ArtifactTransport({context, token: 'private-sentinel',
+    budgetFile: path.join(directory, 'budget'), fetcher});
+  return {directory, context, e, entry, sleeps, timing, transport};
+}
+const artifactRetry = retryAfter => Object.assign(new Error('artifact_retry'), {retryAfter});
+
+test('gather retries listed ZIP API 404 then succeeds through real transport', async t => {
+  const f = await gatherFixture(t);
+  let requests = 0;
+  const transport = f.transport(async (_url, options) => {
+    requests++;
+    if (requests === 1) return new Response(JSON.stringify({total_count: 1, artifacts: [f.entry]}));
+    if (requests === 2) return new Response(null, {status: 404});
+    if (requests === 3) return new Response(null, {status: 302,
+      headers: {location: 'https://test.blob.core.windows.net/archive'}});
+    assert.equal(options.headers.Authorization, undefined);
+    return new Response(gatherZip);
+  });
+  await gather(f.e, transport, f.timing);
+  assert.deepEqual(f.sleeps, [30_000]);
+  assert.equal(requests, 4);
+  assert.equal(transport.used, 3);
+  assert.equal(await fs.readFile(path.join(f.e.RECORDS_ROOT, 'linux-amd64-identity-ready.json'), 'utf8'), '{"schema":1}');
+});
+
+test('gather retries list and each record without replaying previous writes or extending deadline', async t => {
+  const f = await gatherFixture(t);
+  let lists = 0;
+  const calls = new Map(), deadlines = [];
+  const transport = {
+    list: async deadline => {deadlines.push(deadline); if (++lists === 1) throw artifactRetry(1); return [];},
+    download: async (_entries, name, _basename, deadline, signal, retry404) => {
+      deadlines.push(deadline); assert.equal(signal, undefined); assert.equal(retry404, true);
+      const count = (calls.get(name) ?? 0) + 1; calls.set(name, count);
+      if (name.endsWith('linux-amd64-server-ready') && count === 1) throw artifactRetry(45_000);
+      if (name.endsWith('linux-arm64-client-result') && count === 1) throw artifactRetry(30_000);
+      return Buffer.from('{}');
+    }
+  };
+  await gather(f.e, transport, f.timing);
+  assert.deepEqual(f.sleeps, [30_000, 45_000, 30_000]);
+  assert.equal(lists, 2);
+  assert.equal(new Set(deadlines).size, 1);
+  assert.equal(calls.get('v02-installed-12-3-aaaaaaaaaaaa-matrix-linux-amd64-identity-ready'), 1);
+  assert.equal((await fs.readdir(f.e.RECORDS_ROOT)).length, 12);
+});
+
+for (const stage of ['list', 'download']) test(`gather persistent ${stage} retry stops at original deadline`, async t => {
+  const f = await gatherFixture(t);
+  let attempts = 0;
+  const fail = async () => {attempts++; throw artifactRetry(30_000);};
+  const transport = {list: stage === 'list' ? fail : async () => [], download: fail};
+  await assert.rejects(gather(f.e, transport, f.timing), /artifact_deadline/);
+  assert.equal(attempts, 4);
+  assert.deepEqual(f.sleeps, [30_000, 30_000, 30_000, 30_000]);
+});
+
+test('gather honors longer Retry-After but caps sleep at remaining deadline', async t => {
+  const f = await gatherFixture(t);
+  let attempts = 0;
+  await assert.rejects(gather(f.e, {list: async () => {attempts++; throw artifactRetry(300_000);}}, f.timing), /artifact_deadline/);
+  assert.equal(attempts, 1);
+  assert.deepEqual(f.sleeps, [120_000]);
+});
+
+test('gather shares list and record deadline while preserving earlier exclusive writes', async t => {
+  const f = await gatherFixture(t);
+  let lists = 0, downloads = 0;
+  const transport = {
+    list: async () => {if (++lists === 1) throw artifactRetry(60_000); return [];},
+    download: async () => {
+      if (++downloads === 1) return Buffer.from('{"original":true}');
+      throw artifactRetry(90_000);
+    }
+  };
+  await assert.rejects(gather(f.e, transport, f.timing), /artifact_deadline/);
+  assert.deepEqual(f.sleeps, [60_000, 60_000]);
+  assert.equal(downloads, 2);
+  assert.deepEqual(await fs.readdir(f.e.RECORDS_ROOT), ['linux-amd64-identity-ready.json']);
+  assert.equal(await fs.readFile(path.join(f.e.RECORDS_ROOT, 'linux-amd64-identity-ready.json'), 'utf8'), '{"original":true}');
+  await assert.rejects(gather(f.e, {list: async () => []}, f.timing), {code: 'EEXIST'});
+});
+
+test('gather never retries unknown transport failures', async t => {
+  const f = await gatherFixture(t);
+  const original = new Error('unknown_failure');
+  await assert.rejects(gather(f.e, {list: async () => {throw original;}}, f.timing), error => error === original);
+  assert.deepEqual(f.sleeps, []);
+});
+
+test('gather preserves one real persisted API budget across retries', async t => {
+  const f = await gatherFixture(t);
+  await fs.writeFile(path.join(f.directory, 'budget'), JSON.stringify({used: 119}));
+  let requests = 0;
+  const transport = f.transport(async () => {requests++; return new Response(null, {status: 503});});
+  await assert.rejects(gather(f.e, transport, f.timing), /artifact_budget/);
+  assert.equal(requests, 1);
+  assert.equal(transport.used, 120);
+  assert.deepEqual(JSON.parse(await fs.readFile(path.join(f.directory, 'budget'))), {used: 120});
+  assert.deepEqual(f.sleeps, [30_000]);
+});
+
+for (const failure of ['auth', 'list404', 'metadata', 'duplicate', 'digest', 'archive', 'blob404']) {
+  test(`gather keeps ${failure} terminal through real transport`, async t => {
+    const f = await gatherFixture(t);
+    let requests = 0;
+    const entry = {...f.entry};
+    let zip = gatherZip;
+    if (failure === 'metadata') entry.expired = true;
+    if (failure === 'digest') entry.digest = `sha256:${'0'.repeat(64)}`;
+    if (failure === 'archive') {zip = Buffer.from('invalid ZIP'); entry.digest = `sha256:${digest(zip)}`;}
+    const transport = f.transport(async () => {
+      requests++;
+      if (requests === 1) {
+        if (failure === 'auth') return new Response(null, {status: 401});
+        if (failure === 'list404') return new Response(null, {status: 404});
+        const artifacts = failure === 'duplicate' ? [entry, entry] : [entry];
+        return new Response(JSON.stringify({total_count: artifacts.length, artifacts}));
+      }
+      if (requests === 2) return new Response(null, {status: 302,
+        headers: {location: 'https://test.blob.core.windows.net/archive'}});
+      return failure === 'blob404' ? new Response(null, {status: 404}) : new Response(zip);
+    });
+    const expected = {auth: 'artifact_http', list404: 'artifact_http', metadata: 'artifact_metadata',
+      duplicate: 'artifact_duplicate', digest: 'artifact_digest', blob404: 'artifact_http'};
+    await assert.rejects(gather(f.e, transport, f.timing), error => {
+      if (expected[failure]) assert.equal(error.message, expected[failure]);
+      if (failure === 'blob404') assert.deepEqual(error.artifactHttp, {status: 404, target: 'blob'});
+      return true;
+    });
+    assert.deepEqual(f.sleeps, []);
+    assert.ok(requests <= 3);
+  });
+}
+
+// Source parity supplements typed Rust tests: every advertised wave must route.
+test('workflow choices, JS routing and Rust routing advertise the same closed cohorts', async () => {
+  const root = new URL('../../', import.meta.url);
+  const read = name => fs.readFile(new URL(name, root), 'utf8');
+  const expected = ['matrix', 'autoexit', 'uptime', 'benchmark', 'recovery', 'policy'];
+  const yaml = await read('.github/workflows/v02-installed.yml');
+  const options = yaml.match(/options: \[([^\]]+)\]/)[1].split(',').map(s => s.trim());
+  assert.deepEqual(options, expected);
+  assert.deepEqual(LOCAL_COHORTS, expected.slice(1));
+  for (const name of expected) assert.equal(cohortLifetime({TEST_COHORT:name}).seconds,
+    name === 'matrix' ? 2220 : 3300);
+  const records = await read('crates/marmish-native/src/installed_records.rs');
+  const lifetime = records.split('fn cohort_lifetime')[1].split('pub(super) fn validate')[0];
+  const local = await read('crates/marmish-native/src/installed_local.rs');
+  const dispatch = local.split('match cohort {')[1].split('#[derive(Serialize)]')[0];
+  const rollup = local.split('pub(super) fn rollup')[1].split('let expected =')[0];
+  for (const name of expected) assert.ok(lifetime.includes(`"${name}"`), name);
+  for (const name of expected.slice(1)) {
+    assert.ok(dispatch.includes(`"${name}"`), `dispatch ${name}`);
+    assert.ok(rollup.includes(`"${name}"`), `rollup ${name}`);
+  }
+});
+
+const diagnosticEnv={...env,CANDIDATE_RUN_ID:PROVIDER_DIAGNOSTIC.run,
+  CANDIDATE_RUN_ATTEMPT:PROVIDER_DIAGNOSTIC.attempt,SOURCE_COMMIT:PROVIDER_DIAGNOSTIC.source};
+const diagnosticRun={...run,id:Number(PROVIDER_DIAGNOSTIC.run),run_attempt:1,
+  conclusion:'failure',head_sha:PROVIDER_DIAGNOSTIC.source};
+const diagnosticJobs=[
+  [126816261687,'package (ubuntu-24.04-arm, aarch64-unknown-linux-gnu, none, glibc=2.39)','success'],
+  [126816262401,'package (macos-15, aarch64-apple-darwin, adhoc, macos=15.0)','success'],
+  [126816262683,'package (ubuntu-24.04, x86_64-unknown-linux-gnu, none, glibc=2.39)','success'],
+  [126848469757,'render','success'],
+  [126848598035,'provider-qualification (macos-15, aarch64-apple-darwin)','failure']
+].map(([id,name,conclusion])=>({id,name,conclusion,status:'completed'}));
+function diagnosticTransport(change={}) {
+  return {request:async url=>({bytes:Buffer.from(JSON.stringify(url.includes('/jobs?')
+    ? (change.jobs??{total_count:5,jobs:diagnosticJobs}) : (change.run??diagnosticRun)))}),
+    list:async()=>change.artifacts??[
+      {name:`v02-candidate-aarch64-apple-darwin-${PROVIDER_DIAGNOSTIC.run}-1`,expired:false},
+      {name:`v02-pinned-bootstrap-${PROVIDER_DIAGNOSTIC.run}-1`,expired:false}]};
+}
+test('diagnostic exception requires literal policy and exact old product, production stays strict',()=>{
+  const c=candidateInputs(diagnosticEnv,PROVIDER_DIAGNOSTIC);
+  checkRun(diagnosticRun,c,PROVIDER_DIAGNOSTIC);
+  assert.throws(()=>candidateInputs(diagnosticEnv));
+  assert.throws(()=>candidateInputs(diagnosticEnv,{...PROVIDER_DIAGNOSTIC}));
+  assert.throws(()=>checkRun(diagnosticRun,c));
+  for(const change of [{SOURCE_COMMIT:source},{CANDIDATE_RUN_ID:'41898839618'},
+    {CANDIDATE_RUN_ATTEMPT:'2'},{GITHUB_REPOSITORY:'fork/marmish'}])
+    assert.throws(()=>candidateInputs({...diagnosticEnv,...change},PROVIDER_DIAGNOSTIC));
+  for(const change of [{head_sha:source},{conclusion:'success'},{run_attempt:2},
+    {path:'.github/workflows/other.yml'},{event:'push'},{head_branch:'other'},
+    {repository:{full_name:'fork/marmish'}},{head_repository:{full_name:'fork/marmish'}}])
+    assert.throws(()=>checkRun({...diagnosticRun,...change},c,PROVIDER_DIAGNOSTIC));
+});
+test('diagnostic requires three exact packages, render, and original failed mac job',async()=>{
+  assert.equal((await validateCandidate(diagnosticEnv,0,diagnosticTransport(),PROVIDER_DIAGNOSTIC)).length,2);
+  for(let i=0;i<diagnosticJobs.length;i++) {
+    for(const change of [{id:1},{name:'other'},{conclusion:'cancelled'},{status:'in_progress'}]) {
+      const jobs=diagnosticJobs.map((job,n)=>n===i?{...job,...change}:job);
+      assert.throws(()=>checkDiagnosticJobs(jobs));
+    }
+    assert.throws(()=>checkDiagnosticJobs(diagnosticJobs.filter((_,n)=>n!==i)));
+  }
+  assert.throws(()=>checkDiagnosticJobs([...diagnosticJobs,diagnosticJobs[0]]));
+  for(const jobs of [{total_count:6,jobs:diagnosticJobs},{total_count:4,jobs:diagnosticJobs},
+    {total_count:0,jobs:[]},{total_count:5,jobs:[...diagnosticJobs.slice(0,4),diagnosticJobs[0]]}])
+    await assert.rejects(validateCandidate(diagnosticEnv,0,diagnosticTransport({jobs}),PROVIDER_DIAGNOSTIC));
+  const artifacts=await diagnosticTransport().list();
+  for(const bad of [[],[...artifacts,artifacts[0]],artifacts.map(a=>({...a,expired:true})),
+    artifacts.map(a=>({...a,name:a.name.replace('-1','-2')}))])
+    await assert.rejects(validateCandidate(diagnosticEnv,0,diagnosticTransport({artifacts:bad}),PROVIDER_DIAGNOSTIC));
+});
+test('diagnostic source audit permits only thirteen literal regular diagnostic paths',()=>{
+  assert.equal(DIAGNOSTIC_PATHS.length,13);
+  for(const name of DIAGNOSTIC_PATHS) for(const status of ['A','M']) checkDiagnosticChanges([[status,name,'100644']]);
+  for(const name of ['tools/v02-actions/workflow.mjs','tools/v02-actions/workflow.test.mjs','tools/marmish_native_quickstart_check.py'])
+    assert.ok(DIAGNOSTIC_PATHS.includes(name));
+  assert.throws(()=>checkDiagnosticChanges([]));
+  for(const entry of [['D',DIAGNOSTIC_PATHS[0],'100644'],['R100',DIAGNOSTIC_PATHS[0],'100644'],
+    ['M','crates/marmish-native/src/identity.rs','100644'],['M','tools/marmish_native_quickstart_check.pyc','100644'],
+    ['M',DIAGNOSTIC_PATHS[0],'120000'],['M',DIAGNOSTIC_PATHS[0],'100755'],
+    ['D','tools/marmish_native_quickstart_check.py','100644'],
+    ['R100','tools/marmish_native_quickstart_check.py','100644'],
+    ['M','tools/marmish_native_quickstart_check.py','100755'],
+    ['M','tools/marmish_native_quickstart_check.py','120000'],
+    ['M','other/marmish_native_quickstart_check.py','100644'],
+    ['M','docs/reviews/unreviewed.md','100644']]) assert.throws(()=>checkDiagnosticChanges([entry]));
+});
+test('diagnostic guard refusal preserves separate finite product and supervisor envelope',async t=>{
+  const directory=await fs.mkdtemp(path.join(os.tmpdir(),'marmish-diagnostic-'));
+  t.after(()=>fs.rm(directory,{recursive:true,force:true}));
+  await assert.rejects(providerDiagnostic({...env,DIAGNOSTIC_ROOT:directory,GITHUB_REF:'refs/heads/other',
+    GITHUB_RUN_ID:'88',GITHUB_RUN_ATTEMPT:'1'}),/provider_diagnostic_refused/);
+  const record=JSON.parse(await fs.readFile(path.join(directory,'provenance.json')));
+  assert.equal(record.product_source_commit,PROVIDER_DIAGNOSTIC.source);
+  assert.equal(record.supervisor_source_commit,source);
+  assert.equal(record.guard,'metadata_refused');
+  assert.equal(record.diagnostic,true);
+  assert.ok(!JSON.stringify(record).includes('Error:'));
+});
+
+
+test('validateCandidate fails closed on a bounded list mismatch without retry or artifact admission', async t => {
+  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'marmish-candidate-list-'));
+  t.after(() => fs.rm(directory, {recursive: true, force: true}));
+  const calls = [];
+  const transport = new ArtifactTransport({context: {repository: env.GITHUB_REPOSITORY, run_id: '12'},
+    token: 'private-token', budgetFile: path.join(directory, 'budget'), fetcher: async url => {
+      calls.push(String(url));
+      if (String(url).endsWith('/attempts/3')) return new Response(JSON.stringify({...run, head_sha: source}));
+      assert.ok(String(url).endsWith('/artifacts?per_page=100'));
+      return new Response(JSON.stringify({total_count: 3, artifacts: [{}, {}]}));
+    }});
+  transport.download = async () => { assert.fail('incomplete inventory must never be admitted'); };
+  await assert.rejects(validateCandidate(env, 0, transport), {message: 'artifact_retry'});
+  assert.equal(calls.length, 2);
+  assert.equal(calls.filter(url => url.endsWith('/artifacts?per_page=100')).length, 1);
+  assert.equal(JSON.parse(await fs.readFile(path.join(directory, 'budget'))).used, 2);
+});

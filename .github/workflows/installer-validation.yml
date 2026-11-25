@@ -1,0 +1,87 @@
+name: Legacy v0.1 installer and guided quickstart
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'tests/fixtures/legacy/**'
+      - 'tools/**'
+      - '!tools/v02-actions/**'
+      - 'tests/fixtures/managed-runtime-assets.json'
+      - '.github/workflows/installer-validation.yml'
+  pull_request:
+    paths:
+      - 'tests/fixtures/legacy/**'
+      - 'tools/**'
+      - '!tools/v02-actions/**'
+      - 'tests/fixtures/managed-runtime-assets.json'
+      - '.github/workflows/installer-validation.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  legacy-installer:
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Ensure Python 3.11 or newer
+        run: sh tools/bootstrap_ci_python.sh
+      - name: Offline legacy archive and controlling-terminal acceptance
+        run: |
+          python3 --version
+          sh -n tests/fixtures/legacy/install-v0.1.sh
+          python3 -m unittest discover -s tools -p test_marmish_install.py -v
+          python3 -m unittest discover -s tools -p test_marmish_quickstart.py -v
+  legacy-managed-packaging:
+    name: Legacy managed checks (Linux reduced reference; macOS full packaging)
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm, macos-15]
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Ensure harness Python 3.11 or newer
+        run: sh tools/bootstrap_ci_python.sh
+      - name: Install Linux packaging test prerequisites
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends bubblewrap binutils
+      - name: Provision pinned test-only fixture toolchain
+        uses: dtolnay/rust-toolchain@59a558e8c538bf4a23bbffa19e5a278b703f2920
+        timeout-minutes: 5
+        with:
+          toolchain: 1.97.1
+      - name: Offline legacy managed packaging contract tests
+        run: python3 -m unittest discover -s tools -p test_marmish_managed_runtime_spike.py -v
+      - name: Validate reduced Linux legacy reference scope (not full packaging acceptance)
+        if: runner.os == 'Linux'
+        env:
+          MARMISH_LEGACY_SKIP_NAMESPACE_TESTS: '1'
+        run: >-
+          python3 tools/marmish_managed_runtime_spike.py
+          --reduced-linux-reference-only
+          --report "$RUNNER_TEMP/managed-runtime-report.json"
+      - name: Validate pinned v0.1 runtime and published legacy archive (default reference coverage)
+        if: runner.os != 'Linux'
+        run: >-
+          python3 tools/marmish_managed_runtime_spike.py
+          --report "$RUNNER_TEMP/managed-runtime-report.json"
+      - name: Upload sanitized legacy packaging evidence
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: legacy-managed-runtime-${{ matrix.runner }}
+          path: ${{ runner.temp }}/managed-runtime-report.json
+          if-no-files-found: error
+          retention-days: 14
