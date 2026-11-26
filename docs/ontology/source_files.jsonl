@@ -305,7 +305,7 @@
 {"path":"oddlang/portable/core-package.json","language":"inventory","mode":"100644","sha256":"89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4","parse_status":"inventory"}
 {"path":"oddlang/portable/core-relays-v1/graph.json","language":"inventory","mode":"100644","sha256":"98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff","parse_status":"inventory"}
 {"path":"oddlang/portable/core-relays-v1/rust.json","language":"inventory","mode":"100644","sha256":"e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c","parse_status":"inventory"}
-{"path":"oddlang/portable/core-structure-v1/ownership.ttl","language":"inventory","mode":"100644","sha256":"cbdd95c73d40a6fd38ffc1bd72adef9c003431235caa9c0742d8525c658ddaf0","parse_status":"inventory"}
+{"path":"oddlang/portable/core-structure-v1/ownership.ttl","language":"inventory","mode":"100644","sha256":"87b74e908d4f953d517b9c0ea6e1b6065a1f1e5ca60a55ec961d47cb9d1dd2d6","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-package.json","language":"inventory","mode":"100644","sha256":"c54f34f6b523ba59e26a3ba68c0dbf5af7bac9e112e53f4307a238c3b11da9b8","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/graph.json","language":"inventory","mode":"100644","sha256":"6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/package.lock","language":"inventory","mode":"100644","sha256":"3a3ee8eee0991e685c491bcfdc9a4bd66b2296b2593b47fc9d15f779e48a603d","parse_status":"inventory"}
@@ -1027,9 +1027,13 @@
 {"path":"verification/whole/core-lexical/package.lock","language":"inventory","mode":"100644","sha256":"b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c","parse_status":"inventory"}
 {"path":"verification/whole/core-lexical/replay.py","language":"python","mode":"100644","sha256":"292ff1816b0ec14c902c6ceeca355b8be7f5e1ae78831abf6349ec08f14e86c1","parse_status":"parsed"}
 {"path":"verification/whole/core-node/check.mjs","language":"javascript","mode":"100644","sha256":"8b8773de0a9fb8539c4c8ba3a581534d00b66fd32b38959b91f9f74655ea82a7","parse_status":"parsed_with_omissions"}
-{"path":"verification/whole/core-ownership/README.md","language":"inventory","mode":"100644","sha256":"3e0cf67161d75c10776bde7ad10640d23b2f003531e1f4afcab9c584301a6b72","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/README.md","language":"inventory","mode":"100644","sha256":"8a732a6bc8af10f569425dce8e589db7e28a948d32058f4823675ff88eeb3698","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/observed.txt","language":"inventory","mode":"100644","sha256":"3d6a9b6d98f2f6507e60e9e3de15cd6b45b94c2e894646b9efeacc1934a250c3","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/ownership.sparql.txt","language":"inventory","mode":"100644","sha256":"a648adc334abbbeb0a4453e38f6f6a71f33006e09cb7be4a151362e823a9b371","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/project_retention.py","language":"python","mode":"100644","sha256":"019e4e8a0ca196eddc061125d80327fc27e0a944ced2318ca91201f358da9841","parse_status":"parsed"}
+{"path":"verification/whole/core-ownership/retention-node.json","language":"inventory","mode":"100644","sha256":"f69a2a396037770dd4a1866efed3ff20add0518f487bccd716ec2d61d6009714","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/semantic-roles.sparql.txt","language":"inventory","mode":"100644","sha256":"ef1715923e024c1e7df06b2b55bee31efbb5fbe740806c91b6060faa4d6f16a9","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/semantic_roles.py","language":"python","mode":"100644","sha256":"55775918a8a9b2143b11dccb2bcec2d654675fc47e5b4561326df7f919a69d65","parse_status":"parsed"}
 {"path":"verification/whole/core-ownership/verify.py","language":"python","mode":"100644","sha256":"ac476bf5a5969cffc76073d3479328c5cd9defaf0861937677cdddcb30332ff0","parse_status":"parsed"}
 {"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"517618872c06dbf67ba4c80fba35396a72b1cbe8b8954e5dc51da60a930514df","parse_status":"inventory"}
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
