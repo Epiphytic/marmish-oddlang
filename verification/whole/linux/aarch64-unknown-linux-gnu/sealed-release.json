@@ -1,0 +1,60 @@
+{
+  "boundary": {
+    "agentForwarding": false,
+    "guestHost": "127.0.0.1",
+    "hostClientCapsuleReadProbe": "EPERM",
+    "hostSentinelAbsentInGuest": true,
+    "sharedMounts": []
+  },
+  "framework": "b653f1ada68791cd2fb70293bf227c5665850d1e",
+  "frozenCapsuleSha256": "afd52185d31bd660ac6a83df554cfeb53e450dfa7ced9a74398994eebbfdb939",
+  "origin": {
+    "buildLocale": "C",
+    "callerBinding": "449435cc3f857b24b676b1b63b657738d0a3b2bcd4ff2637e176d75d5c219d25",
+    "callerSha256": "b973c345da47d3d9df61ed680b15ba3e52697f914d6210d766a619969867f877",
+    "cargoCommand": "cargo +1.97.1 build --locked --offline --profile release --target aarch64-unknown-linux-gnu --package marmish-stream --target-dir /home/newuser.guest/sealed-release --message-format=json-render-diagnostics",
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "compiler": [
+      "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "binary: rustc",
+      "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+      "commit-date: 2026-07-14",
+      "host: aarch64-unknown-linux-gnu",
+      "release: 1.97.1",
+      "LLVM version: 22.1.6"
+    ],
+    "features": {
+      "flate2": [
+        "any_impl",
+        "miniz_oxide",
+        "rust_backend"
+      ],
+      "marmish_stream": [],
+      "serde": [
+        "default",
+        "derive",
+        "serde_derive",
+        "std"
+      ],
+      "serde_json": [
+        "default",
+        "std"
+      ]
+    },
+    "librarySha256": {
+      "marmish_stream": "399389d515ee5a5af8a6ace4cdea49491bd92f939b0f0caa1411876bec2e3193",
+      "serde": "596686f97e96d0ee2cb02d0c259805e2ddf54cc9e9edbc9cdcf77566bd4e835e",
+      "serde_json": "a0229f732c1b30e86211c4ad7b0eca5d6be9ddfb6d5258c60093b8866733c6c8"
+    },
+    "profile": "release",
+    "revision": "af54339d250290490d62d4475a77539b7e739071",
+    "rustcCommand": "rustc +1.97.1 --edition 2024 --crate-name stream_oracle --target aarch64-unknown-linux-gnu /home/newuser.guest/framework-pinned/examples/marmish/portable-oracle/stream.rs -L dependency=/home/newuser.guest/sealed-release/aarch64-unknown-linux-gnu/release/deps -L dependency=/home/newuser.guest/sealed-release/release/deps -o /home/newuser.guest/sealed-release/stream-oracle --extern marmish_stream=/home/newuser.guest/sealed-release/aarch64-unknown-linux-gnu/release/libmarmish_stream.rlib --extern serde=/home/newuser.guest/sealed-release/aarch64-unknown-linux-gnu/release/deps/libserde-53994f83af89ab7a.rlib --extern serde_json=/home/newuser.guest/sealed-release/aarch64-unknown-linux-gnu/release/deps/libserde_json-260366d4a5838c86.rlib",
+    "sourceSha256": {
+      "archived-main.rs": "6b5caa2a7d19af3960248ae86e7f175d4d142939efa7074c65ea6126eced8b1e",
+      "stream.rs": "330b2d57e272e0add9214bb6ef21f522d8e0f722d7e4419b53acda60ffa60657"
+    },
+    "target": "aarch64-unknown-linux-gnu"
+  },
+  "passed": true,
+  "sealedCases": 128
+}

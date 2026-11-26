@@ -1,0 +1,194 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-apple-darwin",
+  "command": "cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast -- --test-threads=1",
+  "exit": 101,
+  "testTargets": [
+    {
+      "target": "unittests src/lib.rs (marmish_core-2f22f7aed36191e0)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/contracts.rs (contracts-bb9f11fd8b3fb1d0)",
+      "passed": 7,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_engine-eef3383af188fd73)",
+      "passed": 169,
+      "failed": 0,
+      "ignored": 1
+    },
+    {
+      "target": "unittests src/bin/marmish-worker.rs (marmish_engine_worker-bd6fd523a1132722)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/concurrent_storage.rs (concurrent_storage-9a7fa910b9f84cdd)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/encrypted_storage.rs (encrypted_storage-fb3c7cfb8dec177c)",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/engine.rs (engine-57ee495173105358)",
+      "passed": 14,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/faults.rs (faults-ddf8c6e154353274)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/native_storage.rs (native_storage-4524ad2141a7acce)",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_mdk-213feffb62e9b226)",
+      "passed": 3,
+      "failed": 6,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_native-7eb33464c617ee69)",
+      "passed": 643,
+      "failed": 0,
+      "ignored": 3
+    },
+    {
+      "target": "unittests src/bin/marmish.rs (marmish-5f52aa7d2cf23074)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-release-tool.rs (marmish_release_tool-86cb1d8f8e4e7736)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-worker.rs (marmish_worker-6ebe960e729fe6cd)",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmishd.rs (marmishd-6ba3bf3e82da4cf3)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/process_limits.rs (process_limits-9885b193cb6f5320)",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_prototype-c02597eae5fc349b)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/main.rs (marmish_engine_bridge-b0e33910a5f7720f)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/bridge.rs (bridge-fb3510d15b8e8059)",
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_stream-e417b1ad528db28c)",
+      "passed": 29,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_vault-ea42986eabe399b6)",
+      "passed": 13,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-keychain.rs (marmish_keychain-594e78ce5e562fe8)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/helper.rs (helper-bb9e80982ac4b040)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/native_vault.rs (native_vault-fcca9190759e7e0e)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 1
+    },
+    {
+      "target": "marmish_core",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_engine",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_mdk",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_native",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_prototype",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_stream",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_vault",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    }
+  ]
+}

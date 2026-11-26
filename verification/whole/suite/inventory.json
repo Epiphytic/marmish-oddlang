@@ -1,0 +1,1046 @@
+{
+  "upstream_commit": "af54339d250290490d62d4475a77539b7e739071",
+  "upstream_tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+  "rust_unit_source_files": [
+    {
+      "path": "crates/marmish-engine/src/admission/tests.rs",
+      "git_blob": "2ac0878a83f45419fda1cf93824377796dbee624"
+    },
+    {
+      "path": "crates/marmish-engine/src/cipher.rs",
+      "git_blob": "c71313d77097770bd581174455a45ee7b868452f"
+    },
+    {
+      "path": "crates/marmish-engine/src/copy_context_tests.rs",
+      "git_blob": "4938d9d46799ed81369c8fa9b470635caadc2191"
+    },
+    {
+      "path": "crates/marmish-engine/src/copy_launch.rs",
+      "git_blob": "951012aefd8b50443825dea69ff1dc26c652f047"
+    },
+    {
+      "path": "crates/marmish-engine/src/launcher/tests.rs",
+      "git_blob": "67df6ae17186980509ca02a805bfcd75c33915f0"
+    },
+    {
+      "path": "crates/marmish-engine/src/lib.rs",
+      "git_blob": "8d8c67d1dc1b2d9b70bfc559000dabc96479484a"
+    },
+    {
+      "path": "crates/marmish-engine/src/live.rs",
+      "git_blob": "879c9c2ead8600b7d816a3eeabcfcc1edc564521"
+    },
+    {
+      "path": "crates/marmish-engine/src/platform/macos.rs",
+      "git_blob": "13c8212b33808a19234ed51f287c87ed8cd821ef"
+    },
+    {
+      "path": "crates/marmish-engine/src/platform/mod.rs",
+      "git_blob": "9611475a4caa793125fb39890983341e324c88d7"
+    },
+    {
+      "path": "crates/marmish-engine/src/policy/tests.rs",
+      "git_blob": "f88bc12c016922d49065fb804b7781990d22f06d"
+    },
+    {
+      "path": "crates/marmish-engine/src/process.rs",
+      "git_blob": "9b63eb0c0512602b11cdf4bad4295cb14b276d38"
+    },
+    {
+      "path": "crates/marmish-engine/src/process/diagnostic.rs",
+      "git_blob": "9da784c837e4b9ca49a8af011a6a82783273245d"
+    },
+    {
+      "path": "crates/marmish-engine/src/process_limits_tests.rs",
+      "git_blob": "ab1ea9fc59cbb19267eabb186519661c18c30905"
+    },
+    {
+      "path": "crates/marmish-engine/src/resolve/tests.rs",
+      "git_blob": "66bd051389ef2a9c1239985dbb295af218239887"
+    },
+    {
+      "path": "crates/marmish-engine/src/spool/tests.rs",
+      "git_blob": "587b7dacfc8bad3401bf0095f4d179a92342edfd"
+    },
+    {
+      "path": "crates/marmish-engine/src/store/tests.rs",
+      "git_blob": "f4779fbd133b717ecf582942021444573deedc26"
+    },
+    {
+      "path": "crates/marmish-engine/src/worker/tests.rs",
+      "git_blob": "00669a3a3a108e2f9df84137a0650e0c810fd0e4"
+    },
+    {
+      "path": "crates/marmish-mdk/src/tests.rs",
+      "git_blob": "850cb75fd5a8296bfd251fcd90238a3adcb28b8b"
+    },
+    {
+      "path": "crates/marmish-native/src/bin/marmish-worker.rs",
+      "git_blob": "ace946f13f122eaf3a7c950aef554bf19832cf5e"
+    },
+    {
+      "path": "crates/marmish-native/src/cli.rs",
+      "git_blob": "7b872b3aa26f335424576d32f356eb67ee5c9a4c"
+    },
+    {
+      "path": "crates/marmish-native/src/command_adapter.rs",
+      "git_blob": "61e487bbda6fd919f69f85e8131eb1863c28ee95"
+    },
+    {
+      "path": "crates/marmish-native/src/command_check.rs",
+      "git_blob": "d93a61e63d0475bc7cc7e37132cbbf77ce502925"
+    },
+    {
+      "path": "crates/marmish-native/src/command_cli.rs",
+      "git_blob": "a7c71f9652039d319787eec9baace247c8ed8273"
+    },
+    {
+      "path": "crates/marmish-native/src/command_client.rs",
+      "git_blob": "837f324f3054337de035afcafbc87d3de05ee3b5"
+    },
+    {
+      "path": "crates/marmish-native/src/command_config.rs",
+      "git_blob": "86287ca6d925b9324e0de00250facf199568ca53"
+    },
+    {
+      "path": "crates/marmish-native/src/command_engine.rs",
+      "git_blob": "729b59bc58c665ac7d0f492e6307c073f86eb635"
+    },
+    {
+      "path": "crates/marmish-native/src/command_evidence.rs",
+      "git_blob": "ddd0b8b83a9e86b3a49c43f8f4aaf95058f88841"
+    },
+    {
+      "path": "crates/marmish-native/src/command_identity.rs",
+      "git_blob": "4c4df04c608328e5ca3d72fd4b52d07465ff6fb8"
+    },
+    {
+      "path": "crates/marmish-native/src/command_lifecycle.rs",
+      "git_blob": "880ef55469c5f535d7ac0417bf61962624f5e77e"
+    },
+    {
+      "path": "crates/marmish-native/src/command_limits.rs",
+      "git_blob": "08de48e4f524de9e106c4d9bc3ada8c143f8578d"
+    },
+    {
+      "path": "crates/marmish-native/src/command_local.rs",
+      "git_blob": "25b8a48a083f0366c3e6a4207aaac1e796d4ec0d"
+    },
+    {
+      "path": "crates/marmish-native/src/command_preparation.rs",
+      "git_blob": "ababf46b0e939804c8a0bd1c9c34419e4f7dfa10"
+    },
+    {
+      "path": "crates/marmish-native/src/command_rooms.rs",
+      "git_blob": "27bea2adb3706b0c92121657fc9913c9c9745660"
+    },
+    {
+      "path": "crates/marmish-native/src/command_service.rs",
+      "git_blob": "4a4ef6fca48bb72b86690b88ec7c74e81ee47e09"
+    },
+    {
+      "path": "crates/marmish-native/src/command_srv.rs",
+      "git_blob": "14a893cf12943214a3d9991e0590d77d7ec19631"
+    },
+    {
+      "path": "crates/marmish-native/src/command_store.rs",
+      "git_blob": "c67cdc7a6f880c6a14bb1c2f77fcdddafcd66d12"
+    },
+    {
+      "path": "crates/marmish-native/src/command_target.rs",
+      "git_blob": "10be83ba3c8334fe3f359415092e70e163f2dcad"
+    },
+    {
+      "path": "crates/marmish-native/src/command_wire.rs",
+      "git_blob": "113f54fddd9515e3d0e7caf000274e5d275fd065"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_cancel_tests.rs",
+      "git_blob": "594dcc059d268fe068a95ff52bde987e407a4ecf"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_cli.rs",
+      "git_blob": "6b87c32b91983987f70a96042a703128c9a6125f"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_client.rs",
+      "git_blob": "ac71b115583fce3f32df7ef1d5bf7142d204cae0"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_files.rs",
+      "git_blob": "e386edbb2ed5ab23d6ead551b5fcc1ddeb0b38fd"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_helper.rs",
+      "git_blob": "809a6290a01bf94a501d0e4a1cc6f02d005b15e9"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_helper_context_tests.rs",
+      "git_blob": "5adce4ae428fc9e9a65dae72afc0c6e28af0d877"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_integration_tests.rs",
+      "git_blob": "b3cde0ec921773d70ac72352087a8e0b4d5edf22"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_io.rs",
+      "git_blob": "bc5066c445cf6c4d142713ac587ac4ec1e3adbc1"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_io_abort_tests.rs",
+      "git_blob": "78cbb7a9c4febfa804675e152719c9af0b36c1d0"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_large_tests.rs",
+      "git_blob": "e3dfca6603f9053e955c132f40467c3978d0cdcb"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_local_gc.rs",
+      "git_blob": "68dca9a8c9c72f1d4fc6617e7fe39012cb91aba4"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_local_store.rs",
+      "git_blob": "7678268717c7f20049a9307f3172472750010434"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_store.rs",
+      "git_blob": "b546b5caea13e41d98cb61105e5ef2e496626aab"
+    },
+    {
+      "path": "crates/marmish-native/src/copy_worker.rs",
+      "git_blob": "713db0f8bbd381045c5e015684bc8317dfaebe87"
+    },
+    {
+      "path": "crates/marmish-native/src/daemon_launch.rs",
+      "git_blob": "4c774ae8300fb37baeccea22473a8cc40241ca6a"
+    },
+    {
+      "path": "crates/marmish-native/src/foundation.rs",
+      "git_blob": "3a5eaa325b5e0e353cb824662c1bc9783c4b3d51"
+    },
+    {
+      "path": "crates/marmish-native/src/foundation_check.rs",
+      "git_blob": "bb1e72d5a4cd9ebfb89f80c7972abc5f0555292b"
+    },
+    {
+      "path": "crates/marmish-native/src/identity.rs",
+      "git_blob": "c9f3f275fa3a9fbc70859867b270d4360088e393"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_autoexit.rs",
+      "git_blob": "9c8f52088b2e7dd0270f0a8b94cf65b448c5ffd8"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_benchmark.rs",
+      "git_blob": "1100a84d16a5063f53c00c375c6f14baafea1148"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_check.rs",
+      "git_blob": "2e23e135c3a560c490f5375c85e7be7f16b01196"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_cleanup.rs",
+      "git_blob": "d0a6f9d0482f71eb4a30f611bd8fb8a9008c3df0"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_copy_checkpoint.rs",
+      "git_blob": "3c582bb1f6ca1137a2aa05cc386de98319bcdb72"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_copy_detach.rs",
+      "git_blob": "61fadc992bee4cbaf96d1535fa6f3d7f39132f61"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_copy_interrupt.rs",
+      "git_blob": "6610ecdc49f9c39674309401f37b1ebd811ac39d"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_copy_interruption_cases.rs",
+      "git_blob": "5b416a42fce7359df1b704ece42fb460334965d0"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_admission.rs",
+      "git_blob": "82485110c0da89143e37d54a6be98ab47f878006"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_copy.rs",
+      "git_blob": "111e9dfb9e7bdded7fa9d1d644ca86912076d2c3"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_fixture.rs",
+      "git_blob": "175bae4db6495639962da2731c5b32f5dffbbb2b"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_observation_tests.rs",
+      "git_blob": "dc4512db68f8d88b5248a5d2c31f52222d9438bb"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_preopen.rs",
+      "git_blob": "ac411d9c977d55f504a22d7c3b2b0423333c34ed"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_process.rs",
+      "git_blob": "ed7d8aac3020c1a6aa42dc58b0c491782ba6e9d4"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_quota.rs",
+      "git_blob": "b07f1e587f651f8ecfc3feb7af2562f11b7a8c6c"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_rsync.rs",
+      "git_blob": "8e4823d91d0fb5cd0c907855ff586db3290ecdfc"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_rsync_startup_tests.rs",
+      "git_blob": "e6e40c9cc9a15f88c9491270bda4c70e1c41cb38"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edge_signals.rs",
+      "git_blob": "0ca6c83cb611d4573fff164a1faa92db6cee1f8c"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_edges.rs",
+      "git_blob": "1467b006e7fbbf8a406c5972141dd9c60cb3537c"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_fixture.rs",
+      "git_blob": "3a18a250ba9c760c83c5c9a2bca16ed06fe9f1f2"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_lifecycle_provider.rs",
+      "git_blob": "24879feb93941b45ec867d9b3f26f4c921fa07ee"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_local.rs",
+      "git_blob": "3c5b00ca6fc284f94548e2f582e20ec79876835d"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_macos_cold_multiprincipal_tests.rs",
+      "git_blob": "885d1815821666fec3818f23c04c9eddc39ca8dd"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_macos_diagnostic_tests.rs",
+      "git_blob": "181a50a03d3c2f58bf27638c9e674bbd2da78a56"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_matrix.rs",
+      "git_blob": "8993fae9f1005ef6e3bba48ccdef778c44219a11"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_matrix_publication_tests.rs",
+      "git_blob": "ac6a40dc61e285570a3918ee59ce05c3b4e7a639"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_owned_group_cleanup_tests.rs",
+      "git_blob": "6083c18390dc55bbf404b9445dfadb8187114321"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_policy.rs",
+      "git_blob": "1f8d2bfab7909d3d13259319276843316ed37a6d"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_process.rs",
+      "git_blob": "6791d851c6f2c22f6daf59b8ef3cf96cd995b94d"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_records.rs",
+      "git_blob": "12949be898403096dfb9a18fd678598741fd9e04"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_recovery.rs",
+      "git_blob": "b674aeecdcaa8eefedd81472a7d2ffc9ffa007cf"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_socket_tests.rs",
+      "git_blob": "150f8e6b8bf1e77c4daed49055fc5321b9be48a3"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming.rs",
+      "git_blob": "968f2591a7bdbe04fbaa17e9c251a9fdb8d7f39d"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_cases.rs",
+      "git_blob": "9357795e99dee58f139952b9ac9776edb2237900"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_cleanup.rs",
+      "git_blob": "276f0b91350bd838c34b48269a8e8fc8b1465a10"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_diagnostic_tests.rs",
+      "git_blob": "0226d21af0f9fa52213c0a651cb246a2021091ac"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_fixture.rs",
+      "git_blob": "4b478fc99707442ff75bf4bd66624f8dbe0caddd"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_inspection_tests.rs",
+      "git_blob": "95688c6705d8c2bce932578ccfa5e710a33d2cec"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_observation_tests.rs",
+      "git_blob": "732eb63ad11236fef1fe38a3c1fc3724e5ac81a9"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_publication_tests.rs",
+      "git_blob": "d15dfde050131217160a21d2c47f4f47dd5402e4"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_streaming_records.rs",
+      "git_blob": "1edfe294bd597c036b903e321cdc5f607d87b4c1"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_transfer_cases.rs",
+      "git_blob": "c4e8c7cf5c270e2c3887400058adf3a9a8bfacfd"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_transfer_fixture.rs",
+      "git_blob": "3bc2dfdefbb0c67bed5f405db90bced96296dee9"
+    },
+    {
+      "path": "crates/marmish-native/src/installed_version_lifecycle_tests.rs",
+      "git_blob": "2f24cc14475c10d609b39b25c9db3e177810e3d5"
+    },
+    {
+      "path": "crates/marmish-native/src/ipc.rs",
+      "git_blob": "502196eb77f1f92cc7ae15f8a248edb9bad26719"
+    },
+    {
+      "path": "crates/marmish-native/src/journal.rs",
+      "git_blob": "6ccd56ae9eb2d537acb0cd74347631e5e9726a7b"
+    },
+    {
+      "path": "crates/marmish-native/src/mdk_adapter.rs",
+      "git_blob": "efcceba6e020689eacaab3893165650ab8382966"
+    },
+    {
+      "path": "crates/marmish-native/src/mdk_adapter_tests.rs",
+      "git_blob": "d2b871dc0aae2a9d219269eda66be87821cb2223"
+    },
+    {
+      "path": "crates/marmish-native/src/native_install.rs",
+      "git_blob": "9507998ea40a9710f5efefa7f2b56ca261883cfc"
+    },
+    {
+      "path": "crates/marmish-native/src/native_install_fs.rs",
+      "git_blob": "b4e8347b67026aa15065f10e65db97d90d7caed3"
+    },
+    {
+      "path": "crates/marmish-native/src/native_install_legacy_tests.rs",
+      "git_blob": "90a378a21feea231d725c267e09996ebb56d8db2"
+    },
+    {
+      "path": "crates/marmish-native/src/native_layout.rs",
+      "git_blob": "599f20e4bbf9c90a6e9f28c4c4e3f71873316b14"
+    },
+    {
+      "path": "crates/marmish-native/src/native_manifest.rs",
+      "git_blob": "c67634e4830e9375f2a587f5b7fb8875b5e25a0f"
+    },
+    {
+      "path": "crates/marmish-native/src/native_preflight.rs",
+      "git_blob": "1172d623f64b3086069e321c62d631f3a9d16ca3"
+    },
+    {
+      "path": "crates/marmish-native/src/native_release.rs",
+      "git_blob": "79f2303584800233731e9176efedee96fe12a99a"
+    },
+    {
+      "path": "crates/marmish-native/src/native_setup.rs",
+      "git_blob": "e4c6e17097d670ea1c85a0c95f995882c8c805bb"
+    },
+    {
+      "path": "crates/marmish-native/src/rsync_cli.rs",
+      "git_blob": "17dd63259768cd74fb4664d96f4caf7da4607693"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_cli.rs",
+      "git_blob": "05e063c85239bdf9f51b19460b0f7207c0e850af"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_inspect_store.rs",
+      "git_blob": "19c3b6e757f83bb7ee285a2484ccef614abc1688"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_runner.rs",
+      "git_blob": "0649668dd224ed2469f6253a8dbcda01fea7966b"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_runtime.rs",
+      "git_blob": "98e2bf2788bafd7101cbdb7d312e3bc9212922ff"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_session.rs",
+      "git_blob": "075e6c49f8a81dabc65c3331703174ab095ade41"
+    },
+    {
+      "path": "crates/marmish-native/src/stream_store.rs",
+      "git_blob": "5dadf2b5df2eb803824dce0eeb66eb455aa138b2"
+    },
+    {
+      "path": "crates/marmish-native/src/transport.rs",
+      "git_blob": "d1997d49afcb3a9123c9efdc5d6d63a9b59801da"
+    },
+    {
+      "path": "crates/marmish-prototype/src/lib.rs",
+      "git_blob": "d94447aacc099bf8f40a2b3716e79c3b5703ccb5"
+    },
+    {
+      "path": "crates/marmish-stream/src/codec.rs",
+      "git_blob": "751dc71ea9aa305871811d843e28946a543caec6"
+    },
+    {
+      "path": "crates/marmish-stream/src/copy_protocol.rs",
+      "git_blob": "86f4fbdaf372cb740dc620be9ddf9d46196d3221"
+    },
+    {
+      "path": "crates/marmish-stream/src/windows.rs",
+      "git_blob": "848fa5349a91823afc69e099554aed8ac1eedd29"
+    },
+    {
+      "path": "crates/marmish-stream/src/wire.rs",
+      "git_blob": "12e05b335e279de77d7d8196d38319b73fd98e51"
+    },
+    {
+      "path": "crates/marmish-vault/src/helper.rs",
+      "git_blob": "cad34c361e711ff811b16e6ebb757096a742b7d0"
+    },
+    {
+      "path": "crates/marmish-vault/src/lib.rs",
+      "git_blob": "d9ed9d2280f8a19ff8328065c1bf913e212af963"
+    },
+    {
+      "path": "crates/marmish-vault/src/linux.rs",
+      "git_blob": "47b5eadc49061312ea84d533308a1893c01abf65"
+    },
+    {
+      "path": "crates/marmish-vault/src/macos.rs",
+      "git_blob": "5b2bb59b458118b172f01910036da099a9b0ee8f"
+    },
+    {
+      "path": "tools/installed-fixture/src/main.rs",
+      "git_blob": "65af6ccc741d8b8e2c6a9cd185e918f911cfa12d"
+    }
+  ],
+  "rust_integration_targets": [
+    {
+      "path": "crates/marmish-core/tests/contracts.rs",
+      "git_blob": "d1a1f6adf84f75f09f3fccd92b8da28af42802f4"
+    },
+    {
+      "path": "crates/marmish-engine/tests/concurrent_storage.rs",
+      "git_blob": "1504e931c3e2f409e9f674e5a32765d35c1a6085"
+    },
+    {
+      "path": "crates/marmish-engine/tests/encrypted_storage.rs",
+      "git_blob": "37b07d2b8f1cbf3219380d011f6d554f32c8693b",
+      "compile_time_executables": [
+        "marmish-engine-worker"
+      ]
+    },
+    {
+      "path": "crates/marmish-engine/tests/engine.rs",
+      "git_blob": "c77d2adad792b342cca8faad8986b0289a031caf",
+      "compile_time_executables": [
+        "marmish-engine-worker"
+      ]
+    },
+    {
+      "path": "crates/marmish-engine/tests/faults.rs",
+      "git_blob": "f26ed54bb4508d05aea1af6d9ed7682734ebe1f8",
+      "compile_time_executables": [
+        "marmish-test-frontend"
+      ]
+    },
+    {
+      "path": "crates/marmish-engine/tests/native_storage.rs",
+      "git_blob": "ebb1634a8090118f94d88372d70da9b55b050ee7",
+      "compile_time_executables": [
+        "marmish-engine-worker"
+      ]
+    },
+    {
+      "path": "crates/marmish-native/tests/process_limits.rs",
+      "git_blob": "fd5ffd7c7c79b37eb5caf5d2902d1c6e1308a676",
+      "compile_time_executables": [
+        "marmish",
+        "marmishd"
+      ]
+    },
+    {
+      "path": "crates/marmish-prototype/tests/bridge.rs",
+      "git_blob": "dfae291e91a62b1e38208c860b38c7832473d488",
+      "compile_time_executables": [
+        "marmish-engine-bridge"
+      ]
+    },
+    {
+      "path": "crates/marmish-vault/tests/helper.rs",
+      "git_blob": "b013e9705ffb6bb75ec1456738a3aef0e0f0f438",
+      "compile_time_executables": [
+        "marmish-keychain"
+      ]
+    },
+    {
+      "path": "crates/marmish-vault/tests/native_vault.rs",
+      "git_blob": "d19d07e07a81bdc75d9eb2fccef7d1b518a6fd42"
+    }
+  ],
+  "rust_integration_support_files": [
+    {
+      "path": "crates/marmish-engine/tests/support/executable.rs",
+      "git_blob": "1238fa9df3ac6b4e2d615a9fb5b70a556e50d0fd"
+    },
+    {
+      "path": "crates/marmish-engine/tests/support/frontend.rs",
+      "git_blob": "45f9428360e495ecd16ecc5eaa04a449d8117cfb"
+    },
+    {
+      "path": "crates/marmish-engine/tests/support/inspect.rs",
+      "git_blob": "025768aaa89f937922d0e73a89421bf0d426f621"
+    },
+    {
+      "path": "crates/marmish-engine/tests/support/native_publication.rs",
+      "git_blob": "4622f7a667badca194eccc8162d6ffaad66d241b",
+      "compile_time_executables": [
+        "marmish-engine-worker"
+      ]
+    },
+    {
+      "path": "crates/marmish-vault/tests/support/native_linux.rs",
+      "git_blob": "17257037a9b86a2c76ad587ba0267712cb074a20",
+      "compile_time_executables": [
+        "marmish-keychain"
+      ]
+    },
+    {
+      "path": "crates/marmish-vault/tests/support/native_macos.rs",
+      "git_blob": "6f04c83d1e80c7620038551b1427664cf3cadfa0"
+    }
+  ],
+  "python_test_modules": [
+    {
+      "path": "tests/ci/test_self_hosted_preflight.py",
+      "git_blob": "c42c8c731914f3bc01ebd720819718c4e62876f2"
+    },
+    {
+      "path": "tests/test_marmish_keys.py",
+      "git_blob": "7ae01415a43a6ff58614b5ea55664f489ffeab45"
+    },
+    {
+      "path": "tools/code-ontology/test_index.py",
+      "git_blob": "c736c5b13ec84ee2f20ea3e68f0949f0dc937bc7"
+    },
+    {
+      "path": "tools/code-ontology/test_model.py",
+      "git_blob": "c1dd272d72e72c12c12ed7da8f41ce2176c9cf87"
+    },
+    {
+      "path": "tools/test_linux_namespace_diagnostic_workflow.py",
+      "git_blob": "cbacf3508502df932bd9c3502525d93195e663cd"
+    },
+    {
+      "path": "tools/test_marmish_app.py",
+      "git_blob": "98e87cd442762e1a1244a6f0a782074a9eaa66b1"
+    },
+    {
+      "path": "tools/test_marmish_bootstrap.py",
+      "git_blob": "18e1973beeb958ae81fa07fc1da1cb6c1b733e83"
+    },
+    {
+      "path": "tools/test_marmish_ci.py",
+      "git_blob": "599f7fe096fcb044ada19bcdf234e940ef66b828"
+    },
+    {
+      "path": "tools/test_marmish_ci_bwrap.py",
+      "git_blob": "ed221479a0cd5f84241ed1a6ccc0c5d9c2bedeb7"
+    },
+    {
+      "path": "tools/test_marmish_copy_corrective_runtime.py",
+      "git_blob": "2c6ab59272cf1cc06e959ed91b8ccbda9f04f521"
+    },
+    {
+      "path": "tools/test_marmish_debug.py",
+      "git_blob": "92f922c016efe1b8552708973b5b149c5a74c5f7"
+    },
+    {
+      "path": "tools/test_marmish_e2e_native.py",
+      "git_blob": "05b608d56df40727192d7ceb956f74364351a1e3"
+    },
+    {
+      "path": "tools/test_marmish_install.py",
+      "git_blob": "ec1c4db1260230f808f4c2cb1f2641a75428e6ed"
+    },
+    {
+      "path": "tools/test_marmish_installed_ci.py",
+      "git_blob": "7133414cbc84504c761bdd5f83e056b1e9f14b52"
+    },
+    {
+      "path": "tools/test_marmish_installed_fixture.py",
+      "git_blob": "0d539ec3bae8e9e8fa292b1bd465fefaa5157a40"
+    },
+    {
+      "path": "tools/test_marmish_installed_live_ci.py",
+      "git_blob": "b88cb8c06c8c679f848aa0611580111ae6cf04bb"
+    },
+    {
+      "path": "tools/test_marmish_installed_observer.py",
+      "git_blob": "50ff611046bf556def30b91abec4d73749c88e5a"
+    },
+    {
+      "path": "tools/test_marmish_installed_release.py",
+      "git_blob": "d18a895e5f6a661e6bf9a758a0ce3205b0a6d4a2"
+    },
+    {
+      "path": "tools/test_marmish_installed_rendezvous.py",
+      "git_blob": "35f6069bad13dde47738867b69c31bbcb2f7d421"
+    },
+    {
+      "path": "tools/test_marmish_installed_runtime.py",
+      "git_blob": "93958922851afe5c44872e15e3b7300a4d9501b6"
+    },
+    {
+      "path": "tools/test_marmish_installed_state.py",
+      "git_blob": "e741d3b9d6c831bfa5a68c98b656f6d05ec84569"
+    },
+    {
+      "path": "tools/test_marmish_installed_terminal.py",
+      "git_blob": "a8ffc250f97484571e28251f7fc5f762764db4a2"
+    },
+    {
+      "path": "tools/test_marmish_interop.py",
+      "git_blob": "a1e76c236605f361e97d1cd29a63961e54ac55bb"
+    },
+    {
+      "path": "tools/test_marmish_lifetime.py",
+      "git_blob": "be71ac85fa99725f3fc85c051e6e42c00bff1c85"
+    },
+    {
+      "path": "tools/test_marmish_macos_crash_diagnostic.py",
+      "git_blob": "5e07410813439bd305f630d0f34d13ece6abc386"
+    },
+    {
+      "path": "tools/test_marmish_macos_denial_diagnostic.py",
+      "git_blob": "4acc1ea300889c2cbb552ba9b548c2887de72656"
+    },
+    {
+      "path": "tools/test_marmish_macos_denial_workflow.py",
+      "git_blob": "2eefc681c06542dc1b44e3509685d0efd70d290e"
+    },
+    {
+      "path": "tools/test_marmish_macos_probe_diagnostic.py",
+      "git_blob": "aa3a83e1457c2f52f0b628b47d04232ae79f7b0c"
+    },
+    {
+      "path": "tools/test_marmish_managed_runtime_spike.py",
+      "git_blob": "193493cc9c9ade1393308014053ecbf160e6439a"
+    },
+    {
+      "path": "tools/test_marmish_managed_workflow.py",
+      "git_blob": "2d4ff18624acdf68861316eb8aa5ee54bfc6c9b8"
+    },
+    {
+      "path": "tools/test_marmish_native_https_check.py",
+      "git_blob": "051721797fe1b518cd7a1944758095e7108a1363"
+    },
+    {
+      "path": "tools/test_marmish_native_inspection.py",
+      "git_blob": "285620a0349f989e51a069589e7ba19e103e62b1"
+    },
+    {
+      "path": "tools/test_marmish_native_keychain_check.py",
+      "git_blob": "673de975a9e4944a4ee48dae43d1843b6d8883ff"
+    },
+    {
+      "path": "tools/test_marmish_native_licenses.py",
+      "git_blob": "6818ab60669a7cd5a52383f1adf4a2e38a6f04d8"
+    },
+    {
+      "path": "tools/test_marmish_native_spike.py",
+      "git_blob": "33658261942a21da0fb2936b61fe82eab7b3f634"
+    },
+    {
+      "path": "tools/test_marmish_native_validation.py",
+      "git_blob": "041c8d41a8ba535c92b1010077539074c913ce3d"
+    },
+    {
+      "path": "tools/test_marmish_nine_pair.py",
+      "git_blob": "2ad2a2912498d619ad163870dd54f64f0269cc6a"
+    },
+    {
+      "path": "tools/test_marmish_platform.py",
+      "git_blob": "dad7dfe8ef18c9b116188817a83eca9ad8356263"
+    },
+    {
+      "path": "tools/test_marmish_policy.py",
+      "git_blob": "bd56a0cb1e639b066e9f6406e9dabed8c774d2c2"
+    },
+    {
+      "path": "tools/test_marmish_protocol.py",
+      "git_blob": "f57b8fe5aee721ff86a02ab692b28920ed7e6364"
+    },
+    {
+      "path": "tools/test_marmish_provider_diagnostic_workflow.py",
+      "git_blob": "df07c2bc2ee20977e5b8b23e860255e89c4bdcc6"
+    },
+    {
+      "path": "tools/test_marmish_publish.py",
+      "git_blob": "1fff44eca405579270d2a16a22a549dcca016849"
+    },
+    {
+      "path": "tools/test_marmish_quickstart.py",
+      "git_blob": "0a89dc1481a694520a101de0d8ac56e3a87c45d2"
+    },
+    {
+      "path": "tools/test_marmish_release.py",
+      "git_blob": "438f13c8c623862105906461ec6eeb13918902a6"
+    },
+    {
+      "path": "tools/test_marmish_release_automation_workflow.py",
+      "git_blob": "2e93af987dff4f74af4cdafeb2f5a4c9a1593934"
+    },
+    {
+      "path": "tools/test_marmish_release_licenses.py",
+      "git_blob": "ea0a23633e736c00009e1a08bbd59ec82cf556d8"
+    },
+    {
+      "path": "tools/test_marmish_rpc.py",
+      "git_blob": "95a63cd8c6205c80e683c7826eea291ab683672a"
+    },
+    {
+      "path": "tools/test_marmish_rsync_capture.py",
+      "git_blob": "e7bb4f580054a229bdebbe9e33bc23d22e015399"
+    },
+    {
+      "path": "tools/test_marmish_rsync_runtime.py",
+      "git_blob": "06bd9b95e640d0f521f46e6e9f1832280c0bf6a7"
+    },
+    {
+      "path": "tools/test_marmish_stream_runtime.py",
+      "git_blob": "58a28fecc1e3160f866205b743f2c6ca4f09211e"
+    },
+    {
+      "path": "tools/test_marmish_transport_macos.py",
+      "git_blob": "0ed98d76828d839751e718e20e85fe73f26d4bb9"
+    },
+    {
+      "path": "tools/test_marmish_transport_sandbox.py",
+      "git_blob": "1e571f126bd31518ffb579422dd079949b851c40"
+    },
+    {
+      "path": "tools/test_marmish_v02_lifecycle_build.py",
+      "git_blob": "e9087af3f57f73ffc3cecbaed51e810f3a620fae"
+    },
+    {
+      "path": "tools/test_mdk_smoke.py",
+      "git_blob": "c505eb2152b50f7116b4e4e76e1c4907a2494414"
+    }
+  ],
+  "node_test_modules": [
+    {
+      "path": "tools/macos-engine-inherited-limits/probe.test.mjs",
+      "git_blob": "def3e508938d5f79d526d4ab25ee011bfbf4edd1"
+    },
+    {
+      "path": "tools/v02-actions/coordinator-policy.test.mjs",
+      "git_blob": "d208419c0918cb77ee27a303bb8bfbeffd9e98b6"
+    },
+    {
+      "path": "tools/v02-actions/eligibility.test.mjs",
+      "git_blob": "799a006fc988862e1bdab31cea6878abef3c0d97"
+    },
+    {
+      "path": "tools/v02-actions/lifecycle.test.mjs",
+      "git_blob": "4dee6f64b6349cbcd658e9605664ba7bed8cadc9"
+    },
+    {
+      "path": "tools/v02-actions/local.test.mjs",
+      "git_blob": "2cb50a61faf4b1fa10b2dc8d13711d53c29806d5"
+    },
+    {
+      "path": "tools/v02-actions/macos-diagnostic-policy.test.mjs",
+      "git_blob": "ce446eb33f9cff29a03e971c8684704869a3fb0b"
+    },
+    {
+      "path": "tools/v02-actions/macos-diagnostic.test.mjs",
+      "git_blob": "096816a77f66772cefe1a0df121e0e1789b7cd82"
+    },
+    {
+      "path": "tools/v02-actions/macos-held-status-diagnostics-policy.test.mjs",
+      "git_blob": "ab19458a8ce1fc7b4e9109d76c088122d30eaec0"
+    },
+    {
+      "path": "tools/v02-actions/macos-native-regression-policy.test.mjs",
+      "git_blob": "6558549973e2116faeee6dc2ac1d39eb24573817"
+    },
+    {
+      "path": "tools/v02-actions/publish.test.mjs",
+      "git_blob": "ea4de8ea49a4584d5e454d84437b8bfced9ba035"
+    },
+    {
+      "path": "tools/v02-actions/release-candidate.test.mjs",
+      "git_blob": "165d56e3fb4cae3be470da3abf3e5f72da818d92"
+    },
+    {
+      "path": "tools/v02-actions/release-handoff.test.mjs",
+      "git_blob": "dd25bc514f6fad357ca190c9116139e3de6a1459"
+    },
+    {
+      "path": "tools/v02-actions/release-render.test.mjs",
+      "git_blob": "c0036a077608a28fd7d321058af2de90b5249c21"
+    },
+    {
+      "path": "tools/v02-actions/release-schema.test.mjs",
+      "git_blob": "550edd0c0b3424e9798c9fc9c8406c0c1da389a9"
+    },
+    {
+      "path": "tools/v02-actions/report-replay.test.mjs",
+      "git_blob": "ec67e846464a45c804f932014436d583161f1ba1"
+    },
+    {
+      "path": "tools/v02-actions/streaming-policy.test.mjs",
+      "git_blob": "91787095e845430f7d638e360b32563a0c071bc7"
+    },
+    {
+      "path": "tools/v02-actions/supervisor-diagnostic.test.mjs",
+      "git_blob": "43b5656de9a1a4a7a2829350c2b14890864d656f"
+    },
+    {
+      "path": "tools/v02-actions/transport.test.mjs",
+      "git_blob": "2e457c53e887dcf0d3de5ff9ecaab713cf2414a3"
+    },
+    {
+      "path": "tools/v02-actions/upload-client.test.mjs",
+      "git_blob": "698aac5194c4e7d79e2923f0f3a1c0d1403db628"
+    },
+    {
+      "path": "tools/v02-actions/workflow-diagnostic.test.mjs",
+      "git_blob": "1721125d53ffcf572f2539c5d9ae38ef8ef4421c"
+    },
+    {
+      "path": "tools/v02-actions/workflow.test.mjs",
+      "git_blob": "ef22e730cb495ff8789ddafcb656974c36081e3e"
+    }
+  ],
+  "c_fixture_test_sources": [
+    {
+      "path": "tools/native/marmish-lifetime-group-test.c",
+      "git_blob": "b282c52b18cdd3a806c22ae8afc3ddf2a391ddeb"
+    },
+    {
+      "path": "tools/native/marmish-lifetime-test.c",
+      "git_blob": "3d30a6ee97156f39e3bba2507d652fd777074ebe"
+    }
+  ],
+  "workflow_files": [
+    {
+      "path": ".github/workflows/code-ontology.yml",
+      "git_blob": "4206fd13b0cc211de2ce00bf007f17e7ea17ce9c"
+    },
+    {
+      "path": ".github/workflows/installed-coordinator.yml",
+      "git_blob": "44fd55106b25ac251d2825d45c24652c7f2e3fd9"
+    },
+    {
+      "path": ".github/workflows/installed-interop.yml",
+      "git_blob": "ad4618048615b1837701bdcc176986b27995979c"
+    },
+    {
+      "path": ".github/workflows/installed-report-replay.yml",
+      "git_blob": "609d5cf155c280996aa69f0288c5129ac3212269"
+    },
+    {
+      "path": ".github/workflows/installer-validation.yml",
+      "git_blob": "e36acc4f49350486f5713a189a499fdf02a6011f"
+    },
+    {
+      "path": ".github/workflows/linux-namespace-diagnostic.yml",
+      "git_blob": "4db23a05142b34d9044f72f98815e215651ebbdf"
+    },
+    {
+      "path": ".github/workflows/macos-engine-inherited-limits.yml",
+      "git_blob": "66475c65a522ce5eb3801dbec79da63940fc0471"
+    },
+    {
+      "path": ".github/workflows/macos-held-status-diagnostics.yml",
+      "git_blob": "31d079184edab3afda8d59558ad21518d71ac57a"
+    },
+    {
+      "path": ".github/workflows/macos-native-regression.yml",
+      "git_blob": "155f609aad3fe763d89103d3dc1bf015032c8076"
+    },
+    {
+      "path": ".github/workflows/macos-probe-diagnostic.yml",
+      "git_blob": "c0b8a6b41ee491a9d340c9c83f9dff88509ee59b"
+    },
+    {
+      "path": ".github/workflows/native-validation.yml",
+      "git_blob": "7f465f932636e83fcbc649f97d3444979d61f239"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "git_blob": "08da8e448e167eb2d2f9f214a0c4f0ae2f963202"
+    },
+    {
+      "path": ".github/workflows/self-hosted-preflight.yml",
+      "git_blob": "39053e93980810f514531e97cd0c8443898ad815"
+    },
+    {
+      "path": ".github/workflows/streaming-candidate.yml",
+      "git_blob": "71d37693f3353aa630bc94391e7206d90d18cac1"
+    },
+    {
+      "path": ".github/workflows/streaming-installed.yml",
+      "git_blob": "b8e0c1635565212330962f83ea1a9f22fc7dd169"
+    },
+    {
+      "path": ".github/workflows/streaming-macos-cold-multiprincipal.yml",
+      "git_blob": "97d0b1d80fd6c33f1ea7290a16e81f6f71125615"
+    },
+    {
+      "path": ".github/workflows/streaming-macos-diagnostic.yml",
+      "git_blob": "e3e08411b02fe355492b4313fd76caa716c20b81"
+    },
+    {
+      "path": ".github/workflows/v02-installed.yml",
+      "git_blob": "f9df2d22b45bad15d5c98e5fc90c4fc0c33c0bfd"
+    },
+    {
+      "path": ".github/workflows/v02-installer-https.yml",
+      "git_blob": "30f8ccab5915d054696098a87fc0750a9aa9b2b5"
+    },
+    {
+      "path": ".github/workflows/v02-macos-fixture-diagnostic.yml",
+      "git_blob": "d6b70e759cc82a7d79292bee65db9aa023d2240b"
+    },
+    {
+      "path": ".github/workflows/v02-macos-link-diagnostic.yml",
+      "git_blob": "21641984bb631124af540be4fc136bcf0d2f1400"
+    },
+    {
+      "path": ".github/workflows/v02-native.yml",
+      "git_blob": "d54edf4847d7ad7eb4fe4f2898d3858bc868970a"
+    },
+    {
+      "path": ".github/workflows/v02-provider-diagnostic.yml",
+      "git_blob": "ba1a6d23d53a8e34d58e8e07635c53fefafd75a0"
+    },
+    {
+      "path": ".github/workflows/v02-provider.yml",
+      "git_blob": "7b851cad103fef32c54710c61d0f628456ad4e38"
+    },
+    {
+      "path": ".github/workflows/v02-publish.yml",
+      "git_blob": "05f897e7a9b7883a17082d8a27c508c6a2f28be3"
+    },
+    {
+      "path": ".github/workflows/v02-release.yml",
+      "git_blob": "a56b02d49efa54c4d8fe2eb1b693d0795eff7b9a"
+    },
+    {
+      "path": ".github/workflows/v02-version-lifecycle.yml",
+      "git_blob": "80da0ad547145a9090e84429f166a44ffe1a0f89"
+    }
+  ]
+}

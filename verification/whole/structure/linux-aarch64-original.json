@@ -1,0 +1,31 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "b653f1ada68791cd2fb70293bf227c5665850d1e",
+  "profile": "release",
+  "package": "marmish-stream",
+  "cargoFeatures": "default",
+  "linuxTriple": "aarch64-unknown-linux-gnu",
+  "comparisonTriple": "aarch64-apple-darwin",
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "linuxInventorySha256": "0526431307f9fcc33733679169c138122524aaffe345b0fad5c7ff926828b9aa",
+  "darwinInventorySha256": "0526431307f9fcc33733679169c138122524aaffe345b0fad5c7ff926828b9aa",
+  "linuxCounts": {
+    "declarations": 3296,
+    "edges": 9534,
+    "gaps": 2976
+  },
+  "crossHostRowDifferences": {
+    "declarations": {
+      "linuxOnly": 0,
+      "darwinOnly": 0
+    },
+    "edges": {
+      "linuxOnly": 0,
+      "darwinOnly": 0
+    },
+    "gaps": {
+      "linuxOnly": 0,
+      "darwinOnly": 0
+    }
+  }
+}

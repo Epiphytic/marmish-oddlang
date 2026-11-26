@@ -1,0 +1,33 @@
+{
+  "namespace": "urn:marmish:inventory:",
+  "previous_commit": "49fc705408a230bd0ad896248d08dbdd2faad05a",
+  "source": "https://github.com/Epiphytic/marmish",
+  "commit": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaces": ["Cargo.toml", "tools/installed-fixture/Cargo.toml"],
+  "inventory_roots": [".github", "tools", "tests", "scripts", "patches"],
+  "surfaces": [
+    {"id":"install","owner":"distribution","paths":["scripts/install-native.sh","scripts/install.sh","tests/fixtures/legacy/install-v0.1.sh"],"contract":"Install, upgrade, rollback and diagnostics","checks":["tools/test_marmish_quickstart.py",".github/workflows/installer-validation.yml",".github/workflows/v02-installer-https.yml"]},
+    {"id":"legacy-frontends","owner":"legacy-reference","paths":["tools/marmish.py","tools/marmishd.py"],"contract":"Optional reference client and server command and protocol surfaces","checks":["tools/test_marmish_app.py","tools/test_marmish_interop.py"]},
+    {"id":"host-programs","owner":"legacy-reference","paths":["tools/native/*"],"contract":"Legacy host process, probe and lifetime helper behavior","checks":["tools/test_marmish_lifetime.py"]},
+    {"id":"python-tests","owner":"verification","paths":["*test_*.py"],"contract":"Unchanged independent test modules","checks":["python3 -m unittest discover"]},
+    {"id":"node-tests","owner":"verification","paths":["*.test.mjs"],"contract":"Unchanged workflow and orchestration test modules","checks":["node --test"]},
+    {"id":"support","owner":"verification-and-release","paths":[".github/*","tools/*","scripts/*","tests/*","patches/*"],"contract":"Repository build, verification, diagnostic and release tooling inputs","checks":["inventory membership and pinned tree; individual runtime applicability requires review"]}
+  ],
+  "release": {
+    "package":"marmish-native",
+    "witnesses":[".github/workflows/v02-release.yml","tools/v02-actions/release-schema.mjs","scripts/install-native.sh"],
+    "payloads":["marmish-{version}-{target}","marmishd-{version}-{target}","marmish-worker-{version}-{target}","THIRD-PARTY-LICENSES-{version}-{target}","marmish-{version}-{target}.manifest"],
+    "platforms":{
+      "aarch64-apple-darwin":{"minimum":"macos=15.0","signing":"adhoc"},
+      "aarch64-unknown-linux-gnu":{"minimum":"glibc=2.39","signing":"none"},
+      "x86_64-unknown-linux-gnu":{"minimum":"glibc=2.39","signing":"none"}
+    },
+    "profiles":{"default":[],"fault":["marmish-engine/fault-injection"],"installed":["marmish-native/installed-checks"]},
+    "external_programs":[
+      {"name":"deaddrop","scope":"native relay fixture","source":"Epiphytic/deaddrop","revision":"b38b2841b081952dc7728da391fe0e26fc7c6181","witness":".github/workflows/v02-native.yml"},
+      {"name":"rsync","scope":"rsync adapter","witness":"tools/marmish_rsync_runtime.py"},
+      {"name":"wn","scope":"requested legacy fixture; executable provenance unresolved","witness":"tools/build_mdk.py"},
+      {"name":"wnd","scope":"legacy reference","source":"https://github.com/liamhelmer-bel/mdk.git","revision":"37c248a11239e108afc9bd4ee62b8f60542012e3","lock_sha256":"d8a5367e49427c79f354b0611902808de9b92abbe173eb82ed6864d01e488a71","patches":{"all":["patches/mdk/marmish-bootstrap.patch"],"darwin":["patches/mdk/marmish-restricted.patch"]},"witness":"tools/build_mdk.py"}
+    ]
+  }
+}

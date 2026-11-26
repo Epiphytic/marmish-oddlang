@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "bridgeSha256": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+  "workerSha256": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+  "privateManifestSha256": "4d04a0130d9fbbe6105897103177404c342d6f8f26041dfbbadb123d936bad7d",
+  "fixtureSha256": "4930d88dadfcb2ba3256d0cb82455828a2288b773c86ad8589b074aa4e868d2d",
+  "corruptFixtureSha256": "998757a9541be7344934b5684d8c1ed7efc16e4dabac70615ad916b468af1ceb",
+  "keyRetained": true,
+  "reopened": true,
+  "corruptStateRejected": true
+}

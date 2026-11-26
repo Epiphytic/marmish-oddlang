@@ -1,0 +1,73 @@
+{
+  "upstream_commit": "af54339d250290490d62d4475a77539b7e739071",
+  "target": "aarch64-apple-darwin",
+  "os": "macOS 26.6 (25G72)",
+  "checkout": "disposable Git clone",
+  "runs": [
+    {
+      "command": "TMPDIR=/private/tmp uv run --no-project --python 3.14.5 --with pyyaml==6.0.4 python -m unittest discover -s tools",
+      "runner": "CPython 3.14.5 with PyYAML 6.0.4",
+      "tests": 1024,
+      "passed": 979,
+      "failed": 0,
+      "skipped": 45
+    },
+    {
+      "command": "TMPDIR=/private/tmp python3 -m unittest discover -s tests",
+      "runner": "CPython 3.14.5",
+      "tests": 21,
+      "passed": 21,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "TMPDIR=/private/tmp python3 -m unittest discover -s tests/ci",
+      "runner": "CPython 3.14.5",
+      "tests": 9,
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0=tag.gpgSign GIT_CONFIG_VALUE_0=false sh tools/code-ontology/test.sh",
+      "runner": "CPython 3.12.13",
+      "tests": 12,
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "command": "TMPDIR=/private/tmp node --test --test-reporter=tap tools/macos-engine-inherited-limits/probe.test.mjs",
+      "runner": "Node.js 24.22.3",
+      "tests": 7,
+      "passed": 7,
+      "failed": 0,
+      "cancelled": 0,
+      "skipped": 0
+    },
+    {
+      "setup": "npm ci --prefix tools/v02-actions --ignore-scripts",
+      "npm_lock_sha256": "9b1b440de1be2dcf71654832b1790cf37caee945ebc80534859d3acbe5342bf0",
+      "workdir": "tools/v02-actions",
+      "command": "TMPDIR=/private/tmp node --test --test-reporter=tap --test-timeout=20000 *.test.mjs",
+      "runner": "Node.js 24.22.3",
+      "tests": 263,
+      "passed": 261,
+      "failed": 0,
+      "cancelled": 2,
+      "skipped": 0,
+      "reasons": [
+        {
+          "file": "tools/v02-actions/supervisor-diagnostic.test.mjs",
+          "test": "download error racing the final local PASS retains the remote download stage",
+          "outcome": "timed out at 20000ms"
+        },
+        {
+          "file": "tools/v02-actions/transport.test.mjs",
+          "test": "a malformed in-flight artifact racing the final scan cannot become success",
+          "outcome": "timed out at 20000ms"
+        }
+      ]
+    }
+  ]
+}

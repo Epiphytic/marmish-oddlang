@@ -1,0 +1,612 @@
+{
+  "marmish": [
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "Marmish native identity and encrypted transport foundation\n\nUsage: marmish [OPTIONS] [COMMAND]\n\nCommands:\n  copy-receipts       Inspect retained local download receipts or acknowledge an uncertain record\n  put                 Copy one local regular file to a remote literal path\n  get                 Copy one remote regular file to a local literal path\n  rsh                 Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n  stream              Execute with binary stdin/stdout streams and explicit remote cancellation\n  streams             List locally recorded streams and their last known remote states\n  stream-reconcile    Acknowledge that an uncertain orphan may still be running, releasing credit\n  keychain-authorize  Ask macOS for access to this existing profile, then verify without UI\n  release-info        Print this binary's native version, build target and source commit\n  install             Install a verified v0.2 bundle or select an already installed version\n  install-status      \n  uninstall           \n  setup               Create or update this named identity and its offline command configuration\n  init                Initialize encrypted native storage without connecting to relays\n  commands            List durable command handles without command arguments or output\n  command-status      Query an explicitly selected remote invocation\n  cancel              Explicitly request cancellation of an invocation\n  wait                Resume waiting and copying output using durable cursors\n  output              \n  daemon              Run this identity's serialized transport owner\n  status              \n  open-conversation   \n  send                Send a bounded foundation test payload, encoded as canonical base64\n  received            \n  foundation-check    Fresh-key encrypted exchange, restart, and receipt validation. No commands\n  command-check       Disposable-key live remote-command validation through explicit relays\n  help                Print this message or the help of the given subcommand(s)\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n  -V, --version\n          Print version\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "copy-receipts"
+      ],
+      "exit": 0,
+      "stdout": "Inspect retained local download receipts or acknowledge an uncertain record\n\nUsage: marmish copy-receipts [OPTIONS]\n\nOptions:\n      --debug\n          \n      --forget <FORGET>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --revision <REVISION>\n          \n      --acknowledge-retained-state\n          Remove only the index record; retained files require manual inspection\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "put"
+      ],
+      "exit": 0,
+      "stdout": "Copy one local regular file to a remote literal path\n\nUsage: marmish put [OPTIONS] <REMOTE> <SOURCE> <TARGET>\n\nArguments:\n  <REMOTE>  Remote npub or configured alias, optionally followed by @relay\n  <SOURCE>  Literal source path (local for put; remote for get)\n  <TARGET>  Literal destination path (remote for put; local for get)\n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --resume <RESUME>\n          Resume this exact transfer with unchanged paths and preservation options\n      --overwrite\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --preserve-mode\n          \n      --preserve-mtime\n          \n      --socket <SOCKET>\n          \n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --relay <RELAY>\n          \n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --probe-seconds <PROBE_SECONDS>\n          Capability probe deadline, no greater than the idle timeout [default: 15]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "get"
+      ],
+      "exit": 0,
+      "stdout": "Copy one remote regular file to a local literal path\n\nUsage: marmish get [OPTIONS] <REMOTE> <SOURCE> <TARGET>\n\nArguments:\n  <REMOTE>  Remote npub or configured alias, optionally followed by @relay\n  <SOURCE>  Literal source path (local for put; remote for get)\n  <TARGET>  Literal destination path (remote for put; local for get)\n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --resume <RESUME>\n          Resume this exact transfer with unchanged paths and preservation options\n      --overwrite\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --preserve-mode\n          \n      --preserve-mtime\n          \n      --socket <SOCKET>\n          \n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --relay <RELAY>\n          \n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --probe-seconds <PROBE_SECONDS>\n          Capability probe deadline, no greater than the idle timeout [default: 15]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "rsh"
+      ],
+      "exit": 0,
+      "stdout": "Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n\nUsage: marmish rsh [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "stream"
+      ],
+      "exit": 0,
+      "stdout": "Execute with binary stdin/stdout streams and explicit remote cancellation\n\nUsage: marmish stream [OPTIONS] <DESTINATION> -- <ARGV>...\n\nArguments:\n  <DESTINATION>  \n  <ARGV>...      \n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "streams"
+      ],
+      "exit": 0,
+      "stdout": "List locally recorded streams and their last known remote states\n\nUsage: marmish streams [OPTIONS] [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "stream-reconcile"
+      ],
+      "exit": 0,
+      "stdout": "Acknowledge that an uncertain orphan may still be running, releasing credit\n\nUsage: marmish stream-reconcile [OPTIONS] --acknowledge-possible-live <STREAM>\n\nArguments:\n  <STREAM>  \n\nOptions:\n      --acknowledge-possible-live\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "keychain-authorize"
+      ],
+      "exit": 0,
+      "stdout": "Ask macOS for access to this existing profile, then verify without UI\n\nUsage: marmish keychain-authorize [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "release-info"
+      ],
+      "exit": 0,
+      "stdout": "Print this binary's native version, build target and source commit\n\nUsage: marmish release-info [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "install"
+      ],
+      "exit": 0,
+      "stdout": "Install a verified v0.2 bundle or select an already installed version\n\nUsage: marmish install [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --source-dir <SOURCE_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --manifest <MANIFEST>\n          \n      --manifest-sha256 <MANIFEST_SHA256>\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --select <SELECT>\n          \n      --prefix <PREFIX>\n          \n      --socket <SOCKET>\n          \n      --bin-dir <BIN_DIR>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "install-status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish install-status [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --prefix <PREFIX>\n          \n      --bin-dir <BIN_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "uninstall"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish uninstall [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --prefix <PREFIX>\n          \n      --bin-dir <BIN_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "setup"
+      ],
+      "exit": 0,
+      "stdout": "Create or update this named identity and its offline command configuration\n\nUsage: marmish setup [OPTIONS]\n\nOptions:\n      --debug\n          \n      --interactive\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --role <ROLE>\n          [possible values: client, server, both, c, s, b]\n      --grant <GRANT>\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --revoke <REVOKE>\n          \n      --socket <SOCKET>\n          \n      --trust <TRUST>\n          \n      --relay <RELAY>\n          \n      --untrust <UNTRUST>\n          \n      --tor <TOR>\n          \n      --update\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --no-grants\n          \n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "init"
+      ],
+      "exit": 0,
+      "stdout": "Initialize encrypted native storage without connecting to relays\n\nUsage: marmish init [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "commands"
+      ],
+      "exit": 0,
+      "stdout": "List durable command handles without command arguments or output\n\nUsage: marmish commands [OPTIONS] [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-status"
+      ],
+      "exit": 0,
+      "stdout": "Query an explicitly selected remote invocation\n\nUsage: marmish command-status [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "cancel"
+      ],
+      "exit": 0,
+      "stdout": "Explicitly request cancellation of an invocation\n\nUsage: marmish cancel [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "wait"
+      ],
+      "exit": 0,
+      "stdout": "Resume waiting and copying output using durable cursors\n\nUsage: marmish wait [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "output"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish output [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "daemon"
+      ],
+      "exit": 0,
+      "stdout": "Run this identity's serialized transport owner\n\nUsage: marmish daemon [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish status [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "open-conversation"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish open-conversation [OPTIONS] <PEER>\n\nArguments:\n  <PEER>  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "send"
+      ],
+      "exit": 0,
+      "stdout": "Send a bounded foundation test payload, encoded as canonical base64\n\nUsage: marmish send [OPTIONS] <SESSION> <ID> <DATA>\n\nArguments:\n  <SESSION>  \n  <ID>       \n  <DATA>     \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "received"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish received [OPTIONS]\n\nOptions:\n      --after <AFTER>\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --limit <LIMIT>\n          [default: 1]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "foundation-check"
+      ],
+      "exit": 0,
+      "stdout": "Fresh-key encrypted exchange, restart, and receipt validation. No commands\n\nUsage: marmish foundation-check [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-check"
+      ],
+      "exit": 0,
+      "stdout": "Disposable-key live remote-command validation through explicit relays\n\nUsage: marmish command-check [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "help"
+      ],
+      "exit": 0,
+      "stdout": "Print this message or the help of the given subcommand(s)\n\nUsage: marmish help [COMMAND]...\n\nArguments:\n  [COMMAND]...  Print help for the subcommand(s)\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-evidence"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish command-evidence [OPTIONS]\n\nOptions:\n      --after <AFTER>\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --limit <LIMIT>\n          [default: 64]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-cleanup-status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish command-cleanup-status [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-local-cancel"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish command-local-cancel [OPTIONS] <CURSOR>\n\nArguments:\n  <CURSOR>  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-prepare-cleanup"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmish command-prepare-cleanup [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "marmish-native 0.3.1\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--oddlang-unrecognized-option"
+      ],
+      "exit": 255,
+      "stdout": "",
+      "stderr": "error: unexpected argument '--oddlang-unrecognized-option' found\n\nUsage: marmish [OPTIONS] [COMMAND]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+    }
+  ],
+  "marmishd": [
+    {
+      "args": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "Marmish native identity and encrypted transport foundation\n\nUsage: marmishd [OPTIONS] [COMMAND]\n\nCommands:\n  copy-receipts       Inspect retained local download receipts or acknowledge an uncertain record\n  put                 Copy one local regular file to a remote literal path\n  get                 Copy one remote regular file to a local literal path\n  rsh                 Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n  stream              Execute with binary stdin/stdout streams and explicit remote cancellation\n  streams             List locally recorded streams and their last known remote states\n  stream-reconcile    Acknowledge that an uncertain orphan may still be running, releasing credit\n  keychain-authorize  Ask macOS for access to this existing profile, then verify without UI\n  release-info        Print this binary's native version, build target and source commit\n  install             Install a verified v0.2 bundle or select an already installed version\n  install-status      \n  uninstall           \n  setup               Create or update this named identity and its offline command configuration\n  init                Initialize encrypted native storage without connecting to relays\n  commands            List durable command handles without command arguments or output\n  command-status      Query an explicitly selected remote invocation\n  cancel              Explicitly request cancellation of an invocation\n  wait                Resume waiting and copying output using durable cursors\n  output              \n  daemon              Run this identity's serialized transport owner\n  status              \n  open-conversation   \n  send                Send a bounded foundation test payload, encoded as canonical base64\n  received            \n  foundation-check    Fresh-key encrypted exchange, restart, and receipt validation. No commands\n  command-check       Disposable-key live remote-command validation through explicit relays\n  help                Print this message or the help of the given subcommand(s)\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n  -V, --version\n          Print version\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "copy-receipts"
+      ],
+      "exit": 0,
+      "stdout": "Inspect retained local download receipts or acknowledge an uncertain record\n\nUsage: marmishd copy-receipts [OPTIONS]\n\nOptions:\n      --debug\n          \n      --forget <FORGET>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --revision <REVISION>\n          \n      --acknowledge-retained-state\n          Remove only the index record; retained files require manual inspection\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "put"
+      ],
+      "exit": 0,
+      "stdout": "Copy one local regular file to a remote literal path\n\nUsage: marmishd put [OPTIONS] <REMOTE> <SOURCE> <TARGET>\n\nArguments:\n  <REMOTE>  Remote npub or configured alias, optionally followed by @relay\n  <SOURCE>  Literal source path (local for put; remote for get)\n  <TARGET>  Literal destination path (remote for put; local for get)\n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --resume <RESUME>\n          Resume this exact transfer with unchanged paths and preservation options\n      --overwrite\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --preserve-mode\n          \n      --preserve-mtime\n          \n      --socket <SOCKET>\n          \n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --relay <RELAY>\n          \n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --probe-seconds <PROBE_SECONDS>\n          Capability probe deadline, no greater than the idle timeout [default: 15]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "get"
+      ],
+      "exit": 0,
+      "stdout": "Copy one remote regular file to a local literal path\n\nUsage: marmishd get [OPTIONS] <REMOTE> <SOURCE> <TARGET>\n\nArguments:\n  <REMOTE>  Remote npub or configured alias, optionally followed by @relay\n  <SOURCE>  Literal source path (local for put; remote for get)\n  <TARGET>  Literal destination path (remote for put; local for get)\n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --resume <RESUME>\n          Resume this exact transfer with unchanged paths and preservation options\n      --overwrite\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --preserve-mode\n          \n      --preserve-mtime\n          \n      --socket <SOCKET>\n          \n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --relay <RELAY>\n          \n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --probe-seconds <PROBE_SECONDS>\n          Capability probe deadline, no greater than the idle timeout [default: 15]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "rsh"
+      ],
+      "exit": 0,
+      "stdout": "Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n\nUsage: marmishd rsh [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "stream"
+      ],
+      "exit": 0,
+      "stdout": "Execute with binary stdin/stdout streams and explicit remote cancellation\n\nUsage: marmishd stream [OPTIONS] <DESTINATION> -- <ARGV>...\n\nArguments:\n  <DESTINATION>  \n  <ARGV>...      \n\nOptions:\n      --compress\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --idle-seconds <IDLE_SECONDS>\n          [default: 660]\n      --keepalive-seconds <KEEPALIVE_SECONDS>\n          [default: 300]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "streams"
+      ],
+      "exit": 0,
+      "stdout": "List locally recorded streams and their last known remote states\n\nUsage: marmishd streams [OPTIONS] [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "stream-reconcile"
+      ],
+      "exit": 0,
+      "stdout": "Acknowledge that an uncertain orphan may still be running, releasing credit\n\nUsage: marmishd stream-reconcile [OPTIONS] --acknowledge-possible-live <STREAM>\n\nArguments:\n  <STREAM>  \n\nOptions:\n      --acknowledge-possible-live\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "keychain-authorize"
+      ],
+      "exit": 0,
+      "stdout": "Ask macOS for access to this existing profile, then verify without UI\n\nUsage: marmishd keychain-authorize [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "release-info"
+      ],
+      "exit": 0,
+      "stdout": "Print this binary's native version, build target and source commit\n\nUsage: marmishd release-info [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "install"
+      ],
+      "exit": 0,
+      "stdout": "Install a verified v0.2 bundle or select an already installed version\n\nUsage: marmishd install [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --source-dir <SOURCE_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --manifest <MANIFEST>\n          \n      --manifest-sha256 <MANIFEST_SHA256>\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --select <SELECT>\n          \n      --prefix <PREFIX>\n          \n      --socket <SOCKET>\n          \n      --bin-dir <BIN_DIR>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "install-status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd install-status [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --prefix <PREFIX>\n          \n      --bin-dir <BIN_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "uninstall"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd uninstall [OPTIONS] --prefix <PREFIX> --bin-dir <BIN_DIR>\n\nOptions:\n      --debug\n          \n      --prefix <PREFIX>\n          \n      --bin-dir <BIN_DIR>\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "setup"
+      ],
+      "exit": 0,
+      "stdout": "Create or update this named identity and its offline command configuration\n\nUsage: marmishd setup [OPTIONS]\n\nOptions:\n      --debug\n          \n      --interactive\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --role <ROLE>\n          [possible values: client, server, both, c, s, b]\n      --grant <GRANT>\n          \n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --revoke <REVOKE>\n          \n      --socket <SOCKET>\n          \n      --trust <TRUST>\n          \n      --relay <RELAY>\n          \n      --untrust <UNTRUST>\n          \n      --tor <TOR>\n          \n      --update\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --no-grants\n          \n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "init"
+      ],
+      "exit": 0,
+      "stdout": "Initialize encrypted native storage without connecting to relays\n\nUsage: marmishd init [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "commands"
+      ],
+      "exit": 0,
+      "stdout": "List durable command handles without command arguments or output\n\nUsage: marmishd commands [OPTIONS] [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-status"
+      ],
+      "exit": 0,
+      "stdout": "Query an explicitly selected remote invocation\n\nUsage: marmishd command-status [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "cancel"
+      ],
+      "exit": 0,
+      "stdout": "Explicitly request cancellation of an invocation\n\nUsage: marmishd cancel [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "wait"
+      ],
+      "exit": 0,
+      "stdout": "Resume waiting and copying output using durable cursors\n\nUsage: marmishd wait [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "output"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd output [OPTIONS] <--handle <HANDLE>|--handle-file <HANDLE_FILE>|--invocation <INVOCATION>|--latest|--stream <STREAM>> [DESTINATION]\n\nArguments:\n  [DESTINATION]  \n\nOptions:\n      --debug\n          \n      --stream <STREAM>\n          Cancel this locally recorded stream ID, including an uncertain attachment\n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --local\n          Cancel an owned server process without requiring a remote grant\n      --handle <HANDLE>\n          Exact private handle JSON previously printed by marmish\n      --state-dir <STATE_DIR>\n          \n      --handle-file <HANDLE_FILE>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --invocation <INVOCATION>\n          \n      --socket <SOCKET>\n          \n      --latest\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "daemon"
+      ],
+      "exit": 0,
+      "stdout": "Run this identity's serialized transport owner\n\nUsage: marmishd daemon [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd status [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "open-conversation"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd open-conversation [OPTIONS] <PEER>\n\nArguments:\n  <PEER>  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "send"
+      ],
+      "exit": 0,
+      "stdout": "Send a bounded foundation test payload, encoded as canonical base64\n\nUsage: marmishd send [OPTIONS] <SESSION> <ID> <DATA>\n\nArguments:\n  <SESSION>  \n  <ID>       \n  <DATA>     \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "received"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd received [OPTIONS]\n\nOptions:\n      --after <AFTER>\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --limit <LIMIT>\n          [default: 1]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "foundation-check"
+      ],
+      "exit": 0,
+      "stdout": "Fresh-key encrypted exchange, restart, and receipt validation. No commands\n\nUsage: marmishd foundation-check [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-check"
+      ],
+      "exit": 0,
+      "stdout": "Disposable-key live remote-command validation through explicit relays\n\nUsage: marmishd command-check [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "help"
+      ],
+      "exit": 0,
+      "stdout": "Print this message or the help of the given subcommand(s)\n\nUsage: marmishd help [COMMAND]...\n\nArguments:\n  [COMMAND]...  Print help for the subcommand(s)\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-evidence"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd command-evidence [OPTIONS]\n\nOptions:\n      --after <AFTER>\n          \n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --limit <LIMIT>\n          [default: 64]\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-cleanup-status"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd command-cleanup-status [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-local-cancel"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd command-local-cancel [OPTIONS] <CURSOR>\n\nArguments:\n  <CURSOR>  \n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "help",
+        "command-prepare-cleanup"
+      ],
+      "exit": 0,
+      "stdout": "Usage: marmishd command-prepare-cleanup [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "marmish-native 0.3.1\n",
+      "stderr": ""
+    },
+    {
+      "args": [
+        "--oddlang-unrecognized-option"
+      ],
+      "exit": 255,
+      "stdout": "",
+      "stderr": "error: unexpected argument '--oddlang-unrecognized-option' found\n\nUsage: marmishd [OPTIONS] [COMMAND]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+    }
+  ]
+}

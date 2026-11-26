@@ -1,0 +1,875 @@
+{
+  "baseline_cells": [
+    {
+      "cargo_features": [],
+      "profile": "default",
+      "target": "aarch64-apple-darwin"
+    },
+    {
+      "cargo_features": [],
+      "profile": "default",
+      "target": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "cargo_features": [],
+      "profile": "default",
+      "target": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "cargo_features": [
+        "marmish-engine/fault-injection"
+      ],
+      "profile": "fault",
+      "target": "aarch64-apple-darwin"
+    },
+    {
+      "cargo_features": [
+        "marmish-engine/fault-injection"
+      ],
+      "profile": "fault",
+      "target": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "cargo_features": [
+        "marmish-engine/fault-injection"
+      ],
+      "profile": "fault",
+      "target": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "cargo_features": [
+        "marmish-native/installed-checks"
+      ],
+      "profile": "installed",
+      "target": "aarch64-apple-darwin"
+    },
+    {
+      "cargo_features": [
+        "marmish-native/installed-checks"
+      ],
+      "profile": "installed",
+      "target": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "cargo_features": [
+        "marmish-native/installed-checks"
+      ],
+      "profile": "installed",
+      "target": "x86_64-unknown-linux-gnu"
+    }
+  ],
+  "changed_paths": [
+    "README.md",
+    "crates/marmish-native/src/installed_benchmark.rs",
+    "docs/agent-spec.md",
+    "docs/build-plan.md",
+    "docs/ontology/code_references.jsonl",
+    "docs/ontology/source_files.jsonl",
+    "docs/ontology/symbols.jsonl",
+    "docs/phases/installed-benchmark-profile-sockets.md",
+    "docs/reviews/installed-benchmark-profile-sockets.md",
+    "docs/reviews/v0.3.1-release-evidence.md",
+    "docs/validation/v0.3-operation-benchmarks.md",
+    "docs/validation/v0.3-release.md",
+    "docs/validation/v0.3.1-c2-validation.md",
+    "docs/validation/v0.3.1-measurements.json",
+    "docs/validation/v0.3.1-release.md",
+    "scripts/install.sh"
+  ],
+  "commit": "af54339d250290490d62d4475a77539b7e739071",
+  "file_groups": {
+    "host-programs": [
+      "tools/native/marmish-lifetime-cleanup.h",
+      "tools/native/marmish-lifetime-group-test.c",
+      "tools/native/marmish-lifetime-group.h",
+      "tools/native/marmish-lifetime-test.c",
+      "tools/native/marmish-lifetime.c",
+      "tools/native/marmish-probe.c"
+    ],
+    "install": [
+      "scripts/install-native.sh",
+      "scripts/install.sh",
+      "tests/fixtures/legacy/install-v0.1.sh"
+    ],
+    "legacy-frontends": [
+      "tools/marmish.py",
+      "tools/marmishd.py"
+    ],
+    "node-tests": [
+      "tools/macos-engine-inherited-limits/probe.test.mjs",
+      "tools/v02-actions/coordinator-policy.test.mjs",
+      "tools/v02-actions/eligibility.test.mjs",
+      "tools/v02-actions/lifecycle.test.mjs",
+      "tools/v02-actions/local.test.mjs",
+      "tools/v02-actions/macos-diagnostic-policy.test.mjs",
+      "tools/v02-actions/macos-diagnostic.test.mjs",
+      "tools/v02-actions/macos-held-status-diagnostics-policy.test.mjs",
+      "tools/v02-actions/macos-native-regression-policy.test.mjs",
+      "tools/v02-actions/publish.test.mjs",
+      "tools/v02-actions/release-candidate.test.mjs",
+      "tools/v02-actions/release-handoff.test.mjs",
+      "tools/v02-actions/release-render.test.mjs",
+      "tools/v02-actions/release-schema.test.mjs",
+      "tools/v02-actions/report-replay.test.mjs",
+      "tools/v02-actions/streaming-policy.test.mjs",
+      "tools/v02-actions/supervisor-diagnostic.test.mjs",
+      "tools/v02-actions/transport.test.mjs",
+      "tools/v02-actions/upload-client.test.mjs",
+      "tools/v02-actions/workflow-diagnostic.test.mjs",
+      "tools/v02-actions/workflow.test.mjs"
+    ],
+    "python-tests": [
+      "tests/ci/test_self_hosted_preflight.py",
+      "tests/test_marmish_keys.py",
+      "tools/code-ontology/test_index.py",
+      "tools/code-ontology/test_model.py",
+      "tools/test_linux_namespace_diagnostic_workflow.py",
+      "tools/test_marmish_app.py",
+      "tools/test_marmish_bootstrap.py",
+      "tools/test_marmish_ci.py",
+      "tools/test_marmish_ci_bwrap.py",
+      "tools/test_marmish_copy_corrective_runtime.py",
+      "tools/test_marmish_debug.py",
+      "tools/test_marmish_e2e_native.py",
+      "tools/test_marmish_install.py",
+      "tools/test_marmish_installed_ci.py",
+      "tools/test_marmish_installed_fixture.py",
+      "tools/test_marmish_installed_live_ci.py",
+      "tools/test_marmish_installed_observer.py",
+      "tools/test_marmish_installed_release.py",
+      "tools/test_marmish_installed_rendezvous.py",
+      "tools/test_marmish_installed_runtime.py",
+      "tools/test_marmish_installed_state.py",
+      "tools/test_marmish_installed_terminal.py",
+      "tools/test_marmish_interop.py",
+      "tools/test_marmish_lifetime.py",
+      "tools/test_marmish_macos_crash_diagnostic.py",
+      "tools/test_marmish_macos_denial_diagnostic.py",
+      "tools/test_marmish_macos_denial_workflow.py",
+      "tools/test_marmish_macos_probe_diagnostic.py",
+      "tools/test_marmish_managed_runtime_spike.py",
+      "tools/test_marmish_managed_workflow.py",
+      "tools/test_marmish_native_https_check.py",
+      "tools/test_marmish_native_inspection.py",
+      "tools/test_marmish_native_keychain_check.py",
+      "tools/test_marmish_native_licenses.py",
+      "tools/test_marmish_native_spike.py",
+      "tools/test_marmish_native_validation.py",
+      "tools/test_marmish_nine_pair.py",
+      "tools/test_marmish_platform.py",
+      "tools/test_marmish_policy.py",
+      "tools/test_marmish_protocol.py",
+      "tools/test_marmish_provider_diagnostic_workflow.py",
+      "tools/test_marmish_publish.py",
+      "tools/test_marmish_quickstart.py",
+      "tools/test_marmish_release.py",
+      "tools/test_marmish_release_automation_workflow.py",
+      "tools/test_marmish_release_licenses.py",
+      "tools/test_marmish_rpc.py",
+      "tools/test_marmish_rsync_capture.py",
+      "tools/test_marmish_rsync_runtime.py",
+      "tools/test_marmish_stream_runtime.py",
+      "tools/test_marmish_transport_macos.py",
+      "tools/test_marmish_transport_sandbox.py",
+      "tools/test_marmish_v02_lifecycle_build.py",
+      "tools/test_mdk_smoke.py"
+    ],
+    "support": [
+      ".github/actions/code-ontology/action.yml",
+      ".github/workflows/code-ontology.yml",
+      ".github/workflows/installed-coordinator.yml",
+      ".github/workflows/installed-interop.yml",
+      ".github/workflows/installed-report-replay.yml",
+      ".github/workflows/installer-validation.yml",
+      ".github/workflows/linux-namespace-diagnostic.yml",
+      ".github/workflows/macos-engine-inherited-limits.yml",
+      ".github/workflows/macos-held-status-diagnostics.yml",
+      ".github/workflows/macos-native-regression.yml",
+      ".github/workflows/macos-probe-diagnostic.yml",
+      ".github/workflows/native-validation.yml",
+      ".github/workflows/release.yml",
+      ".github/workflows/self-hosted-preflight.yml",
+      ".github/workflows/streaming-candidate.yml",
+      ".github/workflows/streaming-installed.yml",
+      ".github/workflows/streaming-macos-cold-multiprincipal.yml",
+      ".github/workflows/streaming-macos-diagnostic.yml",
+      ".github/workflows/v02-installed.yml",
+      ".github/workflows/v02-installer-https.yml",
+      ".github/workflows/v02-macos-fixture-diagnostic.yml",
+      ".github/workflows/v02-macos-link-diagnostic.yml",
+      ".github/workflows/v02-native.yml",
+      ".github/workflows/v02-provider-diagnostic.yml",
+      ".github/workflows/v02-provider.yml",
+      ".github/workflows/v02-publish.yml",
+      ".github/workflows/v02-release.yml",
+      ".github/workflows/v02-version-lifecycle.yml",
+      "patches/mdk/README.md",
+      "patches/mdk/marmish-bootstrap.patch",
+      "patches/mdk/marmish-restricted.patch",
+      "patches/mdk/source-guard.json",
+      "scripts/self-hosted-preflight.sh",
+      "scripts/test-v02-owner-diagnostics.sh",
+      "scripts/v02-ci-timed.sh",
+      "scripts/v02-inspect-native.sh",
+      "scripts/v02-onion-fixture.sh",
+      "scripts/v02-owner-diagnostics.jq",
+      "tests/fixtures/legacy/README.md",
+      "tests/fixtures/managed-runtime-assets.json",
+      "tests/fixtures/relay-canonicalization.json",
+      "tools/bootstrap_ci_python.sh",
+      "tools/build_mdk.py",
+      "tools/check_mdk_builders.py",
+      "tools/code-ontology/index.py",
+      "tools/code-ontology/model.py",
+      "tools/code-ontology/pyproject.toml",
+      "tools/code-ontology/test.sh",
+      "tools/code-ontology/uv.lock",
+      "tools/installed-fixture/Cargo.lock",
+      "tools/installed-fixture/Cargo.toml",
+      "tools/installed-fixture/src/main.rs",
+      "tools/macos-engine-inherited-limits/action.yml",
+      "tools/macos-engine-inherited-limits/probe.mjs",
+      "tools/macos-engine-inherited-limits/run.mjs",
+      "tools/marmish_app.py",
+      "tools/marmish_bootstrap.py",
+      "tools/marmish_ci.py",
+      "tools/marmish_ci_bwrap.py",
+      "tools/marmish_ci_clock.py",
+      "tools/marmish_copy_corrective_runtime.py",
+      "tools/marmish_copy_runtime.py",
+      "tools/marmish_e2e.py",
+      "tools/marmish_fixture.rs",
+      "tools/marmish_installed.py",
+      "tools/marmish_installed_bootstrap.py",
+      "tools/marmish_installed_ci.py",
+      "tools/marmish_installed_fixture.py",
+      "tools/marmish_installed_live_ci.py",
+      "tools/marmish_installed_observer.py",
+      "tools/marmish_installed_release.py",
+      "tools/marmish_installed_rendezvous.py",
+      "tools/marmish_installed_runtime.py",
+      "tools/marmish_installed_state.py",
+      "tools/marmish_installed_terminal.py",
+      "tools/marmish_interop.py",
+      "tools/marmish_keys.py",
+      "tools/marmish_macos_crash_diagnostic.py",
+      "tools/marmish_macos_denial_diagnostic.py",
+      "tools/marmish_macos_probe_diagnostic.py",
+      "tools/marmish_managed_runtime_spike.py",
+      "tools/marmish_mdk_build.py",
+      "tools/marmish_native_https_check.py",
+      "tools/marmish_native_keychain_check.py",
+      "tools/marmish_native_licenses.py",
+      "tools/marmish_native_quickstart_check.py",
+      "tools/marmish_native_spike.py",
+      "tools/marmish_native_validation.py",
+      "tools/marmish_nine_pair.py",
+      "tools/marmish_platform.py",
+      "tools/marmish_policy.py",
+      "tools/marmish_protocol.py",
+      "tools/marmish_publish.py",
+      "tools/marmish_release.py",
+      "tools/marmish_release_acceptance.py",
+      "tools/marmish_release_licenses.py",
+      "tools/marmish_rendezvous.py",
+      "tools/marmish_rpc.py",
+      "tools/marmish_rsync_runtime.py",
+      "tools/marmish_stream_runtime.py",
+      "tools/marmish_transport.py",
+      "tools/marmish_transport_macos.py",
+      "tools/marmish_transport_sandbox.py",
+      "tools/marmish_v02_lifecycle_build.py",
+      "tools/mdk_smoke.py",
+      "tools/release-version-vectors.json",
+      "tools/v02-actions/action.yml",
+      "tools/v02-actions/eligibility.mjs",
+      "tools/v02-actions/lifecycle.mjs",
+      "tools/v02-actions/local.mjs",
+      "tools/v02-actions/macos-diagnostic.mjs",
+      "tools/v02-actions/package-lock.json",
+      "tools/v02-actions/package.json",
+      "tools/v02-actions/publish.mjs",
+      "tools/v02-actions/release-candidate.mjs",
+      "tools/v02-actions/release-handoff.mjs",
+      "tools/v02-actions/release-render.mjs",
+      "tools/v02-actions/release-schema.mjs",
+      "tools/v02-actions/report-replay.mjs",
+      "tools/v02-actions/streaming-policy.mjs",
+      "tools/v02-actions/supervise.mjs",
+      "tools/v02-actions/supervisor-diagnostic.mjs",
+      "tools/v02-actions/transport.mjs",
+      "tools/v02-actions/upload-client.mjs",
+      "tools/v02-actions/upload.mjs",
+      "tools/v02-actions/workflow-diagnostic.mjs",
+      "tools/v02-actions/workflow.mjs",
+      "tools/v02-macos-fixture-diagnostic.py"
+    ]
+  },
+  "platform_contracts": {
+    "aarch64-apple-darwin": {
+      "minimum": "macos=15.0",
+      "signing": "adhoc"
+    },
+    "aarch64-unknown-linux-gnu": {
+      "minimum": "glibc=2.39",
+      "signing": "none"
+    },
+    "x86_64-unknown-linux-gnu": {
+      "minimum": "glibc=2.39",
+      "signing": "none"
+    }
+  },
+  "previous_commit": "49fc705408a230bd0ad896248d08dbdd2faad05a",
+  "release_assets": [
+    "THIRD-PARTY-LICENSES-0.3.1-aarch64-apple-darwin",
+    "THIRD-PARTY-LICENSES-0.3.1-aarch64-unknown-linux-gnu",
+    "THIRD-PARTY-LICENSES-0.3.1-x86_64-unknown-linux-gnu",
+    "marmish-0.3.1-aarch64-apple-darwin",
+    "marmish-0.3.1-aarch64-apple-darwin.manifest",
+    "marmish-0.3.1-aarch64-unknown-linux-gnu",
+    "marmish-0.3.1-aarch64-unknown-linux-gnu.manifest",
+    "marmish-0.3.1-x86_64-unknown-linux-gnu",
+    "marmish-0.3.1-x86_64-unknown-linux-gnu.manifest",
+    "marmish-worker-0.3.1-aarch64-apple-darwin",
+    "marmish-worker-0.3.1-aarch64-unknown-linux-gnu",
+    "marmish-worker-0.3.1-x86_64-unknown-linux-gnu",
+    "marmishd-0.3.1-aarch64-apple-darwin",
+    "marmishd-0.3.1-aarch64-unknown-linux-gnu",
+    "marmishd-0.3.1-x86_64-unknown-linux-gnu"
+  ],
+  "source": "https://github.com/Epiphytic/marmish",
+  "toolchain": {
+    "channel": "1.97.1",
+    "components": [
+      "rustfmt",
+      "clippy"
+    ],
+    "profile": "minimal"
+  },
+  "tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+  "workspaces": [
+    {
+      "lock_sha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+      "manifest": "Cargo.toml",
+      "packages": [
+        {
+          "edition": "2021",
+          "features": {},
+          "manifest": "crates/marmish-core/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-core",
+          "targets": [
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2021",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_core",
+              "path": "crates/marmish-core/src/lib.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "contracts",
+              "path": "crates/marmish-core/tests/contracts.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.1.0"
+        },
+        {
+          "edition": "2021",
+          "features": {
+            "default": [],
+            "fault-injection": []
+          },
+          "manifest": "crates/marmish-engine/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-engine",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-engine-worker",
+              "path": "crates/marmish-engine/src/bin/marmish-worker.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-test-frontend",
+              "path": "crates/marmish-engine/tests/support/frontend.rs",
+              "required_features": [
+                "fault-injection"
+              ],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2021",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_engine",
+              "path": "crates/marmish-engine/src/lib.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "concurrent_storage",
+              "path": "crates/marmish-engine/tests/concurrent_storage.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "encrypted_storage",
+              "path": "crates/marmish-engine/tests/encrypted_storage.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "engine",
+              "path": "crates/marmish-engine/tests/engine.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "faults",
+              "path": "crates/marmish-engine/tests/faults.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "native_storage",
+              "path": "crates/marmish-engine/tests/native_storage.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.1.0"
+        },
+        {
+          "edition": "2021",
+          "features": {},
+          "manifest": "crates/marmish-mdk/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-mdk",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "example"
+              ],
+              "name": "probe",
+              "path": "crates/marmish-mdk/examples/probe.rs",
+              "required_features": [],
+              "test": false
+            },
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2021",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_mdk",
+              "path": "crates/marmish-mdk/src/lib.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.1.0"
+        },
+        {
+          "edition": "2024",
+          "features": {
+            "installed-checks": []
+          },
+          "manifest": "crates/marmish-native/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-native",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish",
+              "path": "crates/marmish-native/src/bin/marmish.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-installed-check",
+              "path": "crates/marmish-native/src/bin/marmish-installed-check.rs",
+              "required_features": [
+                "installed-checks"
+              ],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-installed-fixture",
+              "path": "crates/marmish-native/src/bin/marmish-installed-fixture.rs",
+              "required_features": [
+                "installed-checks"
+              ],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-release-tool",
+              "path": "crates/marmish-native/src/bin/marmish-release-tool.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-worker",
+              "path": "crates/marmish-native/src/bin/marmish-worker.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmishd",
+              "path": "crates/marmish-native/src/bin/marmishd.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "custom-build"
+              ],
+              "name": "build-script-build",
+              "path": "crates/marmish-native/build.rs",
+              "required_features": [],
+              "test": false
+            },
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2024",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_native",
+              "path": "crates/marmish-native/src/lib.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2024",
+              "kind": [
+                "test"
+              ],
+              "name": "process_limits",
+              "path": "crates/marmish-native/tests/process_limits.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.3.1"
+        },
+        {
+          "edition": "2021",
+          "features": {},
+          "manifest": "crates/marmish-prototype/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-prototype",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-engine-bridge",
+              "path": "crates/marmish-prototype/src/main.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2021",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_prototype",
+              "path": "crates/marmish-prototype/src/lib.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "bridge",
+              "path": "crates/marmish-prototype/tests/bridge.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.1.0"
+        },
+        {
+          "edition": "2024",
+          "features": {},
+          "manifest": "crates/marmish-stream/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-stream",
+          "targets": [
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2024",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_stream",
+              "path": "crates/marmish-stream/src/lib.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.2.3"
+        },
+        {
+          "edition": "2021",
+          "features": {},
+          "manifest": "crates/marmish-vault/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-vault",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-keychain",
+              "path": "crates/marmish-vault/src/bin/marmish-keychain.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "lib"
+              ],
+              "doctest": true,
+              "edition": "2021",
+              "kind": [
+                "lib"
+              ],
+              "name": "marmish_vault",
+              "path": "crates/marmish-vault/src/lib.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "helper",
+              "path": "crates/marmish-vault/tests/helper.rs",
+              "required_features": [],
+              "test": true
+            },
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "test"
+              ],
+              "name": "native_vault",
+              "path": "crates/marmish-vault/tests/native_vault.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.1.0"
+        }
+      ]
+    },
+    {
+      "lock_sha256": "6acd8c25f0e1fdfab28b44287639d12779fcadb1e511b52e0b8c83c6b924aa20",
+      "manifest": "tools/installed-fixture/Cargo.toml",
+      "packages": [
+        {
+          "edition": "2021",
+          "features": {},
+          "manifest": "tools/installed-fixture/Cargo.toml",
+          "minimum_rust": "1.97",
+          "name": "marmish-installed-fixture",
+          "targets": [
+            {
+              "crate_types": [
+                "bin"
+              ],
+              "doctest": false,
+              "edition": "2021",
+              "kind": [
+                "bin"
+              ],
+              "name": "marmish-installed-fixture",
+              "path": "tools/installed-fixture/src/main.rs",
+              "required_features": [],
+              "test": true
+            }
+          ],
+          "version": "0.0.0"
+        }
+      ]
+    }
+  ]
+}
