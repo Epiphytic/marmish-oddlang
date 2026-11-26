@@ -98,6 +98,7 @@ from pathlib import Path
 import sys
 
 root = Path(sys.argv[1])
+assert {path.name for path in root.iterdir()} == {"Cargo.lock", "Cargo.toml", "package.lock", "src"}
 lock = json.loads((root / "package.lock").read_bytes())
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()

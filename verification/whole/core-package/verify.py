@@ -147,6 +147,8 @@ def inventory(root):
 
 
 def verify_lock(package, manifest_path):
+    required = {"Cargo.lock", "Cargo.toml", "package.lock", "src"}
+    require({entry.name for entry in package.iterdir()} == required, "unexpected generated package entries")
     manifest = read(manifest_path)
     lock_path = package / "package.lock"
     lock = read(lock_path)
