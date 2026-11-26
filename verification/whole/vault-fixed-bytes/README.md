@@ -15,4 +15,4 @@ The verifier extracts the original checked storage shape and matches it against 
 python3 -B verification/whole/vault-fixed-bytes/verify.py FRAMEWORK ORIGINAL /tmp/vault-build-cache /tmp/vault-receipt.json
 ```
 
-The [Darwin ARM64 receipt](aarch64-apple-darwin.json) covers the default release profile. It qualifies the public value and one upstream test. Keychain, Secret Service and the vault helper have separate obligations. The five-member product has its own pinned vault package.
+The [Darwin ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) cover the default release profile on each host. Both qualify the public value and one upstream test. Keychain, Secret Service and the vault helper have separate obligations. The five-member product has its own pinned vault package.

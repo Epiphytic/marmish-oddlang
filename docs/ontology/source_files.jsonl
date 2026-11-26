@@ -1145,8 +1145,9 @@
 {"path":"verification/whole/unified-vault/README.md","language":"inventory","mode":"100644","sha256":"eb972dc0904b4d274b95c54181a6fb860ed55d3169f62d589a67119ed32107f7","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"43f939ec8750b7438917ffb268744eb0e858a15db5b4dd076bd8cd551f2459aa","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/verify.py","language":"python","mode":"100644","sha256":"d17edca1817c5d0ac4fb5582efc75ab9f70306ec43817a66628b156d7328dd42","parse_status":"parsed"}
-{"path":"verification/whole/vault-fixed-bytes/README.md","language":"inventory","mode":"100644","sha256":"780cd75eb3bd035795963f5a75696ea3a38f024f3d756c6faca013592154cd50","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/README.md","language":"inventory","mode":"100644","sha256":"3fb49c31f1b1d4ac811eaf4561606a2a49bf5b59d0bc4106be06896659e0bb81","parse_status":"inventory"}
 {"path":"verification/whole/vault-fixed-bytes/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5b3667cef31a601c0a9c366400c4a24525582dec5a4b2790c113da0ec8277b4b","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"e68f264082db1d93d932d700b3a2419451a80a60a869312eb9d57605fe53d92d","parse_status":"inventory"}
 {"path":"verification/whole/vault-fixed-bytes/selection.json","language":"inventory","mode":"100644","sha256":"cda67211ae7f3bd2773ed2385e2a90d13a81c9c480a3b5be8cfbc8a7edadf9c2","parse_status":"inventory"}
 {"path":"verification/whole/vault-fixed-bytes/verify.py","language":"python","mode":"100644","sha256":"2ecf221a5bfd3440b4578a1e8a32e2911cfc740172c357fba21090a8659a9dd1","parse_status":"parsed"}
 {"path":"verification/whole/vault-values/README.md","language":"inventory","mode":"100644","sha256":"64c23d6e903aaaf2fedeb2d373f4ab181f6c062c17451969caf5c968fda13fc8","parse_status":"inventory"}
