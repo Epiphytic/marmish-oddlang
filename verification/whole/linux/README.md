@@ -18,4 +18,17 @@ python3 -B verification/whole/linux/effects.py \
   /path/to/release-build/aarch64-unknown-linux-gnu/release /tmp/effects.json
 ```
 
-The bridge receipt covers 11 executable builds and two runs of five original CLI cases. Init succeeds at both 256 and 1,048,576 descriptors on this guest. The traced Init uses an existing empty state directory and a read-only root. The tracer requires sudo, strace and bubblewrap inside the disposable guest. It verifies that the bridge runs as the original user with zero effective capabilities, checks the live descriptor limits via procfs, and observes exact Init reply, held lock, durable files and EOF. An outside create fails with EROFS. The independent POSIX byte-range probe conflicts with the original Linux OFD lock. A BSD flock probe succeeds on the same file while the bridge holds that lock. The corrected verifier also passed both repeats on macOS, where the lock uses flock. The Linux stream run uses the public corpus. Sealed Linux stream cases and generated Linux peer qualification are separate obligations.
+The bridge receipt covers 11 executable builds and two runs of five original CLI cases. Init succeeds at both 256 and 1,048,576 descriptors on this guest. The traced Init uses an existing empty state directory and a read-only root. The tracer requires sudo, strace and bubblewrap inside the disposable guest. It verifies that the bridge runs as the original user with zero effective capabilities, checks the live descriptor limits via procfs, and observes exact Init reply, held lock, durable files and EOF. An outside create fails with EROFS. The independent POSIX byte-range probe conflicts with the original Linux OFD lock. A BSD flock probe succeeds on the same file while the bridge holds that lock. The corrected verifier also passed both repeats on macOS, where the lock uses flock. The public corpus runs inside the guest. Generated Linux peer qualification remains open.
+
+
+## Sealed original stream runs
+
+The macOS qualification host compared all 128 sealed observations for each separately compiled Linux ARM64 dev and release caller. The executable reports its build binding, and the judge verifies its digest before and after replay. The judge probes isolation in both directions. A sandboxed host process receives EPERM when it tries to read the capsule, and the Linux guest has no shared mounts and cannot see a randomized host sentinel. SSH targets the local guest on loopback with forwarding disabled. Only input case names, operations and arguments are delivered to the guest.
+
+Build once in the Linux guest for each profile. Run the judge on macOS with the private capsule already held there. The published receipts include the commitment and pass count.
+
+```sh
+python3 -B verification/whole/linux/sealed.py build "$FRAMEWORK" "$ORIGINAL" dev "$GUEST_BUILD"
+python3 -B verification/whole/linux/sealed.py judge "$FRAMEWORK" "$SSH_CONFIG" "$GUEST_ALIAS" \
+  "$GUEST_BUILD/build.json" "$QUALIFICATION_CAPSULE" /tmp/arm64-dev.json
+```
