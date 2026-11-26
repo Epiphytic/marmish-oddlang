@@ -18,10 +18,12 @@ def inspect(receipt):
         raise ValueError("unknown native target")
     data = (HERE / f"named-release-{host}.json").read_bytes()
     catalog = json.loads(data)
-    matches = [(key,manifest) for key,(manifest,revision) in CANDIDATES.items() if revision == receipt["framework"] and sha(manifest.read_bytes()) == receipt["manifestSha256"]]
+    matches = [entry for entry in CANDIDATES.values()
+               if entry.compiler == receipt["framework"]
+               and sha(entry.manifest.read_bytes()) == receipt["manifestSha256"]]
     if len(matches) != 1:
         raise ValueError("unknown workspace or compiler revision")
-    candidate, manifest = matches[0]
+    manifest, _, suite_kind = matches[0]
     expected_pins = dict(original=PIN, profile=catalog["selection"],
                          inventorySha256=sha(data), manifestSha256=sha(manifest.read_bytes()),
                          workspaceLockSha256=sha((manifest.with_suffix("")/"workspace.lock").read_bytes()))
@@ -32,7 +34,7 @@ def inspect(receipt):
         raise ValueError("missing or unexpected harness")
     witnesses = {k:v["passed"] for k,v in rows.items() if v["passed"]}
     native = receipt["nativeProcessTest"]
-    reader = candidate in {"seven", "manifest"}
+    reader = suite_kind in {"seven", "manifest"}
     if reader:
         expected_members = set(json.loads((manifest.with_suffix("")/"workspace.lock").read_bytes())["members"])
         built = receipt["builtLibraries"]
@@ -40,9 +42,9 @@ def inspect(receipt):
             raise ValueError("missing or invalid native workspace library artifacts")
     elif "builtLibraries" in receipt:
         raise ValueError("unexpected workspace library evidence")
-    partial = selected_tests.cases(host,reader) if candidate != "v7" else {}
+    partial = selected_tests.cases(host,reader) if suite_kind != "v7" else {}
     expected_sources = dict(selected_tests.EXPECTED)
-    if candidate == "manifest":
+    if suite_kind == "manifest":
         partial[parser_cases.HARNESS] = parser_cases.NAMES
         expected_sources.update(parser_cases.SOURCES)
     if reader:

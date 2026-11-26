@@ -35,7 +35,7 @@ def stage(original, product):
         stream.write(vectors)
     with leaf.open("ab") as stream:
         stream.write(b"\n" + tests)
-    return leaf.relative_to(product).as_posix(), prefix
+    return leaf.relative_to(product).as_posix(), prefix, vector_path.as_posix()
 
 
 def witness(inside, product, prefix, passing_names, check_execution):

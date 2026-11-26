@@ -1,6 +1,8 @@
 """Check that changing evidence in a published receipt cannot increase coverage."""
 from copy import deepcopy
 import json
+import subprocess
+import sys
 import unittest
 
 import selected_tests
@@ -90,6 +92,15 @@ class CoverageControls(unittest.TestCase):
                     change(mutated)
                     with self.assertRaises(ValueError):
                         inspect(mutated)
+
+    def test_partial_parser_receipts_reject_full_certification(self):
+        for receipt in sorted(HERE.glob("manifest-aarch64-*.json")):
+            result = subprocess.run(
+                [sys.executable, "-B", HERE/"check_coverage.py", receipt, "--require-complete"],
+                capture_output=True, text=True)
+            with self.subTest(receipt=receipt.name):
+                self.assertEqual(result.returncode, 1, result.stderr)
+                self.assertGreater(json.loads(result.stdout)["unverified"], 0)
 
     def test_parser_case_requires_one_actual_execution(self):
         def no_match(*args, **kwargs):
