@@ -1,0 +1,12 @@
+{
+  "format": "oddlang-checked-values-v1",
+  "id": "urn:marmish:vault:secret:domain",
+  "types": {
+    "urn:marmish:vault:secret": {
+      "kind": "fixed-bytes",
+      "length": 32,
+      "failure": "urn:marmish:vault:error:malformed",
+      "onDrop": "erase"
+    }
+  }
+}
