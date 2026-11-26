@@ -1,0 +1,119 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-engine",
+  "version": "0.1.0",
+  "edition": "2021",
+  "dependencies": {
+    "libc": {
+      "version": "0.2.189"
+    },
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    }
+  },
+  "cargoLock": {
+    "path": "workspace-v7-canonical-public-data/engine-Cargo.lock",
+    "sha256": "4b2f8fa1a383319f72350f429059aeb282aaf65f7bbdfc999c4b91095277fe05"
+  },
+  "components": [
+    {
+      "kind": "process-limit",
+      "module": "process_limits",
+      "reexports": [
+        "initialize_process_limits"
+      ],
+      "graph": {
+        "path": "workspace-engine-limits/graph.json",
+        "sha256": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5"
+      },
+      "overlay": {
+        "path": "engine-public-error-v1/process-rust.json",
+        "sha256": "8c13dfb5928d057e2ea7a4a65921bb26f31b823b854e14570de0748daac39cd0"
+      }
+    },
+    {
+      "kind": "finite-error-domain",
+      "module": "model",
+      "reexports": [
+        "EngineError",
+        "NotFoundReason",
+        "NotExecutableReason",
+        "ResolutionReason",
+        "Result"
+      ],
+      "graph": {
+        "path": "engine-public-error-v1/graph.json",
+        "sha256": "923dd560b5121674ae29a8eece3b7f5b75c2b99c5cfae03317213de2d6b3e32e"
+      },
+      "overlay": {
+        "path": "engine-public-error-v1/rust.json",
+        "sha256": "3695960cadc4b2576d6260aaa15a8c278c55f251ba8da72af8856a121f61bd23"
+      }
+    },
+    {
+      "kind": "public-records",
+      "module": "model",
+      "reexports": [
+        "InputReceipt",
+        "MaintenanceReport"
+      ],
+      "graph": {
+        "path": "engine-scalar-records-v1/graph.json",
+        "sha256": "2737dec183b717dd15b6738a1d3b60df6bd556d8301298c5c4e3fe4c119a7ed5"
+      },
+      "overlay": {
+        "path": "engine-scalar-records-v1/rust.json",
+        "sha256": "c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5"
+      }
+    },
+    {
+      "kind": "checked-values",
+      "module": "model",
+      "reexports": [
+        "Stream",
+        "SubmitDisposition"
+      ],
+      "graph": {
+        "path": "engine-fieldless-choices-v1/graph.json",
+        "sha256": "6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077"
+      },
+      "overlay": {
+        "path": "engine-fieldless-choices-v1/rust.json",
+        "sha256": "e877b08426227fa656b21320d751e8da09dbb67b8bcd21f2d3d3c2c275b20581"
+      }
+    },
+    {
+      "kind": "shared-declarations",
+      "module": "model",
+      "graph": {
+        "path": "engine-gap-reason-recovered-v1/graph.json",
+        "sha256": "be737d3eeb44a1cbeeeac4b86d6bce5328bcacfb793189b2dbf655d7897810d1"
+      },
+      "overlay": {
+        "path": "engine-gap-reason-recovered-v1/rust.json",
+        "sha256": "6565b1d98ab10b6b4e8beae25b2ba3c5fbab165f21b91ded64508c3b36a013f9"
+      },
+      "reexports": [
+        "MissingReason"
+      ]
+    },
+    {
+      "graph": {
+        "path": "engine-gap-range-v1/graph.json",
+        "sha256": "d010928f57b83418fa093d12db61e6e2cd7638962c4069ff672cdaed25d500f0"
+      },
+      "kind": "public-records",
+      "module": "model",
+      "overlay": {
+        "path": "engine-gap-range-v1/rust.json",
+        "sha256": "1cf36f62758a8e050b49d9cade8cd2453ced3aaecc604f72dbada924fd05a39a"
+      },
+      "reexports": [
+        "MissingRange"
+      ]
+    }
+  ]
+}
