@@ -311,6 +311,10 @@
 {"path":"oddlang/portable/engine-fieldless-choices-v1/graph.json","language":"inventory","mode":"100644","sha256":"6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/package.lock","language":"inventory","mode":"100644","sha256":"3a3ee8eee0991e685c491bcfdc9a4bd66b2296b2593b47fc9d15f779e48a603d","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/rust.json","language":"inventory","mode":"100644","sha256":"e877b08426227fa656b21320d751e8da09dbb67b8bcd21f2d3d3c2c275b20581","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-package.json","language":"inventory","mode":"100644","sha256":"70bcbb576312651572b665055295efb5aef6cb96a9cba9c67307e35eca81ff95","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-v1/graph.json","language":"inventory","mode":"100644","sha256":"d010928f57b83418fa093d12db61e6e2cd7638962c4069ff672cdaed25d500f0","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-v1/package.lock","language":"inventory","mode":"100644","sha256":"884180d21d079c49a7ca0d045b2f56d67700d1666012a92d7b8310f1bb2fe109","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-v1/rust.json","language":"inventory","mode":"100644","sha256":"1cf36f62758a8e050b49d9cade8cd2453ced3aaecc604f72dbada924fd05a39a","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-reason-package.json","language":"inventory","mode":"100644","sha256":"9ca6c1281daf3d15b93e4b03ddfe836af748299c395eea837c2cf2b58accd595","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-reason-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"03049e1019f2cbf682c990ac1923097df93139d921c9e95b24c432468b08f2ca","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-reason-v1/graph.json","language":"inventory","mode":"100644","sha256":"3fc23f1b3cfa1fa5f881280736161028bd52c679e30d66b87a7438b2d118925e","parse_status":"inventory"}
@@ -1124,6 +1128,8 @@
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"9ff00fc3389e19bcd4765f4ed71d0d9f8fc7c91ed22f8cc8ff1782e7e39f9c66","parse_status":"parsed"}
 {"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"662c2ae77a665eefb17c4c0b58837ac6537da886d456447504534b5deecfb8e9","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-record/traits.rs","language":"rust","mode":"100644","sha256":"e83d44a3b838fd9efdaf23c08ddc22a7e3f35cca623c51a72573e2726c145643","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-record/verify.py","language":"python","mode":"100644","sha256":"f5ee8d987c7b436b6121e8c2b9c99f8cba77d71c7386889c5adaf252dfe4235e","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-reference/README.md","language":"inventory","mode":"100644","sha256":"50defdec7b6f069c0c338b4000ff8acd379adc8b4139c3fffee6adc6bcffc7ab","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-reference/caller.lock","language":"inventory","mode":"100644","sha256":"9d9131d0dde46513ed89d3805bbd4e39aa374283e1572e46d4bb0d08a3c9cb0e","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-reference/caller.toml","language":"inventory","mode":"100644","sha256":"a098944bbc96bc3ee275b6854143e592d89de400e1426fd1478464047cdb30c2","parse_status":"inventory"}

@@ -1,0 +1,50 @@
+{
+  "cargoLock": {
+    "path": "engine-gap-reason-v1/Cargo.lock",
+    "sha256": "03049e1019f2cbf682c990ac1923097df93139d921c9e95b24c432468b08f2ca"
+  },
+  "components": [
+    {
+      "graph": {
+        "path": "engine-gap-reason-v1/graph.json",
+        "sha256": "3fc23f1b3cfa1fa5f881280736161028bd52c679e30d66b87a7438b2d118925e"
+      },
+      "kind": "shared-declarations",
+      "module": "model",
+      "overlay": {
+        "path": "engine-gap-reason-v1/rust.json",
+        "sha256": "7d22af4e0b485e74baec06f6393f06127642e512e0a2aa506e09db2bbdd8a00c"
+      },
+      "reexports": [
+        "MissingReason"
+      ]
+    },
+    {
+      "graph": {
+        "path": "engine-gap-range-v1/graph.json",
+        "sha256": "d010928f57b83418fa093d12db61e6e2cd7638962c4069ff672cdaed25d500f0"
+      },
+      "kind": "public-records",
+      "module": "model",
+      "overlay": {
+        "path": "engine-gap-range-v1/rust.json",
+        "sha256": "1cf36f62758a8e050b49d9cade8cd2453ced3aaecc604f72dbada924fd05a39a"
+      },
+      "reexports": [
+        "MissingRange"
+      ]
+    }
+  ],
+  "dependencies": {
+    "serde": {
+      "features": [
+        "derive"
+      ],
+      "version": "1.0.229"
+    }
+  },
+  "edition": "2024",
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-engine",
+  "version": "0.1.0"
+}
