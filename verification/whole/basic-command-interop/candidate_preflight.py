@@ -38,6 +38,10 @@ def observe(export, expected_receipt):
         work = Path(directory).resolve()
         launch = TOOLS.isolated(work, (export,))
         for name, (role, argv, stderr) in CASES.items():
+            expected_exit = 125
+            if name == "setup" and "setup" in build["cliSurfaces"][role]["boundOperations"]:
+                expected_exit = 1
+                stderr = b"marmish: profile preparation requires the file key provider\n"
             executable = export / role
             scratch = work / name
             scratch.mkdir()
@@ -46,7 +50,7 @@ def observe(export, expected_receipt):
                 timeout=30, env={"HOME": str(scratch), "TMPDIR": str(scratch),
                                  "PATH": "/usr/bin:/bin", "LC_ALL": "C"},
             )
-            if (actual.returncode, actual.stdout, actual.stderr) != (125, b"", stderr):
+            if (actual.returncode, actual.stdout, actual.stderr) != (expected_exit, b"", stderr):
                 raise ValueError(f"unexpected operation availability: {name}")
             if any(scratch.iterdir()):
                 raise ValueError(f"operation wrote to its private workspace: {name}")
