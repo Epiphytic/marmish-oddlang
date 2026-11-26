@@ -3,6 +3,7 @@ import argparse
 import base64
 from hashlib import sha256
 import json
+import importlib.util
 from pathlib import Path
 import platform
 import shutil
@@ -78,7 +79,32 @@ def staged(work, manifest_path=MANIFEST):
     return stage / manifest_path.name
 
 
+def linux_project(cli, manifest, dest, original, caller, extra_sources=()):
+    spec = importlib.util.spec_from_file_location("workspace_verifier", HERE.parent / "workspace/verify.py")
+    workspace = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(workspace)
+    with tempfile.TemporaryDirectory(prefix="odd-copy-", dir="/tmp") as directory:
+        stage = Path(directory).resolve()
+        shutil.copy2(cli, stage / "oddlang")
+        inputs = stage / "inputs"
+        shutil.copytree(manifest.parent, inputs)
+        sandbox, env = workspace.linux_isolation(stage)
+        for path in (original / "Cargo.toml", caller, *(repo / "Cargo.toml" for repo in extra_sources)):
+            missing = subprocess.run([*sandbox, "/bin/cat", path], capture_output=True, env=env)
+            if not missing.returncode or b"No such file or directory" not in missing.stderr:
+                raise ValueError(f"reference file was visible inside the build: {path}")
+        target = stage / "generated"
+        workspace.envtools.run(*sandbox, stage / "oddlang", "build", "native-package", "rust",
+                               inputs / manifest.name, target, cwd=stage, env=env)
+        workspace.envtools.run(*sandbox, "cargo", "build", "--release", "--offline", "--locked",
+                               "--manifest-path", target / "Cargo.toml", cwd=stage, env=env)
+        target.rename(dest)
+    return True
+
+
 def project(work, cli, manifest, dest, original, caller=HERE/"caller.rs"):
+    if platform.system() == "Linux":
+        return linux_project(cli, manifest, dest, original, caller)
     wrapper = []
     if platform.system() == "Darwin":
         profile = '(version 1)(allow default)(deny network*)' + ''.join(

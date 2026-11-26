@@ -2,6 +2,7 @@
 import argparse
 import importlib.util
 import os
+import platform
 import subprocess
 import shutil
 from pathlib import Path
@@ -12,7 +13,7 @@ spec = importlib.util.spec_from_file_location("launch_hash_oracle", HERE.parent 
 oracle = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(oracle)
 from inputs import PIN, consumer, observe, read, run, sha, write
-from verify import staged
+from verify import linux_project, staged
 
 FRAMEWORK = "f45f1308d995114740a8d55770f5c4ab3615bc40"
 DATA = oracle.MANIFEST.parent / "copy-launch-layout-v1"
@@ -27,6 +28,11 @@ def expanded(source, destination):
 
 
 def sealed_build(stage, cli, manifest, original, framework, *additional_sources):
+    if platform.system() == "Linux":
+        stage.mkdir()
+        generated = stage / "package"
+        linux_project(cli, manifest, generated, original, oracle.CALLER, (framework, *additional_sources))
+        return generated
     isolation_spec = importlib.util.spec_from_file_location("isolation", HERE.parent / "core-package/verify.py")
     isolation = importlib.util.module_from_spec(isolation_spec)
     isolation_spec.loader.exec_module(isolation)
