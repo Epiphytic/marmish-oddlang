@@ -1,0 +1,566 @@
+{
+  "format": "oddlang-json-wire-protocol-v1",
+  "layout": "flat-sorted",
+  "id": "urn:marmish:command:requests",
+  "envelope": "urn:marmish:command:request-envelope",
+  "selector": "urn:marmish:command:request-envelope:operation",
+  "maximumWireBytes": 32768,
+  "sizeError": "urn:marmish:command:error:size",
+  "admissionError": "urn:marmish:command:error:wire",
+  "errors": {
+    "urn:marmish:command:error:size": {
+      "variant": "urn:marmish:command:invalid",
+      "argument": "command_envelope_limit"
+    },
+    "urn:marmish:command:error:wire": {
+      "variant": "urn:marmish:command:invalid",
+      "argument": "command_wire"
+    },
+    "urn:marmish:command:error:bytes-limit": {
+      "variant": "urn:marmish:command:invalid",
+      "argument": "command_bytes_limit"
+    },
+    "urn:marmish:command:error:argv": {
+      "variant": "urn:marmish:command:invalid",
+      "argument": "command_argv"
+    }
+  },
+  "constants": [
+    {
+      "id": "urn:marmish:command:literal:type",
+      "value": "request",
+      "type": {
+        "kind": "text"
+      }
+    },
+    {
+      "id": "urn:marmish:command:literal:protocol",
+      "value": "marmish-command/1",
+      "type": {
+        "kind": "text"
+      }
+    }
+  ],
+  "literals": {
+    "urn:marmish:command:request-envelope:type": "urn:marmish:command:literal:type",
+    "urn:marmish:command:request-envelope:protocol": "urn:marmish:command:literal:protocol"
+  },
+  "endpoints": [
+    {
+      "id": "urn:marmish:command:request:submit",
+      "variant": "urn:marmish:command:request-operation:submit",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request:submit:client",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:client"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:id",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:id"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:server",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:server"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:session",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:session"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:invocation",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:submit:invocation"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:argv",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:submit:argv"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:submit:stdin",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:submit:stdin"
+          }
+        }
+      ],
+      "guards": [
+        {
+          "id": "urn:marmish:command:request:submit:argv-size",
+          "require": {
+            "kind": "count",
+            "field": "urn:marmish:command:request:submit:argv",
+            "minimum": 1,
+            "maximum": 128
+          },
+          "error": "urn:marmish:command:error:bytes-limit"
+        },
+        {
+          "id": "urn:marmish:command:request:submit:stdin-size",
+          "require": {
+            "kind": "count",
+            "field": "urn:marmish:command:request:submit:stdin",
+            "minimum": 0,
+            "maximum": 16384
+          },
+          "error": "urn:marmish:command:error:bytes-limit"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:submit:arg-total",
+          "predicate": {
+            "kind": "total-bytes",
+            "value": {
+              "scope": "value",
+              "fields": [
+                "urn:marmish:command:request:submit:argv"
+              ]
+            },
+            "overhead": 1,
+            "maximum": 16384
+          },
+          "error": "urn:marmish:command:error:bytes-limit"
+        },
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:submit:arg-valid",
+          "predicate": {
+            "kind": "all",
+            "items": [
+              {
+                "kind": "first-bytes-nonempty",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:command:request:submit:argv"
+                  ]
+                }
+              },
+              {
+                "kind": "bytes-exclude",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:command:request:submit:argv"
+                  ]
+                },
+                "byte": 0
+              }
+            ]
+          },
+          "error": "urn:marmish:command:error:argv"
+        },
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:submit:distinct-peers",
+          "predicate": {
+            "kind": "not",
+            "predicate": {
+              "kind": "equal",
+              "left": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:submit:client"
+                ]
+              },
+              "right": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:submit:server"
+                ]
+              }
+            }
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:command:request:status",
+      "variant": "urn:marmish:command:request-operation:status",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request:status:client",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:client"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:status:id",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:id"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:status:server",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:server"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:status:session",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:session"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:status:invocation",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:status:invocation"
+          }
+        }
+      ],
+      "guards": [],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:status:distinct-peers",
+          "predicate": {
+            "kind": "not",
+            "predicate": {
+              "kind": "equal",
+              "left": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:status:client"
+                ]
+              },
+              "right": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:status:server"
+                ]
+              }
+            }
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:command:request:poll",
+      "variant": "urn:marmish:command:request-operation:poll",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request:poll:client",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:client"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:id",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:id"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:server",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:server"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:session",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:session"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:invocation",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:poll:invocation"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:stdout_cursor",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:poll:stdout_cursor"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:stderr_cursor",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:poll:stderr_cursor"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:poll:max_bytes",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:poll:max_bytes"
+          }
+        }
+      ],
+      "guards": [
+        {
+          "id": "urn:marmish:command:request:poll:stdout_cursor-bound",
+          "require": {
+            "kind": "unsigned-range",
+            "field": "urn:marmish:command:request:poll:stdout_cursor",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "error": "urn:marmish:command:error:wire"
+        },
+        {
+          "id": "urn:marmish:command:request:poll:stderr_cursor-bound",
+          "require": {
+            "kind": "unsigned-range",
+            "field": "urn:marmish:command:request:poll:stderr_cursor",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "error": "urn:marmish:command:error:wire"
+        },
+        {
+          "id": "urn:marmish:command:request:poll:window",
+          "require": {
+            "kind": "unsigned-range",
+            "field": "urn:marmish:command:request:poll:max_bytes",
+            "minimum": 1,
+            "maximum": 16384
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:poll:distinct-peers",
+          "predicate": {
+            "kind": "not",
+            "predicate": {
+              "kind": "equal",
+              "left": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:poll:client"
+                ]
+              },
+              "right": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:poll:server"
+                ]
+              }
+            }
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:command:request:cancel",
+      "variant": "urn:marmish:command:request-operation:cancel",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request:cancel:client",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:client"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:cancel:id",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:id"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:cancel:server",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:server"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:cancel:session",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:session"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:cancel:invocation",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:cancel:invocation"
+          }
+        }
+      ],
+      "guards": [],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:cancel:distinct-peers",
+          "predicate": {
+            "kind": "not",
+            "predicate": {
+              "kind": "equal",
+              "left": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:cancel:client"
+                ]
+              },
+              "right": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:cancel:server"
+                ]
+              }
+            }
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:command:request:finish",
+      "variant": "urn:marmish:command:request-operation:finish",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request:finish:client",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:client"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:id",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:id"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:server",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:server"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:session",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:command:request-envelope:session"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:invocation",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:finish:invocation"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:stdout_cursor",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:finish:stdout_cursor"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:stderr_cursor",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:finish:stderr_cursor"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:submit_sha256",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:finish:submit_sha256"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request:finish:terminal_sha256",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:command:request-operation:finish:terminal_sha256"
+          }
+        }
+      ],
+      "guards": [
+        {
+          "id": "urn:marmish:command:request:finish:stdout_cursor-bound",
+          "require": {
+            "kind": "unsigned-range",
+            "field": "urn:marmish:command:request:finish:stdout_cursor",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "error": "urn:marmish:command:error:wire"
+        },
+        {
+          "id": "urn:marmish:command:request:finish:stderr_cursor-bound",
+          "require": {
+            "kind": "unsigned-range",
+            "field": "urn:marmish:command:request:finish:stderr_cursor",
+            "minimum": 0,
+            "maximum": 9223372036854775807
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:command:request:finish:distinct-peers",
+          "predicate": {
+            "kind": "not",
+            "predicate": {
+              "kind": "equal",
+              "left": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:finish:client"
+                ]
+              },
+              "right": {
+                "scope": "value",
+                "fields": [
+                  "urn:marmish:command:request:finish:server"
+                ]
+              }
+            }
+          },
+          "error": "urn:marmish:command:error:wire"
+        }
+      ]
+    }
+  ]
+}
