@@ -1,0 +1,88 @@
+{
+  "assembledPackageLockSha256": "6026aabe42e5df097473733f3003356e7e9b350be8d3e349d94f7d956c296e9b",
+  "companion": "b5b416002f90534d8795ad08a1141ccd41bae78b",
+  "compilerSha256": "f159c1f39c16c44c85708fa4f353dc541bf96f768f77f31eda4540f9da2b2235",
+  "components": [
+    {
+      "graphSha256": "be737d3eeb44a1cbeeeac4b86d6bce5328bcacfb793189b2dbf655d7897810d1",
+      "kind": "shared-declarations",
+      "module": "model",
+      "overlaySha256": "6565b1d98ab10b6b4e8beae25b2ba3c5fbab165f21b91ded64508c3b36a013f9",
+      "projection": {
+        "artifact": "shared.rs",
+        "artifactSha256": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a",
+        "bindingSha256": "ffb071cdbe300766306e0a71d3bac845dab14c09c43bc834257f197da13af1af",
+        "domain": "urn:marmish:engine:output-gap:domain",
+        "domainSha256": "f0a95981a9caca31ee13a108cfb4ccf5a9fcaa60014405ab790aa5549f184804",
+        "format": "oddlang-shared-projection-v1",
+        "obligationsSha256": "a63aed318d05682c2d7fe11589c8a3485a2d22a302fa0475fffe9d66dc30e2fe"
+      },
+      "reexports": [
+        "MissingReason"
+      ],
+      "sourceSha256": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a"
+    },
+    {
+      "graphSha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5",
+      "kind": "public-records",
+      "module": "model",
+      "overlaySha256": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8",
+      "projection": {
+        "format": "oddlang-public-record-projection-lock-v1",
+        "graphSha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5",
+        "overlaySha256": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8",
+        "sourceSha256": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c"
+      },
+      "reexports": [
+        "MissingRange"
+      ],
+      "sourceSha256": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c"
+    }
+  ],
+  "deniedReads": [
+    "explicit-manifest",
+    "independent-package-lock",
+    "native-probe",
+    "original-crate-root",
+    "original-model"
+  ],
+  "files": {
+    "Cargo.lock": "03049e1019f2cbf682c990ac1923097df93139d921c9e95b24c432468b08f2ca",
+    "Cargo.toml": "d9c0429cbb129d48828ac547a4e49d6375b6a214527867e078462e1af9024d06",
+    "src/group_0/__projection_0.rs": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a",
+    "src/group_0/__projection_1.rs": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c",
+    "src/group_0/mod.rs": "4280c49315f335ec1cfa8c31f605f135b4a0bc15a8ca2bfd6dc1133c9fc5cfc5",
+    "src/lib.rs": "8b0b5b00a320945c48220826234351488d9f745966f008f5f0cb9b522b27c8f8"
+  },
+  "format": "marmish-gap-range-derived-package-v1",
+  "framework": "2e2c37e53ed52676017b25e3143eca48a0daff13",
+  "frameworkBuildToolchain": [
+    "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "binary: rustc",
+    "commit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd",
+    "commit-date: 2026-06-26",
+    "host: aarch64-apple-darwin",
+    "release: 1.96.1",
+    "LLVM version: 22.1.2"
+  ],
+  "host": "aarch64-apple-darwin",
+  "manifestSha256": "bd136b7603e2b7c436e2d2eac204f2b41f47bb15f74001d4fa38152023152c51",
+  "recoveries": [
+    {
+      "declaration": "urn:marmish:engine:output-gap:reason",
+      "sha256": "fa6f7d9bff8532c15bf41c43259ca96a47a6ca8fc7f258202bbdc87de888963d"
+    },
+    {
+      "declaration": "urn:marmish:engine:output-gap:range",
+      "sha256": "72e239a6e6a4c561c747df792146d49061f0b0e65a75d2e8d9a0ef1aee7db8ed"
+    }
+  ],
+  "referencePackageLockSha256": "281d010eca4e1a7b18514af49e2a9fb866069f5613145a2faf93556e07357528",
+  "referenceReceiptSha256": "6b6554ff7e8b38da4b36b46207c40e5adfd954abe9dacf0a6de2bfab1b3ba03d",
+  "sealedCompanion": "6355ae8504a7eb64ae01fc0591f29e3879c38128",
+  "tamperDiagnostics": {
+    "engine-gap-range-recovered-v1/graph.json": "input digest mismatch: engine-gap-range-recovered-v1/graph.json",
+    "engine-gap-range-recovered-v1/recovery.lock": "input digest mismatch: engine-gap-range-recovered-v1/recovery.lock"
+  },
+  "verifierSha256": "75e56a473b727ff5454d73248be5427aca00232ced8d8032a4486bbc06adce40"
+}
