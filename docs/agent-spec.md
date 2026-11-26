@@ -6,6 +6,12 @@ executables from a recovered command graph. Both match the pinned release on
 Live dispatch, daemon IPC, private helper protocols and rsync remain open.
 [CLI qualification](../verification/whole/cli/README.md)
 
+The generated Launch package also preserves the pinned copy digest and
+namespace API on macOS ARM64, including validation precedence, raw path
+bytes, enum tags and codec selection. Copy manifests, checkpoint handling
+and installed transfers remain separate qualification work.
+[Launch hash qualification](../verification/whole/copy-launch-hash/README.md)
+
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
 against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
@@ -1376,3 +1382,5 @@ repository checks freshness on the exact staged or committed Git tree.
 Release workflows validate the candidate source before builds and
 publication. See the [phase design](phases/code-ontology.md) for coverage,
 parser limits, and the installer cutover boundary.
+
+The three-member Oddlang release pins the core, stream and partial command-line packages under one Cargo workspace. Its stream package combines the existing windows and wire surfaces. The release evidence covers 25 unchanged upstream tests on native macOS ARM64 and Linux ARM64. The daemon in this version implements the CLI grammar. The status client requires explicit state and socket paths. Later typed digest and reply contracts can be versioned separately. [Combined workspace](../verification/whole/workspace/README.md)

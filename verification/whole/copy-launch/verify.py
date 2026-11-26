@@ -62,29 +62,29 @@ def corpus():
     return creates, [dict(operation="decode",text=text) for text in texts]
 
 
-def staged(work):
+def staged(work, manifest_path=MANIFEST):
     stage = work / "inputs"
     stage.mkdir()
-    manifest = read(MANIFEST)
+    manifest = read(manifest_path)
     pins = [manifest["cargoLock"]] + [part[k] for part in manifest["components"] for k in ("graph","overlay")]
     for pin in pins:
-        source = MANIFEST.parent / pin["path"]
+        source = manifest_path.parent / pin["path"]
         assert sha(source) == pin["sha256"]
         dest = stage / pin["path"]
         dest.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, dest)
-    shutil.copyfile(MANIFEST, stage/MANIFEST.name)
+    shutil.copyfile(manifest_path, stage/manifest_path.name)
     assert not list(stage.rglob("*.rs"))
-    return stage / MANIFEST.name
+    return stage / manifest_path.name
 
 
-def project(work, cli, manifest, dest, original):
+def project(work, cli, manifest, dest, original, caller=HERE/"caller.rs"):
     wrapper = []
     if platform.system() == "Darwin":
         profile = '(version 1)(allow default)(deny network*)' + ''.join(
             '(deny file-read* (subpath '+json.dumps(str(p.resolve()))+'))' for p in (ROOT,original))
         wrapper = ["/usr/bin/sandbox-exec", "-p", profile]
-        for inaccessible in [ROOT/"verification/whole/copy-launch/caller.rs",original/"Cargo.toml"]:
+        for inaccessible in [caller,original/"Cargo.toml"]:
             control = subprocess.run([*wrapper,"/bin/cat",inaccessible],cwd=work,capture_output=True)
             assert control.returncode and b"Operation not permitted" in control.stderr
     run(*wrapper, cli, "build","native-package","rust",manifest,dest,cwd=work)

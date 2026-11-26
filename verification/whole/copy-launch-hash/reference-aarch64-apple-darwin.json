@@ -1,0 +1,14 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "217da3c13d504b622e0be4efce2eaf8bb51b05f0",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "df92672e71c67ad8bf2d879c333d85f65f060afbecdff89580a585f9c4b63d8e",
+  "callerSha256": "6d22bd7c07ffac22558a74ed7e362ddd96f0b91247fc2dc21f69e593815d2625",
+  "cases": 227,
+  "invalidDigestCases": 26,
+  "constructCases": 45,
+  "exactDecodeCases": 56,
+  "expectationsSha256": "7daa3777f133f5eda26ca282205b2984e385bb859b7a841ce511b3d72c0cb216",
+  "negativeControl": "reordering fixed-width field slots changes digest and namespace"
+}

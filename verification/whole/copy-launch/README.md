@@ -10,4 +10,4 @@ The verifier builds its own generator, stages only pinned data and the Cargo loc
 
 The source-recovery stage runs separately and compares the frozen inputs with a fresh extraction. An outside Rust caller compiles against both libraries, destructures every field and compares 45 native constructions with an independent JSON/validation oracle, 56 decode requests with the original, and all 1,280 possible byte conversions across five enums. Decode observations include exact Serde diagnostics and successful re-encoding. The final negative control changes guard order and verifies the changed observable error.
 
-This exercises the launch API described in the [contract](../../../oddlang/portable/copy-launch-v1/README.md). Digest operations, manifests, checkpoints and the complete stream and binaries require further qualification.
+This exercises the launch API described in the [contract](../../../oddlang/portable/copy-launch-v1/README.md). The [extended verifier](../copy-launch-hash/README.md) covers digest and namespace operations. Manifests, checkpoints and the complete stream and binaries require further qualification.

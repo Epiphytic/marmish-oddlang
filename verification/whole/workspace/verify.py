@@ -47,12 +47,15 @@ def linux_isolation(work):
 def main():
     ap=argparse.ArgumentParser()
     for name in ("framework","original","receipt"):ap.add_argument(name,type=Path)
+    ap.add_argument("--release", choices=("v1", "v2"), default="v1")
     args=ap.parse_args()
+    combined = args.release == "v2"
+    compiler = "911614cef63a84ecf840cb1228c8a944f1d54d48" if combined else FRAMEWORK
     original=args.original.resolve(); framework=args.framework.resolve()
     def pin(repo,expected):
         if envtools.run("git","rev-parse","HEAD",cwd=repo).strip()!=expected or envtools.run("git","status","--porcelain","--untracked-files=all",cwd=repo):
             raise ValueError(f"expected a clean pinned checkout: {repo}")
-    pin(framework,FRAMEWORK);pin(original,ORIGINAL)
+    pin(framework,compiler);pin(original,ORIGINAL)
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp).resolve(); graph=work/"inputs";graph.mkdir()
         def stage(base,descriptor):
@@ -62,7 +65,7 @@ def main():
             target=graph/orig.relative_to(PORTABLE)
             target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(orig,target)
             return orig
-        manifest=PORTABLE/"workspace.json"
+        manifest=PORTABLE/("workspace-v2.json" if combined else "workspace.json")
         w=json.loads(manifest.read_bytes())
         shutil.copyfile(manifest,graph/manifest.name)
         stage(PORTABLE,w["cargoLock"])
@@ -70,6 +73,9 @@ def main():
             src=stage(PORTABLE,member["manifest"]); m=json.loads(src.read_bytes())
             for descriptor in [m["cargoLock"]]+[c[k] for c in m["components"] for k in ("graph","overlay")]:
                 stage(src.parent,descriptor)
+            for component in m["components"]:
+                for descriptor in component.get("wireShape", {}).values():
+                    stage(src.parent, descriptor)
         envtools.run("cargo","+1.97.1","build","--locked","--offline","--bin","oddlang","--target-dir",work/"compiler",cwd=framework)
         if sys.platform=="linux":
             sandbox,env=linux_isolation(work)
@@ -85,7 +91,7 @@ def main():
             return envtools.run(*prefix,*cmd,cwd=cwd,env=env)
         inside(work/"compiler/debug/oddlang","build","native-workspace","rust",graph/manifest.name,target)
         file=target/"workspace.lock"
-        if file.read_bytes()!=(PORTABLE/"workspace-v1/workspace.lock").read_bytes():raise ValueError("generated workspace lock drift")
+        if file.read_bytes()!=(PORTABLE/f"workspace-{args.release}/workspace.lock").read_bytes():raise ValueError("generated workspace lock drift")
         receipt=json.loads(file.read_bytes())
         for name,r in receipt["members"].items():
             pkg=target/name; lock=(pkg/"package.lock").read_bytes()
@@ -110,10 +116,35 @@ def main():
             module_digests[name]=sha(suite)
             with leaf.open("ab") as f:
                 f.write(f"\n#[cfg(test)]\nuse crate::{{{imports}}};\n".encode());f.write(suite)
+        if combined:
+            source = (original / "crates/marmish-stream/src/wire.rs").read_bytes()
+            marker = b"#[cfg(test)]\nmod tests {"
+            if source.count(marker) != 1:
+                raise ValueError("unexpected upstream wire test content")
+            suite = source[source.index(marker):]
+            module_digests["wire"] = sha(suite)
+            (stream / "src/original_wire_test_module.rs").write_bytes(suite)
+            # The original tests refer to four private implementation constants.
+            # These reference values belong only to the independent caller.
+            with (stream / "src/lib.rs").open("a") as library:
+                library.write("""
+#[cfg(test)]
+mod wire_caller {
+    use crate::wire::*;
+    use crate::codec::{Codec, EncodedBlock};
+    use crate::{MAX_BLOCK, MAX_CONTENT, MAX_OFFSET, WINDOW_BYTES};
+    const MAX_ARGV_BYTES: usize = 16384;
+    const MAX_ARGV_ITEMS: usize = 128;
+    const MAX_AGE_SECONDS: u64 = 604800;
+    const FUTURE_SKEW_SECONDS: u64 = 60;
+    include!("original_wire_test_module.rs");
+}
+""")
         output=inside("cargo","test","--workspace","--locked","--release","--offline",cwd=target)
         names=re.findall(r'^test ([\w:]+) \.\.\. ok$',output,re.M)
-        if len(names)!=len(set(names)) or len(names)!=17:raise ValueError(f"expected 17 tests, saw {names}")
-        args.receipt.write_text(json.dumps(dict(framework=FRAMEWORK,original=ORIGINAL,workspaceLockSha256=sha(file.read_bytes()),
+        expected_count = 25 if combined else 17
+        if len(names)!=len(set(names)) or len(names)!=expected_count:raise ValueError(f"expected {expected_count} tests, saw {names}")
+        args.receipt.write_text(json.dumps(dict(framework=compiler,original=ORIGINAL,workspaceLockSha256=sha(file.read_bytes()),
             qualification=platform+", release, source and network isolated",testModules=module_digests,tests=sorted(names)),indent=2)+"\n")
 
 

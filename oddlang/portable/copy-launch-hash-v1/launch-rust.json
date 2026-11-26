@@ -1,0 +1,82 @@
+{
+  "format": "oddlang-json-wire-schema-rust-v1",
+  "names": {
+    "urn:marmish:copy:launch": "Launch",
+    "urn:marmish:copy:launch:field:client": "client",
+    "urn:marmish:copy:launch:field:destination": "destination",
+    "urn:marmish:copy:launch:field:direction": "direction",
+    "urn:marmish:copy:launch:field:mode": "mode",
+    "urn:marmish:copy:launch:field:overwrite": "overwrite",
+    "urn:marmish:copy:launch:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:launch:field:preserve_mtime": "preserve_mtime",
+    "urn:marmish:copy:launch:field:server": "server",
+    "urn:marmish:copy:launch:field:source": "source",
+    "urn:marmish:copy:launch:field:transfer": "transfer",
+    "urn:marmish:copy:launch:field:version": "version"
+  },
+  "derives": {
+    "urn:marmish:copy:launch": [
+      "Clone",
+      "Eq",
+      "PartialEq"
+    ]
+  },
+  "externals": {
+    "urn:marmish:copy:AttemptMode": "crate::copy_protocol::AttemptMode",
+    "urn:marmish:copy:Direction": "crate::copy_protocol::Direction",
+    "urn:marmish:stream:codec": "crate::codec::Codec"
+  },
+  "externalDerives": {
+    "urn:marmish:copy:AttemptMode": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:copy:Direction": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ]
+  },
+  "nativeValidation": {
+    "urn:marmish:copy:launch": {
+      "method": "validate",
+      "typePath": "crate::Error",
+      "errors": {
+        "urn:marmish:copy:copy_version": {
+          "variant": "Invalid",
+          "argument": "copy_version"
+        },
+        "urn:marmish:copy:copy_path": {
+          "variant": "Invalid",
+          "argument": "copy_path"
+        }
+      }
+    }
+  },
+  "hashVariants": {
+    "urn:marmish:copy:AttemptMode:Create": "Create",
+    "urn:marmish:copy:AttemptMode:Resume": "Resume",
+    "urn:marmish:copy:Direction:Put": "Put",
+    "urn:marmish:copy:Direction:Get": "Get",
+    "urn:marmish:stream:codec:none": "None",
+    "urn:marmish:stream:codec:zlib": "Zlib"
+  },
+  "hashViews": {
+    "urn:marmish:copy:launch:view:digest": {
+      "method": "digest",
+      "library": "sha2",
+      "parameters": {
+        "urn:marmish:copy:launch:parameter:codec": "codec"
+      }
+    },
+    "urn:marmish:copy:launch:view:namespace": {
+      "method": "namespace",
+      "library": "sha2"
+    }
+  }
+}

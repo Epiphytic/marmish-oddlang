@@ -28,9 +28,9 @@ def observe(exe,requests):
     return rows
 
 
-def consumer(crate,root,lock):
+def consumer(crate,root,lock,caller=HERE/"caller.rs"):
     (root/"src").mkdir(parents=True)
-    shutil.copyfile(HERE/"caller.rs",root/"src/main.rs")
+    shutil.copyfile(caller,root/"src/main.rs")
     (root/"Cargo.toml").write_text('[package]\nname="observe-copy-launch"\nversion="0.1.0"\nedition="2021"\n'
         '[dependencies]\nserde={version="=1.0.229",features=["derive"]}\nserde_json="=1.0.151"\nmarmish-stream={path='
         + json.dumps(str(crate.resolve()))+'}\n[workspace]\n')
