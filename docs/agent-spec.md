@@ -40,6 +40,13 @@ original client reads the same activating snapshot over a private Unix
 socket on macOS and Linux ARM64. This endpoint has no relay or execution provider.
 [Reverse status qualification](../verification/whole/status-owner/README.md)
 
+A generated foreground `marmishd` now attaches to a prepared file-backed
+profile, verifies credentials, acquires the interoperable exclusive lease
+and publishes a discoverable local socket. The pinned original client sees
+the activation snapshot during a real held loopback TLS handshake on macOS
+and Linux ARM64. WebSocket/MDK readiness and installed startup remain open.
+[Foreground owner qualification](../verification/whole/foreground-owner/README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations

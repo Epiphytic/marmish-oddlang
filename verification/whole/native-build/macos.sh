@@ -31,6 +31,7 @@ python_prefix=$("$python" -c "import os, sys; print(os.path.realpath(sys.base_pr
 sdk=$(xcrun --sdk macosx --show-sdk-path)
 developer_dir=$(xcode-select --print-path)
 clang=$(xcrun --sdk macosx --find clang)
+archive=$(xcrun --sdk macosx --find ar)
 host_var=$("$rustc" -vV | /usr/bin/sed -n 's/^host: //p' | /usr/bin/tr '[:lower:]-' '[:upper:]_')
 linker_var="CARGO_TARGET_${host_var}_LINKER"
 test "$("$rustc" -vV | /usr/bin/sed -n 's/^commit-hash: //p')" = 8bab26f4f68e0e26f0bb7960be334d5b520ea452
@@ -102,7 +103,7 @@ fi
 (
     cd "$stage/cell"
     env -i PATH="$(dirname "$cargo"):/usr/bin:/bin" HOME="$stage/home" TMPDIR="$stage/tmp" \
-        CARGO_HOME="$stage/home/.cargo" RUSTC="$rustc" CARGO_NET_OFFLINE=true SDKROOT="$sdk" "$linker_var=$clang" \
+        CARGO_HOME="$stage/home/.cargo" RUSTC="$rustc" CARGO_NET_OFFLINE=true SDKROOT="$sdk" CC="$clang" AR="$archive" "$linker_var=$clang" \
         sandbox-exec -f "$profile" "$python" "$stage/cell/$relative_project" \
         generate "$stage/oddlang" "$stage/workspace"
 )

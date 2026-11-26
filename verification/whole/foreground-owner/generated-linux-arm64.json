@@ -1,0 +1,132 @@
+{
+  "candidateControls": {
+    "identity-mismatch": {
+      "exit": 1,
+      "stderr": "marmish: identity: identity_mismatch\n",
+      "stdout": ""
+    },
+    "plaintext-relay": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: plaintext_relay\n",
+      "stdout": ""
+    },
+    "runtime-collision": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_collision\n",
+      "stdout": ""
+    },
+    "unsafe-credential": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file\n",
+      "stdout": ""
+    }
+  },
+  "candidateSha256": "9b5090a90998ec40f9da34050671f09ab95910bc2f6398c0e1a43efaea178151",
+  "companionRevision": "2f99d8125578ceb9ce279cab08f78431d17387c0",
+  "frameworkRevision": "543ebcd3cb47de0f74a4da70990b1c3d584e7c63",
+  "generated": {
+    "competingOwner": {
+      "exit": 1,
+      "stderr": "marmish: identity: profile_in_use\n",
+      "stdout": ""
+    },
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "tlsRecordPrefix": "160301"
+  },
+  "generatedShutdown": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "original": {
+    "competingOwner": {
+      "exit": 1,
+      "stderr": "marmish: identity: profile_in_use\n",
+      "stdout": ""
+    },
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "tlsRecordPrefix": "160301"
+  },
+  "originalBinaries": {
+    "marmish": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+    "marmish-engine-bridge": "4a81e043dbcc46b4040753d06f1acde048b6e135fa01e15d6a8dfd1e510e5f65",
+    "marmish-engine-worker": "13c0787e506205a4ffbb37e9c87ae2565326b702119b6cb542b0b439a1c8e5d2",
+    "marmish-keychain": "a77c5429e5140e74a49bab28ecbe2f64c4f328c93b41a8b81241fb84f267f7be",
+    "marmish-release-tool": "4a7eeff0f6467babf94b2cf0f003319baa0c2dbf42fb757288b9e3a62bb4da0c",
+    "marmish-worker": "50a68f593203dff75c8f704d8cd886b72bfe3ac7af234967e5df69b10f627542",
+    "marmishd": "227cb5b9b203a9f03bd54c2723a12a3871e766318f8868aa04ef686894b99e8b"
+  },
+  "originalBuildReceiptSha256": "0104b6c0fbf2ac040ed7282385576a0f1122d97fa58034d04432ec2198b0700a",
+  "originalShutdown": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+  },
+  "packageLockSha256": "dadc59d6e6e5d853e64fdfc4ea094d33b4a5e598e133d255408f82b5e326037c",
+  "packageSha256": "e6f9e0c96226a7d5d155fcaac5ff55508ea9b76b45efabd72b0cb24ad748e07a",
+  "parserObservations": {
+    "marmish": 34,
+    "marmishd": 34
+  },
+  "platform": "aarch64-unknown-linux-gnu",
+  "postStopDiscovery": {
+    "exit": 1,
+    "stderr": "marmish: local I/O failed\n",
+    "stdout": ""
+  },
+  "privateCertificateRejected": {
+    "generated": {
+      "exit": 1,
+      "stderr": "marmish: transport: relay_connect\n",
+      "stdout": ""
+    },
+    "original": {
+      "exit": 1,
+      "stderr": "marmish: transport: relay_connect\n",
+      "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+    }
+  },
+  "profileUnmodified": true,
+  "reattachedShutdown": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "reattachedStatus": {
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "tlsRecordPrefix": "160301"
+  },
+  "recoveredOwnerShutdown": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "staleRuntimeRecovered": {
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "tlsRecordPrefix": "160301"
+  },
+  "unqualified": [
+    "fresh generated profile initialization",
+    "admin/provider overrides, background launch and installed executable lifecycle",
+    "SQLCipher database ownership, WebSocket/MDK readiness, active/degraded status and command execution",
+    "provider shutdown reports and recovery of corrupt or conflicting runtime directories",
+    "authenticated TLS completion and production-length relay deadline"
+  ]
+}

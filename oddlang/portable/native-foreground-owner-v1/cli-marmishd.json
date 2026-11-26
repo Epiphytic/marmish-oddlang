@@ -1,0 +1,46 @@
+{
+  "executable": "marmishd",
+  "invalid_exit": 255,
+  "invalid_diagnostic": "marmish: invalid_arguments",
+  "uncovered_exit": 125,
+  "operations": {
+    "copy-receipts": "urn:marmish:contract:native-cli:copy-receipts",
+    "put": "urn:marmish:contract:native-cli:put",
+    "get": "urn:marmish:contract:native-cli:get",
+    "rsh": "urn:marmish:contract:native-cli:rsh",
+    "stream": "urn:marmish:contract:native-cli:stream",
+    "streams": "urn:marmish:contract:native-cli:streams",
+    "stream-reconcile": "urn:marmish:contract:native-cli:stream-reconcile",
+    "keychain-authorize": "urn:marmish:contract:native-cli:keychain-authorize",
+    "release-info": "urn:marmish:contract:native-cli:release-info",
+    "install": "urn:marmish:contract:native-cli:install",
+    "install-status": "urn:marmish:contract:native-cli:install-status",
+    "uninstall": "urn:marmish:contract:native-cli:uninstall",
+    "setup": "urn:marmish:contract:native-cli:setup",
+    "init": "urn:marmish:contract:native-cli:init",
+    "commands": "urn:marmish:contract:native-cli:commands",
+    "command-status": "urn:marmish:contract:native-cli:command-status",
+    "cancel": "urn:marmish:contract:native-cli:cancel",
+    "wait": "urn:marmish:contract:native-cli:wait",
+    "output": "urn:marmish:contract:native-cli:output",
+    "daemon": "urn:marmish:contract:native-cli:daemon",
+    "status": "urn:marmish:contract:native-cli:status",
+    "command-evidence": "urn:marmish:contract:native-cli:command-evidence",
+    "command-cleanup-status": "urn:marmish:contract:native-cli:command-cleanup-status",
+    "command-local-cancel": "urn:marmish:contract:native-cli:command-local-cancel",
+    "command-prepare-cleanup": "urn:marmish:contract:native-cli:command-prepare-cleanup",
+    "open-conversation": "urn:marmish:contract:native-cli:open-conversation",
+    "send": "urn:marmish:contract:native-cli:send",
+    "received": "urn:marmish:contract:native-cli:received",
+    "foundation-check": "urn:marmish:contract:native-cli:foundation-check",
+    "command-check": "urn:marmish:contract:native-cli:command-check",
+    "*": "urn:marmish:contract:native-cli:remote",
+    "": "urn:marmish:contract:native-cli:daemon"
+  },
+  "handlers": {
+    "urn:marmish:contract:native-cli:daemon": [
+      "foreground",
+      "run_foreground"
+    ]
+  }
+}
