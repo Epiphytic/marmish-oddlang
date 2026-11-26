@@ -58,6 +58,9 @@ def from_git(original, name):
 
 
 def edit_source(source):
+    span = source_span(source)
+    selected = pure_functions(source, span)
+    preserved_helper = selected[selected.index(b"fn decimal("):]
     changes = [
         (b'strip_prefix("0.3.")', b'strip_prefix("0.4.")'),
         (b'split_once("-rc.")', b'split_once("-preview.")'),
@@ -66,9 +69,13 @@ def edit_source(source):
         (b"decimal(rc, true)", b"decimal(rc, false)"),
     ]
     for predecessor, successor in changes:
-        assert source.count(predecessor) == 1, predecessor
-        source = source.replace(predecessor, successor)
-    return source
+        assert selected.count(predecessor) == 1, predecessor
+        selected = selected.replace(predecessor, successor)
+    assert selected.count(b"decimal(") == 4
+    selected = selected.replace(b"decimal(", b"version_decimal_control(")
+    # Other native manifest checks use the original helper.
+    mutated = source[:span["start"]] + selected + preserved_helper + source[span["end"]:]
+    return mutated, {"start": span["start"], "end": span["start"] + len(selected)}
 
 
 def source_span(source):
@@ -76,9 +83,9 @@ def source_span(source):
     return {"start": start, "end": source.index(b"pub(crate) fn hex32(", start)}
 
 
-def pure_functions(source):
-    span = source_span(source)
-    return source[span["start"]:span["end"]]
+def pure_functions(source, span=None):
+    selected = source_span(source) if span is None else span
+    return source[selected["start"]:selected["end"]]
 
 
 def source_origin(source):
@@ -168,7 +175,7 @@ def sandbox(work, original, framework, private):
 def recover(work, cli, source, selection, label):
     private = work / "private"
     native = private / f"{label}.rs"
-    native.write_bytes(pure_functions(source))
+    native.write_bytes(source)
     descriptor = private / f"{label}.json"
     descriptor.write_bytes(selection)
     output = work / f"recovered-{label}"
@@ -204,25 +211,26 @@ def qualify(work, original, framework, compiler, reference_target):
     native_vectors = from_git(original, VECTORS)
     vectors = json.loads(native_vectors)
     selection = (DATA / "selection.json").read_bytes()
-    baseline = recover(work, cli, source, selection, "original")
+    baseline = recover(work, cli, pure_functions(source), selection, "original")
     for name in ("graph.json", "recovery.lock"):
         assert (baseline / name).read_bytes() == (DATA / name).read_bytes()
     check_shape(baseline / "graph.json", ["0.2.", "0.3."], 64, "-rc.", 1)
 
-    mutation = edit_source(source)
-    changed_selection = json.dumps(dict(json.loads(selection), sourceSha256=sha(pure_functions(mutation)))).encode()
-    changed = recover(work, cli, mutation, changed_selection, "mutated")
+    mutation, mutation_span = edit_source(source)
+    changed_functions = pure_functions(mutation, mutation_span)
+    changed_selection = json.dumps(dict(json.loads(selection), sourceSha256=sha(changed_functions))).encode()
+    changed = recover(work, cli, changed_functions, changed_selection, "mutated")
     check_shape(changed / "graph.json", ["0.2.", "0.4."], 32, "-preview.", 0)
     prefix, denied = sandbox(work, original, framework, private)
 
     staged = work / "graphs"
     staged.mkdir()
     lanes = {}
-    for name, graph, implementation, cases in [
-        ("baseline", baseline, source,
+    for name, graph, implementation, span, cases in [
+        ("baseline", baseline, source, source_span(source),
          [(value, accepted) for key, accepted in (("valid", True), ("invalid", False))
           for value in vectors[key]] + [(value, before) for value, before, _ in BOUNDARIES]),
-        ("mutation", changed, mutation, [(value, after) for value, _, after in BOUNDARIES]),
+        ("mutation", changed, mutation, mutation_span, [(value, after) for value, _, after in BOUNDARIES]),
     ]:
         input_file = staged / f"{name}.json"
         shutil.copyfile(graph / "graph.json", input_file)
@@ -237,17 +245,18 @@ def qualify(work, original, framework, compiler, reference_target):
             assert all(file.read_bytes() == (repeated / file.name).read_bytes()
                        for file in projection.iterdir())
         source_file = projection / "text.rs"
-        native = observe(private, f"native-{name}", pure_functions(implementation), "version", cases)
+        selected_functions = pure_functions(implementation, span)
+        native = observe(private, f"native-{name}", selected_functions, "version", cases)
         generated = observe(work, f"generated-{name}", source_file.read_bytes(), "accepts", cases, prefix)
         assert native == generated
         native_scope = native_scope_test(reference, reference_target, implementation, cases)
         lanes[name] = {
             "sourceSha256": sha(implementation),
-            "sourceSpan": source_span(implementation),
+            "sourceSpan": span,
             "enclosingNativeModule": native_scope,
             "graphSha256": sha(input_file.read_bytes()),
             "projectionLockSha256": sha((projection / "projection.lock").read_bytes()),
-            "sourceOfNativeWitnessSha256": sha(pure_functions(implementation)),
+            "sourceOfNativeWitnessSha256": sha(selected_functions),
             "matchingCases": len(cases),
             "outcomesSha256": generated,
         }
