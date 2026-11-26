@@ -1030,7 +1030,7 @@
 {"path":"verification/whole/core-ownership/README.md","language":"inventory","mode":"100644","sha256":"8a732a6bc8af10f569425dce8e589db7e28a948d32058f4823675ff88eeb3698","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/observed.txt","language":"inventory","mode":"100644","sha256":"3d6a9b6d98f2f6507e60e9e3de15cd6b45b94c2e894646b9efeacc1934a250c3","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/ownership.sparql.txt","language":"inventory","mode":"100644","sha256":"a648adc334abbbeb0a4453e38f6f6a71f33006e09cb7be4a151362e823a9b371","parse_status":"inventory"}
-{"path":"verification/whole/core-ownership/project_retention.py","language":"python","mode":"100644","sha256":"144b70d1798cceb362302756b90777799bb6ffceeae2fc0e36239e3b47826441","parse_status":"parsed"}
+{"path":"verification/whole/core-ownership/project_retention.py","language":"python","mode":"100644","sha256":"019e4e8a0ca196eddc061125d80327fc27e0a944ced2318ca91201f358da9841","parse_status":"parsed"}
 {"path":"verification/whole/core-ownership/retention-node.json","language":"inventory","mode":"100644","sha256":"f69a2a396037770dd4a1866efed3ff20add0518f487bccd716ec2d61d6009714","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/semantic-roles.sparql.txt","language":"inventory","mode":"100644","sha256":"ef1715923e024c1e7df06b2b55bee31efbb5fbe740806c91b6060faa4d6f16a9","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/semantic_roles.py","language":"python","mode":"100644","sha256":"55775918a8a9b2143b11dccb2bcec2d654675fc47e5b4561326df7f919a69d65","parse_status":"parsed"}
