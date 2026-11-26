@@ -1,0 +1,7 @@
+# Whole-release reference
+
+The experiment selects Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Upstream distributed v0.3.1 executables from `b666ae6aaa6063b1b30317d43fdb86bca3e4ec95`. The locked Cargo workspace and its seven crate directories have identical Git object identities at these revisions. The installer changed. Use the selected revision for fresh observations, including installation.
+
+The earlier release provides an independent cross-host workload catalog. The candidate built on Linux AMD64, Linux ARM64 and macOS ARM64. Eight installed transfer cohorts passed 162 cases, and each platform recorded one cold and three warm finite-command measurements. These observations apply to original binaries. Keep timing samples as evidence of workloads, with correctness determined by the checked outputs, states and protocol effects. [Original measurements](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/docs/validation/v0.3.1-measurements.json) · [Candidate CI](https://github.com/Epiphytic/marmish/actions/runs/45713733794) · [Installed qualification CI](https://github.com/Epiphytic/marmish/actions/runs/45723799364)
+
+Run `python3 reference.py /path/to/marmish` against a Git checkout containing both commits to reproduce the adjacent-release comparison and inspect the exact workload counts. The script only reads Git objects. Release builds and present-day host receipts are separate from this comparison.

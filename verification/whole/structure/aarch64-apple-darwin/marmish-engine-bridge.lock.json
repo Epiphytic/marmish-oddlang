@@ -1,0 +1,30 @@
+{
+  "vocabulary": "oddlang-rust-structure-v1",
+  "pin": {
+    "package": "marmish-prototype",
+    "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+    "targetKind": "bin",
+    "targetName": "marmish-engine-bridge",
+    "targetTriple": "aarch64-apple-darwin",
+    "defaultFeatures": true,
+    "features": [],
+    "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "manifestSha256": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53",
+    "packageManifestSha256": "7c34b6353950fb24db84c27c1191d8ea628f21e0320820131315ca7b497c9ca9",
+    "adapterSha256": "41fa1f07224f10a7f4439e19fa4fdbc7ef2d1552a432de058d6490cec286132c",
+    "adapterInputsSha256": {
+      "Cargo.lock": "2f7f0cf1b3760f5d8523779342d81ae16ac6b904817197179004f513c23ef8a6",
+      "Cargo.toml": "0d96e4312b536ca466e1b553d3a0a3085f221932cd866531653d1884900ecabc",
+      "driver.rs": "a280eb77763e304a531bca3c7cde85a17ee35e4185cdcf2d0439dc058058d0f2"
+    },
+    "cargoConfigSha256": {
+      "cargo-home/config.toml": "1957efa371330c221a0fb1d33d0422d3374f1182010b64fe0bb5a2dbb1921479"
+    }
+  },
+  "structureSha256": "fd2ad796f64e132c83d21c89366ae5009c9f91fcbf34ecdd520959208ee4b9dd",
+  "declarations": 6,
+  "edges": 32,
+  "gaps": 8,
+  "qualification": "candidate"
+}
