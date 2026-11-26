@@ -1,0 +1,1509 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_engine",
+  "modules": {
+    "local::marmish_engine": {
+      "path": [],
+      "bindings": {
+        "AuthorizedContext": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::AuthorizedContext::{type}"
+        },
+        "CanonicalExecOutcome": {
+          "kind": "data",
+          "target": "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}"
+        },
+        "CleanupGuard": {
+          "kind": "data",
+          "target": "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}"
+        },
+        "CommandPolicy": {
+          "kind": "data",
+          "target": "local::marmish_engine::policy::{type}::CommandPolicy::{type}"
+        },
+        "CommandRequest": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::CommandRequest::{type}"
+        },
+        "EndpointId": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::EndpointId::{type}"
+        },
+        "Engine": {
+          "kind": "data",
+          "target": "local::marmish_engine::Engine::{type}"
+        },
+        "EngineError": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::EngineError::{type}"
+        },
+        "EngineLimits": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::EngineLimits::{type}"
+        },
+        "EnginePolicy": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::EnginePolicy::{type}"
+        },
+        "ExecuteToken": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::ExecuteToken::{type}"
+        },
+        "ExitOutcome": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::ExitOutcome::{type}"
+        },
+        "InputGeneration": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InputGeneration::{type}"
+        },
+        "InputHealth": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InputHealth::{type}"
+        },
+        "InputReceipt": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InputReceipt::{type}"
+        },
+        "InputStatus": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InputStatus::{type}"
+        },
+        "InvocationId": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InvocationId::{type}"
+        },
+        "InvocationState": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InvocationState::{type}"
+        },
+        "InvocationStatus": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::InvocationStatus::{type}"
+        },
+        "JobId": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::JobId::{type}"
+        },
+        "KeyRestrictions": {
+          "kind": "data",
+          "target": "local::marmish_engine::policy::{type}::KeyRestrictions::{type}"
+        },
+        "LaunchFailure": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::LaunchFailure::{type}"
+        },
+        "LiveChild": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::LiveChild::{type}"
+        },
+        "LiveCleanupProgress": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::LiveCleanupProgress::{type}"
+        },
+        "LivePipes": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::LivePipes::{type}"
+        },
+        "LiveProcessRecord": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::LiveProcessRecord::{type}"
+        },
+        "LiveSpawnError": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::LiveSpawnError::{type}"
+        },
+        "MaintenanceReport": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::MaintenanceReport::{type}"
+        },
+        "MissingRange": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::MissingRange::{type}"
+        },
+        "MissingReason": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::MissingReason::{type}"
+        },
+        "NativeBinding": {
+          "kind": "data",
+          "target": "local::marmish_engine::storage::{type}::NativeBinding::{type}"
+        },
+        "NotExecutableReason": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::NotExecutableReason::{type}"
+        },
+        "NotFoundReason": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::NotFoundReason::{type}"
+        },
+        "OutputChunk": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::OutputChunk::{type}"
+        },
+        "OutputStatus": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::OutputStatus::{type}"
+        },
+        "OwnedWorkerPresence": {
+          "kind": "data",
+          "target": "local::marmish_engine::OwnedWorkerPresence::{type}"
+        },
+        "PreparedLiveExec": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::PreparedLiveExec::{type}"
+        },
+        "PrincipalId": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::PrincipalId::{type}"
+        },
+        "ProvidedMaster": {
+          "kind": "data",
+          "target": "local::marmish_engine::storage::{type}::ProvidedMaster::{type}"
+        },
+        "RecordedProcessDisposition": {
+          "kind": "data",
+          "target": "local::marmish_engine::live::{type}::RecordedProcessDisposition::{type}"
+        },
+        "RegisteredCopyHelper": {
+          "kind": "data",
+          "target": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}"
+        },
+        "ResolutionReason": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::ResolutionReason::{type}"
+        },
+        "Restrictions": {
+          "kind": "data",
+          "target": "local::marmish_engine::policy::{type}::Restrictions::{type}"
+        },
+        "Result": {
+          "kind": "alias",
+          "target": "local::marmish_engine::model::{type}::Result::{type}"
+        },
+        "ServerId": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::ServerId::{type}"
+        },
+        "Stream": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::Stream::{type}"
+        },
+        "Submission": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::Submission::{type}"
+        },
+        "SubmitDisposition": {
+          "kind": "data",
+          "target": "local::marmish_engine::model::{type}::SubmitDisposition::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_engine::Engine::{type}": {
+      "fields": {
+        "_guard": {
+          "id": "local::marmish_engine::Engine::{type}::_guard",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "account": {
+          "id": "local::marmish_engine::Engine::{type}::account",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "deadlines": {
+          "id": "local::marmish_engine::Engine::{type}::deadlines",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "epoch": {
+          "id": "local::marmish_engine::Engine::{type}::epoch",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "keys": {
+          "id": "local::marmish_engine::Engine::{type}::keys",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "orphan_cursor": {
+          "id": "local::marmish_engine::Engine::{type}::orphan_cursor",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "policy": {
+          "id": "local::marmish_engine::Engine::{type}::policy",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "root": {
+          "id": "local::marmish_engine::Engine::{type}::root",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "storage": {
+          "id": "local::marmish_engine::Engine::{type}::storage",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "store": {
+          "id": "local::marmish_engine::Engine::{type}::store",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::OwnedWorkerPresence::{type}": {
+      "fields": {},
+      "variants": {
+        "Absent": {
+          "id": "local::marmish_engine::OwnedWorkerPresence::{type}::Absent::{type}",
+          "fields": {}
+        },
+        "Present": {
+          "id": "local::marmish_engine::OwnedWorkerPresence::{type}::Present::{type}",
+          "fields": {}
+        },
+        "Unknown": {
+          "id": "local::marmish_engine::OwnedWorkerPresence::{type}::Unknown::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}": {
+      "fields": {
+        "_frontend": {
+          "id": "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}::_frontend",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::cleanup::{type}"
+          }
+        },
+        "_locks": {
+          "id": "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}::_locks",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::cleanup::{type}"
+          }
+        },
+        "_root": {
+          "id": "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}::_root",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::cleanup::{type}"
+          }
+        },
+        "migration": {
+          "id": "local::marmish_engine::cleanup::{type}::CleanupGuard::{type}::migration",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::cleanup::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}": {
+      "fields": {
+        "commit": {
+          "id": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}::commit",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::copy_launch::{type}"
+          }
+        },
+        "image": {
+          "id": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}::image",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::copy_launch::{type}"
+          }
+        },
+        "path": {
+          "id": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}::path",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::copy_launch::{type}"
+          }
+        },
+        "target": {
+          "id": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}::target",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::copy_launch::{type}"
+          }
+        },
+        "version": {
+          "id": "local::marmish_engine::copy_launch::{type}::RegisteredCopyHelper::{type}::version",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::copy_launch::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::live::{type}::LiveChild::{type}": {
+      "fields": {
+        "kill_cleanup": {
+          "id": "local::marmish_engine::live::{type}::LiveChild::{type}::kill_cleanup",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        },
+        "owner": {
+          "id": "local::marmish_engine::live::{type}::LiveChild::{type}::owner",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        },
+        "pipes": {
+          "id": "local::marmish_engine::live::{type}::LiveChild::{type}::pipes",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        },
+        "term_cleanup": {
+          "id": "local::marmish_engine::live::{type}::LiveChild::{type}::term_cleanup",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::live::{type}::LiveCleanupProgress::{type}": {
+      "fields": {},
+      "variants": {
+        "Complete": {
+          "id": "local::marmish_engine::live::{type}::LiveCleanupProgress::{type}::Complete::{type}",
+          "fields": {}
+        },
+        "Pending": {
+          "id": "local::marmish_engine::live::{type}::LiveCleanupProgress::{type}::Pending::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::live::{type}::LivePipes::{type}": {
+      "fields": {
+        "stderr": {
+          "id": "local::marmish_engine::live::{type}::LivePipes::{type}::stderr",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stdin": {
+          "id": "local::marmish_engine::live::{type}::LivePipes::{type}::stdin",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stdout": {
+          "id": "local::marmish_engine::live::{type}::LivePipes::{type}::stdout",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::live::{type}::LiveProcessRecord::{type}": {
+      "fields": {
+        "boot_id": {
+          "id": "local::marmish_engine::live::{type}::LiveProcessRecord::{type}::boot_id",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "pgid": {
+          "id": "local::marmish_engine::live::{type}::LiveProcessRecord::{type}::pgid",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "pid": {
+          "id": "local::marmish_engine::live::{type}::LiveProcessRecord::{type}::pid",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "start_ticks": {
+          "id": "local::marmish_engine::live::{type}::LiveProcessRecord::{type}::start_ticks",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::live::{type}::LiveSpawnError::{type}": {
+      "fields": {},
+      "variants": {
+        "NotStarted": {
+          "id": "local::marmish_engine::live::{type}::LiveSpawnError::{type}::NotStarted::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::live::{type}::LiveSpawnError::{type}::NotStarted::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Uncertain": {
+          "id": "local::marmish_engine::live::{type}::LiveSpawnError::{type}::Uncertain::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::live::{type}::PreparedLiveExec::{type}": {
+      "fields": {
+        "copy_context": {
+          "id": "local::marmish_engine::live::{type}::PreparedLiveExec::{type}::copy_context",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        },
+        "spec": {
+          "id": "local::marmish_engine::live::{type}::PreparedLiveExec::{type}::spec",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::live::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::live::{type}::RecordedProcessDisposition::{type}": {
+      "fields": {},
+      "variants": {
+        "Absent": {
+          "id": "local::marmish_engine::live::{type}::RecordedProcessDisposition::{type}::Absent::{type}",
+          "fields": {}
+        },
+        "PresentUnowned": {
+          "id": "local::marmish_engine::live::{type}::RecordedProcessDisposition::{type}::PresentUnowned::{type}",
+          "fields": {}
+        },
+        "Unknown": {
+          "id": "local::marmish_engine::live::{type}::RecordedProcessDisposition::{type}::Unknown::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::AuthorizedContext::{type}": {
+      "fields": {
+        "endpoint": {
+          "id": "local::marmish_engine::model::{type}::AuthorizedContext::{type}::endpoint",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "principal": {
+          "id": "local::marmish_engine::model::{type}::AuthorizedContext::{type}::principal",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "server": {
+          "id": "local::marmish_engine::model::{type}::AuthorizedContext::{type}::server",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "target_uid": {
+          "id": "local::marmish_engine::model::{type}::AuthorizedContext::{type}::target_uid",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::CommandRequest::{type}": {
+      "fields": {},
+      "variants": {
+        "Exec": {
+          "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::Exec::{type}",
+          "fields": {
+            "argv": {
+              "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::Exec::{type}::argv",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "ResolvedExec": {
+          "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::ResolvedExec::{type}",
+          "fields": {
+            "argv": {
+              "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::ResolvedExec::{type}::argv",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "executable": {
+              "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::ResolvedExec::{type}::executable",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "invoked_path": {
+              "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::ResolvedExec::{type}::invoked_path",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Shell": {
+          "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::Shell::{type}",
+          "fields": {
+            "command": {
+              "id": "local::marmish_engine::model::{type}::CommandRequest::{type}::Shell::{type}::command",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::EndpointId::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::EndpointId::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::EngineError::{type}": {
+      "fields": {},
+      "variants": {
+        "AlreadyOpen": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::AlreadyOpen::{type}",
+          "fields": {}
+        },
+        "Busy": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::Busy::{type}",
+          "fields": {}
+        },
+        "CommandDenied": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandDenied::{type}",
+          "fields": {}
+        },
+        "CommandNotExecutable": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandNotExecutable::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandNotExecutable::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "CommandNotFound": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandNotFound::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandNotFound::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "CommandResolutionFailed": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandResolutionFailed::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::EngineError::{type}::CommandResolutionFailed::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "ExpiredToken": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::ExpiredToken::{type}",
+          "fields": {}
+        },
+        "InputBackpressure": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputBackpressure::{type}",
+          "fields": {
+            "available_credit": {
+              "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputBackpressure::{type}::available_credit",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "next_offset": {
+              "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputBackpressure::{type}::next_offset",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "InputClosed": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputClosed::{type}",
+          "fields": {}
+        },
+        "InputConflict": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputConflict::{type}",
+          "fields": {}
+        },
+        "InputExpired": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputExpired::{type}",
+          "fields": {}
+        },
+        "InputGap": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InputGap::{type}",
+          "fields": {}
+        },
+        "InvalidPolicy": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InvalidPolicy::{type}",
+          "fields": {}
+        },
+        "InvalidRequest": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InvalidRequest::{type}",
+          "fields": {}
+        },
+        "InvalidToken": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InvalidToken::{type}",
+          "fields": {}
+        },
+        "InvocationConflict": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::InvocationConflict::{type}",
+          "fields": {}
+        },
+        "NotFound": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::NotFound::{type}",
+          "fields": {}
+        },
+        "QuotaExceeded": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::QuotaExceeded::{type}",
+          "fields": {}
+        },
+        "RecoveryUncertain": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::RecoveryUncertain::{type}",
+          "fields": {}
+        },
+        "RootForbidden": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::RootForbidden::{type}",
+          "fields": {}
+        },
+        "StaleGeneration": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::StaleGeneration::{type}",
+          "fields": {}
+        },
+        "StorageFailure": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::StorageFailure::{type}",
+          "fields": {}
+        },
+        "Unauthorized": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::Unauthorized::{type}",
+          "fields": {}
+        },
+        "UnsafePath": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::UnsafePath::{type}",
+          "fields": {}
+        },
+        "UnsupportedStorage": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::UnsupportedStorage::{type}",
+          "fields": {}
+        },
+        "WorkerUnavailable": {
+          "id": "local::marmish_engine::model::{type}::EngineError::{type}::WorkerUnavailable::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::EngineLimits::{type}": {
+      "fields": {
+        "active_jobs": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::active_jobs",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "aggregate_spool_bytes": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::aggregate_spool_bytes",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "cancel_grace": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::cancel_grace",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "drain_grace": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::drain_grace",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "invocation_records": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::invocation_records",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "output_retention": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::output_retention",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "outstanding_tokens": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::outstanding_tokens",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "spool_bytes_per_stream": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::spool_bytes_per_stream",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "starting_workers": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::starting_workers",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "token_lifetime": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::token_lifetime",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "tombstone_retention": {
+          "id": "local::marmish_engine::model::{type}::EngineLimits::{type}::tombstone_retention",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::EnginePolicy::{type}": {
+      "fields": {
+        "allow_shell_command": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::allow_shell_command",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "allowed_principals": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::allowed_principals",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "command_policy": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::command_policy",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "cwd": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::cwd",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "limits": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::limits",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "server": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::server",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "state_root": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::state_root",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "worker_executable": {
+          "id": "local::marmish_engine::model::{type}::EnginePolicy::{type}::worker_executable",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::ExecuteToken::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::ExecuteToken::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine::model::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::ExitOutcome::{type}": {
+      "fields": {},
+      "variants": {
+        "Code": {
+          "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::Code::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::Code::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "LaunchFailed": {
+          "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::LaunchFailed::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::LaunchFailed::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "NotStarted": {
+          "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::NotStarted::{type}",
+          "fields": {}
+        },
+        "Signal": {
+          "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::Signal::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_engine::model::{type}::ExitOutcome::{type}::Signal::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::InputGeneration::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::InputGeneration::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::InputHealth::{type}": {
+      "fields": {},
+      "variants": {
+        "Closed": {
+          "id": "local::marmish_engine::model::{type}::InputHealth::{type}::Closed::{type}",
+          "fields": {}
+        },
+        "EofPending": {
+          "id": "local::marmish_engine::model::{type}::InputHealth::{type}::EofPending::{type}",
+          "fields": {}
+        },
+        "Gap": {
+          "id": "local::marmish_engine::model::{type}::InputHealth::{type}::Gap::{type}",
+          "fields": {}
+        },
+        "Open": {
+          "id": "local::marmish_engine::model::{type}::InputHealth::{type}::Open::{type}",
+          "fields": {}
+        },
+        "Uncertain": {
+          "id": "local::marmish_engine::model::{type}::InputHealth::{type}::Uncertain::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::InputReceipt::{type}": {
+      "fields": {
+        "accepted": {
+          "id": "local::marmish_engine::model::{type}::InputReceipt::{type}::accepted",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "available_credit": {
+          "id": "local::marmish_engine::model::{type}::InputReceipt::{type}::available_credit",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "duplicate": {
+          "id": "local::marmish_engine::model::{type}::InputReceipt::{type}::duplicate",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::InputStatus::{type}": {
+      "fields": {
+        "accepted": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::accepted",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "available_credit": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::available_credit",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "delivered": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::delivered",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "gap_count": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::gap_count",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "generation": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::generation",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "health": {
+          "id": "local::marmish_engine::model::{type}::InputStatus::{type}::health",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::InvocationId::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::InvocationId::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::InvocationState::{type}": {
+      "fields": {},
+      "variants": {
+        "Accepted": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::Accepted::{type}",
+          "fields": {}
+        },
+        "Exited": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::Exited::{type}",
+          "fields": {}
+        },
+        "Launching": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::Launching::{type}",
+          "fields": {}
+        },
+        "Lost": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::Lost::{type}",
+          "fields": {}
+        },
+        "Running": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::Running::{type}",
+          "fields": {}
+        },
+        "UnknownLaunch": {
+          "id": "local::marmish_engine::model::{type}::InvocationState::{type}::UnknownLaunch::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::InvocationStatus::{type}": {
+      "fields": {
+        "cancel_requested": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::cancel_requested",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "input": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::input",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "invocation": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::invocation",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "outcome": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::outcome",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "state": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::state",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stderr": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::stderr",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stdout": {
+          "id": "local::marmish_engine::model::{type}::InvocationStatus::{type}::stdout",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::JobId::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::JobId::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::LaunchFailure::{type}": {
+      "fields": {},
+      "variants": {
+        "ExecutableChanged": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::ExecutableChanged::{type}",
+          "fields": {}
+        },
+        "FilesystemPermission": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::FilesystemPermission::{type}",
+          "fields": {}
+        },
+        "InvalidExecutableFormat": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::InvalidExecutableFormat::{type}",
+          "fields": {}
+        },
+        "InvalidWorkingDirectory": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::InvalidWorkingDirectory::{type}",
+          "fields": {}
+        },
+        "MissingExecutableOrInterpreter": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::MissingExecutableOrInterpreter::{type}",
+          "fields": {}
+        },
+        "OtherStartupFailure": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::OtherStartupFailure::{type}",
+          "fields": {}
+        },
+        "ResourceUnavailable": {
+          "id": "local::marmish_engine::model::{type}::LaunchFailure::{type}::ResourceUnavailable::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::MaintenanceReport::{type}": {
+      "fields": {
+        "records_removed": {
+          "id": "local::marmish_engine::model::{type}::MaintenanceReport::{type}::records_removed",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "spool_bytes_removed": {
+          "id": "local::marmish_engine::model::{type}::MaintenanceReport::{type}::spool_bytes_removed",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::MissingRange::{type}": {
+      "fields": {
+        "end": {
+          "id": "local::marmish_engine::model::{type}::MissingRange::{type}::end",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "reason": {
+          "id": "local::marmish_engine::model::{type}::MissingRange::{type}::reason",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "start": {
+          "id": "local::marmish_engine::model::{type}::MissingRange::{type}::start",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::MissingReason::{type}": {
+      "fields": {},
+      "variants": {
+        "Expired": {
+          "id": "local::marmish_engine::model::{type}::MissingReason::{type}::Expired::{type}",
+          "fields": {}
+        },
+        "Limit": {
+          "id": "local::marmish_engine::model::{type}::MissingReason::{type}::Limit::{type}",
+          "fields": {}
+        },
+        "StorageFailure": {
+          "id": "local::marmish_engine::model::{type}::MissingReason::{type}::StorageFailure::{type}",
+          "fields": {}
+        },
+        "UncertainTail": {
+          "id": "local::marmish_engine::model::{type}::MissingReason::{type}::UncertainTail::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::NotExecutableReason::{type}": {
+      "fields": {},
+      "variants": {
+        "ExecuteBitMissing": {
+          "id": "local::marmish_engine::model::{type}::NotExecutableReason::{type}::ExecuteBitMissing::{type}",
+          "fields": {}
+        },
+        "FilesystemPermission": {
+          "id": "local::marmish_engine::model::{type}::NotExecutableReason::{type}::FilesystemPermission::{type}",
+          "fields": {}
+        },
+        "NotRegularFile": {
+          "id": "local::marmish_engine::model::{type}::NotExecutableReason::{type}::NotRegularFile::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::NotFoundReason::{type}": {
+      "fields": {},
+      "variants": {
+        "ExecutableMissing": {
+          "id": "local::marmish_engine::model::{type}::NotFoundReason::{type}::ExecutableMissing::{type}",
+          "fields": {}
+        },
+        "PathSearchExhausted": {
+          "id": "local::marmish_engine::model::{type}::NotFoundReason::{type}::PathSearchExhausted::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::OutputChunk::{type}": {
+      "fields": {
+        "bytes": {
+          "id": "local::marmish_engine::model::{type}::OutputChunk::{type}::bytes",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "next_cursor": {
+          "id": "local::marmish_engine::model::{type}::OutputChunk::{type}::next_cursor",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "status": {
+          "id": "local::marmish_engine::model::{type}::OutputChunk::{type}::status",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::OutputStatus::{type}": {
+      "fields": {
+        "closed": {
+          "id": "local::marmish_engine::model::{type}::OutputStatus::{type}::closed",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "gaps": {
+          "id": "local::marmish_engine::model::{type}::OutputStatus::{type}::gaps",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "produced": {
+          "id": "local::marmish_engine::model::{type}::OutputStatus::{type}::produced",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "retained": {
+          "id": "local::marmish_engine::model::{type}::OutputStatus::{type}::retained",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::PrincipalId::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::PrincipalId::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::ResolutionReason::{type}": {
+      "fields": {},
+      "variants": {
+        "FilesystemIo": {
+          "id": "local::marmish_engine::model::{type}::ResolutionReason::{type}::FilesystemIo::{type}",
+          "fields": {}
+        },
+        "InvalidSearchPath": {
+          "id": "local::marmish_engine::model::{type}::ResolutionReason::{type}::InvalidSearchPath::{type}",
+          "fields": {}
+        },
+        "SymlinkLoop": {
+          "id": "local::marmish_engine::model::{type}::ResolutionReason::{type}::SymlinkLoop::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::ServerId::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::model::{type}::ServerId::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::Stream::{type}": {
+      "fields": {},
+      "variants": {
+        "Stderr": {
+          "id": "local::marmish_engine::model::{type}::Stream::{type}::Stderr::{type}",
+          "fields": {}
+        },
+        "Stdout": {
+          "id": "local::marmish_engine::model::{type}::Stream::{type}::Stdout::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::model::{type}::Submission::{type}": {
+      "fields": {
+        "disposition": {
+          "id": "local::marmish_engine::model::{type}::Submission::{type}::disposition",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "status": {
+          "id": "local::marmish_engine::model::{type}::Submission::{type}::status",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::model::{type}::SubmitDisposition::{type}": {
+      "fields": {},
+      "variants": {
+        "Accepted": {
+          "id": "local::marmish_engine::model::{type}::SubmitDisposition::{type}::Accepted::{type}",
+          "fields": {}
+        },
+        "Existing": {
+          "id": "local::marmish_engine::model::{type}::SubmitDisposition::{type}::Existing::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}": {
+      "fields": {},
+      "variants": {
+        "Allowed": {
+          "id": "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}::Allowed::{type}",
+          "fields": {}
+        },
+        "Noncanonical": {
+          "id": "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}::Noncanonical::{type}",
+          "fields": {
+            "canonical": {
+              "id": "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}::Noncanonical::{type}::canonical",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Unresolvable": {
+          "id": "local::marmish_engine::policy::{type}::CanonicalExecOutcome::{type}::Unresolvable::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_engine::policy::{type}::CommandPolicy::{type}": {
+      "fields": {
+        "defaults": {
+          "id": "local::marmish_engine::policy::{type}::CommandPolicy::{type}::defaults",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "keys": {
+          "id": "local::marmish_engine::policy::{type}::CommandPolicy::{type}::keys",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "version": {
+          "id": "local::marmish_engine::policy::{type}::CommandPolicy::{type}::version",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::policy::{type}::KeyRestrictions::{type}": {
+      "fields": {
+        "principal": {
+          "id": "local::marmish_engine::policy::{type}::KeyRestrictions::{type}::principal",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "restrictions": {
+          "id": "local::marmish_engine::policy::{type}::KeyRestrictions::{type}::restrictions",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::policy::{type}::Restrictions::{type}": {
+      "fields": {
+        "allow_exec": {
+          "id": "local::marmish_engine::policy::{type}::Restrictions::{type}::allow_exec",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "deny_exec": {
+          "id": "local::marmish_engine::policy::{type}::Restrictions::{type}::deny_exec",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::storage::{type}::NativeBinding::{type}": {
+      "fields": {
+        "key_id": {
+          "id": "local::marmish_engine::storage::{type}::NativeBinding::{type}::key_id",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        },
+        "root_id": {
+          "id": "local::marmish_engine::storage::{type}::NativeBinding::{type}::root_id",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_engine::storage::{type}::ProvidedMaster::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_engine::storage::{type}::ProvidedMaster::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_engine"
+          }
+        }
+      },
+      "variants": {}
+    }
+  }
+}

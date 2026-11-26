@@ -1,0 +1,1543 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_stream",
+  "modules": {
+    "local::marmish_stream": {
+      "path": [],
+      "bindings": {
+        "Error": {
+          "kind": "data",
+          "target": "local::marmish_stream::Error::{type}"
+        },
+        "Result": {
+          "kind": "alias",
+          "target": "local::marmish_stream::Result::{type}"
+        },
+        "codec": {
+          "kind": "module",
+          "target": "local::marmish_stream::codec::{type}"
+        },
+        "copy_protocol": {
+          "kind": "module",
+          "target": "local::marmish_stream::copy_protocol::{type}"
+        },
+        "windows": {
+          "kind": "module",
+          "target": "local::marmish_stream::windows::{type}"
+        },
+        "wire": {
+          "kind": "module",
+          "target": "local::marmish_stream::wire::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_stream::codec::{type}": {
+      "path": [
+        "codec"
+      ],
+      "bindings": {
+        "Codec": {
+          "kind": "data",
+          "target": "local::marmish_stream::codec::{type}::Codec::{type}"
+        },
+        "EncodedBlock": {
+          "kind": "data",
+          "target": "local::marmish_stream::codec::{type}::EncodedBlock::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_stream::copy_protocol::{type}": {
+      "path": [
+        "copy_protocol"
+      ],
+      "bindings": {
+        "AttemptMode": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::AttemptMode::{type}"
+        },
+        "Checkpoint": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}"
+        },
+        "CopyError": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}"
+        },
+        "Direction": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Direction::{type}"
+        },
+        "FileIdentity": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::FileIdentity::{type}"
+        },
+        "Frame": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Frame::{type}"
+        },
+        "FrameDecoder": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::FrameDecoder::{type}"
+        },
+        "HelperContext": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}"
+        },
+        "Launch": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Launch::{type}"
+        },
+        "Manifest": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}"
+        },
+        "Mtime": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Mtime::{type}"
+        },
+        "Phase": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Phase::{type}"
+        },
+        "Stage": {
+          "kind": "data",
+          "target": "local::marmish_stream::copy_protocol::{type}::Stage::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_stream::windows::{type}": {
+      "path": [
+        "windows"
+      ],
+      "bindings": {
+        "ReceiveWindow": {
+          "kind": "data",
+          "target": "local::marmish_stream::windows::{type}::ReceiveWindow::{type}"
+        },
+        "SendWindow": {
+          "kind": "data",
+          "target": "local::marmish_stream::windows::{type}::SendWindow::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_stream::wire::{type}": {
+      "path": [
+        "wire"
+      ],
+      "bindings": {
+        "Account": {
+          "kind": "alias",
+          "target": "local::marmish_stream::wire::{type}::Account::{type}"
+        },
+        "Binding": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::Binding::{type}"
+        },
+        "CopyAdmissionError": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}"
+        },
+        "Digest": {
+          "kind": "alias",
+          "target": "local::marmish_stream::wire::{type}::Digest::{type}"
+        },
+        "Id": {
+          "kind": "alias",
+          "target": "local::marmish_stream::wire::{type}::Id::{type}"
+        },
+        "OpenDisposition": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::OpenDisposition::{type}"
+        },
+        "Request": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::Request::{type}"
+        },
+        "RequestBody": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::RequestBody::{type}"
+        },
+        "Response": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::Response::{type}"
+        },
+        "ResponseBody": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::ResponseBody::{type}"
+        },
+        "Terminal": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::Terminal::{type}"
+        },
+        "WireErrorCode": {
+          "kind": "data",
+          "target": "local::marmish_stream::wire::{type}::WireErrorCode::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_stream::Error::{type}": {
+      "fields": {},
+      "variants": {
+        "Ack": {
+          "id": "local::marmish_stream::Error::{type}::Ack::{type}",
+          "fields": {}
+        },
+        "Codec": {
+          "id": "local::marmish_stream::Error::{type}::Codec::{type}",
+          "fields": {}
+        },
+        "Conflict": {
+          "id": "local::marmish_stream::Error::{type}::Conflict::{type}",
+          "fields": {}
+        },
+        "Eof": {
+          "id": "local::marmish_stream::Error::{type}::Eof::{type}",
+          "fields": {}
+        },
+        "Gap": {
+          "id": "local::marmish_stream::Error::{type}::Gap::{type}",
+          "fields": {}
+        },
+        "Invalid": {
+          "id": "local::marmish_stream::Error::{type}::Invalid::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_stream::Error::{type}::Invalid::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Limit": {
+          "id": "local::marmish_stream::Error::{type}::Limit::{type}",
+          "fields": {}
+        },
+        "Offset": {
+          "id": "local::marmish_stream::Error::{type}::Offset::{type}",
+          "fields": {}
+        },
+        "OldRetry": {
+          "id": "local::marmish_stream::Error::{type}::OldRetry::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::codec::{type}::Codec::{type}": {
+      "fields": {},
+      "variants": {
+        "None": {
+          "id": "local::marmish_stream::codec::{type}::Codec::{type}::None::{type}",
+          "fields": {}
+        },
+        "Zlib": {
+          "id": "local::marmish_stream::codec::{type}::Codec::{type}::Zlib::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::codec::{type}::EncodedBlock::{type}": {
+      "fields": {
+        "codec": {
+          "id": "local::marmish_stream::codec::{type}::EncodedBlock::{type}::codec",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "data": {
+          "id": "local::marmish_stream::codec::{type}::EncodedBlock::{type}::data",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "offset": {
+          "id": "local::marmish_stream::codec::{type}::EncodedBlock::{type}::offset",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "raw_len": {
+          "id": "local::marmish_stream::codec::{type}::EncodedBlock::{type}::raw_len",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "sha256": {
+          "id": "local::marmish_stream::codec::{type}::EncodedBlock::{type}::sha256",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::AttemptMode::{type}": {
+      "fields": {},
+      "variants": {
+        "Create": {
+          "id": "local::marmish_stream::copy_protocol::{type}::AttemptMode::{type}::Create::{type}",
+          "fields": {}
+        },
+        "Resume": {
+          "id": "local::marmish_stream::copy_protocol::{type}::AttemptMode::{type}::Resume::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}": {
+      "fields": {
+        "committed_final": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::committed_final",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "created": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::created",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "data": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::data",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "durable_offset": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::durable_offset",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "expires": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::expires",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "last_stream": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::last_stream",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "manifest": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::manifest",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "normalized_path": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::normalized_path",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "parent": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::parent",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "phase": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::phase",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "prefix_sha256": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::prefix_sha256",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "private": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::private",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "updated": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::updated",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::CopyError::{type}": {
+      "fields": {},
+      "variants": {
+        "Busy": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::Busy::{type}",
+          "fields": {}
+        },
+        "CommitUncertain": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::CommitUncertain::{type}",
+          "fields": {}
+        },
+        "Conflict": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::Conflict::{type}",
+          "fields": {}
+        },
+        "DiskFull": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::DiskFull::{type}",
+          "fields": {}
+        },
+        "HashMismatch": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::HashMismatch::{type}",
+          "fields": {}
+        },
+        "IdentityChanged": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::IdentityChanged::{type}",
+          "fields": {}
+        },
+        "LocalIo": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::LocalIo::{type}",
+          "fields": {}
+        },
+        "NotFound": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::NotFound::{type}",
+          "fields": {}
+        },
+        "PermissionDenied": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::PermissionDenied::{type}",
+          "fields": {}
+        },
+        "Protocol": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::Protocol::{type}",
+          "fields": {}
+        },
+        "Quota": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::Quota::{type}",
+          "fields": {}
+        },
+        "SourceChanged": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::SourceChanged::{type}",
+          "fields": {}
+        },
+        "UnsafePath": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::UnsafePath::{type}",
+          "fields": {}
+        },
+        "Unsupported": {
+          "id": "local::marmish_stream::copy_protocol::{type}::CopyError::{type}::Unsupported::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::copy_protocol::{type}::Direction::{type}": {
+      "fields": {},
+      "variants": {
+        "Get": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Direction::{type}::Get::{type}",
+          "fields": {}
+        },
+        "Put": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Direction::{type}::Put::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::copy_protocol::{type}::FileIdentity::{type}": {
+      "fields": {
+        "device": {
+          "id": "local::marmish_stream::copy_protocol::{type}::FileIdentity::{type}::device",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "inode": {
+          "id": "local::marmish_stream::copy_protocol::{type}::FileIdentity::{type}::inode",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}": {
+      "fields": {},
+      "variants": {
+        "Checkpoint": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Checkpoint::{type}",
+          "fields": {
+            "offset": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Checkpoint::{type}::offset",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Checkpoint::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Commit": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}",
+          "fields": {
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "size": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}::size",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "transfer": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}::transfer",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Data": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Data::{type}",
+          "fields": {
+            "bytes": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Data::{type}::bytes",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "offset": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Data::{type}::offset",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Done": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Done::{type}",
+          "fields": {
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Done::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "size": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Done::{type}::size",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Error": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Error::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Error::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Finish": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Finish::{type}",
+          "fields": {
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Finish::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "transfer": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Finish::{type}::transfer",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Manifest": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Manifest::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Manifest::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Prefix": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Prefix::{type}",
+          "fields": {
+            "offset": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Prefix::{type}::offset",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Prefix::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Progress": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Progress::{type}",
+          "fields": {
+            "examined": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Progress::{type}::examined",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stage": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Progress::{type}::stage",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "total": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Progress::{type}::total",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Resume": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Resume::{type}",
+          "fields": {
+            "offset": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Resume::{type}::offset",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "phase": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Resume::{type}::phase",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "sha256": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Resume::{type}::sha256",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Start": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Start::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Start::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "1": {
+              "id": "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Start::{type}::1",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_stream::copy_protocol::{type}::FrameDecoder::{type}": {
+      "fields": {
+        "expected": {
+          "id": "local::marmish_stream::copy_protocol::{type}::FrameDecoder::{type}::expected",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::copy_protocol::{type}"
+          }
+        },
+        "failed": {
+          "id": "local::marmish_stream::copy_protocol::{type}::FrameDecoder::{type}::failed",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::copy_protocol::{type}"
+          }
+        },
+        "pending": {
+          "id": "local::marmish_stream::copy_protocol::{type}::FrameDecoder::{type}::pending",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::copy_protocol::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}": {
+      "fields": {
+        "client": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::client",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "context_version": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::context_version",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "direction": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::direction",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "expected_commit": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::expected_commit",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "expected_target": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::expected_target",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "expected_version": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::expected_version",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "group": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::group",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "helper_protocol": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::helper_protocol",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "launch_digest": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::launch_digest",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "retention_seconds": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::retention_seconds",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "server": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::server",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "session": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::session",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stream": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::stream",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "transfer": {
+          "id": "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::transfer",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::Launch::{type}": {
+      "fields": {
+        "client": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::client",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "destination": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::destination",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "direction": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::direction",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "mode": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::mode",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "overwrite": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::overwrite",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "preserve_mode": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::preserve_mode",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "preserve_mtime": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::preserve_mtime",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "server": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::server",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "source": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::source",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "transfer": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::transfer",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "version": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::version",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::Manifest::{type}": {
+      "fields": {
+        "client": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::client",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "destination": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::destination",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "direction": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::direction",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "mode": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::mode",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "mtime": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::mtime",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "overwrite": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::overwrite",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "preserve_mode": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::preserve_mode",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "preserve_mtime": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::preserve_mtime",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "server": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::server",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "sha256": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::sha256",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "size": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::size",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "source": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::source",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "transfer": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::transfer",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "version": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::version",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::Mtime::{type}": {
+      "fields": {
+        "nanos": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Mtime::{type}::nanos",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "seconds": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Mtime::{type}::seconds",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::copy_protocol::{type}::Phase::{type}": {
+      "fields": {},
+      "variants": {
+        "CommitPrepared": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Phase::{type}::CommitPrepared::{type}",
+          "fields": {}
+        },
+        "Committed": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Phase::{type}::Committed::{type}",
+          "fields": {}
+        },
+        "Created": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Phase::{type}::Created::{type}",
+          "fields": {}
+        },
+        "Receiving": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Phase::{type}::Receiving::{type}",
+          "fields": {}
+        },
+        "Verifying": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Phase::{type}::Verifying::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::copy_protocol::{type}::Stage::{type}": {
+      "fields": {},
+      "variants": {
+        "Hashing": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Stage::{type}::Hashing::{type}",
+          "fields": {}
+        },
+        "PrefixHash": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Stage::{type}::PrefixHash::{type}",
+          "fields": {}
+        },
+        "Syncing": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Stage::{type}::Syncing::{type}",
+          "fields": {}
+        },
+        "Verifying": {
+          "id": "local::marmish_stream::copy_protocol::{type}::Stage::{type}::Verifying::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::windows::{type}::ReceiveWindow::{type}": {
+      "fields": {
+        "queue": {
+          "id": "local::marmish_stream::windows::{type}::ReceiveWindow::{type}::queue",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        },
+        "receipts": {
+          "id": "local::marmish_stream::windows::{type}::ReceiveWindow::{type}::receipts",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::windows::{type}::SendWindow::{type}": {
+      "fields": {
+        "acknowledged": {
+          "id": "local::marmish_stream::windows::{type}::SendWindow::{type}::acknowledged",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        },
+        "chunks": {
+          "id": "local::marmish_stream::windows::{type}::SendWindow::{type}::chunks",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        },
+        "eof": {
+          "id": "local::marmish_stream::windows::{type}::SendWindow::{type}::eof",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        },
+        "produced": {
+          "id": "local::marmish_stream::windows::{type}::SendWindow::{type}::produced",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_stream::windows::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::wire::{type}::Binding::{type}": {
+      "fields": {
+        "client": {
+          "id": "local::marmish_stream::wire::{type}::Binding::{type}::client",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "server": {
+          "id": "local::marmish_stream::wire::{type}::Binding::{type}::server",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "session": {
+          "id": "local::marmish_stream::wire::{type}::Binding::{type}::session",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stream": {
+          "id": "local::marmish_stream::wire::{type}::Binding::{type}::stream",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}": {
+      "fields": {},
+      "variants": {
+        "Busy": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::Busy::{type}",
+          "fields": {}
+        },
+        "Capacity": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::Capacity::{type}",
+          "fields": {}
+        },
+        "Conflict": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::Conflict::{type}",
+          "fields": {}
+        },
+        "Denied": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::Denied::{type}",
+          "fields": {}
+        },
+        "RecoveryRequired": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::RecoveryRequired::{type}",
+          "fields": {}
+        },
+        "Unsupported": {
+          "id": "local::marmish_stream::wire::{type}::CopyAdmissionError::{type}::Unsupported::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::wire::{type}::OpenDisposition::{type}": {
+      "fields": {},
+      "variants": {
+        "Created": {
+          "id": "local::marmish_stream::wire::{type}::OpenDisposition::{type}::Created::{type}",
+          "fields": {}
+        },
+        "Existing": {
+          "id": "local::marmish_stream::wire::{type}::OpenDisposition::{type}::Existing::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::wire::{type}::Request::{type}": {
+      "fields": {
+        "binding": {
+          "id": "local::marmish_stream::wire::{type}::Request::{type}::binding",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "body": {
+          "id": "local::marmish_stream::wire::{type}::Request::{type}::body",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "sequence": {
+          "id": "local::marmish_stream::wire::{type}::Request::{type}::sequence",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::wire::{type}::RequestBody::{type}": {
+      "fields": {},
+      "variants": {
+        "Cancel": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Cancel::{type}",
+          "fields": {}
+        },
+        "CopyHello": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::CopyHello::{type}",
+          "fields": {
+            "codecs": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::CopyHello::{type}::codecs",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "versions": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::CopyHello::{type}::versions",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Exchange": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Exchange::{type}",
+          "fields": {
+            "stderr_ack": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Exchange::{type}::stderr_ack",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdin": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Exchange::{type}::stdin",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdin_eof": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Exchange::{type}::stdin_eof",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdout_ack": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Exchange::{type}::stdout_ack",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Hello": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Hello::{type}",
+          "fields": {
+            "codecs": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Hello::{type}::codecs",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Open": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Open::{type}",
+          "fields": {
+            "argv": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Open::{type}::argv",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "codec": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Open::{type}::codec",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "OpenCopy": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::OpenCopy::{type}",
+          "fields": {
+            "codec": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::OpenCopy::{type}::codec",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "launch": {
+              "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::OpenCopy::{type}::launch",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Status": {
+          "id": "local::marmish_stream::wire::{type}::RequestBody::{type}::Status::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_stream::wire::{type}::Response::{type}": {
+      "fields": {
+        "binding": {
+          "id": "local::marmish_stream::wire::{type}::Response::{type}::binding",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "body": {
+          "id": "local::marmish_stream::wire::{type}::Response::{type}::body",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "request_sha256": {
+          "id": "local::marmish_stream::wire::{type}::Response::{type}::request_sha256",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "sequence": {
+          "id": "local::marmish_stream::wire::{type}::Response::{type}::sequence",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_stream::wire::{type}::ResponseBody::{type}": {
+      "fields": {},
+      "variants": {
+        "CopyHello": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyHello::{type}",
+          "fields": {
+            "codecs": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyHello::{type}::codecs",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "frame_bytes": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyHello::{type}::frame_bytes",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "version": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyHello::{type}::version",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "window_bytes": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyHello::{type}::window_bytes",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "CopyRefused": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyRefused::{type}",
+          "fields": {
+            "code": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyRefused::{type}::code",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "prior_binding": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::CopyRefused::{type}::prior_binding",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Error": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Error::{type}",
+          "fields": {
+            "code": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Error::{type}::code",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Exchange": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}",
+          "fields": {
+            "cancel_requested": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::cancel_requested",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stderr": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stderr",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stderr_eof": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stderr_eof",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdin_accepted": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stdin_accepted",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdin_closed": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stdin_closed",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdin_delivered": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stdin_delivered",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdout": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stdout",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "stdout_eof": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::stdout_eof",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "terminal": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Exchange::{type}::terminal",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Hello": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Hello::{type}",
+          "fields": {
+            "codecs": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Hello::{type}::codecs",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "frame_bytes": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Hello::{type}::frame_bytes",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "window_bytes": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Hello::{type}::window_bytes",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Opened": {
+          "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Opened::{type}",
+          "fields": {
+            "codec": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Opened::{type}::codec",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "disposition": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Opened::{type}::disposition",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "open_sha256": {
+              "id": "local::marmish_stream::wire::{type}::ResponseBody::{type}::Opened::{type}::open_sha256",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_stream::wire::{type}::Terminal::{type}": {
+      "fields": {},
+      "variants": {
+        "Cancelled": {
+          "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Cancelled::{type}",
+          "fields": {}
+        },
+        "Exited": {
+          "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Exited::{type}",
+          "fields": {
+            "code": {
+              "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Exited::{type}::code",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Failed": {
+          "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Failed::{type}",
+          "fields": {
+            "code": {
+              "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Failed::{type}::code",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Signaled": {
+          "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Signaled::{type}",
+          "fields": {
+            "signal": {
+              "id": "local::marmish_stream::wire::{type}::Terminal::{type}::Signaled::{type}::signal",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_stream::wire::{type}::WireErrorCode::{type}": {
+      "fields": {},
+      "variants": {
+        "Capacity": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Capacity::{type}",
+          "fields": {}
+        },
+        "Closed": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Closed::{type}",
+          "fields": {}
+        },
+        "Conflict": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Conflict::{type}",
+          "fields": {}
+        },
+        "Denied": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Denied::{type}",
+          "fields": {}
+        },
+        "Expired": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Expired::{type}",
+          "fields": {}
+        },
+        "Gap": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Gap::{type}",
+          "fields": {}
+        },
+        "Invalid": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Invalid::{type}",
+          "fields": {}
+        },
+        "NotFound": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::NotFound::{type}",
+          "fields": {}
+        },
+        "Uncertain": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Uncertain::{type}",
+          "fields": {}
+        },
+        "Unsupported": {
+          "id": "local::marmish_stream::wire::{type}::WireErrorCode::{type}::Unsupported::{type}",
+          "fields": {}
+        }
+      }
+    }
+  }
+}

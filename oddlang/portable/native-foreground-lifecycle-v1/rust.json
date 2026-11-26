@@ -1,0 +1,12 @@
+{
+  "format": "oddlang-foreground-profile-owner-rust-v1",
+  "entry": "run_foreground",
+  "status_owner": [
+    "status_owner",
+    "BoundOwner"
+  ],
+  "retained_stores": [
+    "profile_initialize",
+    "open_retained_stores"
+  ]
+}
