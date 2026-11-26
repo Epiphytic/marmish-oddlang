@@ -1,0 +1,44 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "compiler": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "host": "aarch64-apple-darwin",
+  "sourceSha256": "2019f1abe01a4dd1d098cd3eea5f9a8c5266425e1daac0f06b855426afa261f0",
+  "packageManifestSha256": "f92cdde82b3e4cf077294a7296117af4dcc28dba55bf1c9d694d7a4b273f539f",
+  "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "probeSha256": "d05a851521554e306f6d52f94d7581c967b397ef650c9163de50834869282f3a",
+  "librarySha256": "cbadad236629e47ee63bd3bb8633e303a531115f9c0d91d298ace5f4cb43040b",
+  "observations": {
+    "disabled": {
+      "exitCode": 0,
+      "stdout": "before\n",
+      "stderr": "",
+      "sink": "captured"
+    },
+    "sequence": {
+      "exitCode": 0,
+      "stdout": "after\n",
+      "stderr": "{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"unicode 雪\\n\\t\\u0001\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"quoted \\\"\\\\\"}\n{\"category\":\"begin\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"after\"}\n{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"\"}\n",
+      "sink": "captured"
+    },
+    "cross-thread": {
+      "exitCode": 0,
+      "stdout": "initial\n",
+      "stderr": "{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"visible\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"joined\"}\n",
+      "sink": "captured"
+    },
+    "closed-sink": {
+      "exitCode": 0,
+      "stdout": "after-error\n",
+      "stderr": "",
+      "sink": "closed pipe"
+    }
+  }
+}
