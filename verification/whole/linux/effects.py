@@ -2,13 +2,18 @@
 """Observe a reference bridge Init under a read-only root on a disposable Linux VM."""
 import argparse
 import fcntl
-import importlib.util
+import platform
+import sys
 import json
 import os
 from pathlib import Path
 import re
 import subprocess
 import tempfile
+
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "bridge"))
+import baseline
 
 
 
@@ -26,13 +31,23 @@ def child_of(pid, name):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("driver", type=Path)
+    parser.add_argument("framework", type=Path)
     parser.add_argument("bin_dir", type=Path)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
-    spec = importlib.util.spec_from_file_location("oracle", args.driver.resolve())
-    oracle = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(oracle)
+    if platform.system() != "Linux" or platform.machine() not in {"aarch64", "x86_64"}:
+        parser.error("native Linux host required")
+    host = platform.machine() + "-unknown-linux-gnu"
+    receipt = Path(__file__).resolve().parent / host / "bridge.json"
+    original = json.loads(receipt.read_bytes())
+    baseline.check(original["host"], host, "original host")
+    baseline.check(original["commit"], baseline.PIN, "original revision")
+    baseline.check(original["oracle_driver_sha256"], baseline.DRIVER, "original verifier")
+    oracle = baseline.load_driver(args.framework.resolve())
+    binaries = {name: baseline.sha(args.bin_dir / name)
+                for name in ("marmish-engine-bridge", "marmish-engine-worker")}
+    for name, digest in binaries.items():
+        baseline.check(digest, original["builds"]["default"]["sha256"][name], name)
     fixture = json.loads(oracle.FIXTURE.read_bytes())
     uid, gid = os.getuid(), os.getgid()
     if uid == 0:
@@ -111,7 +126,11 @@ def main():
         if not any(call.startswith("exit_group(0)") for call in events):
             raise RuntimeError("kernel did not trace successful bridge exit")
         calls = sorted({m.group(1) for call in events if (m := re.match(r"(\w+)\(", call))})
-        measured = {"process": bridge.name, "effectiveUid": uid, "effectiveCapabilities": status["CapEff"],
+        if not any("F_OFD_SETLK" in call and "= 0" in call for call in events):
+            raise RuntimeError("missing successful Linux OFD lock syscall")
+        measured = {"host": host, "upstreamRevision": baseline.PIN, "buildReceiptSha256": baseline.sha(receipt),
+                    "binariesSha256": binaries, "verifierSha256": baseline.DRIVER,
+                    "fixtureSha256": baseline.FIXTURE, "successfulOfdLockObserved": True, "process": bridge.name, "effectiveUid": uid, "effectiveCapabilities": status["CapEff"],
                     "descriptorLimits": [256, 256], "stateDescriptorsAfterReply": names,
                     "lockBeforeInit": before["frontend_lock"], "bsdProbeWhileOfdHeld": "available",
                     "lockDuringInit": live["frontend_lock"], "lockAfterExit": closed["frontend_lock"],

@@ -1,10 +1,15 @@
 {
+  "binariesSha256": {
+    "marmish-engine-bridge": "4a81e043dbcc46b4040753d06f1acde048b6e135fa01e15d6a8dfd1e510e5f65",
+    "marmish-engine-worker": "13c0787e506205a4ffbb37e9c87ae2565326b702119b6cb542b0b439a1c8e5d2"
+  },
   "bridgeProcessAndLockSyscalls": [
     "execve",
     "exit_group",
     "fcntl"
   ],
   "bsdProbeWhileOfdHeld": "available",
+  "buildReceiptSha256": "0104b6c0fbf2ac040ed7282385576a0f1122d97fa58034d04432ec2198b0700a",
   "descriptorLimits": [
     256,
     256
@@ -12,6 +17,8 @@
   "effectiveCapabilities": "0000000000000000",
   "effectiveUid": 501,
   "filesystemPolicy": "read-only host root with one writable state directory",
+  "fixtureSha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
+  "host": "aarch64-unknown-linux-gnu",
   "initialState": "existing empty mode 0700 directory",
   "lockAfterExit": "available",
   "lockBeforeInit": "absent",
@@ -24,5 +31,8 @@
     "$STATE/engine.sqlite3-wal",
     "$STATE/frontend.lock",
     "$STATE/jobs"
-  ]
+  ],
+  "successfulOfdLockObserved": true,
+  "upstreamRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "verifierSha256": "3a0c512e78fcefe0e0c8dc7d5241ad6f85b8c413b078b7376b49a092ecd76f84"
 }

@@ -14,7 +14,7 @@ python3 -B verification/whole/bridge/baseline.py --upstream /path/to/original \
   --oddlang /path/to/oddlang-with-linux-lock-probe --target-dir /path/to/release-build \
   --receipt /tmp/original-bridge.json
 python3 -B verification/whole/linux/effects.py \
-  /path/to/oddlang-with-linux-lock-probe/examples/marmish/portable-bridge/verify.py \
+  /path/to/oddlang-with-linux-lock-probe \
   /path/to/release-build/aarch64-unknown-linux-gnu/release /tmp/effects.json
 ```
 
