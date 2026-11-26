@@ -1,6 +1,6 @@
 # Marmish built from Oddlang
 
-The [seven-member workspace](oddlang/portable/workspace-v7-converged-diagnostics-cli.json) generates native Rust libraries and two release executables from pinned graphs. On macOS ARM64, downstream callers resolve 71 of 140 original public type, module and alias names, and both executables match 128 of 132 offline CLI observations. Native Linux ARM64 matches 82 of 86 help and version observations. The qualification report lists the remaining gaps. [Build from the ontology](oddlang/README.md#build-the-seven-member-workspace) · [Measured coverage](verification/whole/converged-diagnostics-cli/README.md)
+The [seven-member workspace](oddlang/portable/workspace-v7-terminal-prefix.json) generates native Rust libraries and two release executables from pinned graphs. On both ARM64 hosts the executables match all 164 measured help, version and usage cases. The preceding public API audit measured 71 of 140 original import spellings on macOS ARM64. [Build from the ontology](oddlang/README.md#build-the-seven-member-workspace) · [Offline CLI qualification](verification/whole/terminal-prefix/README.md) · [Public import audit](verification/whole/converged-diagnostics-cli/README.md)
 
 ## Original Marmish project and releases
 

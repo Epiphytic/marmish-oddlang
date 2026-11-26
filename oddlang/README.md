@@ -2,16 +2,16 @@
 
 ## Build the seven-member workspace
 
-Use the [combined workspace manifest](portable/workspace-v7-converged-diagnostics-cli.json) and the Oddlang CLI at [compiler commit 0568396](https://github.com/Epiphytic/oddlang/tree/0568396f8d0641b266aed1702d482d71c79b3ba4). From the root of this companion repository, with the pinned Cargo dependencies available offline, run the following:
+Use the [combined workspace manifest](portable/workspace-v7-terminal-prefix.json) and the Oddlang CLI at [compiler commit 4b0e07a](https://github.com/Epiphytic/oddlang/tree/4b0e07a97de579adbd779bbd598a532bda9fdb3c). From the root of this companion repository, with the pinned Cargo dependencies available offline, run the following:
 
 ```sh
 out=$(mktemp -d)
-oddlang build native-workspace rust oddlang/portable/workspace-v7-converged-diagnostics-cli.json "$out/workspace"
-cmp oddlang/portable/workspace-v7-converged-diagnostics-cli/workspace.lock "$out/workspace/workspace.lock"
+oddlang build native-workspace rust oddlang/portable/workspace-v7-terminal-prefix.json "$out/workspace"
+cmp oddlang/portable/workspace-v7-terminal-prefix/workspace.lock "$out/workspace/workspace.lock"
 cargo +1.97.1 build --release --workspace --lib --bins --locked --offline --manifest-path "$out/workspace/Cargo.toml"
 ```
 
-The generated code is under `$out/workspace/marmish-*/src`. The two native executables are under the workspace's release target directory. The original checkout is used as a test oracle. The [audit and qualification](../verification/whole/converged-diagnostics-cli/README.md) identify which public interfaces have evidence on this workspace lock.
+The generated code is under `$out/workspace/marmish-*/src`. The two native executables are under the workspace's release target directory. The original checkout is used as a test oracle. The [offline CLI qualification](../verification/whole/terminal-prefix/README.md) identifies the matched cases and uncovered post-parse behavior. The [parent audit](../verification/whole/converged-diagnostics-cli/README.md) records the inherited public API evidence.
 
 ## Earlier workspaces and independent component qualifications
 
