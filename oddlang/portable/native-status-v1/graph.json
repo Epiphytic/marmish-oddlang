@@ -1,0 +1,137 @@
+{
+  "format": "oddlang-local-command-client-v1",
+  "socket_argument": "socket",
+  "transport": {
+    "framing": "u32_be_json_half_close",
+    "peer": "same_effective_uid",
+    "deadline_ms": 180000,
+    "maximum_frame_bytes": 65536
+  },
+  "guards": [
+    {
+      "condition": "flag_false",
+      "argument": "foreground",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: foreground_operation"
+      }
+    },
+    {
+      "condition": "absent",
+      "argument": "max_commands",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: server_limit_operation"
+      }
+    },
+    {
+      "condition": "absent",
+      "argument": "max_uptime",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: server_limit_operation"
+      }
+    },
+    {
+      "condition": "flag_false",
+      "argument": "new_session",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: new_session_operation"
+      }
+    },
+    {
+      "condition": "one_of",
+      "argument": "tor",
+      "values": [
+        "auto",
+        "always",
+        "off"
+      ],
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: route_mode"
+      }
+    },
+    {
+      "condition": "path_present",
+      "argument": "state_dir",
+      "rejected": {
+        "exit": 125,
+        "stderr": "marmish: explicit state directory required by this contract"
+      }
+    },
+    {
+      "condition": "path_present",
+      "argument": "socket",
+      "rejected": {
+        "exit": 125,
+        "stderr": "marmish: explicit socket required by this contract"
+      }
+    }
+  ],
+  "request": [
+    {
+      "key": "operation",
+      "value": "status"
+    }
+  ],
+  "response": {
+    "fields": [
+      {
+        "key": "ok",
+        "kind": "bool",
+        "presence": "required"
+      },
+      {
+        "key": "result",
+        "kind": "json",
+        "presence": "nullable"
+      },
+      {
+        "key": "error",
+        "kind": "string",
+        "presence": "nullable"
+      },
+      {
+        "key": "command",
+        "kind": "null",
+        "presence": "omit_null"
+      },
+      {
+        "key": "stream",
+        "kind": "null",
+        "presence": "omit_null"
+      }
+    ],
+    "success_field": "ok",
+    "success_exit": 0,
+    "failure_exit": 1
+  },
+  "errors": {
+    "binding": {
+      "exit": 125,
+      "stderr": "marmish: command binding unavailable"
+    },
+    "io": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed"
+    },
+    "peer": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_peer_uid"
+    },
+    "frame_size": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size"
+    },
+    "frame_json": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json"
+    },
+    "deadline": {
+      "exit": 1,
+      "stderr": "marmish: operation deadline exceeded"
+    }
+  }
+}

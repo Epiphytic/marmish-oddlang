@@ -1,0 +1,120 @@
+{
+  "candidateSha256": "8532eba052f16f08587163af8ce967337022a9d299e093f884d1dc31dbd72ded",
+  "companionGenerationRevision": "1e53ab45eb764a0b88173245eea5caca10d9e658",
+  "controlledCases": {
+    "actor-failure": {
+      "exit": 1,
+      "stderr": "",
+      "stdout": "{\"ok\":false,\"result\":null,\"error\":\"busy\"}\n"
+    },
+    "defaults": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "duplicate-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "extra-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "malformed": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "max-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "missing-socket": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "missing-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "no-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "null-extensions": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "object-order": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"a\":[3],\"z\":1},\"error\":null}\n"
+    },
+    "over-limit": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    },
+    "partial-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "short-body": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "unknown-field": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "wrong-success-type": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "zero-frame": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    }
+  },
+  "expectedRequestHex": "000000167b226f7065726174696f6e223a22737461747573227d",
+  "frameworkRevision": "2bd87f466272c2e4f101a51fb2a21fe6309dbd51",
+  "mode": "original-and-candidate",
+  "originalBinaries": {
+    "marmish": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+    "marmish-engine-bridge": "4a81e043dbcc46b4040753d06f1acde048b6e135fa01e15d6a8dfd1e510e5f65",
+    "marmish-engine-worker": "13c0787e506205a4ffbb37e9c87ae2565326b702119b6cb542b0b439a1c8e5d2",
+    "marmish-keychain": "a77c5429e5140e74a49bab28ecbe2f64c4f328c93b41a8b81241fb84f267f7be",
+    "marmish-release-tool": "4a7eeff0f6467babf94b2cf0f003319baa0c2dbf42fb757288b9e3a62bb4da0c",
+    "marmish-worker": "50a68f593203dff75c8f704d8cd886b72bfe3ac7af234967e5df69b10f627542",
+    "marmishd": "227cb5b9b203a9f03bd54c2723a12a3871e766318f8868aa04ef686894b99e8b"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "packageLockSha256": "8833cc18ce0dfbcf52a7fb6a39f1d17d35e1734d9350e9bfc46f8978d54271f8",
+  "platform": "aarch64-unknown-linux-gnu",
+  "processScope": "real original daemon activation and the 17 independently controlled Unix peer exchanges",
+  "realDaemon": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+  },
+  "rustToolchain": "1.97.1",
+  "shutdown": {
+    "engine_stop_complete": true,
+    "mdk_stop_complete": true,
+    "runtime_cleanup_complete": true
+  },
+  "workspaceLockSha256": "0cbe85169281b2b1943c4286e178d67d68f0cd235f8c14f5282222df25cee6d8",
+  "workspaceManifestSha256": "96fe8fa16cbc934a8e2f20cfdaaee30e19ecff4db77327b438058412a6ab9deb"
+}
