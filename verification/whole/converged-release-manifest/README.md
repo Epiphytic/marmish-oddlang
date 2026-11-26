@@ -48,3 +48,8 @@ result stream alongside the receipt.
 The [native result stream](results.json) records all 224 checked inputs.
 The [ARM64 macOS receipt](aarch64-apple-darwin.json) pins the full parser
 result, both unmodified upstream test names and all 22 denied reads.
+
+The [ARM64 Linux receipt](aarch64-unknown-linux-gnu.json) has the same
+result bytes and package pins. Its input revision additionally carries
+the predecessor's native Serde trait selection in the inherited observer.
+Both receipts identify the exact trees from which they were measured.
