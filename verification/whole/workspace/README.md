@@ -8,4 +8,4 @@ python3 -B verification/whole/workspace/verify.py \
 cmp /tmp/native-workspace-receipt.json verification/whole/workspace/reference-aarch64-apple-darwin.json
 ```
 
-This receipt covers the macOS ARM64 workspace configuration. Individual member releases also carry independent public caller and mutation evidence.
+The native macOS ARM64 and Linux ARM64 receipts have identical workspace, test module and test-name observations. Linux uses a separate network namespace, an allowlist of files exposed with bubblewrap, and a process with zero effective capabilities. Its replay command uses the same inputs as the macOS run. Compare its output with `reference-aarch64-unknown-linux-gnu.json`. Individual member releases also carry independent public caller and mutation evidence.
