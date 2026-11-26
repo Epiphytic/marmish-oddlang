@@ -23,3 +23,22 @@ python3 -B verification/whole/workspace/verify.py /path/to/pinned/oddlang /path/
 Use a fresh destination. Provision the pinned Rust toolchain and prepopulate the registry cache for every dependency in the lock, including target-specific dependencies used by Cargo metadata. The verifier compares staged inputs, generated source inventories and locks before a release build with the original sources and network inaccessible. Then it injects the unchanged core, codec, windows and wire suites and checks all 25 results. The wire test caller supplies four private bounds referenced by upstream tests. They are test inputs. The release build has already finished before the verifier adds them.
 
 The native crate currently has CLI and local status projections. The generated daemon parser, command processing, relay and installed runtime have separate obligations. The core and stream libraries in this workspace can also be consumed independently.
+
+## Workspace v3
+
+Build from this companion checkout with Oddlang revision `11a8b7038b37295729b9e43cfe9a917b9a688f14`, a populated Cargo dependency cache and a fresh output directory.
+
+```sh
+oddlang build native-workspace rust oddlang/portable/workspace-v3.json /tmp/marmish-v3
+cargo +1.97.1 build --manifest-path /tmp/marmish-v3/Cargo.toml --workspace --locked --release --offline
+```
+
+The product inputs are the release manifest, component graphs, target overlays and locks. The native client supports automatic local status discovery. The stream member adds copy Manifest, Mtime, HelperContext and cross-record validation to the v2 interfaces. The generated daemon in this workspace handles the parser surface. Running a remote command or transfer still requires further implementation.
+
+For differential qualification, provide clean compiler and upstream checkouts and the seven original executables for the host. Generation and the release build run with upstream source and network access excluded. The verifier then runs 25 unchanged upstream tests, compares 94 copy relation cases and exercises 43 status discovery controls plus two live discovery routes against an original daemon.
+
+```sh
+python3 -B verification/whole/workspace/verify.py /path/to/pinned/oddlang /path/to/pinned/marmish /tmp/v3.json --release v3 --original-bin-dir /path/to/original/release
+```
+
+The [macOS ARM64](v3-aarch64-apple-darwin.json) and [Linux ARM64](v3-aarch64-unknown-linux-gnu.json) receipts record the same workspace lock, upstream test identities and copy relation observations. Native binary hashes identify the individual builds.
