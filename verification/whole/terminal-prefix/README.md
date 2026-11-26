@@ -22,6 +22,11 @@ primary parser error. This post-parse difference remains uncovered. Both native
 hosts compare exact stdout, stderr and status against their own verified
 original executable hashes in a network-denied, read-only process sandbox.
 
+Each native host matched all 164 scoped cases, 82 per executable. That
+includes all 132 previously archived cases and 32 additional form and
+precedence controls. Each host also records the two post-parse comparisons
+outside the match count.
+
 ## Reproduce
 
 Use clean input, framework and original checkouts at the revisions recorded

@@ -1,0 +1,21 @@
+{
+  "domain": "urn:marmish:vault:helper:authorization-mode:v1",
+  "format": "oddlang-checked-values-v1",
+  "obligations": [
+    {
+      "declaration": "urn:marmish:vault:helper:authorization-mode:v1:type",
+      "expected": {
+        "copy": true,
+        "equality": "none",
+        "externalRepresentation": null,
+        "orderedCases": [
+          "urn:marmish:vault:helper:authorization-mode:v1:type:Interactive",
+          "urn:marmish:vault:helper:authorization-mode:v1:type:Verify"
+        ],
+        "targetOrdinals": "zero-based-declaration-order"
+      },
+      "qualification": "independent-witness-required",
+      "role": "checked-value-domain"
+    }
+  ]
+}

@@ -4,6 +4,7 @@ import json
 import unittest
 
 import selected_tests
+import parser_cases
 
 from check_coverage import CORE, HERE, NATIVE, STREAM, inspect
 
@@ -72,6 +73,31 @@ class CoverageControls(unittest.TestCase):
                     alter(changed)
                     with self.assertRaises(ValueError):
                         inspect(changed)
+
+
+    def test_parser_receipts(self):
+        for host, total in (("aarch64-apple-darwin", 42), ("aarch64-unknown-linux-gnu", 43)):
+            receipt = json.loads((HERE / f"manifest-{host}.json").read_bytes())
+            self.assertEqual(inspect(receipt)["passed"], total)
+            for label, change in {
+                "modified included vector": lambda r: r["selectedTestSources"].update(releaseVersionVectors="0"*64),
+                "missing test": lambda r: r["harnesses"][parser_cases.HARNESS]["passed"].pop(),
+                "unexecuted case": lambda r: r["passingProcesses"][parser_cases.HARNESS].update(
+                    {parser_cases.NAMES[0]: 0}),
+            }.items():
+                with self.subTest(host=host, label=label):
+                    mutated = deepcopy(receipt)
+                    change(mutated)
+                    with self.assertRaises(ValueError):
+                        inspect(mutated)
+
+    def test_parser_case_requires_one_actual_execution(self):
+        def no_match(*args, **kwargs):
+            return b"running 0 tests\ntest result: ok. 0 passed; 0 failed; 0 ignored;"
+
+        with self.assertRaises(ValueError):
+            parser_cases.witness(no_match, HERE, "native_manifest::__projection_10",
+                                 lambda _: [], selected_tests.check_execution)
 
 
 if __name__ == "__main__":

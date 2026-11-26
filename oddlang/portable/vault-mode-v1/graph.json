@@ -1,0 +1,14 @@
+{
+  "format": "oddlang-checked-values-v1",
+  "id": "urn:marmish:vault:helper:authorization-mode:v1",
+  "types": {
+    "urn:marmish:vault:helper:authorization-mode:v1:type": {
+      "kind": "choice",
+      "cases": [
+        "urn:marmish:vault:helper:authorization-mode:v1:type:Interactive",
+        "urn:marmish:vault:helper:authorization-mode:v1:type:Verify"
+      ],
+      "equality": "none"
+    }
+  }
+}
