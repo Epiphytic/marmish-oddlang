@@ -1,0 +1,34 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-engine",
+  "version": "0.1.0",
+  "edition": "2021",
+  "dependencies": {
+    "libc": {
+      "version": "0.2.189"
+    }
+  },
+  "cargoLock": {
+    "path": "workspace-engine-limits/engine-Cargo.lock",
+    "sha256": "7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7"
+  },
+  "components": [
+    {
+      "kind": "process-limit",
+      "module": "process_limits",
+      "reexports": [
+        "initialize_process_limits",
+        "EngineError",
+        "Result"
+      ],
+      "graph": {
+        "path": "workspace-engine-limits/graph.json",
+        "sha256": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5"
+      },
+      "overlay": {
+        "path": "workspace-engine-limits/rust.json",
+        "sha256": "61a0c8717640a5b6bb10b3877e847a0e017bfc741289ab5f28749d9d8e85a18a"
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "cargoLockSha256": "7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7",
+  "cargoManifestSha256": "f226320ba2783d8009b53c1bbbc97aaf5e94d4ac72a36b3908b5646f1e5568fe",
+  "components": [
+    {
+      "graphSha256": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5",
+      "kind": "process-limit",
+      "module": "process_limits",
+      "overlaySha256": "61a0c8717640a5b6bb10b3877e847a0e017bfc741289ab5f28749d9d8e85a18a",
+      "projection": {
+        "format": "oddlang-process-limit-projection-lock-v1",
+        "graphSha256": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5",
+        "overlaySha256": "61a0c8717640a5b6bb10b3877e847a0e017bfc741289ab5f28749d9d8e85a18a",
+        "sourceSha256": "e3c3c633fc993e7d980d54514bd3e95aaeaff20fd412345ebb8fd9b170ecb307"
+      },
+      "reexports": [
+        "initialize_process_limits",
+        "EngineError",
+        "Result"
+      ],
+      "sourceSha256": "e3c3c633fc993e7d980d54514bd3e95aaeaff20fd412345ebb8fd9b170ecb307"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "e3c3c633fc993e7d980d54514bd3e95aaeaff20fd412345ebb8fd9b170ecb307",
+    "src/group_0/mod.rs": "0a81184c86cf55740e9664e28503cc85b50106b23ff200d7941d87e0d2c42fc1",
+    "src/lib.rs": "1b02b8c18d225e734db0389ed93be4cb42785228c64343a0a6e53ed308e2fa6c"
+  },
+  "manifestSha256": "82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06"
+}

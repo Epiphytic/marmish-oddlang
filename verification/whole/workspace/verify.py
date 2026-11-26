@@ -21,6 +21,7 @@ ORIGINAL="af54339d250290490d62d4475a77539b7e739071"
 FRAMEWORK="25bca2d974a3a4d55fc05256d557f95e9f380ed1"
 PROVISIONING_FRAMEWORK = "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36"
 UNIFIED_FRAMEWORK = "ab7171bb583f7e04c63896caeafaa476eb810d5a"
+ENGINE_LIMITS_FRAMEWORK = "aaf3f497d7b0fdcc543aa51dbdf19fbf517d261b"
 REPORT_FRAMEWORK = "799a2467b0eccd9e5d902c5b6a81b1e289536b50"
 PROVIDER_CACHE_KEYS = {
     "https://github.com/erskingardner/openmls.git": "openmls-daf8a12ad11cf9dc",
@@ -234,33 +235,36 @@ def configured_and_lifecycle_evidence(work, target, binaries, compiler, digests)
 def main():
     ap=argparse.ArgumentParser()
     for name in ("framework","original","receipt"):ap.add_argument(name,type=Path)
-    ap.add_argument("--release", choices=("v1", "v2", "v3", "v4", "v5", "v6", "v7"), default="v1")
+    ap.add_argument("--release", choices=("v1", "v2", "v3", "v4", "v5", "v6", "v7", "engine-limits"), default="v1")
     ap.add_argument("--original-bin-dir", type=Path)
+    ap.add_argument("--original-cargo-target", type=Path)
     args=ap.parse_args()
-    if args.release in ("v3", "v4", "v5", "v6", "v7") and args.original_bin_dir is None:
+    if args.release in ("v3", "v4", "v5", "v6", "v7", "engine-limits") and args.original_bin_dir is None:
         ap.error("this release requires --original-bin-dir for the mixed status replay")
     binaries = args.original_bin_dir.resolve() if args.original_bin_dir else None
     combined = args.release != "v1"
+    engine_limits = args.release == "engine-limits"
     compiler = {"v1": FRAMEWORK, "v2": "911614cef63a84ecf840cb1228c8a944f1d54d48",
                 "v3": "11a8b7038b37295729b9e43cfe9a917b9a688f14",
                 "v4": "68dc2e327aae8242938df6379cf5568c39190d65", "v5": PROVISIONING_FRAMEWORK,
-                "v6": UNIFIED_FRAMEWORK, "v7": REPORT_FRAMEWORK}[args.release]
+                "v6": UNIFIED_FRAMEWORK, "v7": REPORT_FRAMEWORK,
+                "engine-limits": ENGINE_LIMITS_FRAMEWORK}[args.release]
     original=args.original.resolve(); framework=args.framework.resolve()
     def pin(repo,expected):
         if envtools.run("git","rev-parse","HEAD",cwd=repo).strip()!=expected or envtools.run("git","status","--porcelain","--untracked-files=all",cwd=repo):
             raise ValueError(f"expected a clean pinned checkout: {repo}")
     pin(framework,compiler);pin(original,ORIGINAL)
     companion = envtools.run("git", "rev-parse", "HEAD", cwd=ROOT).strip()
-    provisioning = args.release in ("v5", "v6", "v7")
-    unified = args.release in ("v6", "v7")
-    report = args.release == "v7"
-    if args.release in ("v4", "v5", "v6", "v7"):
+    provisioning = args.release in ("v5", "v6", "v7", "engine-limits")
+    unified = args.release in ("v6", "v7", "engine-limits")
+    report = args.release in ("v7", "engine-limits")
+    if args.release in ("v4", "v5", "v6", "v7", "engine-limits"):
         pin(ROOT, companion)
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp).resolve(); graph=work/"inputs";graph.mkdir()
         manifest=PORTABLE/(f"workspace-{args.release}.json" if combined else "workspace.json")
         w=stage_workspace(manifest,graph)
-        if args.release in ("v4", "v5", "v6", "v7"):
+        if args.release in ("v4", "v5", "v6", "v7", "engine-limits"):
             reference_lock = original / "Cargo.lock"
             if sha(reference_lock.read_bytes()) != "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3":
                 raise ValueError("original dependency lock differs")
@@ -279,7 +283,7 @@ def main():
             platform="Linux "+os.uname().machine
         else:
             readable,env=envtools.isolation_environment(work,"aarch64-apple-darwin")
-            if args.release in ("v4", "v5", "v6", "v7"):
+            if args.release in ("v4", "v5", "v6", "v7", "engine-limits"):
                 env["CC"] = env["CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER"]
                 env["AR"] = envtools.run("xcrun", "--sdk", "macosx", "--find", "ar").strip()
                 if provisioning:
@@ -330,7 +334,7 @@ def main():
                 if receipt["members"][member] != v5["members"][member]:
                     raise ValueError(f"v6 altered the sealed {member} from v5")
         inaccessible = [original / "Cargo.toml"]
-        if args.release in ("v4", "v5", "v6", "v7"):
+        if args.release in ("v4", "v5", "v6", "v7", "engine-limits"):
             inaccessible += [binaries / "marmish", binaries / "marmishd", framework / "src/main.rs",
                              HERE.parent / "relay/owner-tls-macos-arm64.json"]
         if unified:
@@ -339,6 +343,17 @@ def main():
         if report:
             inaccessible += [HERE.parent / "build-report/observe.py",
                              original / "crates/marmish-native/src/native_manifest.rs"]
+        if engine_limits:
+            inaccessible += [HERE.parent / "engine-limits/observe.rs",
+                             HERE.parent / "engine-limits/deny_darwin.c",
+                             original / "crates/marmish-engine/src/platform/macos.rs"]
+            if set(receipt["members"]) != {"marmish-core", "marmish-stream", "marmish-native", "marmish-engine"}:
+                raise ValueError("unexpected engine workspace members")
+            engine = json.loads((PORTABLE / "workspace-engine-limits/engine-package.lock").read_bytes())
+            if (target/"marmish-engine/package.lock").read_bytes() != (PORTABLE/"workspace-engine-limits/engine-package.lock").read_bytes():
+                raise ValueError("assembled engine differs from its standalone lock")
+            if set(engine["generatedFiles"]) != {"src/lib.rs", "src/group_0/mod.rs", "src/group_0/__projection_0.rs"}:
+                raise ValueError("unexpected scoped engine package inventory")
         for path in inaccessible:
             probe = subprocess.run([*sandbox, "/bin/cat", path], env=env, cwd=work, capture_output=True)
             if probe.returncode == 0 or not any(error in probe.stderr for error in (
@@ -346,8 +361,8 @@ def main():
             )):
                 raise ValueError(f"generation can read excluded input {path}")
         inside("cargo", "build", "--workspace", "--locked", "--release", "--offline", cwd=target)
-        interfaces = v3_interfaces(work, target, original, binaries, compiler) if args.release in ("v3", "v4", "v5", "v6", "v7") else {}
-        if args.release in ("v4", "v5", "v6", "v7"):
+        interfaces = v3_interfaces(work, target, original, binaries, compiler) if args.release in ("v3", "v4", "v5", "v6", "v7", "engine-limits") else {}
+        if args.release in ("v4", "v5", "v6", "v7", "engine-limits"):
             mixed = work / "foreground.json"
             flags = ["--both-initializers"] if provisioning else []
             if unified:
@@ -375,6 +390,13 @@ def main():
             if reports["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("release-info exercised different generated executables")
             interfaces["releaseInfo"] = reports
+        if engine_limits:
+            observer = runpy.run_path(str(HERE.parent / "engine-limits/observe.py"))
+            cache = args.original_cargo_target or work/"reference-engine"
+            limits = observer["observe"](work, original, binaries, target, cache.resolve())
+            if limits["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
+                raise ValueError("process limit startup exercised different generated executables")
+            interfaces["engineProcessLimits"] = limits
         core=target/"marmish-core";(core/"tests").mkdir()
         testfile=original/"crates/marmish-core/tests/contracts.rs";shutil.copyfile(testfile,core/"tests/contracts.rs")
         stream=target/"marmish-stream"

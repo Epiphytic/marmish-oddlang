@@ -1,0 +1,15 @@
+{
+  "format": "oddlang-process-limit-v1",
+  "id": "urn:marmish:engine:initialize-process-limits",
+  "resource": "open-descriptors",
+  "platforms": {
+    "linux": {
+      "kind": "no-op"
+    },
+    "macos": {
+      "kind": "lower-soft",
+      "ceiling": 65536
+    }
+  },
+  "failure": "urn:marmish:engine:worker-unavailable"
+}
