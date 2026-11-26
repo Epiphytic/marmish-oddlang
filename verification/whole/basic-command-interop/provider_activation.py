@@ -163,7 +163,10 @@ def observe(args):
                 if (server.returncode != int(restart) or stderr != expected_error
                         or not report["mdk_stop_complete"] or not report["runtime_cleanup_complete"]
                         or socket_dir.exists()):
-                    raise ValueError("generated provider did not shut down and release its private socket")
+                    trial = "relay loss" if restart else "signal"
+                    raise ValueError(f"provider cleanup after {trial} failed: "
+                                     f"exit={server.returncode}, report={report}, "
+                                     f"runtime_present={socket_dir.exists()}")
             if records[0] != records[1]:
                 raise ValueError("restart changed the stable signed key package")
     if workspace.root.exists():
@@ -172,6 +175,8 @@ def observe(args):
         "schema": 1,
         "participants": {"clientSha256": args.client_sha256, "daemonSha256": args.daemon_sha256,
                          "relaySha256": args.relay_sha256},
+        "isolationFixtureSha256": digest(args.isolation),
+        "ownerFixtureSha256": digest(Path(__file__)),
         "fileIdentityInitialized": True,
         "externalExecutableDenied": True,
         "nonOnionRejected": True,

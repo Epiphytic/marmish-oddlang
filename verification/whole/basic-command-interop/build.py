@@ -48,9 +48,9 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def copy_registry(lock, source, target):
+def copy_registry(locks, source, target):
     """Stage archives by lock checksum and unpack them only inside Seatbelt."""
-    rows = tomllib.loads(lock.read_text())["package"]
+    rows = (row for lock in locks for row in tomllib.loads(lock.read_text())["package"])
     source_cache = source / "cache"
     shutil.copytree(source / "index", target / "index",
                     ignore=shutil.ignore_patterns(".git", ".DS_Store"))
@@ -61,6 +61,10 @@ def copy_registry(lock, source, target):
         if row.get("source") != "registry+https://github.com/rust-lang/crates.io-index":
             raise ValueError(f"unexpected registry: {row}")
         filename = f"{row['name']}-{row['version']}.crate"
+        if filename in staged:
+            if staged[filename] != row["checksum"]:
+                raise ValueError(f"inconsistent lock checksums for {filename}")
+            continue
         matches = list(source_cache.glob(f"index.crates.io-*/{filename}"))
         if len(matches) != 1 or sha(matches[0]) != row["checksum"]:
             raise ValueError(f"missing or mismatched cached archive: {filename}")
@@ -163,11 +167,22 @@ def qualify(work, compiler, export, probes, checkout, pins):
     if any(Path(path).suffix not in {".json", ".ttl", ".lock"} for path in staged):
         raise ValueError("unexpected input file type")
     cargo_lock = inputs / descriptor["cargoLock"]["path"]
+    locks = [cargo_lock]
+    for member in descriptor["members"].values():
+        manifest = inputs / member["manifest"]["path"]
+        member_lock = manifest.parent / read(manifest)["cargoLock"]["path"]
+        if member_lock not in locks:
+            locks.append(member_lock)
+    git_sources = lambda lock: {source for _, _, source, _ in ASSEMBLY["external_packages"](lock)
+                                if source.startswith("git+")}
+    root_git_sources = git_sources(cargo_lock)
+    if any(not git_sources(lock) <= root_git_sources for lock in locks):
+        raise ValueError("member selects a Git provider absent from workspace lock")
     readable, env = TOOLS.isolation_environment(work, HOST)
     registry_link = Path(env["CARGO_HOME"]) / "registry"
     registry_source = registry_link.resolve(strict=True)
     registry_link.unlink()
-    archives = copy_registry(cargo_lock, registry_source, registry_link)
+    archives = copy_registry(locks, registry_source, registry_link)
     providers = ASSEMBLY["stage_provider_git_cache"](cargo_lock, Path(env["CARGO_HOME"]) / "git")
     developer = Path(env["DEVELOPER_DIR"])
     xcode = next(path for path in developer.parents if path.suffix == ".app")
