@@ -11,3 +11,5 @@ It verifies the original source and dependency pins, compiles the exact framewor
 The independent observer first runs the original native client against the original daemon, which serves the activation snapshot while a loopback relay deliberately stays before TLS. It then runs the same pinned client against the generated local listener. It compares stdout, stderr and exit, seven framed observations, and local cleanup after SIGTERM. The original provider shutdown report and generated local shutdown result are recorded separately. Candidate binary hashes identify the tested build instances, while graph and lock digests and process results can be compared across runs.
 
 This is a read-only activation lane. Active/degraded provider snapshots, profile leases and automatic endpoint discovery, installed daemon behavior, other IPC operations and full provider shutdown are open.
+
+The [macOS ARM64 receipt](generated-macos-arm64.json) records the clean graph build, exact original-client exchange, seven frames and both shutdown observations.
