@@ -31,3 +31,11 @@ The separate loopback diagnostic verified kernel policy on the live, digest-boun
 The independently pinned composed candidate passed both mixed activation probes. In the upstream-client direction, the original client reported `active` and the generated server reported `provider_active`. In the generated-client direction, the generated client reported `provider_active` and the original server reported `active`. Both directions completed setup and verified the reciprocal peer authorization for distinct file-backed identities. The observer found the corresponding signed key package for each identity in its owned relay. It verified process and workspace teardown and unchanged host metadata.
 
 The two `composed-mixed-activation-*-macos-arm64.json` receipts bind the build and independent preflight records under `composed-basic-owner-*-aarch64-apple-darwin.json`. These are activation results. Command qualification remains open.
+
+## Composed first foreground command
+
+Both fresh mixed attempts reached their expected owner states before submitting the fixed `success` case. The generated client exited 255 after 15.08 ms with empty stdout and stderr matching the exact bytes of `marmish: command_prepare` followed by LF. The upstream receiver had no fixture receipt, and cleanup passed.
+
+The original client exited 255 after 301.38 s with empty stdout and the `remote_pending` diagnostic. The generated receiver had no fixture receipt. The observer removed the workspace and owned processes. The host metadata comparison identified the `keychain_directory` category and left the writer unknown. This attempt stays blocked under the cleanup gate.
+
+The foreground receipts use the same independently pinned composed build and preflight as the activation receipts. These results identify the remaining preparation and receiver-completion gaps in the selected first case.

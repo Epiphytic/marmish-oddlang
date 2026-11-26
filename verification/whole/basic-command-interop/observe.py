@@ -131,7 +131,7 @@ def drain(stream, stop):
 def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_digest, interpreter,
             generated_dir=None, generated_role=None,
             generated_build=GENERATED_BUILD, generated_preflight=GENERATED_PREFLIGHT,
-            activation_only=False):
+            activation_only=False, first_foreground_only=False):
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         raise ValueError("the reference preflight requires macOS ARM64")
     interpreter = interpreter.resolve(strict=True)
@@ -154,6 +154,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                    "fixture_sha256": fixture_digest, "short_interpreter_sha256": file_digest(interpreter),
                    "build_record_sha256": file_digest(BUILD), "short_runtime_record_sha256": file_digest(RUNTIME),
                    "stage": "sandbox", "activation_only": activation_only,
+                   "first_foreground_only": first_foreground_only,
                    "reference_complete": False, "attempts": []}
     artifact_dirs = dict.fromkeys(("client", "server"), binaries)
     artifact_pins = dict.fromkeys(("client", "server"), pins)
@@ -291,7 +292,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         instance = peers[role]
                         options = account_options(instance, role, address)
                         owner_args = [instance.root / "marmishd", *options, "--foreground"]
-                        if role != generated_role or not activation_only:
+                        if role != generated_role:
                             owner_args.append("daemon")
                         child = instance.start(owner_args, stdin=subprocess.DEVNULL,
                                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
@@ -311,7 +312,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             if exit_status is not None:
                                 observation["last_owner_status"][role] = {"daemon_exit": exit_status}
                                 raise ValueError(f"{role} owner stopped during activation")
-                            if activation_only and role == generated_role:
+                            if role == generated_role:
                                 state = phase(account_sockets[role])
                                 observation["last_owner_status"][role] = {
                                     "socket_state": state if state in ("activating", "provider_active") else None
@@ -360,7 +361,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                     base = [client.root / "marmish", *account_options(client, "client"),
                             "--no-autostart", "--wait-seconds", "300"]
                     reference_commands(observation["attempts"], client, base, address, accounts["server"],
-                                       account_keys["server"], fixtures)
+                                       account_keys["server"], fixtures, first_foreground_only)
                     observation["stage"] = "complete"
                     observation["reference_complete"] = generated_role is None
     except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
@@ -370,6 +371,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
         outcome = "reference-pass" if generated_role is None else "mixed-pass"
         if activation_only:
             outcome = "mixed-activation-pass"
+        if first_foreground_only:
+            outcome = "mixed-foreground-pass"
     finally:
         stop_readers.set()
         for reader in readers:
@@ -391,11 +394,12 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
 
 
 
-def reference_commands(attempts, client, base, relay, server_npub, server_hex, fixtures):
+def reference_commands(attempts, client, base, relay, server_npub, server_hex, fixtures,
+                       first_foreground_only=False):
     handles = set()
     expected_files = set()
-    for repetition in range(4):
-        cases = (*SHORT_CASES, finite_case(repetition))
+    for repetition in range(1 if first_foreground_only else 4):
+        cases = SHORT_CASES[:1] if first_foreground_only else (*SHORT_CASES, finite_case(repetition))
         for case in cases:
             elapsed_start = time.monotonic_ns()
             attempt = {"case": case.name, "repetition": repetition,
@@ -405,11 +409,20 @@ def reference_commands(attempts, client, base, relay, server_npub, server_hex, f
             exe = fixtures[1] if finite else fixtures[0]
             nonce = hashlib.sha256(f"{case.name}:{repetition}".encode()).hexdigest().encode()
             args = case.args if finite else (case.name.encode(), nonce)
+            if finite:
+                nonce = args[0]
+            receipt_path = exe.parent / "receipts" / f"{nonce.decode()}.receipt"
+            attempt["server_receipt_observed"] = False
             command = [*base, "--relay", relay, "--stdin"]
             if finite:
                 command.append("--detach")
             command.extend((server_npub, "--", exe, *args))
-            result = client.run(command, case.stdin)
+            try:
+                result = client.run(command, case.stdin)
+            except subprocess.TimeoutExpired:
+                attempt["server_receipt_observed"] = receipt_path.is_file()
+                attempt["elapsed_ns"] = time.monotonic_ns() - elapsed_start
+                raise
             output = Output(result.returncode, result.stdout, result.stderr)
             if finite:
                 locator = detached_handle(output, server_hex)
@@ -423,7 +436,6 @@ def reference_commands(attempts, client, base, relay, server_npub, server_hex, f
                     raise TimeoutError("finite-benchmark")
                 waited = client.run([*base, "wait", "--handle", locator], timeout=remaining)
                 output = Output(waited.returncode, waited.stdout, waited.stderr)
-                nonce = args[0]
             elapsed = time.monotonic_ns() - elapsed_start
             expected = Output(case.status, case.stdout, case.stderr)
             attempt["result"] = output.receipt()
@@ -438,15 +450,15 @@ def reference_commands(attempts, client, base, relay, server_npub, server_hex, f
                 if any(line.startswith(f"{exception}: ".encode()) for line in diagnostic_lines)
             ]
             attempt["elapsed_ns"] = elapsed
-            output.compare(expected)
-            receipt_path = exe.parent / "receipts" / f"{nonce.decode()}.receipt"
             expected_files.add(receipt_path.name)
-            if not receipt_path.is_file():
-                raise ValueError("missing server fixture receipt")
-            receipt = json.loads(receipt_path.read_bytes())
-            if receipt != expected_receipt(case, exe, args):
-                raise ValueError("server fixture receipt mismatch")
-            attempt.update(matched=True, server_receipt_verified=True)
+            attempt["server_receipt_observed"] = receipt_path.is_file()
+            if attempt["server_receipt_observed"]:
+                receipt = json.loads(receipt_path.read_bytes())
+                attempt["server_receipt_verified"] = receipt == expected_receipt(case, exe, args)
+            output.compare(expected)
+            if not attempt.get("server_receipt_verified"):
+                raise ValueError("server fixture receipt missing or mismatched")
+            attempt["matched"] = True
             if finite:
                 attempt["bytes_per_second"] = finite_goodput(output, expected, elapsed)
     actual_files = {path.name for path in (fixtures[0].parent / "receipts").iterdir()}
@@ -465,18 +477,21 @@ def main():
     parser.add_argument("--generated-role", choices=("client", "server"))
     parser.add_argument("--generated-build-record", type=Path, default=GENERATED_BUILD)
     parser.add_argument("--generated-preflight-record", type=Path, default=GENERATED_PREFLIGHT)
-    parser.add_argument("--activation-only", action="store_true")
+    scopes = parser.add_mutually_exclusive_group()
+    scopes.add_argument("--activation-only", action="store_true")
+    scopes.add_argument("--first-foreground-only", action="store_true")
     args = parser.parse_args()
     if (args.generated_dir is None) != (args.generated_role is None):
         parser.error("provide both --generated-dir and --generated-role")
-    if args.activation_only and args.generated_dir is None:
-        parser.error("--activation-only requires a generated peer")
+    if (args.activation_only or args.first_foreground_only) and args.generated_dir is None:
+        parser.error("the selected observation scope requires a generated peer")
     receipt = observe(args.upstream_bin_dir, args.deaddrop, args.deaddrop_sha256,
                       args.installed_fixture, args.fixture_sha256, args.interpreter,
                       args.generated_dir, args.generated_role,
-                      args.generated_build_record, args.generated_preflight_record, args.activation_only)
+                      args.generated_build_record, args.generated_preflight_record, args.activation_only,
+                      args.first_foreground_only)
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass", "mixed-activation-pass"} else 1
+    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass", "mixed-activation-pass", "mixed-foreground-pass"} else 1
 
 
 if __name__ == "__main__":
