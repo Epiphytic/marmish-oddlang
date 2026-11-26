@@ -1,0 +1,15 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "e29873828a015a1af201e2887cae85ff4b2faeb8",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-unknown-linux-gnu\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "e70dfef70e68199d7be3c89b3d89d0a923ba1f01607c9a5ac8504629f3d79fc0",
+  "callerSha256": "88bdc56657dc94dedccf92a5fd519642b150983cdb12b14a17a1742e43a78552",
+  "constructions": 631,
+  "decodes": 2363,
+  "rejectedDecodes": 2167,
+  "encodedDigests": 197,
+  "digestListSha256": "09a05b0a74273d04aeae880697214ec24c47a2d650f8ef4b28fd470d7dedd992",
+  "observationsSha256": "ef90454f108ea6d946a00008f73d37116d491710463ac806eee94792e3f57cc8",
+  "negativeControl": "repinned namespace order changes exactly the predicted digest; deferring the size range makes truncation win over Offset"
+}
