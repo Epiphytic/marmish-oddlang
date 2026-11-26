@@ -20,6 +20,7 @@ PORTABLE=ROOT/"oddlang/portable"
 ORIGINAL="af54339d250290490d62d4475a77539b7e739071"
 FRAMEWORK="25bca2d974a3a4d55fc05256d557f95e9f380ed1"
 PROVISIONING_FRAMEWORK = "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36"
+UNIFIED_FRAMEWORK = "ab7171bb583f7e04c63896caeafaa476eb810d5a"
 PROVIDER_CACHE_KEYS = {
     "https://github.com/erskingardner/openmls.git": "openmls-daf8a12ad11cf9dc",
     "https://github.com/erskingardner/rust-nostr": "rust-nostr-86bd2a4a0ba8c210",
@@ -189,15 +190,20 @@ mod copy_caller {
     return sha(suite), sha(exact)
 
 
-def encrypted_profile_evidence(work, target, binaries, compiler):
+def profile_inspector(work, target, filename):
     dependencies = target / "target/release/deps"
-    inspector = work / "inspect-encrypted-profile"
-    source = HERE.parent / "status/encrypted_store_inspect.rs"
+    source = HERE.parent / "status" / filename
+    inspector = work / source.stem
     command = ["rustc", "+1.97.1", "--edition", "2024", "-L", f"dependency={dependencies}"]
     for crate in ("rusqlite", "serde_json", "zeroize"):
         library, = dependencies.glob(f"lib{crate}-*.rlib")
         command.extend(("--extern", f"{crate}={library}"))
     envtools.run(*command, source, "-o", inspector)
+    return inspector
+
+
+def encrypted_profile_evidence(work, target, binaries, compiler):
+    inspector = profile_inspector(work, target, "encrypted_store_inspect.rs")
     receipt = work / "encrypted-init.json"
     release = target / "target/release"
     envtools.run(sys.executable, "-B", HERE.parent / "status/encrypted_init_probe.py",
@@ -206,51 +212,72 @@ def encrypted_profile_evidence(work, target, binaries, compiler):
     return json.loads(receipt.read_bytes())
 
 
+def configured_and_lifecycle_evidence(work, target, binaries, compiler, digests):
+    release = target / "target/release"
+    stores = profile_inspector(work, target, "configured_store_probe.rs")
+    configured = work / "configured-init.json"
+    envtools.run(sys.executable, "-B", HERE.parent / "status/configured_init_probe.py",
+                 binaries / "marmish", release / "marmish", stores, configured,
+                 "--framework-revision", compiler)
+    inspector = work / "encrypted_store_inspect"
+    lifecycle = work / "local-lifecycle.json"
+    envtools.run(sys.executable, "-B", HERE.parent / "foreground-lifecycle/observe.py",
+                 binaries, release, inspector, lifecycle, "--framework-revision", compiler)
+    initialized = json.loads(configured.read_bytes())
+    stopped = json.loads(lifecycle.read_bytes())
+    if initialized["candidateBinarySha256"] != digests["marmish"] or stopped["candidateBinaries"] != digests:
+        raise ValueError("configured and lifecycle checks exercised different generated executables")
+    return initialized, stopped
+
+
 def main():
     ap=argparse.ArgumentParser()
     for name in ("framework","original","receipt"):ap.add_argument(name,type=Path)
-    ap.add_argument("--release", choices=("v1", "v2", "v3", "v4", "v5"), default="v1")
+    ap.add_argument("--release", choices=("v1", "v2", "v3", "v4", "v5", "v6"), default="v1")
     ap.add_argument("--original-bin-dir", type=Path)
     args=ap.parse_args()
-    if args.release in ("v3", "v4", "v5") and args.original_bin_dir is None:
+    if args.release in ("v3", "v4", "v5", "v6") and args.original_bin_dir is None:
         ap.error("this release requires --original-bin-dir for the mixed status replay")
     binaries = args.original_bin_dir.resolve() if args.original_bin_dir else None
     combined = args.release != "v1"
     compiler = {"v1": FRAMEWORK, "v2": "911614cef63a84ecf840cb1228c8a944f1d54d48",
                 "v3": "11a8b7038b37295729b9e43cfe9a917b9a688f14",
-                "v4": "68dc2e327aae8242938df6379cf5568c39190d65", "v5": PROVISIONING_FRAMEWORK}[args.release]
+                "v4": "68dc2e327aae8242938df6379cf5568c39190d65", "v5": PROVISIONING_FRAMEWORK,
+                "v6": UNIFIED_FRAMEWORK}[args.release]
     original=args.original.resolve(); framework=args.framework.resolve()
     def pin(repo,expected):
         if envtools.run("git","rev-parse","HEAD",cwd=repo).strip()!=expected or envtools.run("git","status","--porcelain","--untracked-files=all",cwd=repo):
             raise ValueError(f"expected a clean pinned checkout: {repo}")
     pin(framework,compiler);pin(original,ORIGINAL)
     companion = envtools.run("git", "rev-parse", "HEAD", cwd=ROOT).strip()
-    provisioning = args.release == "v5"
-    if args.release in ("v4", "v5"):
+    provisioning = args.release in ("v5", "v6")
+    unified = args.release == "v6"
+    if args.release in ("v4", "v5", "v6"):
         pin(ROOT, companion)
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp).resolve(); graph=work/"inputs";graph.mkdir()
         manifest=PORTABLE/(f"workspace-{args.release}.json" if combined else "workspace.json")
         w=stage_workspace(manifest,graph)
-        if args.release in ("v4", "v5"):
+        if args.release in ("v4", "v5", "v6"):
             reference_lock = original / "Cargo.lock"
             if sha(reference_lock.read_bytes()) != "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3":
                 raise ValueError("original dependency lock differs")
             available = external_packages(reference_lock)
-            for descriptor in ("Cargo.lock", "native-Cargo.lock"):
-                selected = external_packages(PORTABLE / f"workspace-{args.release}" / descriptor)
+            sealed_native = "native-foreground-lifecycle-v1/Cargo.lock" if unified else f"workspace-{args.release}/native-Cargo.lock"
+            for descriptor in (w["cargoLock"]["path"], sealed_native):
+                selected = external_packages(PORTABLE / descriptor)
                 if not selected or not selected <= available:
                     raise ValueError(f"{args.release} closure differs from original: {descriptor}")
         provider_cache = work / "provider-git" if provisioning else None
         if provisioning:
-            providers = stage_provider_git_cache(PORTABLE / "workspace-v5/Cargo.lock", provider_cache)
+            providers = stage_provider_git_cache(PORTABLE / w["cargoLock"]["path"], provider_cache)
         envtools.run("cargo","+1.97.1","build","--locked","--offline","--bin","oddlang","--target-dir",work/"compiler",cwd=framework)
         if sys.platform=="linux":
             sandbox,env=linux_isolation(work, provider_cache)
             platform="Linux "+os.uname().machine
         else:
             readable,env=envtools.isolation_environment(work,"aarch64-apple-darwin")
-            if args.release in ("v4", "v5"):
+            if args.release in ("v4", "v5", "v6"):
                 env["CC"] = env["CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER"]
                 env["AR"] = envtools.run("xcrun", "--sdk", "macosx", "--find", "ar").strip()
                 if provisioning:
@@ -284,10 +311,20 @@ def main():
             generated={p.relative_to(pkg).as_posix():sha(p.read_bytes()) for p in (pkg/"src").rglob("*") if p.is_file()}
             if generated!=json.loads(lock)["generatedFiles"]:raise ValueError("member source inventory mismatch")
         if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
+        if unified:
+            if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
+                raise ValueError("workspace generated Cargo manifest mismatch")
+            v5 = json.loads((PORTABLE / "workspace-v5/workspace.lock").read_bytes())
+            for member in ("marmish-core", "marmish-stream"):
+                if receipt["members"][member] != v5["members"][member]:
+                    raise ValueError(f"v6 altered the sealed {member} from v5")
         inaccessible = [original / "Cargo.toml"]
-        if args.release in ("v4", "v5"):
+        if args.release in ("v4", "v5", "v6"):
             inaccessible += [binaries / "marmish", binaries / "marmishd", framework / "src/main.rs",
                              HERE.parent / "relay/owner-tls-macos-arm64.json"]
+        if unified:
+            inaccessible += [HERE.parent / "status/configured_init_probe.py",
+                             HERE.parent / "foreground-lifecycle/observe.py"]
         for path in inaccessible:
             probe = subprocess.run([*sandbox, "/bin/cat", path], env=env, cwd=work, capture_output=True)
             if probe.returncode == 0 or not any(error in probe.stderr for error in (
@@ -295,11 +332,13 @@ def main():
             )):
                 raise ValueError(f"generation can read excluded input {path}")
         inside("cargo", "build", "--workspace", "--locked", "--release", "--offline", cwd=target)
-        interfaces = v3_interfaces(work, target, original, binaries, compiler) if args.release in ("v3", "v4", "v5") else {}
-        if args.release in ("v4", "v5"):
+        interfaces = v3_interfaces(work, target, original, binaries, compiler) if args.release in ("v3", "v4", "v5", "v6") else {}
+        if args.release in ("v4", "v5", "v6"):
             mixed = work / "foreground.json"
-            envtools.run(sys.executable, "-B", HERE / "foreground_matrix.py", binaries, target, mixed,
-                         *(("--both-initializers",) if provisioning else ()))
+            flags = ["--both-initializers"] if provisioning else []
+            if unified:
+                flags.append("--provider-terminal")
+            envtools.run(sys.executable, "-B", HERE / "foreground_matrix.py", binaries, target, mixed, *flags)
             interfaces["foreground"] = json.loads(mixed.read_bytes())
             interfaces["companionRevision"] = companion
             interfaces["workspaceManifestSha256"] = sha(manifest.read_bytes())
@@ -309,6 +348,11 @@ def main():
             interfaces["encryptedInit"] = encrypted_profile_evidence(work, target, binaries, compiler)
             if interfaces["foreground"]["generatedBinarySha256"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("profile matrix exercised different generated executables")
+        if unified:
+            configured, lifecycle = configured_and_lifecycle_evidence(
+                work, target, binaries, compiler, interfaces["cliParser"]["generatedBinaries"])
+            interfaces["configuredInit"] = configured
+            interfaces["localProviderLifecycle"] = lifecycle
         core=target/"marmish-core";(core/"tests").mkdir()
         testfile=original/"crates/marmish-core/tests/contracts.rs";shutil.copyfile(testfile,core/"tests/contracts.rs")
         stream=target/"marmish-stream"
