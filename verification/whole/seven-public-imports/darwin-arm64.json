@@ -1,5 +1,5 @@
 {
-  "workspaceInputRevision": "9d364408d2b26f65defd5e88bf6727960250d789",
+  "workspaceInputRevision": "6a3eb779b60e63bef3dbfbb83e64b8a486ef77df",
   "frameworkRevision": "59f947dafdb4cf3055e35216857472ada895a76a",
   "original": "af54339d250290490d62d4475a77539b7e739071",
   "workspaceLockSha256": "fdfa5b16d9172fe97705ee5794251c6168d0e226ea159334a52286e2e7172b68",
@@ -14,7 +14,7 @@
   ],
   "candidateArtifactLogSha256": "3cb725cd5929250dbcdcf9410344c70c2542c4d2100366cedb58d60bd0d2f845",
   "originalArtifactLogSha256": "b2cd8eeab79c7384bb44f60726bd0e3fd9b90f8f3f5036c607d1772cc6cdea70",
-  "verifierSha256": "2aaa94458deaa3f1cb29a89fb0436cd001bab8dc81dd2024be951a410bb9ed92",
+  "verifierSha256": "c9093ae99f35c16518442e14e599f8d008846d19a1ee0ec9abb3f88cd3aa7e55",
   "imports": {
     "core": {
       "inventorySha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
