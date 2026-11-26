@@ -20,3 +20,29 @@ oddlang build module oddlang/facade "$out/facade" \
 cmp "$out/framing/frame.rs" crates/marmish-core/src/frame.rs
 cmp "$out/facade/lib.rs" crates/marmish-core/src/lib.rs
 ```
+
+## Regenerate marmish-stream
+
+All five Rust sources for `marmish-stream` live in the pinned
+[syntax graph](stream/syntax.ttl). The
+[source inventory](stream/sources.json) records their package-relative paths
+and output hashes. Its Cargo manifest and the workspace lock remain at their
+original paths. Other workspace crates are available as native Rust sources.
+
+Build the Oddlang CLI from the
+[pinned compiler](https://github.com/Epiphytic/oddlang/tree/f5f6ea6571821ce49f0622d9550d50ce7c8de8e7)
+using `cargo +1.97.1 build --locked --bin oddlang`. Then run these commands
+from the Marmish repository. Point `ODDLANG` to the resulting binary when
+it is outside your PATH.
+
+```sh
+ODDLANG=/path/to/oddlang ./oddlang/regenerate-stream.sh
+cargo +1.97.1 test --locked --offline -p marmish-stream
+cargo +1.97.1 check --locked --offline --workspace --all-targets
+```
+
+The script verifies the graph and every emitted source against
+[the lock pin](stream.sha256). A repeat run checks the materialized sources.
+Cargo uses the existing crate name, path, version, API and locked dependencies.
+For offline builds, prepare the dependencies in the local Cargo cache first.
+The input to regeneration is this repository's Oddlang graph bundle.
