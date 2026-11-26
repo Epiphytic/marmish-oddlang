@@ -1,5 +1,7 @@
 # Marmish sources recovered by Oddlang
 
+The [workspace public API comparison](../verification/whole/public-types/README.md#whole-workspace-on-darwin-arm64) covers all seven original libraries and shows which v5 and v6 types downstream Rust code can import.
+
 The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.
 
 Build the current Rust workspace from the [v6 manifest](portable/workspace-v6.json). It includes the same core and stream libraries as v5, configured encrypted file initialization, and the native foreground owner and status client for direct TLS activation of prepared no-config profiles. [Build and qualification](../verification/whole/workspace/README.md#workspace-v6)

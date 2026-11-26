@@ -1,0 +1,65 @@
+{
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "expectedExportsSha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
+  "imports": [
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "ConfigError"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "FrameError"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "Limits"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "ProbeEnvelope"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "RelaySet"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "Retention"
+      ],
+      "subjectKind": "data"
+    }
+  ],
+  "subjectExportsSha256": "6d4fd783c0668826529cc2ec015bef497cc607bbba6aab62d578c4f36feb6196",
+  "subjectLockSha256": "a96e6894bbd6a0b24eb2223f5aa1c2e725c3b29e09db7ffbf1f6e8fa37cf3bbc",
+  "subjectPackage": "marmish-core",
+  "subjectTargetName": "marmish_core",
+  "target": "aarch64-apple-darwin"
+}
