@@ -36,7 +36,7 @@ def cases():
         raw = frame(op, good)
         yield f"{op}/success", raw, True
         yield f"{op}/trailing-newline", raw+b"\n", False
-        yield f"{op}/duplicate-id", raw.replace(b'"id":', b'"id":"123","id":', 1), False
+        yield f"{op}/duplicate-id", raw.replace(b'"id":', b'"id":'+encoded("66"*16)+b',"id":', 1), False
         yield f"{op}/same-peer", frame(op, good, server="11"*32), False
         yield f"{op}/wrong-message-type", frame(op, good, type="request"), False
         yield f"{op}/two-results", frame(op, dict(good, error=dict(code="busy", detail=None))), False
@@ -60,6 +60,49 @@ def cases():
             for value in (0, 1, 127, 128):
                 measured = dict(status, outcome=dict(kind="signal", value=value))
                 yield f"poll/signal-{value}", frame(op, dict(body, result=dict(result, status=measured))), 1 <= value <= 127
+
+    def status_packet(**changes):
+        return frame("status", dict(body, result={"status":dict(status, **changes)}))
+    for name in ("accepted", "delivered", "length"):
+        for n in (16384, 16385):
+            yield f"status/input-{name}-{n}", status_packet(input=dict(inp, **{name:n})), n <= 16384
+    early = dict(inp, eof_sent=False, health="open")
+    yield "status/pre-engine", status_packet(engine_known=False, state="accepted", input=early), True
+    yield "status/pre-engine-state", status_packet(engine_known=False, state="exited", input=early), False
+    for field, val in (("accepted", 1), ("delivered", 1), ("health", "closed"), ("eof_sent", True)):
+        yield "status/pre-engine-"+field, status_packet(engine_known=False, state="accepted", input=dict(early, **{field:val})), False
+    for kind, value, ok in (("code", None, False), ("not_started", None, True), ("not_started", 1, False),
+                            ("launch_failed", 0, False), ("launch_failed", 1, True), ("launch_failed", 7, True), ("launch_failed", 8, False)):
+        yield f"status/{kind}-{value}", status_packet(outcome=dict(kind=kind, value=value)), ok
+    for channel in ("stdout", "stderr"):
+        for key in ("produced", "retained"):
+            yield f"status/{channel}-{key}-overflow", status_packet(**{channel:dict(stream, **{key:2**63})}), False
+        for name, start, end, count, ok in [
+            ("open",2,None,1,True), ("closed",0,1,1,True), ("empty",1,1,1,False), ("reversed",2,1,1,False),
+            ("start-overflow",2**63,None,1,False), ("end-overflow",1,2**63,1,False),
+            ("four",0,1,4,True), ("five",0,1,5,False),
+        ]:
+            gaps = [dict(start=start, end=end, reason="limit")]*count
+            yield f"status/{channel}-gap-{name}", status_packet(**{channel:dict(stream, gaps=gaps)}), ok
+    for name, code, detail, ok in [
+        ("path-ok","noncanonical_executable","/x",True),
+        ("path-relative","noncanonical_executable","x",False),
+        ("path-nul","noncanonical_executable","/x"+chr(0),False),
+        ("path-at-limit","noncanonical_executable","/"+"x"*1021,True),
+        ("path-over-limit","noncanonical_executable","/"+"x"*1022,False),
+        ("known-reason","command_not_found","path_search_exhausted",True),
+        ("unknown-reason","command_not_found","unknown",False),
+    ]:
+        yield "error/"+name, frame("status",dict(body,ok=False,error=dict(code=code,detail=detail))),ok
+    for cursor in (2**63-1, 2**63):
+        res = dict(status=status, stdout=chunk, stderr=dict(chunk,next_cursor=cursor))
+        yield f"poll/stderr-cursor-{cursor}", frame("poll",dict(body,result=res)), cursor<2**63
+    accepted = dict(body, result=dict(status=status))
+    raw = frame("status", accepted)
+    yield "status/duplicate-inner-ok", raw.replace(b'"ok":true', b'"ok":true,"ok":true',1), False
+    yield "status/protocol", frame("status", accepted, protocol="other"), False
+    yield "status/failed-without-error", frame("status",dict(body,ok=False)), False
+    yield "submit/existing", frame("submit",dict(body,result=dict(disposition="existing",status=status))), True
 
 
 def main():

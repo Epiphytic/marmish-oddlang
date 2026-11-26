@@ -14,4 +14,6 @@ The command response's `Gap.end` must appear on the wire and can contain null. T
 
 ## Whole response reference
 
-`envelope.py` uses the mainline response decoder and encoder. It compares each complete packet with an independently specified success or rejection and records a digest for every input. Its 61 cases cover submit, status, poll, cancel and finish, both success and error bodies, canonical framing, peer binding, signal outcomes, combined stream size and the signed-63-bit maximum poll cursor. The reference accepts 15 and rejects 46. A future complete generated codec can use the same inputs and expectations. [Reference receipt](reference-envelope-aarch64-apple-darwin.json)
+`envelope.py` uses the mainline response decoder and encoder. It compares each complete packet with an independently specified success or rejection and records a digest for every input. Its 113 cases cover submit, status, poll, cancel and finish, both success and error bodies, canonical framing, peer binding, signal outcomes, combined stream size and the maximum poll cursor of 2^63-1. The reference accepts 33 and rejects 80. A future complete generated codec can use the same inputs and expectations. [Reference receipt](reference-envelope-aarch64-apple-darwin.json)
+
+Run the reference control with `python3 verification/whole/command-responses/envelope.py "$MAINLINE_CHECKOUT"` and compare its output with the archived receipt.
