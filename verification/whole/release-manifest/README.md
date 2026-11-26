@@ -41,6 +41,6 @@ checkable. Installation, path and directory discovery, and asset I/O
 require separate qualification. This is original-source evidence for a
 later parser projection.
 
-The archived [ARM64 macOS observation](aarch64-apple-darwin.json) covers 216
-cases, including 32 acceptances, and both unchanged pure parser tests. The
+The archived [ARM64 macOS observation](aarch64-apple-darwin.json) covers 224
+cases, including 34 acceptances, and both unchanged pure parser tests. The
 license-cap mutation changes exactly one case, `size-3-16777217`.

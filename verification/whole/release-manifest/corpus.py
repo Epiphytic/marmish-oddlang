@@ -45,8 +45,11 @@ def cases():
                           "0.3.18446744073709551616","0.3.1-rc.18446744073709551616","0.3.1-rc.1+meta",
                           "0.3.1-rc.1-rc.2","0.3.é","0.3.١")):
         add(f"version-invalid-{i}",manifest(version=v)[0])
+    for minimum in ("glibc=2.0","glibc=18446744073709551615.0"):
+        add("minimum-valid-"+minimum,*manifest(minimum=minimum))
     for i,f in enumerate(("glibc=2","glibc=2.","glibc=.2","glibc=2.3.4","glibc=02.3",
-                         "glibc=2.03","glibc=18446744073709551616.0","glibc=-1.0","glibc=+1.0","glibc==2.4")):
+                         "glibc=2.03","glibc=18446744073709551616.0","glibc=-1.0","glibc=+1.0","glibc==2.4",
+                         "glibc=2.18446744073709551616")):
         add(f"minimum-invalid-{i}",manifest(minimum=f)[0])
     for i in range(5):
         for n in (0,1,2**32-1,2**32,2**64,):
@@ -76,15 +79,20 @@ def cases():
         ("unknown-target",TARGETS[0],"x86_64-apple-darwin"),("wrong-family","glibc","GLIBC"),
         ("schema","manifest 1","manifest 2"),("unknown-notarized","notarized=no","notarized=0"),
         ("commit-upper",good["commit"],good["commit"].upper()),("commit-short",good["commit"],good["commit"][:-1]),
+        ("commit-long",good["commit"],good["commit"]+"0"),("commit-nonhex",good["commit"],"g"+good["commit"][1:]),
+        ("state-extra-token","commands=1\n","commands=1 extra=1\n"),
+        ("file-extra-token","0555 marmish\n","0555 marmish extra\n"),
+        ("file-keyword","file "+DIGESTS[0],"File "+DIGESTS[0]),
         ("wrong-exec-mode","0555","0755"),("wrong-data-mode","0444","0555"),
         ("short-mode","0555","555"),("wrong-name","0555 marmish\n","0555 ./marmish\n"),
         ("double-space","state profile","state  profile"),("leading-space","version "," version "),
         ("trailing-space","end\n","end \n"),("wrong-footer","end\n","done\n"),
         ("extra-token","signing none","signing none extra"),("duplicate-state-key","commands=1","config=1"),
         ("state-key-reordering","engine=1 config=1","config=1 engine=1"),
-        ("multiple-invalid","version 0.3.1","version bad\ntarget bad"),
     ):
         add(name,baseline.replace(old.encode(),new.encode(),1))
+    add("multiple-invalid",baseline.replace(b"version 0.3.1",b"version bad",1)
+        .replace(("target "+TARGETS[0]).encode(), b"target bad",1))
     lines=baseline.splitlines(keepends=True)
     for i in range(12):
         add(f"missing-line-{i}",b"".join(lines[:i]+lines[i+1:]))

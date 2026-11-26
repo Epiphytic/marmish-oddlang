@@ -18,14 +18,14 @@
   },
   "mutatedSourceSha256": "0817fd1632fccb2824ae78c765a415b0c0a080aec4b2ee593b8265466a34213b",
   "callerSha256": "c47132c88068dbf556cbd0653fd8686ef9d0aeeee54644d05e9926d224b9c2c7",
-  "corpusSha256": "1f4717e53c2eb9de0a78e1a70a6541b263a7fd05b30af468be1649ed1fc4f6e5",
-  "inputsSha256": "b42c0ae832c002785cf468a1d49e60de5501be3c03a53e43212f25e783734a51",
+  "corpusSha256": "04d3db49c13831178169374fdc69e8773e1de3a8baa1b7467ccd6e17f946af12",
+  "inputsSha256": "967cbae1e747bbb6b2aae7007f4240d8b273a2fa8a73f6a5b016efa6685d3cdf",
   "unchangedPureTests": [
     "test native_manifest::tests::strict_vectors ... ok",
     "test native_manifest::tests::shared_release_version_vectors ... ok"
   ],
-  "cases": 216,
-  "accepted": 32,
+  "cases": 224,
+  "accepted": 34,
   "changedCases": [
     "size-3-16777217"
   ],
@@ -824,6 +824,104 @@
       }
     },
     {
+      "case": "minimum-valid-glibc=2.0",
+      "result": {
+        "commit": "000102030405060708090a0b0c0d0e0f10111213",
+        "files": [
+          {
+            "bytes": 1,
+            "download": "marmish-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmish",
+            "sha256": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+          },
+          {
+            "bytes": 23,
+            "download": "marmishd-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmishd",
+            "sha256": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+          },
+          {
+            "bytes": 321,
+            "download": "marmish-worker-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmish-worker",
+            "sha256": "02030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021"
+          },
+          {
+            "bytes": 5,
+            "download": "THIRD-PARTY-LICENSES-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 292,
+            "name": "THIRD-PARTY-LICENSES",
+            "sha256": "030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122"
+          }
+        ],
+        "formats": [
+          2,
+          7,
+          1,
+          1,
+          1
+        ],
+        "id": "0.3.1-x86_64-unknown-linux-gnu",
+        "minimum": "glibc=2.0",
+        "notarized": false,
+        "signing": "none",
+        "target": "x86_64-unknown-linux-gnu",
+        "version": "0.3.1"
+      }
+    },
+    {
+      "case": "minimum-valid-glibc=18446744073709551615.0",
+      "result": {
+        "commit": "000102030405060708090a0b0c0d0e0f10111213",
+        "files": [
+          {
+            "bytes": 1,
+            "download": "marmish-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmish",
+            "sha256": "000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
+          },
+          {
+            "bytes": 23,
+            "download": "marmishd-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmishd",
+            "sha256": "0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f20"
+          },
+          {
+            "bytes": 321,
+            "download": "marmish-worker-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 365,
+            "name": "marmish-worker",
+            "sha256": "02030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f2021"
+          },
+          {
+            "bytes": 5,
+            "download": "THIRD-PARTY-LICENSES-0.3.1-x86_64-unknown-linux-gnu",
+            "mode": 292,
+            "name": "THIRD-PARTY-LICENSES",
+            "sha256": "030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f202122"
+          }
+        ],
+        "formats": [
+          2,
+          7,
+          1,
+          1,
+          1
+        ],
+        "id": "0.3.1-x86_64-unknown-linux-gnu",
+        "minimum": "glibc=18446744073709551615.0",
+        "notarized": false,
+        "signing": "none",
+        "target": "x86_64-unknown-linux-gnu",
+        "version": "0.3.1"
+      }
+    },
+    {
       "case": "minimum-invalid-0",
       "result": {
         "code": "install_manifest",
@@ -897,6 +995,14 @@
     },
     {
       "case": "minimum-invalid-9",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "minimum-invalid-10",
       "result": {
         "code": "install_manifest",
         "display": "invalid input: install_manifest",
@@ -2624,6 +2730,46 @@
     },
     {
       "case": "commit-short",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "commit-long",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "commit-nonhex",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "state-extra-token",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "file-extra-token",
+      "result": {
+        "code": "install_manifest",
+        "display": "invalid input: install_manifest",
+        "error": "Invalid"
+      }
+    },
+    {
+      "case": "file-keyword",
       "result": {
         "code": "install_manifest",
         "display": "invalid input: install_manifest",
