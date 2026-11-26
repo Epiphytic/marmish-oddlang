@@ -1166,6 +1166,9 @@
 {"path":"verification/whole/gap-range-record/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"cb43d1ca685ee945f1d3a2e8e47b0b652b3ef6c4233ab9429cc237a6546bcf2e","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-record/traits.rs","language":"rust","mode":"100644","sha256":"e83d44a3b838fd9efdaf23c08ddc22a7e3f35cca623c51a72573e2726c145643","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-record/verify.py","language":"python","mode":"100644","sha256":"f5ee8d987c7b436b6121e8c2b9c99f8cba77d71c7386889c5adaf252dfe4235e","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-recovery/README.md","language":"inventory","mode":"100644","sha256":"52d59786366f2c82136af13adc010b93025fe2bea7bd981e970ee9ed94f826e1","parse_status":"inventory"}
+{"path":"verification/whole/gap-range-recovery/rustdoc.py","language":"python","mode":"100644","sha256":"71e4bb0adaaa5b9c685499ef01b5ea2cbf866459a144786a6a68b26b1db947ab","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-recovery/verify.py","language":"python","mode":"100644","sha256":"b5e86a062b24628825437a80153e1c6a319b10d91cb5c8744d32e418bb7b6390","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-reference/README.md","language":"inventory","mode":"100644","sha256":"50defdec7b6f069c0c338b4000ff8acd379adc8b4139c3fffee6adc6bcffc7ab","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-reference/caller.lock","language":"inventory","mode":"100644","sha256":"9d9131d0dde46513ed89d3805bbd4e39aa374283e1572e46d4bb0d08a3c9cb0e","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-reference/caller.toml","language":"inventory","mode":"100644","sha256":"a098944bbc96bc3ee275b6854143e592d89de400e1426fd1478464047cdb30c2","parse_status":"inventory"}
