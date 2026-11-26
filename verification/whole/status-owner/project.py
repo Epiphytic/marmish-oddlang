@@ -13,7 +13,9 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 INPUTS = ROOT / "oddlang/portable/native-status-owner-v1"
 REFERENCE = "af54339d250290490d62d4475a77539b7e739071"
+MANIFEST = "crates/marmish-native/Cargo.toml"
 PINS = {
+    MANIFEST: "f92cdde82b3e4cf077294a7296117af4dcc28dba55bf1c9d694d7a4b273f539f",
     "Cargo.lock": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
     "crates/marmish-native/src/daemon.rs": "cf2e7cc2a9e9a5a55db726286a53e595d607cc22288cdf7b7fed0fe6c2f439c8",
     "crates/marmish-native/src/ipc.rs": "ffeeba6b2d0b8fef1d44bea311e5548e8b7ac520d4b7d04286077547273b8a4a",
@@ -42,6 +44,13 @@ def verify_reference(original):
         if digest(data) != expected:
             raise ValueError(f"reference source pin differs for {path}")
         pinned[path] = data
+    source_package = tomllib.loads(pinned[MANIFEST].decode())["package"]
+    overlay_package = json.loads((INPUTS / "package.json").read_bytes())
+    expected = ("marmish-native", "0.3.1", "2024")
+    if tuple(source_package[key] for key in ("name", "version", "edition")) != expected:
+        raise ValueError("original native package metadata differs")
+    if (overlay_package["version"], overlay_package["edition"]) != expected[1:]:
+        raise ValueError("status owner release metadata differs from the reference package")
     locked = registry((INPUTS / "owner-Cargo.lock").read_bytes())
     if not locked or not locked <= registry(pinned["Cargo.lock"]):
         raise ValueError("status owner dependencies differ from the reference lock")

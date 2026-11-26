@@ -11,7 +11,7 @@
         "bindingSha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2",
         "format": "oddlang-local-status-owner-lock-v1",
         "graphSha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
-        "sourceSha256": "4a6286326029cf7fd9776cab206bbefa310c165713096a1426c95542b9ed59f2"
+        "sourceSha256": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497"
       },
       "reexports": [
         "run_owner",
@@ -19,13 +19,13 @@
         "SnapshotPublisher",
         "OwnerError"
       ],
-      "sourceSha256": "4a6286326029cf7fd9776cab206bbefa310c165713096a1426c95542b9ed59f2"
+      "sourceSha256": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497"
     }
   ],
   "format": "oddlang-native-package-lock-v1",
   "generatedFiles": {
     "src/bin/marmish-status-owner.rs": "fe6bbadc3f591d767973761010e5490a5db874f6ff689252efc5aee4b34dae6f",
-    "src/group_0/__projection_0.rs": "4a6286326029cf7fd9776cab206bbefa310c165713096a1426c95542b9ed59f2",
+    "src/group_0/__projection_0.rs": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497",
     "src/group_0/mod.rs": "9cae26279ec159439c2d6c1ce91e239e5bfe20e56f0e81aec4f6958b850773b5",
     "src/lib.rs": "05932d4a856a0d6d51085c23710c92b2792adbcd739fd3e20b5a105b32c46754"
   },

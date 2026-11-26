@@ -135,13 +135,43 @@ def observe(program, original_client, root, owner_binary=None):
     }
 
 
+def admission_checks(binary, root):
+    root.mkdir(mode=0o700)
+    occupied, stale, shared = root / "file", root / "stale", root / "shared"
+    occupied.write_bytes(b"foreign")
+    with socket.socket(socket.AF_UNIX) as peer:
+        peer.bind(str(stale))
+        stale_inode = stale.stat().st_ino
+    shared.mkdir()
+    shared.chmod(0o755)
+    cases = {
+        "occupied-file": (occupied, "socket occupied"),
+        "stale-socket": (stale, "socket occupied"),
+        "non-private-parent": (shared / "s", "invalid input: socket_directory_permissions"),
+        "long-path": (root / ("x" * 104), "invalid input: socket_path_length"),
+    }
+    observed = {}
+    for label, (path, diagnostic) in cases.items():
+        result = subprocess.run(
+            [binary, "--socket", path], cwd=root, stdin=subprocess.DEVNULL,
+            capture_output=True, timeout=5, umask=0o077,
+            env={"HOME": str(root), "LANG": "C", "PATH": "/usr/bin:/bin"},
+        )
+        row = {"exit": result.returncode, "stdout": result.stdout.decode(), "stderr": result.stderr.decode()}
+        check(row, {"exit": 1, "stdout": "", "stderr": f"marmish status owner: {diagnostic}\n"}, label)
+        observed[label] = row
+    check(occupied.read_bytes(), b"foreign", "occupied file retained")
+    check(stale.stat().st_ino, stale_inode, "stale socket retained")
+    return observed
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("original", type=lambda value: Path(value).resolve())
     parser.add_argument("candidate", type=lambda value: Path(value).resolve())
     parser.add_argument("output", type=Path)
     parser.add_argument("--framework-revision", required=True)
-    parser.add_argument("--build-receipt", type=Path, default=HERE.parent / "bridge/aarch64-apple-darwin.json")
+    parser.add_argument("--build-receipt", type=Path)
 
     args = parser.parse_args()
     revision = subprocess.check_output(["git", "-C", HERE, "rev-parse", "HEAD"], text=True).strip()
@@ -153,7 +183,12 @@ def main():
     generated = args.candidate.parents[2]
     for name, pinned in (("Cargo.lock", "owner-Cargo.lock"), ("package.lock", "package.lock")):
         check((generated / name).read_bytes(), (INPUTS / pinned).read_bytes(), name)
-    provenance = json.loads(args.build_receipt.read_bytes())
+    build_receipt = args.build_receipt
+    if build_receipt is None:
+        if target != "aarch64-apple-darwin":
+            parser.error("--build-receipt is required outside macOS ARM64")
+        build_receipt = HERE.parent / "bridge/aarch64-apple-darwin.json"
+    provenance = json.loads(build_receipt.read_bytes())
     check(provenance["commit"], REFERENCE, "original input revision")
     hashes = provenance["builds"]["default"]["sha256"]
     for name, expected in hashes.items():
@@ -164,6 +199,7 @@ def main():
         daemon = args.original / "marmishd"
         original = observe(daemon, client_path, root / "original")
         mixed = observe(daemon, client_path, root / "mixed", args.candidate)
+        admission = admission_checks(args.candidate, root / "admission")
     for key in ("status", "frames", "socketRemoved", "afterShutdown", "socketMode"):
         check(mixed[key], original[key], key)
     original_report = json.loads(original["shutdown"]["stdout"])
@@ -172,19 +208,20 @@ def main():
     check(mixed["shutdown"], {"exit": 0, "stdout": "", "stderr": ""}, "local owner shutdown")
     report = {
         "platform": target, "frameworkRevision": args.framework_revision,
-        "companionRevision": revision, "originalBuildReceiptSha256": fingerprint(args.build_receipt),
+        "companionRevision": revision, "originalBuildReceiptSha256": fingerprint(build_receipt),
         "referenceRevision": REFERENCE, "originalBinaries": hashes,
         "candidateSha256": fingerprint(args.candidate),
         "packageManifestSha256": fingerprint(INPUTS / "package.json"),
         "packageLockSha256": fingerprint(INPUTS / "package.lock"),
         "graphSha256": fingerprint(INPUTS / "graph.json"),
         "cargoLockSha256": fingerprint(INPUTS / "owner-Cargo.lock"),
-        "original": original, "reverseMixed": mixed,
+        "original": original, "reverseMixed": mixed, "candidateAdmissionControls": admission,
         "unqualified": [
             "provider activation, active and degraded snapshots",
             "installed executable, default profile, startup lease and filesystem lifecycle",
             "all non-status IPC operations and provider shutdown reports",
-            "different-UID and native deadline tests",
+            "different-UID credentials, native I/O deadlines and maximum 64-client saturation",
+            "externally observable stopping snapshot",
         ],
     }
     with args.output.open("x") as output:
