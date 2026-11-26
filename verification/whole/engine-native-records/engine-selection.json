@@ -1,0 +1,9 @@
+{
+  "format": "oddlang-rust-selected-record-selection-v1",
+  "id": "urn:marmish:engine:public-records:model",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+  "records": {
+    "InputReceipt": "urn:marmish:engine:public-records:model:InputReceipt",
+    "MaintenanceReport": "urn:marmish:engine:public-records:model:MaintenanceReport"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-public-records-rust-v1",
+  "flattenModule": true,
+  "identifiers": {
+    "urn:marmish:native:public-records:transport": "root",
+    "urn:marmish:native:public-records:transport:ArtiDirs": "ArtiDirs"
+  }
+}

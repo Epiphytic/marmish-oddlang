@@ -121,7 +121,8 @@ def mdk_oracle(args, compiler, work, scratch, generated_build):
     }
 
 
-def qualified_oracles(args, host, work, scratch, compiler, product, build, manifest=MANIFEST):
+def qualified_oracles(args, host, work, scratch, compiler, product, build, manifest=MANIFEST,
+                      *, fixed_vault_predecessor=None):
     predecessor = lane("unified-vault-journal")
     report = lane("unified-recovered-vault")
 
@@ -137,7 +138,9 @@ def qualified_oracles(args, host, work, scratch, compiler, product, build, manif
     release = lane("build-report", "observe.py")["observe"](
         args.original, PORTABLE, args.original_bin_dir, product / "target/release", host)
     with patch.dict(report["fixed_value_test"].__globals__, {"MANIFEST": manifest, "run": host_run}):
-        fixed = report["fixed_value_test"](work, args.original, args.original_target)
+        fixed = report["fixed_value_test"](
+            work, args.original, args.original_target, predecessor_package=fixed_vault_predecessor
+        )
 
     vault = lane("vault-values")
     vault_lib = artifact(build, "marmish_vault")
@@ -164,7 +167,7 @@ def qualified_oracles(args, host, work, scratch, compiler, product, build, manif
 
 def qualify(args, host, work, scratch, *, manifest=MANIFEST, base=BASE, member=MEMBER,
             check=check_product, extra_denied=None, extra_oracle=None, extra_artifact_oracle=None,
-            receipt_format="marmish-six-member-mdk-public-data-v1"):
+            receipt_format="marmish-six-member-mdk-public-data-v1", fixed_vault_predecessor=None):
     assembly = lane("workspace")
     run("cargo", "+1.97.1", "build", "--offline", "--locked", "--bin", "oddlang",
         "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
@@ -216,7 +219,10 @@ def qualify(args, host, work, scratch, *, manifest=MANIFEST, base=BASE, member=M
     lock = check(product)
     build = invoke("cargo", "build", "--workspace", "--release", "--locked", "--offline",
                    "--message-format=json", cwd=product)
-    observations = qualified_oracles(args, host, work, scratch, compiler, product, build, manifest)
+    observations = qualified_oracles(
+        args, host, work, scratch, compiler, product, build, manifest,
+        fixed_vault_predecessor=fixed_vault_predecessor,
+    )
     if extra_oracle is not None:
         observations.update(extra_oracle(product))
     if extra_artifact_oracle is not None:
