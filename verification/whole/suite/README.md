@@ -271,8 +271,9 @@ replay changes any canonical case disposition.
 
 The named test receipts list the unverified cases by upstream Cargo
 harness and exact name. The full-coverage check still rejects promotion
-on that baseline. The earlier canonical terminal CLI corpus also needs
-its own replay on this candidate lock. The named native-process case
+on that baseline. The earlier canonical CLI corpus has 164 in-scope
+terminal observations per host. That corpus still needs a replay on
+this candidate lock. The named native-process case
 covers the two terminal help invocations only. Other test profiles,
 targets, installation and live operation have separate evidence and
 receive no coverage credit here. The published default remains pinned

@@ -194,6 +194,41 @@ def dependency(rows, name, target_release):
     return path
 
 
+def runtime_caller(host, native, serde, serde_json, target, links, work):
+    work.mkdir()
+    flags = ["rustc", "+1.97.1", "--edition=2024", "--target", host,
+             "--extern", f"marmish_native={native}", "--extern", f"serde={serde}",
+             "--extern", f"serde_json={serde_json}", "-L", f"dependency={target / host / 'release/deps'}",
+             "-L", f"dependency={target / 'release/deps'}"]
+    flags.extend(arg for path in links for arg in ("-L", path))
+    observer = work / "probe"
+    run(*flags, STATUS_DATA["PROBE"], "-o", observer)
+    rows = run(observer, cwd=work).decode().splitlines()
+    controls = {
+        label: ("E0277", f"fn need<T: {trait}>() {{}} fn main() {{ need::<RuntimeStatus>(); }}")
+        for label, trait in (("clone", "Clone"), ("debug", "std::fmt::Debug"),
+                             ("default", "Default"), ("deserialize", "for<'de> serde::Deserialize<'de>"))
+    }
+    controls["wordType"] = (
+        "E0308", "fn main() { let _ = RuntimeStatus { identity: String::new(), conversations: 0u64,"
+        " received: 0, pending: 0 }; }",
+    )
+    controls["rootExposure"] = ("E0432", "use marmish_native::RuntimeStatus; fn main() {}")
+    diagnostics = {}
+    for label, (code, body) in controls.items():
+        if label != "rootExposure":
+            body = "use marmish_native::mdk_adapter::RuntimeStatus;\n" + body
+        result = subprocess.run([*flags, "--emit=metadata", "--error-format=json", "-",
+                                 "-o", work / "negative.rmeta"],
+                                input=body, text=True, capture_output=True, timeout=60)
+        errors = [row["code"]["code"] for line in result.stderr.splitlines()
+                  if (row := json.loads(line))["level"] == "error" and row.get("code")]
+        if result.returncode == 0 or errors != [code]:
+            raise ValueError(f"wrong RuntimeStatus compiler control {label}: {result.stderr}")
+        diagnostics[label] = code
+    return {"jsonLines": rows, "diagnostics": diagnostics}
+
+
 def domains(host, raw, target, roles, links, work):
     engine, native = roles[ENGINE][1], roles[NATIVE][1]
     rows = [json.loads(line) for line in raw.splitlines()]
@@ -207,7 +242,7 @@ def domains(host, raw, target, roles, links, work):
     if engine_data != {name: fieldless[name] for name in ("values", "traits")}:
         raise ValueError("combined engine choice caller differs from pinned standalone witness")
 
-    runtime, native_hash, _ = STATUS_DATA["caller"](work / "native-status", raw, native)
+    runtime = runtime_caller(host, native, serde, serde_json, target, links, work / "native-status")
     runtime_path = WHOLE / "runtime-status-data" / f"{host}.json"
     runtime_receipt = data(runtime_path)
     if runtime != runtime_receipt["observations"]:
@@ -231,7 +266,7 @@ def domains(host, raw, target, roles, links, work):
     return {
         "fieldlessChoices": engine_data, "runtimeStatus": runtime,
         "missingReason": {"output": observed, "copyControl": copy},
-        "candidateEngineLibrarySha256": digest(engine), "candidateNativeLibrarySha256": native_hash,
+        "candidateEngineLibrarySha256": digest(engine), "candidateNativeLibrarySha256": digest(native),
         "originalWitnessReceiptSha256": {
             "fieldlessChoices": digest(fieldless_path), "runtimeStatus": digest(runtime_path),
             "missingReason": digest(reason_path),
@@ -251,11 +286,19 @@ def qualify(args, scratch):
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in {DARWIN, LINUX} or f"commit-hash: {AUDIT.COMPILER}" not in version:
         raise ValueError("expected native pinned Rust 1.97.1")
-    run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "oddlang",
-        "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
+    if args.prebuilt is None:
+        run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "oddlang",
+            "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
+        executable = args.compiler_target / "debug/oddlang"
+    else:
+        executable = args.prebuilt
+        if digest(executable) != args.prebuilt_sha256:
+            raise ValueError("prebuilt compiler digest differs from its build receipt")
     work = args.work
     work.mkdir()
-    compiler = Path(shutil.copy2(args.compiler_target / "debug/oddlang", work / "oddlang"))
+    compiler = Path(shutil.copy2(executable, work / "oddlang"))
+    if args.prebuilt is not None and digest(compiler) != args.prebuilt_sha256:
+        raise ValueError("staged compiler changed during copy")
     assembly = lane("workspace")
     inputs = work / "inputs"
     inputs.mkdir()
@@ -266,7 +309,8 @@ def qualify(args, scratch):
         raise ValueError("assembly inputs must be graph, overlay and lock data")
     cache = work / "providers"
     providers = assembly["stage_provider_git_cache"](PORTABLE / spec["cargoLock"]["path"], cache)
-    prefix, env = JOURNAL["sandbox"](assembly, work, (ROOT, args.original, args.framework, args.compiler_target, scratch), cache)
+    compiler_inputs = args.compiler_target if args.prebuilt is None else args.prebuilt
+    prefix, env = JOURNAL["sandbox"](assembly, work, (ROOT, args.original, args.framework, compiler_inputs, scratch), cache)
     denied = [
         args.original / ENGINE_DATA["SOURCE"], args.original / STATUS_DATA["SOURCE"], args.framework / "src/lib.rs",
         ENGINE_DATA["HERE"] / "probe.rs", STATUS_DATA["PROBE"], REASON["PROBE"],
@@ -291,6 +335,7 @@ def qualify(args, scratch):
     target = work / "target"
     raw = invoke("cargo", "build", "--workspace", "--lib", "--release", "--target", host,
                  "--locked", "--offline", "--target-dir", target, "--message-format=json", cwd=product)
+    (work / "cargo-artifacts.jsonl").write_bytes(raw)
     roles, links = AUDIT.artifacts(raw, product, list(inherited["memberLocks"]), target, generated=True)
     files = PREVIOUS["closure"](raw, target) if host == LINUX else {
         Path(file).relative_to(target).as_posix(): digest(Path(file))
@@ -305,7 +350,6 @@ def qualify(args, scratch):
         raise ValueError("sealed package or Cargo library closure changed while probing")
     if source != PREVIOUS["source_pin"](args.original):
         raise ValueError("pinned original inputs changed")
-    (work / "cargo-artifacts.jsonl").write_bytes(raw)
     return {
         "format": "marmish-canonical-public-data-v1", "host": host, "rustc": version,
         "framework": FRAMEWORK, "companion": args.input_revision, "original": source,
@@ -323,7 +367,11 @@ if __name__ == "__main__":
     p.add_argument("input_revision")
     for name in ("framework", "original", "compiler_target", "work", "receipt"):
         p.add_argument(name, type=lambda value: Path(value).resolve())
+    p.add_argument("--prebuilt", type=lambda value: Path(value).resolve())
+    p.add_argument("--prebuilt-sha256")
     args = p.parse_args()
+    if (args.prebuilt is None) != (args.prebuilt_sha256 is None):
+        p.error("--prebuilt and --prebuilt-sha256 are required together")
     with tempfile.TemporaryDirectory(prefix="odd-combined-data-callers-") as temp:
         result = qualify(args, Path(temp).resolve())
     args.receipt.write_text(json.dumps(result, indent=2) + "\n")
