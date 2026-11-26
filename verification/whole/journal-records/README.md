@@ -51,3 +51,12 @@ standalone public record package. The reordered source mutation exercises
 the standalone package on both hosts.
 
 [macOS ARM64 combined workspace receipt](aarch64-apple-darwin.json)
+
+[Linux ARM64 standalone receipt](aarch64-unknown-linux-gnu.json) ·
+[Follow-up source validation](source-validation.json)
+
+Both native receipts were produced by compiler `8176d00c0aba824084078b981f89a39947aee629`.
+Follow-up compiler `0a44ffd4355ecd6a12bd8227626786562cea7991` checks Rust
+binding identities for raw names and grouped self imports. Its replays of
+the pinned original and reorder recover identical locks. Its baseline
+projection reproduces the Rust source hash sealed in the native package.

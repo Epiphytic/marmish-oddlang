@@ -915,9 +915,11 @@
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"9ff00fc3389e19bcd4765f4ed71d0d9f8fc7c91ed22f8cc8ff1782e7e39f9c66","parse_status":"parsed"}
 {"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"662c2ae77a665eefb17c4c0b58837ac6537da886d456447504534b5deecfb8e9","parse_status":"parsed"}
-{"path":"verification/whole/journal-records/README.md","language":"inventory","mode":"100644","sha256":"37ebaf7f790ca89d27b9512596877885812a622a6821b3554d68c93bd4f4e281","parse_status":"inventory"}
+{"path":"verification/whole/journal-records/README.md","language":"inventory","mode":"100644","sha256":"b8479901dd1bfc417909d90935076ac282900e01d0ecf730ff2a382f2716a2e2","parse_status":"inventory"}
 {"path":"verification/whole/journal-records/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"12e14806dabc14000f3a79272f32b74d8da30e2a23fb765c82e8eaecb8ea057c","parse_status":"inventory"}
+{"path":"verification/whole/journal-records/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"fc5e2c3b9788a820920706334f28cd57808a231db60b5a2be8db80e1c3b9c2d5","parse_status":"inventory"}
 {"path":"verification/whole/journal-records/probe.rs","language":"rust","mode":"100644","sha256":"7d327ff3a60da740ccdfae70214d7e0c06a376eaf69b922e03996a30afe02cfe","parse_status":"parsed"}
+{"path":"verification/whole/journal-records/source-validation.json","language":"inventory","mode":"100644","sha256":"76c6e3d045e4bf57e5d204bcd24332e1adf095a036b0ffc165bd5c8d2209f02a","parse_status":"inventory"}
 {"path":"verification/whole/journal-records/verify.py","language":"python","mode":"100644","sha256":"14d6008a6c42205b20eb3acb59e7176cf00dafe59118ed5b7c6625e9350ce90c","parse_status":"parsed"}
 {"path":"verification/whole/legacy/README.md","language":"inventory","mode":"100644","sha256":"6f8034364c5640322f842b1160a35a861a55936f82ce13c9c62a5e80c507f0fe","parse_status":"inventory"}
 {"path":"verification/whole/legacy/macos-arm64.json","language":"inventory","mode":"100644","sha256":"a4802b629f2e65cfe96d8727018bb3567df645a24f4557af92fb63a5a961f1ce","parse_status":"inventory"}
