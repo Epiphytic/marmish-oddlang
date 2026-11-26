@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-rust-serde-string-choice-recovery-v1",
+  "graphSha256": "be737d3eeb44a1cbeeeac4b86d6bce5328bcacfb793189b2dbf655d7897810d1",
+  "overlaySha256": "6565b1d98ab10b6b4e8beae25b2ba3c5fbab165f21b91ded64508c3b36a013f9",
+  "qualification": "Syntax candidate. Rust derive resolution, sibling macro expansion and public exports require independent native confirmation.",
+  "selectionSha256": "50f8d5d0814ec0c05a4df54599a2677d41e0ef58165671a8ac60ffdd880f2953",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53"
+}

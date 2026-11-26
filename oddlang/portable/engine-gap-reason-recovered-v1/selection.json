@@ -1,0 +1,13 @@
+{
+  "format": "oddlang-rust-serde-string-choice-selection-v1",
+  "id": "urn:marmish:engine:output-gap:domain",
+  "enumId": "urn:marmish:engine:output-gap:reason",
+  "name": "MissingReason",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+  "variants": {
+    "Limit": "urn:marmish:engine:output-gap:reason:limit",
+    "StorageFailure": "urn:marmish:engine:output-gap:reason:storage-failure",
+    "Expired": "urn:marmish:engine:output-gap:reason:expired",
+    "UncertainTail": "urn:marmish:engine:output-gap:reason:uncertain-tail"
+  }
+}
