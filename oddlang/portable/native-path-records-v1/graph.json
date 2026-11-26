@@ -1,0 +1,30 @@
+{
+  "format": "oddlang-public-records-v1",
+  "modules": [
+    {
+      "id": "urn:marmish:native:public-records:transport",
+      "records": [
+        {
+          "id": "urn:marmish:native:public-records:transport:ArtiDirs",
+          "traits": [
+            "clone",
+            "debug"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:native:public-records:transport:ArtiDirs/field/state",
+              "wire": "state",
+              "type": "path"
+            },
+            {
+              "id": "urn:marmish:native:public-records:transport:ArtiDirs/field/cache",
+              "wire": "cache",
+              "type": "path"
+            }
+          ]
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}

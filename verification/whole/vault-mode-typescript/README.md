@@ -2,8 +2,8 @@
 
 The TypeScript projection stages the exact published portable graph and a
 TypeScript name binding as its full input closure. The published native
-caller receipt supplies the
-independent observed ordinals and absence of native equality traits.
+caller receipts for Darwin and Linux ARM64 supply the independently
+observed ordinals and absence of native equality traits.
 
 Node observes `Interactive = 0` and `Verify = 1`. Only valid ordinals pass
 the checked conversion. TypeScript rejects unchecked integers and both

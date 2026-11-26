@@ -5,8 +5,12 @@
   "node": "v22.22.2",
   "typescript": "Version 5.9.3",
   "graphSha256": "96e2f288f7279b7639d72d460efda9c93b3a0b0ea8cea2b6494baf4785e1de73",
-  "verifierSha256": "b6aa65079e06e88ba4aed72c33510eef42d5cd0288af1b6b7689c5cdf4a7c43e",
-  "nativeWitnessSha256": "6ca92dd2b8d4d830de234caa55c9986991ede3c08d0f3ceab25366d4eb75bee1",
+  "verifierSha256": "74401f6b134af7d0b0b174fe589a45394e783f4c4542b6adc6d6915bb8004db7",
+  "nativeWitnessRevision": "622f2a23f3549a902d4bd96d4214ffe05330991b",
+  "nativeWitnessSha256": {
+    "aarch64-apple-darwin": "3f364159883db1c66fe0566cb769c9dcdbe86d2921b169f4473000f37293ea00",
+    "aarch64-unknown-linux-gnu": "7772f6b38131a61b4091a53b97f0f2a1f0cc77b7a9a848321fcad5a3942c3141"
+  },
   "typescriptBindingSha256": "80b5aad3eb1c0dd04daaac86d89cc0662b5bcac57af9bbe96776ae1aa750b52f",
   "projection": {
     "bindingSha256": "e07026c5d4544e8c93b779a95a76ea21c31fc2584526882e2b0290537b216677",

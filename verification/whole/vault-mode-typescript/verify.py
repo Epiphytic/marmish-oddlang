@@ -10,6 +10,8 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 DOMAIN = Path("oddlang/portable/vault-mode-v1")
 PUBLISHED = "154ab6d9a085eac755acd197b2a55e53158a5999"
+NATIVE_WITNESS = "622f2a23f3549a902d4bd96d4214ffe05330991b"
+HOSTS = ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu")
 FRAMEWORK = "86b23552d02f67ee7156a4ce0ece3e07c1fc3fb0"
 TSC = ["npx", "--offline", "--package=typescript@5.9.3", "tsc"]
 NODE = "v22.22.2"
@@ -54,8 +56,8 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def published(path):
-    return run("git", "-C", ROOT, "show", f"{PUBLISHED}:{path.as_posix()}")
+def published(path, revision=PUBLISHED):
+    return run("git", "-C", ROOT, "show", f"{revision}:{path.as_posix()}")
 
 
 def verify(framework, target):
@@ -75,16 +77,24 @@ def verify(framework, target):
     compiler = target / "release/oddlang"
     graph = published(DOMAIN / "graph.json")
     obligations = published(DOMAIN / "obligations.json")
-    native = published(Path("verification/whole/vault-mode/aarch64-apple-darwin.json"))
-    reference = json.loads(native)["results"]["baseline"]
-    if reference["graphSha256"] != sha(graph):
-        raise ValueError("published graph and independent ordinal witness differ")
-    expected_ordinals = dict(line.split("=") for line in reference["values"])
-    if set(expected_ordinals) != {"interactive", "verify"}:
-        raise ValueError("published witness describes different cases")
-    values = [int(expected_ordinals[label]) for label in ("interactive", "verify")]
-    if reference["absentTraits"]["Eq"] != "E0277" or reference["absentTraits"]["PartialEq"] != "E0277":
-        raise ValueError("native equality witness changes the declared capability")
+    witnesses = {}
+    ordinals = []
+    for host in HOSTS:
+        native = published(Path(f"verification/whole/vault-mode/{host}.json"), NATIVE_WITNESS)
+        receipt = json.loads(native)
+        reference = receipt["results"]["baseline"]
+        if receipt["host"] != host or reference["graphSha256"] != sha(graph):
+            raise ValueError("published graph and independent ordinal witness differ")
+        values = dict(line.split("=") for line in reference["values"])
+        if set(values) != {"interactive", "verify"}:
+            raise ValueError("published witness describes different cases")
+        if reference["absentTraits"]["Eq"] != "E0277" or reference["absentTraits"]["PartialEq"] != "E0277":
+            raise ValueError("native equality witness changes the declared capability")
+        witnesses[host] = sha(native)
+        ordinals.append([int(values[label]) for label in ("interactive", "verify")])
+    values, other = ordinals
+    if values != other:
+        raise ValueError("independent native ordinals differ by host")
     binding = (ROOT / DOMAIN / "typescript.json").read_bytes()
 
     with tempfile.TemporaryDirectory(prefix="odd-vault-mode-ts-") as temp:
@@ -114,7 +124,8 @@ def verify(framework, target):
             "publication": PUBLISHED, "framework": FRAMEWORK, "compilerSha256": sha(compiler.read_bytes()),
             "node": version, "typescript": typescript, "graphSha256": sha(graph),
             "verifierSha256": sha(Path(__file__).read_bytes()),
-            "nativeWitnessSha256": sha(native), "typescriptBindingSha256": sha(binding), "projection": lock,
+            "nativeWitnessRevision": NATIVE_WITNESS, "nativeWitnessSha256": witnesses,
+            "typescriptBindingSha256": sha(binding), "projection": lock,
             "declarationSha256": sha((out / "compiled/values.d.ts").read_bytes()), "observations": result,
             "staticRejections": ["unchecked ordinal", "total equality", "partial equality"],
         }
