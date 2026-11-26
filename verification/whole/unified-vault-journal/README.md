@@ -31,3 +31,10 @@ toolchain and offline Cargo providers. The generation and release-build
 sandbox denies the network, original checkout, source recovery and test
 oracles. The only Git inputs are the four locked third-party provider
 commits.
+
+The [native receipt](aarch64-apple-darwin.json) records 32 release cases,
+600 vault value observations, the strict vault test and constructor
+ownership probe, and three journal record outputs. The reference binary
+digests match the earlier sealed #70 observation. The receipt binds both
+generated binaries and the generated journal and vault libraries to the
+same sealed workspace build.
