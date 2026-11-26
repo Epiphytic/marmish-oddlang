@@ -1018,7 +1018,7 @@
 {"path":"verification/whole/backend-choice/selection.json","language":"inventory","mode":"100644","sha256":"e3c3cbb13255a33abfd76ef8eb16b73d21fa758f77bd3571e55be722ec334207","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"e2bef4a1e5b647d26250f9e9a43a35a37fc3e76cf5dfeeea027281d56b4b37f0","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/CLIENT-OWNER.md","language":"inventory","mode":"100644","sha256":"c5083582fac94e40f1c86eac0042dfe2d00ab61a9ac6b4b0b65c8593bd45567c","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/CLIENT-OWNER.md","language":"inventory","mode":"100644","sha256":"bc1466a0652027ebed44d1995148b4aeaff7be88dec56a8bf6e22834d37509f8","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"274b6c5aca0342bad8a366eddfc858a0ca3d2582fdb74c38b917a44d6688b7d9","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"e4fbc37a17cce687c9ef1b5c1af6cad0614303d4f5d10cf02b18f0f5c2f1ccbd","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
@@ -1028,6 +1028,8 @@
 {"path":"verification/whole/basic-command-interop/corpus.py","language":"python","mode":"100755","sha256":"802c0951ef65517d624c87ddbc9fc3b7575d563a9cce93f9e1823b02628a893f","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/direct-corpus-macos-arm64.json","language":"inventory","mode":"100644","sha256":"704b175b96d5372f031ed2b8f210d6329a7cc1955c399431180e1e98e7aec2af","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d4c7c74cc03b3b3b18682188a8439ffc0e3485bc508760cfcd49fbae86447ddd","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/generated-client-owner-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"e6446dc9f48f91caba4822d26d2b8cbc58b12397c4141867fbe3422e57beca8d","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/generated-client-owner-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"286fbc5d449324023e790c997ca87035b3a3c3f15ccd714dfb66a63549b112b0","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-client-upstream-server-macos-arm64.json","language":"inventory","mode":"100644","sha256":"9194a85ccf072b56dbda1f7c952e48b8f40a03bb7941f408f5692c4665697baf","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-preflight-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7e2a5bd39a744eb5016790e503214378bc553896ea85c4d6554f510049e46b77","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-provider-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5b1e49ed036645ceef979be8be4d92084f4d94c4753496d18f79337fcc692208","parse_status":"inventory"}
