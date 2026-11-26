@@ -1,0 +1,134 @@
+{
+  "constants": [
+    {
+      "id": "urn:marmish:stream:limit:MAX_BLOCK",
+      "value": 8192
+    },
+    {
+      "id": "urn:marmish:stream:limit:MAX_ENCODED",
+      "value": {
+        "ref": "urn:marmish:stream:limit:MAX_BLOCK"
+      }
+    },
+    {
+      "id": "urn:marmish:stream:limit:MAX_CONTENT",
+      "value": 32768
+    },
+    {
+      "id": "urn:marmish:stream:limit:WINDOW_BYTES",
+      "value": {
+        "multiply": [
+          256,
+          1024
+        ]
+      }
+    },
+    {
+      "id": "urn:marmish:stream:limit:MAX_OFFSET",
+      "value": 9223372036854775807
+    },
+    {
+      "id": "urn:marmish:stream:limit:MAX_RECORDS",
+      "value": 256
+    }
+  ],
+  "errors": [
+    {
+      "id": "urn:marmish:stream:Error",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:error:Invalid",
+          "message": [
+            {
+              "text": "invalid stream input: "
+            },
+            {
+              "payload": true
+            }
+          ],
+          "payload": "text"
+        },
+        {
+          "id": "urn:marmish:stream:error:Codec",
+          "message": [
+            {
+              "text": "invalid compressed stream block"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Limit",
+          "message": [
+            {
+              "text": "stream capacity reached"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Offset",
+          "message": [
+            {
+              "text": "invalid stream offset"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Conflict",
+          "message": [
+            {
+              "text": "conflicting stream retry"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Gap",
+          "message": [
+            {
+              "text": "stream byte gap"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:OldRetry",
+          "message": [
+            {
+              "text": "stream retry outside retained history"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Eof",
+          "message": [
+            {
+              "text": "stream EOF conflict"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Ack",
+          "message": [
+            {
+              "text": "invalid stream acknowledgement"
+            }
+          ],
+          "payload": "none"
+        }
+      ]
+    }
+  ],
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:stream:declarations",
+  "results": [
+    {
+      "error": "urn:marmish:stream:Error",
+      "id": "urn:marmish:stream:Result"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "vocabulary": "oddlang-integrity-block-v1",
+  "id": "urn:marmish:stream:integrity-block",
+  "fields": [
+    {
+      "role": "offset",
+      "wireName": "offset"
+    },
+    {
+      "role": "representation",
+      "wireName": "codec"
+    },
+    {
+      "role": "rawLength",
+      "wireName": "raw_len"
+    },
+    {
+      "role": "digest",
+      "wireName": "sha256"
+    },
+    {
+      "role": "payload",
+      "wireName": "data"
+    }
+  ],
+  "bounds": {
+    "rawMinimum": 1,
+    "rawMaximum": 8192,
+    "encodedMinimum": 1,
+    "encodedMaximum": 8192,
+    "offsetMaximum": 9223372036854775807
+  },
+  "digest": "sha256",
+  "representations": {
+    "identity": "none",
+    "compressed": {
+      "wireName": "zlib",
+      "algorithm": "zlib",
+      "effort": "default",
+      "selection": "strictly-smaller",
+      "members": "exactly-one",
+      "dictionary": "forbidden",
+      "trailing": "forbidden"
+    }
+  },
+  "wire": {
+    "shape": "closed-object-or-tuple",
+    "digest": "lower-hex",
+    "payload": "base64-standard-padded",
+    "digestSyntaxMessage": "hex"
+  },
+  "errors": {
+    "size": "urn:marmish:stream:error:Limit",
+    "offset": "urn:marmish:stream:error:Offset",
+    "representation": "urn:marmish:stream:error:Codec",
+    "payloadSyntax": "urn:marmish:stream:error:InvalidBase64",
+    "payloadDecodedSize": "urn:marmish:stream:error:InvalidBase64"
+  },
+  "validateOrder": [
+    "raw-size",
+    "encoded-size",
+    "offset",
+    "representation-size"
+  ],
+  "decodeOrder": [
+    "negotiated",
+    "dictionary",
+    "member",
+    "decoded-size",
+    "digest"
+  ],
+  "errorMessages": {
+    "urn:marmish:stream:error:Limit": "stream capacity reached",
+    "urn:marmish:stream:error:InvalidBase64": "invalid stream input: base64"
+  }
+}

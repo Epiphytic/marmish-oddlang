@@ -1,0 +1,43 @@
+{
+  "constantTypes": {
+    "urn:marmish:stream:limit:MAX_BLOCK": "usize",
+    "urn:marmish:stream:limit:MAX_CONTENT": "usize",
+    "urn:marmish:stream:limit:MAX_ENCODED": "usize",
+    "urn:marmish:stream:limit:MAX_OFFSET": "u64",
+    "urn:marmish:stream:limit:MAX_RECORDS": "usize",
+    "urn:marmish:stream:limit:WINDOW_BYTES": "usize"
+  },
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:stream:Error": "Error",
+    "urn:marmish:stream:Result": "Result",
+    "urn:marmish:stream:error:Ack": "Ack",
+    "urn:marmish:stream:error:Codec": "Codec",
+    "urn:marmish:stream:error:Conflict": "Conflict",
+    "urn:marmish:stream:error:Eof": "Eof",
+    "urn:marmish:stream:error:Gap": "Gap",
+    "urn:marmish:stream:error:Invalid": "Invalid",
+    "urn:marmish:stream:error:Limit": "Limit",
+    "urn:marmish:stream:error:Offset": "Offset",
+    "urn:marmish:stream:error:OldRetry": "OldRetry",
+    "urn:marmish:stream:limit:MAX_BLOCK": "MAX_BLOCK",
+    "urn:marmish:stream:limit:MAX_CONTENT": "MAX_CONTENT",
+    "urn:marmish:stream:limit:MAX_ENCODED": "MAX_ENCODED",
+    "urn:marmish:stream:limit:MAX_OFFSET": "MAX_OFFSET",
+    "urn:marmish:stream:limit:MAX_RECORDS": "MAX_RECORDS",
+    "urn:marmish:stream:limit:WINDOW_BYTES": "WINDOW_BYTES"
+  },
+  "variantOrder": {
+    "urn:marmish:stream:Error": [
+      "urn:marmish:stream:error:Invalid",
+      "urn:marmish:stream:error:Codec",
+      "urn:marmish:stream:error:Limit",
+      "urn:marmish:stream:error:Offset",
+      "urn:marmish:stream:error:Conflict",
+      "urn:marmish:stream:error:Gap",
+      "urn:marmish:stream:error:OldRetry",
+      "urn:marmish:stream:error:Eof",
+      "urn:marmish:stream:error:Ack"
+    ]
+  }
+}
