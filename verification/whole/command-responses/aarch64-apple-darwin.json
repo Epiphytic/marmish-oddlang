@@ -1,7 +1,7 @@
 {
   "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
-  "cases": 12,
-  "accepted": 3,
-  "observationsSha256": "e9523b2304d8b0b7f64a7a8a21e4c442f9a53837b65d857d0959245e7ce1a6d7",
-  "generatedSourceSha256": "5fc51a26cd8cdafac28c5d58a367c4f7b4de78e6b1014dd0669748e93a5fe1e0"
+  "cases": 108,
+  "accepted": 71,
+  "observationsSha256": "92bf91e16eef5d382386569c13dd457bccc30f19edfb0812efeabb23f4cb4491",
+  "generatedSourceSha256": "b1901c54fd17b6dc38e922dc7e049dabc4a4c27e79944fef457eef959afad626"
 }

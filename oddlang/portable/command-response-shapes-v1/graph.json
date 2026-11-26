@@ -29,6 +29,667 @@
           }
         }
       ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:disposition",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:disposition:accepted",
+          "name": "accepted",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:disposition:existing",
+          "name": "existing",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:admission",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:admission:accepted",
+          "name": "accepted",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:admission:dispatching",
+          "name": "dispatching",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:admission:engine",
+          "name": "engine",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:state",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:state:accepted",
+          "name": "accepted",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:state:launching",
+          "name": "launching",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:state:running",
+          "name": "running",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:state:exited",
+          "name": "exited",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:state:unknown-launch",
+          "name": "unknown_launch",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:state:lost",
+          "name": "lost",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:outcome-kind",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:outcome-kind:code",
+          "name": "code",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:outcome-kind:signal",
+          "name": "signal",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:outcome-kind:not-started",
+          "name": "not_started",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:outcome-kind:launch-failed",
+          "name": "launch_failed",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:input-health",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:input-health:open",
+          "name": "open",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-health:eof-pending",
+          "name": "eof_pending",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-health:closed",
+          "name": "closed",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-health:gap",
+          "name": "gap",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-health:uncertain",
+          "name": "uncertain",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:gap-reason",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:gap-reason:limit",
+          "name": "limit",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:gap-reason:storage-failure",
+          "name": "storage_failure",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:gap-reason:expired",
+          "name": "expired",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:gap-reason:uncertain-tail",
+          "name": "uncertain_tail",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:warning",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:warning:stdin-unconsumed",
+          "name": "stdin_unconsumed",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:warning:input-failed",
+          "name": "input_failed",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "unit-enum",
+      "id": "urn:marmish:command:response:error-code",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response:error-code:invalid-request",
+          "name": "invalid_request",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:unauthorized",
+          "name": "unauthorized",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:role-disabled",
+          "name": "role_disabled",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:command-denied",
+          "name": "command_denied",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:command-not-found",
+          "name": "command_not_found",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:command-not-executable",
+          "name": "command_not_executable",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:command-resolution-failed",
+          "name": "command_resolution_failed",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:command-policy-error",
+          "name": "command_policy_error",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:noncanonical-executable",
+          "name": "noncanonical_executable",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:invocation-conflict",
+          "name": "invocation_conflict",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:expired",
+          "name": "expired",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:future-deferred",
+          "name": "future_deferred",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:future-excessive",
+          "name": "future_excessive",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:clock-behind-floor",
+          "name": "clock_behind_floor",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:quota-exceeded",
+          "name": "quota_exceeded",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:busy",
+          "name": "busy",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:not-found",
+          "name": "not_found",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:result-expired",
+          "name": "result_expired",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:recovery-uncertain",
+          "name": "recovery_uncertain",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:input-failed",
+          "name": "input_failed",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:storage-failure",
+          "name": "storage_failure",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:transport-degraded",
+          "name": "transport_degraded",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:error-code:authority-revoked",
+          "name": "authority_revoked",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:wire-error",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:wire-error:code",
+          "name": "code",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:error-code"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:wire-error:detail",
+          "name": "detail",
+          "type": {
+            "kind": "optional",
+            "item": {
+              "kind": "text"
+            }
+          },
+          "requirePresence": true
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:outcome",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:outcome:kind",
+          "name": "kind",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:outcome-kind"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:outcome:value",
+          "name": "value",
+          "type": {
+            "kind": "optional",
+            "item": {
+              "kind": "unsigned",
+              "bits": 8
+            }
+          },
+          "requirePresence": true
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:input-status",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:input-status:accepted",
+          "name": "accepted",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-status:delivered",
+          "name": "delivered",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-status:eof-sent",
+          "name": "eof_sent",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-status:health",
+          "name": "health",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:input-health"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:input-status:length",
+          "name": "length",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:gap",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:gap:end",
+          "name": "end",
+          "type": {
+            "kind": "optional",
+            "item": {
+              "kind": "unsigned",
+              "bits": 64
+            }
+          },
+          "requirePresence": true
+        },
+        {
+          "id": "urn:marmish:command:response:gap:reason",
+          "name": "reason",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:gap-reason"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:gap:start",
+          "name": "start",
+          "type": {
+            "kind": "unsigned",
+            "bits": 64
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:output-status",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:output-status:closed",
+          "name": "closed",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:output-status:gaps",
+          "name": "gaps",
+          "type": {
+            "kind": "list",
+            "item": {
+              "kind": "ref",
+              "id": "urn:marmish:command:response:gap"
+            }
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:output-status:produced",
+          "name": "produced",
+          "type": {
+            "kind": "unsigned",
+            "bits": 64
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:output-status:retained",
+          "name": "retained",
+          "type": {
+            "kind": "unsigned",
+            "bits": 64
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:status",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:status:admission",
+          "name": "admission",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:admission"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:authority-valid",
+          "name": "authority_valid",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:cancel-requested",
+          "name": "cancel_requested",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:engine-known",
+          "name": "engine_known",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:input",
+          "name": "input",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:input-status"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:invocation",
+          "name": "invocation",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:outcome",
+          "name": "outcome",
+          "type": {
+            "kind": "optional",
+            "item": {
+              "kind": "ref",
+              "id": "urn:marmish:command:response:outcome"
+            }
+          },
+          "requirePresence": true
+        },
+        {
+          "id": "urn:marmish:command:response:status:state",
+          "name": "state",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:state"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:stderr",
+          "name": "stderr",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:output-status"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:stdout",
+          "name": "stdout",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:output-status"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:status:warning",
+          "name": "warning",
+          "type": {
+            "kind": "optional",
+            "item": {
+              "kind": "ref",
+              "id": "urn:marmish:command:response:warning"
+            }
+          },
+          "requirePresence": true
+        }
+      ]
     }
   ]
 }
