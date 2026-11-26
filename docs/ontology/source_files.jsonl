@@ -315,6 +315,10 @@
 {"path":"oddlang/portable/engine-scalar-records-v1/rust.json","language":"inventory","mode":"100644","sha256":"c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-canonical-offline-package.json","language":"inventory","mode":"100644","sha256":"386579d124173fa64c200d97640bb96cfeb2203e283bd9a929800db022f94416","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-converged-diagnostics-cli-package.json","language":"inventory","mode":"100644","sha256":"91ac558b25bd7315a1c8f04015ef8d6eeac5164c0c59f0906addfca0898d9934","parse_status":"inventory"}
+{"path":"oddlang/portable/mdk-json-input-package.json","language":"inventory","mode":"100644","sha256":"94742d67fa68884c0613d1a22449534496380b32747fe11d3eb5d2a98fd1b4e1","parse_status":"inventory"}
+{"path":"oddlang/portable/mdk-json-input-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"d067757370cacfcb518fff4bd52b49c728a0a948ed4965a14bebafcb8ad5ae76","parse_status":"inventory"}
+{"path":"oddlang/portable/mdk-json-input-v1/graph.json","language":"inventory","mode":"100644","sha256":"6b24f0203c0b14d0ccca7db77692bce8bea4cc68458be76d764edddfa947278a","parse_status":"inventory"}
+{"path":"oddlang/portable/mdk-json-input-v1/rust.json","language":"inventory","mode":"100644","sha256":"f64fef03c920bc784486d6daf52a09cc3efa5daf001841c047ea90cb22350a2e","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-package.json","language":"inventory","mode":"100644","sha256":"ea61a0423332da07cf5f4aee2f74a037bf4405274f271454d7f3eead314768db","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"1c46df7e71e10ac1fa68b0273bb3a573d6d211eb2d2334dc195921aed18f8695","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-v1/error-rust.json","language":"inventory","mode":"100644","sha256":"84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7","parse_status":"inventory"}
@@ -1090,6 +1094,11 @@
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/native-release-run.json","language":"inventory","mode":"100644","sha256":"427d378b93b76ef5493701327728b56ab4cbce0591bbf2f9038a7a721c9570c2","parse_status":"inventory"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/release.json","language":"inventory","mode":"100644","sha256":"0703ed36db56df2dea37f90dc1cdfa0e0d01c3990e5bb284d3157b37e5f7ca26","parse_status":"inventory"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/run.json","language":"inventory","mode":"100644","sha256":"43b6533f0bf34a48cf2390c6b02d1f9d37045c469902c435300a8271e7956f62","parse_status":"inventory"}
+{"path":"verification/whole/mdk-json-input/README.md","language":"inventory","mode":"100644","sha256":"4c224a6075021492809ba52497fa24a5ae351e39ee6f4469e550b44335a8eebd","parse_status":"inventory"}
+{"path":"verification/whole/mdk-json-input/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"8a89f777cf8cdc907aaf5752f17e06260524aa7424756ab1f0ab61a575602dd9","parse_status":"inventory"}
+{"path":"verification/whole/mdk-json-input/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"ea90e287282d5b7356fed909a26ffa0843d82c15f3337a314946ce8f21abc6fb","parse_status":"inventory"}
+{"path":"verification/whole/mdk-json-input/observe.rs","language":"rust","mode":"100644","sha256":"8686c15202ae69193c4ab2f5c87deae57ade2a4b16394b02ee7d276dae3a322b","parse_status":"parsed"}
+{"path":"verification/whole/mdk-json-input/verify.py","language":"python","mode":"100644","sha256":"fb23cebfd8d7628e6ebd76dede3fa08678b5a6d1de903cf29612a95e5252204e","parse_status":"parsed"}
 {"path":"verification/whole/mdk-public-data/README.md","language":"inventory","mode":"100644","sha256":"8ceacca285c84f717da7518ba20323350762702446043fd3ebecae1a7aab936d","parse_status":"inventory"}
 {"path":"verification/whole/mdk-public-data/darwin-arm64/baseline.txt","language":"inventory","mode":"100644","sha256":"855b1fa98421386d72a9cb0ed1500e69af1c2a8a09de82fd725d98cab62613e4","parse_status":"inventory"}
 {"path":"verification/whole/mdk-public-data/darwin-arm64/mutant.txt","language":"inventory","mode":"100644","sha256":"1924c50d7e577f10831422549ee9e4deb6b1e37de022f6ad4d36fb6a03e7d0df","parse_status":"inventory"}
