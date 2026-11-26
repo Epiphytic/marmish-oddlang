@@ -1,0 +1,9 @@
+{
+  "format": "marmish-public-record-source-validation-v1",
+  "validationFramework": "0a44ffd4355ecd6a12bd8227626786562cea7991",
+  "nativeReplayFramework": "8176d00c0aba824084078b981f89a39947aee629",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "baselineRecoveryLockSha256": "967e7e7b391121c754e2b28b1549d4bdf15fadb4c22c08c8f8b2c69e8c9e02f2",
+  "reorderedRecoveryLockSha256": "1d09d84e39007aa79acf3d460c9d11f62fa77242ebc12b33dc4b16d9e10ea4f1",
+  "baselineProjectedRustSha256": "c9b6e0cd3c4c3cd7237ebe9a0a5dc759502a2dde0fa1a76e4521d58d0c63f637"
+}
