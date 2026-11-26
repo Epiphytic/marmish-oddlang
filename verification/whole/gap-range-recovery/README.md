@@ -30,7 +30,8 @@ Rustdoc files remain outside the generated package and publication.
 ## Reproduce
 
 Use the pinned upstream checkout, the framework runtime recorded in the
-host receipt, the native Rust 1.97.1 toolchain, and cached Cargo inputs.
+host receipt, and cached Cargo inputs. Use Rust 1.96.1 to build Oddlang
+and native Rust 1.97.1 to collect rustdoc and compile the callers.
 Use external scratch directories for the build targets and outputs.
 
 ```sh
