@@ -1,0 +1,235 @@
+{
+  "format": "oddlang-binary-record-v1",
+  "id": "urn:marmish:copy:manifest",
+  "maximum": 16384,
+  "layout": [
+    {
+      "id": "urn:marmish:copy:manifest:field:version",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 32,
+        "minimum": 1,
+        "maximum": 1,
+        "valueError": "urn:marmish:copy:copy_version"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:transfer",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:client",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:server",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:direction",
+      "encoding": {
+        "kind": "enum-u8",
+        "external": "urn:marmish:copy:Direction",
+        "tags": {
+          "urn:marmish:copy:Direction:Put": 1,
+          "urn:marmish:copy:Direction:Get": 2
+        },
+        "error": "urn:marmish:copy:copy_enum"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:source",
+      "encoding": {
+        "kind": "bytes",
+        "minimum": 1,
+        "maximum": 4096,
+        "overflow": "urn:marmish:stream:error:Limit",
+        "excludes": [
+          0
+        ],
+        "valueError": "urn:marmish:copy:copy_path"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:destination",
+      "encoding": {
+        "kind": "bytes",
+        "minimum": 1,
+        "maximum": 4096,
+        "overflow": "urn:marmish:stream:error:Limit",
+        "excludes": [
+          0
+        ],
+        "valueError": "urn:marmish:copy:copy_path"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:overwrite",
+      "encoding": {
+        "kind": "bool",
+        "error": "urn:marmish:copy:copy_boolean"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:preserve_mode",
+      "encoding": {
+        "kind": "bool",
+        "error": "urn:marmish:copy:copy_boolean"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:preserve_mtime",
+      "encoding": {
+        "kind": "bool",
+        "error": "urn:marmish:copy:copy_boolean"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:size",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 64,
+        "minimum": 0,
+        "maximum": 9223372036854775807,
+        "readError": "urn:marmish:stream:error:Offset",
+        "valueError": "urn:marmish:stream:error:Offset"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:sha256",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:mode",
+      "encoding": {
+        "kind": "optional",
+        "payload": {
+          "kind": "unsigned-be",
+          "bits": 32
+        },
+        "error": "urn:marmish:copy:copy_option"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:field:mtime",
+      "encoding": {
+        "kind": "optional",
+        "payload": {
+          "kind": "record",
+          "id": "urn:marmish:copy:mtime"
+        },
+        "error": "urn:marmish:copy:copy_option"
+      }
+    }
+  ],
+  "errors": {
+    "value": "urn:marmish:copy:copy_version",
+    "decodeSize": "urn:marmish:stream:error:Limit",
+    "encodeSize": "urn:marmish:stream:error:Limit",
+    "truncated": "urn:marmish:copy:copy_truncated",
+    "trailing": "urn:marmish:copy:copy_trailing"
+  },
+  "records": {
+    "urn:marmish:copy:mtime": {
+      "fields": [
+        {
+          "id": "urn:marmish:copy:mtime:field:seconds",
+          "bits": 64,
+          "signed": true
+        },
+        {
+          "id": "urn:marmish:copy:mtime:field:nanos",
+          "bits": 32
+        }
+      ]
+    }
+  },
+  "guards": [
+    {
+      "id": "urn:marmish:copy:manifest:guard:preserve-mode",
+      "error": "urn:marmish:copy:copy_metadata",
+      "condition": {
+        "kind": "presence-equals",
+        "flag": "urn:marmish:copy:manifest:field:preserve_mode",
+        "optional": "urn:marmish:copy:manifest:field:mode"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:guard:preserve-mtime",
+      "error": "urn:marmish:copy:copy_metadata",
+      "condition": {
+        "kind": "presence-equals",
+        "flag": "urn:marmish:copy:manifest:field:preserve_mtime",
+        "optional": "urn:marmish:copy:manifest:field:mtime"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:guard:mode-mask",
+      "error": "urn:marmish:copy:copy_metadata",
+      "condition": {
+        "kind": "optional-mask",
+        "optional": "urn:marmish:copy:manifest:field:mode",
+        "allowed": 511,
+        "required": 384
+      }
+    },
+    {
+      "id": "urn:marmish:copy:manifest:guard:nanos-range",
+      "error": "urn:marmish:copy:copy_metadata",
+      "condition": {
+        "kind": "optional-member-range",
+        "optional": "urn:marmish:copy:manifest:field:mtime",
+        "member": "urn:marmish:copy:mtime:field:nanos",
+        "minimum": 0,
+        "maximum": 999999999
+      }
+    }
+  ],
+  "hashViews": {
+    "urn:marmish:copy:manifest:namespace": {
+      "algorithm": "sha256",
+      "domain": [
+        109,
+        97,
+        114,
+        109,
+        105,
+        115,
+        104,
+        45,
+        99,
+        111,
+        112,
+        121,
+        45,
+        115,
+        116,
+        97,
+        116,
+        101,
+        47,
+        49,
+        0
+      ],
+      "fields": [
+        "urn:marmish:copy:manifest:field:client",
+        "urn:marmish:copy:manifest:field:server",
+        "urn:marmish:copy:manifest:field:transfer",
+        "urn:marmish:copy:manifest:field:direction"
+      ],
+      "prefix": ".marmish-copy-v1-"
+    }
+  }
+}

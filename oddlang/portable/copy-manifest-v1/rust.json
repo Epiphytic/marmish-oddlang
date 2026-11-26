@@ -1,0 +1,79 @@
+{
+  "format": "oddlang-binary-record-rust-v1",
+  "name": "Manifest",
+  "names": {
+    "urn:marmish:copy:manifest:field:version": "version",
+    "urn:marmish:copy:manifest:field:transfer": "transfer",
+    "urn:marmish:copy:manifest:field:client": "client",
+    "urn:marmish:copy:manifest:field:server": "server",
+    "urn:marmish:copy:manifest:field:direction": "direction",
+    "urn:marmish:copy:manifest:field:source": "source",
+    "urn:marmish:copy:manifest:field:destination": "destination",
+    "urn:marmish:copy:manifest:field:overwrite": "overwrite",
+    "urn:marmish:copy:manifest:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:manifest:field:preserve_mtime": "preserve_mtime",
+    "urn:marmish:copy:manifest:field:size": "size",
+    "urn:marmish:copy:manifest:field:sha256": "sha256",
+    "urn:marmish:copy:manifest:field:mode": "mode",
+    "urn:marmish:copy:manifest:field:mtime": "mtime",
+    "urn:marmish:copy:mtime": "Mtime",
+    "urn:marmish:copy:mtime:field:seconds": "seconds",
+    "urn:marmish:copy:mtime:field:nanos": "nanos"
+  },
+  "externals": {
+    "urn:marmish:copy:Direction": {
+      "path": "crate::copy_protocol::Direction",
+      "variants": {
+        "urn:marmish:copy:Direction:Put": "Put",
+        "urn:marmish:copy:Direction:Get": "Get"
+      }
+    }
+  },
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:copy:copy_version": {
+      "variant": "Invalid",
+      "argument": "copy_version"
+    },
+    "urn:marmish:copy:copy_path": {
+      "variant": "Invalid",
+      "argument": "copy_path"
+    },
+    "urn:marmish:copy:copy_enum": {
+      "variant": "Invalid",
+      "argument": "copy_enum"
+    },
+    "urn:marmish:copy:copy_boolean": {
+      "variant": "Invalid",
+      "argument": "copy_boolean"
+    },
+    "urn:marmish:copy:copy_option": {
+      "variant": "Invalid",
+      "argument": "copy_option"
+    },
+    "urn:marmish:copy:copy_truncated": {
+      "variant": "Invalid",
+      "argument": "copy_truncated"
+    },
+    "urn:marmish:copy:copy_trailing": {
+      "variant": "Invalid",
+      "argument": "copy_trailing"
+    },
+    "urn:marmish:copy:copy_metadata": {
+      "variant": "Invalid",
+      "argument": "copy_metadata"
+    },
+    "urn:marmish:stream:error:Offset": {
+      "variant": "Offset"
+    },
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    }
+  },
+  "hashViews": {
+    "urn:marmish:copy:manifest:namespace": {
+      "method": "namespace",
+      "library": "sha2"
+    }
+  }
+}
