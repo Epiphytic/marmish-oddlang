@@ -13,7 +13,7 @@ def digest(data):
     return hashlib.sha256(data).hexdigest()
 
 
-def observe(installation, relay):
+def observe(installation, executable_hashes, relay):
     result = {}
     with Workspace() as cohort:
         peers = {}
@@ -29,9 +29,16 @@ def observe(installation, relay):
                                    str(listener.getsockname()[1])], timeout=5)
                 if denied.returncode == 0 or b"Operation not permitted" not in denied.stderr:
                     raise ValueError("could not verify sandbox network denial")
-            for binary in installation.iterdir():
-                if binary.name.startswith("marmish") and binary.is_file() and binary.stat().st_mode & 0o111:
-                    shutil.copy2(binary, peer.root / binary.name)
+            for name, expected in executable_hashes.items():
+                if Path(name).name != name:
+                    raise ValueError("invalid executable name in receipt")
+                binary = installation / name
+                if binary.is_symlink() or not binary.is_file() or not binary.stat().st_mode & 0o111:
+                    raise ValueError(f"missing executable from selected build: {name}")
+                installed = peer.root / name
+                shutil.copy2(binary, installed)
+                if digest(installed.read_bytes()) != expected:
+                    raise ValueError(f"executable differs from selected build: {name}")
         ids = {}
         keys = {}
 
@@ -92,7 +99,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("original", type=Path)
     parser.add_argument("candidate", type=Path)
+    parser.add_argument("--candidate-build", type=Path, required=True)
     args = parser.parse_args()
+    reference_record = Path(__file__).with_name("upstream-owner-activation-blocked-macos-arm64.json")
+    reference = json.loads(reference_record.read_bytes())
+    build = json.loads(args.candidate_build.read_bytes())
+    if build["format"] != "marmish-basic-command-generated-build-v1" or build["referenceTargetRevision"] != reference["upstream"]:
+        raise ValueError("reference revision differs from the candidate build target")
+    original_hashes = reference["reference_binary_sha256"]
+    candidate_hashes = {name: row["sha256"] for name, row in build["artifacts"].items()}
     # The public onion is a deterministic fixture address. The sandbox denies all network access.
     import base64
     key = bytes(range(32))
@@ -100,13 +115,15 @@ def main():
     label = base64.b32encode(key+checksum+b"\x03").decode().lower()
     results = {}
     for route, relay in [("wss", "wss://127.0.0.1:9443"), ("onion", f"ws://{label}.onion/")]:
-        reference = observe(args.original.resolve(), relay)
-        candidate = observe(args.candidate.resolve(), relay)
+        reference = observe(args.original.resolve(), original_hashes, relay)
+        candidate = observe(args.candidate.resolve(), candidate_hashes, relay)
         for name in reference:
             if candidate[name] != reference[name]:
                 raise ValueError(f"{route}/{name} differs: {candidate[name]} vs {reference[name]}")
         results[route]=candidate
     print(json.dumps({"cases":results, "workspacesRemoved":True, "networkDenied":True,
+                      "candidateBuildSha256": digest(args.candidate_build.read_bytes()),
+                      "referenceRecordSha256": digest(reference_record.read_bytes()),
                       "originalSha256":digest((args.original/"marmish").read_bytes()),
                       "candidateSha256":digest((args.candidate/"marmish").read_bytes())},indent=2))
 

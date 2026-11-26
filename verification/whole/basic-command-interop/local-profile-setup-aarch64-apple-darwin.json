@@ -217,6 +217,8 @@
   },
   "workspacesRemoved": true,
   "networkDenied": true,
+  "candidateBuildSha256": "a002231a2c51b18bcc08ed866e2eb517b38ef7e9a960abda744102ce6fc8e6ae",
+  "referenceRecordSha256": "c246b8b6583753a166cf19a4682c98e9a9cd2b7576bd504b5402b97d70f35ba5",
   "originalSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
-  "candidateSha256": "27daebc44a35970284f9f7627e18e8ecc1fafee14df2196351eaf3302d6f36dc"
+  "candidateSha256": "748d85db47fe633e652ad3820c98484987912162c666f2303c37989528c9edfa"
 }
