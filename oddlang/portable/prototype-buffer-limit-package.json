@@ -1,0 +1,45 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-prototype",
+  "version": "0.1.0",
+  "edition": "2021",
+  "dependencies": {
+    "zeroize": {
+      "version": "1.9.1"
+    }
+  },
+  "cargoLock": {
+    "path": "prototype-buffer-v1/Cargo.lock",
+    "sha256": "37acb50547c011a84c4e729cfb8e46d09d84af994662e7dbf4b8de94e10b97db"
+  },
+  "components": [
+    {
+      "kind": "buffered-input",
+      "module": "buffer",
+      "reexports": [],
+      "graph": {
+        "path": "prototype-buffer-v1/graph.json",
+        "sha256": "8d8d44a3830f47fa0dbd50ffbf2e218aa94178a80201ae7696c6a3c31beb12e3"
+      },
+      "overlay": {
+        "path": "prototype-buffer-v1/rust.json",
+        "sha256": "940a6aa07bdfdfe3f19de80972d534d17d6c2857f816e7001d6b4ffa2de8fe0d"
+      }
+    },
+    {
+      "kind": "shared-declarations",
+      "module": "limits",
+      "reexports": [
+        "MAX_LINE"
+      ],
+      "graph": {
+        "path": "prototype-constant-v1/graph.json",
+        "sha256": "aa00b8981325a9431d4401a3ef35be1ba2183103edbd5472c8dd5b94b0aabf79"
+      },
+      "overlay": {
+        "path": "prototype-constant-v1/rust.json",
+        "sha256": "61359e9f33b338be2866e9cd1a2b760e8e307720e7407761b5ae70dfc7ac0ed0"
+      }
+    }
+  ]
+}

@@ -14,6 +14,8 @@ The [public journal record recovery](../verification/whole/journal-records/READM
 
 The [combined recovered vault and journal workspace](../verification/whole/unified-vault-journal/README.md) qualifies the recovered release report, fixed-width vault and public journal records together on one build.
 
+The [seven-member prototype constant workspace](../verification/whole/prototype-constant/README.md) adds the recovered crate-root `marmish_prototype::MAX_LINE` and preserves the private reader and six sibling package locks.
+
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
