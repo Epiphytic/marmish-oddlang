@@ -193,9 +193,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     # Engine starts a second test harness process at this exact name.
                     # Each process must really run the case and report its own success.
                     runs = 2 if harness == selected_tests.ENGINE else 1
-                    if (assembly["passing_tests"](raw) != [name] * runs or
-                        raw.count("test result: ok. 1 passed; 0 failed; 0 ignored;") != runs):
-                        raise ValueError(f"expected {runs} single-case results for {name}: {raw}")
+                    selected_tests.check_execution(name, runs, raw, assembly["passing_tests"](raw))
                     invocations[harness][name] = runs
                 witnessed[harness] = names
         # Use Cargo's artifact for the harness target. Native and test builds can

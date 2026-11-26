@@ -1,0 +1,9 @@
+{
+  "case": "process_limits_tests::lower_soft_hard_and_descriptor_flags_are_unchanged",
+  "packageManifestSha256": "82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06",
+  "baselinePassingProcesses": 2,
+  "mutantPassingProcesses": 1,
+  "childMatchedZero": true,
+  "mutantCargoExit": 0,
+  "coverageGateRejected": true
+}

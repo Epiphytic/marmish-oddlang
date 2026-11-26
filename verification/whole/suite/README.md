@@ -129,7 +129,7 @@ python3 -B verification/whole/suite/summarize_cargo.py "$root/test.log" "$root/n
 
 ## Upstream tests on the five-crate generated candidate
 
-The runner measures the v7 vault/engine workspace on each native host. It seals the generated package files, builds the release client and daemon, and then stages the upstream test modules. Each host has its own case-by-case receipt. A case qualifies only when its entire selected harness passes against that candidate and its case names match the upstream catalog.
+The runner measures the v7 vault/engine workspace on each native host. It seals the generated package files, builds the release client and daemon, and then stages the upstream test modules. Each host has its own case-by-case receipt. For this original v7 run, each of the three selected harnesses must pass in full and match the catalog. The later recovered workspace also qualifies explicitly selected cases within two additional harnesses.
 
 | Upstream harness | Cases | How it binds to the candidate |
 | --- | ---: | --- |
@@ -149,7 +149,7 @@ python3 -B verification/whole/suite/check_coverage.py /tmp/candidate.json --requ
 
 The completeness check exits 1 while any eligible catalog case lacks passing evidence.
 
-Most of the remaining default-release cases belong to the native and engine crates. The table counts runnable tests from the pinned upstream catalogs. The last column counts cases exercised by this runner on each host.
+Most of the remaining default-release cases belong to the native and engine crates. The following v7 table counts runnable tests from the pinned upstream catalogs. The last column counts cases exercised by this runner on each host.
 
 | Upstream crate | macOS ARM64 catalog | Linux ARM64 catalog | Qualified per host |
 | --- | ---: | ---: | ---: |
@@ -162,3 +162,15 @@ Most of the remaining default-release cases belong to the native and engine crat
 | marmish-core | 7 | 7 | 7 |
 
 The [macOS candidate receipt](combined-v7-aarch64-apple-darwin.json) records 37 passed and 872 unverified. The [Linux candidate receipt](combined-v7-aarch64-unknown-linux-gnu.json) records 37 passed and 850 unverified. Each catalog also has five ignored cases. These counts belong to workspace lock `c07772ff1fd78ea0ea166a17cf1b9a61f6ad00823dea81d1fe0d681c49b34df3`.
+
+## Workspace with recovered release metadata and vault values
+
+Use `--candidate recovered` on the same candidate runner with Oddlang revision `6e2d1ef00f286b6132b84e27a61805c659dfd437`. This builds the [five-member recovered workspace](../../../oddlang/portable/workspace-v7-recovered-vault-engine.json) from a fresh directory, then reruns core, stream and native process cases. Two additional upstream library harnesses have partial coverage on this candidate.
+
+- The original vault module tests construction, width and checked input through the generated crate’s public types. Its original test name is `tests::strict_public_values`.
+- The engine harness includes original test functions and private test helpers. It runs each limit change in an isolated child process and checks that the soft and hard limits and an existing descriptor’s flags survive two calls. The Linux-only case checks that initialization preserves the process limits.
+- The vault and engine functions run as Cargo integration tests against their generated libraries. The runner preserves their upstream module paths so the engine’s self-invocation selects the same test. It checks complete selected name sets, pins the digests of the original test bytes, and compares those names with each host’s complete catalog. Other tests in those two upstream harnesses remain individually unverified.
+
+The original workspace is needed by the test oracle. Both generated release executables are built before the test sources are staged.
+
+The credited engine cases cover preserved limits. A no-op implementation also passes those cases. High-soft-limit normalization on macOS and the rest of the engine library need their own evidence.

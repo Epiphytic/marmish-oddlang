@@ -17,6 +17,11 @@ def cases(host):
     return {VAULT: [VAULT_CASE], ENGINE: sorted([LOW, LINUX] if host.endswith("linux-gnu") else [LOW])}
 
 
+def check_execution(name, runs, raw, passing_names):
+    if passing_names != [name] * runs or raw.count("test result: ok. 1 passed; 0 failed; 0 ignored;") != runs:
+        raise ValueError(f"expected {runs} single-case results for {name}: {raw}")
+
+
 def upstream(root, path):
     return subprocess.check_output(["git", "-C", root, "show", f"{PIN}:{path}"])
 
