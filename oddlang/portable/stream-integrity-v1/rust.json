@@ -1,0 +1,42 @@
+{
+  "vocabulary": "oddlang-integrity-block-rust-v1",
+  "blockType": "EncodedBlock",
+  "representationType": "Codec",
+  "fields": {
+    "offset": "offset",
+    "representation": "codec",
+    "rawLength": "raw_len",
+    "digest": "sha256",
+    "payload": "data"
+  },
+  "variants": {
+    "identity": "None",
+    "compressed": "Zlib"
+  },
+  "operations": {
+    "end": "end",
+    "validate": "validate",
+    "encode": "encode",
+    "decode": "decode"
+  },
+  "errorType": "crate::Error",
+  "errorConstructors": {
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    },
+    "urn:marmish:stream:error:Offset": {
+      "variant": "Offset"
+    },
+    "urn:marmish:stream:error:Codec": {
+      "variant": "Codec"
+    },
+    "urn:marmish:stream:error:InvalidBase64": {
+      "variant": "Invalid",
+      "argument": "base64"
+    }
+  },
+  "payloadHelper": {
+    "module": "base64_bytes",
+    "decode": "decode_bytes"
+  }
+}

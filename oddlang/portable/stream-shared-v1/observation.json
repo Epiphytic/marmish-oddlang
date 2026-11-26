@@ -1,0 +1,7 @@
+{
+  "moduleFile": "crates/marmish-stream/src/lib.rs",
+  "moduleSha256": "34a195e548fb5c8b97c746bdb54147677758684873140c624a9480472f2409eb",
+  "qualification": "source-declaration-candidate",
+  "selectionSha256": "01ff64d546ac871720c9c11893b40ed4f6becb4b0d1c44b31c947bee612f7a5b",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071"
+}

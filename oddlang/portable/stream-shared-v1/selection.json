@@ -1,0 +1,32 @@
+{
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "moduleFile": "crates/marmish-stream/src/lib.rs",
+  "domain": "urn:marmish:stream:declarations",
+  "constants": {
+    "MAX_BLOCK": "urn:marmish:stream:limit:MAX_BLOCK",
+    "MAX_ENCODED": "urn:marmish:stream:limit:MAX_ENCODED",
+    "MAX_CONTENT": "urn:marmish:stream:limit:MAX_CONTENT",
+    "WINDOW_BYTES": "urn:marmish:stream:limit:WINDOW_BYTES",
+    "MAX_OFFSET": "urn:marmish:stream:limit:MAX_OFFSET",
+    "MAX_RECORDS": "urn:marmish:stream:limit:MAX_RECORDS"
+  },
+  "errors": {
+    "Error": {
+      "id": "urn:marmish:stream:Error",
+      "variants": {
+        "Invalid": "urn:marmish:stream:error:Invalid",
+        "Codec": "urn:marmish:stream:error:Codec",
+        "Limit": "urn:marmish:stream:error:Limit",
+        "Offset": "urn:marmish:stream:error:Offset",
+        "Conflict": "urn:marmish:stream:error:Conflict",
+        "Gap": "urn:marmish:stream:error:Gap",
+        "OldRetry": "urn:marmish:stream:error:OldRetry",
+        "Eof": "urn:marmish:stream:error:Eof",
+        "Ack": "urn:marmish:stream:error:Ack"
+      }
+    }
+  },
+  "results": {
+    "Result": "urn:marmish:stream:Result"
+  }
+}

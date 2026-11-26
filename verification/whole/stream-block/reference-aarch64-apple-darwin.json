@@ -1,0 +1,36 @@
+{
+  "crossReadsOnEachPeer": 160,
+  "decodeCases": 82,
+  "encodeCases": 192,
+  "manifestSha256": "a22560e618d78d220c72986a3db19873aa13f518b4dd32832ce930bdb058d36f",
+  "mutation": {
+    "error": {
+      "display": "invalid stream offset",
+      "error": "Offset"
+    },
+    "offsetMaximum": 9223372036854775806
+  },
+  "nativeCompiler": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "packageLockSha256": "accc8660c99354a72cc594e1915da38dac005f775ae2c12236586193a8d238a7",
+  "publicCallerSha256": "262945d2b7235e53a687642ec90fe99d7f0286f95a50bed164bfeb2768ad21ae",
+  "publicConstants": 6,
+  "publicErrorVariants": 9,
+  "reference": "af54339d250290490d62d4475a77539b7e739071",
+  "sourceSuiteSha256": "8f22f6113ec0ccf903ba62127b84e73d77841fbca2ca00d26d6ac6f8d0332d2c",
+  "upstreamTests": [
+    "roundtrips_and_fallback",
+    "incompressible_maximum_block_uses_none",
+    "rejects_corruption_truncation_frames_and_dictionary",
+    "rejects_nonbeneficial_zlib_representation",
+    "rejects_bounds_and_length"
+  ],
+  "validSeedDigest": "a631336acaa1e6c7c95cd61c4799af35774c49d6f3f529bb7015bcfabfe79b13"
+}
