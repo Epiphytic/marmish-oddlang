@@ -1,0 +1,177 @@
+[
+  {
+    "id": "Limit-string",
+    "type": "reason",
+    "wire": "\"Limit\""
+  },
+  {
+    "id": "Limit-object",
+    "type": "reason",
+    "wire": "{\"Limit\":null}"
+  },
+  {
+    "id": "StorageFailure-string",
+    "type": "reason",
+    "wire": "\"StorageFailure\""
+  },
+  {
+    "id": "StorageFailure-object",
+    "type": "reason",
+    "wire": "{\"StorageFailure\":null}"
+  },
+  {
+    "id": "Expired-string",
+    "type": "reason",
+    "wire": "\"Expired\""
+  },
+  {
+    "id": "Expired-object",
+    "type": "reason",
+    "wire": "{\"Expired\":null}"
+  },
+  {
+    "id": "UncertainTail-string",
+    "type": "reason",
+    "wire": "\"UncertainTail\""
+  },
+  {
+    "id": "UncertainTail-object",
+    "type": "reason",
+    "wire": "{\"UncertainTail\":null}"
+  },
+  {
+    "id": "case-sensitive",
+    "type": "reason",
+    "wire": "\"limit\""
+  },
+  {
+    "id": "unknown",
+    "type": "reason",
+    "wire": "\"Other\""
+  },
+  {
+    "id": "wrong-value",
+    "type": "reason",
+    "wire": "{\"Limit\":1}"
+  },
+  {
+    "id": "multiple",
+    "type": "reason",
+    "wire": "{\"Limit\":null,\"Expired\":null}"
+  },
+  {
+    "id": "empty-object",
+    "type": "reason",
+    "wire": "{}"
+  },
+  {
+    "id": "numeric",
+    "type": "reason",
+    "wire": "0"
+  },
+  {
+    "id": "array",
+    "type": "reason",
+    "wire": "[\"Limit\"]"
+  },
+  {
+    "id": "unicode-escape",
+    "type": "reason",
+    "wire": "\"Limi\\u0074\""
+  },
+  {
+    "id": "extra-input",
+    "type": "reason",
+    "wire": "\"Limit\" null"
+  },
+  {
+    "id": "all-fields",
+    "type": "range",
+    "wire": "{\"start\":0,\"end\":8,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "null-end",
+    "type": "range",
+    "wire": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+  },
+  {
+    "id": "missing-end",
+    "type": "range",
+    "wire": "{\"start\":3,\"reason\":\"Expired\"}"
+  },
+  {
+    "id": "out-of-order",
+    "type": "range",
+    "wire": "{\"reason\":\"Expired\",\"end\":4,\"start\":3}"
+  },
+  {
+    "id": "unknown-field",
+    "type": "range",
+    "wire": "{\"start\":0,\"ignored\":[{}],\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "duplicate",
+    "type": "range",
+    "wire": "{\"start\":0,\"start\":1,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "duplicate-end",
+    "type": "range",
+    "wire": "{\"start\":0,\"end\":null,\"end\":null,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "missing-start",
+    "type": "range",
+    "wire": "{\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "missing-reason",
+    "type": "range",
+    "wire": "{\"start\":0}"
+  },
+  {
+    "id": "inverted",
+    "type": "range",
+    "wire": "{\"start\":9,\"end\":2,\"reason\":\"UncertainTail\"}"
+  },
+  {
+    "id": "max-u64",
+    "type": "range",
+    "wire": "{\"start\":18446744073709551615,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "overflow",
+    "type": "range",
+    "wire": "{\"start\":18446744073709551616,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "negative",
+    "type": "range",
+    "wire": "{\"start\":-1,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "three-item-array",
+    "type": "range",
+    "wire": "[0,null,\"StorageFailure\"]"
+  },
+  {
+    "id": "two-item-array",
+    "type": "range",
+    "wire": "[0,\"Expired\"]"
+  },
+  {
+    "id": "extra-array-item",
+    "type": "range",
+    "wire": "[0,2,\"Limit\",4]"
+  },
+  {
+    "id": "reason-object",
+    "type": "range",
+    "wire": "{\"start\":3,\"reason\":{\"Limit\":null}}"
+  },
+  {
+    "id": "trailing",
+    "type": "range",
+    "wire": "{\"start\":0,\"reason\":\"Expired\"}null"
+  }
+]
