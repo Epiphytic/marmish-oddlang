@@ -1,0 +1,734 @@
+{
+  "command-local-busy": {
+    "ok": true,
+    "command": {
+      "state": "local_busy"
+    }
+  },
+  "command-ready": {
+    "ok": true,
+    "command": {
+      "state": "ready",
+      "local_account": "account",
+      "session": "session"
+    }
+  },
+  "command-local-queued": {
+    "ok": true,
+    "command": {
+      "state": "local_queued",
+      "handle": {
+        "format": 1,
+        "profile": "Case_1-test",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "00000000000000000000000000000000",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  "command-remote-pending": {
+    "ok": true,
+    "command": {
+      "state": "remote_pending",
+      "request_id": "request",
+      "handle": {
+        "format": 1,
+        "profile": "Case_1-test",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "00000000000000000000000000000000",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  "command-answer": {
+    "ok": true,
+    "command": {
+      "state": "answer",
+      "handle": {
+        "format": 1,
+        "profile": "Case_1-test",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "00000000000000000000000000000000",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      "request_id": "request",
+      "response_base64": "opaque",
+      "response_sha256": "digest"
+    }
+  },
+  "command-entries": {
+    "ok": true,
+    "command": {
+      "state": "entries",
+      "entries": [
+        {
+          "request_id": "request",
+          "op": "cancel",
+          "sha256": "digest"
+        }
+      ]
+    }
+  },
+  "command-invocations": {
+    "ok": true,
+    "command": {
+      "state": "invocations",
+      "entries": [
+        {
+          "handle": {
+            "format": 1,
+            "profile": "Case_1-test",
+            "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "session": "00000000000000000000000000000000",
+            "invocation": "01010101010101010101010101010101",
+            "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+          },
+          "group_submit_sha256": "digest",
+          "cursor": 18446744073709551615,
+          "created": 2,
+          "admission": "engine",
+          "state": "lost",
+          "authority_valid": false,
+          "refusal": "authority_revoked"
+        }
+      ]
+    }
+  },
+  "command-consumed": {
+    "ok": true,
+    "command": {
+      "state": "consumed",
+      "stderr": 4,
+      "stdout": 5,
+      "finish_confirmed": false
+    }
+  },
+  "command-cursors": {
+    "ok": true,
+    "command": {
+      "state": "cursors",
+      "stdout": 0,
+      "stderr": 0
+    }
+  },
+  "command-failure": {
+    "ok": true,
+    "command": {
+      "state": "failure",
+      "category": "example"
+    }
+  },
+  "command-unrecognized-operation": {
+    "ok": true,
+    "command": {
+      "state": "entries",
+      "entries": [
+        {
+          "request_id": "request",
+          "op": "other",
+          "sha256": "digest"
+        }
+      ]
+    }
+  },
+  "command-bad-handle-format": {
+    "ok": true,
+    "command": {
+      "state": "local_queued",
+      "handle": {
+        "format": 2,
+        "profile": "Case_1-test",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "00000000000000000000000000000000",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  "command-bad-handle-profile": {
+    "ok": true,
+    "command": {
+      "state": "local_queued",
+      "handle": {
+        "format": 1,
+        "profile": "a/e",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "00000000000000000000000000000000",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  "command-bad-handle-hex": {
+    "ok": true,
+    "command": {
+      "state": "remote_pending",
+      "request_id": "request",
+      "handle": {
+        "format": 1,
+        "profile": "Case_1-test",
+        "remote": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "session": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+        "invocation": "01010101010101010101010101010101",
+        "submit_sha256": "1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    }
+  },
+  "stream-pending": {
+    "ok": true,
+    "stream": {
+      "state": "pending"
+    }
+  },
+  "stream-failure": {
+    "ok": true,
+    "stream": {
+      "state": "failure",
+      "category": "example"
+    }
+  },
+  "stream-frame": {
+    "ok": true,
+    "stream": {
+      "state": "frame",
+      "frame_base64": "opaque"
+    }
+  },
+  "stream-inspection": {
+    "ok": true,
+    "stream": {
+      "state": "inspection",
+      "snapshot": {
+        "schema": 1,
+        "entries": [
+          {
+            "binding": {
+              "stream": "00000000000000000000000000000000",
+              "session": "01010101010101010101010101010101",
+              "client": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "server": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+            },
+            "direction": "server",
+            "integrity": "valid",
+            "phase": "projection_invalidated",
+            "cancel_requested": true,
+            "record_stdin_accepted": 4294967296,
+            "slots": [
+              {
+                "integrity": "valid",
+                "kind": "open_copy",
+                "sequence": 3,
+                "response_cached": false,
+                "exchange": {
+                  "stdin_offset": 0,
+                  "stdin_end": 5,
+                  "stdout_ack": 0,
+                  "stderr_ack": 2
+                },
+                "response": {
+                  "stdin_accepted": 5,
+                  "stdin_delivered": 4,
+                  "stdout_end": 13
+                }
+              }
+            ],
+            "slots_truncated": false,
+            "outbox": [
+              {
+                "bucket": "retired_failed",
+                "count": 1,
+                "native_id_present": 0,
+                "intent_present": 0,
+                "evidence_present": 0
+              }
+            ]
+          }
+        ],
+        "records_truncated": true,
+        "outbox_truncated": false
+      }
+    }
+  },
+  "stream-inspection-invalid-width": {
+    "ok": true,
+    "stream": {
+      "state": "inspection",
+      "snapshot": {
+        "schema": 256,
+        "entries": [],
+        "records_truncated": true,
+        "outbox_truncated": false
+      }
+    }
+  },
+  "stream-entry-cancelled": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": [
+        {
+          "stream": "str",
+          "session": "sid",
+          "client": "c",
+          "server": "s",
+          "direction": "client",
+          "state": "terminal",
+          "group_sha256": "g",
+          "active": false,
+          "cancel_requested": true,
+          "terminal": {
+            "kind": "cancelled"
+          },
+          "child_disposition": "present_unowned"
+        }
+      ]
+    }
+  },
+  "stream-entry-exited": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": [
+        {
+          "stream": "str",
+          "session": "sid",
+          "client": "c",
+          "server": "s",
+          "direction": "client",
+          "state": "terminal",
+          "group_sha256": "g",
+          "active": false,
+          "cancel_requested": true,
+          "terminal": {
+            "kind": "exited",
+            "data": {
+              "code": 255
+            }
+          }
+        }
+      ]
+    }
+  },
+  "stream-entry-signaled": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": [
+        {
+          "stream": "str",
+          "session": "sid",
+          "client": "c",
+          "server": "s",
+          "direction": "client",
+          "state": "terminal",
+          "group_sha256": "g",
+          "active": false,
+          "cancel_requested": true,
+          "terminal": {
+            "kind": "signaled",
+            "data": {
+              "signal": 9
+            }
+          }
+        }
+      ]
+    }
+  },
+  "stream-entry-failed": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": [
+        {
+          "stream": "str",
+          "session": "sid",
+          "client": "c",
+          "server": "s",
+          "direction": "client",
+          "state": "terminal",
+          "group_sha256": "g",
+          "active": false,
+          "cancel_requested": true,
+          "terminal": {
+            "kind": "failed",
+            "data": {
+              "code": "denied"
+            }
+          }
+        }
+      ]
+    }
+  },
+  "stream-entry-invalid-terminal": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": [
+        {
+          "stream": "str",
+          "session": "sid",
+          "client": "c",
+          "server": "s",
+          "direction": "client",
+          "state": "terminal",
+          "group_sha256": "g",
+          "active": false,
+          "cancel_requested": true,
+          "terminal": {
+            "kind": "exited",
+            "data": {
+              "code": 256
+            }
+          }
+        }
+      ]
+    }
+  },
+  "copy-receiver-ok": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "ok"
+      }
+    }
+  },
+  "copy-receiver-rejected": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "rejected",
+        "code": "identity_changed"
+      }
+    }
+  },
+  "copy-receiver-reserved": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "reserved",
+        "lease": {
+          "namespace": "example",
+          "stream": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "revision": 3
+        },
+        "retention": 1000
+      }
+    }
+  },
+  "copy-receiver-granted": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "granted",
+        "claim": {
+          "id": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "namespace": "example",
+          "revision": 2,
+          "launch": {
+            "version": 1,
+            "mode": "resume",
+            "transfer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "client": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "server": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "direction": "get",
+            "source": "YQ==",
+            "destination": "/w==",
+            "overwrite": false,
+            "preserve_mode": true,
+            "preserve_mtime": false
+          },
+          "location": {
+            "base": {
+              "path": [
+                47,
+                254
+              ],
+              "identity": {
+                "device": 5,
+                "inode": 9
+              }
+            },
+            "parent": {
+              "device": 5,
+              "inode": 9
+            },
+            "stream": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "timestamp": 33
+        }
+      }
+    }
+  },
+  "copy-receiver-no-claim": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "granted"
+      }
+    }
+  },
+  "copy-receiver-entries": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "entries",
+        "entries": [
+          {
+            "namespace": "example",
+            "state": "done",
+            "revision": 3
+          }
+        ]
+      }
+    }
+  },
+  "copy-receiver-malformed-array": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "reserved",
+        "lease": {
+          "namespace": "example",
+          "stream": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "revision": 3
+        },
+        "retention": 1000
+      }
+    }
+  },
+  "copy-receiver-noncanonical-base64": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "granted",
+        "claim": {
+          "id": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "namespace": "example",
+          "revision": 2,
+          "launch": {
+            "version": 1,
+            "mode": "resume",
+            "transfer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "client": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "server": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "direction": "get",
+            "source": "YR==",
+            "destination": "/w==",
+            "overwrite": false,
+            "preserve_mode": true,
+            "preserve_mtime": false
+          },
+          "location": {
+            "base": {
+              "path": [
+                47,
+                254
+              ],
+              "identity": {
+                "device": 5,
+                "inode": 9
+              }
+            },
+            "parent": {
+              "device": 5,
+              "inode": 9
+            },
+            "stream": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "timestamp": 33
+        }
+      }
+    }
+  },
+  "copy-receiver-unsupported-mode": {
+    "ok": true,
+    "stream": {
+      "state": "copy_receiver",
+      "response": {
+        "kind": "granted",
+        "claim": {
+          "id": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1
+          ],
+          "namespace": "example",
+          "revision": 2,
+          "launch": {
+            "version": 1,
+            "mode": "example",
+            "transfer": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+            "client": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+            "server": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+            "direction": "get",
+            "source": "YQ==",
+            "destination": "/w==",
+            "overwrite": false,
+            "preserve_mode": true,
+            "preserve_mtime": false
+          },
+          "location": {
+            "base": {
+              "path": [
+                47,
+                254
+              ],
+              "identity": {
+                "device": 5,
+                "inode": 9
+              }
+            },
+            "parent": {
+              "device": 5,
+              "inode": 9
+            },
+            "stream": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          },
+          "timestamp": 33
+        }
+      }
+    }
+  }
+}

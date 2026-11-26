@@ -1,0 +1,15 @@
+{
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "sourceSha256": {
+    "crates/marmish-native/src/command_client.rs": "41952c94483c8ebd2ec9445ac3969303b0a434d9a8b20db27d32d12adee4a012",
+    "crates/marmish-native/src/command_local.rs": "dddce8514320fb62f78004d415c08ba2eed7ca1362809e6ebcd684b48928f5bc",
+    "crates/marmish-native/src/command_wire.rs": "01b272575c0dbf9ebf327090d6abf1a63ce4342eb4eec15076210899fe51a4dc",
+    "crates/marmish-native/src/copy_local_gc.rs": "a14e24c5f76a218fac66afa7ca6717b6722029607b6cef6512d8c6dc5498c741",
+    "crates/marmish-native/src/foundation.rs": "b01e38de71418e0097a0b9772907df4218dcedf4ab8d34dfa47dfecf63ea3e5f",
+    "crates/marmish-native/src/ipc.rs": "ffeeba6b2d0b8fef1d44bea311e5548e8b7ac520d4b7d04286077547273b8a4a",
+    "crates/marmish-native/src/stream_service.rs": "da071465b9728058e5a42d1d7a05114988d658221a50c19cf27e399096730360",
+    "crates/marmish-stream/src/codec.rs": "a0e5f99775d8122516341cf64166c2b620b664276722728fbad8b769ea7012df",
+    "crates/marmish-stream/src/copy_protocol.rs": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2",
+    "crates/marmish-stream/src/wire.rs": "54254ed91540dd6eef2237b174a6834d200b933b9061ff255f61305248fbecf8"
+  }
+}

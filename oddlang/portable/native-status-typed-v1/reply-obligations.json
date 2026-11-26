@@ -1,0 +1,5732 @@
+{
+  "format": "oddlang-local-reply-obligations-v1",
+  "obligations": [
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope",
+      "failureExit": 1,
+      "fields": [
+        {
+          "default": false,
+          "id": "urn:marmish:ipc:reply:envelope:field:ok",
+          "key": "ok",
+          "kind": "bool",
+          "presence": "required"
+        },
+        {
+          "default": false,
+          "id": "urn:marmish:ipc:reply:envelope:field:result",
+          "key": "result",
+          "kind": "json",
+          "presence": "nullable"
+        },
+        {
+          "default": false,
+          "id": "urn:marmish:ipc:reply:envelope:field:error",
+          "key": "error",
+          "kind": "string",
+          "presence": "nullable"
+        },
+        {
+          "default": false,
+          "id": "urn:marmish:ipc:reply:envelope:field:command",
+          "key": "command",
+          "kind": {
+            "id": "urn:marmish:ipc:reply:command",
+            "kind": "ref"
+          },
+          "presence": "omit_null"
+        },
+        {
+          "default": false,
+          "id": "urn:marmish:ipc:reply:envelope:field:stream",
+          "key": "stream",
+          "kind": {
+            "id": "urn:marmish:ipc:reply:stream",
+            "kind": "ref"
+          },
+          "presence": "omit_null"
+        }
+      ],
+      "orderedSequenceMaximum": 5,
+      "orderedSequenceMinimum": 3,
+      "role": "reply-envelope",
+      "successExit": 0,
+      "successField": "ok",
+      "unknownFields": "reject"
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope:field:ok",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:envelope:field:ok",
+        "key": "ok",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope:field:result",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:envelope:field:result",
+        "key": "result",
+        "kind": "json",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope:field:error",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:envelope:field:error",
+        "key": "error",
+        "kind": "string",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope:field:command",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:envelope:field:command",
+        "key": "command",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:command",
+          "kind": "ref"
+        },
+        "presence": "omit_null"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:envelope:field:stream",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:envelope:field:stream",
+        "key": "stream",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:stream",
+          "kind": "ref"
+        },
+        "presence": "omit_null"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command",
+      "role": "reply-type",
+      "type": {
+        "content": null,
+        "id": "urn:marmish:ipc:reply:command",
+        "kind": "tagged",
+        "tag": "state",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command:variant:local_busy",
+            "tag": "local_busy"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:ready:field:session",
+                "key": "session",
+                "kind": "string",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:ready:field:local_account",
+                "key": "local_account",
+                "kind": "string",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:ready",
+            "tag": "ready"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:local_queued:field:handle",
+                "key": "handle",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:handle",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:local_queued",
+            "tag": "local_queued"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:handle",
+                "key": "handle",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:handle",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:request_id",
+                "key": "request_id",
+                "kind": "string",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:remote_pending",
+            "tag": "remote_pending"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:answer:field:handle",
+                "key": "handle",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:handle",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:answer:field:request_id",
+                "key": "request_id",
+                "kind": "string",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_base64",
+                "key": "response_base64",
+                "kind": "string",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_sha256",
+                "key": "response_sha256",
+                "kind": "string",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:answer",
+            "tag": "answer"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:entries:field:entries",
+                "key": "entries",
+                "kind": {
+                  "item": {
+                    "id": "urn:marmish:ipc:reply:answer-entry",
+                    "kind": "ref"
+                  },
+                  "kind": "list"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:entries",
+            "tag": "entries"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:invocations:field:entries",
+                "key": "entries",
+                "kind": {
+                  "item": {
+                    "id": "urn:marmish:ipc:reply:invocation-entry",
+                    "kind": "ref"
+                  },
+                  "kind": "list"
+                },
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:invocations:field:next",
+                "key": "next",
+                "kind": "u64",
+                "presence": "nullable"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:invocations",
+            "tag": "invocations"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stdout",
+                "key": "stdout",
+                "kind": "u64",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stderr",
+                "key": "stderr",
+                "kind": "u64",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_request_id",
+                "key": "finish_request_id",
+                "kind": "string",
+                "presence": "nullable"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_confirmed",
+                "key": "finish_confirmed",
+                "kind": "bool",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:consumed",
+            "tag": "consumed"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stdout",
+                "key": "stdout",
+                "kind": "u64",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stderr",
+                "key": "stderr",
+                "kind": "u64",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:cursors",
+            "tag": "cursors"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:failure:field:category",
+                "key": "category",
+                "kind": "string",
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:command:variant:failure:field:handle",
+                "key": "handle",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:handle",
+                  "kind": "ref"
+                },
+                "presence": "nullable"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:command:variant:failure",
+            "tag": "failure"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:local_busy",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command:variant:local_busy",
+        "tag": "local_busy"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:ready",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:ready:field:session",
+            "key": "session",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:ready:field:local_account",
+            "key": "local_account",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:ready",
+        "tag": "ready"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:ready:field:session",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:ready:field:session",
+        "key": "session",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:ready:field:local_account",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:ready:field:local_account",
+        "key": "local_account",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:local_queued",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:local_queued:field:handle",
+            "key": "handle",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:handle",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:local_queued",
+        "tag": "local_queued"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:local_queued:field:handle",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:local_queued:field:handle",
+        "key": "handle",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:handle",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:remote_pending",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:handle",
+            "key": "handle",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:handle",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:request_id",
+            "key": "request_id",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:remote_pending",
+        "tag": "remote_pending"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:remote_pending:field:handle",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:handle",
+        "key": "handle",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:handle",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:remote_pending:field:request_id",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:remote_pending:field:request_id",
+        "key": "request_id",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:answer",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:answer:field:handle",
+            "key": "handle",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:handle",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:answer:field:request_id",
+            "key": "request_id",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_base64",
+            "key": "response_base64",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_sha256",
+            "key": "response_sha256",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:answer",
+        "tag": "answer"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:answer:field:handle",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:answer:field:handle",
+        "key": "handle",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:handle",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:answer:field:request_id",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:answer:field:request_id",
+        "key": "request_id",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:answer:field:response_base64",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_base64",
+        "key": "response_base64",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:answer:field:response_sha256",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:answer:field:response_sha256",
+        "key": "response_sha256",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:entries",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:entries:field:entries",
+            "key": "entries",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:answer-entry",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:entries",
+        "tag": "entries"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:entries:field:entries",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:entries:field:entries",
+        "key": "entries",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:answer-entry",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:invocations",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:invocations:field:entries",
+            "key": "entries",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:invocation-entry",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:invocations:field:next",
+            "key": "next",
+            "kind": "u64",
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:invocations",
+        "tag": "invocations"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:invocations:field:entries",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:invocations:field:entries",
+        "key": "entries",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:invocation-entry",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:invocations:field:next",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:invocations:field:next",
+        "key": "next",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:consumed",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stdout",
+            "key": "stdout",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stderr",
+            "key": "stderr",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_request_id",
+            "key": "finish_request_id",
+            "kind": "string",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_confirmed",
+            "key": "finish_confirmed",
+            "kind": "bool",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:consumed",
+        "tag": "consumed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:consumed:field:stdout",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stdout",
+        "key": "stdout",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:consumed:field:stderr",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:consumed:field:stderr",
+        "key": "stderr",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_request_id",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_request_id",
+        "key": "finish_request_id",
+        "kind": "string",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_confirmed",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:consumed:field:finish_confirmed",
+        "key": "finish_confirmed",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:cursors",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stdout",
+            "key": "stdout",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stderr",
+            "key": "stderr",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:cursors",
+        "tag": "cursors"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:cursors:field:stdout",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stdout",
+        "key": "stdout",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:cursors:field:stderr",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:cursors:field:stderr",
+        "key": "stderr",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:failure",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:failure:field:category",
+            "key": "category",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:command:variant:failure:field:handle",
+            "key": "handle",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:handle",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:command:variant:failure",
+        "tag": "failure"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:failure:field:category",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:failure:field:category",
+        "key": "category",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command:variant:failure:field:handle",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:command:variant:failure:field:handle",
+        "key": "handle",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:handle",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:format",
+            "key": "format",
+            "kind": {
+              "kind": "literal_u8",
+              "value": 1
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:profile",
+            "key": "profile",
+            "kind": {
+              "kind": "ascii_atom",
+              "maximum_bytes": 64,
+              "punctuation": "_-"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:remote",
+            "key": "remote",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:session",
+            "key": "session",
+            "kind": {
+              "bytes": 16,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:invocation",
+            "key": "invocation",
+            "kind": {
+              "bytes": 16,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:handle:field:submit_sha256",
+            "key": "submit_sha256",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:handle",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:format",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:format",
+        "key": "format",
+        "kind": {
+          "kind": "literal_u8",
+          "value": 1
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:profile",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:profile",
+        "key": "profile",
+        "kind": {
+          "kind": "ascii_atom",
+          "maximum_bytes": 64,
+          "punctuation": "_-"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:remote",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:remote",
+        "key": "remote",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:session",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:session",
+        "key": "session",
+        "kind": {
+          "bytes": 16,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:invocation",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:invocation",
+        "key": "invocation",
+        "kind": {
+          "bytes": 16,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:handle:field:submit_sha256",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:handle:field:submit_sha256",
+        "key": "submit_sha256",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:answer-entry",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:answer-entry:field:request_id",
+            "key": "request_id",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:answer-entry:field:op",
+            "key": "op",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:command-op",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:answer-entry:field:sha256",
+            "key": "sha256",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:answer-entry",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:answer-entry:field:request_id",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:answer-entry:field:request_id",
+        "key": "request_id",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:answer-entry:field:op",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:answer-entry:field:op",
+        "key": "op",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:command-op",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:answer-entry:field:sha256",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:answer-entry:field:sha256",
+        "key": "sha256",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:handle",
+            "key": "handle",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:handle",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:group_submit_sha256",
+            "key": "group_submit_sha256",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:cursor",
+            "key": "cursor",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:created",
+            "key": "created",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:admission",
+            "key": "admission",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:command-admission",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:state",
+            "key": "state",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:command-state",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:authority_valid",
+            "key": "authority_valid",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:invocation-entry:field:refusal",
+            "key": "refusal",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:command-error",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:invocation-entry",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:handle",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:handle",
+        "key": "handle",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:handle",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:group_submit_sha256",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:group_submit_sha256",
+        "key": "group_submit_sha256",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:cursor",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:cursor",
+        "key": "cursor",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:created",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:created",
+        "key": "created",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:admission",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:admission",
+        "key": "admission",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:command-admission",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:state",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:state",
+        "key": "state",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:command-state",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:authority_valid",
+      "position": 6,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:authority_valid",
+        "key": "authority_valid",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:invocation-entry:field:refusal",
+      "position": 7,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:invocation-entry:field:refusal",
+        "key": "refusal",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:command-error",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:command-op",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-op:variant:submit",
+            "tag": "submit"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-op:variant:status",
+            "tag": "status"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-op:variant:poll",
+            "tag": "poll"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-op:variant:cancel",
+            "tag": "cancel"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-op:variant:finish",
+            "tag": "finish"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op:variant:submit",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-op:variant:submit",
+        "tag": "submit"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op:variant:status",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-op:variant:status",
+        "tag": "status"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op:variant:poll",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-op:variant:poll",
+        "tag": "poll"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op:variant:cancel",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-op:variant:cancel",
+        "tag": "cancel"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-op:variant:finish",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-op:variant:finish",
+        "tag": "finish"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-admission",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:command-admission",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-admission:variant:accepted",
+            "tag": "accepted"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-admission:variant:dispatching",
+            "tag": "dispatching"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-admission:variant:engine",
+            "tag": "engine"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-admission:variant:accepted",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-admission:variant:accepted",
+        "tag": "accepted"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-admission:variant:dispatching",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-admission:variant:dispatching",
+        "tag": "dispatching"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-admission:variant:engine",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-admission:variant:engine",
+        "tag": "engine"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:command-state",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:accepted",
+            "tag": "accepted"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:launching",
+            "tag": "launching"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:running",
+            "tag": "running"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:exited",
+            "tag": "exited"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:unknown_launch",
+            "tag": "unknown_launch"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-state:variant:lost",
+            "tag": "lost"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:accepted",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:accepted",
+        "tag": "accepted"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:launching",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:launching",
+        "tag": "launching"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:running",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:running",
+        "tag": "running"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:exited",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:exited",
+        "tag": "exited"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:unknown_launch",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:unknown_launch",
+        "tag": "unknown_launch"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-state:variant:lost",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-state:variant:lost",
+        "tag": "lost"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:command-error",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:invalid_request",
+            "tag": "invalid_request"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:unauthorized",
+            "tag": "unauthorized"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:role_disabled",
+            "tag": "role_disabled"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:command_denied",
+            "tag": "command_denied"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:command_not_found",
+            "tag": "command_not_found"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:command_not_executable",
+            "tag": "command_not_executable"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:command_resolution_failed",
+            "tag": "command_resolution_failed"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:command_policy_error",
+            "tag": "command_policy_error"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:noncanonical_executable",
+            "tag": "noncanonical_executable"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:invocation_conflict",
+            "tag": "invocation_conflict"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:expired",
+            "tag": "expired"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:future_deferred",
+            "tag": "future_deferred"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:future_excessive",
+            "tag": "future_excessive"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:clock_behind_floor",
+            "tag": "clock_behind_floor"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:quota_exceeded",
+            "tag": "quota_exceeded"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:busy",
+            "tag": "busy"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:not_found",
+            "tag": "not_found"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:result_expired",
+            "tag": "result_expired"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:recovery_uncertain",
+            "tag": "recovery_uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:input_failed",
+            "tag": "input_failed"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:storage_failure",
+            "tag": "storage_failure"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:transport_degraded",
+            "tag": "transport_degraded"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:command-error:variant:authority_revoked",
+            "tag": "authority_revoked"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:invalid_request",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:invalid_request",
+        "tag": "invalid_request"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:unauthorized",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:unauthorized",
+        "tag": "unauthorized"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:role_disabled",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:role_disabled",
+        "tag": "role_disabled"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:command_denied",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:command_denied",
+        "tag": "command_denied"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:command_not_found",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:command_not_found",
+        "tag": "command_not_found"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:command_not_executable",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:command_not_executable",
+        "tag": "command_not_executable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:command_resolution_failed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:command_resolution_failed",
+        "tag": "command_resolution_failed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:command_policy_error",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:command_policy_error",
+        "tag": "command_policy_error"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:noncanonical_executable",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:noncanonical_executable",
+        "tag": "noncanonical_executable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:invocation_conflict",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:invocation_conflict",
+        "tag": "invocation_conflict"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:expired",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:expired",
+        "tag": "expired"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:future_deferred",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:future_deferred",
+        "tag": "future_deferred"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:future_excessive",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:future_excessive",
+        "tag": "future_excessive"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:clock_behind_floor",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:clock_behind_floor",
+        "tag": "clock_behind_floor"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:quota_exceeded",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:quota_exceeded",
+        "tag": "quota_exceeded"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:busy",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:busy",
+        "tag": "busy"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:not_found",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:not_found",
+        "tag": "not_found"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:result_expired",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:result_expired",
+        "tag": "result_expired"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:recovery_uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:recovery_uncertain",
+        "tag": "recovery_uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:input_failed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:input_failed",
+        "tag": "input_failed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:storage_failure",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:storage_failure",
+        "tag": "storage_failure"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:transport_degraded",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:transport_degraded",
+        "tag": "transport_degraded"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:command-error:variant:authority_revoked",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:command-error:variant:authority_revoked",
+        "tag": "authority_revoked"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream",
+      "role": "reply-type",
+      "type": {
+        "content": null,
+        "id": "urn:marmish:ipc:reply:stream",
+        "kind": "tagged",
+        "tag": "state",
+        "variants": [
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:stream:variant:inspection:field:snapshot",
+                "key": "snapshot",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:inspection",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:stream:variant:inspection",
+            "tag": "inspection"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:stream:variant:copy_receiver:field:response",
+                "key": "response",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:receiver-response",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:stream:variant:copy_receiver",
+            "tag": "copy_receiver"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:stream:variant:pending",
+            "tag": "pending"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:stream:variant:failure:field:category",
+                "key": "category",
+                "kind": "string",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:stream:variant:failure",
+            "tag": "failure"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:stream:variant:frame:field:frame_base64",
+                "key": "frame_base64",
+                "kind": "string",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:stream:variant:frame",
+            "tag": "frame"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:stream:variant:entries:field:entries",
+                "key": "entries",
+                "kind": {
+                  "item": {
+                    "id": "urn:marmish:ipc:reply:stream-entry",
+                    "kind": "ref"
+                  },
+                  "kind": "list"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:stream:variant:entries",
+            "tag": "entries"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:inspection",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream:variant:inspection:field:snapshot",
+            "key": "snapshot",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream:variant:inspection",
+        "tag": "inspection"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:inspection:field:snapshot",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream:variant:inspection:field:snapshot",
+        "key": "snapshot",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:copy_receiver",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream:variant:copy_receiver:field:response",
+            "key": "response",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:receiver-response",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream:variant:copy_receiver",
+        "tag": "copy_receiver"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:copy_receiver:field:response",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream:variant:copy_receiver:field:response",
+        "key": "response",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:receiver-response",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:pending",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:stream:variant:pending",
+        "tag": "pending"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:failure",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream:variant:failure:field:category",
+            "key": "category",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream:variant:failure",
+        "tag": "failure"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:failure:field:category",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream:variant:failure:field:category",
+        "key": "category",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:frame",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream:variant:frame:field:frame_base64",
+            "key": "frame_base64",
+            "kind": "string",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream:variant:frame",
+        "tag": "frame"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:frame:field:frame_base64",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream:variant:frame:field:frame_base64",
+        "key": "frame_base64",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:entries",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream:variant:entries:field:entries",
+            "key": "entries",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:stream-entry",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream:variant:entries",
+        "tag": "entries"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream:variant:entries:field:entries",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream:variant:entries:field:entries",
+        "key": "entries",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:stream-entry",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:stream",
+            "key": "stream",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:session",
+            "key": "session",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:client",
+            "key": "client",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:server",
+            "key": "server",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:direction",
+            "key": "direction",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:state",
+            "key": "state",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:open_digest",
+            "key": "open_digest",
+            "kind": "string",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:group_sha256",
+            "key": "group_sha256",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:active",
+            "key": "active",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:cancel_requested",
+            "key": "cancel_requested",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:terminal",
+            "key": "terminal",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:terminal",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": true,
+            "id": "urn:marmish:ipc:reply:stream-entry:field:child_disposition",
+            "key": "child_disposition",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:child-disposition",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:stream-entry",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:stream",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:stream",
+        "key": "stream",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:session",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:session",
+        "key": "session",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:client",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:client",
+        "key": "client",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:server",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:server",
+        "key": "server",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:direction",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:direction",
+        "key": "direction",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:state",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:state",
+        "key": "state",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:open_digest",
+      "position": 6,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:open_digest",
+        "key": "open_digest",
+        "kind": "string",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:group_sha256",
+      "position": 7,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:group_sha256",
+        "key": "group_sha256",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:active",
+      "position": 8,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:active",
+        "key": "active",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:cancel_requested",
+      "position": 9,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:cancel_requested",
+        "key": "cancel_requested",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:terminal",
+      "position": 10,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:terminal",
+        "key": "terminal",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:terminal",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:stream-entry:field:child_disposition",
+      "position": 11,
+      "role": "reply-field",
+      "value": {
+        "default": true,
+        "id": "urn:marmish:ipc:reply:stream-entry:field:child_disposition",
+        "key": "child_disposition",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:child-disposition",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection:field:schema",
+            "key": "schema",
+            "kind": "u8",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection:field:entries",
+            "key": "entries",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:inspection-entry",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection:field:records_truncated",
+            "key": "records_truncated",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection:field:outbox_truncated",
+            "key": "outbox_truncated",
+            "kind": "bool",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection:field:schema",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection:field:schema",
+        "key": "schema",
+        "kind": "u8",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection:field:entries",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection:field:entries",
+        "key": "entries",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:inspection-entry",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection:field:records_truncated",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection:field:records_truncated",
+        "key": "records_truncated",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection:field:outbox_truncated",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection:field:outbox_truncated",
+        "key": "outbox_truncated",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:binding",
+            "key": "binding",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:binding",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:direction",
+            "key": "direction",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-direction",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:integrity",
+            "key": "integrity",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-integrity",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:phase",
+            "key": "phase",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-phase",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:server_hello_validated",
+            "key": "server_hello_validated",
+            "kind": "bool",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:open_present",
+            "key": "open_present",
+            "kind": "bool",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:active",
+            "key": "active",
+            "kind": "bool",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:cancel_requested",
+            "key": "cancel_requested",
+            "kind": "bool",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:projection_invalidated",
+            "key": "projection_invalidated",
+            "kind": "bool",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:record_sequence",
+            "key": "record_sequence",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_accepted",
+            "key": "record_stdin_accepted",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_delivered",
+            "key": "record_stdin_delivered",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:stdout_eof",
+            "key": "stdout_eof",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:stderr_eof",
+            "key": "stderr_eof",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:terminal",
+            "key": "terminal",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:terminal",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:slots",
+            "key": "slots",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:inspection-slot",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:slots_truncated",
+            "key": "slots_truncated",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-entry:field:outbox",
+            "key": "outbox",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:inspection-outbox",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection-entry",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:binding",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:binding",
+        "key": "binding",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:binding",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:direction",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:direction",
+        "key": "direction",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-direction",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:integrity",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:integrity",
+        "key": "integrity",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-integrity",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:phase",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:phase",
+        "key": "phase",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-phase",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:server_hello_validated",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:server_hello_validated",
+        "key": "server_hello_validated",
+        "kind": "bool",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:open_present",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:open_present",
+        "key": "open_present",
+        "kind": "bool",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:active",
+      "position": 6,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:active",
+        "key": "active",
+        "kind": "bool",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:cancel_requested",
+      "position": 7,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:cancel_requested",
+        "key": "cancel_requested",
+        "kind": "bool",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:projection_invalidated",
+      "position": 8,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:projection_invalidated",
+        "key": "projection_invalidated",
+        "kind": "bool",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:record_sequence",
+      "position": 9,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:record_sequence",
+        "key": "record_sequence",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_accepted",
+      "position": 10,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_accepted",
+        "key": "record_stdin_accepted",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_delivered",
+      "position": 11,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:record_stdin_delivered",
+        "key": "record_stdin_delivered",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:stdout_eof",
+      "position": 12,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:stdout_eof",
+        "key": "stdout_eof",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:stderr_eof",
+      "position": 13,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:stderr_eof",
+        "key": "stderr_eof",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:terminal",
+      "position": 14,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:terminal",
+        "key": "terminal",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:terminal",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:slots",
+      "position": 15,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:slots",
+        "key": "slots",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:inspection-slot",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:slots_truncated",
+      "position": 16,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:slots_truncated",
+        "key": "slots_truncated",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-entry:field:outbox",
+      "position": 17,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-entry:field:outbox",
+        "key": "outbox",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:inspection-outbox",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:integrity",
+            "key": "integrity",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-integrity",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:kind",
+            "key": "kind",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-kind",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:sequence",
+            "key": "sequence",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:response_cached",
+            "key": "response_cached",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:exchange",
+            "key": "exchange",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-exchange",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-slot:field:response",
+            "key": "response",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-exchange-response",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection-slot",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:integrity",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:integrity",
+        "key": "integrity",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-integrity",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:kind",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:kind",
+        "key": "kind",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-kind",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:sequence",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:sequence",
+        "key": "sequence",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:response_cached",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:response_cached",
+        "key": "response_cached",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:exchange",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:exchange",
+        "key": "exchange",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-exchange",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-slot:field:response",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-slot:field:response",
+        "key": "response",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-exchange-response",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_offset",
+            "key": "stdin_offset",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_end",
+            "key": "stdin_end",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_eof",
+            "key": "stdin_eof",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdout_ack",
+            "key": "stdout_ack",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange:field:stderr_ack",
+            "key": "stderr_ack",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection-exchange",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_offset",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_offset",
+        "key": "stdin_offset",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_end",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_end",
+        "key": "stdin_end",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_eof",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdin_eof",
+        "key": "stdin_eof",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange:field:stdout_ack",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange:field:stdout_ack",
+        "key": "stdout_ack",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange:field:stderr_ack",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange:field:stderr_ack",
+        "key": "stderr_ack",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_accepted",
+            "key": "stdin_accepted",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_delivered",
+            "key": "stdin_delivered",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_end",
+            "key": "stdout_end",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_end",
+            "key": "stderr_end",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_eof",
+            "key": "stdout_eof",
+            "kind": "u64",
+            "presence": "nullable"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_eof",
+            "key": "stderr_eof",
+            "kind": "u64",
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_accepted",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_accepted",
+        "key": "stdin_accepted",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_delivered",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdin_delivered",
+        "key": "stdin_delivered",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_end",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_end",
+        "key": "stdout_end",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_end",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_end",
+        "key": "stderr_end",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_eof",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stdout_eof",
+        "key": "stdout_eof",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_eof",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-exchange-response:field:stderr_eof",
+        "key": "stderr_eof",
+        "kind": "u64",
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-outbox:field:bucket",
+            "key": "bucket",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:inspection-publication",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-outbox:field:count",
+            "key": "count",
+            "kind": "u32",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-outbox:field:native_id_present",
+            "key": "native_id_present",
+            "kind": "u32",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-outbox:field:intent_present",
+            "key": "intent_present",
+            "kind": "u32",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:inspection-outbox:field:evidence_present",
+            "key": "evidence_present",
+            "kind": "u32",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:inspection-outbox",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox:field:bucket",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-outbox:field:bucket",
+        "key": "bucket",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:inspection-publication",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox:field:count",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-outbox:field:count",
+        "key": "count",
+        "kind": "u32",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox:field:native_id_present",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-outbox:field:native_id_present",
+        "key": "native_id_present",
+        "kind": "u32",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox:field:intent_present",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-outbox:field:intent_present",
+        "key": "intent_present",
+        "kind": "u32",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-outbox:field:evidence_present",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:inspection-outbox:field:evidence_present",
+        "key": "evidence_present",
+        "kind": "u32",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-direction",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:inspection-direction",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-direction:variant:client",
+            "tag": "client"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-direction:variant:server",
+            "tag": "server"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-direction:variant:client",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-direction:variant:client",
+        "tag": "client"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-direction:variant:server",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-direction:variant:server",
+        "tag": "server"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-integrity",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:inspection-integrity",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-integrity:variant:valid",
+            "tag": "valid"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-integrity:variant:invalid",
+            "tag": "invalid"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-integrity:variant:valid",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-integrity:variant:valid",
+        "tag": "valid"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-integrity:variant:invalid",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-integrity:variant:invalid",
+        "tag": "invalid"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:inspection-kind",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:hello",
+            "tag": "hello"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:open",
+            "tag": "open"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:exchange",
+            "tag": "exchange"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:status",
+            "tag": "status"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:cancel",
+            "tag": "cancel"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:copy_hello",
+            "tag": "copy_hello"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:open_copy",
+            "tag": "open_copy"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:other",
+            "tag": "other"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-kind:variant:invalid",
+            "tag": "invalid"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:hello",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:hello",
+        "tag": "hello"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:open",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:open",
+        "tag": "open"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:exchange",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:exchange",
+        "tag": "exchange"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:status",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:status",
+        "tag": "status"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:cancel",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:cancel",
+        "tag": "cancel"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:copy_hello",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:copy_hello",
+        "tag": "copy_hello"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:open_copy",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:open_copy",
+        "tag": "open_copy"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:other",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:other",
+        "tag": "other"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-kind:variant:invalid",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-kind:variant:invalid",
+        "tag": "invalid"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:inspection-publication",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:unsubmitted",
+            "tag": "unsubmitted"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:prepared",
+            "tag": "prepared"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:queued",
+            "tag": "queued"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:published",
+            "tag": "published"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:uncertain",
+            "tag": "uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:failed",
+            "tag": "failed"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:acked",
+            "tag": "acked"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:retired_failed",
+            "tag": "retired_failed"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-publication:variant:other",
+            "tag": "other"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:unsubmitted",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:unsubmitted",
+        "tag": "unsubmitted"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:prepared",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:prepared",
+        "tag": "prepared"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:queued",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:queued",
+        "tag": "queued"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:published",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:published",
+        "tag": "published"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:uncertain",
+        "tag": "uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:failed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:failed",
+        "tag": "failed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:acked",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:acked",
+        "tag": "acked"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:retired_failed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:retired_failed",
+        "tag": "retired_failed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-publication:variant:other",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-publication:variant:other",
+        "tag": "other"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:inspection-phase",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:hello",
+            "tag": "hello"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:opening",
+            "tag": "opening"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:preparing",
+            "tag": "preparing"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:launching",
+            "tag": "launching"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:running",
+            "tag": "running"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:cancelling",
+            "tag": "cancelling"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:terminal",
+            "tag": "terminal"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:authority_revoked",
+            "tag": "authority_revoked"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:lost",
+            "tag": "lost"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:unknown_launch",
+            "tag": "unknown_launch"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:transport_uncertain",
+            "tag": "transport_uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:reconciled_possible_live",
+            "tag": "reconciled_possible_live"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:cleanup_uncertain",
+            "tag": "cleanup_uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopping",
+            "tag": "server_stopping"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopped",
+            "tag": "server_stopped"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:projection_invalidated",
+            "tag": "projection_invalidated"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:inspection-phase:variant:other",
+            "tag": "other"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:hello",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:hello",
+        "tag": "hello"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:opening",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:opening",
+        "tag": "opening"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:preparing",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:preparing",
+        "tag": "preparing"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:launching",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:launching",
+        "tag": "launching"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:running",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:running",
+        "tag": "running"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:cancelling",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:cancelling",
+        "tag": "cancelling"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:terminal",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:terminal",
+        "tag": "terminal"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:authority_revoked",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:authority_revoked",
+        "tag": "authority_revoked"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:lost",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:lost",
+        "tag": "lost"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:unknown_launch",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:unknown_launch",
+        "tag": "unknown_launch"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:transport_uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:transport_uncertain",
+        "tag": "transport_uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:reconciled_possible_live",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:reconciled_possible_live",
+        "tag": "reconciled_possible_live"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:cleanup_uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:cleanup_uncertain",
+        "tag": "cleanup_uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopping",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopping",
+        "tag": "server_stopping"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopped",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:server_stopped",
+        "tag": "server_stopped"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:projection_invalidated",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:projection_invalidated",
+        "tag": "projection_invalidated"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:inspection-phase:variant:other",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:inspection-phase:variant:other",
+        "tag": "other"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:child-disposition",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:child-disposition",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:child-disposition:variant:absent",
+            "tag": "absent"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:child-disposition:variant:present_unowned",
+            "tag": "present_unowned"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:child-disposition:variant:unknown",
+            "tag": "unknown"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:child-disposition:variant:absent",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:child-disposition:variant:absent",
+        "tag": "absent"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:child-disposition:variant:present_unowned",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:child-disposition:variant:present_unowned",
+        "tag": "present_unowned"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:child-disposition:variant:unknown",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:child-disposition:variant:unknown",
+        "tag": "unknown"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:binding",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:binding:field:stream",
+            "key": "stream",
+            "kind": {
+              "bytes": 16,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:binding:field:session",
+            "key": "session",
+            "kind": {
+              "bytes": 16,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:binding:field:client",
+            "key": "client",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:binding:field:server",
+            "key": "server",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:binding",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:binding:field:stream",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:binding:field:stream",
+        "key": "stream",
+        "kind": {
+          "bytes": 16,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:binding:field:session",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:binding:field:session",
+        "key": "session",
+        "kind": {
+          "bytes": 16,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:binding:field:client",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:binding:field:client",
+        "key": "client",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:binding:field:server",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:binding:field:server",
+        "key": "server",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal",
+      "role": "reply-type",
+      "type": {
+        "content": "data",
+        "id": "urn:marmish:ipc:reply:terminal",
+        "kind": "tagged",
+        "tag": "kind",
+        "variants": [
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:terminal:variant:exited:field:code",
+                "key": "code",
+                "kind": "u8",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:terminal:variant:exited",
+            "tag": "exited"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:terminal:variant:signaled:field:signal",
+                "key": "signal",
+                "kind": "u8",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:terminal:variant:signaled",
+            "tag": "signaled"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal:variant:cancelled",
+            "tag": "cancelled"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:terminal:variant:failed:field:code",
+                "key": "code",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:terminal-error",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:terminal:variant:failed",
+            "tag": "failed"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:exited",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:terminal:variant:exited:field:code",
+            "key": "code",
+            "kind": "u8",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:terminal:variant:exited",
+        "tag": "exited"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:exited:field:code",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:terminal:variant:exited:field:code",
+        "key": "code",
+        "kind": "u8",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:signaled",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:terminal:variant:signaled:field:signal",
+            "key": "signal",
+            "kind": "u8",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:terminal:variant:signaled",
+        "tag": "signaled"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:signaled:field:signal",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:terminal:variant:signaled:field:signal",
+        "key": "signal",
+        "kind": "u8",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:cancelled",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal:variant:cancelled",
+        "tag": "cancelled"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:failed",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:terminal:variant:failed:field:code",
+            "key": "code",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:terminal-error",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:terminal:variant:failed",
+        "tag": "failed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal:variant:failed:field:code",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:terminal:variant:failed:field:code",
+        "key": "code",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:terminal-error",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:terminal-error",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:unsupported",
+            "tag": "unsupported"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:invalid",
+            "tag": "invalid"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:denied",
+            "tag": "denied"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:conflict",
+            "tag": "conflict"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:gap",
+            "tag": "gap"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:expired",
+            "tag": "expired"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:capacity",
+            "tag": "capacity"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:uncertain",
+            "tag": "uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:not_found",
+            "tag": "not_found"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:terminal-error:variant:closed",
+            "tag": "closed"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:unsupported",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:unsupported",
+        "tag": "unsupported"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:invalid",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:invalid",
+        "tag": "invalid"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:denied",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:denied",
+        "tag": "denied"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:conflict",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:conflict",
+        "tag": "conflict"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:gap",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:gap",
+        "tag": "gap"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:expired",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:expired",
+        "tag": "expired"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:capacity",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:capacity",
+        "tag": "capacity"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:uncertain",
+        "tag": "uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:not_found",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:not_found",
+        "tag": "not_found"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:terminal-error:variant:closed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:terminal-error:variant:closed",
+        "tag": "closed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response",
+      "role": "reply-type",
+      "type": {
+        "content": null,
+        "id": "urn:marmish:ipc:reply:receiver-response",
+        "kind": "tagged",
+        "tag": "kind",
+        "variants": [
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:receiver-response:variant:rejected:field:code",
+                "key": "code",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:copy-error",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:rejected",
+            "tag": "rejected"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:lease",
+                "key": "lease",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:lease",
+                  "kind": "ref"
+                },
+                "presence": "required"
+              },
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:retention",
+                "key": "retention",
+                "kind": "u64",
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved",
+            "tag": "reserved"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:receiver-response:variant:granted:field:claim",
+                "key": "claim",
+                "kind": {
+                  "id": "urn:marmish:ipc:reply:claim",
+                  "kind": "ref"
+                },
+                "presence": "nullable"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:granted",
+            "tag": "granted"
+          },
+          {
+            "fields": [
+              {
+                "default": false,
+                "id": "urn:marmish:ipc:reply:receiver-response:variant:entries:field:entries",
+                "key": "entries",
+                "kind": {
+                  "item": {
+                    "id": "urn:marmish:ipc:reply:receiver-entry",
+                    "kind": "ref"
+                  },
+                  "kind": "list"
+                },
+                "presence": "required"
+              }
+            ],
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:entries",
+            "tag": "entries"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:ok",
+            "tag": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:rejected",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:rejected:field:code",
+            "key": "code",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:copy-error",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:rejected",
+        "tag": "rejected"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:rejected:field:code",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:rejected:field:code",
+        "key": "code",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:copy-error",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:reserved",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:lease",
+            "key": "lease",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:lease",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:retention",
+            "key": "retention",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved",
+        "tag": "reserved"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:lease",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:lease",
+        "key": "lease",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:lease",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:retention",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:reserved:field:retention",
+        "key": "retention",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:granted",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:granted:field:claim",
+            "key": "claim",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:claim",
+              "kind": "ref"
+            },
+            "presence": "nullable"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:granted",
+        "tag": "granted"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:granted:field:claim",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:granted:field:claim",
+        "key": "claim",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:claim",
+          "kind": "ref"
+        },
+        "presence": "nullable"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:entries",
+      "role": "reply-case",
+      "variant": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-response:variant:entries:field:entries",
+            "key": "entries",
+            "kind": {
+              "item": {
+                "id": "urn:marmish:ipc:reply:receiver-entry",
+                "kind": "ref"
+              },
+              "kind": "list"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:entries",
+        "tag": "entries"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:entries:field:entries",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:entries:field:entries",
+        "key": "entries",
+        "kind": {
+          "item": {
+            "id": "urn:marmish:ipc:reply:receiver-entry",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-response:variant:ok",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:receiver-response:variant:ok",
+        "tag": "ok"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:copy-error",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:unsupported",
+            "tag": "unsupported"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:protocol",
+            "tag": "protocol"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:permission_denied",
+            "tag": "permission_denied"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:not_found",
+            "tag": "not_found"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:unsafe_path",
+            "tag": "unsafe_path"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:busy",
+            "tag": "busy"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:conflict",
+            "tag": "conflict"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:source_changed",
+            "tag": "source_changed"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:hash_mismatch",
+            "tag": "hash_mismatch"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:disk_full",
+            "tag": "disk_full"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:quota",
+            "tag": "quota"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:commit_uncertain",
+            "tag": "commit_uncertain"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:local_io",
+            "tag": "local_io"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-error:variant:identity_changed",
+            "tag": "identity_changed"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:unsupported",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:unsupported",
+        "tag": "unsupported"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:protocol",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:protocol",
+        "tag": "protocol"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:permission_denied",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:permission_denied",
+        "tag": "permission_denied"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:not_found",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:not_found",
+        "tag": "not_found"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:unsafe_path",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:unsafe_path",
+        "tag": "unsafe_path"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:busy",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:busy",
+        "tag": "busy"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:conflict",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:conflict",
+        "tag": "conflict"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:source_changed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:source_changed",
+        "tag": "source_changed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:hash_mismatch",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:hash_mismatch",
+        "tag": "hash_mismatch"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:disk_full",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:disk_full",
+        "tag": "disk_full"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:quota",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:quota",
+        "tag": "quota"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:commit_uncertain",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:commit_uncertain",
+        "tag": "commit_uncertain"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:local_io",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:local_io",
+        "tag": "local_io"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-error:variant:identity_changed",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-error:variant:identity_changed",
+        "tag": "identity_changed"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:lease",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:lease:field:namespace",
+            "key": "namespace",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:lease:field:stream",
+            "key": "stream",
+            "kind": {
+              "kind": "fixed_bytes",
+              "length": 16
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:lease:field:revision",
+            "key": "revision",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:lease",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:lease:field:namespace",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:lease:field:namespace",
+        "key": "namespace",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:lease:field:stream",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:lease:field:stream",
+        "key": "stream",
+        "kind": {
+          "kind": "fixed_bytes",
+          "length": 16
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:lease:field:revision",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:lease:field:revision",
+        "key": "revision",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:id",
+            "key": "id",
+            "kind": {
+              "kind": "fixed_bytes",
+              "length": 16
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:namespace",
+            "key": "namespace",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:revision",
+            "key": "revision",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:launch",
+            "key": "launch",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:launch",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:location",
+            "key": "location",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:receiver-location",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:claim:field:timestamp",
+            "key": "timestamp",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:claim",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:id",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:id",
+        "key": "id",
+        "kind": {
+          "kind": "fixed_bytes",
+          "length": 16
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:namespace",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:namespace",
+        "key": "namespace",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:revision",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:revision",
+        "key": "revision",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:launch",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:launch",
+        "key": "launch",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:launch",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:location",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:location",
+        "key": "location",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:receiver-location",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:claim:field:timestamp",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:claim:field:timestamp",
+        "key": "timestamp",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-entry",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-entry:field:namespace",
+            "key": "namespace",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-entry:field:state",
+            "key": "state",
+            "kind": "string",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-entry:field:revision",
+            "key": "revision",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-entry",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-entry:field:namespace",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-entry:field:namespace",
+        "key": "namespace",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-entry:field:state",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-entry:field:state",
+        "key": "state",
+        "kind": "string",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-entry:field:revision",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-entry:field:revision",
+        "key": "revision",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-location",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-location:field:base",
+            "key": "base",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:receiver-base",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-location:field:parent",
+            "key": "parent",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:file-identity",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-location:field:stream",
+            "key": "stream",
+            "kind": {
+              "kind": "fixed_bytes",
+              "length": 16
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-location",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-location:field:base",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-location:field:base",
+        "key": "base",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:receiver-base",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-location:field:parent",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-location:field:parent",
+        "key": "parent",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:file-identity",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-location:field:stream",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-location:field:stream",
+        "key": "stream",
+        "kind": {
+          "kind": "fixed_bytes",
+          "length": 16
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-base",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-base:field:path",
+            "key": "path",
+            "kind": {
+              "item": "u8",
+              "kind": "list"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:receiver-base:field:identity",
+            "key": "identity",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:file-identity",
+              "kind": "ref"
+            },
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:receiver-base",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-base:field:path",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-base:field:path",
+        "key": "path",
+        "kind": {
+          "item": "u8",
+          "kind": "list"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:receiver-base:field:identity",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:receiver-base:field:identity",
+        "key": "identity",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:file-identity",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:file-identity",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:file-identity:field:device",
+            "key": "device",
+            "kind": "u64",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:file-identity:field:inode",
+            "key": "inode",
+            "kind": "u64",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:file-identity",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:file-identity:field:device",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:file-identity:field:device",
+        "key": "device",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:file-identity:field:inode",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:file-identity:field:inode",
+        "key": "inode",
+        "kind": "u64",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch",
+      "role": "reply-type",
+      "type": {
+        "fields": [
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:version",
+            "key": "version",
+            "kind": "u32",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:mode",
+            "key": "mode",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:attempt-mode",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:transfer",
+            "key": "transfer",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:client",
+            "key": "client",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:server",
+            "key": "server",
+            "kind": {
+              "bytes": 32,
+              "kind": "lower_hex"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:direction",
+            "key": "direction",
+            "kind": {
+              "id": "urn:marmish:ipc:reply:copy-direction",
+              "kind": "ref"
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:source",
+            "key": "source",
+            "kind": {
+              "kind": "padded_base64",
+              "maximum_bytes": 4096
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:destination",
+            "key": "destination",
+            "kind": {
+              "kind": "padded_base64",
+              "maximum_bytes": 4096
+            },
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:overwrite",
+            "key": "overwrite",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:preserve_mode",
+            "key": "preserve_mode",
+            "kind": "bool",
+            "presence": "required"
+          },
+          {
+            "default": false,
+            "id": "urn:marmish:ipc:reply:launch:field:preserve_mtime",
+            "key": "preserve_mtime",
+            "kind": "bool",
+            "presence": "required"
+          }
+        ],
+        "id": "urn:marmish:ipc:reply:launch",
+        "kind": "record"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:version",
+      "position": 0,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:version",
+        "key": "version",
+        "kind": "u32",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:mode",
+      "position": 1,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:mode",
+        "key": "mode",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:attempt-mode",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:transfer",
+      "position": 2,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:transfer",
+        "key": "transfer",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:client",
+      "position": 3,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:client",
+        "key": "client",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:server",
+      "position": 4,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:server",
+        "key": "server",
+        "kind": {
+          "bytes": 32,
+          "kind": "lower_hex"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:direction",
+      "position": 5,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:direction",
+        "key": "direction",
+        "kind": {
+          "id": "urn:marmish:ipc:reply:copy-direction",
+          "kind": "ref"
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:source",
+      "position": 6,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:source",
+        "key": "source",
+        "kind": {
+          "kind": "padded_base64",
+          "maximum_bytes": 4096
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:destination",
+      "position": 7,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:destination",
+        "key": "destination",
+        "kind": {
+          "kind": "padded_base64",
+          "maximum_bytes": 4096
+        },
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:overwrite",
+      "position": 8,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:overwrite",
+        "key": "overwrite",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:preserve_mode",
+      "position": 9,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:preserve_mode",
+        "key": "preserve_mode",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:launch:field:preserve_mtime",
+      "position": 10,
+      "role": "reply-field",
+      "value": {
+        "default": false,
+        "id": "urn:marmish:ipc:reply:launch:field:preserve_mtime",
+        "key": "preserve_mtime",
+        "kind": "bool",
+        "presence": "required"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:attempt-mode",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:attempt-mode",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:attempt-mode:variant:create",
+            "tag": "create"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:attempt-mode:variant:resume",
+            "tag": "resume"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:attempt-mode:variant:create",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:attempt-mode:variant:create",
+        "tag": "create"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:attempt-mode:variant:resume",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:attempt-mode:variant:resume",
+        "tag": "resume"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-direction",
+      "role": "reply-type",
+      "type": {
+        "id": "urn:marmish:ipc:reply:copy-direction",
+        "kind": "strings",
+        "variants": [
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-direction:variant:put",
+            "tag": "put"
+          },
+          {
+            "fields": null,
+            "id": "urn:marmish:ipc:reply:copy-direction:variant:get",
+            "tag": "get"
+          }
+        ]
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-direction:variant:put",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-direction:variant:put",
+        "tag": "put"
+      }
+    },
+    {
+      "declaration": "urn:marmish:ipc:reply:copy-direction:variant:get",
+      "role": "reply-case",
+      "variant": {
+        "fields": null,
+        "id": "urn:marmish:ipc:reply:copy-direction:variant:get",
+        "tag": "get"
+      }
+    }
+  ],
+  "qualification": "independent-witness-required"
+}

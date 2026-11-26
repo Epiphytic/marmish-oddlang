@@ -1,0 +1,173 @@
+{
+  "binarySha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "caseSha256": "b03ef7aa8d26e3f47647e4f0b8f8fa89cd3d7ed3442b6063765a92641681d3a2",
+  "mode": "original",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "results": {
+    "command-answer": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"answer\",\"handle\":{\"format\":1,\"profile\":\"Case_1-test\",\"remote\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"session\":\"00000000000000000000000000000000\",\"invocation\":\"01010101010101010101010101010101\",\"submit_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\"},\"request_id\":\"request\",\"response_base64\":\"opaque\",\"response_sha256\":\"digest\"}}\n"
+    },
+    "command-bad-handle-format": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "command-bad-handle-hex": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "command-bad-handle-profile": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "command-consumed": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"consumed\",\"stdout\":5,\"stderr\":4,\"finish_request_id\":null,\"finish_confirmed\":false}}\n"
+    },
+    "command-cursors": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"cursors\",\"stdout\":0,\"stderr\":0}}\n"
+    },
+    "command-entries": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"entries\",\"entries\":[{\"request_id\":\"request\",\"op\":\"cancel\",\"sha256\":\"digest\"}]}}\n"
+    },
+    "command-failure": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"failure\",\"category\":\"example\",\"handle\":null}}\n"
+    },
+    "command-invocations": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"invocations\",\"entries\":[{\"handle\":{\"format\":1,\"profile\":\"Case_1-test\",\"remote\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"session\":\"00000000000000000000000000000000\",\"invocation\":\"01010101010101010101010101010101\",\"submit_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\"},\"group_submit_sha256\":\"digest\",\"cursor\":18446744073709551615,\"created\":2,\"admission\":\"engine\",\"state\":\"lost\",\"authority_valid\":false,\"refusal\":\"authority_revoked\"}],\"next\":null}}\n"
+    },
+    "command-local-busy": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"}}\n"
+    },
+    "command-local-queued": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_queued\",\"handle\":{\"format\":1,\"profile\":\"Case_1-test\",\"remote\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"session\":\"00000000000000000000000000000000\",\"invocation\":\"01010101010101010101010101010101\",\"submit_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\"}}}\n"
+    },
+    "command-ready": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"ready\",\"session\":\"session\",\"local_account\":\"account\"}}\n"
+    },
+    "command-remote-pending": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"remote_pending\",\"handle\":{\"format\":1,\"profile\":\"Case_1-test\",\"remote\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"session\":\"00000000000000000000000000000000\",\"invocation\":\"01010101010101010101010101010101\",\"submit_sha256\":\"1111111111111111111111111111111111111111111111111111111111111111\"},\"request_id\":\"request\"}}\n"
+    },
+    "command-unrecognized-operation": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "copy-receiver-entries": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"entries\",\"entries\":[{\"namespace\":\"example\",\"state\":\"done\",\"revision\":3}]}}}\n"
+    },
+    "copy-receiver-granted": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"granted\",\"claim\":{\"id\":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],\"namespace\":\"example\",\"revision\":2,\"launch\":{\"version\":1,\"mode\":\"resume\",\"transfer\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"client\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"server\":\"cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc\",\"direction\":\"get\",\"source\":\"YQ==\",\"destination\":\"/w==\",\"overwrite\":false,\"preserve_mode\":true,\"preserve_mtime\":false},\"location\":{\"base\":{\"path\":[47,254],\"identity\":{\"device\":5,\"inode\":9}},\"parent\":{\"device\":5,\"inode\":9},\"stream\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]},\"timestamp\":33}}}}\n"
+    },
+    "copy-receiver-malformed-array": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "copy-receiver-no-claim": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"granted\",\"claim\":null}}}\n"
+    },
+    "copy-receiver-noncanonical-base64": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "copy-receiver-ok": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"ok\"}}}\n"
+    },
+    "copy-receiver-rejected": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"rejected\",\"code\":\"identity_changed\"}}}\n"
+    },
+    "copy-receiver-reserved": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"copy_receiver\",\"response\":{\"kind\":\"reserved\",\"lease\":{\"namespace\":\"example\",\"stream\":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],\"revision\":3},\"retention\":1000}}}\n"
+    },
+    "copy-receiver-unsupported-mode": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "stream-entry-cancelled": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"entries\",\"entries\":[{\"stream\":\"str\",\"session\":\"sid\",\"client\":\"c\",\"server\":\"s\",\"direction\":\"client\",\"state\":\"terminal\",\"open_digest\":null,\"group_sha256\":\"g\",\"active\":false,\"cancel_requested\":true,\"terminal\":{\"kind\":\"cancelled\"},\"child_disposition\":\"present_unowned\"}]}}\n"
+    },
+    "stream-entry-exited": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"entries\",\"entries\":[{\"stream\":\"str\",\"session\":\"sid\",\"client\":\"c\",\"server\":\"s\",\"direction\":\"client\",\"state\":\"terminal\",\"open_digest\":null,\"group_sha256\":\"g\",\"active\":false,\"cancel_requested\":true,\"terminal\":{\"kind\":\"exited\",\"data\":{\"code\":255}},\"child_disposition\":null}]}}\n"
+    },
+    "stream-entry-failed": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"entries\",\"entries\":[{\"stream\":\"str\",\"session\":\"sid\",\"client\":\"c\",\"server\":\"s\",\"direction\":\"client\",\"state\":\"terminal\",\"open_digest\":null,\"group_sha256\":\"g\",\"active\":false,\"cancel_requested\":true,\"terminal\":{\"kind\":\"failed\",\"data\":{\"code\":\"denied\"}},\"child_disposition\":null}]}}\n"
+    },
+    "stream-entry-invalid-terminal": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "stream-entry-signaled": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"entries\",\"entries\":[{\"stream\":\"str\",\"session\":\"sid\",\"client\":\"c\",\"server\":\"s\",\"direction\":\"client\",\"state\":\"terminal\",\"open_digest\":null,\"group_sha256\":\"g\",\"active\":false,\"cancel_requested\":true,\"terminal\":{\"kind\":\"signaled\",\"data\":{\"signal\":9}},\"child_disposition\":null}]}}\n"
+    },
+    "stream-failure": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"failure\",\"category\":\"example\"}}\n"
+    },
+    "stream-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"frame\",\"frame_base64\":\"opaque\"}}\n"
+    },
+    "stream-inspection": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"inspection\",\"snapshot\":{\"schema\":1,\"entries\":[{\"binding\":{\"stream\":\"00000000000000000000000000000000\",\"session\":\"01010101010101010101010101010101\",\"client\":\"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa\",\"server\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\"},\"direction\":\"server\",\"integrity\":\"valid\",\"phase\":\"projection_invalidated\",\"server_hello_validated\":null,\"open_present\":null,\"active\":null,\"cancel_requested\":true,\"projection_invalidated\":null,\"record_sequence\":null,\"record_stdin_accepted\":4294967296,\"record_stdin_delivered\":null,\"stdout_eof\":null,\"stderr_eof\":null,\"terminal\":null,\"slots\":[{\"integrity\":\"valid\",\"kind\":\"open_copy\",\"sequence\":3,\"response_cached\":false,\"exchange\":{\"stdin_offset\":0,\"stdin_end\":5,\"stdin_eof\":null,\"stdout_ack\":0,\"stderr_ack\":2},\"response\":{\"stdin_accepted\":5,\"stdin_delivered\":4,\"stdout_end\":13,\"stderr_end\":null,\"stdout_eof\":null,\"stderr_eof\":null}}],\"slots_truncated\":false,\"outbox\":[{\"bucket\":\"retired_failed\",\"count\":1,\"native_id_present\":0,\"intent_present\":0,\"evidence_present\":0}]}],\"records_truncated\":true,\"outbox_truncated\":false}}}\n"
+    },
+    "stream-inspection-invalid-width": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "stream-pending": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"pending\"}}\n"
+    }
+  }
+}
