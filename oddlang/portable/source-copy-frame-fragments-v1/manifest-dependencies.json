@@ -1,0 +1,22 @@
+{
+  "format": "oddlang-frame-fragment-dependencies-v1",
+  "fragment": "urn:marmish:copy:manifest",
+  "independentLengthBounds": {
+    "urn:marmish:copy:manifest:field:destination": 4096,
+    "urn:marmish:copy:manifest:field:source": 4096
+  },
+  "independentValidationOrder": [
+    "urn:marmish:copy:manifest:field:version",
+    "urn:marmish:copy:manifest:field:source",
+    "urn:marmish:copy:manifest:field:destination",
+    "urn:marmish:copy:manifest:field:size"
+  ],
+  "remainingIndependentObligations": [
+    "validator-semantics",
+    "validation-order",
+    "decoder"
+  ],
+  "trailingFrameWrites": [],
+  "validator": "copy_protocol::Manifest::validate",
+  "variant": "Manifest"
+}
