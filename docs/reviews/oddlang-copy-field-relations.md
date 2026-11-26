@@ -1,0 +1,5 @@
+# Copy field relation review
+
+Claude Opus 5.5 reviewed the portable design and companion implementation in Claude Code auto mode. The design review called for ten explicit typed pairs in the Launch relation, exact named mismatch arguments, and comparison ordering that separates preflight failures, identity mismatches and propagated digest failures. The graph encodes those distinctions. The first companion review checked the native method signatures, all 94 cases and the digest-order mutation. It required regeneration of the preliminary package lock against the revised framework capability declarations and a receipt from that exact package.
+
+The final auto review by Claude Opus 5.5 found no remaining blockers in the graph, binding, native observer or verifier. The receipt pins framework revision `7588c8288b89e4a4abc7cfbd110c9b71305377f7` and package lock SHA-256 `33a3ea71cb85065229d745b1723725ff733d5b9b95d4836747490156049b8b62`. The review checked the repinned lock and all 94 native outcomes, including the digest-order mutation.

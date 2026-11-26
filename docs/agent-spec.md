@@ -22,6 +22,11 @@ The witness covers metadata validation, exact binary encoding and decoding,
 the namespace and SHA-256 of the canonical bytes.
 [Manifest qualification](../verification/whole/copy-manifest/README.md)
 
+The generated library also matches the copy Manifest correspondence and
+helper start and build consistency checks on macOS ARM64. The witness
+distinguishes identity mismatches from lazily propagated Launch errors.
+[Copy field relations](../verification/whole/copy-field-relations/README.md)
+
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
 against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
