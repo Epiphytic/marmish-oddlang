@@ -4,7 +4,7 @@ import signal
 import shutil
 import subprocess
 import unittest
-from unittest.mock import patch
+from threading import Thread
 
 from isolate import SYSTEM_HOME, Workspace
 
@@ -59,15 +59,16 @@ class WorkspaceTests(unittest.TestCase):
             self.assertNotEqual(peer.run(["/usr/bin/touch", private_binary]).returncode, 0)
             self.assertEqual(peer.run(["/usr/bin/touch", peer.root / "writable"]).returncode, 0)
 
-    def test_cleanup_stops_worker_in_a_separate_session(self):
-        with patch.object(Workspace, "owned_processes") as processes:
-            with Workspace() as workspace:
-                peer = workspace.instance("server")
-                worker = subprocess.Popen(["/bin/sleep", "30"], cwd=peer.root, start_new_session=True)
-                # Model the platform process inventory after a native worker creates a session.
-                processes.side_effect = lambda: {worker.pid: "worker"} if worker.poll() is None else {}
-            self.assertEqual(worker.returncode, -signal.SIGKILL)
-            self.assertEqual(workspace.residual_workers_terminated, 1)
+    def test_cleanup_stops_external_interpreter_in_a_separate_session(self):
+        with Workspace() as workspace:
+            peer = workspace.instance("server")
+            workspace.owned_interpreters["/bin/sleep"] = peer.root
+            worker = subprocess.Popen(["/bin/sleep", "30"], cwd=peer.root, start_new_session=True)
+            worker_reaper = Thread(target=worker.wait, daemon=True)
+            worker_reaper.start()
+        worker_reaper.join(5)
+        self.assertEqual(worker.returncode, -signal.SIGKILL)
+        self.assertEqual(workspace.residual_workers_terminated, 1)
 
     def test_success_cleanup(self):
         with Workspace() as workspace:

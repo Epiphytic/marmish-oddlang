@@ -4,6 +4,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+from select import select
 import platform
 import re
 import shutil
@@ -20,6 +21,8 @@ from qualify import Output, detached_handle, finite_goodput
 UPSTREAM = "af54339d250290490d62d4475a77539b7e739071"
 BUILD = Path(__file__).with_name("reference-build-macos-arm64.json")
 RUNTIME = Path(__file__).with_name("short-fixture-runtime-macos-arm64.json")
+GENERATED_BUILD = Path(__file__).with_name("generated-build-aarch64-apple-darwin.json")
+GENERATED_PREFLIGHT = Path(__file__).with_name("generated-preflight-aarch64-apple-darwin.json")
 BRIDGE = Path(__file__).resolve().parents[1] / "bridge" / "aarch64-apple-darwin.json"
 RELAY = re.compile(r"ws://[a-z2-7]{56}\.onion/relay")
 
@@ -97,16 +100,14 @@ def host_preferences_state():
 def drain(stream, stop):
     retained = bytearray()
     descriptor = os.dup(stream.fileno())
-    os.set_blocking(descriptor, False)
 
     def consume():
         try:
             while not stop.is_set():
-                try:
-                    block = os.read(descriptor, 4096)
-                except BlockingIOError:
-                    stop.wait(0.05)
+                ready, _, _ = select([descriptor], [], [], 0.05)
+                if not ready:
                     continue
+                block = os.read(descriptor, 4096)
                 if not block:
                     break
                 retained.extend(block[:65536 - len(retained)])
@@ -119,7 +120,8 @@ def drain(stream, stop):
 
 
 def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_digest, interpreter,
-            generated_dir=None, generated_role=None):
+            generated_dir=None, generated_role=None,
+            generated_build=GENERATED_BUILD, generated_preflight=GENERATED_PREFLIGHT):
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         raise ValueError("the reference preflight requires macOS ARM64")
     interpreter = interpreter.resolve(strict=True)
@@ -147,8 +149,10 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
     artifact_pins = dict.fromkeys(("client", "server"), pins)
     if generated_dir is not None:
         candidate_record = generated_dir / "receipt.json"
-        preflight = json.loads(Path(__file__).with_name("generated-preflight-aarch64-apple-darwin.json").read_bytes())
-        qualified = json.loads(Path(__file__).with_name("generated-build-aarch64-apple-darwin.json").read_bytes())
+        qualified_bytes = generated_build.read_bytes()
+        preflight_bytes = generated_preflight.read_bytes()
+        preflight = json.loads(preflight_bytes)
+        qualified = json.loads(qualified_bytes)
         if file_digest(candidate_record) != preflight["buildReceiptSha256"]:
             raise ValueError("generated build receipt does not match the committed observation")
         candidate = json.loads(candidate_record.read_bytes())
@@ -164,6 +168,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
         if artifact_pins[generated_role].keys() - pins.keys():
             raise ValueError("generated candidate declares unexpected executable names")
         observation.update(generated_role=generated_role,
+                           generated_pin_build_sha256=hashlib.sha256(qualified_bytes).hexdigest(),
+                           generated_pin_preflight_sha256=hashlib.sha256(preflight_bytes).hexdigest(),
                            generated_receipt_sha256=file_digest(candidate_record),
                            generated_binary_sha256=artifact_pins[generated_role],
                            missing_generated_artifacts=sorted(pins.keys() - artifact_pins[generated_role].keys()))
@@ -256,6 +262,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 copy_verified(installed_fixture, fixtures[1], fixture_digest)
                 server.allow_executables((*tuple(server.root / name for name in artifact_pins["server"]),
                                           *fixtures, interpreter))
+                workspace.owned_interpreters[str(interpreter)] = server.root
                 (server.root / "receipts").mkdir(mode=0o700)
                 policy = json.loads(policy_path.read_bytes())
                 policy["command_policy"]["defaults"] = {"allow_exec": list(map(str, fixtures))}
@@ -264,6 +271,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 observation["stage"] = "owner-activation"
                 owner_logs = {}
                 observation["owner_states"] = {}
+                observation["last_owner_status"] = {}
                 try:
                     for role in ("server", "client"):
                         instance = peers[role]
@@ -276,12 +284,18 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         readers.extend((stdout_reader, stderr_reader))
 
                         def ready():
-                            if child.poll() is not None:
+                            exit_status = child.poll()
+                            if exit_status is not None:
+                                observation["last_owner_status"][role] = {"daemon_exit": exit_status}
                                 raise ValueError(f"{role} owner stopped during activation")
                             status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
-                            if status.returncode:
-                                return False
-                            state = (json.loads(status.stdout).get("result") or {}).get("state")
+                            state = None
+                            if status.returncode == 0:
+                                state = (json.loads(status.stdout).get("result") or {}).get("state")
+                            matched_state = state if state in ("activating", "active", "provider_active") else None
+                            observation["last_owner_status"][role] = {
+                                "cli_status": status.returncode, "state": matched_state
+                            }
                             expected = "provider_active" if role == generated_role else "active"
                             return state if state == expected else None
 
@@ -403,12 +417,15 @@ def main():
     parser.add_argument("interpreter", type=Path, help="real system Python, bypassing the xcrun launcher")
     parser.add_argument("--generated-dir", type=Path)
     parser.add_argument("--generated-role", choices=("client", "server"))
+    parser.add_argument("--generated-build-record", type=Path, default=GENERATED_BUILD)
+    parser.add_argument("--generated-preflight-record", type=Path, default=GENERATED_PREFLIGHT)
     args = parser.parse_args()
     if (args.generated_dir is None) != (args.generated_role is None):
         parser.error("provide both --generated-dir and --generated-role")
     receipt = observe(args.upstream_bin_dir, args.deaddrop, args.deaddrop_sha256,
                       args.installed_fixture, args.fixture_sha256, args.interpreter,
-                      args.generated_dir, args.generated_role)
+                      args.generated_dir, args.generated_role,
+                      args.generated_build_record, args.generated_preflight_record)
     print(json.dumps(receipt, indent=2, sort_keys=True))
     return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass"} else 1
 

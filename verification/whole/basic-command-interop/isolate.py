@@ -121,6 +121,7 @@ class Workspace:
         self.temp = tempfile.TemporaryDirectory(dir="/tmp", prefix="od-bi-")
         self.root = Path(self.temp.name).resolve()
         self.instances = []
+        self.owned_interpreters = {}
         self.cleanup_verified = False
         self.residual_workers_terminated = 0
         self.read_sentinel = self.root / "external-read-probe"
@@ -145,9 +146,21 @@ class Workspace:
         result = {}
         for row in rows:
             fields = row.split(None, 1)
-            if len(fields) == 2 and fields[1].startswith(f"{self.root}/"):
-                result[int(fields[0])] = fields[1]
+            if len(fields) != 2:
+                continue
+            pid, executable = int(fields[0]), fields[1]
+            if executable.startswith(f"{self.root}/") or self.owns_interpreter(pid, executable):
+                result[pid] = executable
         return result
+
+    def owns_interpreter(self, pid, executable):
+        expected_cwd = self.owned_interpreters.get(executable)
+        if expected_cwd is None:
+            return False
+        # Read only the working directory of an admitted interpreter, never its argv.
+        result = subprocess.run(["/usr/sbin/lsof", "-n", "-P", "-a", "-p", str(pid), "-d", "cwd", "-Fn"],
+                                capture_output=True, text=True, timeout=2)
+        return result.returncode == 0 and f"n{expected_cwd}" in result.stdout.splitlines()
 
     def stop_residual_workers(self):
         # Native command workers create sessions outside the daemon process group.
