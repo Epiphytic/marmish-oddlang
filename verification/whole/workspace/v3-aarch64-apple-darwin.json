@@ -42,7 +42,7 @@
     "observationsSha256": "2fdc49c664670af630a0deb4661321bd158922d3fef3dac4861e439d7f09bf87"
   },
   "status": {
-    "candidateSha256": "63164479c929708c48006253ad8fe052f47fe3f3304d6bb6dd1880c0dcb11fef",
+    "candidateSha256": "32925db2509d15b11dc4e8cbe3f7aca414ea4b28866923c51e10f04b069b581b",
     "controlled": {
       "absent_socket": {
         "exit": 1,
@@ -291,5 +291,41 @@
     },
     "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
     "platform": "Darwin-arm64"
+  },
+  "cliParser": {
+    "fixtureSha256": "e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746",
+    "casesPerRole": {
+      "marmish": 34,
+      "marmishd": 34
+    },
+    "generatedBinaries": {
+      "marmish": "32925db2509d15b11dc4e8cbe3f7aca414ea4b28866923c51e10f04b069b581b",
+      "marmishd": "e657aac3ec71709ec077f57b4afebf9eb7ba9c677b157a81ccf07cc276c1eb33"
+    }
+  },
+  "nativeProcessLimits": {
+    "upstream_commit": "af54339d250290490d62d4475a77539b7e739071",
+    "source": "crates/marmish-native/tests/process_limits.rs",
+    "test": "actual_native_entrypoints_accept_inherited_limits",
+    "source_sha256": "47a5d6d6fc37526a3a0d6ec825d99c1c5a13aa8cdc93479db673d88f6e727057",
+    "compiler": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "libc_sha256": "dc9c86d73eb01fd6a635427be51499cb6ba3c14e9c574a20e8e7eee9e95177b3",
+    "executables": {
+      "marmish": "32925db2509d15b11dc4e8cbe3f7aca414ea4b28866923c51e10f04b069b581b",
+      "marmishd": "e657aac3ec71709ec077f57b4afebf9eb7ba9c677b157a81ccf07cc276c1eb33"
+    },
+    "staged_pair_exit": 0,
+    "mutants": {
+      "marmish": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      },
+      "marmishd": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      }
+    }
   }
 }
