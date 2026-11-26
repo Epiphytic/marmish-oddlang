@@ -61,7 +61,7 @@ def replay(args, oddlang):
     old_data = read(oracle / "tagged-qualification.json")
     require(run("git", "-C", upstream, "rev-parse", "HEAD") == REVISION, "original revision mismatch")
     for path in ("Cargo.lock", "crates/marmish-stream"):
-        prior = run("git", "-C", upstream, "rev-parse", f"{baseline['corpusRevision']}:{path}")
+        prior = run("git", "-C", upstream, "rev-parse", f"{baseline['provenance']['revision']}:{path}")
         require(prior == run("git", "-C", upstream, "rev-parse", f"{REVISION}:{path}"), f"corpus input changed: {path}")
     (output / "framework.json").write_text(json.dumps({"sourceRevision": FRAMEWORK_REVISION,
         "cleanCheckout": True, "freshBuildSha256": hashlib.sha256(oddlang.read_bytes()).hexdigest()}, indent=2) + "\n")
