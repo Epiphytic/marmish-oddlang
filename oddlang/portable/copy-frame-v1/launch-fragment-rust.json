@@ -1,0 +1,64 @@
+{
+  "format": "oddlang-binary-record-rust-v1",
+  "name": "Launch",
+  "existingType": "crate::copy_protocol::Launch",
+  "names": {
+    "urn:marmish:copy:launch:field:version": "version",
+    "urn:marmish:copy:launch:field:mode": "mode",
+    "urn:marmish:copy:launch:field:transfer": "transfer",
+    "urn:marmish:copy:launch:field:client": "client",
+    "urn:marmish:copy:launch:field:server": "server",
+    "urn:marmish:copy:launch:field:direction": "direction",
+    "urn:marmish:copy:launch:field:source": "source",
+    "urn:marmish:copy:launch:field:destination": "destination",
+    "urn:marmish:copy:launch:field:overwrite": "overwrite",
+    "urn:marmish:copy:launch:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:launch:field:preserve_mtime": "preserve_mtime"
+  },
+  "errorType": "crate::Error",
+  "externals": {
+    "urn:marmish:copy:AttemptMode": {
+      "path": "crate::copy_protocol::AttemptMode",
+      "variants": {
+        "urn:marmish:copy:AttemptMode:Create": "Create",
+        "urn:marmish:copy:AttemptMode:Resume": "Resume"
+      }
+    },
+    "urn:marmish:copy:Direction": {
+      "path": "crate::copy_protocol::Direction",
+      "variants": {
+        "urn:marmish:copy:Direction:Put": "Put",
+        "urn:marmish:copy:Direction:Get": "Get"
+      }
+    }
+  },
+  "errors": {
+    "urn:marmish:copy:copy_version": {
+      "variant": "Invalid",
+      "argument": "copy_version"
+    },
+    "urn:marmish:copy:copy_path": {
+      "variant": "Invalid",
+      "argument": "copy_path"
+    },
+    "urn:marmish:copy:copy_boolean": {
+      "variant": "Invalid",
+      "argument": "copy_boolean"
+    },
+    "urn:marmish:copy:copy_enum": {
+      "variant": "Invalid",
+      "argument": "copy_enum"
+    },
+    "urn:marmish:copy:copy_truncated": {
+      "variant": "Invalid",
+      "argument": "copy_truncated"
+    },
+    "urn:marmish:copy:copy_trailing": {
+      "variant": "Invalid",
+      "argument": "copy_trailing"
+    },
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    }
+  }
+}
