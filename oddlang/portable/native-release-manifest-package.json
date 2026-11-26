@@ -1,0 +1,46 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {},
+  "cargoLock": {
+    "path": "release-manifest-v1/Cargo.lock",
+    "sha256": "c8d1cdbc51912b38f8c1e433d406718f11cc6e21954e3b50450d1e6f4184738d"
+  },
+  "components": [
+    {
+      "kind": "finite-error-domain",
+      "module": "error",
+      "graph": {
+        "path": "release-manifest-v1/error.json",
+        "sha256": "67eada58d700be48e326ebba0ac4d5ddd36ff7cb2da245319a5db8057e59f4d4"
+      },
+      "overlay": {
+        "path": "release-manifest-v1/error-rust.json",
+        "sha256": "d7f517174589e39cc3dd772654c7cae25091ba2c27a1cfca8d99381b5f0f17a4"
+      },
+      "reexports": [
+        "Error",
+        "Result"
+      ]
+    },
+    {
+      "kind": "line-grammar",
+      "module": "native_manifest",
+      "graph": {
+        "path": "release-manifest-v1/graph.json",
+        "sha256": "d72b16b4e4e4f0c92e1d0e2743164ef6556a03bb52e9eaec1f9b8a26963a0896"
+      },
+      "overlay": {
+        "path": "release-manifest-v1/rust.json",
+        "sha256": "2104cf6ef695c01a7dc573da6e7436ad50ce23bc5b9b41a94e43e380baf34459"
+      },
+      "reexports": [],
+      "crateReexports": [
+        "Manifest",
+        "Asset"
+      ]
+    }
+  ]
+}
