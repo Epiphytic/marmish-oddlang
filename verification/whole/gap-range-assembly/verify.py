@@ -157,6 +157,7 @@ def verify(work, args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--package-lock", type=lambda value: Path(value).resolve())
     for name in ("framework", "compiler_target", "original", "receipt"):
         parser.add_argument(name, type=lambda value: Path(value).resolve())
     args = parser.parse_args()
@@ -171,4 +172,7 @@ if __name__ == "__main__":
         "--target-dir", args.compiler_target, cwd=args.framework, env=env)
     args.compiler = args.compiler_target / "debug/oddlang"
     with tempfile.TemporaryDirectory(prefix="odd-gap-range-assembly-") as temp:
-        dump(args.receipt, verify(Path(temp).resolve(), args))
+        work = Path(temp).resolve()
+        dump(args.receipt, verify(work, args))
+        if args.package_lock is not None:
+            shutil.copyfile(work / "product/package.lock", args.package_lock)

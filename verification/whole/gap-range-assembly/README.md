@@ -27,7 +27,7 @@ by the verifier. Build inputs must be available offline under Rust 1.96.1.
 
 ```sh
 python3 -B verification/whole/gap-range-assembly/verify.py \
-  "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RECEIPT"
+  "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RECEIPT" --package-lock "$PACKAGE_LOCK"
 ```
 
 Only the compact descriptor, recovery locks, graphs, overlays, and Cargo
@@ -39,3 +39,12 @@ The input manifest digest and added recovery provenance account for the
 new lock bytes. All generated Rust, Cargo manifests, and Cargo.lock must
 match the earlier independently caller-qualified package. Tampering
 with the graph or recovery lock must be rejected before package output.
+
+The [Darwin ARM64 receipt](aarch64-apple-darwin.json) records the
+resolved components, exact emitted file hashes, and tamper errors.
+The [assembled lock](package.lock) records both stable declaration IDs.
+The original sealed package used the unchanged native data caller on
+Darwin and Linux ARM64. This assembly replay uses those file and API
+results as a byte-equivalence reference. It leaves the separate
+[endpoint source-API role](../gap-range-endpoint/) and workspace selections
+in place.
