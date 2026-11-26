@@ -1,0 +1,498 @@
+{
+  "declaration": "urn:marmish:ipc:endpoint:provider",
+  "directory": {
+    "followFinalSymlink": false,
+    "owner": "effective-uid",
+    "permissionMask": 511,
+    "requireDirectory": true
+  },
+  "documentInput": "closed-object-or-full-ordered-sequence",
+  "file": {
+    "followFinalSymlink": false,
+    "links": 1,
+    "nonblocking": true,
+    "owner": "effective-uid",
+    "permissionMask": 511,
+    "requireRegularFile": true
+  },
+  "format": "oddlang-local-endpoint-obligations-v1",
+  "policy": {
+    "binding": {
+      "checks": [
+        {
+          "id": "urn:marmish:ipc:endpoint:check:binding-format",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: runtime_collision"
+          },
+          "require": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:binding:format",
+              "kind": "binding_field"
+            },
+            "right": {
+              "kind": "unsigned_byte",
+              "value": 2
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:binding-profile",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: runtime_collision"
+          },
+          "require": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:binding:profile_id",
+              "kind": "binding_field"
+            },
+            "right": {
+              "id": "urn:marmish:ipc:endpoint:profile:profile_id",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:binding-root",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: runtime_collision"
+          },
+          "require": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:binding:root",
+              "kind": "binding_field"
+            },
+            "right": {
+              "kind": "profile_path"
+            }
+          },
+          "when": null
+        }
+      ],
+      "fields": [
+        {
+          "id": "urn:marmish:ipc:endpoint:binding:format",
+          "key": "format",
+          "type": {
+            "kind": "unsigned_byte"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:binding:profile_id",
+          "key": "profile_id",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:binding:root",
+          "key": "root",
+          "type": {
+            "kind": "text"
+          }
+        }
+      ],
+      "id": "urn:marmish:ipc:endpoint:binding",
+      "invalid": {
+        "exit": 1,
+        "stderr": "marmish: identity: runtime_collision"
+      },
+      "leaf": "binding.json",
+      "maximum_bytes": 8192,
+      "missing": null,
+      "overflow": "bounded_prefix"
+    },
+    "default_profile": "default",
+    "id": "urn:marmish:ipc:endpoint:provider",
+    "invalid_runtime_component": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest"
+    },
+    "missing_state": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: home_directory"
+    },
+    "private_directory_mode": 448,
+    "private_file_mode": 384,
+    "profile": {
+      "checks": [
+        {
+          "id": "urn:marmish:ipc:endpoint:check:profile-format",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: storage: incompatible_state"
+          },
+          "require": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:profile:format",
+              "kind": "profile_field"
+            },
+            "right": {
+              "kind": "unsigned_byte",
+              "value": 2
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:profile-name",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:profile:name",
+              "kind": "profile_field"
+            },
+            "right": {
+              "kind": "profile_name"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:profile_id",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 16,
+            "kind": "lower_hex",
+            "nullable": false,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:profile_id",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:transaction",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 16,
+            "kind": "lower_hex",
+            "nullable": false,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:transaction",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:nostr_ref",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 32,
+            "kind": "lower_hex",
+            "nullable": false,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:nostr_ref",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:sqlcipher_ref",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 32,
+            "kind": "lower_hex",
+            "nullable": false,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:sqlcipher_ref",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:distinct-ref",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "kind": "different",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:profile:nostr_ref",
+              "kind": "profile_field"
+            },
+            "right": {
+              "id": "urn:marmish:ipc:endpoint:profile:sqlcipher_ref",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:device-slot",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 16,
+            "kind": "lower_hex",
+            "nullable": false,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:device_slot",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:public-key",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "bytes": 32,
+            "kind": "lower_hex",
+            "nullable": true,
+            "value": {
+              "id": "urn:marmish:ipc:endpoint:profile:public_key",
+              "kind": "profile_field"
+            }
+          },
+          "when": null
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:check:ready-key",
+          "rejected": {
+            "exit": 1,
+            "stderr": "marmish: identity: invalid_manifest"
+          },
+          "require": {
+            "kind": "different",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:profile:public_key",
+              "kind": "profile_field"
+            },
+            "right": {
+              "kind": "null"
+            }
+          },
+          "when": {
+            "kind": "equal",
+            "left": {
+              "id": "urn:marmish:ipc:endpoint:profile:phase",
+              "kind": "profile_field"
+            },
+            "right": {
+              "kind": "text",
+              "value": "ready"
+            }
+          }
+        }
+      ],
+      "fields": [
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:format",
+          "key": "format",
+          "type": {
+            "kind": "unsigned_byte"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:profile_id",
+          "key": "profile_id",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:name",
+          "key": "name",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:transaction",
+          "key": "transaction",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:phase",
+          "key": "phase",
+          "type": {
+            "kind": "strings",
+            "values": [
+              "initializing",
+              "ready"
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:backend",
+          "key": "backend",
+          "type": {
+            "kind": "strings",
+            "values": [
+              "keychain",
+              "files"
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:nostr_ref",
+          "key": "nostr_ref",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:sqlcipher_ref",
+          "key": "sqlcipher_ref",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:device_slot",
+          "key": "device_slot",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:ipc:endpoint:profile:public_key",
+          "key": "public_key",
+          "type": {
+            "kind": "nullable_text"
+          }
+        }
+      ],
+      "id": "urn:marmish:ipc:endpoint:profile",
+      "invalid": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest"
+      },
+      "leaf": "profile.json",
+      "maximum_bytes": 8192,
+      "missing": {
+        "exit": 1,
+        "stderr": "marmish: identity: missing_manifest"
+      },
+      "overflow": "reject"
+    },
+    "profile_argument": "identity",
+    "profile_atom": {
+      "invalid": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_profile_name"
+      },
+      "maximum_bytes": 64,
+      "punctuation": "_-"
+    },
+    "runtime": [
+      {
+        "kind": "literal",
+        "value": "mr2-"
+      },
+      {
+        "kind": "effective_uid"
+      },
+      {
+        "kind": "literal",
+        "value": "-"
+      },
+      {
+        "id": "urn:marmish:ipc:endpoint:profile:profile_id",
+        "kind": "profile_field"
+      }
+    ],
+    "socket_leaf": "s",
+    "socket_maximum_exclusive": 104,
+    "socket_too_long": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_path_too_long"
+    },
+    "state_argument": "state_dir",
+    "state_sources": [
+      {
+        "platform": "linux",
+        "require_absolute": true,
+        "suffix": [
+          "marmish",
+          "v2"
+        ],
+        "variable": "XDG_DATA_HOME"
+      },
+      {
+        "platform": "macos",
+        "require_absolute": false,
+        "suffix": [
+          "Library",
+          "Application Support",
+          "Marmish",
+          "v2"
+        ],
+        "variable": "HOME"
+      },
+      {
+        "platform": null,
+        "require_absolute": false,
+        "suffix": [
+          ".local",
+          "share",
+          "marmish",
+          "v2"
+        ],
+        "variable": "HOME"
+      }
+    ],
+    "unsafe_directory": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path"
+    },
+    "unsafe_file": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file"
+    }
+  },
+  "qualification": "independent-witness-required",
+  "selectionOrder": [
+    "explicit-state",
+    "ordered-environment",
+    "explicit-endpoint",
+    "profile-name",
+    "private-state-directory",
+    "canonical-state",
+    "private-profile-directory",
+    "profile-document",
+    "ordered-profile-checks",
+    "native-temporary-directory",
+    "private-runtime-directory",
+    "binding-document",
+    "ordered-binding-checks",
+    "endpoint-byte-width"
+  ]
+}
