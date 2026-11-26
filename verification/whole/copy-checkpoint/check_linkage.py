@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 
 PORTABLE = Path(__file__).resolve().parents[3] / "oddlang/portable"
-FRAMEWORK = "00af3dab60da87ef5a5f5b9ce84813c4051eed79"
+FRAMEWORK = "70821c898cabe15a5d0483dc9425e51aae883932"
 SOURCE = "stream-package-v5.json"
 GRAPH = "copy-checkpoint-v1/graph.json"
 OVERLAY = "copy-checkpoint-v1/rust.json"
@@ -78,7 +78,7 @@ def verify(cli, root):
     other = deepcopy(overlay)
     other["externalRecords"][MANIFEST]["path"] = "crate::copy_protocol::HelperContext"
     build("wrong-record", b=other, expected="nested codec identity")
-    return {"releaseSha256": sealed["inputSha256"], "results": results, "cliSha256": sha(cli.read_bytes())}
+    return {"releaseSha256": sealed["inputSha256"], "results": results}
 
 
 if __name__ == "__main__":

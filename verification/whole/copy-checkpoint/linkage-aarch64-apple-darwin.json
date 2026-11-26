@@ -1,6 +1,5 @@
 {
-  "cliSha256": "867fdc554017565dbd0f14ca22e4b90f11b1b3aebb466af2a13d85ee3ea00dbd",
-  "framework": "00af3dab60da87ef5a5f5b9ce84813c4051eed79",
+  "framework": "70821c898cabe15a5d0483dc9425e51aae883932",
   "releaseSha256": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8",
   "results": {
     "impossible-slot": "nested codec minimum exceeds slot: urn:marmish:copy:checkpoint:field:manifest",

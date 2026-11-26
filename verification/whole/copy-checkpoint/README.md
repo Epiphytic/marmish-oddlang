@@ -12,7 +12,7 @@ The unchanged public Rust caller runs against the original and the generated pac
 
 The v5 Checkpoint declares which Manifest it embeds, its length limit, and two fields it reads from the embedded value. The package assembler can check those declarations against the actual Manifest graph and Rust overlay before emitting source.
 
-With an Oddlang checkout containing revision `00af3dab60da87ef5a5f5b9ce84813c4051eed79`, run the following from the companion root. The verifier compiles the pinned compiler offline with Rust 1.96.1. It stages the portable stream package and uses Rust 1.97.1 for Cargo metadata. The original application checkout and binaries are unnecessary.
+With an Oddlang checkout containing revision `70821c898cabe15a5d0483dc9425e51aae883932`, run the following from the companion root. The verifier compiles the pinned compiler offline with Rust 1.96.1. It stages the portable stream package and uses Rust 1.97.1 for Cargo metadata. The original application checkout and binaries are unnecessary.
 
 ```sh
 python3 -B verification/whole/copy-checkpoint/check_linkage.py /path/to/oddlang /tmp/checkpoint-linkage.json
