@@ -11,3 +11,5 @@ The runner validates the source and Cargo pins, builds the exact framework compi
 Status reports the activation snapshot from a real original daemon. The independent harness holds the loopback relay connection before TLS negotiation. The generated client talks only to the daemon's private socket. The receipt covers this mixed direction on macOS ARM64 and [the limited client lane](../../../oddlang/portable/native-status-v1/). The receipt identifies the actual tested binary by its per-run hash. Rust and Clap embed staging paths, so repeats compare observations and graph and lock bytes while the executable hash can vary.
 
 The [Linux ARM64 capture](generated-linux-arm64.json) independently rebuilt the same generated workspace offline and exercised the real activation snapshot and all 17 controlled peer cases. Its recorded Oddlang revision predates the final link validation change. The status workspace, package locks and generated source bytes agree across revisions.
+
+The [macOS ARM64 receipt](generated-macos-arm64.json) records the clean checkout, exact framework pin, graph and workspace locks, and the independently tested executable instance.

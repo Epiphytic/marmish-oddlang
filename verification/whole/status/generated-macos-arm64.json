@@ -1,0 +1,173 @@
+{
+  "candidateSha256": "51dcc468eb8b198c3538951195600bcf84f7b7b1c8dd3a6f311437181df20156",
+  "cleanCompanion": true,
+  "companionRevision": "1449249cfa790992d17e1f951ee9addf577110e0",
+  "controlledCases": {
+    "actor-failure": {
+      "exit": 1,
+      "stderr": "",
+      "stdout": "{\"ok\":false,\"result\":null,\"error\":\"busy\"}\n"
+    },
+    "defaults": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "duplicate-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "extra-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "malformed": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "max-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "missing-socket": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "missing-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "no-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "null-extensions": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "object-order": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"a\":[3],\"z\":1},\"error\":null}\n"
+    },
+    "over-limit": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    },
+    "partial-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "short-body": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "unknown-field": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "wrong-success-type": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "zero-frame": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    }
+  },
+  "expectedRequestHex": "000000167b226f7065726174696f6e223a22737461747573227d",
+  "frameworkRevision": "c94b678a9672a75df9fe761dad62cfba9aaff33f",
+  "graphSha256": "275bc3f31d9368b3b203be535e07fc990d1a4f74c85212947dc323bcdeaa2312",
+  "mode": "original-and-candidate",
+  "observedDifferences": {
+    "non-null-command": {
+      "candidate": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: ipc_frame_json\n",
+        "stdout": ""
+      },
+      "original": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"}}\n"
+      }
+    },
+    "non-null-stream": {
+      "candidate": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: ipc_frame_json\n",
+        "stdout": ""
+      },
+      "original": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"pending\"}}\n"
+      }
+    },
+    "positional-response": {
+      "candidate": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: ipc_frame_json\n",
+        "stdout": ""
+      },
+      "original": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+      }
+    }
+  },
+  "orderedGuardsCompared": 5,
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+    "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+    "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+    "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+    "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "packageLockSha256": "8833cc18ce0dfbcf52a7fb6a39f1d17d35e1734d9350e9bfc46f8978d54271f8",
+  "parserObservations": {
+    "marmish": 34,
+    "marmishd": 34
+  },
+  "platform": "aarch64-apple-darwin",
+  "realDaemon": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+  },
+  "shutdown": {
+    "engine_stop_complete": true,
+    "mdk_stop_complete": true,
+    "runtime_cleanup_complete": true
+  },
+  "uncoveredLanes": 2,
+  "unqualified": [
+    "default socket discovery and profile validation",
+    "installed executable validation, process-limit initialization and private startup routing",
+    "the production-length status deadline against a stalled peer",
+    "native status server generation and other command effects",
+    "non-null typed command and stream replies",
+    "typed tuple and list representations outside the observed JSON status result",
+    "different-UID peer behavior in a mixed-process acceptance run"
+  ],
+  "workspaceLockSha256": "0cbe85169281b2b1943c4286e178d67d68f0cd235f8c14f5282222df25cee6d8",
+  "workspaceManifestSha256": "96fe8fa16cbc934a8e2f20cfdaaee30e19ecff4db77327b438058412a6ab9deb"
+}
