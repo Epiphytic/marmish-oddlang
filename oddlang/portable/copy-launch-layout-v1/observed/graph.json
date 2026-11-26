@@ -1,0 +1,103 @@
+{
+  "externalTags": {
+    "urn:marmish:copy:AttemptMode": {
+      "urn:marmish:copy:AttemptMode:Create": 1,
+      "urn:marmish:copy:AttemptMode:Resume": 2
+    },
+    "urn:marmish:copy:Direction": {
+      "urn:marmish:copy:Direction:Get": 2,
+      "urn:marmish:copy:Direction:Put": 1
+    }
+  },
+  "fieldTypes": {
+    "urn:marmish:copy:launch:field:client": {
+      "bytes": 32,
+      "kind": "fixed-bytes"
+    },
+    "urn:marmish:copy:launch:field:destination": {
+      "kind": "bytes",
+      "lengthCast": "low-32"
+    },
+    "urn:marmish:copy:launch:field:direction": {
+      "id": "urn:marmish:copy:Direction",
+      "kind": "external"
+    },
+    "urn:marmish:copy:launch:field:mode": {
+      "id": "urn:marmish:copy:AttemptMode",
+      "kind": "external"
+    },
+    "urn:marmish:copy:launch:field:overwrite": {
+      "kind": "bool"
+    },
+    "urn:marmish:copy:launch:field:preserve_mode": {
+      "kind": "bool"
+    },
+    "urn:marmish:copy:launch:field:preserve_mtime": {
+      "kind": "bool"
+    },
+    "urn:marmish:copy:launch:field:server": {
+      "bytes": 32,
+      "kind": "fixed-bytes"
+    },
+    "urn:marmish:copy:launch:field:source": {
+      "kind": "bytes",
+      "lengthCast": "low-32"
+    },
+    "urn:marmish:copy:launch:field:transfer": {
+      "bytes": 32,
+      "kind": "fixed-bytes"
+    },
+    "urn:marmish:copy:launch:field:version": {
+      "bits": 32,
+      "kind": "unsigned"
+    }
+  },
+  "fields": [
+    {
+      "encoding": "unsigned-be",
+      "field": "urn:marmish:copy:launch:field:version"
+    },
+    {
+      "encoding": "external-tag-u8",
+      "field": "urn:marmish:copy:launch:field:mode"
+    },
+    {
+      "encoding": "fixed-bytes",
+      "field": "urn:marmish:copy:launch:field:transfer"
+    },
+    {
+      "encoding": "fixed-bytes",
+      "field": "urn:marmish:copy:launch:field:client"
+    },
+    {
+      "encoding": "fixed-bytes",
+      "field": "urn:marmish:copy:launch:field:server"
+    },
+    {
+      "encoding": "external-tag-u8",
+      "field": "urn:marmish:copy:launch:field:direction"
+    },
+    {
+      "encoding": "u32-be-length-prefixed-bytes",
+      "field": "urn:marmish:copy:launch:field:source"
+    },
+    {
+      "encoding": "u32-be-length-prefixed-bytes",
+      "field": "urn:marmish:copy:launch:field:destination"
+    },
+    {
+      "encoding": "bool-u8",
+      "field": "urn:marmish:copy:launch:field:overwrite"
+    },
+    {
+      "encoding": "bool-u8",
+      "field": "urn:marmish:copy:launch:field:preserve_mode"
+    },
+    {
+      "encoding": "bool-u8",
+      "field": "urn:marmish:copy:launch:field:preserve_mtime"
+    }
+  ],
+  "format": "oddlang-ordered-field-writes-v1",
+  "owner": "urn:marmish:copy:launch"
+}

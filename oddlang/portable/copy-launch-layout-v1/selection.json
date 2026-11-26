@@ -1,0 +1,13 @@
+{
+  "sourceSha256": "8ff23ba3f0a6c8cb57f1268c002c9ca131ac1a7b81a2b339ff8604e88fe22791",
+  "owner": "urn:marmish:copy:launch",
+  "record": "Launch",
+  "writer": "encode_launch",
+  "tagTypes": {
+    "Direction": "urn:marmish:copy:Direction",
+    "AttemptMode": "urn:marmish:copy:AttemptMode"
+  },
+  "module": [
+    "copy_protocol"
+  ]
+}
