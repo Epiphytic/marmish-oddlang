@@ -1,0 +1,169 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-stream",
+  "version": "0.2.3",
+  "edition": "2024",
+  "dependencies": {
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "base64": {
+      "version": "0.22.1"
+    },
+    "sha2": {
+      "version": "0.10.9"
+    },
+    "flate2": {
+      "version": "1.1.10",
+      "features": [
+        "rust_backend"
+      ]
+    }
+  },
+  "cargoLock": {
+    "path": "stream-block-package-v1/Cargo.lock",
+    "sha256": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e"
+  },
+  "components": [
+    {
+      "kind": "shared-declarations",
+      "module": "stream_domain",
+      "graph": {
+        "path": "stream-shared-v1/graph.json",
+        "sha256": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e"
+      },
+      "overlay": {
+        "path": "stream-shared-v1/rust.json",
+        "sha256": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e"
+      },
+      "reexports": [
+        "MAX_BLOCK",
+        "MAX_ENCODED",
+        "MAX_CONTENT",
+        "WINDOW_BYTES",
+        "MAX_OFFSET",
+        "MAX_RECORDS",
+        "Error",
+        "Result"
+      ]
+    },
+    {
+      "kind": "integrity-block",
+      "module": "codec",
+      "graph": {
+        "path": "stream-integrity-v1/graph.json",
+        "sha256": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec"
+      },
+      "overlay": {
+        "path": "stream-integrity-v1/rust.json",
+        "sha256": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088"
+      },
+      "reexports": [
+        "EncodedBlock",
+        "Codec",
+        "encode",
+        "decode"
+      ],
+      "visibility": "public",
+      "rootReexports": [],
+      "crateReexports": [
+        "base64_bytes"
+      ]
+    },
+    {
+      "kind": "shared-declarations",
+      "module": "copy_protocol",
+      "visibility": "public",
+      "rootReexports": [],
+      "graph": {
+        "path": "copy-launch-v1/enums.json",
+        "sha256": "9ea5cc2f6ba85350ec16ba7c24465b5ec066502450fcabd8fcd2551ceee5d11b"
+      },
+      "overlay": {
+        "path": "copy-launch-v1/enums-rust.json",
+        "sha256": "5ddd8100e68af2391d48ffdfca1ac3470c978f3741042a9acda46151500df512"
+      },
+      "reexports": [
+        "VERSION",
+        "AttemptMode",
+        "Direction",
+        "Phase",
+        "Stage",
+        "CopyError"
+      ]
+    },
+    {
+      "kind": "wire-schema",
+      "module": "copy_protocol",
+      "visibility": "public",
+      "rootReexports": [],
+      "graph": {
+        "path": "copy-launch-hash-v1/launch.json",
+        "sha256": "5e02a133153617370d168fb99cba20962d019f74715a4f2cde29bab8ecb64535"
+      },
+      "overlay": {
+        "path": "copy-launch-hash-v1/launch-rust.json",
+        "sha256": "cade9a637d57bb150ca09988e342299e0007387ac888840a24441c015bdfb9cc"
+      },
+      "reexports": [
+        "Launch"
+      ]
+    },
+    {
+      "kind": "binary-record",
+      "module": "copy_protocol",
+      "visibility": "public",
+      "rootReexports": [],
+      "reexports": [
+        "HelperContext"
+      ],
+      "graph": {
+        "path": "copy-helper-context-v1/graph.json",
+        "sha256": "6d7c578287b4b8e92bb8a7e62a40b49f9a73767dab2ac7ff5d7359b4966b2d0e"
+      },
+      "overlay": {
+        "path": "copy-helper-context-v1/rust.json",
+        "sha256": "5533266567625ce4bc5779ce1a95d5df5fa921c0050f78681acf1197e1be0548"
+      }
+    },
+    {
+      "kind": "binary-record",
+      "module": "copy_protocol",
+      "visibility": "public",
+      "rootReexports": [],
+      "reexports": [
+        "Manifest",
+        "Mtime"
+      ],
+      "graph": {
+        "path": "copy-manifest-v1/graph.json",
+        "sha256": "5501ae08b346a29934cf1d5b17ed53e92b52060ad909d2427619b834e8695fed"
+      },
+      "overlay": {
+        "path": "copy-manifest-v1/rust.json",
+        "sha256": "a235e87f50c6c70cdbc27ef702f576b3419447497bf43c80a171badcc7d20480"
+      }
+    },
+    {
+      "kind": "field-relation",
+      "module": "copy_protocol",
+      "visibility": "public",
+      "rootReexports": [],
+      "reexports": [],
+      "graph": {
+        "path": "copy-source-correspondence-v1/graph.json",
+        "sha256": "1d8ba019e1f255410bfc2adcadc28e86f956c42161bbdc8f27f944b8c5c3798e"
+      },
+      "overlay": {
+        "path": "copy-field-relations-v1/rust.json",
+        "sha256": "ff276384088a131aa5e5cfcb5dadfc88b4578851217ee3e8cf3506b40c75bf0f"
+      }
+    }
+  ]
+}
