@@ -1,0 +1,18 @@
+{
+  "vocabulary": "oddlang-data-shapes-v1",
+  "declarations": [],
+  "gaps": [
+    {
+      "owner": "local::marmishd",
+      "reason": "data-layout-and-representation"
+    },
+    {
+      "owner": "local::marmishd",
+      "reason": "visibility-and-export-paths"
+    },
+    {
+      "owner": "local::marmishd",
+      "reason": "workspace-package-identities"
+    }
+  ]
+}
