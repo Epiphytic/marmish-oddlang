@@ -1,0 +1,40 @@
+{
+  "format": "oddlang-json-wire-schema-v1",
+  "id": "urn:marmish:command:wire-binding:schema",
+  "guards": [],
+  "types": [
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:wire-binding",
+      "fields": [
+        {
+          "id": "urn:marmish:command:wire-binding:session",
+          "name": "session",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        }
+      ]
+    }
+  ]
+}

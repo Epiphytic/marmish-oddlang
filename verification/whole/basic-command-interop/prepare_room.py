@@ -16,6 +16,7 @@ import tempfile
 from observe import (BRIDGE, RELAY, account_options, copy_verified, file_digest,
                      host_preferences_state, json_command, until, verify_profile)
 from isolate import Workspace
+from composed_preflight import pinned_json
 from provider_activation import phase, publication, read_exact
 
 UNTRUSTED_ACCOUNT = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
@@ -56,6 +57,9 @@ def observe(args):
     before = host_preferences_state()
     pins = {"client": {"marmish": args.cli_sha, "marmishd": args.daemon_sha},
             "server": json.loads(BRIDGE.read_bytes())["builds"]["default"]["sha256"]}
+    build = pinned_json(args.generated / "receipt.json", args.build_receipt_sha256)
+    if {name: record["sha256"] for name, record in build["artifacts"].items()} != pins["client"]:
+        raise ValueError("cold build receipt does not bind both candidate executables")
     mounts = {"client": args.generated, "server": args.reference}
     workspace = Workspace()
     with workspace:
@@ -126,10 +130,18 @@ def observe(args):
 
             owners = {"client": start("client")}
 
+            class UpstreamActivationDeadline(Exception):
+                pass
+
             def wait_owner(role):
                 child = owners[role]
                 if child.poll() is not None:
-                    raise ValueError(f"{role} owner exited with {child.returncode}: {child.stderr.read(512)!r}")
+                    diagnostic = child.stderr.read(512)
+                    if role == "server" and (child.returncode, diagnostic) == (
+                        1, b"marmish: operation deadline exceeded\n"
+                    ):
+                        raise UpstreamActivationDeadline
+                    raise ValueError(f"{role} owner exited with {child.returncode}: {diagnostic!r}")
                 if role == "client":
                     return phase(sockets[role]) == "provider_active"
                 instance = peers[role]
@@ -164,8 +176,20 @@ def observe(args):
             until(missing_peer, 16, "missing key package")
             if select_rows(peers["client"], "client", manifests["client"], "placement"):
                 raise ValueError("failed discovery allocated a room")
-            owners["server"] = start("server")
-            until(lambda: wait_owner("server"), 190, "server")
+            for upstream_starts in (1, 2):
+                owners["server"] = start("server")
+                try:
+                    until(lambda: wait_owner("server"), 190, "server")
+                except UpstreamActivationDeadline:
+                    if upstream_starts == 2:
+                        raise
+                    failed = owners["server"]
+                    peers["server"].check_stopped(failed)
+                    peers["server"].processes.remove(failed)
+                    if sockets["server"].exists():
+                        raise ValueError("upstream timeout retained its runtime socket")
+                else:
+                    break
             publication(relay_dir / "relay.sqlite3", server)
 
             def ready():
@@ -217,6 +241,7 @@ def observe(args):
     if workspace.root.exists() or host_preferences_state() != before:
         raise ValueError("workspace or host isolation changed")
     return {"schema": 1, "referencePins": pins["server"], "generatedPins": pins["client"],
+            "buildReceiptSha256": args.build_receipt_sha256, "upstreamStarts": upstream_starts,
             "relaySha256": RELAY_PIN, "journalHelperSha256": args.journal_sha,
             "fixtureSha256": file_digest(Path(__file__)), "durablePlacement": True,
             "upstreamAdmissionMatched": True, "wrongPeerAndRouteRejected": True,
@@ -232,6 +257,7 @@ if __name__ == "__main__":
     parser.add_argument("--cli-sha", required=True)
     parser.add_argument("--daemon-sha", required=True)
     parser.add_argument("--journal-sha", required=True)
+    parser.add_argument("--build-receipt-sha256", required=True)
     arguments = parser.parse_args()
     result = observe(arguments)
     with arguments.receipt.open("x") as output:

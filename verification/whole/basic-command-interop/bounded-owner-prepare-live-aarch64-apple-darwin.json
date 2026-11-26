@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "referencePins": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+    "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+    "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+    "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+    "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "generatedPins": {
+    "marmish": "0bba734ef35df1f45ee3bee4c728546c29d7d0a172110d7c959c60d17834de95",
+    "marmishd": "19f45440556cd0e9dc99c58b2575f1fa8c193db9821cf82cf92d243972ebed19"
+  },
+  "relaySha256": "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3",
+  "journalHelperSha256": "c70e1d564fa98368a156951dda9ac400180c089a91e374413f47bac7c63b502d",
+  "fixtureSha256": "683971ff89c8b8135c750b73a106399349dcd58df73dcd3cd9b70aabb45a28aa",
+  "durablePlacement": true,
+  "upstreamAdmissionMatched": true,
+  "wrongPeerAndRouteRejected": true,
+  "discoveryRecoversWhenPeerAppears": true,
+  "sameSessionAfterDuplicateAndRestart": true,
+  "recoversAfterSimulatedReadyCommitLoss": true,
+  "cleanup": true
+}
