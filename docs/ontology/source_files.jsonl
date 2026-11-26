@@ -33,7 +33,7 @@
 {"path":"Cargo.lock","language":"inventory","mode":"100644","sha256":"9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3","parse_status":"inventory"}
 {"path":"Cargo.toml","language":"inventory","mode":"100644","sha256":"bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53","parse_status":"inventory"}
 {"path":"LICENSE","language":"inventory","mode":"100644","sha256":"ddc153151fc1785d01da48d4ef2adbe64de83d047158eef538c8434d3c6175dc","parse_status":"inventory"}
-{"path":"README.md","language":"inventory","mode":"100644","sha256":"cac913f5d12b7193704f3da0445342d555ac85cc470b514859eecbc3f589a1ac","parse_status":"inventory"}
+{"path":"README.md","language":"inventory","mode":"100644","sha256":"4386d2444fe3b57bb5601c695d525bbdad0fb4ef4a70a8f82d5a3709d6b5eef2","parse_status":"inventory"}
 {"path":"crates/marmish-core/Cargo.toml","language":"inventory","mode":"100644","sha256":"902f311af435a59a6929bc1a55677caa68491ead24aff5f20277884dddc10377","parse_status":"inventory"}
 {"path":"crates/marmish-core/src/config.rs","language":"rust","mode":"100644","sha256":"2d39557b91c89de5c7790a53e35fd76f3ab94fbb5a8df43ed348da749cc81140","parse_status":"parsed"}
 {"path":"crates/marmish-core/src/frame.rs","language":"rust","mode":"100644","sha256":"53fcb6067ccbfa0e9923e69ae0eee0b73d3d2e84d204d635161e25b2bf574f14","parse_status":"parsed"}
@@ -226,7 +226,7 @@
 {"path":"crates/marmish-vault/tests/native_vault.rs","language":"rust","mode":"100644","sha256":"3079c81702001d2fdb77862ee4718c4985e73f4a44164ac6a63ccc29fc4810fa","parse_status":"parsed"}
 {"path":"crates/marmish-vault/tests/support/native_linux.rs","language":"rust","mode":"100644","sha256":"1a3161d4744dc372b2a6a05f83abe0a2ea7a3e6cbd5b40e06999665b18c4b096","parse_status":"parsed"}
 {"path":"crates/marmish-vault/tests/support/native_macos.rs","language":"rust","mode":"100644","sha256":"ba175e80f7de3039ecd0a6e747ef906acc82baa43fa448fdc76d964dee296047","parse_status":"parsed"}
-{"path":"oddlang/README.md","language":"inventory","mode":"100644","sha256":"421ea039a7799cd0a1a66f8227e5d09c2b01ffc81dca5bcc0fc0e72239a7668d","parse_status":"inventory"}
+{"path":"oddlang/README.md","language":"inventory","mode":"100644","sha256":"0fe59833512c8bbcb49908fae28bf2d1a591c82bfeb6f6d1b83750c03ebefc3f","parse_status":"inventory"}
 {"path":"oddlang/assembly-v2.sha256","language":"inventory","mode":"100644","sha256":"80790588c5d984ddfda0fa9f73ff9187e0f5a4077a5f03102d5460695a148bac","parse_status":"inventory"}
 {"path":"oddlang/assembly.toml","language":"inventory","mode":"100644","sha256":"a293552e29ffb32fca1a7dcd448df035f36270ba36bf78a8261e72ca0af7a58d","parse_status":"inventory"}
 {"path":"oddlang/facade-release.json","language":"inventory","mode":"100644","sha256":"65e311f3804eda7eb1c5bacc4d655b665a7da0cb6dbb7894286b89e831e6cbb6","parse_status":"inventory"}
@@ -653,6 +653,8 @@
 {"path":"oddlang/portable/workspace-v6/Cargo.lock","language":"inventory","mode":"100644","sha256":"632c7d22d53ffa4ca91a187a3fb9494493b6a987d347f49eb465ef2d7cd3f94d","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v6/foreground-graph.json","language":"inventory","mode":"100644","sha256":"0212b6eaa08f7b650ee13ded76561007c39b6fa143c43192cc7286d93a5151a2","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v6/workspace.lock","language":"inventory","mode":"100644","sha256":"e5281580b9c78886f453e488e0994acbf06cf851d2056fb36b6573adcf072a65","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-v7-converged-public-api.json","language":"inventory","mode":"100644","sha256":"f1b3a6ee1fe5d0917dccbe3397b3d576d99f51d24b53574e99f07e2699a3eb87","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-v7-converged-public-api/workspace.lock","language":"inventory","mode":"100644","sha256":"3ed25cad2b1399e1c63787fedca0abbb465e758c9cfb6c635b17188a40b2dfaa","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-engine-public-error-identity.json","language":"inventory","mode":"100644","sha256":"f29e906cd02ec8f35d71940616ce55dc377710d1051c454ea202eabb81d14c70","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-engine-public-error-identity/workspace.lock","language":"inventory","mode":"100644","sha256":"d89469b03c3cb808181a154424b07ad43fcaee8191dee191e5cb5d3da950cc3c","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-native-error.json","language":"inventory","mode":"100644","sha256":"e7c223bc158b957c9970bc7c543fffbfc40cae5e115984a89fcdc31dac623b64","parse_status":"inventory"}
@@ -898,6 +900,13 @@
 {"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"30cb4a41671db00b9c8c4898dadbf93d4c84a1643514ef8f71096699612f27bd","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/README.md","language":"inventory","mode":"100644","sha256":"0fa55c86eb74f01d8e00c1eb77a8070607b677fdfe473147a5999efcd3d79fbc","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f15b3d225a557944c7dafcfdb2df5a247d81f7ded07e62764de1b8c0f4d19103","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"0670df89693b823345c76acb5d27fdb537528e14bbf2aad638d6b861f41be8bb","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/compose.py","language":"python","mode":"100644","sha256":"9a4d4130f7425b0c0c0883cb1dad5b444a61e814f7a5f2e55d932423df94d0d0","parse_status":"parsed"}
+{"path":"verification/whole/converged-public-api/darwin-imports.json","language":"inventory","mode":"100644","sha256":"8683cef63ff6120f08b9d8037e9932b526a315843860daccaf575cd6b7ff5c2c","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/import-profile.json","language":"inventory","mode":"100644","sha256":"f645ddbedb28e1de0c76ccf70acc1475cd3c01dc28f0c32eb0f2bdafd38b71f9","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/verify.py","language":"python","mode":"100644","sha256":"54dac0c8d2b198f0571eb057084fa6c5bf9c11749c724412b01d78a8553b6589","parse_status":"parsed"}
 {"path":"verification/whole/copy-checkpoint/README.md","language":"inventory","mode":"100644","sha256":"d9c1b33c90b1315e39ccdd716af607022b5d1b6686d732f860f51e7b688b1c31","parse_status":"inventory"}
 {"path":"verification/whole/copy-checkpoint/caller.rs","language":"rust","mode":"100644","sha256":"7698dc7bccb0bdcdbd0444faca09682df73f94389aae68ae64d76fedf45209e5","parse_status":"parsed"}
 {"path":"verification/whole/copy-checkpoint/check_linkage.py","language":"python","mode":"100644","sha256":"095ed625f62d817534f3498c71858889b899b889403388f5c67cb92292604a59","parse_status":"parsed"}
@@ -967,7 +976,7 @@
 {"path":"verification/whole/engine-public-error/probe.rs","language":"rust","mode":"100644","sha256":"586ad6a554de2bac5ab71fc0d84d9670749da785457c3a95e4f87c8694bb1f67","parse_status":"parsed"}
 {"path":"verification/whole/engine-public-error/selection.json","language":"inventory","mode":"100644","sha256":"e319b42e7cf50ef3d00b5380f92bfb44820b2add158f491cf3102821d9b9bd8e","parse_status":"inventory"}
 {"path":"verification/whole/engine-public-error/source-mutation-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"1e1fb1fe9f94453931245c3a222e0bf5ccbf211b3107b4ee19c2b8b3ff21c896","parse_status":"inventory"}
-{"path":"verification/whole/engine-public-error/verify.py","language":"python","mode":"100644","sha256":"eab21e40de66405f120fc24fcc57f140d78b6cb64e8fdb74228d699781e13ab7","parse_status":"parsed"}
+{"path":"verification/whole/engine-public-error/verify.py","language":"python","mode":"100644","sha256":"c740d79859a9a57de4987d0f40ca0aab5ce2909469c4b591ae721c0bfe086933","parse_status":"parsed"}
 {"path":"verification/whole/foreground-lifecycle/README.md","language":"inventory","mode":"100644","sha256":"44834eb31ae27be1eebbb44adc642880745fe41b1c3dc7087d3cb002af32f5d5","parse_status":"inventory"}
 {"path":"verification/whole/foreground-lifecycle/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"b6db1570230bec5824bdd29cc7bbf8ee0a24491d1807b097d74a4312c581d0e9","parse_status":"inventory"}
 {"path":"verification/whole/foreground-lifecycle/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"48ab9e7992a89cac880ff7a4a206f97dee07bde7c8418f3bd9120d2f481e6ac6","parse_status":"inventory"}
@@ -1185,7 +1194,7 @@
 {"path":"verification/whole/retention-structure/verify.py","language":"python","mode":"100644","sha256":"46fef411ad3be8019cdbbb79b789040901f749d110ac9e3efd007faa03da3fe2","parse_status":"parsed"}
 {"path":"verification/whole/seven-public-imports/README.md","language":"inventory","mode":"100644","sha256":"115719f4148bd5247b0b5b505bcaed78ee5130f85ed3334655f5490f818313de","parse_status":"inventory"}
 {"path":"verification/whole/seven-public-imports/darwin-arm64.json","language":"inventory","mode":"100644","sha256":"b0f755d813190f2d877919f2c41345d2b63d61697cec76f809800fb2e1c43924","parse_status":"inventory"}
-{"path":"verification/whole/seven-public-imports/verify.py","language":"python","mode":"100644","sha256":"9657aae1f4710635b62e6e1ccd00ad3d81522a25258a8bfdd35a85afae006832","parse_status":"parsed"}
+{"path":"verification/whole/seven-public-imports/verify.py","language":"python","mode":"100644","sha256":"40bd594a95028d5def68c6538191b9632a9f348d9163401a9f27bef6c3eca3dc","parse_status":"parsed"}
 {"path":"verification/whole/shapes/arrays/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"2d7dce84b14f713d6b62dc0d531dd516f24c315a3d161ab7a5c6d636efc4e5ca","parse_status":"inventory"}
 {"path":"verification/whole/shapes/arrays/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"be7176da4b9c14f4e8c2293e7734a7c649ce58e80834ab89601972b7c3695646","parse_status":"inventory"}
 {"path":"verification/whole/shapes/arrays/compare.py","language":"python","mode":"100644","sha256":"f9343784307e8303c544d1a59394483e245ce48eb8c2a231a3d2e9570b3325e9","parse_status":"parsed"}

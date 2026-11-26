@@ -133,8 +133,12 @@ def recovery(compiler, source, output, *, selection=HERE / "selection.json"):
 
 def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     # This runs only after the sandboxed workspace build and the inherited oracles.
-    compiler = compiler or work / "oddlang"
     prior = BUFFERED["buffer_oracle"](product, args.original, host)
+    return prior | observe_types(args, work, scratch, product, build, compiler)
+
+
+def observe_types(args, work, scratch, product, build, compiler=None):
+    compiler = compiler or work / "oddlang"
     recovered = scratch / "engine-recovered"
     observation = recovery(compiler, args.original / SOURCE, recovered)
     for name in ("graph.json", "rust.json"):
@@ -173,7 +177,7 @@ def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     values, negatives = gen_choice
     identity = {"scope": "marmish_native::identity::BackendChoice",
                 "output": values.decode(), "negativeRustDiagnostics": negatives}
-    return prior | {"enginePublicError": oracle, "identity": identity}
+    return {"enginePublicError": oracle, "identity": identity}
 
 
 def main():
