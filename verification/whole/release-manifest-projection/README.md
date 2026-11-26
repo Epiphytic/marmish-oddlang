@@ -30,16 +30,30 @@ case still rejects. The archived original receipts derive from real
 original and modified Rust. The second graph instantiates the observed cap
 policy, with records and output naming shared across both cases.
 
-To replay, supply the pinned review revision of Oddlang, the original
-source checkout, and writable Cargo target caches for both repositories.
+To replay, supply the tested [Oddlang compiler revision](https://github.com/Epiphytic/oddlang/tree/5bd0d54858380efadfdfa62d37d8293594ab2ebd),
+the original source checkout, and writable Cargo target caches for both
+repositories.
 Rust 1.97.1 and cached offline dependencies are required.
 
 ```sh
 python3 -B verification/whole/release-manifest-projection/verify.py \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
-  --framework-revision "$ODDLANG_REVISION" \
+  --framework-revision 5bd0d54858380efadfdfa62d37d8293594ab2ebd \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET"
 ```
 
 The inherited oracle and portable cases are described in
 [original release manifest observations](../release-manifest/README.md).
+
+Build the standalone library from its pinned portable closure.
+
+```sh
+oddlang build native-package rust oddlang/portable/native-release-manifest-package.json "$OUTPUT"
+cargo +1.97.1 build --manifest-path "$OUTPUT/Cargo.toml" --locked --offline --release
+```
+
+Both [ARM64 macOS](aarch64-apple-darwin.json) and
+[ARM64 Linux](aarch64-unknown-linux-gnu.json) matched 224 original rows
+with 34 baseline acceptances. The changed input matched all 224
+changed-source rows with 35 acceptances. The two generated result streams
+have identical bytes across the hosts.
