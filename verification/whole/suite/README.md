@@ -174,3 +174,5 @@ Use `--candidate recovered` on the same candidate runner with Oddlang revision `
 The original workspace is needed by the test oracle. Both generated release executables are built before the test sources are staged.
 
 The credited engine cases cover preserved limits. A no-op implementation also passes those cases. High-soft-limit normalization on macOS and the rest of the engine library need their own evidence.
+
+The [macOS receipt](recovered-aarch64-apple-darwin.json) records 39 passed and 870 unverified. The [Linux receipt](recovered-aarch64-unknown-linux-gnu.json) records 40 passed and 847 unverified. Each has five ignored. Both cold runs used companion verifier commit `64f86802a4348fe424977bf134f4ecb45daa4f60`. An engine case gets one catalog credit after its parent and child both run that exact test. Changing the child's filter to an absent name lets Cargo return success, while the coverage gate rejects it on both hosts. [Child-selection control](recovered-child-control.json)
