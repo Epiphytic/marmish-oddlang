@@ -14,6 +14,8 @@ The [source-derived copy frame profile](../verification/whole/source-copy-frame/
 
 The [source-derived preflight release](../verification/whole/source-copy-frame-guards/README.md) recovers the ordering and error identities of nine encoder guards.
 
+The [checked frame fragment release](../verification/whole/source-copy-frame-fragments/README.md) recovers the Start and Manifest prechecks and the field writes in both fragment encoders.
+
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.
 
 | Oddlang source | Generated Rust |

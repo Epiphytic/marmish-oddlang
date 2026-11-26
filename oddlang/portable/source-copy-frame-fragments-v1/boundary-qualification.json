@@ -1,0 +1,32 @@
+{
+  "format": "oddlang-frame-fragment-qualification-v1",
+  "resolvedFrameVariants": [
+    "urn:marmish:copy:frame:Manifest",
+    "urn:marmish:copy:frame:Start"
+  ],
+  "independentlyQualified": [
+    {
+      "role": "record-validation",
+      "artifact": "oddlang/portable/stream-copy-frame-package.json"
+    },
+    {
+      "role": "frame-decoding",
+      "artifact": "oddlang/portable/stream-source-copy-frame-guards-package.json"
+    }
+  ],
+  "sourceRecoveryGaps": [
+    "validation rule bodies",
+    "complete validator order",
+    "decode method bodies"
+  ],
+  "partiallyObserved": [
+    {
+      "role": "validation-order",
+      "witnessedComparisons": [
+        "version-before-path",
+        "path-before-metadata"
+      ],
+      "artifact": "verification/whole/source-copy-frame-fragments/reference-aarch64-apple-darwin.json"
+    }
+  ]
+}

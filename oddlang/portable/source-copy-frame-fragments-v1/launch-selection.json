@@ -1,0 +1,42 @@
+{
+  "format": "oddlang-frame-fragment-selection-v1",
+  "method": "crate::copy_protocol::Frame::encode",
+  "variant": "Start",
+  "boundary": {
+    "delegate": null,
+    "field": "0",
+    "form": "tuple",
+    "record": "crate::copy_protocol::Launch",
+    "style": "checked-append",
+    "trailing": [
+      {
+        "field": "1",
+        "kind": "enum",
+        "path": "crate::codec::Codec",
+        "tags": {
+          "None": 0,
+          "Zlib": 1
+        }
+      }
+    ],
+    "unproved": [
+      "validator-semantics",
+      "validation-order",
+      "decoder"
+    ],
+    "validator": "copy_protocol::Launch::validate",
+    "writer": "copy_protocol::encode_launch"
+  },
+  "sourceSha256": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2",
+  "evidenceSha256": "07f62ab771a79145758c66e1db908bec2ee69705ba23d6d806f8facb0a943df2",
+  "validationOrder": [
+    "urn:marmish:copy:launch:field:version",
+    "urn:marmish:copy:launch:field:source",
+    "urn:marmish:copy:launch:field:destination"
+  ],
+  "recordTypes": {},
+  "lengthBounds": {
+    "urn:marmish:copy:launch:field:destination": 4096,
+    "urn:marmish:copy:launch:field:source": 4096
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "format": "oddlang-frame-fragment-dependencies-v1",
+  "fragment": "urn:marmish:copy:launch",
+  "independentLengthBounds": {
+    "urn:marmish:copy:launch:field:destination": 4096,
+    "urn:marmish:copy:launch:field:source": 4096
+  },
+  "independentValidationOrder": [
+    "urn:marmish:copy:launch:field:version",
+    "urn:marmish:copy:launch:field:source",
+    "urn:marmish:copy:launch:field:destination"
+  ],
+  "remainingIndependentObligations": [
+    "validator-semantics",
+    "validation-order",
+    "decoder"
+  ],
+  "trailingFrameWrites": [
+    {
+      "field": "1",
+      "kind": "enum",
+      "path": "crate::codec::Codec",
+      "tags": {
+        "None": 0,
+        "Zlib": 1
+      }
+    }
+  ],
+  "validator": "copy_protocol::Launch::validate",
+  "variant": "Start"
+}
