@@ -1,0 +1,7 @@
+{
+  "bindingSha256": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
+  "format": "oddlang-json-wire-schema-v1",
+  "graphSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+  "obligationsSha256": "f8b34b2e309ac230ef955574699501625719c56550940bd82dda6ea651b8074b",
+  "wireSha256": "a4c6c6b81f08a282863835c1f798b1dd4d5d5fa5ba66394a7c6aee748e817634"
+}

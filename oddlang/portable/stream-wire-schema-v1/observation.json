@@ -1,0 +1,25 @@
+{
+  "gaps": [
+    {
+      "kind": "behavior",
+      "reason": "selected adapter policy requires independent witness: argv_encoding"
+    },
+    {
+      "kind": "behavior",
+      "reason": "selected adapter policy requires independent witness: hex16"
+    },
+    {
+      "kind": "behavior",
+      "reason": "selected adapter policy requires independent witness: hex32"
+    },
+    {
+      "kind": "behavior",
+      "reason": "conditional guards require independent evidence"
+    }
+  ],
+  "graphSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+  "qualification": "structural-candidate",
+  "rustBindingSha256": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
+  "selectionSha256": "8e35f3f34080bfbb073ef758d381d47dea403d917026c819a81655939cf7eb65",
+  "sourceSha256": "54254ed91540dd6eef2237b174a6834d200b933b9061ff255f61305248fbecf8"
+}

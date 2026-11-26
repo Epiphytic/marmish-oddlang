@@ -1,0 +1,1159 @@
+{
+  "domain": "urn:marmish:stream:wire:records",
+  "obligations": [
+    {
+      "declaration": "urn:marmish:copy:launch",
+      "expected": {
+        "contractIdentity": "urn:marmish:copy:launch"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    },
+    {
+      "declaration": "urn:marmish:stream:integrity-block",
+      "expected": {
+        "contractIdentity": "urn:marmish:stream:integrity-block"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    },
+    {
+      "declaration": "urn:marmish:stream:integrity-block:representation",
+      "expected": {
+        "contractIdentity": "urn:marmish:stream:integrity-block:representation"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Binding",
+      "expected": {
+        "input": "closed named object or positional tuple",
+        "outputOrder": [
+          "stream",
+          "session",
+          "client",
+          "server"
+        ]
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Binding:field:stream",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bytes": 16,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "stream"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Binding:field:session",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "bytes": 16,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "session"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Binding:field:client",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "bytes": 32,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "client"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Binding:field:server",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 3,
+        "type": {
+          "bytes": 32,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "server"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:CopyAdmissionError",
+      "expected": {
+        "contractIdentity": "urn:marmish:stream:wire:CopyAdmissionError"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope",
+      "expected": {
+        "input": "closed named object or positional tuple",
+        "outputOrder": [
+          "protocol",
+          "version",
+          "binding",
+          "sequence",
+          "message"
+        ]
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope:field:protocol",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "kind": "text"
+        },
+        "wireName": "protocol"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope:field:version",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "version"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope:field:binding",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "id": "urn:marmish:stream:wire:Binding",
+          "kind": "ref"
+        },
+        "wireName": "binding"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope:field:sequence",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 3,
+        "type": {
+          "bits": 64,
+          "kind": "unsigned"
+        },
+        "wireName": "sequence"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Envelope:field:message",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 4,
+        "type": {
+          "id": "urn:marmish:stream:wire:Message",
+          "kind": "ref"
+        },
+        "wireName": "message"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Message",
+      "expected": {
+        "contentKey": "data",
+        "reject": [
+          "unknown tag",
+          "duplicate tag or content",
+          "unknown object keys"
+        ],
+        "tagKey": "direction"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Message:variant:Request",
+      "expected": {
+        "payload": {
+          "namedContent": {
+            "id": "urn:marmish:stream:wire:RequestBody",
+            "kind": "ref"
+          }
+        },
+        "tag": "request"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Message:variant:Response",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "request_sha256",
+            "body"
+          ]
+        },
+        "tag": "response"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Message:variant:Response:field:request_sha256",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bytes": 32,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "request_sha256"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Message:variant:Response:field:body",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "id": "urn:marmish:stream:wire:ResponseBody",
+          "kind": "ref"
+        },
+        "wireName": "body"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:OpenDisposition",
+      "expected": {
+        "contractIdentity": "urn:marmish:stream:wire:OpenDisposition"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody",
+      "expected": {
+        "contentKey": "data",
+        "reject": [
+          "unknown tag",
+          "duplicate tag or content",
+          "unknown object keys"
+        ],
+        "tagKey": "op"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Hello",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "codecs"
+          ]
+        },
+        "tag": "hello"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Hello:field:codecs",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block:representation",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "wireName": "codecs"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:CopyHello",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "versions",
+            "codecs"
+          ]
+        },
+        "tag": "copy_hello"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "item": {
+            "bits": 32,
+            "kind": "unsigned"
+          },
+          "kind": "list"
+        },
+        "wireName": "versions"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:codecs",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block:representation",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "wireName": "codecs"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "launch",
+            "codec"
+          ]
+        },
+        "tag": "open_copy"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:launch",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "id": "urn:marmish:copy:launch",
+          "kind": "ref"
+        },
+        "wireName": "launch"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:codec",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "id": "urn:marmish:stream:integrity-block:representation",
+          "kind": "ref"
+        },
+        "wireName": "codec"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Open",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "argv",
+            "codec"
+          ]
+        },
+        "tag": "open"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "kind": "bounded-base64-list",
+          "policy": {
+            "decodedLimitMessage": "invalid stream input: base64",
+            "encodedLimitMessage": "stream capacity reached",
+            "listLimitMessage": "argv_limit",
+            "maxItemBytes": 16384,
+            "maxItems": 128,
+            "maxTotalBytes": 16384,
+            "perItemOverhead": 1,
+            "syntaxMessage": "invalid stream input: base64"
+          }
+        },
+        "wireName": "argv"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Open:field:codec",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "id": "urn:marmish:stream:integrity-block:representation",
+          "kind": "ref"
+        },
+        "wireName": "codec"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Exchange",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "stdin",
+            "stdin_eof",
+            "stdout_ack",
+            "stderr_ack"
+          ]
+        },
+        "tag": "exchange"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 0,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block",
+            "kind": "ref"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stdin"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin_eof",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 1,
+        "type": {
+          "item": {
+            "bits": 64,
+            "kind": "unsigned"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stdin_eof"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdout_ack",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "bits": 64,
+          "kind": "unsigned"
+        },
+        "wireName": "stdout_ack"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stderr_ack",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 3,
+        "type": {
+          "bits": 64,
+          "kind": "unsigned"
+        },
+        "wireName": "stderr_ack"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Cancel",
+      "expected": {
+        "payload": {
+          "emitContent": false
+        },
+        "tag": "cancel"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:RequestBody:variant:Status",
+      "expected": {
+        "payload": {
+          "emitContent": false
+        },
+        "tag": "status"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody",
+      "expected": {
+        "contentKey": "data",
+        "reject": [
+          "unknown tag",
+          "duplicate tag or content",
+          "unknown object keys"
+        ],
+        "tagKey": "op"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "version",
+            "codecs",
+            "frame_bytes",
+            "window_bytes"
+          ]
+        },
+        "tag": "copy_hello"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:version",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "version"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:codecs",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block:representation",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "wireName": "codecs"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:frame_bytes",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "frame_bytes"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:window_bytes",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 3,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "window_bytes"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "code",
+            "prior_binding"
+          ]
+        },
+        "tag": "copy_refused"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:code",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError",
+          "kind": "ref"
+        },
+        "wireName": "code"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:prior_binding",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 1,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:wire:Binding",
+            "kind": "ref"
+          },
+          "kind": "optional"
+        },
+        "wireName": "prior_binding"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Hello",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "codecs",
+            "frame_bytes",
+            "window_bytes"
+          ]
+        },
+        "tag": "hello"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:codecs",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block:representation",
+            "kind": "ref"
+          },
+          "kind": "list"
+        },
+        "wireName": "codecs"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:frame_bytes",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "frame_bytes"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:window_bytes",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "bits": 32,
+          "kind": "unsigned"
+        },
+        "wireName": "window_bytes"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Opened",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "codec",
+            "open_sha256",
+            "disposition"
+          ]
+        },
+        "tag": "opened"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:codec",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "id": "urn:marmish:stream:integrity-block:representation",
+          "kind": "ref"
+        },
+        "wireName": "codec"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:open_sha256",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "bytes": 32,
+          "diagnostic": "hex",
+          "kind": "lower-hex"
+        },
+        "wireName": "open_sha256"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:disposition",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "id": "urn:marmish:stream:wire:OpenDisposition",
+          "kind": "ref"
+        },
+        "wireName": "disposition"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "stdin_accepted",
+            "stdin_delivered",
+            "stdin_closed",
+            "stdout",
+            "stderr",
+            "stdout_eof",
+            "stderr_eof",
+            "cancel_requested",
+            "terminal"
+          ]
+        },
+        "tag": "exchange"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_accepted",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bits": 64,
+          "kind": "unsigned"
+        },
+        "wireName": "stdin_accepted"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_delivered",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 1,
+        "type": {
+          "bits": 64,
+          "kind": "unsigned"
+        },
+        "wireName": "stdin_delivered"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_closed",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 2,
+        "type": {
+          "kind": "bool"
+        },
+        "wireName": "stdin_closed"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 3,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block",
+            "kind": "ref"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stdout"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 4,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:integrity-block",
+            "kind": "ref"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stderr"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout_eof",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 5,
+        "type": {
+          "item": {
+            "bits": 64,
+            "kind": "unsigned"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stdout_eof"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr_eof",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 6,
+        "type": {
+          "item": {
+            "bits": 64,
+            "kind": "unsigned"
+          },
+          "kind": "optional"
+        },
+        "wireName": "stderr_eof"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:cancel_requested",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 7,
+        "type": {
+          "kind": "bool"
+        },
+        "wireName": "cancel_requested"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:terminal",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "value-or-null-or-omitted",
+        "position": 8,
+        "type": {
+          "item": {
+            "id": "urn:marmish:stream:wire:Terminal",
+            "kind": "ref"
+          },
+          "kind": "optional"
+        },
+        "wireName": "terminal"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Error",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "code"
+          ]
+        },
+        "tag": "error"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:ResponseBody:variant:Error:field:code",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "id": "urn:marmish:stream:wire:WireErrorCode",
+          "kind": "ref"
+        },
+        "wireName": "code"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal",
+      "expected": {
+        "contentKey": "data",
+        "reject": [
+          "unknown tag",
+          "duplicate tag or content",
+          "unknown object keys"
+        ],
+        "tagKey": "kind"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-shape"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Exited",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "code"
+          ]
+        },
+        "tag": "exited"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Exited:field:code",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bits": 8,
+          "kind": "unsigned"
+        },
+        "wireName": "code"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Signaled",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "signal"
+          ]
+        },
+        "tag": "signaled"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Signaled:field:signal",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "bits": 8,
+          "kind": "unsigned"
+        },
+        "wireName": "signal"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Cancelled",
+      "expected": {
+        "payload": {
+          "emitContent": false
+        },
+        "tag": "cancelled"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Failed",
+      "expected": {
+        "payload": {
+          "orderedRecord": [
+            "code"
+          ]
+        },
+        "tag": "failed"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-case"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:Terminal:variant:Failed:field:code",
+      "expected": {
+        "emitPresence": "always",
+        "parsePresence": "required",
+        "position": 0,
+        "type": {
+          "id": "urn:marmish:stream:wire:WireErrorCode",
+          "kind": "ref"
+        },
+        "wireName": "code"
+      },
+      "qualification": "independent-witness-required",
+      "role": "wire-field"
+    },
+    {
+      "declaration": "urn:marmish:stream:wire:WireErrorCode",
+      "expected": {
+        "contractIdentity": "urn:marmish:stream:wire:WireErrorCode"
+      },
+      "qualification": "separate-contract-required",
+      "role": "external-wire"
+    }
+  ]
+}
