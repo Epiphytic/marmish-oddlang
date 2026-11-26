@@ -16,6 +16,7 @@ import time
 from corpus import SHORT_CASES, expected_receipt, finite_case
 from isolate import Workspace, SYSTEM_HOME
 from qualify import Output, detached_handle, finite_goodput
+from provider_activation import phase, publication
 
 
 UPSTREAM = "af54339d250290490d62d4475a77539b7e739071"
@@ -77,7 +78,10 @@ def verify_profile(instance, role):
                                  or child.stat().st_mode & 0o777 != 0o600
                                  for child in children):
         raise ValueError("unexpected credential files")
-    return manifest["public_key"]
+    if (not re.fullmatch(r"[0-9a-f]{64}", manifest["public_key"])
+            or not re.fullmatch(r"[0-9a-f]{32}", manifest["profile_id"])):
+        raise ValueError("private profile identifiers have unexpected format")
+    return manifest
 
 
 def host_preferences_state():
@@ -121,7 +125,8 @@ def drain(stream, stop):
 
 def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_digest, interpreter,
             generated_dir=None, generated_role=None,
-            generated_build=GENERATED_BUILD, generated_preflight=GENERATED_PREFLIGHT):
+            generated_build=GENERATED_BUILD, generated_preflight=GENERATED_PREFLIGHT,
+            activation_only=False):
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         raise ValueError("the reference preflight requires macOS ARM64")
     interpreter = interpreter.resolve(strict=True)
@@ -143,7 +148,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                    "reference_binary_sha256": pins, "relay_sha256": deaddrop_digest,
                    "fixture_sha256": fixture_digest, "short_interpreter_sha256": file_digest(interpreter),
                    "build_record_sha256": file_digest(BUILD), "short_runtime_record_sha256": file_digest(RUNTIME),
-                   "stage": "sandbox",
+                   "stage": "sandbox", "activation_only": activation_only,
                    "reference_complete": False, "attempts": []}
     artifact_dirs = dict.fromkeys(("client", "server"), binaries)
     artifact_pins = dict.fromkeys(("client", "server"), pins)
@@ -214,6 +219,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 observation["stage"] = "offline-setup"
                 accounts = {}
                 account_keys = {}
+                account_sockets = {}
                 for role, instance in peers.items():
                     cli = instance.root / "marmish"
                     options = account_options(instance, role, address)
@@ -226,7 +232,9 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         raise ValueError("unexpected disposable setup response")
                     if not re.fullmatch(r"npub1[02-9ac-hj-np-z]{58}", setup["npub"]):
                         raise ValueError("unexpected public identifier format")
-                    account_keys[role] = verify_profile(instance, role)
+                    manifest = verify_profile(instance, role)
+                    account_keys[role] = manifest["public_key"]
+                    account_sockets[role] = instance.tmp / f"mr2-{os.geteuid()}-{manifest['profile_id']}" / "s"
                     accounts[role] = setup["npub"]
                 if len(set(accounts.values())) != 2:
                     raise ValueError("disposable identities not distinct")
@@ -251,23 +259,24 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             or config["relays"] != [address] or config["tor"] != "auto"):
                         raise ValueError("refusing unexpected peer authorization or relay scope")
                 observation["explicit_peer_authorization_verified"] = True
-                server = peers["server"]
-                policy_path = server.root / "state" / "server" / "config.json"
-                fixtures = (server.root / "short", server.root / "finite")
-                short_source = Path(__file__).with_name("corpus.py")
-                script = short_source.read_bytes().split(b"\n", 1)[1]
-                fixtures[0].write_bytes(b"#!" + os.fsencode(interpreter) + b"\n" + script)
-                fixtures[0].chmod(0o500)
-                observation["short_fixture_sha256"] = file_digest(fixtures[0])
-                copy_verified(installed_fixture, fixtures[1], fixture_digest)
-                server.allow_executables((*tuple(server.root / name for name in artifact_pins["server"]),
-                                          *fixtures, interpreter))
-                workspace.owned_interpreters[str(interpreter)] = server.root
-                (server.root / "receipts").mkdir(mode=0o700)
-                policy = json.loads(policy_path.read_bytes())
-                policy["command_policy"]["defaults"] = {"allow_exec": list(map(str, fixtures))}
-                policy["cwd"] = str(server.root)
-                policy_path.write_text(json.dumps(policy))
+                if not activation_only:
+                    server = peers["server"]
+                    policy_path = server.root / "state" / "server" / "config.json"
+                    fixtures = (server.root / "short", server.root / "finite")
+                    short_source = Path(__file__).with_name("corpus.py")
+                    script = short_source.read_bytes().split(b"\n", 1)[1]
+                    fixtures[0].write_bytes(b"#!" + os.fsencode(interpreter) + b"\n" + script)
+                    fixtures[0].chmod(0o500)
+                    observation["short_fixture_sha256"] = file_digest(fixtures[0])
+                    copy_verified(installed_fixture, fixtures[1], fixture_digest)
+                    server.allow_executables((*tuple(server.root / name for name in artifact_pins["server"]),
+                                              *fixtures, interpreter))
+                    workspace.owned_interpreters[str(interpreter)] = server.root
+                    (server.root / "receipts").mkdir(mode=0o700)
+                    policy = json.loads(policy_path.read_bytes())
+                    policy["command_policy"]["defaults"] = {"allow_exec": list(map(str, fixtures))}
+                    policy["cwd"] = str(server.root)
+                    policy_path.write_text(json.dumps(policy))
                 observation["stage"] = "owner-activation"
                 owner_logs = {}
                 observation["owner_states"] = {}
@@ -276,13 +285,15 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                     for role in ("server", "client"):
                         instance = peers[role]
                         options = account_options(instance, role, address)
-                        child = instance.start(
-                            [instance.root / "marmishd", *options, "--foreground", "daemon"],
-                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                        owner_args = [instance.root / "marmishd", *options, "--foreground"]
+                        if role != generated_role or not activation_only:
+                            owner_args.append("daemon")
+                        child = instance.start(owner_args, stdin=subprocess.DEVNULL,
+                                               stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                         _, stdout_reader = drain(child.stdout, stop_readers)
                         owner_logs[role], stderr_reader = drain(child.stderr, stop_readers)
                         readers.extend((stdout_reader, stderr_reader))
-                        if role == "server" and generated_role is None:
+                        if role == "server" and generated_role is None and not activation_only:
                             database = instance.root / "state" / role / "commands" / "engine.sqlite3"
                             observation["stage"] = "server-engine-initialization"
                             until(lambda: database.is_file() and database.stat().st_size > 0,
@@ -295,14 +306,20 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             if exit_status is not None:
                                 observation["last_owner_status"][role] = {"daemon_exit": exit_status}
                                 raise ValueError(f"{role} owner stopped during activation")
-                            status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
-                            state = None
-                            if status.returncode == 0:
-                                state = (json.loads(status.stdout).get("result") or {}).get("state")
-                            matched_state = state if state in ("activating", "active", "provider_active") else None
-                            observation["last_owner_status"][role] = {
-                                "cli_status": status.returncode, "state": matched_state
-                            }
+                            if activation_only and role == generated_role:
+                                state = phase(account_sockets[role])
+                                observation["last_owner_status"][role] = {
+                                    "socket_state": state if state in ("activating", "provider_active") else None
+                                }
+                            else:
+                                status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
+                                state = None
+                                if status.returncode == 0:
+                                    state = (json.loads(status.stdout).get("result") or {}).get("state")
+                                matched = state if state in ("activating", "active", "provider_active") else None
+                                observation["last_owner_status"][role] = {
+                                    "cli_status": status.returncode, "state": matched
+                                }
                             expected = "provider_active" if role == generated_role else "active"
                             return state if state == expected else None
 
@@ -321,19 +338,33 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 for instance in peers.values():
                     if len([p for p in instance.tmp.glob("mr2-*/s") if p.is_socket()]) != 1:
                         raise ValueError("private daemon socket not verified")
-                observation["stage"] = "command-corpus"
-                client = peers["client"]
-                base = [client.root / "marmish", *account_options(client, "client"),
-                        "--no-autostart", "--wait-seconds", "300"]
-                reference_commands(observation["attempts"], client, base, address, accounts["server"],
-                                   account_keys["server"], fixtures)
-                observation["stage"] = "complete"
-                observation["reference_complete"] = generated_role is None
+                if activation_only:
+                    observation["stage"] = "relay-publications"
+                    relay_db = service.root / "data" / "relay.sqlite3"
+                    observation["peer_publications"] = {}
+                    for role, account in account_keys.items():
+                        _, _, event = publication(relay_db, account)
+                        observation["peer_publications"][role] = {
+                            "event_sha256": hashlib.sha256(event.encode()).hexdigest(),
+                            "key_package_bound_to_identity": True,
+                        }
+                    observation["stage"] = "activation-complete"
+                else:
+                    observation["stage"] = "command-corpus"
+                    client = peers["client"]
+                    base = [client.root / "marmish", *account_options(client, "client"),
+                            "--no-autostart", "--wait-seconds", "300"]
+                    reference_commands(observation["attempts"], client, base, address, accounts["server"],
+                                       account_keys["server"], fixtures)
+                    observation["stage"] = "complete"
+                    observation["reference_complete"] = generated_role is None
     except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
         observation["failure_type"] = type(error).__name__
         outcome = "blocked"
     else:
         outcome = "reference-pass" if generated_role is None else "mixed-pass"
+        if activation_only:
+            outcome = "mixed-activation-pass"
     finally:
         stop_readers.set()
         for reader in readers:
@@ -426,15 +457,18 @@ def main():
     parser.add_argument("--generated-role", choices=("client", "server"))
     parser.add_argument("--generated-build-record", type=Path, default=GENERATED_BUILD)
     parser.add_argument("--generated-preflight-record", type=Path, default=GENERATED_PREFLIGHT)
+    parser.add_argument("--activation-only", action="store_true")
     args = parser.parse_args()
     if (args.generated_dir is None) != (args.generated_role is None):
         parser.error("provide both --generated-dir and --generated-role")
+    if args.activation_only and args.generated_dir is None:
+        parser.error("--activation-only requires a generated peer")
     receipt = observe(args.upstream_bin_dir, args.deaddrop, args.deaddrop_sha256,
                       args.installed_fixture, args.fixture_sha256, args.interpreter,
                       args.generated_dir, args.generated_role,
-                      args.generated_build_record, args.generated_preflight_record)
+                      args.generated_build_record, args.generated_preflight_record, args.activation_only)
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass"} else 1
+    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass", "mixed-activation-pass"} else 1
 
 
 if __name__ == "__main__":
