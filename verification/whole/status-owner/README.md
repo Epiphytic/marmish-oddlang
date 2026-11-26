@@ -13,3 +13,5 @@ The independent observer first runs the original native client against the origi
 This is a read-only activation lane. Active/degraded provider snapshots, profile leases and automatic endpoint discovery, installed daemon behavior, other IPC operations and full provider shutdown are open.
 
 The [macOS ARM64 receipt](generated-macos-arm64.json) records the clean graph build, exact original-client exchange, seven frames and both shutdown observations.
+
+The [Linux ARM64 receipt](generated-linux-arm64.json) rebuilds the same isolated generated package locally with `cargo +1.97.1 build --release --locked --offline`. On a native Linux host, run `qualify.py ORIGINAL_BINS GENERATED/target/release/marmish-status-owner RECEIPT --framework-revision PIN --build-receipt ORIGINAL_LINUX_RECEIPT` from the clean companion checkout. Both releases match on the reverse interaction and candidate admission controls.

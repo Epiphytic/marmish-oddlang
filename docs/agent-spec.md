@@ -20,7 +20,7 @@ remain open. [Status client qualification](../verification/whole/status/client-R
 
 The companion also generates a standalone local status owner. The pinned
 original client reads the same activating snapshot over a private Unix
-socket on macOS ARM64. This endpoint has no relay or execution provider.
+socket on macOS and Linux ARM64. This endpoint has no relay or execution provider.
 [Reverse status qualification](../verification/whole/status-owner/README.md)
 
 **Interactive terminal and peer operations are planned.** The

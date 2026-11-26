@@ -1,0 +1,106 @@
+{
+  "candidateAdmissionControls": {
+    "long-path": {
+      "exit": 1,
+      "stderr": "marmish status owner: invalid input: socket_path_length\n",
+      "stdout": ""
+    },
+    "non-private-parent": {
+      "exit": 1,
+      "stderr": "marmish status owner: invalid input: socket_directory_permissions\n",
+      "stdout": ""
+    },
+    "occupied-file": {
+      "exit": 1,
+      "stderr": "marmish status owner: socket occupied\n",
+      "stdout": ""
+    },
+    "stale-socket": {
+      "exit": 1,
+      "stderr": "marmish status owner: socket occupied\n",
+      "stdout": ""
+    }
+  },
+  "candidateSha256": "11c112f23241024dcd178883221c5fde2688ae9535253456247a51b7ec404f46",
+  "cargoLockSha256": "1f389290a3e0406f3d7f92833bfee6979552f2cf534883fd5f35634f33019737",
+  "companionRevision": "346ca1880a61beb53b3443addec1afb402363c9b",
+  "frameworkRevision": "526da0a7533d54bb71bd358dc3e3b26bcefe00bf",
+  "graphSha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
+  "original": {
+    "afterShutdown": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "frames": {
+      "duplicate-tag": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "malformed-json": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "over-limit": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "unexpected-field": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "unknown-operation": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "valid-status": "000000387b226f6b223a747275652c22726573756c74223a7b227374617465223a2261637469766174696e67227d2c226572726f72223a6e756c6c7d",
+      "zero-frame": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d"
+    },
+    "shutdown": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+    },
+    "socketMode": "0600",
+    "socketRemoved": true,
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    }
+  },
+  "originalBinaries": {
+    "marmish": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+    "marmish-engine-bridge": "4a81e043dbcc46b4040753d06f1acde048b6e135fa01e15d6a8dfd1e510e5f65",
+    "marmish-engine-worker": "13c0787e506205a4ffbb37e9c87ae2565326b702119b6cb542b0b439a1c8e5d2",
+    "marmish-keychain": "a77c5429e5140e74a49bab28ecbe2f64c4f328c93b41a8b81241fb84f267f7be",
+    "marmish-release-tool": "4a7eeff0f6467babf94b2cf0f003319baa0c2dbf42fb757288b9e3a62bb4da0c",
+    "marmish-worker": "50a68f593203dff75c8f704d8cd886b72bfe3ac7af234967e5df69b10f627542",
+    "marmishd": "227cb5b9b203a9f03bd54c2723a12a3871e766318f8868aa04ef686894b99e8b"
+  },
+  "originalBuildReceiptSha256": "0104b6c0fbf2ac040ed7282385576a0f1122d97fa58034d04432ec2198b0700a",
+  "packageLockSha256": "f7dafa3847566b11f9145039d81bbdc57cd09b40eb5a6e8aaa5c41493a34869a",
+  "packageManifestSha256": "7f5b424a389d12b94dc16e343052ead6dd6ef3c422522c7838ba9fffa4c47310",
+  "platform": "aarch64-unknown-linux-gnu",
+  "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "reverseMixed": {
+    "afterShutdown": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "frames": {
+      "duplicate-tag": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "malformed-json": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "over-limit": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "unexpected-field": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "unknown-operation": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d",
+      "valid-status": "000000387b226f6b223a747275652c22726573756c74223a7b227374617465223a2261637469766174696e67227d2c226572726f72223a6e756c6c7d",
+      "zero-frame": "000000347b226f6b223a66616c73652c22726573756c74223a6e756c6c2c226572726f72223a22696e76616c69645f72657175657374227d"
+    },
+    "shutdown": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": ""
+    },
+    "socketMode": "0600",
+    "socketRemoved": true,
+    "status": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    }
+  },
+  "unqualified": [
+    "provider activation, active and degraded snapshots",
+    "installed executable, default profile, startup lease and filesystem lifecycle",
+    "all non-status IPC operations and provider shutdown reports",
+    "different-UID credentials, native I/O deadlines and maximum 64-client saturation",
+    "externally observable stopping snapshot"
+  ]
+}
