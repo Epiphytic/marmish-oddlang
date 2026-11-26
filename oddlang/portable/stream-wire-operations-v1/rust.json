@@ -1,0 +1,67 @@
+{
+  "format": "oddlang-json-wire-protocol-rust-v1",
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:stream:error:Limit": "Limit",
+    "urn:marmish:stream:error:Invalid": "Invalid",
+    "urn:marmish:stream:error:Offset": "Offset",
+    "urn:marmish:stream:error:Eof": "Eof",
+    "urn:marmish:stream:error:Ack": "Ack"
+  },
+  "constants": {
+    "urn:marmish:stream:wire:operations:constant:protocol": "PROTOCOL",
+    "urn:marmish:stream:wire:operations:constant:version": "FORMAT"
+  },
+  "fields": {
+    "urn:marmish:stream:wire:operations:request:field:binding": "binding",
+    "urn:marmish:stream:wire:operations:request:field:sequence": "sequence",
+    "urn:marmish:stream:wire:operations:request:field:body": "body",
+    "urn:marmish:stream:wire:operations:response:field:binding": "binding",
+    "urn:marmish:stream:wire:operations:response:field:sequence": "sequence",
+    "urn:marmish:stream:wire:operations:response:field:request_sha256": "request_sha256",
+    "urn:marmish:stream:wire:operations:response:field:body": "body"
+  },
+  "endpoints": {
+    "urn:marmish:stream:wire:operations:request": {
+      "type": "Request",
+      "encode": "encode_request",
+      "decode": "decode_request",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ],
+      "timed": "validate_at"
+    },
+    "urn:marmish:stream:wire:operations:response": {
+      "type": "Response",
+      "encode": "encode_response",
+      "decode": "decode_response",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    }
+  },
+  "foreignMembers": {
+    "urn:marmish:copy:launch:field:client": "client",
+    "urn:marmish:copy:launch:field:server": "server",
+    "urn:marmish:copy:launch:validate": "validate",
+    "urn:marmish:stream:integrity-block:validate": "validate",
+    "urn:marmish:stream:integrity-block:end": "end",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy": "Busy",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired": "RecoveryRequired"
+  },
+  "auxiliary": {
+    "urn:marmish:stream:wire:operations:alias:Id": "Id",
+    "urn:marmish:stream:wire:operations:alias:Account": "Account",
+    "urn:marmish:stream:wire:operations:alias:Digest": "Digest",
+    "urn:marmish:stream:wire:operations:operation:hex32": "hex32",
+    "urn:marmish:stream:wire:operations:operation:request-digest": "request_digest",
+    "urn:marmish:stream:wire:operations:operation:open-digest": "open_digest",
+    "urn:marmish:stream:wire:operations:operation:open-digest:argv": "argv",
+    "urn:marmish:stream:wire:operations:operation:open-digest:codec": "codec"
+  },
+  "internalEnvelope": true
+}

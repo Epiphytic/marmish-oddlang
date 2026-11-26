@@ -1,0 +1,52 @@
+{
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:stream:wire:CopyAdmissionError": "CopyAdmissionError",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Unsupported": "Unsupported",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Denied": "Denied",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy": "Busy",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Conflict": "Conflict",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:Capacity": "Capacity",
+    "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired": "RecoveryRequired",
+    "urn:marmish:stream:wire:OpenDisposition": "OpenDisposition",
+    "urn:marmish:stream:wire:OpenDisposition:variant:Created": "Created",
+    "urn:marmish:stream:wire:OpenDisposition:variant:Existing": "Existing",
+    "urn:marmish:stream:wire:WireErrorCode": "WireErrorCode",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Unsupported": "Unsupported",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Invalid": "Invalid",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Denied": "Denied",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Conflict": "Conflict",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Gap": "Gap",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Expired": "Expired",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Capacity": "Capacity",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Uncertain": "Uncertain",
+    "urn:marmish:stream:wire:WireErrorCode:variant:NotFound": "NotFound",
+    "urn:marmish:stream:wire:WireErrorCode:variant:Closed": "Closed"
+  },
+  "variantOrder": {
+    "urn:marmish:stream:wire:CopyAdmissionError": [
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:Unsupported",
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:Denied",
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy",
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:Conflict",
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:Capacity",
+      "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired"
+    ],
+    "urn:marmish:stream:wire:OpenDisposition": [
+      "urn:marmish:stream:wire:OpenDisposition:variant:Created",
+      "urn:marmish:stream:wire:OpenDisposition:variant:Existing"
+    ],
+    "urn:marmish:stream:wire:WireErrorCode": [
+      "urn:marmish:stream:wire:WireErrorCode:variant:Unsupported",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Invalid",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Denied",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Conflict",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Gap",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Expired",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Capacity",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Uncertain",
+      "urn:marmish:stream:wire:WireErrorCode:variant:NotFound",
+      "urn:marmish:stream:wire:WireErrorCode:variant:Closed"
+    ]
+  }
+}

@@ -1,0 +1,1497 @@
+{
+  "callerSha256": "27b6daddc18f398ab192fb6acf1e811c3e6813ea7c3f01c8a9cb3a51b2a8f02a",
+  "candidateOutputSha256": "6568116ecb35ccfc4ec550c6dd9f7811a7d532eae4bb4295be7ce73ae01f48c2",
+  "cases": [
+    {
+      "case": "hello",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"hello\",\"data\":{\"codecs\":[\"none\",\"zlib\"]}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "hello-empty",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "hello-duplicate",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "hello-overflow",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "copy-hello",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"copy_hello\",\"data\":{\"versions\":[1,2,3,4],\"codecs\":[\"none\"]}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "copy-hello-empty",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "copy-hello-repeat",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "copy-hello-zero",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "copy-hello-limit",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-copy",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open_copy\",\"data\":{\"launch\":{\"version\":1,\"mode\":\"create\",\"transfer\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\",\"direction\":\"put\",\"source\":\"c291cmNl\",\"destination\":\"ZGVzdA==\",\"overwrite\":false,\"preserve_mode\":true,\"preserve_mtime\":false},\"codec\":\"zlib\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-copy-account",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-copy-version-before-account",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"copy_version\") | invalid stream input: copy_version"
+        },
+        "encode": "Invalid(\"copy_version\") | invalid stream input: copy_version"
+      }
+    },
+    {
+      "case": "open-copy-source-before-account",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"copy_path\") | invalid stream input: copy_path"
+        },
+        "encode": "Invalid(\"copy_path\") | invalid stream input: copy_path"
+      }
+    },
+    {
+      "case": "open-copy-invalid-destination",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"copy_path\") | invalid stream input: copy_path"
+        },
+        "encode": "Invalid(\"copy_path\") | invalid stream input: copy_path"
+      }
+    },
+    {
+      "case": "open-min-age",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-future",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_age\") | invalid stream input: stream_age"
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-max-age",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-expired",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_age\") | invalid stream input: stream_age"
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-largest-arg",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": {
+          "length": 22245,
+          "sha256": "7b499f20ec7c1f88e8de7defc69b7cbfbcebcc8fda1c692c2c452f53ffe5e839"
+        },
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-arg-overflow",
+      "outcomes": {
+        "at": {
+          "Err": "Limit | stream capacity reached"
+        },
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "open-empty-argv-digest",
+      "outcomes": {
+        "Err": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "open-empty-argv",
+      "outcomes": {
+        "at": {
+          "Err": "Limit | stream capacity reached"
+        },
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "open-empty-name-digest",
+      "outcomes": {
+        "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-empty-name",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-nul-arg-digest",
+      "outcomes": {
+        "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-nul-arg",
+      "outcomes": {
+        "at": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-argc-digest",
+      "outcomes": {
+        "Ok": [
+          138,
+          219,
+          232,
+          212,
+          221,
+          87,
+          6,
+          231,
+          53,
+          242,
+          195,
+          233,
+          46,
+          89,
+          210,
+          32,
+          198,
+          55,
+          180,
+          176,
+          30,
+          164,
+          76,
+          63,
+          26,
+          45,
+          98,
+          70,
+          105,
+          69,
+          237,
+          136
+        ]
+      }
+    },
+    {
+      "case": "open-argc",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": {
+          "length": 1294,
+          "sha256": "4ed1cc1665050759f15e3f94a5901e3da5fa98f70bea07d63b40b33386103e1f"
+        },
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-argc-overflow-digest",
+      "outcomes": {
+        "Err": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "open-argc-overflow",
+      "outcomes": {
+        "at": {
+          "Err": "Limit | stream capacity reached"
+        },
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "open-empty-nonfirst-digest",
+      "outcomes": {
+        "Ok": [
+          39,
+          192,
+          119,
+          138,
+          188,
+          202,
+          112,
+          33,
+          76,
+          118,
+          250,
+          255,
+          154,
+          22,
+          25,
+          8,
+          7,
+          195,
+          60,
+          34,
+          56,
+          184,
+          66,
+          207,
+          164,
+          30,
+          99,
+          210,
+          134,
+          191,
+          30,
+          72
+        ]
+      }
+    },
+    {
+      "case": "open-empty-nonfirst",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\",\"\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "open-saturating-future",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"ffffffffffffffff0707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"open\",\"data\":{\"argv\":[\"eA==\"],\"codec\":\"none\"}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "cancel",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"cancel\"}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "status",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"status\"}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "input-block",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"exchange\",\"data\":{\"stdin\":{\"offset\":7,\"codec\":\"none\",\"raw_len\":3,\"sha256\":\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\",\"data\":\"YWJj\"},\"stdin_eof\":10,\"stdout_ack\":0,\"stderr_ack\":9223372036854775807}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "input-block-before-eof",
+      "outcomes": {
+        "at": {
+          "Err": "Limit | stream capacity reached"
+        },
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "input-ack-before-block",
+      "outcomes": {
+        "at": {
+          "Err": "Offset | invalid stream offset"
+        },
+        "encode": "Offset | invalid stream offset"
+      }
+    },
+    {
+      "case": "input-stderr-ack",
+      "outcomes": {
+        "at": {
+          "Err": "Offset | invalid stream offset"
+        },
+        "encode": "Offset | invalid stream offset"
+      }
+    },
+    {
+      "case": "input-eof-before-block",
+      "outcomes": {
+        "at": {
+          "Err": "Offset | invalid stream offset"
+        },
+        "encode": "Offset | invalid stream offset"
+      }
+    },
+    {
+      "case": "input-eof-mismatch",
+      "outcomes": {
+        "at": {
+          "Err": "Eof | stream EOF conflict"
+        },
+        "encode": "Eof | stream EOF conflict"
+      }
+    },
+    {
+      "case": "input-none-eof",
+      "outcomes": {
+        "at": {
+          "Ok": null
+        },
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":14,\"message\":{\"direction\":\"request\",\"data\":{\"op\":\"exchange\",\"data\":{\"stdin\":null,\"stdin_eof\":10,\"stdout_ack\":0,\"stderr_ack\":0}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-copy-hello",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"copy_hello\",\"data\":{\"version\":1,\"codecs\":[\"none\"],\"frame_bytes\":8192,\"window_bytes\":262144}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-copy-wrong-version",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-copy-version-before-limit",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-codecs-before-limit",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-frame-over-limit",
+      "outcomes": {
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "reply-window-over-limit",
+      "outcomes": {
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "reply-hello",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"hello\",\"data\":{\"codecs\":[\"zlib\"],\"frame_bytes\":1,\"window_bytes\":1}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "reply-window-under-frame",
+      "outcomes": {
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "response-opened",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"opened\",\"data\":{\"codec\":\"none\",\"open_sha256\":\"0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c0c\",\"disposition\":\"existing\"}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "response-error",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"error\",\"data\":{\"code\":\"denied\"}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "refused-valid",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"copy_refused\",\"data\":{\"code\":\"busy\",\"prior_binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"}}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "refused-missing-prior",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"copy_refused\",\"data\":{\"code\":\"denied\",\"prior_binding\":null}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "refused-invalid-code",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "refused-invalid-account",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "output-offset-before-ack",
+      "outcomes": {
+        "encode": "Offset | invalid stream offset"
+      }
+    },
+    {
+      "case": "output-ack-before-closed",
+      "outcomes": {
+        "encode": "Ack | invalid stream acknowledgement"
+      }
+    },
+    {
+      "case": "output-closed-before-block",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "output-stdout-eof-before-block",
+      "outcomes": {
+        "encode": "Offset | invalid stream offset"
+      }
+    },
+    {
+      "case": "output-stdout-before-stderr",
+      "outcomes": {
+        "encode": "Limit | stream capacity reached"
+      }
+    },
+    {
+      "case": "output-stderr-beyond-eof",
+      "outcomes": {
+        "encode": "Eof | stream EOF conflict"
+      }
+    },
+    {
+      "case": "output-terminal-needs-eof",
+      "outcomes": {
+        "encode": "Eof | stream EOF conflict"
+      }
+    },
+    {
+      "case": "output-invalid-signal",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "output-unsolicited-cancel",
+      "outcomes": {
+        "encode": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "output-cancelled",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"exchange\",\"data\":{\"stdin_accepted\":2,\"stdin_delivered\":1,\"stdin_closed\":true,\"stdout\":null,\"stderr\":null,\"stdout_eof\":11,\"stderr_eof\":9,\"cancel_requested\":true,\"terminal\":{\"kind\":\"cancelled\"}}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "output-success",
+      "outcomes": {
+        "decode": {
+          "Ok": true
+        },
+        "encode": "{\"protocol\":\"marmish-stream/1\",\"version\":1,\"binding\":{\"stream\":\"00000000000003e80707070707070707\",\"session\":\"08080808080808080808080808080808\",\"client\":\"0909090909090909090909090909090909090909090909090909090909090909\",\"server\":\"0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a0a\"},\"sequence\":15,\"message\":{\"direction\":\"response\",\"data\":{\"request_sha256\":\"0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b\",\"body\":{\"op\":\"exchange\",\"data\":{\"stdin_accepted\":2,\"stdin_delivered\":1,\"stdin_closed\":true,\"stdout\":{\"offset\":7,\"codec\":\"none\",\"raw_len\":3,\"sha256\":\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\",\"data\":\"YWJj\"},\"stderr\":{\"offset\":7,\"codec\":\"none\",\"raw_len\":3,\"sha256\":\"ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad\",\"data\":\"YWJj\"},\"stdout_eof\":10,\"stderr_eof\":11,\"cancel_requested\":false,\"terminal\":{\"kind\":\"exited\",\"data\":{\"code\":0}}}}}}}",
+        "otherDirection": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+      }
+    },
+    {
+      "case": "canonical",
+      "outcomes": {
+        "digest": [
+          221,
+          71,
+          68,
+          99,
+          93,
+          227,
+          13,
+          77,
+          203,
+          189,
+          67,
+          31,
+          165,
+          8,
+          202,
+          138,
+          220,
+          105,
+          181,
+          51,
+          255,
+          175,
+          142,
+          166,
+          103,
+          3,
+          57,
+          125,
+          100,
+          199,
+          49,
+          250
+        ],
+        "request": {
+          "Ok": null
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-whitespace",
+      "outcomes": {
+        "digest": [
+          168,
+          8,
+          7,
+          47,
+          94,
+          100,
+          246,
+          72,
+          50,
+          250,
+          195,
+          45,
+          210,
+          97,
+          188,
+          127,
+          77,
+          232,
+          207,
+          202,
+          126,
+          140,
+          201,
+          109,
+          68,
+          136,
+          246,
+          73,
+          198,
+          32,
+          116,
+          66
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-limit",
+      "outcomes": {
+        "digest": [
+          185,
+          41,
+          241,
+          92,
+          164,
+          243,
+          250,
+          40,
+          245,
+          73,
+          145,
+          237,
+          12,
+          184,
+          172,
+          95,
+          67,
+          14,
+          56,
+          142,
+          224,
+          139,
+          244,
+          1,
+          168,
+          83,
+          216,
+          175,
+          145,
+          228,
+          69,
+          56
+        ],
+        "request": {
+          "Err": "Limit | stream capacity reached"
+        },
+        "response": {
+          "Err": "Limit | stream capacity reached"
+        }
+      }
+    },
+    {
+      "case": "canonical-exact-limit",
+      "outcomes": {
+        "digest": [
+          232,
+          255,
+          126,
+          155,
+          82,
+          4,
+          116,
+          166,
+          240,
+          103,
+          241,
+          198,
+          200,
+          166,
+          186,
+          73,
+          236,
+          25,
+          27,
+          155,
+          122,
+          226,
+          76,
+          231,
+          76,
+          204,
+          27,
+          247,
+          84,
+          61,
+          37,
+          10
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-missing-option",
+      "outcomes": {
+        "digest": [
+          1,
+          64,
+          151,
+          206,
+          7,
+          209,
+          162,
+          240,
+          123,
+          60,
+          254,
+          192,
+          75,
+          231,
+          5,
+          68,
+          118,
+          109,
+          159,
+          111,
+          29,
+          240,
+          47,
+          31,
+          69,
+          7,
+          44,
+          10,
+          214,
+          31,
+          18,
+          6
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-duplicate",
+      "outcomes": {
+        "digest": [
+          88,
+          113,
+          100,
+          84,
+          245,
+          130,
+          62,
+          57,
+          19,
+          41,
+          37,
+          66,
+          178,
+          6,
+          29,
+          253,
+          175,
+          13,
+          218,
+          242,
+          150,
+          159,
+          244,
+          178,
+          205,
+          176,
+          109,
+          160,
+          1,
+          134,
+          86,
+          56
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-unexpected",
+      "outcomes": {
+        "digest": [
+          224,
+          21,
+          7,
+          130,
+          31,
+          226,
+          206,
+          32,
+          102,
+          185,
+          111,
+          161,
+          76,
+          188,
+          112,
+          77,
+          227,
+          123,
+          102,
+          203,
+          65,
+          90,
+          72,
+          160,
+          124,
+          49,
+          14,
+          57,
+          40,
+          33,
+          56,
+          60
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-swapped-fields",
+      "outcomes": {
+        "digest": [
+          25,
+          95,
+          40,
+          201,
+          217,
+          135,
+          126,
+          27,
+          45,
+          53,
+          231,
+          169,
+          122,
+          135,
+          197,
+          24,
+          205,
+          217,
+          11,
+          93,
+          77,
+          22,
+          55,
+          85,
+          127,
+          227,
+          153,
+          76,
+          118,
+          54,
+          123,
+          21
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-version",
+      "outcomes": {
+        "digest": [
+          253,
+          99,
+          217,
+          101,
+          217,
+          223,
+          110,
+          198,
+          217,
+          179,
+          226,
+          91,
+          73,
+          118,
+          40,
+          7,
+          32,
+          7,
+          20,
+          73,
+          14,
+          50,
+          140,
+          0,
+          168,
+          219,
+          245,
+          103,
+          96,
+          22,
+          224,
+          68
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-protocol",
+      "outcomes": {
+        "digest": [
+          30,
+          14,
+          180,
+          176,
+          204,
+          235,
+          136,
+          181,
+          64,
+          29,
+          0,
+          252,
+          189,
+          64,
+          200,
+          16,
+          145,
+          201,
+          164,
+          192,
+          67,
+          39,
+          35,
+          171,
+          72,
+          57,
+          162,
+          141,
+          177,
+          16,
+          48,
+          160
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-unsigned-syntax",
+      "outcomes": {
+        "digest": [
+          163,
+          153,
+          157,
+          227,
+          84,
+          75,
+          99,
+          220,
+          141,
+          54,
+          133,
+          88,
+          40,
+          22,
+          53,
+          203,
+          1,
+          12,
+          214,
+          244,
+          226,
+          247,
+          198,
+          150,
+          215,
+          141,
+          40,
+          217,
+          173,
+          55,
+          121,
+          112
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-hex-uppercase",
+      "outcomes": {
+        "digest": [
+          85,
+          242,
+          238,
+          77,
+          162,
+          219,
+          149,
+          92,
+          14,
+          125,
+          22,
+          33,
+          60,
+          51,
+          230,
+          99,
+          190,
+          223,
+          84,
+          140,
+          233,
+          247,
+          63,
+          111,
+          228,
+          247,
+          22,
+          219,
+          109,
+          208,
+          177,
+          165
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-direct-guard",
+      "outcomes": {
+        "digest": [
+          178,
+          180,
+          209,
+          0,
+          195,
+          131,
+          119,
+          102,
+          135,
+          115,
+          115,
+          145,
+          80,
+          195,
+          39,
+          117,
+          250,
+          16,
+          142,
+          45,
+          101,
+          63,
+          192,
+          151,
+          102,
+          160,
+          51,
+          91,
+          97,
+          203,
+          127,
+          133
+        ],
+        "request": {
+          "Err": "Offset | invalid stream offset"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    },
+    {
+      "case": "canonical-error-before-guard",
+      "outcomes": {
+        "digest": [
+          204,
+          190,
+          22,
+          201,
+          123,
+          97,
+          96,
+          182,
+          150,
+          83,
+          211,
+          182,
+          55,
+          199,
+          240,
+          11,
+          185,
+          87,
+          15,
+          5,
+          101,
+          169,
+          211,
+          30,
+          75,
+          70,
+          146,
+          54,
+          238,
+          190,
+          53,
+          20
+        ],
+        "request": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        },
+        "response": {
+          "Err": "Invalid(\"stream_wire\") | invalid stream input: stream_wire"
+        }
+      }
+    }
+  ],
+  "format": "marmish-native-wire-operations-replay-v1",
+  "frameworkRevision": "25ea63ce1aea475d7a3a3fa050a4042c46345409",
+  "oddlangBinarySha256": "2a4f8dca8a8e0483194bb1dbba28f713ae4c56a945eaa711143e57c12b364e05",
+  "originalCargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "originalOutputSha256": "6568116ecb35ccfc4ec550c6dd9f7811a7d532eae4bb4295be7ce73ae01f48c2",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "originalTree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+  "originalWireSourceSha256": "54254ed91540dd6eef2237b174a6834d200b933b9061ff255f61305248fbecf8",
+  "packageLock": {
+    "cargoLockSha256": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e",
+    "cargoManifestSha256": "413c5d1e4ef6ab244557032ed1ce166df626bfc5fdf756f7d51d85e9b060c0ff",
+    "components": [
+      {
+        "graphSha256": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e",
+        "kind": "shared-declarations",
+        "module": "stream_domain",
+        "overlaySha256": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e",
+        "projection": {
+          "artifact": "shared.rs",
+          "artifactSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+          "bindingSha256": "94a1c2077e8df7d53fecf61d3a002d41ea68f02bba8a85261238dbc5b56dd9f2",
+          "domain": "urn:marmish:stream:declarations",
+          "domainSha256": "ffa4cc6ef821240a95ed8c730724d95b21430d1aa687bac9cd44f63c592cfe6d",
+          "format": "oddlang-shared-projection-v1",
+          "obligationsSha256": "f0a346954c3f667c893ee6272f26a42690b4e65c10a9caf56edd373872d42a66"
+        },
+        "reexports": [
+          "MAX_BLOCK",
+          "MAX_ENCODED",
+          "MAX_CONTENT",
+          "WINDOW_BYTES",
+          "MAX_OFFSET",
+          "MAX_RECORDS",
+          "Error",
+          "Result"
+        ],
+        "sourceSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64"
+      },
+      {
+        "graphSha256": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec",
+        "kind": "integrity-block",
+        "module": "codec",
+        "overlaySha256": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088",
+        "projection": {
+          "artifact": "codec.rs",
+          "artifactSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+          "bindingSha256": "d40040eaa7bd0e575a2562e545acf1f56f600c68daab0a164e96f805f24552ce",
+          "domainSha256": "b22235123e61d7a6c2d55fb7352e56555617880b8f927caed951599bcb6c0162",
+          "format": "oddlang-integrity-block-v1",
+          "obligationsSha256": "185ce497091e96bfcd43f4aa3a2f2d0ee3aae40995f5bfa5973a4e8889e7ea01"
+        },
+        "reexports": [
+          "EncodedBlock",
+          "Codec",
+          "encode",
+          "decode"
+        ],
+        "sourceSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd"
+      },
+      {
+        "graphSha256": "9ea5cc2f6ba85350ec16ba7c24465b5ec066502450fcabd8fcd2551ceee5d11b",
+        "kind": "shared-declarations",
+        "module": "copy_protocol",
+        "overlaySha256": "5ddd8100e68af2391d48ffdfca1ac3470c978f3741042a9acda46151500df512",
+        "projection": {
+          "artifact": "shared.rs",
+          "artifactSha256": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9",
+          "bindingSha256": "a9e8030baccc6e66ec7603a473de37413804fb2bafb3509ef427378b8b8c21db",
+          "domain": "urn:marmish:copy:numeric-constants-and-enums",
+          "domainSha256": "61e05d51d01fbcbc664dd84c1718a2a50098f45616b988dabf32ef25494e9403",
+          "format": "oddlang-shared-projection-v1",
+          "obligationsSha256": "a113bdded113530176acdb5d9bbdb73c9b70210642cc494d46b7a67f8c12cef9"
+        },
+        "reexports": [
+          "VERSION",
+          "AttemptMode",
+          "Direction",
+          "Phase",
+          "Stage",
+          "CopyError"
+        ],
+        "sourceSha256": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9"
+      },
+      {
+        "graphSha256": "3d102d85bb4c76b1d4450cbee5f2e82032aed4b8c73293ffe36cf4c0c5d25561",
+        "kind": "wire-schema",
+        "module": "copy_protocol",
+        "overlaySha256": "6b89437f7b252f9cfc97012502b510b4391eb2fa8bdb8adfeaa9054d018ac1d5",
+        "projection": {
+          "bindingSha256": "604f86fc17ca85a88230e92005748a2bc43f14d929194947eca91a8ea531e6a5",
+          "format": "oddlang-json-wire-schema-v1",
+          "graphSha256": "48d6b7f5edbb830644c98c306fd53776ffa0e9cf1b74212615f347eefdb332f1",
+          "obligationsSha256": "b1610e7f0851031ded283a538b883d4486c1f8fe39ce2010fb84e0e78260f719",
+          "wireSha256": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941"
+        },
+        "reexports": [
+          "Launch"
+        ],
+        "sourceSha256": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941"
+      },
+      {
+        "graphSha256": "397d6e3a0aa48cf2b01a17247ff0735d1eb631e54861318b70b1bf849dbf0e99",
+        "kind": "shared-declarations",
+        "module": "wire",
+        "overlaySha256": "83b2141977206474d6d38fb0737819b9f9ca57496a94dadee3174df2f3c10a9f",
+        "projection": {
+          "artifact": "shared.rs",
+          "artifactSha256": "84d5cf0370bfb0e8c4de729e0422370e5c7e328bac3788d4f66b4ea05bfecfaa",
+          "bindingSha256": "4adc51b1beff18ff7ca666ebe3e5a4c24334f7e566b20e5cd65c4a500dd4e1c7",
+          "domain": "urn:marmish:stream:wire:string-cases",
+          "domainSha256": "92c2b48ff8977f957fc5e5905d699cd71ec628465c886e810eadc62ea703633b",
+          "format": "oddlang-shared-projection-v1",
+          "obligationsSha256": "76d1e54513176d50a3fa4c7b6a5d3a008fc8104a60166d3031eb47f1082fca51"
+        },
+        "reexports": [
+          "CopyAdmissionError",
+          "OpenDisposition",
+          "WireErrorCode"
+        ],
+        "sourceSha256": "84d5cf0370bfb0e8c4de729e0422370e5c7e328bac3788d4f66b4ea05bfecfaa"
+      },
+      {
+        "graphSha256": "2cbb1fb931456d727210479cad40e79f236fd7d8ce50bd6fc4a0197e92c8b8d1",
+        "kind": "wire-protocol",
+        "module": "wire",
+        "overlaySha256": "e2a4146ff118815f5f205e5910751f9a059b99d87a1362ab5e62d18042647a28",
+        "projection": {
+          "format": "oddlang-json-wire-protocol-v1",
+          "obligationsSha256": "c811568d6fa786148504b6155d0971c2ced98d9eea0b784602e0287f72672eab",
+          "protocolBindingSha256": "e90cd8265a20200673852220a1fd85ce01c76dbc4dfa74b0ffb1b2c5197a098b",
+          "protocolSha256": "6e0e324374219e454949a8492c793a24439635915e13e9dca7e9bb95c2ee6b87",
+          "shapeBindingSha256": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
+          "shapeSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+          "wireSha256": "abbf87bb3a3eb93a4697fe43b2815230cd2d1a2a32164d2c01181b6a5f1eaa0e"
+        },
+        "reexports": [
+          "PROTOCOL",
+          "FORMAT",
+          "Id",
+          "Account",
+          "Digest",
+          "Binding",
+          "Request",
+          "Response",
+          "RequestBody",
+          "ResponseBody",
+          "Terminal",
+          "encode_request",
+          "decode_request",
+          "encode_response",
+          "decode_response",
+          "request_digest",
+          "open_digest"
+        ],
+        "sourceSha256": "abbf87bb3a3eb93a4697fe43b2815230cd2d1a2a32164d2c01181b6a5f1eaa0e",
+        "wireShape": {
+          "graphSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+          "overlaySha256": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640"
+        }
+      }
+    ],
+    "format": "oddlang-native-package-lock-v1",
+    "generatedFiles": {
+      "src/group_0/__projection_0.rs": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+      "src/group_0/mod.rs": "de460ff23105d868f6dcb2730c0d8e3dabe066ce694ed9ece34e8dd7732737e3",
+      "src/group_1/__projection_1.rs": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+      "src/group_1/mod.rs": "4aefb52f9fb8cbe0ddf2ac1d84e113c9ee37b03a8c451b755351f751ecec2ac7",
+      "src/group_2/__projection_2.rs": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9",
+      "src/group_2/__projection_3.rs": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941",
+      "src/group_2/mod.rs": "7df0935bfebbe229538414678de1f7d398d3fb3dc10c1b19bc4b9a10de3850be",
+      "src/group_4/__projection_4.rs": "84d5cf0370bfb0e8c4de729e0422370e5c7e328bac3788d4f66b4ea05bfecfaa",
+      "src/group_4/__projection_5.rs": "abbf87bb3a3eb93a4697fe43b2815230cd2d1a2a32164d2c01181b6a5f1eaa0e",
+      "src/group_4/mod.rs": "52bb2a292164d68a3d48c02ec815ffd3d95296f6849401c45f98834caf5c2cf1",
+      "src/lib.rs": "520bcb5b1c82344006af4b377fc949dc5511bf94c4373e9022be60425693452c"
+    },
+    "manifestSha256": "4f351e4a15d8eb4918e6fb0734bb52707cbc7b8b144a2d1198c69a91061df6a4"
+  },
+  "packageManifestSha256": "4f351e4a15d8eb4918e6fb0734bb52707cbc7b8b144a2d1198c69a91061df6a4",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ]
+}
