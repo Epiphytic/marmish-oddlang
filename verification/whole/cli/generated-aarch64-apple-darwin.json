@@ -1,7 +1,6 @@
 {
   "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
   "frameworkRevision": "c01279eb61ed9e86b51b2eeaf0c5b744397c74a3",
-  "oddlangSha256": "463c6e655faf6b8048ed94ddfb62de0dc22b6d99b003f31675e1e0382f619bd9",
   "platform": "aarch64-apple-darwin",
   "rustc": [
     "rustc 1.97.1 (8bab26f4f 2026-07-14)",
@@ -19,12 +18,10 @@
   "isolation": "macOS Seatbelt file-data allowlist and network denial; staged graph inputs, pinned compiler and toolchain, Cargo registry, SDK and operating system only",
   "observations": {
     "marmish": {
-      "count": 34,
-      "binarySha256": "7649131735c4af787c10d8ba722026c057734aaaadf5ac87b5a1d1c8982b61f3"
+      "count": 34
     },
     "marmishd": {
-      "count": 34,
-      "binarySha256": "6a0b8515c5446a07c8443f518a7a6f8a89591452c22f13892f2f9e162b33767d"
+      "count": 34
     }
   },
   "uncovered": [

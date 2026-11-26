@@ -595,9 +595,9 @@
 {"path":"verification/whole/bridge/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"9dbd623321914008353e58e333efa2f6a9a2de8425e489720c9230d0cdfa1810","parse_status":"inventory"}
 {"path":"verification/whole/bridge/baseline.py","language":"python","mode":"100644","sha256":"e844e0409403f6a7df9b080991d4d40e148b1d02e6b3145ce729eb9cef060dca","parse_status":"parsed"}
 {"path":"verification/whole/bridge/darwin_effects.py","language":"python","mode":"100644","sha256":"f5ba5c5b27a15ad28433f250660338499873b2140bfd2a9d8511e55964667014","parse_status":"parsed"}
-{"path":"verification/whole/cli/README.md","language":"inventory","mode":"100644","sha256":"58dd189ad9cbe3d58450cff791eb4b5457d4eb165d24f5c4750c8a567f2351b0","parse_status":"inventory"}
-{"path":"verification/whole/cli/generated-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"025653c2da5dd20c62bc3e0d4b0cbf47d9a74e30122694444eb2786abff9dacb","parse_status":"inventory"}
-{"path":"verification/whole/cli/macos.sh","language":"bash","mode":"100755","sha256":"dc996a0d8833aeb7f87d6022546e64fc1104465768ef4a3a3478e17ec7615947","parse_status":"parsed"}
+{"path":"verification/whole/cli/README.md","language":"inventory","mode":"100644","sha256":"330083c7c9436dc41f3d3233b1c0308ce17384469c4b1d372b0571d503d3d3d7","parse_status":"inventory"}
+{"path":"verification/whole/cli/generated-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d9370af6d870e01480261e9fe307cb4bf5eebccc5b3b0203de1a89bf0c7ac8c6","parse_status":"inventory"}
+{"path":"verification/whole/cli/macos.sh","language":"bash","mode":"100755","sha256":"21dd0f773a73c4b978c55b94493af3b1d533ef2bec56753fda6da5a7c36b1e58","parse_status":"parsed"}
 {"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"4192d5dd5a6ef36c265e6a8c60c73d7661fa170cdd251e3fa13c2ce49e487d5b","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}

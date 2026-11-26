@@ -90,4 +90,3 @@ PROFILE
 )
 mv "$stage/workspace" "$output"
 "$python" "$here/replay.py" verify "$output/target/release"
-shasum -a 256 "$stage/oddlang"
