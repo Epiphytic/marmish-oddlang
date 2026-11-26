@@ -1,6 +1,9 @@
 use marmish_native::mdk_adapter::RuntimeStatus;
 
+fn require_serialize<T: serde::Serialize>() {}
+
 fn main() {
+    require_serialize::<RuntimeStatus>();
     let identity = "snow\n雪\u{0}";
     let values = [
         ("", 0, 0, 0),

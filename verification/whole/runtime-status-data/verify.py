@@ -63,19 +63,38 @@ def cargo_reference(source, target, *options):
 
 
 def caller(work, build, native=None):
-    """Use the exact Cargo-resolved libraries and native link paths."""
+    """Bind the caller to the matching target Serde identities reported by Cargo."""
     work.mkdir()
-    serde = artifact(build, "serde")
-    json_lib = artifact(build, "serde_json")
     if native is None:
         native = artifact(build, "marmish_native")
-    linked = sorted({path for line in build.splitlines() if (row := json.loads(line))["reason"] == "build-script-executed"
-                     for path in row["linked_paths"]})
-    flags = ["rustc", "+1.97.1", "--edition=2024", "-L", f"dependency={json_lib.parent}",
-             "--extern", f"marmish_native={native}", "--extern", f"serde_json={json_lib}",
-             "--extern", f"serde={serde}"]
-    for path in linked:
-        flags.extend(("-L", path))
+    candidates = {"serde": set(), "serde_json": set()}
+    linked = set()
+    for line in build.splitlines():
+        row = json.loads(line)
+        if row["reason"] == "build-script-executed":
+            linked.update(row["linked_paths"])
+        elif row["reason"] == "compiler-artifact" and row["target"]["name"] in candidates:
+            candidates[row["target"]["name"]].update(
+                Path(path) for path in row["filenames"] if path.endswith(".rlib")
+            )
+    base = ["rustc", "+1.97.1", "--edition=2024", "--extern", f"marmish_native={native}"]
+    for path in sorted(linked):
+        base.extend(("-L", path))
+    matches = []
+    failures = []
+    for serde in sorted(candidates["serde"]):
+        for json_lib in sorted(candidates["serde_json"]):
+            flags = [*base, "-L", f"dependency={serde.parent}", "-L", f"dependency={json_lib.parent}",
+                     "--extern", f"serde={serde}", "--extern", f"serde_json={json_lib}"]
+            result = subprocess.run([*flags, "--emit=metadata", PROBE, "-o", work / "identity.rmeta"],
+                                    capture_output=True, text=True)
+            if result.returncode == 0:
+                matches.append((flags, serde))
+            else:
+                failures.append(result.stderr)
+    if len(matches) != 1:
+        raise ValueError(f"expected one compatible Cargo Serde pair, got {len(matches)}: {failures!r}")
+    flags, serde = matches[0]
     binary = work / "observer"
     run(*flags, PROBE, "-o", binary)
     rows = run(binary, cwd=work).decode().splitlines()
@@ -102,7 +121,7 @@ def caller(work, build, native=None):
         if not proc.returncode or got != {code}:
             raise ValueError(f"wrong native diagnostic {label}: {proc.stderr}")
         seen[label] = code
-    return {"jsonLines": rows, "diagnostics": seen}, sha(native)
+    return {"jsonLines": rows, "diagnostics": seen}, sha(native), serde
 
 
 def baseline_expected():
@@ -198,15 +217,14 @@ def verify(args, host, work, scratch):
     locked = check_product(product)
     build = invoke("cargo", "build", "--lib", "-p", MEMBER, "--release", "--locked", "--offline",
                    "--message-format=json", cwd=product)
-    generated, generated_library = caller(scratch / "generated", build)
+    generated, generated_library, serde = caller(scratch / "generated", build)
     projection = work / "mutation-projection"
     invoke(compiler, "build", "public-records", "rust", mutation_inputs / "graph.json",
            mutation_inputs / "rust.json", projection)
-    serde = artifact(build, "serde")
     changed_native = projection / "libmarmish_native.rlib"
     run("rustc", "+1.97.1", "--edition=2024", "--crate-type=rlib", "--crate-name=marmish_native",
         "-L", f"dependency={serde.parent}", "--extern", f"serde={serde}", projection / "records.rs", "-o", changed_native)
-    changed, changed_library = caller(scratch / "generated-mutation", build, changed_native)
+    changed, changed_library, _ = caller(scratch / "generated-mutation", build, changed_native)
     args.original_target.mkdir(parents=True, exist_ok=True)
     # Cargo may assign the original and the mutated crate the same output path.
     # Hold the reference lock through linking every external caller.
@@ -214,11 +232,11 @@ def verify(args, host, work, scratch):
         fcntl.flock(lock, fcntl.LOCK_EX)
         originals = {}
         for case, flags in (("default", ()), ("installed-checks", ("--no-default-features", "--features", "installed-checks"))):
-            actual, lib = caller(scratch / case, cargo_reference(args.original, args.original_target, *flags))
+            actual, lib, _ = caller(scratch / case, cargo_reference(args.original, args.original_target, *flags))
             if actual != generated or actual["jsonLines"] != baseline_expected():
                 raise ValueError(f"RuntimeStatus caller mismatch for {case}: {actual!r} != {generated!r}")
             originals[case] = lib
-        reference_mutation, mutation_library = caller(
+        reference_mutation, mutation_library, _ = caller(
             scratch / "original-mutation", cargo_reference(mutant, args.original_target),
         )
     observed = [json.loads(line) for line in changed["jsonLines"][:-1]]
