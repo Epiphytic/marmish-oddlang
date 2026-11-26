@@ -1,0 +1,25 @@
+{
+  "revision": "af54339d250290490d62d4475a77539b7e739071",
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "target": "aarch64-apple-darwin",
+  "upstreamFileSha256": "3e64bd266a515813a3023859948fb57baea45c82f51f4c234186d7e40019dd1f",
+  "callerSha256": "93d7d4773a6dd43cde84f68bef973876a295b5a468e5a1b2f58da06089f64f5f",
+  "passed": [
+    "secret_request_tests::private_reader_wipes_consumed_spans",
+    "buffer_contract_observations::retained_span_and_consumed_bytes",
+    "buffer_contract_observations::failed_refill_retains_prior_end",
+    "buffer_contract_observations::zero_output_still_reads_and_eof_can_be_polled_again"
+  ],
+  "controls": {
+    "retainConsumedBytes": {
+      "test": "buffer_contract_observations::retained_span_and_consumed_bytes",
+      "expectedAssertion": "consumed span must be erased",
+      "exit": 101
+    },
+    "clearEndBeforeRefill": {
+      "test": "buffer_contract_observations::failed_refill_retains_prior_end",
+      "expectedAssertion": "failed refill preserves old end",
+      "exit": 101
+    }
+  }
+}
