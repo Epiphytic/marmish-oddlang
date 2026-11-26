@@ -30,3 +30,19 @@ python3 -B verification/whole/basic-command-interop/client_progress_reference.py
 Generated server-side command admission, delivery over authenticated peers,
 recovery with an already pending poll at process restart, and full upstream
 refusal coverage are open qualification gates.
+
+## Composed native build and comparison
+
+The [build receipt](bounded-local-progress-build-aarch64-apple-darwin.json)
+pins the native Rust compiler, companion source, workspace lock and both
+executables. Seatbelt isolation denied reads of the original source and binary,
+the independent oracle fixture and four other probes. The build ran with
+network access denied. The receipt records its filesystem access scope.
+
+The [generated client comparison](bounded-local-progress-candidate-aarch64-apple-darwin.json)
+matched all eight pinned local cases, including the suffix of both streams
+from the prior nonzero cursor pair. Four rejected handle or manifest cases
+stopped before owner contact. Nonzero initial cursors for a fresh submit and a
+wrong-session response with a valid outer digest stopped before output or
+poll consumption. Use `--check-resume-admission` with the generated client to
+replay these six additional cases.
