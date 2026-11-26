@@ -25,3 +25,9 @@ The readiness-gated upstream replay matched all 24 case outcomes and receiver re
 The tracked repeat also matched all 24 case outcomes and receiver receipts and removed its workspace. It recorded a failed host metadata comparison, so it remains outside qualification. A subsequent replay recorded an empty changed-category list and clean teardown but stopped at owner activation before any command.
 
 The separate loopback diagnostic verified kernel policy on the live, digest-bound original client and server daemons and the pinned Deaddrop process. For each process, the kernel denied the tested Keychain file reads and writes, real configuration creation and lookup of the Keychain service. The `/dev/null` write policy served as a positive control. The query evaluated the assigned process policy without performing those file operations. The diagnostic removed its workspace. It provides process-attributed isolation evidence at the observed checkpoints. The corpus qualification still requires its own unchanged host metadata observation and complete teardown.
+
+## Composed mixed provider activation
+
+The independently pinned composed candidate passed both mixed activation probes. In the upstream-client direction, the original client reported `active` and the generated server reported `provider_active`. In the generated-client direction, the generated client reported `provider_active` and the original server reported `active`. Both directions completed setup and verified the reciprocal peer authorization for distinct file-backed identities. The observer found the corresponding signed key package for each identity in its owned relay. It verified process and workspace teardown and unchanged host metadata.
+
+The two `composed-mixed-activation-*-macos-arm64.json` receipts bind the build and independent preflight records under `composed-basic-owner-*-aarch64-apple-darwin.json`. These are activation results. Command qualification remains open.
