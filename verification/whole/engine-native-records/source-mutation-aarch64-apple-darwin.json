@@ -1,0 +1,47 @@
+{
+  "sourceSelection": {
+    "crateSourceSha256": "c29fdbba286e5c9809e82e903d2d2282b2b171bfa1c1dfc6270406246a4c1593",
+    "format": "oddlang-root-public-record-recovery-lock-v1",
+    "gap": "Sibling item macro expansion, Rust bindings and public export paths require independent native compilation",
+    "graphSha256": "7e2613f72352fb1502cfb86f432f507f121aae371789e14258e969414a3e5e2b",
+    "overlaySha256": "c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5",
+    "selectionSha256": "2078e752633d8951623b4153f318c4274f68d511543cc14273a333a09ab9ebd4"
+  },
+  "output": "MaintenanceReport {\n    spool_bytes_removed: 0,\n    records_removed: 0,\n}\nMaintenanceReport { spool_bytes_removed: 0, records_removed: 0 }\nMaintenanceReport { spool_bytes_removed: 18446744073709551615, records_removed: 1 }\nMaintenanceReport { spool_bytes_removed: 1, records_removed: 4294967295 }\nMaintenanceReport { spool_bytes_removed: 18446744073709551615, records_removed: 4294967295 }\nInputReceipt { accepted: 0, available_credit: 0, duplicate: false }\nInputReceipt { accepted: 18446744073709551615, available_credit: 4294967295, duplicate: true }\nInputReceipt { accepted: 1, available_credit: 4294967295, duplicate: false }\nInputReceipt { accepted: 18446744073709551615, available_credit: 1, duplicate: true }\n",
+  "negativeRustDiagnostics": {
+    "marmish_engine::InputReceipt.Copy": "E0277",
+    "marmish_engine::InputReceipt.Default": "E0277",
+    "marmish_engine::InputReceipt.Eq": "E0277",
+    "marmish_engine::InputReceipt.PartialEq": "E0277",
+    "marmish_engine::InputReceipt.Ord": "E0277",
+    "marmish_engine::InputReceipt.PartialOrd": "E0277",
+    "marmish_engine::InputReceipt.Hash": "E0277",
+    "marmish_engine::InputReceipt.Display": "E0277",
+    "marmish_engine::InputReceipt.Serialize": "E0277",
+    "marmish_engine::InputReceipt.Deserialize": "E0277",
+    "marmish_engine::MaintenanceReport.Copy": "E0277",
+    "marmish_engine::MaintenanceReport.Eq": "E0277",
+    "marmish_engine::MaintenanceReport.PartialEq": "E0277",
+    "marmish_engine::MaintenanceReport.Ord": "E0277",
+    "marmish_engine::MaintenanceReport.PartialOrd": "E0277",
+    "marmish_engine::MaintenanceReport.Hash": "E0277",
+    "marmish_engine::MaintenanceReport.Display": "E0277",
+    "marmish_engine::MaintenanceReport.Serialize": "E0277",
+    "marmish_engine::MaintenanceReport.Deserialize": "E0277",
+    "privateModule": "E0603",
+    "creditWidth": "E0308"
+  },
+  "generatedPackageLockSha256": "dbb83eeec4b582ea35661d52e1cfcfa7e3c827e5f46ed13a141068ea637a0a17",
+  "framework": "6457c87f65f542d47045d0338a64e99346e1ca39",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "compilerSha256": "9c6608896efef41173c4381ac3e3438ee7d6587781d6c6ea6b0ea54dd0fab3db"
+}
