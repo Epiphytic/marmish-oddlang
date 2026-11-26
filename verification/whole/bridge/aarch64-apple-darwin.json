@@ -1,0 +1,632 @@
+{
+  "bridge": {
+    "binary_sha256": {
+      "bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+      "worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842"
+    },
+    "cases": [
+      {
+        "args": [
+          "--help"
+        ],
+        "cwd": "$RUN/cwd",
+        "exchanges": [],
+        "final_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "id": "argument-rejection",
+        "initial_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "key_retained_after_eof": null,
+        "status": 1,
+        "stderr": "",
+        "stdin_before_eof": "",
+        "stdout_after_eof": ""
+      },
+      {
+        "args": [],
+        "cwd": "$RUN/cwd",
+        "exchanges": [],
+        "final_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "id": "clean-eof",
+        "initial_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "key_retained_after_eof": null,
+        "status": 0,
+        "stderr": "",
+        "stdin_before_eof": "",
+        "stdout_after_eof": ""
+      },
+      {
+        "args": [],
+        "cwd": "$RUN/cwd",
+        "exchanges": [],
+        "final_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "id": "partial-frame-at-eof",
+        "initial_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "key_retained_after_eof": null,
+        "status": 0,
+        "stderr": "",
+        "stdin_before_eof": "{",
+        "stdout_after_eof": "{\"error\":{\"code\":\"invalid_framing\"},\"id\":null,\"ok\":false}\n"
+      },
+      {
+        "args": [],
+        "cwd": "$RUN/cwd",
+        "exchanges": [
+          {
+            "state": {
+              "entries": {
+                "cwd": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state/engine.key": {
+                  "bytes": 40,
+                  "magic": "MRMSKEY1",
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3": {
+                  "bytes": 4096,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-shm": {
+                  "bytes": 32768,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-wal": {
+                  "bytes": 41232,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/frontend.lock": {
+                  "bytes": 0,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/jobs": {
+                  "mode": "0700",
+                  "type": "dir"
+                }
+              },
+              "frontend_lock": "held"
+            },
+            "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$WORKER\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+            "stdout": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n"
+          }
+        ],
+        "final_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            },
+            "state": {
+              "mode": "0700",
+              "type": "dir"
+            },
+            "state/engine.key": {
+              "bytes": 40,
+              "magic": "MRMSKEY1",
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/engine.sqlite3": {
+              "bytes": 40960,
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/frontend.lock": {
+              "bytes": 0,
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/jobs": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "available"
+        },
+        "id": "version-1-init-before-eof",
+        "initial_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "key_retained_after_eof": true,
+        "status": 0,
+        "stderr": "",
+        "stdin_before_eof": "",
+        "stdout_after_eof": ""
+      },
+      {
+        "args": [],
+        "cwd": "$RUN/cwd",
+        "exchanges": [
+          {
+            "state": {
+              "entries": {
+                "cwd": {
+                  "mode": "0700",
+                  "type": "dir"
+                }
+              },
+              "frontend_lock": "absent"
+            },
+            "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":0,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$WORKER\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+            "stdout": "{\"error\":{\"code\":\"invalid_request\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n"
+          },
+          {
+            "state": {
+              "entries": {
+                "cwd": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state/engine.key": {
+                  "bytes": 40,
+                  "magic": "MRMSKEY1",
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3": {
+                  "bytes": 4096,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-shm": {
+                  "bytes": 32768,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-wal": {
+                  "bytes": 41232,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/frontend.lock": {
+                  "bytes": 0,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/jobs": {
+                  "mode": "0700",
+                  "type": "dir"
+                }
+              },
+              "frontend_lock": "held"
+            },
+            "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$WORKER\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+            "stdout": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n"
+          },
+          {
+            "contents_unchanged": true,
+            "state": {
+              "entries": {
+                "cwd": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state": {
+                  "mode": "0700",
+                  "type": "dir"
+                },
+                "state/engine.key": {
+                  "bytes": 40,
+                  "magic": "MRMSKEY1",
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3": {
+                  "bytes": 4096,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-shm": {
+                  "bytes": 32768,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/engine.sqlite3-wal": {
+                  "bytes": 41232,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/frontend.lock": {
+                  "bytes": 0,
+                  "mode": "0600",
+                  "type": "file"
+                },
+                "state/jobs": {
+                  "mode": "0700",
+                  "type": "dir"
+                }
+              },
+              "frontend_lock": "held"
+            },
+            "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$WORKER\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+            "stdout": "{\"error\":{\"code\":\"invalid_request\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n"
+          }
+        ],
+        "final_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            },
+            "state": {
+              "mode": "0700",
+              "type": "dir"
+            },
+            "state/engine.key": {
+              "bytes": 40,
+              "magic": "MRMSKEY1",
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/engine.sqlite3": {
+              "bytes": 40960,
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/frontend.lock": {
+              "bytes": 0,
+              "mode": "0600",
+              "type": "file"
+            },
+            "state/jobs": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "available"
+        },
+        "id": "retry-after-rejected-version-and-double-init",
+        "initial_state": {
+          "entries": {
+            "cwd": {
+              "mode": "0700",
+              "type": "dir"
+            }
+          },
+          "frontend_lock": "absent"
+        },
+        "key_retained_after_eof": true,
+        "status": 0,
+        "stderr": "",
+        "stdin_before_eof": "",
+        "stdout_after_eof": ""
+      }
+    ],
+    "controls": {
+      "expected_status": "rejected",
+      "wrong_channel": "rejected"
+    },
+    "environment": {
+      "LANG": "C",
+      "PATH": "/usr/bin:/bin"
+    },
+    "fixture_sha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
+    "format": 1,
+    "startup_limits": {
+      "AS": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "CORE": [
+        0,
+        9223372036854775807
+      ],
+      "CPU": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "DATA": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "FSIZE": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "MEMLOCK": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "NOFILE": [
+        256,
+        256
+      ],
+      "NPROC": [
+        10666,
+        16000
+      ],
+      "RSS": [
+        9223372036854775807,
+        9223372036854775807
+      ],
+      "STACK": [
+        8372224,
+        67092480
+      ]
+    },
+    "umask": "0077"
+  },
+  "builds": {
+    "default": {
+      "cargo_args": [
+        "+1.97.1",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--target",
+        "aarch64-apple-darwin",
+        "--workspace",
+        "--bins"
+      ],
+      "sha256": {
+        "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+        "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+        "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+        "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+        "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+        "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+        "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+      }
+    },
+    "fault": {
+      "cargo_args": [
+        "+1.97.1",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--target",
+        "aarch64-apple-darwin",
+        "-p",
+        "marmish-engine",
+        "--features",
+        "fault-injection",
+        "--bin",
+        "marmish-test-frontend"
+      ],
+      "sha256": {
+        "marmish-test-frontend": "afeecd2607d6cd21e7c633821c3f0499d38b319d9a8dfe3fb1019649a92bde46"
+      }
+    },
+    "installed": {
+      "cargo_args": [
+        "+1.97.1",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--target",
+        "aarch64-apple-darwin",
+        "-p",
+        "marmish-native",
+        "--features",
+        "installed-checks",
+        "--bin",
+        "marmish-installed-check",
+        "--bin",
+        "marmish-installed-fixture"
+      ],
+      "sha256": {
+        "marmish-installed-check": "1c797d08af64aea1128ed7563722b56d71ffdc6823650a74ebd731d3494a04c5",
+        "marmish-installed-fixture": "5419e8b0907fd59944cc79cf7bbecdb941fadf58133eee01a347bb02de2bff96"
+      }
+    },
+    "mdk": {
+      "cargo_args": [
+        "+1.97.1",
+        "build",
+        "--locked",
+        "--offline",
+        "--release",
+        "--target",
+        "aarch64-apple-darwin",
+        "-p",
+        "marmish-mdk",
+        "--example",
+        "probe"
+      ],
+      "sha256": {
+        "examples/probe": "ff5b1713273a883fd6d7e58ceb04687bb9ce5b9fe5a838eb547d07c1ac8ca661"
+      }
+    }
+  },
+  "cargo": "cargo 1.97.1 (c980f4866 2026-06-30)",
+  "cargo_lock_sha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "commit": "af54339d250290490d62d4475a77539b7e739071",
+  "format": 1,
+  "high_nofile": {
+    "limit": 1048576,
+    "state": {
+      "entries": {
+        "cwd": {
+          "mode": "0700",
+          "type": "dir"
+        }
+      },
+      "frontend_lock": "absent"
+    },
+    "status": 0,
+    "stderr": "",
+    "stdout": "{\"error\":{\"code\":\"worker_unavailable\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n"
+  },
+  "host": "aarch64-apple-darwin",
+  "linker": "Apple clang version 21.0.0 (clang-2100.4.1.1)",
+  "macos": "26.6",
+  "macos_effects": {
+    "at": "after Init reply, before stdin EOF",
+    "direct_children": [],
+    "file_descriptors": [
+      {
+        "access": " ",
+        "fd": "cwd",
+        "name": "$RUN/cwd",
+        "type": "DIR"
+      },
+      {
+        "access": " ",
+        "fd": "txt",
+        "name": "$BIN/marmish-engine-bridge",
+        "type": "REG"
+      },
+      {
+        "access": " ",
+        "fd": "txt",
+        "name": "$RUN/state/engine.sqlite3-shm",
+        "type": "REG"
+      },
+      {
+        "access": " ",
+        "fd": "txt",
+        "name": "/usr/lib/dyld",
+        "type": "REG"
+      },
+      {
+        "access": " ",
+        "fd": "0",
+        "name": "<kernel handle>",
+        "type": "PIPE"
+      },
+      {
+        "access": " ",
+        "fd": "1",
+        "name": "<kernel handle>",
+        "type": "PIPE"
+      },
+      {
+        "access": " ",
+        "fd": "2",
+        "name": "<kernel handle>",
+        "type": "PIPE"
+      },
+      {
+        "access": "r",
+        "fd": "3",
+        "name": "$RUN/state/jobs",
+        "type": "DIR"
+      },
+      {
+        "access": "r",
+        "fd": "4",
+        "name": "$RUN/state",
+        "type": "DIR"
+      },
+      {
+        "access": "u",
+        "fd": "5",
+        "name": "$RUN/state/frontend.lock",
+        "type": "REG"
+      },
+      {
+        "access": "u",
+        "fd": "6",
+        "name": "$RUN/state/engine.sqlite3",
+        "type": "REG"
+      },
+      {
+        "access": "u",
+        "fd": "7",
+        "name": "$RUN/state/engine.sqlite3-wal",
+        "type": "REG"
+      },
+      {
+        "access": "u",
+        "fd": "8",
+        "name": "$RUN/state/engine.sqlite3-shm",
+        "type": "REG"
+      },
+      {
+        "access": "r",
+        "fd": "9",
+        "name": "$RUN/state",
+        "type": "DIR"
+      },
+      {
+        "access": "r",
+        "fd": "10",
+        "name": "$RUN/state/jobs",
+        "type": "DIR"
+      }
+    ],
+    "final_lock": "available",
+    "frontend_lock": "held",
+    "kernel_events_during_init_through_exit": [
+      "exit"
+    ],
+    "outside_write_control": "EPERM",
+    "write_policy": "deny all filesystem writes outside the disposable state root"
+  },
+  "oracle_driver_sha256": "7a675cffc8b08d5773645434df14aed77bfbf9c437e4c3044dc8fc1f9ced628a",
+  "oracle_fixture_sha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
+  "repetitions": 2,
+  "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "sdk": "27.2",
+  "system_release": "25.6.0",
+  "tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481"
+}
