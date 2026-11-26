@@ -1,0 +1,13 @@
+{
+  "format": "oddlang-public-records-rust-v1",
+  "identifiers": {
+    "urn:marmish:native:journal": "journal",
+    "urn:marmish:native:journal:Conversation": "Conversation",
+    "urn:marmish:native:journal:ReceivedMessage": "ReceivedMessage",
+    "urn:marmish:native:journal:SendStatus": "SendStatus",
+    "urn:marmish:native:mdk-adapter": "mdk_adapter",
+    "urn:marmish:native:mdk-adapter:Conversation": "Conversation",
+    "urn:marmish:native:mdk-adapter:ReceivedMessage": "ReceivedMessage",
+    "urn:marmish:native:mdk-adapter:SendStatus": "SendStatus"
+  }
+}
