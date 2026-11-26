@@ -7,3 +7,35 @@ The two independently selected mixed pairings both reached generated `setup`. Th
 The observer checked write confinement, denied access to the real user home and default Keychain and created disposable file profiles only after those probes. It removed both mixed workspaces. The final recorded attempts include their host metadata comparison and cleanup status. An earlier generated-client attempt recorded a host metadata change during the run and remains outside the clean measurements. No specific host writer was identified.
 
 In the recorded upstream control, both original setup invocations succeeded and the configured authorization was verified. The control then stopped at owner activation before attempting a command. Cleanup and the host metadata check passed. The complete upstream command oracle remains open. See the receipt and replay commands under `verification/whole/basic-command-interop/`.
+
+## Serial owner replay
+
+A later run with the sandbox directory-stat repair and private named daemon logs used the same pinned peers, fresh distinct identities and fresh owned relay. Both owners reported active. The first foreground case expected exit 0 and `done\n`. It returned exit 255 with empty stdout and retained only a digest of its dynamic stderr. The receiver receipt remained unverified, so the corpus stopped before detached execution or warm repetitions. Cleanup passed. The tracked serial replay receipt binds the observed bytes and elapsed time. The cause of the native owner’s command completion failure remains open.
+
+## Sealed setup candidate
+
+The companion candidate built from `d187bf9047c2755ac5a6969fc66bee611a966eee` passed the mixed setup stage in both directions on macOS ARM64. Both peers returned setup exit 0. Distinct file-backed credentials, exact peer authorization, the sole owned relay and cleanup were verified for each attempt. The upstream-client pairing stopped at generated server foreground owner exit 125. In the generated-client pairing the upstream server reached active before the generated client owner exited 125. Each pairing used an independent fresh relay and profile workspace. The command corpus was not run in these mixed attempts.
+
+The exact artifact manifest and independently run setup preflight are recorded as `profile-setup-initial-build-macos-arm64.json` and `profile-setup-initial-preflight-macos-arm64.json` in the interoperability verification directory. Their digests match the pins in both mixed receipts.
+
+## Full upstream corpus with failed host metadata check
+
+The readiness-gated upstream replay matched all 24 case outcomes and receiver receipts, including one cold and three warm finite payloads. The observer removed its workspace. Its host metadata comparison failed, so the receipt records a blocked run and leaves the reference incomplete. A later metadata-only check found mtimes inside the test interval for the Keychain directory and one immediate entry. The original per-path snapshots were discarded at teardown, so the exact changed tuple and the writer remain unknown. The observer now records only changed metadata categories to make later failures attributable to a monitored scope without publishing paths or credential contents.
+
+The tracked repeat also matched all 24 case outcomes and receiver receipts and removed its workspace. It recorded a failed host metadata comparison, so it remains outside qualification. A subsequent replay recorded an empty changed-category list and clean teardown but stopped at owner activation before any command.
+
+The separate loopback diagnostic verified kernel policy on the live, digest-bound original client and server daemons and the pinned Deaddrop process. For each process, the kernel denied the tested Keychain file reads and writes, real configuration creation and lookup of the Keychain service. The `/dev/null` write policy served as a positive control. The query evaluated the assigned process policy without performing those file operations. The diagnostic removed its workspace. It provides process-attributed isolation evidence at the observed checkpoints. The corpus qualification still requires its own unchanged host metadata observation and complete teardown.
+
+## Composed mixed provider activation
+
+The independently pinned composed candidate passed both mixed activation probes. In the upstream-client direction, the original client reported `active` and the generated server reported `provider_active`. In the generated-client direction, the generated client reported `provider_active` and the original server reported `active`. Both directions completed setup and verified the reciprocal peer authorization for distinct file-backed identities. The observer found the corresponding signed key package for each identity in its owned relay. It verified process and workspace teardown and unchanged host metadata.
+
+The two `composed-mixed-activation-*-macos-arm64.json` receipts bind the build and independent preflight records under `composed-basic-owner-*-aarch64-apple-darwin.json`. These are activation results. Command qualification remains open.
+
+## Composed first foreground command
+
+Both fresh mixed attempts reached their expected owner states before submitting the fixed `success` case. The generated client exited 255 after 15.08 ms with empty stdout and stderr matching the exact bytes of `marmish: command_prepare` followed by LF. The upstream receiver had no fixture receipt, and cleanup passed.
+
+The original client exited 255 after 301.38 s with empty stdout and the `remote_pending` diagnostic. The generated receiver had no fixture receipt. The observer removed the workspace and owned processes. The host metadata comparison identified the `keychain_directory` category and left the writer unknown. This attempt stays blocked under the cleanup gate.
+
+The foreground receipts use the same independently pinned composed build and preflight as the activation receipts. These results identify the remaining preparation and receiver-completion gaps in the selected first case.
