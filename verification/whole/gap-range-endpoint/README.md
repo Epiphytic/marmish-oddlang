@@ -62,6 +62,10 @@ they do not describe additional native implementations.
 - The [seven-member workspace candidate](../gap-range-role-workspace/)
   selects the same Rust role binding.
 
-Fresh Rust binding requalification on Linux ARM64 is pending guest recovery.
-The Linux receipt above covers the independent original and retained-build
-wire observations.
+The [Linux ARM64 binding replay](binding-aarch64-unknown-linux-gnu.json) used a
+fresh native ARM64 guest, Rust 1.96.1 to build the framework, Rust 1.97.1 for the
+callers, and offline locked Cargo inputs. It compiled the unchanged typed Rust
+caller and replayed all 11 cases for each of the five hint profiles. Every
+emitted package file matched the corresponding Darwin output. This replay
+covers the standalone Rust binding. The Linux TypeScript and sealed
+seven-member workspace runs remain outside this evidence.
