@@ -152,6 +152,17 @@ def compare():
     rows = []
     components = load(PACKAGE)["components"]
     package_lock = load(HERE / "package.lock")
+    export_facade = {
+        "crate-root.rs.txt": "src/lib.rs",
+        "config.rs.txt": "src/group_0/mod.rs",
+        "frame.rs.txt": "src/group_2/mod.rs",
+    }
+    for artifact, source in export_facade.items():
+        require(
+            sha(HERE / "export-facade" / artifact)
+            == package_lock["generatedFiles"][source],
+            "archived re-export source disagrees with the sealed package",
+        )
     for observation in imports["imports"]:
         name = observation["spelling"]
         require(

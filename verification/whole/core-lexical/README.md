@@ -3,8 +3,10 @@
 On each ARM64 host, two observers agreed on 29 unambiguous declaration
 keys in the original `marmish-core` and 89 in the generated standalone
 core member. The compiler adapter and private-item Rustdoc JSON ran with
-Rust 1.97.1 and the default release profile. Each build had one ambiguous
-key. Within the observer's declared-access scope, the two observers agreed
+Rust 1.97.1 and the default release profile. For each build, the compiler reported two
+anonymous constants under one ambiguous key, with zero Rustdoc declarations
+for that key. The declared-access scope covers keyed module-level
+declarations and struct or union fields, including positional fields. The two observers agreed
 on 17 original and 53 generated declarations, with zero differences or
 unresolved scopes in either build.
 
@@ -15,6 +17,13 @@ move under additional generated projection modules. It identifies each
 native root re-export, its sealed source file, and its component's graph
 and overlay inputs. The paths identify local Rust owners and the digest
 pins identify portable component inputs.
+
+The [pinned core manifest](https://github.com/Epiphytic/marmish-oddlang/blob/036349fc69ab5b850df2006c16ec2518be95a254/oddlang/portable/core-package.json)
+selects those components. The archived [standalone lock](package.lock)
+seals the [crate root](export-facade/crate-root.rs.txt),
+[config module](export-facade/config.rs.txt) and
+[frame module](export-facade/frame.rs.txt) that supply the public
+re-exports. These files are verbatim generated evidence.
 
 The independent [canonical Darwin audit](../canonical-workspace/aarch64-apple-darwin.json)
 compiled all six downstream crate-root import spellings. That audit used
