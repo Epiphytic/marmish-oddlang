@@ -1,12 +1,27 @@
 # Marmish sources recovered by Oddlang
 
+## Build the seven-member workspace
+
+Use the [combined workspace manifest](portable/workspace-v7-converged-diagnostics-cli.json) and the Oddlang CLI at [compiler commit 0568396](https://github.com/Epiphytic/oddlang/tree/0568396f8d0641b266aed1702d482d71c79b3ba4). From the root of this companion repository, with the pinned Cargo dependencies available offline, run the following:
+
+```sh
+out=$(mktemp -d)
+oddlang build native-workspace rust oddlang/portable/workspace-v7-converged-diagnostics-cli.json "$out/workspace"
+cmp oddlang/portable/workspace-v7-converged-diagnostics-cli/workspace.lock "$out/workspace/workspace.lock"
+cargo +1.97.1 build --release --workspace --lib --bins --locked --offline --manifest-path "$out/workspace/Cargo.toml"
+```
+
+The generated code is under `$out/workspace/marmish-*/src`. The two native executables are under the workspace's release target directory. The original checkout is used as a test oracle. The [audit and qualification](../verification/whole/converged-diagnostics-cli/README.md) identify which public interfaces have evidence on this workspace lock.
+
+## Earlier workspaces and independent component qualifications
+
 The standalone [vault value library](../verification/whole/vault-values/README.md) covers pure checked values and metadata. It has its own qualified package manifest.
 
 The [workspace public API comparison](../verification/whole/public-types/README.md#whole-workspace-on-darwin-arm64) covers all seven original libraries and shows which v5 and v6 types downstream Rust code can import.
 
 The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.
 
-Build the current Rust workspace from the [v7 manifest](portable/workspace-v7.json). It adds `release-info` to both native binaries and preserves the v6 initialization, lifecycle, status, core and stream scope. [Build and qualification](../verification/whole/workspace/README.md#workspace-v7)
+The earlier [v7 manifest](portable/workspace-v7.json) adds `release-info` to both native binaries and preserves the v6 initialization, lifecycle, status, core and stream scope. [Build and qualification](../verification/whole/workspace/README.md#workspace-v7)
 
 The separate [engine process-limit workspace](../verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
 
