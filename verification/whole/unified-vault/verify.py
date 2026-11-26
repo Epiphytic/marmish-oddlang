@@ -11,12 +11,13 @@ import runpy
 import shutil
 import subprocess
 import tempfile
+from unittest.mock import patch
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 PORTABLE = ROOT / "oddlang/portable"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
-FRAMEWORK = "18552b422e794b5b0db6d215ec73f1e9cd5800e5"
+FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 
 
 def run(*args, cwd=None):
@@ -31,32 +32,44 @@ def lane(name, file="verify.py"):
     return runpy.run_path(str(HERE.parent / name / file))
 
 
-def sandbox(work, original, compiler, framework):
+def sandbox(work, original, compiler, framework, reference_target):
     assert platform.system() == "Darwin" and platform.machine() == "arm64"
-    protected = [ROOT.resolve(), original.resolve(), framework.resolve()]
+    protected = [ROOT.resolve(), original.resolve(), framework.resolve(), reference_target.resolve(),
+                 Path("/private/tmp"), Path.home() / "repos"]
+    assert not any(work.is_relative_to(path) for path in protected), work
     profile = "(version 1)(allow default)(deny network*)"
     profile += "".join("(deny file-read* (subpath " + json.dumps(str(path)) + "))"
                        for path in protected)
     prefix = ["/usr/bin/sandbox-exec", "-p", profile]
-    for file in (ROOT / "Cargo.toml", original / "Cargo.toml", framework / "Cargo.toml"):
-        assert file.is_file(), file
-        rejected = subprocess.run([*prefix, "/bin/cat", file], capture_output=True)
-        assert rejected.returncode and b"Operation not permitted" in rejected.stderr, file
+    with tempfile.TemporaryDirectory(prefix="odd-source-probe-", dir="/private/tmp") as outside:
+        sentinel = Path(outside) / "Cargo.toml"
+        sentinel.write_text("[workspace]\n")
+        probes = {
+            "companionCaller": HERE.parent / "vault-values/caller.rs",
+            "originalLibrary": original / "crates/marmish-vault/src/lib.rs",
+            "frameworkLibrary": framework / "src/lib.rs",
+            "referenceExecutable": reference_target / "aarch64-apple-darwin/release/marmish",
+            "externalCheckoutExample": sentinel,
+        }
+        for file in probes.values():
+            assert file.is_file(), file
+            rejected = subprocess.run([*prefix, "/bin/cat", file], capture_output=True)
+            assert rejected.returncode and b"Operation not permitted" in rejected.stderr, file
     cli = work / "oddlang"
     shutil.copyfile(compiler, cli)
     cli.chmod(0o755)
-    return prefix, cli
+    return [*prefix, "/usr/bin/env", f"TMPDIR={work}"], cli, sorted(probes)
 
 
-def qualify(work, manifest, original, framework, compiler, reference_target, engine):
+def qualify(work, manifest, original, framework, compiler, reference_target):
     assembly = lane("workspace")
     inputs, product = work / "inputs", work / "product"
     inputs.mkdir()
     descriptor = assembly["stage_workspace"](manifest, inputs)
     staged = sorted(path for path in inputs.rglob("*") if path.is_file())
     assert staged and all(path.suffix in {".json", ".ttl", ".lock"} for path in staged)
-    prefix, cli = sandbox(work, original, compiler, framework)
-    run(*prefix, "/usr/bin/env", "RUSTUP_TOOLCHAIN=1.97.1", cli, "build", "native-workspace",
+    prefix, cli, denied_inputs = sandbox(work, original, compiler, framework, reference_target)
+    run(*prefix, "RUSTUP_TOOLCHAIN=1.97.1", cli, "build", "native-workspace",
         "rust", inputs / manifest.name, product, cwd=work)
     run(*prefix, "cargo", "+1.97.1", "build", "--workspace", "--release", "--locked",
         "--offline", cwd=product)
@@ -71,6 +84,9 @@ def qualify(work, manifest, original, framework, compiler, reference_target, eng
     generated_lock = (product / "Cargo.lock").read_bytes()
     assert sha(generated_lock) == descriptor["cargoLock"]["sha256"]
     manifest_lock = (product / "workspace.lock").read_bytes()
+    pinned_workspace_lock = manifest.with_suffix("") / "workspace.lock"
+    if pinned_workspace_lock.is_file():
+        assert manifest_lock == pinned_workspace_lock.read_bytes()
 
     copy = lane("copy-frame")
     source = run("git", "-C", original, "show",
@@ -105,15 +121,18 @@ def qualify(work, manifest, original, framework, compiler, reference_target, eng
     env = dict(HOME=str(runtime), TMPDIR=str(runtime), LANG="C", PATH=os.defpath,
                TARGET="override", CARGO_PKG_VERSION="override", MARMISH_BUILD_COMMIT="override",
                MARMISH_BUILD_TARGET="override")
+    original_bins = reference_target / "aarch64-apple-darwin/release"
+    generated_bins = product / "target/release"
     binaries = {}
     for name, cases in reference.items():
-        artifact = product / "target/release" / name
         assert len(cases) == 16
         for case in cases:
-            call = subprocess.run([artifact, *case["argv"]], cwd=runtime, env=env,
-                                  capture_output=True, input=b"", timeout=30)
-            assert (call.returncode, call.stdout, call.stderr) == (
-                case["exit"], case["stdout"].encode(), case["stderr"].encode()), (name, case)
+            assert "release-info" in case["argv"], case
+            for directory in (original_bins, generated_bins):
+                call = subprocess.run([directory / name, *case["argv"]], cwd=runtime, env=env,
+                                      capture_output=True, input=b"", timeout=30)
+                assert (call.returncode, call.stdout, call.stderr) == (
+                    case["exit"], case["stdout"].encode(), case["stderr"].encode()), (name, case)
         binaries[name] = len(cases)
     assert not list(runtime.iterdir())
 
@@ -121,7 +140,11 @@ def qualify(work, manifest, original, framework, compiler, reference_target, eng
         "originalCommit": ORIGINAL,
         "frameworkCommit": run("git", "-C", framework, "rev-parse", "HEAD").decode().strip(),
         "platform": "aarch64-apple-darwin",
-        "sourceFree": True,
+        "companionRevision": run("git", "-C", ROOT, "rev-parse", "HEAD").decode().strip(),
+        "sourceFree": len(denied_inputs) == 5,
+        "deniedReadProbes": denied_inputs,
+        "verifierSha256": sha(Path(__file__).read_bytes()),
+        "compilerSha256": sha(cli.read_bytes()),
         "manifestSha256": sha(manifest.read_bytes()),
         "referenceReleaseInfoSha256": sha(reference_path.read_bytes()),
         "rustc": run("rustc", "+1.97.1", "-vV").decode().splitlines(),
@@ -137,18 +160,25 @@ def qualify(work, manifest, original, framework, compiler, reference_target, eng
         "nativeErrorStdoutSha256": sha(new_errors),
         "binaries": binaries,
     }
-    if engine:
-        observe = lane("engine-limits", "observe.py")
-        old_caller, _ = observe["reference_caller"](work, original, reference_target)
-        new_caller, _ = observe["generated_caller"](work, product)
-        original_limits = observe["file_limits"](work, old_caller)
-        generated_limits = observe["file_limits"](work, new_caller)
-        assert original_limits == generated_limits
-        receipt["processLimitCases"] = generated_limits
-        startup = observe["startup"](work, reference_target / "aarch64-apple-darwin/release",
-                                     product / "target/release")
-        assert len(startup["argvCases"]) == 10
-        receipt["processStartupCases"] = startup["argvCases"]
+    observe = lane("engine-limits", "observe.py")
+    old_caller, original_libs = observe["reference_caller"](work, original, reference_target)
+    new_caller, generated_libs = observe["generated_caller"](work, product)
+    original_limits = observe["file_limits"](work, old_caller)
+    generated_limits = observe["file_limits"](work, new_caller)
+    assert original_limits == generated_limits
+    receipt["processLimitCases"] = generated_limits
+    startup = observe["startup"](work, reference_target / "aarch64-apple-darwin/release",
+                                 product / "target/release")
+    assert len(startup["argvCases"]) == 10
+    receipt["processStartupCases"] = startup["argvCases"]
+    receipt["processArtifacts"] = {
+        "originalBinaries": startup["originalBinaries"],
+        "generatedBinaries": startup["generatedBinaries"],
+        "originalLibraries": original_libs,
+        "generatedLibraries": generated_libs,
+        "observerSha256": sha((HERE.parent / "engine-limits/observe.rs").read_bytes()),
+        "faultObserverSha256": sha((HERE.parent / "engine-limits/deny_darwin.c").read_bytes()),
+    }
     return receipt, manifest_lock
 
 
@@ -156,19 +186,24 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("manifest", "original", "framework", "compiler_target", "reference_target", "receipt"):
         parser.add_argument(name, type=lambda value: Path(value).resolve())
-    parser.add_argument("--engine", action="store_true")
     args = parser.parse_args()
     assert run("git", "-C", args.original, "rev-parse", "HEAD").decode().strip() == ORIGINAL
     assert not run("git", "-C", args.original, "status", "--porcelain", "--untracked-files=no")
     assert run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() == FRAMEWORK
     assert not run("git", "-C", args.framework, "status", "--porcelain", "--untracked-files=no")
-    assert args.manifest.parent == PORTABLE
+    assert args.manifest == PORTABLE / "workspace-v7-vault-engine.json"
+    assert not run("git", "-C", ROOT, "status", "--porcelain", "--untracked-files=all", "--",
+                   "oddlang/portable", "verification/whole")
     run("cargo", "+1.97.1", "build", "--bin", "oddlang", "--offline", "--locked",
         "--target-dir", args.compiler_target, cwd=args.framework)
     compiler = args.compiler_target / "debug/oddlang"
-    with tempfile.TemporaryDirectory(prefix="odd-unified-vault-") as temp:
+    run("cargo", "+1.97.1", "build", "--package", "marmish-native", "--bins", "--release",
+        "--offline", "--locked", "--target", "aarch64-apple-darwin",
+        "--target-dir", args.reference_target, cwd=args.original)
+    system_temp = run("/usr/bin/getconf", "DARWIN_USER_TEMP_DIR").decode().strip()
+    with tempfile.TemporaryDirectory(prefix="odd-unified-vault-", dir=system_temp) as temp:
         receipt, lock = qualify(Path(temp).resolve(), args.manifest, args.original, args.framework,
-                                compiler, args.reference_target, args.engine)
+                                compiler, args.reference_target)
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
     args.receipt.with_name("workspace.lock").write_bytes(lock)
