@@ -3,9 +3,10 @@
   "entry": "version",
   "format": "oddlang-text-grammar-recovery-v1",
   "graphSha256": "a5eadd49587ffe3dea7af64e32625f6324b946c63cf0f2083056d5b018474669",
-  "selectionSha256": "bdb78964536ac9d1e656f99582baad7f5a2899cba1fc007f277938f20727ce93",
-  "sourceSha256": "e11224fa0dd59f656beb94ee29b07baff9be0698896f450ebf45a40847a2ba70",
+  "selectionSha256": "65a1a808e0a4c26b977818a2494b8dab4a0f493600eb58bf31702d1f313c39eb",
+  "sourceScope": "two-selected-functions",
+  "sourceSha256": "e59af559a23c33849df83dc1b238fe00a183758c4e3550bd7768613830b253cf",
   "unresolved": [
-    "primitive and prelude resolution outside this source module requires a native witness"
+    "method and name resolution in the original enclosing module requires a native witness"
   ]
 }

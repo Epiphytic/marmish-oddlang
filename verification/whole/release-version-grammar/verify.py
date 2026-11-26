@@ -14,7 +14,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 DATA = ROOT / "oddlang/portable/release-version-grammar-v1"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
-FRAMEWORK = "c78a9b82ac0aa6148054a5c36eb519689223ef9d"
+FRAMEWORK = "d322eca7fdfa2e5e257512ea477a09bb2022e9fa"
 SOURCE = "crates/marmish-native/src/native_manifest.rs"
 VECTORS = "tools/release-version-vectors.json"
 NATIVE_TEST = "native_manifest::tests::strict_vectors"
@@ -112,7 +112,7 @@ def sandbox(work, original, framework, private):
 def recover(work, cli, source, selection, label):
     private = work / "private"
     native = private / f"{label}.rs"
-    native.write_bytes(source)
+    native.write_bytes(pure_functions(source))
     descriptor = private / f"{label}.json"
     descriptor.write_bytes(selection)
     output = work / f"recovered-{label}"
@@ -149,7 +149,7 @@ def qualify(work, original, framework, compiler):
     check_shape(baseline / "graph.json", ["0.2.", "0.3."], 64, "-rc.", 1)
 
     mutation = edit_source(source)
-    changed_selection = json.dumps(dict(json.loads(selection), sourceSha256=sha(mutation))).encode()
+    changed_selection = json.dumps(dict(json.loads(selection), sourceSha256=sha(pure_functions(mutation)))).encode()
     changed = recover(work, cli, mutation, changed_selection, "mutated")
     check_shape(changed / "graph.json", ["0.2.", "0.4."], 32, "-preview.", 0)
     prefix, denied = sandbox(work, original, framework, private)
@@ -167,6 +167,14 @@ def qualify(work, original, framework, compiler):
         shutil.copyfile(graph / "graph.json", input_file)
         projection = work / f"projection-{name}"
         run(*prefix, cli, "build", "text-grammar", "rust", input_file, projection, cwd=work)
+        if name == "baseline":
+            equivalent = staged / "reordered.json"
+            equivalent.write_text(json.dumps(json.loads(input_file.read_bytes()), sort_keys=True))
+            repeated = work / "projection-reordered"
+            run(*prefix, cli, "build", "text-grammar", "rust", equivalent, repeated, cwd=work)
+            assert {file.name for file in projection.iterdir()} == {file.name for file in repeated.iterdir()}
+            assert all(file.read_bytes() == (repeated / file.name).read_bytes()
+                       for file in projection.iterdir())
         source_file = projection / "text.rs"
         native = observe(private, f"native-{name}", pure_functions(implementation), "version", cases)
         generated = observe(work, f"generated-{name}", source_file.read_bytes(), "accepts", cases, prefix)
@@ -186,6 +194,8 @@ def qualify(work, original, framework, compiler):
         "companionRevision": run("git", "rev-parse", "HEAD", cwd=ROOT).decode().strip(),
         "platform": "aarch64-apple-darwin",
         "deniedReadProbes": denied,
+        "equivalentGraphEmitsIdenticalArtifacts": True,
+        "authoredInputs": ["stable graph IRI", "entry function", "two-function source selection"],
         "sourceSelectionSha256": sha(selection),
         "unmodifiedVectorsSha256": sha(native_vectors),
         "unmodifiedVectors": len(vectors["valid"]) + len(vectors["invalid"]),
