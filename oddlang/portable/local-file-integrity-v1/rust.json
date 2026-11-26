@@ -1,0 +1,9 @@
+{
+  "format": "oddlang-read-only-file-rust-v1",
+  "open": "safe_file",
+  "read": "read_bounded",
+  "verify": "verify_file",
+  "error": ["crate", "Error"],
+  "invalidVariant": "Invalid",
+  "ioVariant": "Io"
+}

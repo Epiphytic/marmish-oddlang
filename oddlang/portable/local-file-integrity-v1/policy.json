@@ -1,0 +1,49 @@
+{
+  "id": "urn:marmish:native:read-only-file:v1",
+  "modeMask": 511,
+  "digest": {
+    "algorithm": "sha256",
+    "chunkBytes": 65536
+  },
+  "open": [
+    "read-only",
+    "no-follow-final-link",
+    "close-on-exec"
+  ],
+  "guards": [
+    "regular",
+    "links",
+    "maximum-size",
+    "exact-size",
+    "effective-owner",
+    "masked-mode",
+    "digest"
+  ],
+  "readCeiling": "requested-size-plus-one",
+  "errors": {
+    "io": {
+      "id": "urn:marmish:native:error:v1:variant:Io"
+    },
+    "descriptor": {
+      "id": "urn:marmish:native:error:v1:variant:Invalid",
+      "code": "unsafe_install_path"
+    },
+    "boundedRead": {
+      "id": "urn:marmish:native:error:v1:variant:Invalid",
+      "code": "install_manifest"
+    },
+    "metadata": {
+      "id": "urn:marmish:native:error:v1:variant:Invalid",
+      "code": "install_asset"
+    },
+    "digest": {
+      "id": "urn:marmish:native:error:v1:variant:Invalid",
+      "code": "install_digest"
+    }
+  },
+  "safety": {
+    "preflightFileType": "regular-or-final-symlink",
+    "nonblockingOpen": true,
+    "hashCeiling": "exact-size-plus-one"
+  }
+}
