@@ -306,6 +306,10 @@
 {"path":"oddlang/portable/core-relays-v1/graph.json","language":"inventory","mode":"100644","sha256":"98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff","parse_status":"inventory"}
 {"path":"oddlang/portable/core-relays-v1/rust.json","language":"inventory","mode":"100644","sha256":"e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-process-limits-package.json","language":"inventory","mode":"100644","sha256":"82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-public-error-package.json","language":"inventory","mode":"100644","sha256":"da380d3eb5d0730688a05ffc4c907130dd9ae1bb9e9a33b6dfd6198ec6da8ba1","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-public-error-v1/graph.json","language":"inventory","mode":"100644","sha256":"923dd560b5121674ae29a8eece3b7f5b75c2b99c5cfae03317213de2d6b3e32e","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-public-error-v1/process-rust.json","language":"inventory","mode":"100644","sha256":"8c13dfb5928d057e2ea7a4a65921bb26f31b823b854e14570de0748daac39cd0","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-public-error-v1/rust.json","language":"inventory","mode":"100644","sha256":"3695960cadc4b2576d6260aaa15a8c278c55f251ba8da72af8856a121f61bd23","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-package.json","language":"inventory","mode":"100644","sha256":"ea61a0423332da07cf5f4aee2f74a037bf4405274f271454d7f3eead314768db","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"1c46df7e71e10ac1fa68b0273bb3a573d6d211eb2d2334dc195921aed18f8695","parse_status":"inventory"}
 {"path":"oddlang/portable/mdk-public-data-v1/error-rust.json","language":"inventory","mode":"100644","sha256":"84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7","parse_status":"inventory"}
@@ -352,6 +356,7 @@
 {"path":"oddlang/portable/native-encrypted-init-v1/graph.json","language":"inventory","mode":"100644","sha256":"2594ebf460e65fa9c9623a40c9da10d884e77cb21f768305b2601a2a95c29832","parse_status":"inventory"}
 {"path":"oddlang/portable/native-encrypted-init-v1/package.lock","language":"inventory","mode":"100644","sha256":"e4dfa177762b65e554ff20052429d25f4310fba9ab88a55a905caebd1e1e68ca","parse_status":"inventory"}
 {"path":"oddlang/portable/native-encrypted-init-v1/rust.json","language":"inventory","mode":"100644","sha256":"4ca055550473339efe5fe56dbdde33aadac3a8111cf221de3f1788ae4c5bdf64","parse_status":"inventory"}
+{"path":"oddlang/portable/native-engine-error-identity-package.json","language":"inventory","mode":"100644","sha256":"161719d6f735910aa66cfff63c5a759c5900aff6c0261ed694fa2170bfb1431a","parse_status":"inventory"}
 {"path":"oddlang/portable/native-engine-limits-package.json","language":"inventory","mode":"100644","sha256":"9d820b65186f32e52af20916686832fb2741cbf8f006dfd9f59a6caff3f09a1a","parse_status":"inventory"}
 {"path":"oddlang/portable/native-error-package.json","language":"inventory","mode":"100644","sha256":"02baf2cf9051376b47f2b26913d4c856aa44fcd14bcc8d43dc6e083e605cbab5","parse_status":"inventory"}
 {"path":"oddlang/portable/native-error-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"d659075df7b93306290833a4004689b36d94dd21365c23da6055c027af52741f","parse_status":"inventory"}
@@ -648,6 +653,8 @@
 {"path":"oddlang/portable/workspace-v6/Cargo.lock","language":"inventory","mode":"100644","sha256":"632c7d22d53ffa4ca91a187a3fb9494493b6a987d347f49eb465ef2d7cd3f94d","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v6/foreground-graph.json","language":"inventory","mode":"100644","sha256":"0212b6eaa08f7b650ee13ded76561007c39b6fa143c43192cc7286d93a5151a2","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v6/workspace.lock","language":"inventory","mode":"100644","sha256":"e5281580b9c78886f453e488e0994acbf06cf851d2056fb36b6573adcf072a65","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-v7-engine-public-error-identity.json","language":"inventory","mode":"100644","sha256":"f29e906cd02ec8f35d71940616ce55dc377710d1051c454ea202eabb81d14c70","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-v7-engine-public-error-identity/workspace.lock","language":"inventory","mode":"100644","sha256":"d89469b03c3cb808181a154424b07ad43fcaee8191dee191e5cb5d3da950cc3c","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-native-error.json","language":"inventory","mode":"100644","sha256":"e7c223bc158b957c9970bc7c543fffbfc40cae5e115984a89fcdc31dac623b64","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-offline-cli-diagnostics.json","language":"inventory","mode":"100644","sha256":"1e4c006c1b119a1b47533559205ff629ea9f452c0fbcfb564d1091942a49e01f","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-offline-cli-diagnostics/workspace.lock","language":"inventory","mode":"100644","sha256":"08c526f909c71a9f8290e20c7c0fc7c9dc996a5162be973fe35884ca7637fc00","parse_status":"inventory"}
@@ -952,6 +959,15 @@
 {"path":"verification/whole/engine-limits/deny_darwin.c","language":"c","mode":"100644","sha256":"e8cd3a1518a1728cdf07af4fec9ae91a81adc0674704df0e6fae3004ed24b4db","parse_status":"parsed_with_omissions"}
 {"path":"verification/whole/engine-limits/observe.py","language":"python","mode":"100644","sha256":"ff94a8cf37e01cd6c4ddf64b96ccf9214eb78b056cd2a5b1b6a52e599dfaa8f5","parse_status":"parsed"}
 {"path":"verification/whole/engine-limits/observe.rs","language":"rust","mode":"100644","sha256":"2a56cdb8b4dbb24fae86780e7f70e3507458b3be4e6283ef31e34b276365415d","parse_status":"parsed"}
+{"path":"verification/whole/engine-public-error/README.md","language":"inventory","mode":"100644","sha256":"f198530f706a9873abff7bc0d7094029d8c46c49ec90d5276792a249af588bba","parse_status":"inventory"}
+{"path":"verification/whole/engine-public-error/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"0a50fa7ef635b1ddee15f8ab4397fcc299daea47bc1b1c90aa0bd5d76013f427","parse_status":"inventory"}
+{"path":"verification/whole/engine-public-error/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"9ebe2227d5f44ad0be2736fcbf230cf7595147143363faf2863337a5c6f2037c","parse_status":"inventory"}
+{"path":"verification/whole/engine-public-error/compose.py","language":"python","mode":"100644","sha256":"e1bc8bf2e19ddd9f63d987af26bdfe2944b9257367d5854bb36297c08c47952a","parse_status":"parsed"}
+{"path":"verification/whole/engine-public-error/mutate.py","language":"python","mode":"100644","sha256":"3724754f39b53ef6c6f85c6857e3ba7af88388ff058dc94d4fa6e25c413ecd5d","parse_status":"parsed"}
+{"path":"verification/whole/engine-public-error/probe.rs","language":"rust","mode":"100644","sha256":"586ad6a554de2bac5ab71fc0d84d9670749da785457c3a95e4f87c8694bb1f67","parse_status":"parsed"}
+{"path":"verification/whole/engine-public-error/selection.json","language":"inventory","mode":"100644","sha256":"e319b42e7cf50ef3d00b5380f92bfb44820b2add158f491cf3102821d9b9bd8e","parse_status":"inventory"}
+{"path":"verification/whole/engine-public-error/source-mutation-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"1e1fb1fe9f94453931245c3a222e0bf5ccbf211b3107b4ee19c2b8b3ff21c896","parse_status":"inventory"}
+{"path":"verification/whole/engine-public-error/verify.py","language":"python","mode":"100644","sha256":"eab21e40de66405f120fc24fcc57f140d78b6cb64e8fdb74228d699781e13ab7","parse_status":"parsed"}
 {"path":"verification/whole/foreground-lifecycle/README.md","language":"inventory","mode":"100644","sha256":"44834eb31ae27be1eebbb44adc642880745fe41b1c3dc7087d3cb002af32f5d5","parse_status":"inventory"}
 {"path":"verification/whole/foreground-lifecycle/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"b6db1570230bec5824bdd29cc7bbf8ee0a24491d1807b097d74a4312c581d0e9","parse_status":"inventory"}
 {"path":"verification/whole/foreground-lifecycle/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"48ab9e7992a89cac880ff7a4a206f97dee07bde7c8418f3bd9120d2f481e6ac6","parse_status":"inventory"}
@@ -1314,7 +1330,7 @@
 {"path":"verification/whole/unified-mdk/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"e40ed29e6d9c579751d606ac97398c7f085012b2d02b7a2c36944875eed4aca8","parse_status":"inventory"}
 {"path":"verification/whole/unified-mdk/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"88fbe51a7e88b8b35372beb50c39b23c6e22ab1feb6b078d637104bc09f9b9db","parse_status":"inventory"}
 {"path":"verification/whole/unified-mdk/compose.py","language":"python","mode":"100644","sha256":"a84f37a28d66f0a38a307078f67a8b9f4b2753a735a928249b0f4ec12c3bf44e","parse_status":"parsed"}
-{"path":"verification/whole/unified-mdk/verify.py","language":"python","mode":"100644","sha256":"4f1e6f1ba47ddc1711b8c9d397ec1ddde75dbae1b40955c63ec5fbe4464e9458","parse_status":"parsed"}
+{"path":"verification/whole/unified-mdk/verify.py","language":"python","mode":"100644","sha256":"0b0907a078616679475a1d905721d4d113f65cdb5a3f57c653bcf3025c4859af","parse_status":"parsed"}
 {"path":"verification/whole/unified-recovered-vault/README.md","language":"inventory","mode":"100644","sha256":"2e82165c067ee271ebe490c529ae39ea437697fa2be6986ac644d13fc027ec85","parse_status":"inventory"}
 {"path":"verification/whole/unified-recovered-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"76913cf9637bbea6c06d2072dabcd2b19e5810105703769fa9991b21f87d8542","parse_status":"inventory"}
 {"path":"verification/whole/unified-recovered-vault/fixed_bytes.rs","language":"rust","mode":"100644","sha256":"d4d0f17448e0a2aab6199f4ca232f4869739c4e6fe25b660d8851d13fb074e72","parse_status":"parsed"}

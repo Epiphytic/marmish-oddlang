@@ -1,0 +1,10 @@
+{
+  "entry": "initialize_process_limits",
+  "error": {
+    "id": "urn:marmish:engine:worker-unavailable",
+    "typePath": [
+      "EngineError"
+    ],
+    "variant": "WorkerUnavailable"
+  }
+}
