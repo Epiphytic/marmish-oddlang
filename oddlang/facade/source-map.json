@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "source": "src/lib.rs",
+  "fileSha256": "848308c07c696e6fd82a3828e96bc4ac9a8d5eb55802382085b7eadff93fa365",
+  "fileBytes": 209,
+  "graphSha256": "7ebc778259f7f2dbc3c37d5305640978941ec4b80ac06569a2058fe1b10a8ae1",
+  "buildSha256": "4723128832dc140fff55449a7c6b2136af0a4fec4956f7a50b9cd8f0c0f2204c",
+  "statementWitnesses": {
+    "26b5f410af0e141554462e85b0c4f0c824ce5c2c6207176780d95010cb0852fa": {
+      "byteStart": 185,
+      "byteEnd": 191,
+      "line": 7,
+      "column": 29,
+      "spanSha256": "dffb64dc70011ecf3ef3ad62cdd271f08f1b86601d7c2bc54f91978a32ca8cf4"
+    },
+    "2b6aac52abd3e16a9dcde4dd8fe8ff69aab334b9c7259d622b77a6eca50df826": {
+      "byteStart": 193,
+      "byteEnd": 206,
+      "line": 7,
+      "column": 37,
+      "spanSha256": "e22e3ba7698c48d043699e2db0e4d31b0c0fb08ed04f52b686469e036518a3ad"
+    },
+    "44767eb21bf1605597c9050e805ab07b6c1eb8315564c0ae218a60f4636dfae3": {
+      "byteStart": 135,
+      "byteEnd": 143,
+      "line": 6,
+      "column": 31,
+      "spanSha256": "6e77bf641ab6bd43de57599f24a06bbb923ba396e6a32ac451e8d535cf701310"
+    },
+    "5a8138f0b80d0190a03298775e98708d87daf97f3b5b03b4c6940806cb13648a": {
+      "byteStart": 97,
+      "byteEnd": 102,
+      "line": 4,
+      "column": 5,
+      "spanSha256": "9dff50df08c635815f4b19da10f756605a34a79a48d4ba48712782502975a70e"
+    },
+    "6055abfe0a75f9b2a71d3c2e65ce0e3f80a133fa00116ada23a919e464e30b24": {
+      "byteStart": 173,
+      "byteEnd": 183,
+      "line": 7,
+      "column": 17,
+      "spanSha256": "583b9c7e0cbc98878e269073f95c87f4437f5195cdd81d4d5e5c688aebbe7bf6"
+    },
+    "63d9854ecf382c3be8e76c0a54b31fe76752b720d936408e39036e27ef30212d": {
+      "byteStart": 145,
+      "byteEnd": 154,
+      "line": 6,
+      "column": 41,
+      "spanSha256": "3b1f58d94eacf04f8a8e3b342967f79889eb28ad2472bcd3692a09dd6a9e9062"
+    },
+    "7d2f2f686208f7f9eb36eeac1793aee1d84ef9ed6440fa7ff775d0fbcb74e2ce": {
+      "byteStart": 122,
+      "byteEnd": 133,
+      "line": 6,
+      "column": 18,
+      "spanSha256": "94aa6c378eb9283cf74ecdc52ea8fcfeb09ab5a229f2a11bc3393898a22469de"
+    },
+    "7f21ec1111714d35316cf96eb9b604b30bb8376e2781d726d8d44c2eb25788fe": {
+      "byteStart": 85,
+      "byteEnd": 91,
+      "line": 3,
+      "column": 5,
+      "spanSha256": "b79606fb3afea5bd1609ed40b622142f1c98125abcfe89a76a661b0e8e343910"
+    }
+  }
+}

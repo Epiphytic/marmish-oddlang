@@ -1,0 +1,529 @@
+{
+  "version": 2,
+  "source": "src/frame.rs",
+  "fileSha256": "3023d3947b16d6d108cf741a057df7214dba9a2985d6b0e3e9a6703af02576ba",
+  "sourceBytes": 2519,
+  "buildSha256": "3de01e734d04cc34f0733cf87b3c043c6896b09a7f07b66d3914849d6a684823",
+  "locations": {
+    "Envelope": {
+      "byte_start": 819,
+      "byte_end": 941,
+      "line": 30,
+      "column": 1,
+      "end_line": 35,
+      "end_column": 2
+    },
+    "FrameError": {
+      "byte_start": 398,
+      "byte_end": 710,
+      "line": 15,
+      "column": 1,
+      "end_line": 25,
+      "end_column": 2
+    },
+    "FrameError.InvalidEncoding": {
+      "byte_start": 643,
+      "byte_end": 707,
+      "line": 23,
+      "column": 5,
+      "end_line": 24,
+      "end_column": 20
+    },
+    "FrameError.InvalidJson": {
+      "byte_start": 529,
+      "byte_end": 575,
+      "line": 19,
+      "column": 5,
+      "end_line": 20,
+      "end_column": 16
+    },
+    "FrameError.InvalidVersion": {
+      "byte_start": 581,
+      "byte_end": 637,
+      "line": 21,
+      "column": 5,
+      "end_line": 22,
+      "end_column": 19
+    },
+    "FrameError.SizeLimit": {
+      "byte_start": 463,
+      "byte_end": 523,
+      "line": 17,
+      "column": 5,
+      "end_line": 18,
+      "end_column": 14
+    },
+    "Limits": {
+      "byte_start": 117,
+      "byte_end": 243,
+      "line": 5,
+      "column": 1,
+      "end_line": 7,
+      "end_column": 19
+    },
+    "Limits.JSON_BYTES": {
+      "byte_start": 307,
+      "byte_end": 347,
+      "line": 11,
+      "column": 5,
+      "end_line": 11,
+      "end_column": 45
+    },
+    "Limits.NDJSON_BYTES": {
+      "byte_start": 352,
+      "byte_end": 394,
+      "line": 12,
+      "column": 5,
+      "end_line": 12,
+      "end_column": 47
+    },
+    "Limits.RAW_BYTES": {
+      "byte_start": 263,
+      "byte_end": 302,
+      "line": 10,
+      "column": 5,
+      "end_line": 10,
+      "end_column": 44
+    },
+    "Limits.impl": {
+      "byte_start": 245,
+      "byte_end": 396,
+      "line": 9,
+      "column": 1,
+      "end_line": 13,
+      "end_column": 2
+    },
+    "ProbeEnvelope": {
+      "byte_start": 712,
+      "byte_end": 817,
+      "line": 27,
+      "column": 1,
+      "end_line": 28,
+      "end_column": 26
+    },
+    "ProbeEnvelope.impl": {
+      "byte_start": 943,
+      "byte_end": 2518,
+      "line": 37,
+      "column": 1,
+      "end_line": 79,
+      "end_column": 2
+    },
+    "base64": {
+      "byte_start": 0,
+      "byte_end": 56,
+      "line": 1,
+      "column": 1,
+      "end_line": 1,
+      "end_column": 57
+    },
+    "decode.base64-decode": {
+      "byte_start": 2155,
+      "byte_end": 2270,
+      "line": 68,
+      "column": 9,
+      "end_line": 70,
+      "end_column": 56
+    },
+    "decode.canonical": {
+      "byte_start": 2381,
+      "byte_end": 2492,
+      "line": 74,
+      "column": 9,
+      "end_line": 76,
+      "end_column": 10
+    },
+    "decode.encoded-bound": {
+      "byte_start": 1825,
+      "byte_end": 1877,
+      "line": 62,
+      "column": 9,
+      "end_line": 62,
+      "end_column": 61
+    },
+    "decode.encoded-limit": {
+      "byte_start": 1886,
+      "byte_end": 1984,
+      "line": 63,
+      "column": 9,
+      "end_line": 65,
+      "end_column": 10
+    },
+    "decode.json-decode-closed": {
+      "byte_start": 1614,
+      "byte_end": 1719,
+      "line": 57,
+      "column": 9,
+      "end_line": 58,
+      "end_column": 81
+    },
+    "decode.json-limit": {
+      "byte_start": 1511,
+      "byte_end": 1605,
+      "line": 54,
+      "column": 9,
+      "end_line": 56,
+      "end_column": 10
+    },
+    "decode.raw-limit": {
+      "byte_start": 2279,
+      "byte_end": 2372,
+      "line": 71,
+      "column": 9,
+      "end_line": 73,
+      "end_column": 10
+    },
+    "decode.return-bytes": {
+      "byte_start": 2501,
+      "byte_end": 2510,
+      "line": 77,
+      "column": 9,
+      "end_line": 77,
+      "end_column": 18
+    },
+    "decode.signature": {
+      "byte_start": 1446,
+      "byte_end": 1500,
+      "line": 53,
+      "column": 9,
+      "end_line": 53,
+      "end_column": 63
+    },
+    "decode.version": {
+      "byte_start": 1728,
+      "byte_end": 1816,
+      "line": 59,
+      "column": 9,
+      "end_line": 61,
+      "end_column": 10
+    },
+    "encode.json-encode-base64": {
+      "byte_start": 1139,
+      "byte_end": 1309,
+      "line": 42,
+      "column": 9,
+      "end_line": 46,
+      "end_column": 48
+    },
+    "encode.json-limit": {
+      "byte_start": 1318,
+      "byte_end": 1412,
+      "line": 47,
+      "column": 9,
+      "end_line": 49,
+      "end_column": 10
+    },
+    "encode.raw-limit": {
+      "byte_start": 1037,
+      "byte_end": 1130,
+      "line": 39,
+      "column": 9,
+      "end_line": 41,
+      "end_column": 10
+    },
+    "encode.return-frame": {
+      "byte_start": 1421,
+      "byte_end": 1430,
+      "line": 50,
+      "column": 9,
+      "end_line": 50,
+      "end_column": 18
+    },
+    "encode.signature": {
+      "byte_start": 972,
+      "byte_end": 1026,
+      "line": 38,
+      "column": 9,
+      "end_line": 38,
+      "end_column": 63
+    },
+    "serde": {
+      "byte_start": 57,
+      "byte_end": 93,
+      "line": 2,
+      "column": 1,
+      "end_line": 2,
+      "end_column": 37
+    },
+    "thiserror": {
+      "byte_start": 94,
+      "byte_end": 115,
+      "line": 3,
+      "column": 1,
+      "end_line": 3,
+      "end_column": 22
+    }
+  },
+  "spanSha256": {
+    "Envelope": "425c2e5b747ef5aefa8767a75ecbbed9834ec1e928daf89f1fe3832470eb5bdd",
+    "FrameError": "2c4fa4459552ca930eff14f356e6f11a85df65deba2dd7721002658fa13ccd9f",
+    "FrameError.InvalidEncoding": "f294cad3cb38f4cb9720a51ac9732105f795b6f1f96e92bf42d52ba80a451991",
+    "FrameError.InvalidJson": "686289aaaa2866212b62400ee366fb643994e0578fb5098944817852dc0488e3",
+    "FrameError.InvalidVersion": "6057ed212eb3df522504c1866fbd05adb93da3ab9997d4256dd59c1c00812145",
+    "FrameError.SizeLimit": "258307d6d15d57489f1d2bf5e83fb32d363db354e902c1657d73b8d3f0733912",
+    "Limits": "0fbb2e62225834759ce722cfeedf7410247550b8a2424c8e40b1e6ff0c7d818a",
+    "Limits.JSON_BYTES": "062776e25bf8f2666cfedce3bc56270d1d812b105db6a4b8ab67277620cf735e",
+    "Limits.NDJSON_BYTES": "959249b39968d162999f97076b6866ae37ecd3a4c2cb995c60840818af612910",
+    "Limits.RAW_BYTES": "31bb7e357a907bf5f95ad7a13f3cc2a02c0293eb626186b9e9104dd243719964",
+    "Limits.impl": "16c44ae52fff405b8e832cb575c98050f9907ed1e2a46288bf543d3187b16932",
+    "ProbeEnvelope": "0e04d253bff4a09614ede16158fc43e69368ec89f2f83a5a20f36ca918c1bfb0",
+    "ProbeEnvelope.impl": "a97216dc9dd1cc347e5e27377ecbcef0d5d950f14a5f619c8e2adde9ce08afa7",
+    "base64": "42a4335d65c2fa0c3d0a11f8e0ee384b9f7e9890eedaaaf4a861bf34f54bd23d",
+    "decode.base64-decode": "5160a1d1ae56db774bdfea1fea59e045ac6ffac7447ac556dd6683a43a5a89d3",
+    "decode.canonical": "328e082ab918b4e5c3be73d5793de7030787bc20c4ada08adb5093f000204466",
+    "decode.encoded-bound": "3cff2453f28997694be2bc086164fcf2d2e3afd45ae32ad78c94fa4a997f5e3e",
+    "decode.encoded-limit": "3b11f023412017458ff38ef06999515903bb3f4498c5a3e1c3cce9938b35ebc5",
+    "decode.json-decode-closed": "2e61f52dbba229ae2d9e33bee27b7f6a48607e5052cc420493f471406fb2579e",
+    "decode.json-limit": "0ab14c0dd99d402641736de43a8b66acae36e80e182b754f81e63224335589d9",
+    "decode.raw-limit": "b4666d8d1b5b64ecc1dc9ed73233dc5d0eddc921f16c4e7b215bc1d11bc53d2f",
+    "decode.return-bytes": "30644111639144b5741be56b4862516c6739fc7919b8541bed44c8e2956c15ae",
+    "decode.signature": "41a0fc10bafb14d96ab9d9044958d14e5b6f24ef4da718ae6b94539aafebd0da",
+    "decode.version": "8a06dd64d2d3e965942a8998563598ec274d5e3677d33fbaea7140e8147760e6",
+    "encode.json-encode-base64": "f5f5b668c3afe83c4926d64abe888b26c37c88a3b4ded6ae64f6f66155c6342f",
+    "encode.json-limit": "0ab14c0dd99d402641736de43a8b66acae36e80e182b754f81e63224335589d9",
+    "encode.raw-limit": "b4666d8d1b5b64ecc1dc9ed73233dc5d0eddc921f16c4e7b215bc1d11bc53d2f",
+    "encode.return-frame": "d1b3449b2352091416d80a05d4a33067f0f5a8e9da43b93ae72fa5252564ff3f",
+    "encode.signature": "bc966dac27e0dfc88a6b09ba794154906426454cf2bece11e0927364dc306fbb",
+    "serde": "f1e25e7f6e7e947594cb9df31541a370fcb52a8fcf8f63cad5cf72e276e5cdb6",
+    "thiserror": "00d469a03da32bf1a1fbbfbd1218b456302b3fead394ff184d6e5b128334f0be"
+  },
+  "facts": {
+    "002c495c1f1f786e9bca3091b2e874ce5d6d63f91a46dc3853da31ceca3ad935": {
+      "sites": [
+        "Limits.NDJSON_BYTES"
+      ],
+      "bindingSha256": "fbf4b0fe1227f61f52b6a1669b49b4f01f8051ea6af31b94e258fd3438778760"
+    },
+    "03d81327680dd8dd116c24ef18253d3b07fa693419ef465c2480441f767cb647": {
+      "sites": [
+        "decode.signature"
+      ],
+      "bindingSha256": "7bfcbf30ea6eb496640a154e9a4a7d9051898904959341562acd7a8ec7fd3626"
+    },
+    "0ed40a5081da32b02fca713d8ca8296dd661ac9278f9882cc09ad3df7e7b3337": {
+      "sites": [
+        "encode.signature"
+      ],
+      "bindingSha256": "a3231c8e2e91024bc9e5652e3d4ea3d4759747491216b6180b2b93610220d45f"
+    },
+    "130d0eda9344ead8916088300c1d17fe89d81d4600f985f0f72b267abb142a61": {
+      "sites": [
+        "Limits.RAW_BYTES"
+      ],
+      "bindingSha256": "d90386aa801c751dfece92d30ff4ffe1738f35b728206ec09c058dc00f775ceb"
+    },
+    "15540d52e445234785530a23b9ceae4a5fd4cf28d0cdc73f4c6235c2c2fa4c83": {
+      "sites": [
+        "base64",
+        "encode.json-encode-base64",
+        "decode.base64-decode",
+        "decode.canonical"
+      ],
+      "bindingSha256": "be93bea8c15ee5f73b9e84dbe0e1b9a79f7f6938ddd05cf00593952101180770"
+    },
+    "19c8f0a2e9750bcfbdf77d5386820fda22daecec3274bb73a594b6bcac2a7e9a": {
+      "sites": [
+        "FrameError.InvalidVersion"
+      ],
+      "bindingSha256": "a26131bbaab544d686cf11494d9edd521ae241be85537cd0cb648a18f3745fb8"
+    },
+    "28f1ad41f9b30778c5987420e5ba68213f6f8351320d0426f6b8e59475cbd4a7": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "f0a63a04f0fe145dde56c9cfe959baca32388d7551ef681db4fe51a9e189e4fb"
+    },
+    "2b0aa5b2dff71022995d43875dad7138205463290b4072a2c765acd9a113bfca": {
+      "sites": [
+        "decode.json-decode-closed"
+      ],
+      "bindingSha256": "d201c0141e95afece2a4896e87d12e24018cbd6ebb9daaa51a59199ee2d014fd"
+    },
+    "3022d68ecb55d454a014c6c130a40ae286965b527e2f8547711f9da19dcdb065": {
+      "sites": [
+        "decode.signature"
+      ],
+      "bindingSha256": "d0fa2b7226a52940ff3e7ae06d88d41ed6d81b793fbe7492cbd1d8b78bf9b9e3"
+    },
+    "3ead62d879e2f0c04cfa5367cd69a688cb413ae825107e9abb0e0460252e9700": {
+      "sites": [
+        "encode.json-encode-base64"
+      ],
+      "bindingSha256": "80d1ea39ab982a5290cbcb35b0e3c43a8c70976ac3d301093317366759e4773a"
+    },
+    "43b26efe99fe2bac99caa551f9d07edee74e18f5e5cc141df5fe238e37a1ab11": {
+      "sites": [
+        "decode.raw-limit"
+      ],
+      "bindingSha256": "3443366e099b05d635a1ddfa0f9fc0feba530e1e87420a13ae6917e8b2cdd1b4"
+    },
+    "48c437cfb08dc0ea332bfa7e381d88893d15341176b7187da760771c53fda2f1": {
+      "sites": [
+        "encode.return-frame"
+      ],
+      "bindingSha256": "3f631b88f06b645143662c8f0beef6144ae716a7a969215cd683e6723a1ac27a"
+    },
+    "4c419b53221eff65ca115f4c406783dcf27435a469a85bdde52f86e602c60fd9": {
+      "sites": [
+        "decode.canonical"
+      ],
+      "bindingSha256": "5fae34046519e50a05ee3497db67abf75a389b7fd46f02601699823af25f4e66"
+    },
+    "5290cb062de8eee422ed1df3a8d6a1111f6da16b6e26f659e23c6c896fcf63e7": {
+      "sites": [
+        "decode.version"
+      ],
+      "bindingSha256": "e53b5a489ce668e2c97e927ebc8be40bb60fc66d1f71a73c615389c315bb1b67"
+    },
+    "52b5797353772922d28e410380961950754fd96c8cfe22b842fd6ebd9da04a52": {
+      "sites": [
+        "decode.json-limit"
+      ],
+      "bindingSha256": "fc10f053565b566bb80f04b88d04f1a396c4f8af8a09b3cc02b87a20231da857"
+    },
+    "6aab718c0df2c2f884eb4e7bb3a624732bb6a4082dbb6ea16d5098818b480c9c": {
+      "sites": [
+        "Limits.RAW_BYTES",
+        "encode.raw-limit",
+        "decode.raw-limit",
+        "decode.encoded-bound"
+      ],
+      "bindingSha256": "08896a67497c3d79e86f1f0069eb21367d683e2f1d740c9559993b2428b4613c"
+    },
+    "7485b6bf8ce22233197e8dfd68ce7a0f86131178c8c8eb5c9e96936a80cab67d": {
+      "sites": [
+        "Limits"
+      ],
+      "bindingSha256": "2d0493699b8755206f2779a98fe5352b601c9d8cf7ad7bdc307b96417d9f777c"
+    },
+    "7b5f59a9152fd0ee58e753d4ca048ee89e6c1cb063aaaadd35f694ece5f9385b": {
+      "sites": [
+        "FrameError.InvalidEncoding"
+      ],
+      "bindingSha256": "600e6e6fb59b6cc018006815695d628bd45dc4d9671e840b178149346cb68904"
+    },
+    "8e3badea2ec2d18476cc12ffa759699f2710995b1041b7c0ee1a7c5b4df8e5c8": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "120611f6477c09eb84393235c022f205b1ba5e03737efaf179288ef6ef14d714"
+    },
+    "90c31325e0faac9dd3b418f02c53855d12b3f5a6f7f201c68202b4719b6c875f": {
+      "sites": [
+        "encode.json-encode-base64",
+        "decode.version"
+      ],
+      "bindingSha256": "9861704d7407eb32828a99aaa34c7d6c53a9c5df8951f3727fad542c10cc3ed2"
+    },
+    "91f707e864300964d6ebb8d03c863e911fd733ba830a59b6be5dca58291c2c02": {
+      "sites": [
+        "ProbeEnvelope"
+      ],
+      "bindingSha256": "20cf652a9c9771d8cafa0eb58a7880a7e7adb1158ff29395a4ecf9e0e123064b"
+    },
+    "97fc73505a7697ca40a7f3e77e0b96fb2163f5281823c0822a3a4ccdb8324848": {
+      "sites": [
+        "encode.json-limit"
+      ],
+      "bindingSha256": "dcc6e47df27fa688a639858895dd5ae4aa0526cad1f83fe367120508541be14e"
+    },
+    "a1035afc891308167cc61ede21d21bbeb68ce26587ef513b0c9b537a81672d94": {
+      "sites": [
+        "encode.signature"
+      ],
+      "bindingSha256": "d0ef39d892d299f81e939b94214aaae7750866a0b8fa6caa3aecc8a0ee525c04"
+    },
+    "a7c0bbbee9f0eccc77a79f6b4459f74ee73c4b4ab16fad918bb3271d02d0f709": {
+      "sites": [
+        "Limits.JSON_BYTES"
+      ],
+      "bindingSha256": "1eef98d8ed5fca118a197c93c16d787b7299cc0173c2ff792364c6c8688539f9"
+    },
+    "aae3211e23137b1959017ac1f6cedbce737b233843f34bb77725e80ca8a16ac1": {
+      "sites": [
+        "decode.encoded-limit"
+      ],
+      "bindingSha256": "c2a940df4ce8462af023d9747aae91690adc0e38bdf5f9edafa99270dacae3c4"
+    },
+    "b0160b5bd8e497c95f3c0a60e46cbe0cb0a7f2456d91ae7771da98e7239adba8": {
+      "sites": [
+        "FrameError"
+      ],
+      "bindingSha256": "2136cd2e6cce0f1870085d8e08f29b04457105df7c83ac2c8e8d363d6d4cf484"
+    },
+    "b1b6435ad03e6c3973be0aa393fb201776c46d9c3486730e37ccb54e4674bacc": {
+      "sites": [
+        "decode.return-bytes"
+      ],
+      "bindingSha256": "530455f32de2701a6004e9f4f8993ae1c367e9264808ab4f5827d0dc6fc2bb77"
+    },
+    "b36cb8f7eb49b101692c9021473576d92cd606c8331a987da551eb4d544b617d": {
+      "sites": [
+        "Limits.JSON_BYTES",
+        "encode.json-limit",
+        "decode.json-limit"
+      ],
+      "bindingSha256": "1fc8e4de69c7f77b526ecf5105283db24f39c544e943e7d41e17157b6e789326"
+    },
+    "b5b096de4318130ce079b92bb66285f4e71e6b9d169c92df559aafe3046aab91": {
+      "sites": [
+        "encode.raw-limit"
+      ],
+      "bindingSha256": "e9ed6aa8c12cbf4598549f09b7e7e59eaa52b81391c0f66bbd98f47fc27af5ec"
+    },
+    "ba9e9d0f06a0a2e643b14126b5a10349a6dea1cc38ff79603c6ceee4b8b0e4d7": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "58ae39d9590e3713a6ddb54b7d353d53a3fcfb8fd9c312dccd352fe2cfc7e253"
+    },
+    "bc8af62265204f39ddd110e73dc68288f0107426a4a4a079182ccd53cafe0701": {
+      "sites": [
+        "FrameError.SizeLimit"
+      ],
+      "bindingSha256": "419a1b3627e1df718d7ea5a4543befa70983edfc353fb56d08c286f577b0a3f8"
+    },
+    "bd43e8a0a3dd030909ff2166e67b0854630b2991df49b18ebcee7b6f77ade062": {
+      "sites": [
+        "Limits.NDJSON_BYTES"
+      ],
+      "bindingSha256": "82b7af4bef12574e871cc88ebe4252ded658b1d279ed90021c743b4b79439fa7"
+    },
+    "bdcc4b3f24eb2f1a4e7493e4c76c3991d4638c40e3476e3ed2ecd6c97fd47d2f": {
+      "sites": [
+        "ProbeEnvelope.impl"
+      ],
+      "bindingSha256": "e4b8f4cddd469c470ddb2d0511b1f03e9d8d150bfc142d95d0a22247ca928770"
+    },
+    "be06ccc729075368a2c2221400d27879292bafea7d66e4b1334e76abc6f22ccb": {
+      "sites": [
+        "FrameError.InvalidJson"
+      ],
+      "bindingSha256": "00340785fea36a299a950b514ec47607ba1e188706ed9517aed31a8c2eee10da"
+    },
+    "e780dbfd1535cd75075d26ff2aa8b381af791b1e7eebbe221f0bad4a23afd340": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "441fbb8e9186297677e176a016f674b8b30d24c55f38cfd2fb615cdffeddd3e4"
+    },
+    "f0ef5cc7bb2bfeb07f7162babb746bba3bde45756549745637e6329c038a5bf7": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "bb7e37e229b535ba63b0873d5b22e6096f3e20f6295e62b8eff5b97c6e7c8b86"
+    },
+    "f3d0b88a55d5690aacf55cdf78c869ff4f475871f224d2ceb799eb1d77729c2b": {
+      "sites": [
+        "Envelope"
+      ],
+      "bindingSha256": "dcf2b5b28f2e992e9b362ada77398d18faaebbd6b50931541cac5282e479821f"
+    },
+    "fe67d2f68493f862953d58166821ba958079c53ea3ad3e84fc273069e5f04f84": {
+      "sites": [
+        "decode.base64-decode"
+      ],
+      "bindingSha256": "c822d7f5f65fae2a4f59f3496f0bcf5253720d17dce28fe90652c25719c19821"
+    }
+  }
+}

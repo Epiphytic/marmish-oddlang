@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "profile": "rust-facade-v1",
+  "graphSha256": "7ebc778259f7f2dbc3c37d5305640978941ec4b80ac06569a2058fe1b10a8ae1",
+  "files": {
+    "domain.ttl": "7ebc778259f7f2dbc3c37d5305640978941ec4b80ac06569a2058fe1b10a8ae1",
+    "source-map.json": "a6800b38bbb8a26812627fcd62e2899e29f43288e2a409849faaca746fc3ccfe"
+  },
+  "mappingSha256": "43dea7ea0aa3a5719251f3e0c9f5ef829ae27a97fb967205dbff1297d10220b1",
+  "build": {
+    "compiler": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6\n",
+    "target": "aarch64-apple-darwin",
+    "edition": "2021",
+    "package": "marmish-core",
+    "inputs": {
+      "Cargo.toml": "902f311af435a59a6929bc1a55677caa68491ead24aff5f20277884dddc10377",
+      "src/config.rs": "2d39557b91c89de5c7790a53e35fd76f3ab94fbb5a8df43ed348da749cc81140",
+      "src/frame.rs": "3023d3947b16d6d108cf741a057df7214dba9a2985d6b0e3e9a6703af02576ba",
+      "src/lib.rs": "848308c07c696e6fd82a3828e96bc4ac9a8d5eb55802382085b7eadff93fa365"
+    },
+    "workspaceSha256": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53",
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "observedTypes": 6,
+    "witnessSha256": "30a1e8444fee9ed1b58890fb8169d8221febb62676a34ddb02fd0b67beba26cf",
+    "consumerSha256": "00010e48f45e00c53688f0c1dfa8dc00caffa5c1abb2a5d01a4dcbb72d95bbc0"
+  }
+}
