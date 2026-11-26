@@ -119,13 +119,25 @@ def select_exact(product, name, env):
         raise ValueError(f"missing native execution of {name}")
 
 
-def private_import(artifact, caller, output):
-    deps = artifact.parent / "deps"
-    if not deps.is_dir():
-        deps = artifact.parent
+def private_import(build, caller, output, host):
+    artifact = SIX["artifact"](build, "marmish_native")
+    dependency = SIX["artifact"](build, "serde_json").parent
+    rows = [json.loads(line) for line in build.splitlines()]
+    native_metadata = [
+        Path(path) for row in rows
+        if row["reason"] == "compiler-artifact" and row["target"]["name"] == "marmish_native"
+        for path in row["filenames"] if path.endswith(".rmeta")
+    ]
+    if native_metadata:
+        artifact, = native_metadata
+    linked = sorted({path for row in rows if row["reason"] == "build-script-executed"
+                     for path in row["linked_paths"]})
     source = subprocess.run(
-        ["rustc", "+1.97.1", "--edition=2024", "--crate-type=lib", "--emit=metadata", "--error-format=json",
-         caller, "-L", f"dependency={deps}", "--extern", f"marmish_native={artifact}", "-o", output],
+        ["rustc", "+1.97.1", "--edition=2024", "--target", host,
+         "--crate-type=lib", "--emit=metadata", "--error-format=json", caller,
+         "-L", f"dependency={dependency}", "-L", f"dependency={artifact.parent}",
+         "--extern", f"marmish_native={artifact}", "-o", output,
+         *(arg for path in linked for arg in ("-L", path))],
         capture_output=True, text=True, timeout=60)
     errors = [diag for line in source.stderr.splitlines() if line.startswith("{")
               and (diag := json.loads(line)).get("level") == "error" and diag.get("code") is not None]
@@ -142,6 +154,15 @@ def manifest_oracle(args, host, scratch, product, build):
     lib = native / "src/lib.rs"
     original_source, original_lib = leaf.read_bytes(), lib.read_bytes()
     native_build_env = SIX["JOURNAL"]["cargo_env"]()
+    # Use Cargo's sealed build artifacts before Rustdoc runs its check
+    # profile through the same dependency cache.
+    privacy = scratch / "outside.rs"
+    privacy.write_text("pub use marmish_native::native_manifest::Manifest;\n")
+    original_build = SIX["cargo_reference"](args, MEMBER)
+    privacy_witness = {
+        "original": private_import(original_build, privacy, scratch / "original.rmeta", host),
+        "generated": private_import(build, privacy, scratch / "generated.rmeta", host),
+    }
     generated_doc = DIFFERENTIAL["rustdoc"](product, product / "target", native_build_env)
     reference_doc = DIFFERENTIAL["rustdoc"](args.original, args.original_target, native_build_env)
     graph = data(PORTABLE / "release-manifest-v1/graph.json")
@@ -149,15 +170,6 @@ def manifest_oracle(args, host, scratch, product, build):
     shape = SHAPES["shape"](generated_doc, leaf.relative_to(product).as_posix())
     if shape != SHAPES["shape"](reference_doc, SOURCE) or shape != SHAPES["declared"](graph, binding):
         raise ValueError("native library records changed when integrated")
-    privacy = scratch / "outside.rs"
-    privacy.write_text("pub use marmish_native::native_manifest::Manifest;\n")
-    original_build = SIX["cargo_reference"](args, MEMBER)
-    privacy_witness = {
-        "original": private_import(SIX["artifact"](original_build, "marmish_native"), privacy,
-                                   scratch / "original.rmeta"),
-        "generated": private_import(SIX["artifact"](build, "marmish_native"), privacy,
-                                    scratch / "generated.rmeta"),
-    }
 
     source_cases = unchanged_tests(args.original)
     official = data(OBSERVATIONS / f"{host}.json")
