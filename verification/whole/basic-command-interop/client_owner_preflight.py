@@ -2,6 +2,7 @@
 """Record the pinned client handoff to a test-owned Unix socket."""
 
 import argparse
+import errno
 import json
 from pathlib import Path
 import platform
@@ -93,7 +94,11 @@ def exchange(listener, request, response):
         if reader.read(1):
             raise ValueError("owner request was not half-closed")
         connection.sendall(frame(response))
-        connection.shutdown(socket.SHUT_WR)
+        try:
+            connection.shutdown(socket.SHUT_WR)
+        except OSError as error:
+            if error.errno != errno.ENOTCONN:
+                raise
         return frame(body).hex(), dynamic_ids
 
 

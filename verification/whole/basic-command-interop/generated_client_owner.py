@@ -151,7 +151,7 @@ def verify(binary, expected_digest):
     expected = read(REFERENCE)
     ids = []
     results = {}
-    with tempfile.TemporaryDirectory(prefix="odd-candidate-owner-", dir="/private/tmp") as directory:
+    with tempfile.TemporaryDirectory(prefix="oc-", dir="/private/tmp") as directory:
         root = Path(directory)
         for position, name in enumerate(SCOPED_CASES):
             work = root / str(position)
