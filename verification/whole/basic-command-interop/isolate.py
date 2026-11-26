@@ -6,10 +6,13 @@ import pwd
 import signal
 import subprocess
 import tempfile
+import time
 
 
 SYSTEM_HOME = Path(pwd.getpwuid(os.geteuid()).pw_dir).resolve()
 SANDBOX = "/usr/bin/sandbox-exec"
+PROBE_EXECUTABLES = ("/bin/cat", "/bin/ls", "/bin/sleep", "/usr/bin/security",
+                     "/usr/bin/stat", "/usr/bin/touch")
 
 
 class Instance:
@@ -18,10 +21,11 @@ class Instance:
         self.root.mkdir(mode=0o700)
         self.tmp = root / "tmp"
         self.tmp.mkdir(mode=0o700)
-        self.profile = root / "sandbox.sb"
-        self.profile.write_text(
+        self.profile = root.parent / f"{root.name}.sb"
+        self.policy = (
             "(version 1)\n(allow default)\n"
             f"(deny file-read* (subpath {json.dumps(str(SYSTEM_HOME))}))\n"
+            f"(allow file-read-metadata (literal {json.dumps(str(SYSTEM_HOME))}))\n"
             f"(deny file-read* (subpath {json.dumps(str(root.parent))}))\n"
             f"(allow file-read* (subpath {json.dumps(str(root))}))\n"
             f"(allow file-read* (literal {json.dumps(str(root.parent))}))\n"
@@ -31,6 +35,13 @@ class Instance:
             "(allow mach-lookup (global-name \"com.apple.system.opendirectoryd.libinfo\"))\n"
         )
         self.processes = []
+        self.allow_executables(PROBE_EXECUTABLES)
+
+    def allow_executables(self, paths):
+        filters = " ".join(f"(literal {json.dumps(str(Path(path).resolve(strict=True)))})"
+                           for path in paths)
+        self.profile.write_text(self.policy + f"(deny process-exec)\n(allow process-exec {filters})\n"
+                                f"(deny file-write* {filters})\n")
 
     def start(self, arguments, **kwargs):
         process = subprocess.Popen(
@@ -59,10 +70,13 @@ class Instance:
         result = self.run(["/bin/cat", read_sentinel], timeout=5)
         if not result.returncode or result.stdout:
             raise ValueError("sandbox allowed an external read")
+        profile_write = self.run(["/usr/bin/touch", self.profile], timeout=5)
+        if not profile_write.returncode:
+            raise ValueError("sandbox profile is mutable from within its instance")
         result = self.run(["/usr/bin/touch", write_sentinel], timeout=5)
         if not result.returncode or write_sentinel.exists():
             raise ValueError("sandbox allowed an external write")
-        result = self.run(["/bin/ls", "-d", SYSTEM_HOME], timeout=5)
+        result = self.run(["/bin/ls", "-A", SYSTEM_HOME], timeout=5)
         if not result.returncode or result.stdout:
             raise ValueError("sandbox allowed access to the real home")
         result = self.run(["/usr/bin/security", "default-keychain", "-d", "user"], timeout=5)
@@ -87,7 +101,7 @@ class Instance:
                     except ProcessLookupError:
                         pass
                     try:
-                        process.wait(timeout=5)
+                        process.wait(timeout=35)
                     except subprocess.TimeoutExpired:
                         os.killpg(process.pid, signal.SIGKILL)
                         process.wait(timeout=5)
@@ -107,6 +121,9 @@ class Workspace:
         self.temp = tempfile.TemporaryDirectory(dir="/tmp", prefix="od-bi-")
         self.root = Path(self.temp.name).resolve()
         self.instances = []
+        self.owned_interpreters = {}
+        self.cleanup_verified = False
+        self.residual_workers_terminated = 0
         self.read_sentinel = self.root / "external-read-probe"
         self.read_sentinel.write_bytes(b"sandbox read probe")
         self.original_handlers = {}
@@ -124,6 +141,47 @@ class Workspace:
         instance.prove(self.read_sentinel, self.root / "external-write-probe")
         return instance
 
+    def owned_processes(self):
+        rows = subprocess.check_output(["/bin/ps", "-axo", "pid=,comm="], text=True).splitlines()
+        result = {}
+        for row in rows:
+            fields = row.split(None, 1)
+            if len(fields) != 2:
+                continue
+            pid, executable = int(fields[0]), fields[1]
+            if executable.startswith(f"{self.root}/") or self.owns_interpreter(pid, executable):
+                result[pid] = executable
+        return result
+
+    def owns_interpreter(self, pid, executable):
+        expected_cwd = self.owned_interpreters.get(executable)
+        if expected_cwd is None:
+            return False
+        # Read only the working directory of an admitted interpreter, never its argv.
+        result = subprocess.run(["/usr/sbin/lsof", "-n", "-P", "-a", "-p", str(pid), "-d", "cwd", "-Fn"],
+                                capture_output=True, text=True, timeout=2)
+        return result.returncode == 0 and f"n{expected_cwd}" in result.stdout.splitlines()
+
+    def stop_residual_workers(self):
+        # Native command workers create sessions outside the daemon process group.
+        for pid in self.owned_processes():
+            if pid not in self.owned_processes():
+                continue
+            try:
+                group = os.getpgid(pid)
+                if group == pid:
+                    os.killpg(group, signal.SIGKILL)
+                else:
+                    os.kill(pid, signal.SIGKILL)
+                self.residual_workers_terminated += 1
+            except ProcessLookupError:
+                pass
+        deadline = time.monotonic() + 5
+        while self.owned_processes():
+            if time.monotonic() >= deadline:
+                raise RuntimeError("workspace executable survived teardown")
+            time.sleep(0.05)
+
     def __exit__(self, *_exception):
         try:
             for signum in self.original_handlers:
@@ -134,11 +192,13 @@ class Workspace:
                     instance.stop()
                 except RuntimeError as error:
                     failures.append(error)
+            try:
+                self.stop_residual_workers()
+            except (OSError, RuntimeError, subprocess.SubprocessError) as error:
+                failures.append(error)
             if failures:
                 raise RuntimeError("owned workspace cleanup failed") from failures[0]
-            executables = subprocess.check_output(["/bin/ps", "-axo", "comm="], text=True)
-            if any(line.strip().startswith(f"{self.root}/") for line in executables.splitlines()):
-                raise RuntimeError("workspace executable survived teardown")
+            self.cleanup_verified = True
         finally:
             try:
                 self.temp.cleanup()
