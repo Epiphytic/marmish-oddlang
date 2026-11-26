@@ -1377,3 +1377,5 @@ repository checks freshness on the exact staged or committed Git tree.
 Release workflows validate the candidate source before builds and
 publication. See the [phase design](phases/code-ontology.md) for coverage,
 parser limits, and the installer cutover boundary.
+
+The three-member Oddlang release pins the core, stream and partial command-line packages under one Cargo workspace. Its stream package combines the existing windows and wire surfaces. The release evidence covers 25 unchanged upstream tests on native macOS ARM64 and Linux ARM64. The daemon in this version implements the CLI grammar. The status client requires explicit state and socket paths. Later typed digest and reply contracts can be versioned separately. [Combined workspace](../verification/whole/workspace/README.md)

@@ -1,0 +1,39 @@
+{
+  "framework": "911614cef63a84ecf840cb1228c8a944f1d54d48",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaceLockSha256": "df18b74759d8ebe4ebba14ca57119417f17c9d28414d69988c127ed2fa2cd1fe",
+  "qualification": "Linux aarch64, release, source and network isolated",
+  "testModules": {
+    "coreContracts": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a",
+    "codec": "8f22f6113ec0ccf903ba62127b84e73d77841fbca2ca00d26d6ac6f8d0332d2c",
+    "windows": "34cdb8cbbdc542171ae9602d857520bd82c35cf9fb921f2143664fa82e73cff7",
+    "wire": "770b8765497ea5b53ae08505c390700594b1f9d21068fa5a0316f5b02c9f4d02"
+  },
+  "tests": [
+    "bounded_opaque_bytes_round_trip",
+    "canonical_urls_deduplicate_in_order",
+    "codec::__projection_1::tests::incompressible_maximum_block_uses_none",
+    "codec::__projection_1::tests::rejects_bounds_and_length",
+    "codec::__projection_1::tests::rejects_corruption_truncation_frames_and_dictionary",
+    "codec::__projection_1::tests::rejects_nonbeneficial_zlib_representation",
+    "codec::__projection_1::tests::roundtrips_and_fallback",
+    "diagnostics_never_echo_raw_values",
+    "hostile_json_version_and_encoding_are_rejected",
+    "loopback_is_explicit_and_private_literals_stay_denied",
+    "no_defaults_or_extra_url_components",
+    "retention_distinguishes_default_from_disabled_and_bounds_numbers",
+    "windows::__projection_6::tests::boundary_failures_do_not_mutate_windows",
+    "windows::__projection_6::tests::bounded_output_reclaims_only_consumed_prefix",
+    "windows::__projection_6::tests::exact_retry_conflict_gap_eof_and_partial_delivery",
+    "windows::__projection_6::tests::many_windows_remain_binary_exact_and_bounded",
+    "windows::__projection_6::tests::receipt_memory_and_tiny_chunk_counts_are_bounded",
+    "wire_caller::tests::age_only_checks_open_and_immutable_digest_excludes_sequence",
+    "wire_caller::tests::base64_is_strict_and_nested_unknown_fields_fail",
+    "wire_caller::tests::cancelled_terminal_requires_accepted_cancellation",
+    "wire_caller::tests::copy_wire_is_closed_bounded_and_byte_preserving",
+    "wire_caller::tests::input_closed_is_required_and_truthful_for_terminal_and_cancel",
+    "wire_caller::tests::rejects_invalid_argv_offsets_and_snapshots",
+    "wire_caller::tests::rejects_noncanonical_unknown_and_oversized_envelopes",
+    "wire_caller::tests::worst_case_fit_and_roundtrip_every_variant"
+  ]
+}
