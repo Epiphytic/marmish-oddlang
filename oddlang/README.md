@@ -16,6 +16,8 @@ The [combined recovered vault and journal workspace](../verification/whole/unifi
 
 The [seven-member prototype constant workspace](../verification/whole/prototype-constant/README.md) adds the recovered crate-root `marmish_prototype::MAX_LINE` and preserves the private reader and six sibling package locks.
 
+The [pure release manifest package](../verification/whole/release-manifest-projection/README.md) generates native manifest parsing, identity and asset-name formatting and qualifies them against the original corpus on both ARM64 hosts.
+
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.

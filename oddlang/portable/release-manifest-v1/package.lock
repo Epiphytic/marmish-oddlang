@@ -1,0 +1,47 @@
+{
+  "cargoLockSha256": "c8d1cdbc51912b38f8c1e433d406718f11cc6e21954e3b50450d1e6f4184738d",
+  "cargoManifestSha256": "7dae12b19c20a6d25155742fdf048fee065ece5f5efd7a29d291655e29c3f331",
+  "components": [
+    {
+      "graphSha256": "67eada58d700be48e326ebba0ac4d5ddd36ff7cb2da245319a5db8057e59f4d4",
+      "kind": "finite-error-domain",
+      "module": "error",
+      "overlaySha256": "d7f517174589e39cc3dd772654c7cae25091ba2c27a1cfca8d99381b5f0f17a4",
+      "projection": {
+        "format": "oddlang-finite-error-lock-v1",
+        "graphSha256": "67eada58d700be48e326ebba0ac4d5ddd36ff7cb2da245319a5db8057e59f4d4",
+        "obligationsSha256": "67eada58d700be48e326ebba0ac4d5ddd36ff7cb2da245319a5db8057e59f4d4",
+        "overlaySha256": "d7f517174589e39cc3dd772654c7cae25091ba2c27a1cfca8d99381b5f0f17a4",
+        "rustSha256": "1203899a1d4ec8e5c3c7af6a9710890e9cf4703b716d145e87f40a65e3a2cba0"
+      },
+      "reexports": [
+        "Error",
+        "Result"
+      ],
+      "sourceSha256": "1203899a1d4ec8e5c3c7af6a9710890e9cf4703b716d145e87f40a65e3a2cba0"
+    },
+    {
+      "graphSha256": "d72b16b4e4e4f0c92e1d0e2743164ef6556a03bb52e9eaec1f9b8a26963a0896",
+      "kind": "line-grammar",
+      "module": "native_manifest",
+      "overlaySha256": "2104cf6ef695c01a7dc573da6e7436ad50ce23bc5b9b41a94e43e380baf34459",
+      "projection": {
+        "format": "oddlang-line-grammar-projection-v1",
+        "graphSha256": "f198aa808793c6814157938f2100e3a2d726923a6b4a2b002f24a9ddc079078e",
+        "overlaySha256": "8be8b887a128eea556375d1cd7971cbf6ed10f8eb7b8bfc3b96af27a6da6c78e",
+        "sourceSha256": "05fc095aa05e84bce9b0040fe9e43b1805457b1456f2ab312022b63fa0779f81"
+      },
+      "reexports": [],
+      "sourceSha256": "05fc095aa05e84bce9b0040fe9e43b1805457b1456f2ab312022b63fa0779f81"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "1203899a1d4ec8e5c3c7af6a9710890e9cf4703b716d145e87f40a65e3a2cba0",
+    "src/group_0/mod.rs": "b13bccc4bc70ae44404a78ff949f6f7ec2ae4e6d1a2a3daa8fcec573ab220471",
+    "src/group_1/__projection_1.rs": "05fc095aa05e84bce9b0040fe9e43b1805457b1456f2ab312022b63fa0779f81",
+    "src/group_1/mod.rs": "ee3a20fc9f5758ab27b30264047cd4922a6a28e6dadf424f99f6bd34446c77ab",
+    "src/lib.rs": "ed84c16f3d3dd901b3f7e1c35df3b70f62109907683efe0196d7b6371ed3892b"
+  },
+  "manifestSha256": "b1e126c4e983e704693d4df1598a9d9b47be274f6b469de84384a5b36b8368a1"
+}
