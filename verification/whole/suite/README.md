@@ -97,3 +97,15 @@ than 65,536. This case establishes artifact selection and help smoke coverage.
 Candidate executions and Linux cells are open.
 
 The full original release workspace suite on macOS 26.6 exposed an additional baseline failure. When the MDK tests ran serially in one process, the first empty-environment test failed and five subsequent tests reported a poisoned shared mutex. In fresh processes eight of the nine passed. The remaining test copies /usr/bin/env before executing it. In an independent control, the installed executable exited 0 under an empty environment and its temporary copy received SIGKILL. The cause of that OS signal is unverified. Run `mdk_host.py` with the original MDK unit-test binary to reproduce the distinction. [Fresh-process observations](mdk-aarch64-apple-darwin.json)
+
+## Named release tests
+
+Rebuild the pinned original in a private directory with a prepopulated Cargo registry, then list its test harnesses. For the subsequent execution run, set umask 077 before creating the checkout and build directories. The engine exercises path-permission checks on its working directory and executable.
+
+```sh
+python3 -B verification/whole/suite/list_cargo.py "$UPSTREAM" "$CARGO_TARGET_DIR" /tmp/marmish-release-tests.json
+```
+
+Each row identifies a Cargo workspace package, target kind and target name, source path, the package’s own features and executable digest. The two harness listings distinguish default runnable cases from ignored cases. The inventory covers compiled host-default release harnesses. Doctests, fault-injection builds, installed checks and interpreted suites have separate entry points. Harness digests identify a particular build and may vary across build directories.
+
+The [macOS ARM64 inventory](named-release-aarch64-apple-darwin.json) contains 909 runnable cases. The [Linux ARM64 inventory](named-release-aarch64-unknown-linux-gnu.json) contains 887. Each lists 24 compiled harnesses and five ignored cases. Some ignored cases are child-process entry points invoked by other tests. These counts describe test discovery. Case execution results are recorded separately.
