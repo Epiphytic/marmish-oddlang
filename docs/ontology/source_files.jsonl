@@ -1302,7 +1302,9 @@
 {"path":"verification/whole/retention-structure/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"964b84660a8c31a96114b774381c2cf873a94d6e425862fb0408b20a7133c06f","parse_status":"inventory"}
 {"path":"verification/whole/retention-structure/selection.json","language":"inventory","mode":"100644","sha256":"2bb16db04d0518341ecc7e1afb7091cc2f2ccffcaf0163733a4056a2309ed0aa","parse_status":"inventory"}
 {"path":"verification/whole/retention-structure/verify.py","language":"python","mode":"100644","sha256":"46fef411ad3be8019cdbbb79b789040901f749d110ac9e3efd007faa03da3fe2","parse_status":"parsed"}
-{"path":"verification/whole/runtime-status-data/README.md","language":"inventory","mode":"100644","sha256":"5c5cd427964a3d9a693be18cff5e8e79d4869e024d500660987aee473435ae8f","parse_status":"inventory"}
+{"path":"verification/whole/runtime-status-data/README.md","language":"inventory","mode":"100644","sha256":"026ba0bd790f28410cecd4d5b44d08f2e873ac098b2b1bd4b0ccaf67e79baf2c","parse_status":"inventory"}
+{"path":"verification/whole/runtime-status-data/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7ca640ef3cafd5e41c2cc3c2a822782afe4cdca0817358b183d5b48bc814bbd1","parse_status":"inventory"}
+{"path":"verification/whole/runtime-status-data/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"d6998e912de785ae0b0621447355aa6fc8317ee998198e6160a84485ef7ab776","parse_status":"inventory"}
 {"path":"verification/whole/runtime-status-data/compose.py","language":"python","mode":"100644","sha256":"88c311bb7ad1fe9bb85632b35f4e1e2f9ceca1df7bccded5e2ac7c0a99436130","parse_status":"parsed"}
 {"path":"verification/whole/runtime-status-data/probe.rs","language":"rust","mode":"100644","sha256":"ee78d1c1f55adfd305671625cd163c360c1de2e0d183d179aaebff61c3c5bc7c","parse_status":"parsed"}
 {"path":"verification/whole/runtime-status-data/verify.py","language":"python","mode":"100644","sha256":"3b28a920eb956ff1d716dd4e19b96f711f23219c234a016c3029bc3118337ffa","parse_status":"parsed"}
