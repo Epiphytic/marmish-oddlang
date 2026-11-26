@@ -4,7 +4,7 @@ This gate exercises 36 immediate help and version exits for each of `marmish` an
 
 For each role, 46 other archived argv rows are excluded. These include parser-rejection cases, direct command forms, and auxiliary help or version forms outside the allowlist. The separately archived post-parse control is also excluded. The receipts identify each excluded vector. The run invokes no service or remote operation.
 
-The verifier links the release executables from the retained sealed candidate, checks that its original workspace and data library hashes survive the link, and verifies both original binary pins. Both native binaries run with network access denied and an independently checked empty home. The verifier compares exact stdout, stderr, and exit status with the archived result before recording output digests.
+The verifier links the release executables from the retained sealed candidate, checks that its workspace, data libraries, and full recorded Cargo library closure survive the link, and verifies both original binary pins. Both native binaries run with network access denied and an independently checked empty home. The verifier compares exact stdout, stderr, and exit status with the archived result before recording output digests.
 
 From a clean checkout, use the retained build directory produced by the [combined data gate](../canonical-public-data/README.md) and the original release executables pinned by the [terminal receipt](../terminal-prefix/README.md).
 

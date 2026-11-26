@@ -72,6 +72,20 @@ def classify(archived):
     return prepared
 
 
+def closure(raw, target, host):
+    if host == LINUX:
+        return COMBINED["PREVIOUS"]["closure"](raw, target)
+    return {
+        Path(file).relative_to(target).as_posix(): digest(Path(file))
+        for line in raw.splitlines() if (row := json.loads(line))["reason"] == "compiler-artifact"
+        for file in row["filenames"] if Path(file).suffix in {".rlib", ".rmeta", ".dylib"}
+    }
+
+
+def closure_digest(files):
+    return hashlib.sha256(json.dumps(files, sort_keys=True).encode()).hexdigest()
+
+
 def build(work, scratch, host):
     product, target = work / "candidate", work / "target"
     if host == LINUX:
@@ -116,7 +130,7 @@ def build(work, scratch, host):
         bins[role] = path
     if bins.keys() != set(ROLES):
         raise ValueError("missing original application roles")
-    return bins, launcher, hashlib.sha256(raw).hexdigest()
+    return bins, launcher, raw
 
 
 def observe(binary, argv, home, launcher):
@@ -162,12 +176,18 @@ def verify(args, scratch):
     library_hashes = {name: digest(path) for name, path in libraries.items()}
     if library_hashes != {name: base["publicData"][f"candidate{name.title()}LibrarySha256"] for name in libraries}:
         raise ValueError("wrong qualified generated libraries")
-    if digest(work / "cargo-artifacts.jsonl") != base["artifactLogSha256"]:
+    raw = (work / "cargo-artifacts.jsonl").read_bytes()
+    if hashlib.sha256(raw).hexdigest() != base["artifactLogSha256"]:
         raise ValueError("wrong archived same-workspace Cargo build log")
+    files = closure(raw, target, host)
+    if len(files) != base["cargoLibraryClosureEntries"] or closure_digest(files) != base["cargoLibraryClosureSha256"]:
+        raise ValueError("sealed Cargo library closure changed before linking")
     profile = AUDIT.Candidate(COMBINED["OUTPUT"], base["companion"], base["framework"],
                               base["workspace"]["candidateWorkspaceLockSha256"])
     AUDIT.verify_product(product, ROOT, profile)
-    binaries, launcher, build_hash = build(work, scratch, host)
+    binaries, launcher, link_log = build(work, scratch, host)
+    if closure(link_log, target, host) != files:
+        raise ValueError("binary build linked a different Cargo library closure")
     binary_hashes = {role: digest(path) for role, path in binaries.items()}
     results = {}
     for role, (cases, excluded, outside) in selected.items():
@@ -189,12 +209,16 @@ def verify(args, scratch):
     AUDIT.verify_product(product, ROOT, profile)
     if any(digest(path) != binary_hashes[role] for role, path in binaries.items()) or any(
         digest(path) != original_hashes[role] for role, path in originals.items()
-    ) or any(digest(path) != library_hashes[name] for name, path in libraries.items()):
+    ) or any(digest(path) != library_hashes[name] for name, path in libraries.items()) or (
+        closure(raw, target, host) != files
+    ):
         raise ValueError("a native artifact changed during the replay")
     return {
         "format": "marmish-combined-terminal-help-version-v1", "host": host, "rustc": version,
         "companion": app, "framework": base["framework"], "original": archived["original"],
-        "workspaceLockSha256": profile.lock_sha256, "binaryBuildArtifactLogSha256": build_hash,
+        "workspaceLockSha256": profile.lock_sha256,
+        "binaryBuildArtifactLogSha256": hashlib.sha256(link_log).hexdigest(),
+        "cargoLibraryClosureSha256": closure_digest(files), "cargoLibraryClosureEntries": len(files),
         "sourceWorkspaceReceiptSha256": digest(paths[0]), "terminalPrefixReceiptSha256": digest(paths[1]),
         "originalBinaries": original_hashes, "candidateBinaries": binary_hashes,
         "candidateLibraries": library_hashes, "roles": results,
