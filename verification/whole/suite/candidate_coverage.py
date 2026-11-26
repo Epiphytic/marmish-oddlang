@@ -34,6 +34,8 @@ class Candidate(NamedTuple):
 
 CANDIDATES = {
     "v7": Candidate(MANIFEST, FRAMEWORK, "v7"),
+    "canonical-mdk": Candidate(MANIFEST.with_name("workspace-v7-canonical-mdk-test-seam.json"),
+                               "48bc6754dcbe12cfa953b94ca8771001a1ce72ec", "manifest-mdk"),
     "canonical": Candidate(MANIFEST.with_name("workspace-v7-canonical-offline.json"),
                            "8a20ea283d0d43da42f054a7c7774eb9e6a20da7", "manifest"),
     "manifest": Candidate(MANIFEST.with_name("workspace-v7-converged-release-manifest.json"),
@@ -138,6 +140,14 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                 args[args.index("--chdir")+1] = str(cwd)
             return run(*args, *cmd, cwd=cwd, env=env)
 
+        if suite_kind == "manifest-mdk":
+            for name in selected_tests.MDK_DENIED_SOURCES:
+                forbidden = original / "crates/marmish-mdk/src" / name
+                denied = subprocess.run([*prefix, "/bin/cat", forbidden], env=env, capture_output=True)
+                if (not forbidden.is_file() or denied.returncode != 1 or denied.stdout
+                        or not any(reason in denied.stderr for reason in
+                                   (b"No such file", b"Operation not permitted"))):
+                    raise ValueError(f"failed MDK source isolation control for {name}")
         inside(cli, "build", "native-workspace", "rust", inputs/manifest.name, product, cwd=work)
         lock = (product/"workspace.lock").read_bytes()
         if lock != expected_lock:
@@ -151,7 +161,21 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     if path.is_file()}
 
         pristine = snapshot()
-        include_reader = suite_kind in {"seven", "manifest"}
+        include_mdk = suite_kind == "manifest-mdk"
+        include_manifest = suite_kind in {"manifest", "manifest-mdk"}
+        include_reader = suite_kind == "seven" or include_manifest
+        if include_mdk:
+            prior_lock = CANDIDATES["canonical"].manifest.with_suffix("") / "workspace.lock"
+            baseline = json.loads(prior_lock.read_bytes())
+            if (set(baseline["members"]) != set(seal["members"]) or any(
+                    old != seal["members"][name] for name, old in baseline["members"].items()
+                    if name != "marmish-mdk")
+                    or baseline["workspaceCargoManifestSha256"] != seal["workspaceCargoManifestSha256"]):
+                raise ValueError("the MDK test seam changed another member or the workspace root")
+            checked = inside("cargo", "tree", "--locked", "--offline", "-p", "marmish-mdk",
+                             "-e", "normal", "--prefix", "none", "--format", "{p}", cwd=product).decode()
+            if checked.strip().splitlines() != [f"marmish-mdk v0.1.0 ({product / 'marmish-mdk'})"]:
+                raise ValueError(f"MDK acquired an ordinary dependency: {checked}")
         targets = ["--workspace","--lib","--bins"] if include_reader else ["-p","marmish-native","--bins"]
         built_libraries = {}
         if include_reader:
@@ -196,13 +220,17 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         if include_reader:
             additional["prototypeReader"] = selected_tests.stage_reader(original,product)
             appended.add(selected_tests.READER_LEAF)
-        if suite_kind == "manifest":
+        if include_manifest:
             parser_leaf, parser_prefix, vector_path = parser_cases.stage(original, product)
             injected.add(vector_path)
             appended.add(parser_leaf)
             additional.update(parser_cases.SOURCES)
+        if include_mdk:
+            leaf, digest = selected_tests.stage_mdk(original, product)
+            appended.add(leaf)
+            additional["mdkSyntheticJson"] = digest
         staged = snapshot()
-        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(suite_kind == "manifest"):
+        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(include_manifest) + int(include_mdk):
             raise ValueError("unexpected staged file inventory")
         for path, contents in pristine.items():
             if path in appended:
@@ -222,12 +250,14 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             witnessed[harness] = names
         release = product/"target/release"
         invocations = {}
+        mdk_control = {}
         if additional:
-            for harness, names in selected_tests.cases(host,include_reader).items():
+            for harness, names in selected_tests.cases(host, include_reader, include_mdk).items():
                 package = harness.split("/")[0]
-                reader = harness == selected_tests.PROTOTYPE
-                target = ["--lib"] if reader else ["--test","selected_upstream"]
-                test_prefix = selected_tests.READER_PREFIX if reader else ""
+                private_prefixes = {selected_tests.PROTOTYPE: selected_tests.READER_PREFIX,
+                                    selected_tests.MDK: selected_tests.MDK_PREFIX}
+                target = ["--lib"] if harness in private_prefixes else ["--test", "selected_upstream"]
+                test_prefix = private_prefixes.get(harness, "")
                 command = ("cargo","test","--locked","--offline","--release","-p",package,
                            *target,"--")
                 listing = inside(*command,"--list",cwd=product).decode()
@@ -243,8 +273,11 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     runs = 2 if harness == selected_tests.ENGINE else 1
                     selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
                     invocations[harness][name] = runs
+                if harness == selected_tests.MDK:
+                    mdk_control = selected_tests.zero_mdk_control(
+                        inside, product, command, assembly["passing_tests"])
                 witnessed[harness] = names
-        if suite_kind == "manifest":
+        if include_manifest:
             invocations[parser_cases.HARNESS] = parser_cases.witness(
                 inside, product, parser_prefix, assembly["passing_tests"], selected_tests.check_execution)
             witnessed[parser_cases.HARNESS] = list(parser_cases.NAMES)
@@ -267,6 +300,8 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     manifestSha256=manifest_digest, workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
+                    **({"mdkZeroTestControl": mdk_control, "mdkNormalDependencies": [],
+                        "mdkDeniedSourcePaths": list(selected_tests.MDK_DENIED_SOURCES)} if include_mdk else {}),
                     **({"builtLibraries":built_libraries} if include_reader else {}),
                     **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))
 

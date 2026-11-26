@@ -93,9 +93,28 @@ class CoverageControls(unittest.TestCase):
                     with self.assertRaises(ValueError):
                         inspect(mutated)
 
+    def test_canonical_mdk_receipt_requires_named_case_and_control(self):
+        for host, passed in (("aarch64-apple-darwin", 43), ("aarch64-unknown-linux-gnu", 44)):
+            receipt = json.loads((HERE / f"canonical-mdk-{host}.json").read_bytes())
+            self.assertEqual(inspect(receipt)["passed"], passed)
+            for label, change in {
+                "missing MDK": lambda row: row["harnesses"][selected_tests.MDK]["passed"].clear(),
+                "borrow other bytes": lambda row: row["selectedTestSources"].update(mdkSyntheticJson="0"*64),
+                "zero named passes": lambda row: row["passingProcesses"][selected_tests.MDK].update(
+                    {selected_tests.MDK_CASE: 0}),
+                "unexpected production dependency": lambda row: row.update(mdkNormalDependencies=["serde_json"]),
+                "missing control": lambda row: row.pop("mdkZeroTestControl"),
+                "successful missing case": lambda row: row["mdkZeroTestControl"].update(coverageRejected=False),
+            }.items():
+                with self.subTest(host=host, label=label):
+                    changed = deepcopy(receipt)
+                    change(changed)
+                    with self.assertRaises(ValueError):
+                        inspect(changed)
+
     def test_partial_parser_receipts_reject_full_certification(self):
         receipts = [HERE / f"{candidate}-{host}.json"
-                    for candidate in ("manifest", "canonical")
+                    for candidate in ("manifest", "canonical", "canonical-mdk")
                     for host in ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu")]
         for receipt in receipts:
             result = subprocess.run(

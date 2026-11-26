@@ -216,3 +216,20 @@ python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-suite.json 
 ```
 
 The [Darwin ARM64 receipt](canonical-aarch64-apple-darwin.json) records 42 passed and 867 unverified. The [Linux ARM64 receipt](canonical-aarch64-unknown-linux-gnu.json) records 43 passed and 844 unverified. Each host had five additional ignored cases and both completeness checks rejected certification. Both cold builds used verifier `048a521` and workspace lock `5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4`.
+
+## Canonical workspace with the private MDK parser test
+
+Use the separate [MDK test-seam candidate](../../../oddlang/portable/workspace-v7-canonical-mdk-test-seam.json) with `--candidate canonical-mdk`. Both native builds use compiler runtime `48bc6754dcbe12cfa953b94ca8771001a1ce72ec`, verifier input `840781a42b80873fce5586a484af8a51fb9183ca` and workspace lock `0bf735fda63690510b21827669e79dcb54a055921f1ee0b91151a9d59f13c49d`.
+
+The runner repeats the complete canonical selection on each fresh sealed build. After building the seven libraries and both release executables, it stages the upstream MDK test `tests::synthetic_json_and_ndjson_are_bounded_and_structural_only` byte-for-byte. The exact case must pass once. The same Cargo harness returns zero for a deliberately absent exact name, and the gate requires that the selector's zero-test result be rejected. No other MDK case earns coverage.
+
+Upstream exposes this parser only during tests. The generated parser is also under `cfg(test)`, and Cargo confirms the provider is a development dependency with no ordinary MDK dependency edge. The existing canonical manifest remains the default. The candidate changes only the MDK member lock and adds its development dependency edge to the shared Cargo lock, reusing the existing JSON provider entry.
+
+```sh
+python3 -B verification/whole/mdk-json-input/compose_canonical.py --check
+python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-mdk \
+  "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-mdk-suite.json
+python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-mdk-suite.json
+```
+
+The [macOS ARM64 receipt](canonical-mdk-aarch64-apple-darwin.json) records 43 of 909 active cases passed and 866 unverified. The [Linux ARM64 receipt](canonical-mdk-aarch64-unknown-linux-gnu.json) records 44 of 887 passed and 843 unverified. Each host has five additional ignored cases. The named MDK test is the only additional pass on each host.
