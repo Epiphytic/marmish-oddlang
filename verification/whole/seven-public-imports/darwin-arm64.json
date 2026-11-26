@@ -3,6 +3,8 @@
   "frameworkRevision": "59f947dafdb4cf3055e35216857472ada895a76a",
   "original": "af54339d250290490d62d4475a77539b7e739071",
   "workspaceLockSha256": "fdfa5b16d9172fe97705ee5794251c6168d0e226ea159334a52286e2e7172b68",
+  "workspaceManifestSha256": "9b48e0471d15c634b556bdc7be2369df53eb7f731c4f67c32bb94007141afa6e",
+  "upstreamInventoryProvenanceSha256": "ff769f436363fd984ded1c9e3879b63b2b9597dd6d8f49210d65880617b9430f",
   "rustc": [
     "rustc 1.97.1 (8bab26f4f 2026-07-14)",
     "binary: rustc",
@@ -14,7 +16,7 @@
   ],
   "candidateArtifactLogSha256": "3cb725cd5929250dbcdcf9410344c70c2542c4d2100366cedb58d60bd0d2f845",
   "originalArtifactLogSha256": "b2cd8eeab79c7384bb44f60726bd0e3fd9b90f8f3f5036c607d1772cc6cdea70",
-  "verifierSha256": "c9093ae99f35c16518442e14e599f8d008846d19a1ee0ec9abb3f88cd3aa7e55",
+  "verifierSha256": "9657aae1f4710635b62e6e1ccd00ad3d81522a25258a8bfdd35a85afae006832",
   "imports": {
     "core": {
       "inventorySha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",

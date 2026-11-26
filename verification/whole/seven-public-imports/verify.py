@@ -217,6 +217,8 @@ def main():
     assert not git(args.original, "status", "--porcelain", "--untracked-files=no")
     version = run(["rustc", "+1.97.1", "-vV"], ROOT).stdout.decode().splitlines()
     assert f"commit-hash: {COMPILER}" in version and f"host: {HOST}" in version
+    provenance = INVENTORY / "provenance.json"
+    assert read(provenance)["original"]["revision"] == ORIGINAL
     manifest = verify_product(args.product, args.release_inputs)
     candidate = (args.candidate_artifacts.read_bytes() if args.candidate_artifacts else
                  run(["cargo", "+1.97.1", "build", "--release", "--workspace", "--lib", "--locked",
@@ -237,7 +239,9 @@ def main():
     assert verify_product(args.product, args.release_inputs) == manifest
     report = {
         "workspaceInputRevision": INPUT_REVISION, "frameworkRevision": RUNTIME, "original": ORIGINAL,
-        "workspaceLockSha256": WORKSPACE_LOCK, "rustc": version,
+        "workspaceLockSha256": WORKSPACE_LOCK,
+        "workspaceManifestSha256": sha((args.release_inputs / "oddlang/portable" / f"{RELEASE}.json").read_bytes()),
+        "upstreamInventoryProvenanceSha256": sha(provenance.read_bytes()), "rustc": version,
         "candidateArtifactLogSha256": sha(candidate), "originalArtifactLogSha256": sha(baseline),
         "verifierSha256": sha(Path(__file__).read_bytes()),
         "imports": result, "totals": {k: sum(value[k] for value in result.values())
