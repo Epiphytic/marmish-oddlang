@@ -987,6 +987,10 @@
 {"path":"verification/whole/canonical-linux-imports/README.md","language":"inventory","mode":"100644","sha256":"557f7b0227ea81565536cb6e5dd637cae4cbff7b24e35938403378d347d5e939","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"691381304ddd75d092ef3ef6df6f38d1b815df8980d2f00ae6dc3d3d6db94f49","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/verify.py","language":"python","mode":"100644","sha256":"df5e8c6ace53f315cdbbf973d9d1991b97b152f6edbcb7c17acdea86de35db53","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data-terminal/README.md","language":"inventory","mode":"100644","sha256":"0bae9084d8a2f145b41b4b4aa8688d68ce8e80d1c895ae3412ac1f22e3b157ef","parse_status":"inventory"}
+{"path":"verification/whole/canonical-public-data-terminal/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5f9110a010fe50fc9350df5dfac4ac5662b8fde82fadba634aeed7c0ff3fe32e","parse_status":"inventory"}
+{"path":"verification/whole/canonical-public-data-terminal/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"f136489331cb7147d4e0b2bbad0960eb96d630227014cab9d365d85f91abdc72","parse_status":"inventory"}
+{"path":"verification/whole/canonical-public-data-terminal/verify.py","language":"python","mode":"100644","sha256":"33f95ea2fe0bbff883cf8f9e4b467d75385ec8b914098efb75e3c0b8d1b134ee","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/README.md","language":"inventory","mode":"100644","sha256":"15f1bd52d16994e89773d21e8e48a995071c6e900fba103621df0fca2511ff5e","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"34e22c9d92e198de1f2b374bc7426ca930721048ee21eaa706b473e109864f1f","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"2a14b7a73e2dd3e6658ce2c9228c275d6aa7c1a147ccab746785b6282432845b","parse_status":"inventory"}

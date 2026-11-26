@@ -1,0 +1,1078 @@
+{
+  "format": "marmish-combined-terminal-help-version-v1",
+  "host": "aarch64-apple-darwin",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "companion": "2da1fbfc64ebba3680ed69cbfd43a02c25d49af7",
+  "framework": "900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaceLockSha256": "b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab",
+  "binaryBuildArtifactLogSha256": "64da05bdea7acf8086840c7c40cbb8ef5807dca98eb4b9e2669288988dbdc72d",
+  "sourceWorkspaceReceiptSha256": "34e22c9d92e198de1f2b374bc7426ca930721048ee21eaa706b473e109864f1f",
+  "terminalPrefixReceiptSha256": "6feac74e10ebd13ff2305ce3786c0cd4492ddf233f8f6619a5f56e570bf59598",
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "candidateBinaries": {
+    "marmish": "b0e546405c43edd2ad82e1d246a112e5b51992bafb70a5cdd93154ae4c9b3424",
+    "marmishd": "4c5985f5f821c8c61cde077533bc1d7ea8ac062ac2c589cd90bfcb40a11fdda4"
+  },
+  "candidateLibraries": {
+    "engine": "e21b437a1533f05debe5f54874d16bc5cca656f63978223f2eb325d08834b385",
+    "native": "c93b2337e28cc52b8940f07ef657bba96402ec9173f25f4fb52d076ee490596f"
+  },
+  "roles": {
+    "marmish": {
+      "observations": [
+        {
+          "args": [
+            "--help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e75900bc8eb98ca52389b8eb94993ee74fb924b305b4bfd0c915306875766585",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "copy-receipts"
+          ],
+          "exit": 0,
+          "stdoutSha256": "99d14d70e8889a607370e2d7d583fb34cae3b1ed033dd47f81c2b357a10049ca",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "put"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e7085093cc0c4272e822a964f5dca5fef627612080ca1a7bb152dde646fda7b7",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "get"
+          ],
+          "exit": 0,
+          "stdoutSha256": "3bd4f8fc4339ca9381aaac42dcb3c7258bb2bace39ae04fcf1dcf8b206227188",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "rsh"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d9cb2dc5fc3d50542ee953d276614bb26564baf830a09f047fd39f8a705ed700",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "stream"
+          ],
+          "exit": 0,
+          "stdoutSha256": "233c44211ce2f31cf342d511968ae5f413d2bfd4328bbb3edbb61117ffbc9277",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "streams"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a9f351bbf06e6db1bfedb5dd7e96ddfdd2d8fb1be6fcec89462a6fdc6190c810",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "stream-reconcile"
+          ],
+          "exit": 0,
+          "stdoutSha256": "160708b08c5f9a9829d2dcf478cca8dfe2e9b5a830791044e8c3c3ce1c6d6c1c",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "keychain-authorize"
+          ],
+          "exit": 0,
+          "stdoutSha256": "780c4c1aacd0d723e4b02ec314f562cf8f7f4d1115684b26c2d5086c64cd29c2",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdoutSha256": "ea71cda95edb451f8fdb170b3b41f1b2a42b3778b02863889fe704a6f78e716b",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "install"
+          ],
+          "exit": 0,
+          "stdoutSha256": "598485f7f25a844d4655fd3306625816a4a190cb73587b1eac4fe345f49ce12f",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "install-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "0ef67e799921d79b08c9a571d477aac9e17a7cd80a433ecb15a444b035b53e1a",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "uninstall"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a86c45435f3f98706c35fc1810667617865c0735e1b5da590e7a6deef2c19c88",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "setup"
+          ],
+          "exit": 0,
+          "stdoutSha256": "6added4f0cf75eb995e515fa4a68a4a97b7245d1ebaf195943c24b68ea38ab5a",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "init"
+          ],
+          "exit": 0,
+          "stdoutSha256": "797d7e93bdabed879084179cd9e2279214ed8610ca77840d334cfee07c474b49",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "commands"
+          ],
+          "exit": 0,
+          "stdoutSha256": "14e19ad39fd91b0f294be03ce642a0a583f63f3e4dc12d0798f32c1d27494794",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "226f54dd1caf27bd39d539a156a8523358f580fefe8705e76ce124ad931112d0",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "cancel"
+          ],
+          "exit": 0,
+          "stdoutSha256": "f7e83045fc9a6f4abdccf3567de3064e798f78be42f60df48eed372ce1f77782",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "wait"
+          ],
+          "exit": 0,
+          "stdoutSha256": "46bc1864652f7ac823041ccd1eefc0a2f7e242c8160a78dc663693d9f06efcaa",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "output"
+          ],
+          "exit": 0,
+          "stdoutSha256": "106978307b5369a94502fcdf10dec1eee3637f51456737ce83443b3baff09738",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "daemon"
+          ],
+          "exit": 0,
+          "stdoutSha256": "7f2f5ef98cd20b4715c1ce4c0a79a00ae7bbb05812beff4813e19db1df49c572",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "60c645651e515528ce8f0796c2247d6d0034bfd87f50a14219124aa61be63124",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "open-conversation"
+          ],
+          "exit": 0,
+          "stdoutSha256": "cffcd2d2e3a73ee113d42c762c546190e095747d966f068f90959d7e4b8b0e24",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "send"
+          ],
+          "exit": 0,
+          "stdoutSha256": "9926e64616141c6119137d3b3f8238e20ac1995b6a835342f0d0cefeb3024abc",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "received"
+          ],
+          "exit": 0,
+          "stdoutSha256": "071f6998dd3fac2df341d407fa7206a643a34df3c55756441bea66070f47a84e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "foundation-check"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a70d92fc22ba8057d1e5b7c10e453df262c8980f4ba377e83c2a0e2535470a39",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-check"
+          ],
+          "exit": 0,
+          "stdoutSha256": "4a07ba70af55e86c97d2e911c6b71788aad1349f21e6f55dd664eaf63344cbd7",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "13952cfc67890596746510fc769c8330a7b6b634669c4d2d942c7e2e62a26dbd",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-evidence"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a5b42fc062b6542908a227dc1b60965e90ee87f3c10c63e29e79a35983dc9ed9",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-cleanup-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "c914727173e224710e309283ccb32b556da88e5a3539bdb4b6a203444f55b23f",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-local-cancel"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d519691fce78ed2bf5cf035c9ce89343f1c6225427aceb73618e66ad3e6b5e8c",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-prepare-cleanup"
+          ],
+          "exit": 0,
+          "stdoutSha256": "b58f409771277ea1f6d00d8212c2646856e51d9f937ac16bfafa2d02a8745bbd",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "--version"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2419a331774c827a67fcd3581b1a4ad566d33a6a9fb7894941ead3c09500ebf",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "-h"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e75900bc8eb98ca52389b8eb94993ee74fb924b305b4bfd0c915306875766585",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "-V"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2419a331774c827a67fcd3581b1a4ad566d33a6a9fb7894941ead3c09500ebf",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e75900bc8eb98ca52389b8eb94993ee74fb924b305b4bfd0c915306875766585",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "excludedArchivedRows": [
+        [
+          "--oddlang-unrecognized-option"
+        ],
+        [
+          "help",
+          "--help"
+        ],
+        [
+          "help",
+          "not-a-command"
+        ],
+        [
+          "put"
+        ],
+        [
+          "get",
+          "one",
+          "two"
+        ],
+        [
+          "stream"
+        ],
+        [
+          "stream-reconcile"
+        ],
+        [
+          "setup",
+          "--role=unknown"
+        ],
+        [
+          "install"
+        ],
+        [
+          "install-status"
+        ],
+        [
+          "uninstall"
+        ],
+        [
+          "cancel"
+        ],
+        [
+          "wait"
+        ],
+        [
+          "output"
+        ],
+        [
+          "command-status"
+        ],
+        [
+          "--stdin",
+          "--stdin-none",
+          "status"
+        ],
+        [
+          "--wait-seconds=0",
+          "status"
+        ],
+        [
+          "--wait-seconds=86401",
+          "status"
+        ],
+        [
+          "--key-storage=unknown",
+          "status"
+        ],
+        [
+          "put",
+          "--idle-seconds=0"
+        ],
+        [
+          "copy-receipts",
+          "--forget=x"
+        ],
+        [
+          "copy-receipts",
+          "--revision=0"
+        ],
+        [
+          "status",
+          "--unknown"
+        ],
+        [
+          "status",
+          "--version"
+        ],
+        [
+          "rsh",
+          "--help"
+        ],
+        [
+          "rsh",
+          "-h"
+        ],
+        [
+          "rsh"
+        ],
+        [
+          "rsh",
+          "--idle-seconds=0"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--user=audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "-h"
+        ],
+        [
+          "-iaudit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-i",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--identity=audit",
+          "rsh",
+          "-h"
+        ],
+        [
+          "--identity",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-uaudit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-u",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--debug",
+          "rsh"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "--idle-seconds=0"
+        ],
+        [
+          "--identity",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--help",
+          "rsh"
+        ],
+        [
+          "--no-such-option",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--user=audit",
+          "rsh"
+        ],
+        [
+          "--user=audit",
+          "rsh",
+          "--version"
+        ],
+        [
+          "--debug",
+          "--user=audit",
+          "rsh",
+          "-h"
+        ],
+        [
+          "--version",
+          "rsh"
+        ]
+      ],
+      "excludedPostParseControl": [
+        "--debug",
+        "rsh",
+        "--version"
+      ]
+    },
+    "marmishd": {
+      "observations": [
+        {
+          "args": [
+            "--help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e0cb2044ab64e5c012b9e0da01d1dd45a0e79cf97c069a50110490d4425e4f1e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "copy-receipts"
+          ],
+          "exit": 0,
+          "stdoutSha256": "f734a9199eac1215776b478826298d9af1ddcaab929edd308d54f5ae8ab1fb09",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "put"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d5a1b3e3474dbd7d580bf95b7021cb206e886b097b01c2fe902ed15521de3432",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "get"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a1f59a4172a08401941c92511db109e9d4c6715da85ecb25d5eb89913390e249",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "rsh"
+          ],
+          "exit": 0,
+          "stdoutSha256": "750f98177ebfca393738f383ed363948c5e2d3b59e782420dd83080878aef146",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "stream"
+          ],
+          "exit": 0,
+          "stdoutSha256": "159d043b9e17173a3204eb87ff190699a148052d667d2d4dc643b44f7e145877",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "streams"
+          ],
+          "exit": 0,
+          "stdoutSha256": "152d5dc302545704d9392f39bb16dff1f104579325b31c71e7dc36a5127459cb",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "stream-reconcile"
+          ],
+          "exit": 0,
+          "stdoutSha256": "d52c98d399ca2afacd35179da1cd8196dcec938008b9a9c7daf22332a713b47a",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "keychain-authorize"
+          ],
+          "exit": 0,
+          "stdoutSha256": "406ec22e7f5a03406e4a1feafaf276d964a8ffea83c221497cf8ad77cdb5e474",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdoutSha256": "40aa460dc072b55e7244775f574859d39afa83468ac3da4dd17a5ae5565b6a87",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "install"
+          ],
+          "exit": 0,
+          "stdoutSha256": "0d8dc1d54b272214d753b3b89ab4479d40d669d89fd48574d703ee56c784061f",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "install-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "763a3dc6f9240ccd295cd9cad29efe9aa8637fb2a1745e8f10869c8a02d63b46",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "uninstall"
+          ],
+          "exit": 0,
+          "stdoutSha256": "213a7dcffd7509e1425570e05ae4b83aad807233defd4ae7eeea2575ad8fc04e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "setup"
+          ],
+          "exit": 0,
+          "stdoutSha256": "ce078fe1d8fb7e1646bc81edb48065409dcf73ffca828ad6858de81f9cdfa334",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "init"
+          ],
+          "exit": 0,
+          "stdoutSha256": "59e2f6caa91c3ed61ca9587932b401fb76fe5607b20af278c91aff3156a548f1",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "commands"
+          ],
+          "exit": 0,
+          "stdoutSha256": "cf342a1c6345ddcb6638b75d678bf1afbc47d2e4e86363e6781b5293d62d024e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "30ff498d88ee933d8dd4045f35af5bdcac363bd291c447136bdc6c92166d4914",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "cancel"
+          ],
+          "exit": 0,
+          "stdoutSha256": "7a73e03ed0874b7742648aa5f4008a4b541ca95da777f63d5a48565594010e6d",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "wait"
+          ],
+          "exit": 0,
+          "stdoutSha256": "63636e1000f137376975b37fff74d876bd8cb6fb8d7b25fad2c8910ff2517e2e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "output"
+          ],
+          "exit": 0,
+          "stdoutSha256": "67c9e54b84c5e0392522e550d327b066d02602abf13ec40a0daa3601d3356803",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "daemon"
+          ],
+          "exit": 0,
+          "stdoutSha256": "53597598336de3e2b72450da10051b6fb35e1466b57f19fe0f89d8ec5c9dc763",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "9713f1068e063f07fc670cc25ee6ee71561b07f7f26b21ff13029215283b27d6",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "open-conversation"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2b0c4cf1c06b4f294521f734ad502992148bbe10a56010aefa66d4f87bbde1a",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "send"
+          ],
+          "exit": 0,
+          "stdoutSha256": "ecb0393be8930d2a8d6e40fb15f311ca32a8c741c9b96b38d4ea6d89e35834c5",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "received"
+          ],
+          "exit": 0,
+          "stdoutSha256": "ba5f44cb59f4974ee07f97079ef2ae969c5d3071755fb8b7bb6f8d2f6171f068",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "foundation-check"
+          ],
+          "exit": 0,
+          "stdoutSha256": "3d99ed4e619eea30c5752f3223f722451e1ca52ea12d94b5f633212d92b8bf5f",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-check"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a34819bfaa4a79f993f9b4114b5670bfec317eefb8922d0404e39516b63f554f",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "22916a7ab24c10b1ae2388d4e96c8720433d49dea911dd00fd3f7254fae41623",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-evidence"
+          ],
+          "exit": 0,
+          "stdoutSha256": "ea9ce261faa3b5cee2ce9c491a08b812e2e8d8e2a9fe7a8a09c8f1cce7cef42c",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-cleanup-status"
+          ],
+          "exit": 0,
+          "stdoutSha256": "4656148b5b1ecd04b5042fb1ed32ea8d38f79399ff7e0cd93c89a7477294f3a0",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-local-cancel"
+          ],
+          "exit": 0,
+          "stdoutSha256": "2f550b6fa5075a29a0300f0c57b651d15a0cba3751bd37c62a168b93f65d570c",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help",
+            "command-prepare-cleanup"
+          ],
+          "exit": 0,
+          "stdoutSha256": "bef7f76721fbc68fc173fc22e4644236f0aab402dbfbb5c0e21c0101d75dada8",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "--version"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2419a331774c827a67fcd3581b1a4ad566d33a6a9fb7894941ead3c09500ebf",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "-h"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e0cb2044ab64e5c012b9e0da01d1dd45a0e79cf97c069a50110490d4425e4f1e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "-V"
+          ],
+          "exit": 0,
+          "stdoutSha256": "a2419a331774c827a67fcd3581b1a4ad566d33a6a9fb7894941ead3c09500ebf",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "args": [
+            "help"
+          ],
+          "exit": 0,
+          "stdoutSha256": "e0cb2044ab64e5c012b9e0da01d1dd45a0e79cf97c069a50110490d4425e4f1e",
+          "stderrSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "excludedArchivedRows": [
+        [
+          "--oddlang-unrecognized-option"
+        ],
+        [
+          "help",
+          "--help"
+        ],
+        [
+          "help",
+          "not-a-command"
+        ],
+        [
+          "put"
+        ],
+        [
+          "get",
+          "one",
+          "two"
+        ],
+        [
+          "stream"
+        ],
+        [
+          "stream-reconcile"
+        ],
+        [
+          "setup",
+          "--role=unknown"
+        ],
+        [
+          "install"
+        ],
+        [
+          "install-status"
+        ],
+        [
+          "uninstall"
+        ],
+        [
+          "cancel"
+        ],
+        [
+          "wait"
+        ],
+        [
+          "output"
+        ],
+        [
+          "command-status"
+        ],
+        [
+          "--stdin",
+          "--stdin-none",
+          "status"
+        ],
+        [
+          "--wait-seconds=0",
+          "status"
+        ],
+        [
+          "--wait-seconds=86401",
+          "status"
+        ],
+        [
+          "--key-storage=unknown",
+          "status"
+        ],
+        [
+          "put",
+          "--idle-seconds=0"
+        ],
+        [
+          "copy-receipts",
+          "--forget=x"
+        ],
+        [
+          "copy-receipts",
+          "--revision=0"
+        ],
+        [
+          "status",
+          "--unknown"
+        ],
+        [
+          "status",
+          "--version"
+        ],
+        [
+          "rsh",
+          "--help"
+        ],
+        [
+          "rsh",
+          "-h"
+        ],
+        [
+          "rsh"
+        ],
+        [
+          "rsh",
+          "--idle-seconds=0"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--user=audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "-h"
+        ],
+        [
+          "-iaudit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-i",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--identity=audit",
+          "rsh",
+          "-h"
+        ],
+        [
+          "--identity",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-uaudit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "-u",
+          "audit",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--debug",
+          "rsh"
+        ],
+        [
+          "--debug",
+          "rsh",
+          "--idle-seconds=0"
+        ],
+        [
+          "--identity",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--help",
+          "rsh"
+        ],
+        [
+          "--no-such-option",
+          "rsh",
+          "--help"
+        ],
+        [
+          "--user=audit",
+          "rsh"
+        ],
+        [
+          "--user=audit",
+          "rsh",
+          "--version"
+        ],
+        [
+          "--debug",
+          "--user=audit",
+          "rsh",
+          "-h"
+        ],
+        [
+          "--version",
+          "rsh"
+        ]
+      ],
+      "excludedPostParseControl": [
+        "--debug",
+        "rsh",
+        "--version"
+      ]
+    }
+  }
+}

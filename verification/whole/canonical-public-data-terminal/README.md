@@ -12,3 +12,5 @@ From a clean checkout, use the retained build directory produced by the [combine
 python3 -B verification/whole/canonical-public-data-terminal/verify.py \
   SEALED_BUILD ORIGINAL_BIN_DIRECTORY RECEIPT
 ```
+
+Both ARM64 hosts matched all 72 observations against the pinned original for workspace lock `b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab`. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
