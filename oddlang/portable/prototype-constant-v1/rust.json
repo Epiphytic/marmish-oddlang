@@ -1,0 +1,9 @@
+{
+  "constantTypes": {
+    "urn:marmish:prototype:max-line": "usize"
+  },
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:prototype:max-line": "MAX_LINE"
+  }
+}
