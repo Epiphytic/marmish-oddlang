@@ -51,7 +51,8 @@ def derive(original,cli,exe,out):
     record,=[d for d in graph["types"] if d["id"]==LAUNCH]
     # Independently compiled data-shape observer records the macro-expanded field set and order.
     base=ROOT/"oddlang/portable/workspace-shapes-v1"
-    lock=read(base/"locks/aarch64-apple-darwin.marmish-stream.lib.marmish_stream.json")
+    target=run("rustc","+1.97.1","-vV").split("host: ")[1].splitlines()[0]
+    lock=read(base/"locks"/f"{target}.marmish-stream.lib.marmish_stream.json")
     assert lock["pin"]["sourceRevision"]==PIN
     shape=base/"graphs"/(lock["shapesSha256"]+".json")
     assert sha(shape)==lock["shapesSha256"]

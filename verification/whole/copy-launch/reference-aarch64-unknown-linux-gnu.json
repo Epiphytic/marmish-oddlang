@@ -1,0 +1,13 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "5f4cf958b7b4f8da8f8309f87734c14a8309c7d7",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-unknown-linux-gnu\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "2b5a90bd3ed02e3d6ddd4216b65210798ead15eec52491e0d13ae2efb638764c",
+  "callerSha256": "96915e38007f9bcbd26bd4b47af204266d91de2b1abd0da4d6c6b810e8671e00",
+  "nativeEnumByteOutcomes": 1280,
+  "constructCases": 45,
+  "exactDecodeCases": 56,
+  "negativeControl": "version guard moved last selects copy_path instead of copy_version",
+  "observationsSha256": "3fbc931dce2c7ad6da31a056a0dff74883a993bd495867efb1027d3f3fc0dac2"
+}
