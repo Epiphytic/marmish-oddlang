@@ -20,3 +20,22 @@ SELECT ?name ?feature WHERE {
 ```
 
 The checker regenerates both projections, compares all 15 asset names with the release schema from the pinned original, and checks that removing the standalone workspace fails. The original documents 162 passing installed transfer cases from an earlier candidate (`b666ae6a`) in [its release report](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/docs/validation/v0.3.1-release.md). Running the upstream suite on generated binaries, operation-by-operation equivalence, and reference runs for each profile and host require separate runtime receipts. The file-group owner for general support tools is provisional pending per-tool behavior mapping. The legacy build recipe pins and builds `wnd`. An independently reproduced `wn` fixture remains open.
+
+## Source-free build target coverage
+
+The seven upstream workspace packages declare seven library targets and ten binary targets. With default features, seven of those binaries are eligible. The other three require explicit features. The default Oddlang workspace and the separate MDK test workspace both declared and built all seven library target names and two binary target names on macOS ARM64 and Linux ARM64.
+
+| Upstream binary targets | Declared and built in either workspace | Absent from both workspace manifests |
+| --- | --- | --- |
+| Default features | `marmish`, `marmishd` | `marmish-engine-worker`, `marmish-engine-bridge`, `marmish-keychain`, `marmish-release-tool`, `marmish-worker` |
+| `fault-injection` | — | `marmish-test-frontend` |
+| `installed-checks` | — | `marmish-installed-check`, `marmish-installed-fixture` |
+
+From the companion root, run the inventory comparison for a selected native receipt:
+
+```sh
+python3 -B verification/whole-marmish/inventory/candidate_targets.py \
+  verification/whole/suite/canonical-aarch64-apple-darwin.json
+```
+
+The report checks the upstream revision, workspace and member pins, suite evidence, and the package that declares each target. It measures artifact presence. Behavioral and API compatibility have separate gates. The standalone installed fixture, examples, integration tests and release assets are outside this target count. [Default workspace receipts](../../whole/suite/README.md#combined-offline-workspace) · [MDK workspace receipts](../../whole/suite/README.md)
