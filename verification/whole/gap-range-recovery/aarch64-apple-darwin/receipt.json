@@ -1,0 +1,624 @@
+{
+  "callerSha256": "fe9ddb62d699fc92b15169eb143f82a7a8f7273ddfddd4cd00e148fe3b7245cc",
+  "cases": {
+    "baseline": {
+      "generatedFiles": {
+        "src/group_0/__projection_0.rs": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a",
+        "src/group_0/__projection_1.rs": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c",
+        "src/group_0/mod.rs": "4280c49315f335ec1cfa8c31f605f135b4a0bc15a8ca2bfd6dc1133c9fc5cfc5",
+        "src/lib.rs": "8b0b5b00a320945c48220826234351488d9f745966f008f5f0cb9b522b27c8f8"
+      },
+      "graphSha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5",
+      "manifestSha256": "6bc0d0d324398a4c981417cf3023d29969a9710c5c695b52fbb8b994be58251f",
+      "observations": [
+        {
+          "id": "Limit-string",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "Limit-object",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "StorageFailure-string",
+          "result": {
+            "encoded": "\"StorageFailure\""
+          }
+        },
+        {
+          "id": "StorageFailure-object",
+          "result": {
+            "encoded": "\"StorageFailure\""
+          }
+        },
+        {
+          "id": "Expired-string",
+          "result": {
+            "encoded": "\"Expired\""
+          }
+        },
+        {
+          "id": "Expired-object",
+          "result": {
+            "encoded": "\"Expired\""
+          }
+        },
+        {
+          "id": "UncertainTail-string",
+          "result": {
+            "encoded": "\"UncertainTail\""
+          }
+        },
+        {
+          "id": "UncertainTail-object",
+          "result": {
+            "encoded": "\"UncertainTail\""
+          }
+        },
+        {
+          "id": "case-sensitive",
+          "result": {
+            "column": 7,
+            "diagnostic": "unknown variant `limit`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+            "line": 1
+          }
+        },
+        {
+          "id": "unknown",
+          "result": {
+            "column": 7,
+            "diagnostic": "unknown variant `Other`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+            "line": 1
+          }
+        },
+        {
+          "id": "wrong-value",
+          "result": {
+            "column": 10,
+            "diagnostic": "invalid type: integer `1`, expected unit at line 1 column 10",
+            "line": 1
+          }
+        },
+        {
+          "id": "multiple",
+          "result": {
+            "column": 13,
+            "diagnostic": "expected value at line 1 column 13",
+            "line": 1
+          }
+        },
+        {
+          "id": "empty-object",
+          "result": {
+            "column": 2,
+            "diagnostic": "expected value at line 1 column 2",
+            "line": 1
+          }
+        },
+        {
+          "id": "numeric",
+          "result": {
+            "column": 1,
+            "diagnostic": "expected value at line 1 column 1",
+            "line": 1
+          }
+        },
+        {
+          "id": "array",
+          "result": {
+            "column": 1,
+            "diagnostic": "expected value at line 1 column 1",
+            "line": 1
+          }
+        },
+        {
+          "id": "unicode-escape",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "extra-input",
+          "result": {
+            "column": 9,
+            "diagnostic": "trailing characters at line 1 column 9",
+            "line": 1
+          }
+        },
+        {
+          "id": "all-fields",
+          "result": {
+            "encoded": "{\"start\":0,\"end\":8,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "null-end",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "missing-end",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "out-of-order",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":4,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "unknown-field",
+          "result": {
+            "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "duplicate",
+          "result": {
+            "column": 18,
+            "diagnostic": "duplicate field `start` at line 1 column 18",
+            "line": 1
+          }
+        },
+        {
+          "id": "duplicate-end",
+          "result": {
+            "column": 27,
+            "diagnostic": "duplicate field `end` at line 1 column 27",
+            "line": 1
+          }
+        },
+        {
+          "id": "missing-start",
+          "result": {
+            "column": 18,
+            "diagnostic": "missing field `start` at line 1 column 18",
+            "line": 1
+          }
+        },
+        {
+          "id": "missing-reason",
+          "result": {
+            "column": 11,
+            "diagnostic": "missing field `reason` at line 1 column 11",
+            "line": 1
+          }
+        },
+        {
+          "id": "inverted",
+          "result": {
+            "encoded": "{\"start\":9,\"end\":2,\"reason\":\"UncertainTail\"}"
+          }
+        },
+        {
+          "id": "max-u64",
+          "result": {
+            "encoded": "{\"start\":18446744073709551615,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "overflow",
+          "result": {
+            "column": 29,
+            "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 29",
+            "line": 1
+          }
+        },
+        {
+          "id": "negative",
+          "result": {
+            "column": 11,
+            "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 11",
+            "line": 1
+          }
+        },
+        {
+          "id": "three-item-array",
+          "result": {
+            "encoded": "{\"start\":0,\"end\":null,\"reason\":\"StorageFailure\"}"
+          }
+        },
+        {
+          "id": "two-item-array",
+          "result": {
+            "column": 12,
+            "diagnostic": "invalid type: string \"Expired\", expected u64 at line 1 column 12",
+            "line": 1
+          }
+        },
+        {
+          "id": "extra-array-item",
+          "result": {
+            "column": 14,
+            "diagnostic": "trailing characters at line 1 column 14",
+            "line": 1
+          }
+        },
+        {
+          "id": "reason-object",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "trailing",
+          "result": {
+            "column": 31,
+            "diagnostic": "trailing characters at line 1 column 31",
+            "line": 1
+          }
+        }
+      ],
+      "overlaySha256": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8",
+      "packageLockSha256": "281d010eca4e1a7b18514af49e2a9fb866069f5613145a2faf93556e07357528",
+      "recoveryLockSha256": "72e239a6e6a4c561c747df792146d49061f0b0e65a75d2e8d9a0ef1aee7db8ed",
+      "selectionSha256": "04283d0e997f232d12ceae4beb3bd43e18869b34091d09a632e8f35473ffa8c1",
+      "unknownFields": "ignore"
+    },
+    "mutation": {
+      "generatedFiles": {
+        "src/group_0/__projection_0.rs": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a",
+        "src/group_0/__projection_1.rs": "05bf5982f4cf5329d6f32111ec3d55c5660cb32869d30f36f2138d2d3ca377cc",
+        "src/group_0/mod.rs": "4280c49315f335ec1cfa8c31f605f135b4a0bc15a8ca2bfd6dc1133c9fc5cfc5",
+        "src/lib.rs": "8b0b5b00a320945c48220826234351488d9f745966f008f5f0cb9b522b27c8f8"
+      },
+      "graphSha256": "d3ef433ec282ff717ba72a503c50e8b02e22b697cf0a391677dfee3cf8e71e7b",
+      "manifestSha256": "ac264bfaa7e1610f035761e8c9b0336d343747c53154040f8c5d226f538abaf8",
+      "observations": [
+        {
+          "id": "Limit-string",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "Limit-object",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "StorageFailure-string",
+          "result": {
+            "encoded": "\"StorageFailure\""
+          }
+        },
+        {
+          "id": "StorageFailure-object",
+          "result": {
+            "encoded": "\"StorageFailure\""
+          }
+        },
+        {
+          "id": "Expired-string",
+          "result": {
+            "encoded": "\"Expired\""
+          }
+        },
+        {
+          "id": "Expired-object",
+          "result": {
+            "encoded": "\"Expired\""
+          }
+        },
+        {
+          "id": "UncertainTail-string",
+          "result": {
+            "encoded": "\"UncertainTail\""
+          }
+        },
+        {
+          "id": "UncertainTail-object",
+          "result": {
+            "encoded": "\"UncertainTail\""
+          }
+        },
+        {
+          "id": "case-sensitive",
+          "result": {
+            "column": 7,
+            "diagnostic": "unknown variant `limit`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+            "line": 1
+          }
+        },
+        {
+          "id": "unknown",
+          "result": {
+            "column": 7,
+            "diagnostic": "unknown variant `Other`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+            "line": 1
+          }
+        },
+        {
+          "id": "wrong-value",
+          "result": {
+            "column": 10,
+            "diagnostic": "invalid type: integer `1`, expected unit at line 1 column 10",
+            "line": 1
+          }
+        },
+        {
+          "id": "multiple",
+          "result": {
+            "column": 13,
+            "diagnostic": "expected value at line 1 column 13",
+            "line": 1
+          }
+        },
+        {
+          "id": "empty-object",
+          "result": {
+            "column": 2,
+            "diagnostic": "expected value at line 1 column 2",
+            "line": 1
+          }
+        },
+        {
+          "id": "numeric",
+          "result": {
+            "column": 1,
+            "diagnostic": "expected value at line 1 column 1",
+            "line": 1
+          }
+        },
+        {
+          "id": "array",
+          "result": {
+            "column": 1,
+            "diagnostic": "expected value at line 1 column 1",
+            "line": 1
+          }
+        },
+        {
+          "id": "unicode-escape",
+          "result": {
+            "encoded": "\"Limit\""
+          }
+        },
+        {
+          "id": "extra-input",
+          "result": {
+            "column": 9,
+            "diagnostic": "trailing characters at line 1 column 9",
+            "line": 1
+          }
+        },
+        {
+          "id": "all-fields",
+          "result": {
+            "encoded": "{\"start\":0,\"end\":8,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "null-end",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "missing-end",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "out-of-order",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":4,\"reason\":\"Expired\"}"
+          }
+        },
+        {
+          "id": "unknown-field",
+          "result": {
+            "column": 20,
+            "diagnostic": "unknown field `ignored`, expected one of `start`, `end`, `reason` at line 1 column 20",
+            "line": 1
+          }
+        },
+        {
+          "id": "duplicate",
+          "result": {
+            "column": 18,
+            "diagnostic": "duplicate field `start` at line 1 column 18",
+            "line": 1
+          }
+        },
+        {
+          "id": "duplicate-end",
+          "result": {
+            "column": 27,
+            "diagnostic": "duplicate field `end` at line 1 column 27",
+            "line": 1
+          }
+        },
+        {
+          "id": "missing-start",
+          "result": {
+            "column": 18,
+            "diagnostic": "missing field `start` at line 1 column 18",
+            "line": 1
+          }
+        },
+        {
+          "id": "missing-reason",
+          "result": {
+            "column": 11,
+            "diagnostic": "missing field `reason` at line 1 column 11",
+            "line": 1
+          }
+        },
+        {
+          "id": "inverted",
+          "result": {
+            "encoded": "{\"start\":9,\"end\":2,\"reason\":\"UncertainTail\"}"
+          }
+        },
+        {
+          "id": "max-u64",
+          "result": {
+            "encoded": "{\"start\":18446744073709551615,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "overflow",
+          "result": {
+            "column": 29,
+            "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 29",
+            "line": 1
+          }
+        },
+        {
+          "id": "negative",
+          "result": {
+            "column": 11,
+            "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 11",
+            "line": 1
+          }
+        },
+        {
+          "id": "three-item-array",
+          "result": {
+            "encoded": "{\"start\":0,\"end\":null,\"reason\":\"StorageFailure\"}"
+          }
+        },
+        {
+          "id": "two-item-array",
+          "result": {
+            "column": 12,
+            "diagnostic": "invalid type: string \"Expired\", expected u64 at line 1 column 12",
+            "line": 1
+          }
+        },
+        {
+          "id": "extra-array-item",
+          "result": {
+            "column": 14,
+            "diagnostic": "trailing characters at line 1 column 14",
+            "line": 1
+          }
+        },
+        {
+          "id": "reason-object",
+          "result": {
+            "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Limit\"}"
+          }
+        },
+        {
+          "id": "trailing",
+          "result": {
+            "column": 31,
+            "diagnostic": "trailing characters at line 1 column 31",
+            "line": 1
+          }
+        }
+      ],
+      "overlaySha256": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8",
+      "packageLockSha256": "3fde71576cd2fee666cb7a460f30d44f402e81aec2501c672323839c65a03b75",
+      "recoveryLockSha256": "cfe313068df8b3297e3a3fc490a55d1e944319f6bff49d9e8918f3b9a3b59daf",
+      "selectionSha256": "766f0d5f613c15f7b370b082bb86f9bfa0aed7adb3293054f1c62398038454d9",
+      "unknownFields": "reject"
+    }
+  },
+  "casesSha256": "b1365d899a3a71fc4437da0bfcbcdb21f824dc6d20cf255b5c91770aa7c9ac28",
+  "changedNativeRows": [
+    "unknown-field"
+  ],
+  "companion": "f3bbe1c50150ce2c2458e747f6c1efbd50dbf8b8",
+  "compilerBuildToolchain": [
+    "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "binary: rustc",
+    "commit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd",
+    "commit-date: 2026-06-26",
+    "host: aarch64-apple-darwin",
+    "release: 1.96.1",
+    "LLVM version: 22.1.2"
+  ],
+  "compilerSha256": "68f8fb19cafc821f9a0f565ba1c14fa8d9841124c86c42fe88901f6e101a0ca4",
+  "crateRootSha256": "382457f30531b992c700fbc46bc41216b067499b0c6de5ea93a8ce4f2f698316",
+  "format": "marmish-linked-range-recovery-v1",
+  "framework": "9923e6664899de66915ed3a94e417f261ffed401",
+  "host": "aarch64-apple-darwin",
+  "linkedChoiceRecovery": {
+    "framework": "d0b715eb05c5f150164aa89d5d80ae19f0da01ce",
+    "receiptSha256": "96ccc3f14f3030014babe011e814af432062b14f5cd559a5dec6a9e72c0a1437"
+  },
+  "nativeAuthoredReceiptSha256": "2cd26a75c254fe565a325c3215cc3feaaa4b9b558e1e0a39526b92cc90e2c6dd",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "originalReferenceSha256": "431a9eef60aa3ab14968ab9169cdb19a5ad5d825a1872f92bac8d659a944d777",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "rustdocEvidence": {
+    "cargoArgs": [
+      "cargo",
+      "+1.97.1",
+      "rustdoc",
+      "--locked",
+      "--offline",
+      "--lib",
+      "-p",
+      "marmish-engine",
+      "--target",
+      "aarch64-apple-darwin",
+      "--target-dir",
+      "<target-dir>",
+      "--",
+      "-Z",
+      "unstable-options",
+      "--output-format",
+      "json",
+      "--document-private-items"
+    ],
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "crateRootSha256": "382457f30531b992c700fbc46bc41216b067499b0c6de5ea93a8ce4f2f698316",
+    "format": "marmish-linked-range-rustdoc-v1",
+    "helperSha256": "f5ee8d987c7b436b6121e8c2b9c99f8cba77d71c7386889c5adaf252dfe4235e",
+    "host": "aarch64-apple-darwin",
+    "inputs": {
+      "baseline": {
+        "rustdocFile": "baseline.json",
+        "rustdocSha256": "e8da1c15d2924dc8c4de85f0c421aa9a96013a7d2e8fadb515fb5ccf04562340",
+        "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53"
+      },
+      "mutation": {
+        "rustdocFile": "mutation.json",
+        "rustdocSha256": "f30c5dc6e0e40fb757d5a3c4a8808f0cdb6adda3060da2bd3e17fbfe51ce40e5",
+        "sourceSha256": "97e3ed38fe2b7f80e0be0d438e894722ce335ee4b62e069acb075974ca0a9833"
+      }
+    },
+    "original": "af54339d250290490d62d4475a77539b7e739071",
+    "profileEnvironment": {
+      "CARGO_INCREMENTAL": "0",
+      "CARGO_PROFILE_DEV_DEBUG": "0",
+      "RUSTC_BOOTSTRAP": "1"
+    },
+    "runnerSha256": "71e4bb0adaaa5b9c685499ef01b5ea2cbf866459a144786a6a68b26b1db947ab",
+    "rustdoc": [
+      "rustdoc 1.97.1 (8bab26f4f 2026-07-14)",
+      "binary: rustdoc",
+      "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+      "commit-date: 2026-07-14",
+      "host: aarch64-apple-darwin",
+      "release: 1.97.1",
+      "LLVM version: 22.1.6"
+    ],
+    "source": "crates/marmish-engine/src/model.rs"
+  },
+  "scopeSourceDenials": 8,
+  "staleSelectorRejected": true,
+  "traitsSha256": "e83d44a3b838fd9efdaf23c08ddc22a7e3f35cca623c51a72573e2726c145643",
+  "verifierSha256": "b5e86a062b24628825437a80153e1c6a319b10d91cb5c8744d32e418bb7b6390"
+}

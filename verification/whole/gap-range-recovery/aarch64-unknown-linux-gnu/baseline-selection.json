@@ -1,0 +1,25 @@
+{
+  "choices": [
+    {
+      "id": "urn:marmish:engine:output-gap:reason",
+      "name": "MissingReason"
+    }
+  ],
+  "crateName": "marmish_engine",
+  "crateRootSha256": "382457f30531b992c700fbc46bc41216b067499b0c6de5ea93a8ce4f2f698316",
+  "format": "oddlang-serde-public-record-selection-v1",
+  "moduleId": "urn:marmish:engine:output-gap:range-module",
+  "moduleName": "model",
+  "record": {
+    "fields": {
+      "end": "urn:marmish:engine:output-gap:range:end",
+      "reason": "urn:marmish:engine:output-gap:range:reason",
+      "start": "urn:marmish:engine:output-gap:range:start"
+    },
+    "id": "urn:marmish:engine:output-gap:range",
+    "name": "MissingRange"
+  },
+  "rustdocSha256": "9890105daf6831dfa3f6656786110b69c11b8d95cf77e0adaf19d2c9d8b1daed",
+  "sourceFilename": "crates/marmish-engine/src/model.rs",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53"
+}

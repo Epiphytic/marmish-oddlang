@@ -1,0 +1,47 @@
+{
+  "format": "oddlang-public-records-v1",
+  "modules": [
+    {
+      "id": "urn:marmish:engine:output-gap:range-module",
+      "records": [
+        {
+          "id": "urn:marmish:engine:output-gap:range",
+          "traits": [
+            "clone",
+            "debug",
+            "partial-eq",
+            "eq",
+            "serialize",
+            "deserialize"
+          ],
+          "readPolicy": {
+            "shape": "object-or-ordered-sequence",
+            "unknownFields": "reject"
+          },
+          "fields": [
+            {
+              "id": "urn:marmish:engine:output-gap:range:start",
+              "wire": "start",
+              "type": "u64"
+            },
+            {
+              "id": "urn:marmish:engine:output-gap:range:end",
+              "wire": "end",
+              "type": {
+                "optional": "u64"
+              }
+            },
+            {
+              "id": "urn:marmish:engine:output-gap:range:reason",
+              "wire": "reason",
+              "type": {
+                "external": "urn:marmish:engine:output-gap:reason"
+              }
+            }
+          ]
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}
