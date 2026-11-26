@@ -1,0 +1,15 @@
+{
+  "constants": [
+    {
+      "id": "urn:marmish:prototype:max-line",
+      "value": {
+        "multiply": [
+          128,
+          1024
+        ]
+      }
+    }
+  ],
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:prototype:limits"
+}
