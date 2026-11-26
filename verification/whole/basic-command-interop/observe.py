@@ -1,6 +1,5 @@
 """Probe the pinned upstream control using a test-owned onion relay."""
 import argparse
-from contextlib import ExitStack
 import hashlib
 import json
 import os
@@ -10,6 +9,7 @@ import re
 import shutil
 import subprocess
 import tempfile
+from threading import Thread
 import time
 
 from corpus import SHORT_CASES, expected_receipt, finite_case
@@ -19,6 +19,7 @@ from qualify import Output, detached_handle, finite_goodput
 
 UPSTREAM = "af54339d250290490d62d4475a77539b7e739071"
 BUILD = Path(__file__).with_name("reference-build-macos-arm64.json")
+RUNTIME = Path(__file__).with_name("short-fixture-runtime-macos-arm64.json")
 BRIDGE = Path(__file__).resolve().parents[1] / "bridge" / "aarch64-apple-darwin.json"
 RELAY = re.compile(r"ws://[a-z2-7]{56}\.onion/relay")
 
@@ -88,6 +89,22 @@ def host_preferences_state():
     return result
 
 
+
+def drain(stream):
+    retained = bytearray()
+
+    def consume():
+        try:
+            while block := stream.read1(4096):
+                retained.extend(block[:65536 - len(retained)])
+        except (OSError, ValueError):
+            # Teardown closes descriptors after the owned process group stops.
+            return
+
+    Thread(target=consume, daemon=True).start()
+    return retained
+
+
 def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_digest, interpreter,
             generated_dir=None, generated_role=None):
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
@@ -97,9 +114,10 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
             character.isspace() for character in str(interpreter)):
         raise ValueError("short fixture interpreter must have a simple absolute path")
     build = json.loads(BUILD.read_bytes())
+    runtime = json.loads(RUNTIME.read_bytes())
     if (fixture_digest != build["fixture"]["sha256"]
             or deaddrop_digest != build["relay"]["sha256"]
-            or file_digest(interpreter) != build["short_interpreter_sha256"]
+            or file_digest(interpreter) != runtime["sha256"]
             or file_digest(Path(__file__).with_name("corpus.py")) != build["corpus_source_sha256"]):
         raise ValueError("reference artifact does not match pinned build record")
     record = json.loads(BRIDGE.read_bytes())
@@ -109,7 +127,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
     observation = {"schema": 1, "upstream": UPSTREAM, "platform": "macos-arm64",
                    "reference_binary_sha256": pins, "relay_sha256": deaddrop_digest,
                    "fixture_sha256": fixture_digest, "short_interpreter_sha256": file_digest(interpreter),
-                   "build_record_sha256": file_digest(BUILD), "stage": "sandbox",
+                   "build_record_sha256": file_digest(BUILD), "short_runtime_record_sha256": file_digest(RUNTIME),
+                   "stage": "sandbox",
                    "reference_complete": False, "attempts": []}
     artifact_dirs = dict.fromkeys(("client", "server"), binaries)
     artifact_pins = dict.fromkeys(("client", "server"), pins)
@@ -228,55 +247,51 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 policy["cwd"] = str(server.root)
                 policy_path.write_text(json.dumps(policy))
                 observation["stage"] = "owner-activation"
-                with ExitStack() as logs:
-                    owner_logs = {}
-                    observation["owner_states"] = {}
-                    try:
-                        for role in ("server", "client"):
-                            instance = peers[role]
-                            options = account_options(instance, role, address)
-                            # The upstream engine reopens every inherited vnode by its named path.
-                            log_path = instance.root / "owner.stderr"
-                            fd = os.open(log_path, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
-                            owner_log = logs.enter_context(os.fdopen(fd, "w+b"))
-                            owner_logs[role] = owner_log
-                            child = instance.start(
-                                [instance.root / "marmishd", *options, "--foreground", "daemon"],
-                                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=owner_log)
+                owner_logs = {}
+                observation["owner_states"] = {}
+                try:
+                    for role in ("server", "client"):
+                        instance = peers[role]
+                        options = account_options(instance, role, address)
+                        child = instance.start(
+                            [instance.root / "marmishd", *options, "--foreground", "daemon"],
+                            stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+                        drain(child.stdout)
+                        owner_logs[role] = drain(child.stderr)
 
-                            def ready():
-                                if child.poll() is not None:
-                                    raise ValueError(f"{role} owner stopped during activation")
-                                status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
-                                if status.returncode:
-                                    return False
-                                state = (json.loads(status.stdout).get("result") or {}).get("state")
-                                expected = "provider_active" if role == generated_role else "active"
-                                return state if state == expected else None
+                        def ready():
+                            if child.poll() is not None:
+                                raise ValueError(f"{role} owner stopped during activation")
+                            status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
+                            if status.returncode:
+                                return False
+                            state = (json.loads(status.stdout).get("result") or {}).get("state")
+                            expected = "provider_active" if role == generated_role else "active"
+                            return state if state == expected else None
 
-                            observation["owner_states"][role] = until(ready, 170, "owner-activation")
-                    except (ValueError, TimeoutError, subprocess.TimeoutExpired):
-                        diagnostics = {}
-                        for role, log in owner_logs.items():
-                            lines = os.pread(log.fileno(), 65536, 0).splitlines()
-                            diagnostics[role] = [line.decode() for line in (
-                                b"marmish: marmot: key_package_publish", b"marmish: transport: relay_connect")
-                                if line in lines]
-                        observation["terminal_diagnostics"] = diagnostics
-                        raise
-                    if generated_role is None:
-                        observation["both_upstream_owners_active"] = True
-                    for instance in peers.values():
-                        if len([p for p in instance.tmp.glob("mr2-*/s") if p.is_socket()]) != 1:
-                            raise ValueError("private daemon socket not verified")
-                    observation["stage"] = "command-corpus"
-                    client = peers["client"]
-                    base = [client.root / "marmish", *account_options(client, "client", address),
-                            "--no-autostart", "--wait-seconds", "300"]
-                    reference_commands(observation["attempts"], client, base, accounts["server"],
-                                       account_keys["server"], fixtures)
-                    observation["stage"] = "complete"
-                    observation["reference_complete"] = generated_role is None
+                        observation["owner_states"][role] = until(ready, 170, "owner-activation")
+                except (ValueError, TimeoutError, subprocess.TimeoutExpired):
+                    diagnostics = {}
+                    for role, log in owner_logs.items():
+                        lines = bytes(log).splitlines()
+                        diagnostics[role] = [line.decode() for line in (
+                            b"marmish: marmot: key_package_publish", b"marmish: transport: relay_connect")
+                            if line in lines]
+                    observation["terminal_diagnostics"] = diagnostics
+                    raise
+                if generated_role is None:
+                    observation["both_upstream_owners_active"] = True
+                for instance in peers.values():
+                    if len([p for p in instance.tmp.glob("mr2-*/s") if p.is_socket()]) != 1:
+                        raise ValueError("private daemon socket not verified")
+                observation["stage"] = "command-corpus"
+                client = peers["client"]
+                base = [client.root / "marmish", *account_options(client, "client", address),
+                        "--no-autostart", "--wait-seconds", "300"]
+                reference_commands(observation["attempts"], client, base, accounts["server"],
+                                   account_keys["server"], fixtures)
+                observation["stage"] = "complete"
+                observation["reference_complete"] = generated_role is None
     except (ValueError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
         observation["failure_type"] = type(error).__name__
         outcome = "blocked"
@@ -329,6 +344,16 @@ def reference_commands(attempts, client, base, server_npub, server_hex, fixtures
             elapsed = time.monotonic_ns() - elapsed_start
             expected = Output(case.status, case.stdout, case.stderr)
             attempt["result"] = output.receipt()
+            diagnostic_lines = set(output.stderr.splitlines())
+            attempt["safe_terminal_labels"] = [
+                label for label in ("local_timeout", "remote_pending", "local_pending", "command_failed")
+                if f"marmish: {label}".encode() in diagnostic_lines
+            ]
+            attempt["python_exception_types"] = [
+                exception for exception in ("PermissionError", "FileNotFoundError", "ModuleNotFoundError",
+                                            "NotADirectoryError", "OSError", "RuntimeError", "ValueError")
+                if any(line.startswith(f"{exception}: ".encode()) for line in diagnostic_lines)
+            ]
             attempt["elapsed_ns"] = elapsed
             output.compare(expected)
             receipt_path = exe.parent / "receipts" / f"{nonce.decode()}.receipt"

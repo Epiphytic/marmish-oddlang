@@ -20,7 +20,7 @@ class Instance:
         self.root.mkdir(mode=0o700)
         self.tmp = root / "tmp"
         self.tmp.mkdir(mode=0o700)
-        self.profile = root / "sandbox.sb"
+        self.profile = root.parent / f"{root.name}.sb"
         self.policy = (
             "(version 1)\n(allow default)\n"
             f"(deny file-read* (subpath {json.dumps(str(SYSTEM_HOME))}))\n"
@@ -69,6 +69,9 @@ class Instance:
         result = self.run(["/bin/cat", read_sentinel], timeout=5)
         if not result.returncode or result.stdout:
             raise ValueError("sandbox allowed an external read")
+        profile_write = self.run(["/usr/bin/touch", self.profile], timeout=5)
+        if not profile_write.returncode:
+            raise ValueError("sandbox profile is mutable from within its instance")
         result = self.run(["/usr/bin/touch", write_sentinel], timeout=5)
         if not result.returncode or write_sentinel.exists():
             raise ValueError("sandbox allowed an external write")

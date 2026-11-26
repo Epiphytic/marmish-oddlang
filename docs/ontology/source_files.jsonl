@@ -1003,7 +1003,7 @@
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"e2bef4a1e5b647d26250f9e9a43a35a37fc3e76cf5dfeeea027281d56b4b37f0","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"4ee59f1cd44ac8657f3f0b7350d271b063c23c6889f2259066fe02950ed66209","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"e4fbc37a17cce687c9ef1b5c1af6cad0614303d4f5d10cf02b18f0f5c2f1ccbd","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"b143da46c5ff9b0c057bf8d9da14d24f3e830dcfd25cc6c8989cd3ce1d901d8b","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/build.py","language":"python","mode":"100644","sha256":"e3f61a77c34097dffe92383ede2c4a5f4c3448f49a1f0ea463490f1e305c1147","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/candidate_preflight.py","language":"python","mode":"100644","sha256":"c15798083ccf7812a92ddce511ed7e0c0db5f7f95072ad5fe74a7d9f915e8c5c","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/client_owner_preflight.py","language":"python","mode":"100644","sha256":"d29c7313bb5f78768342f8792aca18262bcab6e2d6f0a2dde591429f386be10c","parse_status":"parsed"}
@@ -1012,11 +1012,12 @@
 {"path":"verification/whole/basic-command-interop/generated-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d4c7c74cc03b3b3b18682188a8439ffc0e3485bc508760cfcd49fbae86447ddd","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-client-upstream-server-macos-arm64.json","language":"inventory","mode":"100644","sha256":"9194a85ccf072b56dbda1f7c952e48b8f40a03bb7941f408f5692c4665697baf","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-preflight-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7e2a5bd39a744eb5016790e503214378bc553896ea85c4d6554f510049e46b77","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/isolate.py","language":"python","mode":"100644","sha256":"df5907507bdf382cd31451abf167581cd88e354d5394f3507cfff1e97f0da1e3","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/observe.py","language":"python","mode":"100644","sha256":"ee588ffd31379e2e67823af7f52def2b6ebcfe017c39c000677fc0dff9a4e8ad","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/isolate.py","language":"python","mode":"100644","sha256":"e1928af22705b6f1a252533f58496c320bc780d536edcd170a650068aca56579","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/observe.py","language":"python","mode":"100644","sha256":"a7eceea8f0bfd4676e4a75b338be0578873a74f6bb5fefb89b06a40d1b7262cc","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/qualify.py","language":"python","mode":"100644","sha256":"23d4e065f04e2730e35ba564155f6cd22c054e4ce6bd7e5af1c31f7419a9bd14","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/reference-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"20626333b5d35f320306303df40f6a4a28953a5a0a8f9b9d6750f4b2442361f3","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/replay_corpus.py","language":"python","mode":"100644","sha256":"a10b39f37d26cfc12a94665674d1024e530cc9842abf2769e26910ba0940ff29","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/short-fixture-runtime-macos-arm64.json","language":"inventory","mode":"100644","sha256":"cbe54cdd175de958c39caa73d24af3b49e490b22b1f63b4464a4e708bf3963a9","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/test_corpus.py","language":"python","mode":"100644","sha256":"6521387cebfe15ed070ac04522afffa2a305db0f840787825ba461352e956dfa","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/test_isolate.py","language":"python","mode":"100644","sha256":"25c3516d29c5a7e83c8a2fe71b4fc1d5a0751fd4f987f601023c996a8c42ee4e","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/test_observe.py","language":"python","mode":"100644","sha256":"ca61927f43e8cff570c0ffea5c8a300cdd1a902b890f3f00f872cc6a6d1a93c1","parse_status":"parsed"}
