@@ -903,7 +903,7 @@
 {"path":"verification/whole/converged-public-api/darwin-imports.json","language":"inventory","mode":"100644","sha256":"8683cef63ff6120f08b9d8037e9932b526a315843860daccaf575cd6b7ff5c2c","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/import-profile.json","language":"inventory","mode":"100644","sha256":"f645ddbedb28e1de0c76ccf70acc1475cd3c01dc28f0c32eb0f2bdafd38b71f9","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/verify.py","language":"python","mode":"100644","sha256":"54dac0c8d2b198f0571eb057084fa6c5bf9c11749c724412b01d78a8553b6589","parse_status":"parsed"}
-{"path":"verification/whole/converged-release-manifest/README.md","language":"inventory","mode":"100644","sha256":"9bc90e7517dab5d4574735762d4cd367679b938fe2917704719d96c913f31bcf","parse_status":"inventory"}
+{"path":"verification/whole/converged-release-manifest/README.md","language":"inventory","mode":"100644","sha256":"3b2d98477e092019e49f5cb1d9c5d3320cd9f4895aa52940a9e1bf464fcced71","parse_status":"inventory"}
 {"path":"verification/whole/converged-release-manifest/compose.py","language":"python","mode":"100644","sha256":"9a5f7154a2adf7b3d66db6bae0951e0235145f7ff4f6f1b2b5cd47780d72d98b","parse_status":"parsed"}
 {"path":"verification/whole/converged-release-manifest/verify.py","language":"python","mode":"100644","sha256":"ef67e2647fcd0f406d548da2444f502c06bf5b2b93ac76b4ab00096f3c48a0cd","parse_status":"parsed"}
 {"path":"verification/whole/copy-checkpoint/README.md","language":"inventory","mode":"100644","sha256":"d9c1b33c90b1315e39ccdd716af607022b5d1b6686d732f860f51e7b688b1c31","parse_status":"inventory"}
