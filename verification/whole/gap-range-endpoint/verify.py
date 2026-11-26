@@ -46,8 +46,9 @@ def stage(work, profile):
             alternate = {"rust": "OpenOr<u64>", "typescript": "decimal string | null"}
             for entry in hints["hints"]:
                 entry["representation"] = alternate.get(entry["language"], entry["representation"])
-        if profile == "one-hint-absent":
-            hints["hints"] = [entry for entry in hints["hints"] if entry["language"] != "rust"]
+        if profile in ("without-rust", "without-typescript"):
+            language = profile.removeprefix("without-")
+            hints["hints"] = [entry for entry in hints["hints"] if entry["language"] != language]
         dump(lane / "hints.json", hints)
     return lane, Path(shutil.copy2(MANIFEST, inputs))
 
@@ -87,6 +88,9 @@ def verify(work, args):
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in PRIOR["HOSTS"] or f"commit-hash: {PRIOR['RUSTC']}" not in version:
         raise ValueError("expected the pinned native ARM64 runner")
+    tracked_diff = run("git", "diff", "--name-only", "HEAD", "--", cwd=ROOT).decode().splitlines()
+    if set(tracked_diff) - {(BUNDLE / "hints.json").relative_to(ROOT).as_posix()}:
+        raise ValueError("expected a clean companion checkout apart from advisory hints")
     cases = validate_contract()
     native["clean"](args.original, native["PIN"])
     inputs = (BUNDLE / "wire.json", CASES, BUNDLE / "hints.json", BUNDLE / "rust.json", MANIFEST)
@@ -115,7 +119,7 @@ def verify(work, args):
         return run(*wrapper, *argv, cwd=cwd, env=env, **options)
 
     outputs = {}
-    for profile in ("baseline", "replacement", "one-hint-absent", "absent"):
+    for profile in ("baseline", "replacement", "without-rust", "without-typescript", "absent"):
         lane, manifest = stage(work, profile)
         if sha(lane / "wire.json") != sha(BUNDLE / "wire.json") or sha(lane / CASES.name) != sha(CASES):
             raise ValueError(f"portable wire contract or cases changed under {profile}")
@@ -158,9 +162,14 @@ def verify(work, args):
     else:
         raise ValueError("private field was accepted for the public Rust role")
 
+    ts_inputs = {}
     if args.typescript:
         ts = HERE / "typescript"
         js = work / "ts"
+        node = run("node", "--version").decode().strip()
+        if not node.startswith("v22."):
+            raise ValueError("expected Node 22")
+        ts_inputs = {name: sha(ts / name) for name in ("endpoint.ts", "check.cjs")}
         run("npx", "--offline", "--package=typescript@5.9.3", "tsc", "--strict",
             "--target", "ES2022", "--module", "commonjs", "--outDir", js, "endpoint.ts", cwd=ts)
         for profile, evidence in outputs.items():
@@ -200,10 +209,12 @@ def verify(work, args):
     return {
         "format": "marmish-gap-range-native-idioms-v1",
         "framework": FRAMEWORK,
-        "frameworkBuildToolchain": run("rustc", "+1.96.1", "-vV").decode().splitlines(),
+        "frameworkBuildToolchain": args.framework_toolchain,
+        "manifestSha256": sha(MANIFEST),
         "companion": run("git", "rev-parse", "HEAD", cwd=ROOT).decode().strip(),
         "compilerSha256": sha(compiler),
-        "node": run("node", "--version").decode().strip() if args.typescript else None,
+        "node": node if args.typescript else None,
+        "typescriptInputs": ts_inputs,
         "typescript": "5.9.3" if args.typescript else None,
         "verifierSha256": sha(HERE / "verify.py"),
         "host": host,
@@ -230,6 +241,9 @@ if __name__ == "__main__":
         parser.add_argument(name, type=lambda value: Path(value).resolve())
     args = parser.parse_args()
     PRIOR["clean"](args.framework, FRAMEWORK)
+    args.framework_toolchain = run("rustc", "+1.96.1", "-vV").decode().splitlines()
+    if f"commit-hash: {PRIOR['BUILD_RUSTC']}" not in args.framework_toolchain:
+        raise ValueError("expected the pinned Oddlang build toolchain")
     env = dict(os.environ, CARGO_INCREMENTAL="0")
     for key in ("RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "CARGO_BUILD_TARGET"):
         env.pop(key, None)

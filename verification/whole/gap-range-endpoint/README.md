@@ -39,11 +39,11 @@ python3 -B "$lane/verify.py" "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$BINDI
 ```
 
 The verifier stages the published hints, alternative representations,
-a profile with one hint deleted, and a profile with the hints file absent. In each profile it pins the same
+profiles deleting each hint separately, and a profile with the hints file absent. In each profile it pins the same
 portable wire contract and case bytes, generates the standalone package
 with the explicit Rust field requirement, and compares every emitted file.
 The compiler runs with original sources and caller sources denied. After
-comparing all four native packages, the verifier compiles the unchanged
+comparing all five native packages, the verifier compiles the unchanged
 wire and Rust trait callers against the baseline bytes and replays each
 profile's corpus. The TypeScript probe likewise consumes every profile's
 corpus. A private-field declaration is rejected for the Rust drop-in
