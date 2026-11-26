@@ -4,7 +4,10 @@ import json
 from pathlib import Path
 import sys
 
-from candidate_coverage import CORE, STREAM, NATIVE, MANIFEST, FRAMEWORK, HERE, PIN, reconcile, sha
+from candidate_coverage import CORE, STREAM, NATIVE, CANDIDATES, HERE, PIN, reconcile, sha
+
+
+import selected_tests
 
 
 def inspect(receipt):
@@ -13,9 +16,13 @@ def inspect(receipt):
         raise ValueError("unknown native target")
     data = (HERE / f"named-release-{host}.json").read_bytes()
     catalog = json.loads(data)
-    expected_pins = dict(original=PIN, framework=FRAMEWORK, profile=catalog["selection"],
-                         inventorySha256=sha(data), manifestSha256=sha(MANIFEST.read_bytes()),
-                         workspaceLockSha256=sha((MANIFEST.with_suffix("")/"workspace.lock").read_bytes()))
+    matches = [(key,manifest) for key,(manifest,revision) in CANDIDATES.items() if revision == receipt["framework"] and sha(manifest.read_bytes()) == receipt["manifestSha256"]]
+    if len(matches) != 1:
+        raise ValueError("unknown workspace or compiler revision")
+    candidate, manifest = matches[0]
+    expected_pins = dict(original=PIN, profile=catalog["selection"],
+                         inventorySha256=sha(data), manifestSha256=sha(manifest.read_bytes()),
+                         workspaceLockSha256=sha((manifest.with_suffix("")/"workspace.lock").read_bytes()))
     if catalog["upstream"] != PIN or any(receipt[k] != value for k,value in expected_pins.items()):
         raise ValueError("candidate or upstream profile seal differs")
     rows = receipt["harnesses"]
@@ -23,7 +30,14 @@ def inspect(receipt):
         raise ValueError("missing or unexpected harness")
     witnesses = {k:v["passed"] for k,v in rows.items() if v["passed"]}
     native = receipt["nativeProcessTest"]
-    if set(witnesses) != {CORE, STREAM, NATIVE} or witnesses[NATIVE] != [native["test"]]:
+    partial = selected_tests.cases(host) if candidate == "recovered" else {}
+    expected_processes = {k:{name:2 if k == selected_tests.ENGINE else 1 for name in names}
+                          for k,names in partial.items()}
+    if receipt.get("passingProcesses") != (expected_processes if partial else None):
+        raise ValueError("partial test process evidence differs")
+    if any(witnesses.get(k) != v for k,v in partial.items()) or receipt.get("selectedTestSources") != (selected_tests.EXPECTED if partial else None):
+        raise ValueError("partial harness source or observed cases disagree")
+    if set(witnesses) != {CORE, STREAM, NATIVE} | set(partial) or witnesses[NATIVE] != [native["test"]]:
         raise ValueError("pass without matching qualified harness")
     for harness in (CORE, STREAM, NATIVE):
         if witnesses[harness] != sorted(catalog["harnesses"][harness]["tests"]):

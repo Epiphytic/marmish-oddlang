@@ -14,6 +14,7 @@ import tempfile
 
 from inventory import PIN
 import process_limits
+import selected_tests
 
 HERE = Path(__file__).resolve().parent
 WHOLE = HERE.parent
@@ -22,6 +23,12 @@ STREAM = "marmish-stream/lib/marmish_stream"
 NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
+
+CANDIDATES = {
+    "v7": (MANIFEST, FRAMEWORK),
+    "recovered": (MANIFEST.with_name("workspace-v7-recovered-vault-engine.json"),
+                  "6e2d1ef00f286b6132b84e27a61805c659dfd437"),
+}
 
 
 def run(*cmd, **kwargs):
@@ -69,9 +76,10 @@ def reconcile(inventory, passed):
     return rows, totals
 
 
-def qualify(original, framework, compiler_cache, reference_target):
+def qualify(original, framework, compiler_cache, reference_target, candidate="v7"):
+    manifest, framework_pin = CANDIDATES[candidate]
     pin(original, PIN)
-    pin(framework, FRAMEWORK)
+    pin(framework, framework_pin)
     version = run("rustc", "+1.97.1", "-vV").decode()
     host, = [line[6:] for line in version.splitlines() if line.startswith("host: ")]
     suite = HERE / f"named-release-{host}.json"
@@ -80,6 +88,9 @@ def qualify(original, framework, compiler_cache, reference_target):
         raise ValueError("upstream inventory profile differs from candidate")
     if sha((original/"Cargo.lock").read_bytes()) != inventory["cargoLockSha256"]:
         raise ValueError("upstream Cargo.lock changed")
+    manifest_digest = sha(manifest.read_bytes())
+    expected_lock = (manifest.with_suffix("")/"workspace.lock").read_bytes()
+    prior = json.loads((WHOLE/"workspace"/f"v7-{host}.json").read_bytes())
     assembly = runpy.run_path(str(WHOLE/"workspace/verify.py"))
     run("cargo", "+1.96.1", "build", "--locked", "--offline", "--bin", "oddlang",
         "--target-dir", compiler_cache, cwd=framework)
@@ -87,7 +98,7 @@ def qualify(original, framework, compiler_cache, reference_target):
         work = Path(tmp).resolve()
         inputs, product = work/"inputs", work/"product"
         inputs.mkdir()
-        workspace = assembly["stage_workspace"](MANIFEST, inputs)
+        workspace = assembly["stage_workspace"](manifest, inputs)
         compiler = compiler_cache/"debug/oddlang"
         if host == "aarch64-apple-darwin":
             sandbox = runpy.run_path(str(WHOLE/"unified-vault/verify.py"))["sandbox"]
@@ -113,9 +124,9 @@ def qualify(original, framework, compiler_cache, reference_target):
                 args[args.index("--chdir")+1] = str(cwd)
             return run(*args, *cmd, cwd=cwd, env=env)
 
-        inside(cli, "build", "native-workspace", "rust", inputs/MANIFEST.name, product, cwd=work)
+        inside(cli, "build", "native-workspace", "rust", inputs/manifest.name, product, cwd=work)
         lock = (product/"workspace.lock").read_bytes()
-        if lock != (MANIFEST.with_suffix("")/"workspace.lock").read_bytes():
+        if lock != expected_lock:
             raise ValueError("generated workspace differs from the published candidate")
         seal = json.loads(lock)
         assembly["verify_generated_tree"](product, seal, True, True)
@@ -133,7 +144,6 @@ def qualify(original, framework, compiler_cache, reference_target):
         assembly["verify_generated_tree"](product, seal, True, True)
         modules = assembly["stage_library_tests"](product, original, workspace, True, True)
         modules.pop("exactCopyFrames")
-        prior = json.loads((WHOLE/"workspace"/f"v7-{host}.json").read_bytes())
         if modules != {k:v for k,v in prior["testModules"].items() if k != "exactCopyFrames"}:
             raise ValueError("upstream test module identity changed")
         stream = workspace["members"]["marmish-stream"]["manifest"]["path"]
@@ -143,6 +153,10 @@ def qualify(original, framework, compiler_cache, reference_target):
             for i, component in enumerate(components) if component["module"] in {"codec","windows"}}
         injected = {"marmish-core/tests/contracts.rs","marmish-stream/src/original_wire_test_module.rs",
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
+        additional = {}
+        if candidate == "recovered":
+            paths, additional = selected_tests.stage(original, product)
+            injected.update(paths)
         staged = snapshot()
         if set(staged) != set(pristine) | injected or len(appended) != 3:
             raise ValueError("unexpected staged file inventory")
@@ -163,6 +177,25 @@ def qualify(original, framework, compiler_cache, reference_target):
                 raise ValueError(f"complete harness did not pass: {harness}")
             witnessed[harness] = names
         release = product/"target/release"
+        invocations = {}
+        if additional:
+            for harness, names in selected_tests.cases(host).items():
+                package = harness.split("/")[0]
+                command = ("cargo","test","--locked","--offline","--release","-p",package,
+                           "--test","selected_upstream","--")
+                listing = inside(*command,"--list",cwd=product).decode()
+                if sorted(line.removesuffix(": test") for line in listing.splitlines()
+                          if line.endswith(": test")) != names:
+                    raise ValueError(f"unexpected upstream tests registered for {package}")
+                invocations[harness] = {}
+                for name in names:
+                    raw = inside(*command,"--exact",name,"--format","pretty",cwd=product).decode()
+                    # Engine starts a second test harness process at this exact name.
+                    # Each process must really run the case and report its own success.
+                    runs = 2 if harness == selected_tests.ENGINE else 1
+                    selected_tests.check_execution(name, runs, raw, assembly["passing_tests"](raw))
+                    invocations[harness][name] = runs
+                witnessed[harness] = names
         # Use Cargo's artifact for the harness target. Native and test builds can
         # legitimately leave multiple feature-specific libc archives in release/deps.
         libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]
@@ -178,10 +211,11 @@ def qualify(original, framework, compiler_cache, reference_target):
             raise ValueError("harness received different release binaries")
         witnessed[NATIVE] = [processes["test"]]
         rows, totals = reconcile(inventory, witnessed)
-        return dict(original=PIN, framework=FRAMEWORK, target=host, profile=inventory["selection"],
-                    manifestSha256=sha(MANIFEST.read_bytes()), workspaceLockSha256=sha(lock),
+        return dict(original=PIN, framework=framework_pin, target=host, profile=inventory["selection"],
+                    manifestSha256=manifest_digest, workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
-                    releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals)
+                    releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
+                    **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))
 
 
 if __name__ == "__main__":
@@ -189,8 +223,9 @@ if __name__ == "__main__":
     for name in ("original","framework","compiler_cache","reference_target","receipt"):
         ap.add_argument(name,type=Path)
     ap.add_argument("--require-complete",action="store_true")
+    ap.add_argument("--candidate",choices=CANDIDATES,default="v7")
     args = ap.parse_args()
-    result = qualify(*(getattr(args,n).resolve() for n in ("original","framework","compiler_cache","reference_target")))
+    result = qualify(*(getattr(args,n).resolve() for n in ("original","framework","compiler_cache","reference_target")),candidate=args.candidate)
     args.receipt.write_text(json.dumps(result,indent=2,sort_keys=True)+"\n")
     print(result["target"], result["totals"])
     if args.require_complete and result["totals"]["unverified"]:

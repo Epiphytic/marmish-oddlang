@@ -12,6 +12,8 @@ The separate [engine process-limit workspace](../verification/whole/engine-limit
 
 The [public journal record recovery](../verification/whole/journal-records/README.md) preserves three selected native records and their direct re-exports in the combined vault and engine workspace.
 
+The [combined recovered vault and journal workspace](../verification/whole/unified-vault-journal/README.md) qualifies the recovered release report, fixed-width vault and public journal records together on one build.
+
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
