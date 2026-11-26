@@ -150,7 +150,7 @@ def generated(args, host, work, scratch, helper, body, probe):
          "--lib", *extra, "--", "--exact", qualified + CASE],
         cwd=changed, env=env, capture_output=True, text=True)
     if (failing.returncode != 101 or f"test {qualified}{CASE} ... FAILED" not in failing.stdout
-            or 'Invalid("install_manifest_path")' not in failing.stdout
+            or 'assertion failed: verify_directory(root.path(), AssetNaming::VersionedDownloads, pin).is_err()' not in failing.stdout
             or "test result: FAILED. 0 passed; 1 failed; 0 ignored;" not in failing.stdout):
         raise ValueError(f"removed catalog family did not fail the unchanged case: {failing}")
     return cases, sha(lock), sha(mutant_lock), removed
@@ -192,7 +192,7 @@ def main():
             "case": "native_manifest::tests::" + CASE, "caseSha256": TEST_SHA,
             "sampleSha256": SAMPLE_SHA, "namedPassed": 1, "probeSha256": sha(probe),
             "observations": results, "mutation": {"removedPrefix": removed, "workspaceLockSha256": mutant,
-                                                   "namedFailed": 1},
+                                                   "namedFailed": 1, "failure": "missed-ambiguity"},
         })
 
 
