@@ -17,8 +17,12 @@ ROOT = HERE.parents[2]
 MANIFEST = ROOT/"oddlang/portable/prototype-buffer-package.json"
 GRAPH = MANIFEST.parent/"prototype-buffer-v1/graph.json"
 OVERLAY = GRAPH.with_name("rust.json")
-TEST_HASH = "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc"
+from upstream_case import TEST_HASH, original_test as extract_original_test
 NATIVE_TEST_PREFIX = "buffer::__projection_0::"
+def original_test(original):
+    return extract_original_test(original, PIN, SOURCE)
+
+
 CORE = runpy.run_path(str(HERE.parent/"core-package/verify.py"))
 WORKSPACE = runpy.run_path(str(HERE.parent/"workspace/verify.py"))
 
@@ -29,19 +33,6 @@ def run(*cmd, **kw):
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
-
-
-def original_test(original):
-    data = run("git","-C",original,"show",f"{PIN}:{SOURCE}")
-    marker = b"    #[test]\n    fn private_reader_wipes_consumed_spans"
-    if data.count(marker) != 1:
-        raise ValueError("unexpected original test")
-    start = data.index(marker)
-    body = data[start:data.index(b"    #[test]",start+len(marker))]
-    if sha(body) != TEST_HASH:
-        raise ValueError("upstream reader test changed")
-    return (b"\n#[cfg(test)]\nmod secret_request_tests {\nuse super::*;\nuse std::io::{self, BufRead};\n"
-            b"use zeroize::Zeroizing;\n"+body+b"}\n")
 
 
 def erasure_provider(original, host):
