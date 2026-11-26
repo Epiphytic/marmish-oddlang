@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "buildReceiptSha256": "f096f5ba61841346ba14974a5f507f935f1161ad8fc5f3df418bf9ed1ed0a32b",
+  "preflightReceiptSha256": "44c9ebda05bb15a8340350c3ec3fad5b6e1ffaab709104b5a60d7933d0720e43",
+  "isolationFixtureSha256": "e1928af22705b6f1a252533f58496c320bc780d536edcd170a650068aca56579",
+  "providerSupportFixtureSha256": "861cacd16cfb6ef2afa49f9cc3d2e17f32bbe3531d0cfa2da60b2b76f76965a3",
+  "artifacts": {
+    "marmish": {
+      "sha256": "eaace343c24745b7d1ba61bdfe22ceba9b6e981faa0b531ab38864c8f01c3764",
+      "sizeBytes": 20847344
+    },
+    "marmishd": {
+      "sha256": "4c5253f00d5f0a945debb237fff4ec398c8266d03508d5fe7e15a5780d7fe3fe",
+      "sizeBytes": 40634896
+    }
+  },
+  "compositionPins": {
+    "workspace-composed-basic-owner.json": "d633d36a72dfaa36241aefd4d43a3dd6c00d05eef15fb97a4056f22bce4d0b0b",
+    "marmish-native-composed-basic-owner-package.json": "f339464c45280483f19842866b853ec4edb5465b4761fd14517e9ea4ab5e0087",
+    "composed-basic-owner-v1/marmish-cli.json": "48860d95c6cec98dee83a629391c3a2fe2cf93a8cb8387102dea415bcba4befe"
+  },
+  "providerFixtureSha256": "3f588c2314304e1f60538e942b7b8df94db7dd69d77d30952fa3b0fae5ee170e",
+  "relaySha256": "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3",
+  "distinctGeneratedFileProfiles": true,
+  "matchingAuthorizedPeerRoles": true,
+  "providerActiveAfterAcknowledgement": true,
+  "authorizationConfigUnchanged": true,
+  "ownedCleanup": true
+}

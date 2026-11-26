@@ -1,0 +1,224 @@
+{
+  "cases": {
+    "wss": {
+      "client-fresh": {
+        "status": 0,
+        "stdout": "2c4b1fcf7939b6c6f767779c938148698f4b8343786a442efee89ee76bc06838",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "d9d93aad98e34dc1bcd1fab2ffbc92d70302542e0d992043c94543038fef94a2",
+        "configMode": 384
+      },
+      "server-fresh": {
+        "status": 0,
+        "stdout": "5af2c82e80e90ab9c5dd105b71951bb4836cadb916e3f6a063a493ab18bcb939",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "a06383e5b2420430e734ad152a6abd0d02e3d9046145cbdb0c7eff85e4b5c073",
+        "configMode": 384
+      },
+      "server-update": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "server-repeat": {
+        "status": 0,
+        "stdout": "2f88e0da94730c4671f7001c7b61a7256595fbf26a4958a48d40c6f1ee96d95a",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "server-invalid": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "client-update": {
+        "status": 0,
+        "stdout": "d83c869e4b44db6c263787abb889df70109d68af6cdc47d68bd57d97d8883372",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "82234a49823d638b1d246cb705b32f9f71ceab799fc7b6549c7dc7497ab98051",
+        "configMode": 384
+      },
+      "client-repeat": {
+        "status": 0,
+        "stdout": "7ce4ea46d78e59010fe32ea333dad6690fe66cdea4837573bf31ab579476dac5",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "82234a49823d638b1d246cb705b32f9f71ceab799fc7b6549c7dc7497ab98051",
+        "configMode": 384
+      },
+      "client-invalid": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "82234a49823d638b1d246cb705b32f9f71ceab799fc7b6549c7dc7497ab98051",
+        "configMode": 384
+      },
+      "init-with-grant": {
+        "status": 0,
+        "stdout": "a8f1b0106cc156c8199644cadfe37c2dea040c7f1e34d1317d4516571eb19592",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "retain-grant-while-client": {
+        "status": 0,
+        "stdout": "86561640397b783ae7c12737d008af41878fea37ee54812499f7c2cad2b3850f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "575d54c1b1edd89d42d808fc596237634746e3a7780ee08e9188e047d149dfb8",
+        "configMode": 384
+      },
+      "deny-new-client-grant": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "575d54c1b1edd89d42d808fc596237634746e3a7780ee08e9188e047d149dfb8",
+        "configMode": 384
+      },
+      "reactivate-grant": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "implicit-revoke": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "26a2edcefd6cafd8f6c47cf3a4433335683108741206be767efdfefa3f8ef99a",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
+      "revoke": {
+        "status": 0,
+        "stdout": "89b132917d0be199051ed90ed62f13af97d9c1e34bda1d72799cd1857a7973aa",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "a06383e5b2420430e734ad152a6abd0d02e3d9046145cbdb0c7eff85e4b5c073",
+        "configMode": 384
+      },
+      "untrust": {
+        "status": 0,
+        "stdout": "d83c869e4b44db6c263787abb889df70109d68af6cdc47d68bd57d97d8883372",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "d9d93aad98e34dc1bcd1fab2ffbc92d70302542e0d992043c94543038fef94a2",
+        "configMode": 384
+      }
+    },
+    "onion": {
+      "client-fresh": {
+        "status": 0,
+        "stdout": "2c4b1fcf7939b6c6f767779c938148698f4b8343786a442efee89ee76bc06838",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "fc6e4118bb35a6fc2df6520dc4c3ae68f5b010ed32b036ade066d3b4ea0d6fd5",
+        "configMode": 384
+      },
+      "server-fresh": {
+        "status": 0,
+        "stdout": "5af2c82e80e90ab9c5dd105b71951bb4836cadb916e3f6a063a493ab18bcb939",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "d0115a6bdd400f396160ab509a14eea8b9bf349d511a41c385950620d77ffccf",
+        "configMode": 384
+      },
+      "server-update": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "server-repeat": {
+        "status": 0,
+        "stdout": "2f88e0da94730c4671f7001c7b61a7256595fbf26a4958a48d40c6f1ee96d95a",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "server-invalid": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "client-update": {
+        "status": 0,
+        "stdout": "d83c869e4b44db6c263787abb889df70109d68af6cdc47d68bd57d97d8883372",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "b7f8cbabef20ce614122236c3e3e64dadadff0a095c9a4065b1f6cc1810438a7",
+        "configMode": 384
+      },
+      "client-repeat": {
+        "status": 0,
+        "stdout": "7ce4ea46d78e59010fe32ea333dad6690fe66cdea4837573bf31ab579476dac5",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "b7f8cbabef20ce614122236c3e3e64dadadff0a095c9a4065b1f6cc1810438a7",
+        "configMode": 384
+      },
+      "client-invalid": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "b7f8cbabef20ce614122236c3e3e64dadadff0a095c9a4065b1f6cc1810438a7",
+        "configMode": 384
+      },
+      "init-with-grant": {
+        "status": 0,
+        "stdout": "a8f1b0106cc156c8199644cadfe37c2dea040c7f1e34d1317d4516571eb19592",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "retain-grant-while-client": {
+        "status": 0,
+        "stdout": "86561640397b783ae7c12737d008af41878fea37ee54812499f7c2cad2b3850f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "fff3309e36274da106dbcebf886f19f41d64de488ec4b3dae54d7a9fc6f8d2eb",
+        "configMode": 384
+      },
+      "deny-new-client-grant": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "fff3309e36274da106dbcebf886f19f41d64de488ec4b3dae54d7a9fc6f8d2eb",
+        "configMode": 384
+      },
+      "reactivate-grant": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "implicit-revoke": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "26a2edcefd6cafd8f6c47cf3a4433335683108741206be767efdfefa3f8ef99a",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
+      "revoke": {
+        "status": 0,
+        "stdout": "89b132917d0be199051ed90ed62f13af97d9c1e34bda1d72799cd1857a7973aa",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "d0115a6bdd400f396160ab509a14eea8b9bf349d511a41c385950620d77ffccf",
+        "configMode": 384
+      },
+      "untrust": {
+        "status": 0,
+        "stdout": "d83c869e4b44db6c263787abb889df70109d68af6cdc47d68bd57d97d8883372",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "fc6e4118bb35a6fc2df6520dc4c3ae68f5b010ed32b036ade066d3b4ea0d6fd5",
+        "configMode": 384
+      }
+    }
+  },
+  "workspacesRemoved": true,
+  "networkDenied": true,
+  "candidateBuildSha256": "a002231a2c51b18bcc08ed866e2eb517b38ef7e9a960abda744102ce6fc8e6ae",
+  "referenceRecordSha256": "c246b8b6583753a166cf19a4682c98e9a9cd2b7576bd504b5402b97d70f35ba5",
+  "originalSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "candidateSha256": "748d85db47fe633e652ad3820c98484987912162c666f2303c37989528c9edfa"
+}
