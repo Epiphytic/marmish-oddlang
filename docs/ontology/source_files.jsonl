@@ -905,7 +905,7 @@
 {"path":"verification/whole/converged-public-api/verify.py","language":"python","mode":"100644","sha256":"54dac0c8d2b198f0571eb057084fa6c5bf9c11749c724412b01d78a8553b6589","parse_status":"parsed"}
 {"path":"verification/whole/converged-release-manifest/README.md","language":"inventory","mode":"100644","sha256":"9bc90e7517dab5d4574735762d4cd367679b938fe2917704719d96c913f31bcf","parse_status":"inventory"}
 {"path":"verification/whole/converged-release-manifest/compose.py","language":"python","mode":"100644","sha256":"9a5f7154a2adf7b3d66db6bae0951e0235145f7ff4f6f1b2b5cd47780d72d98b","parse_status":"parsed"}
-{"path":"verification/whole/converged-release-manifest/verify.py","language":"python","mode":"100644","sha256":"9cb571af2d75c9ddbd0ee5b0672dae24952899681f0d68e65175ca419d482d9b","parse_status":"parsed"}
+{"path":"verification/whole/converged-release-manifest/verify.py","language":"python","mode":"100644","sha256":"e40231b8f855e340a5bdb0a3aab9f52697e63fb1010f505d6dd424919274b5cb","parse_status":"parsed"}
 {"path":"verification/whole/copy-checkpoint/README.md","language":"inventory","mode":"100644","sha256":"d9c1b33c90b1315e39ccdd716af607022b5d1b6686d732f860f51e7b688b1c31","parse_status":"inventory"}
 {"path":"verification/whole/copy-checkpoint/caller.rs","language":"rust","mode":"100644","sha256":"7698dc7bccb0bdcdbd0444faca09682df73f94389aae68ae64d76fedf45209e5","parse_status":"parsed"}
 {"path":"verification/whole/copy-checkpoint/check_linkage.py","language":"python","mode":"100644","sha256":"095ed625f62d817534f3498c71858889b899b889403388f5c67cb92292604a59","parse_status":"parsed"}

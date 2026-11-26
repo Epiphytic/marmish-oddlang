@@ -120,12 +120,15 @@ def select_exact(product, name, env):
 
 
 def private_import(artifact, caller, output):
+    deps = artifact.parent / "deps"
+    if not deps.is_dir():
+        deps = artifact.parent
     source = subprocess.run(
         ["rustc", "+1.97.1", "--edition=2024", "--crate-type=lib", "--emit=metadata", "--error-format=json",
-         caller, "-L", f"dependency={artifact.parent}", "--extern", f"marmish_native={artifact}", "-o", output],
+         caller, "-L", f"dependency={deps}", "--extern", f"marmish_native={artifact}", "-o", output],
         capture_output=True, text=True, timeout=60)
     errors = [diag for line in source.stderr.splitlines() if line.startswith("{")
-              and (diag := json.loads(line)).get("code") is not None]
+              and (diag := json.loads(line)).get("level") == "error" and diag.get("code") is not None]
     if not source.returncode or [error["code"]["code"] for error in errors] != ["E0603"]:
         raise ValueError(f"native parser is not private or the caller failed another way\n{source.stderr}")
     if "module `native_manifest` is private" not in errors[0]["message"]:
@@ -218,6 +221,7 @@ def main():
     for name in ("compiler-target", "original-target", "original-bin-dir"):
         parser.add_argument("--" + name, required=True, type=lambda p: Path(p).resolve())
     parser.add_argument("--framework-revision", required=True)
+    parser.add_argument("--raw-results", type=Path)
     args = parser.parse_args()
     for checkout, revision in ((args.framework, args.framework_revision), (args.original, SIX["ORIGINAL"]),
                                (ROOT, None)):
@@ -258,6 +262,8 @@ def main():
             }, extra_artifact_oracle=observe,
             receipt_format="marmish-converged-pure-release-manifest-v1",
         )
+        if args.raw_results is not None:
+            args.raw_results.write_bytes((scratch / "integrated.json").read_bytes())
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
 
 
