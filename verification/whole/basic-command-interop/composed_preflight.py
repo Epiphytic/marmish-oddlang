@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Check generated setup and provider entry points with networking denied."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import subprocess
 import tempfile
 
-from build import TOOLS, read, sha
+from build import PORTABLE, TOOLS, sha
 
 CASES = {
     "setupWithoutFileProvider": (
@@ -20,21 +21,45 @@ CASES = {
 }
 
 
-def observe(export, expected):
-    receipt = export / "receipt.json"
-    if receipt.is_symlink() or sha(receipt) != expected:
-        raise ValueError("candidate build receipt digest differs")
-    build = read(receipt)
-    if (build["format"] != "marmish-basic-command-generated-build-v1"
-            or "workspace-composed-basic-owner.json" not in build["stagedContracts"]):
-        raise ValueError("incorrect composed candidate descriptor")
-    if ("setup" not in build["cliSurfaces"]["marmish"]["boundOperations"]
-            or set(build["artifacts"]) != {"marmish", "marmishd"}):
+COMPOSITION = (
+    "workspace-composed-basic-owner.json",
+    "marmish-native-composed-basic-owner-package.json",
+    "composed-basic-owner-v1/marmish-cli.json",
+)
+
+
+def pinned_json(path, expected):
+    if path.is_symlink():
+        raise ValueError("receipt must be an ordinary file")
+    body = path.read_bytes()
+    if hashlib.sha256(body).hexdigest() != expected:
+        raise ValueError("receipt digest differs")
+    return json.loads(body)
+
+
+def load_candidate(export, expected):
+    build = pinned_json(export / "receipt.json", expected)
+    if build["format"] != "marmish-basic-command-generated-build-v1":
+        raise ValueError("incorrect build receipt format")
+    if (not build["readIsolation"].startswith("Host Seatbelt default deny")
+            or not {"originalSource", "originalBinary", "oracleFixture", "defaultDenyCanary"}
+                   <= build["deniedReadProbes"].keys()):
+        raise ValueError("candidate was not built with the required source exclusions")
+    for relative in COMPOSITION:
+        if build["stagedContracts"].get(relative) != sha(PORTABLE / relative):
+            raise ValueError(f"staged composition pin differs: {relative}")
+    roles = build["cliSurfaces"]["marmish"]["boundOperations"]
+    if not {"setup", "*"} <= set(roles) or set(build["artifacts"]) != {"marmish", "marmishd"}:
         raise ValueError("composed role inventory differs")
     for name, record in build["artifacts"].items():
         binary = export / name
         if binary.is_symlink() or sha(binary) != record["sha256"]:
             raise ValueError(f"candidate executable digest differs: {name}")
+    return build
+
+
+def observe(export, expected):
+    load_candidate(export, expected)
     results = {}
     with tempfile.TemporaryDirectory(prefix="odd-composed-preflight-") as directory:
         scratch = Path(directory).resolve()

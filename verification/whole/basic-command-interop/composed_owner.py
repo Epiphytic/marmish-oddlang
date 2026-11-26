@@ -9,6 +9,8 @@ import signal
 import subprocess
 import tempfile
 
+import provider_activation
+from composed_preflight import COMPOSITION, load_candidate, pinned_json
 from provider_activation import RELAY_URL, digest, phase, publication, stage, until
 
 
@@ -21,22 +23,33 @@ def setup(peer, command, *args):
 
 def configured_profile(peer, identity):
     root = peer.root / "state" / identity
-    manifest = json.loads((root / "profile.json").read_bytes())
+    manifest_path = root / "profile.json"
+    manifest = json.loads(manifest_path.read_bytes())
+    keys = root / "keys"
+    if (keys.is_symlink() or keys.stat().st_mode & 0o777 != 0o700
+            or not keys.is_dir()):
+        raise ValueError("generated credential directory is not private")
+    entries = list(keys.iterdir())
+    if (len(entries) != 2 or any(entry.is_symlink() or not entry.is_file()
+                                or entry.stat().st_mode & 0o777 != 0o600 for entry in entries)):
+        raise ValueError("generated credentials are not private regular files")
     config = root / "config.json"
     if manifest["phase"] != "ready" or manifest["backend"] != "files":
         raise ValueError("setup did not commit a ready file profile")
-    if config.stat().st_mode & 0o777 != 0o600:
+    if any(path.is_symlink() or path.stat().st_mode & 0o777 != 0o600 for path in (config, manifest_path)):
         raise ValueError("configuration is not private")
     return manifest, config
 
 
 def observe(args):
-    build_receipt = args.export / "receipt.json"
-    if digest(build_receipt) != args.build_receipt_sha256:
-        raise ValueError("candidate build receipt digest differs")
-    build = json.loads(build_receipt.read_bytes())
-    if "workspace-composed-basic-owner.json" not in build["stagedContracts"]:
-        raise ValueError("incorrect candidate build descriptor")
+    build = load_candidate(args.export, args.build_receipt_sha256)
+    preflight = pinned_json(args.preflight, args.preflight_receipt_sha256)
+    if (preflight["format"] != "marmish-composed-owner-preflight-v1"
+            or preflight["buildReceiptSha256"] != args.build_receipt_sha256
+            or not preflight["workspaceRemoved"]):
+        raise ValueError("preflight does not qualify this candidate build")
+    if digest(args.isolation) != args.isolation_sha256:
+        raise ValueError("isolation helper digest differs")
     workspace = runpy.run_path(str(args.isolation))["Workspace"]()
     with workspace as cohort:
         client = cohort.instance("client")
@@ -92,42 +105,58 @@ def observe(args):
                         or config["tor"] != "auto"):
                     raise ValueError("generated authorization configuration differs")
             runtime = server.tmp / f"mr2-{os.geteuid()}-{server_manifest['profile_id']}"
-            owner = server.start(
-                [daemon, "--foreground", *commands["server"][1:]],
-                stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-            )
+            with (tempfile.TemporaryFile(dir=server.root) as output,
+                  tempfile.TemporaryFile(dir=server.root) as errors):
+                owner = server.start(
+                    [daemon, "--foreground", *commands["server"][1:]],
+                    stdin=subprocess.DEVNULL, stdout=output, stderr=errors,
+                )
 
-            def activated():
-                if owner.poll() is not None:
-                    _, error = owner.communicate()
-                    raise ValueError(f"composed provider failed to activate: {error.decode().strip()}")
-                return phase(runtime / "s") == "provider_active"
+                def activated():
+                    if owner.poll() is not None:
+                        raise ValueError(f"composed provider stopped during activation (exit {owner.returncode})")
+                    return phase(runtime / "s") == "provider_active"
 
-            until(activated, 315)
-            publication(data / "relay.sqlite3", server_manifest["public_key"])
-            owner.send_signal(signal.SIGTERM)
-            stdout, stderr = owner.communicate(timeout=30)
-            server.check_stopped(owner)
-            server.processes.remove(owner)
-            report = {"schema": 1, "engine_quiesced": False, "engine_stop_complete": True,
-                      "mdk_stop_complete": True, "runtime_cleanup_complete": True}
-            expected = (json.dumps(report, separators=(",", ":")) + "\n").encode()
-            if owner.returncode or stderr or stdout != expected or runtime.exists():
-                raise ValueError("composed provider shutdown differed")
+                until(activated, 315)
+                publication(data / "relay.sqlite3", server_manifest["public_key"])
+                owner.send_signal(signal.SIGTERM)
+                try:
+                    owner.wait(timeout=30)
+                except subprocess.TimeoutExpired as error:
+                    raise ValueError("composed provider did not shut down by its deadline") from error
+                server.check_stopped(owner)
+                server.processes.remove(owner)
+                report = {"schema": 1, "engine_quiesced": False, "engine_stop_complete": True,
+                          "mdk_stop_complete": True, "runtime_cleanup_complete": True}
+                expected = (json.dumps(report, separators=(",", ":")) + "\n").encode()
+                stderr = os.pread(errors.fileno(), 512, 0)
+                stdout = os.pread(output.fileno(), len(expected) + 1, 0)
+                runtime_removed = not runtime.exists()
+                if owner.returncode or stderr or stdout != expected or not runtime_removed:
+                    raise ValueError(
+                        f"composed provider shutdown differed (exit {owner.returncode}, "
+                        f"stdout {stdout!r}, stderr {stderr!r}, runtime removed {runtime_removed})"
+                    )
+                if configured_profile(server, "server")[0] != server_manifest:
+                    raise ValueError("provider startup changed the prepared server manifest")
             if snapshots != [client_config.read_bytes(), server_config.read_bytes()]:
                 raise ValueError("provider startup changed prepared authorization configuration")
     if workspace.root.exists():
         raise ValueError("isolated test workspace survived")
     return {
         "schema": 1,
-        "buildReceiptSha256": digest(args.export / "receipt.json"),
-        "isolationFixtureSha256": digest(args.isolation),
+        "buildReceiptSha256": args.build_receipt_sha256,
+        "preflightReceiptSha256": args.preflight_receipt_sha256,
+        "isolationFixtureSha256": args.isolation_sha256,
+        "providerSupportFixtureSha256": digest(Path(provider_activation.__file__)),
+        "artifacts": build["artifacts"],
+        "compositionPins": {path: build["stagedContracts"][path] for path in COMPOSITION},
         "providerFixtureSha256": digest(Path(__file__)),
         "relaySha256": args.relay_sha256,
         "distinctGeneratedFileProfiles": True,
         "matchingAuthorizedPeerRoles": True,
         "providerActiveAfterAcknowledgement": True,
-        "retainedAuthorizationUnchanged": True,
+        "authorizationConfigUnchanged": True,
         "ownedCleanup": True,
     }
 
@@ -138,6 +167,9 @@ def main():
         parser.add_argument(name, type=lambda value: Path(value).resolve())
     parser.add_argument("--relay-sha256", required=True)
     parser.add_argument("--build-receipt-sha256", required=True)
+    parser.add_argument("--isolation-sha256", required=True)
+    parser.add_argument("--preflight", type=Path, required=True)
+    parser.add_argument("--preflight-receipt-sha256", required=True)
     args = parser.parse_args()
     args.receipt.write_text(json.dumps(observe(args), indent=2) + "\n")
 
