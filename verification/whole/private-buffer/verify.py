@@ -17,8 +17,12 @@ ROOT = HERE.parents[2]
 MANIFEST = ROOT/"oddlang/portable/prototype-buffer-package.json"
 GRAPH = MANIFEST.parent/"prototype-buffer-v1/graph.json"
 OVERLAY = GRAPH.with_name("rust.json")
-from upstream_case import TEST_HASH, original_test
+from upstream_case import TEST_HASH, original_test as extract_original_test
 NATIVE_TEST_PREFIX = "buffer::__projection_0::"
+def original_test(original):
+    return extract_original_test(original, PIN, SOURCE)
+
+
 CORE = runpy.run_path(str(HERE.parent/"core-package/verify.py"))
 WORKSPACE = runpy.run_path(str(HERE.parent/"workspace/verify.py"))
 
@@ -128,7 +132,7 @@ def stage_and_test(work,cli,original,framework,host,graph,mode):
         shutil.move(str(built),product)
     leaf = product/"src/group_0/__projection_0.rs"
     with leaf.open("ab") as output:
-        output.write(original_test(original,PIN,SOURCE))
+        output.write(original_test(original))
         if mode != "extent":
             output.write((HERE/"observations.rs").read_bytes())
     if mode == "extent":
