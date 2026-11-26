@@ -1,0 +1,5 @@
+{
+  "format": "oddlang-local-status-owner-rust-v1",
+  "executable": "marmish-status-owner",
+  "socket_option": "socket"
+}

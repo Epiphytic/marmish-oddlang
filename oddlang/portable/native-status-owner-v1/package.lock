@@ -1,0 +1,33 @@
+{
+  "cargoLockSha256": "1f389290a3e0406f3d7f92833bfee6979552f2cf534883fd5f35634f33019737",
+  "cargoManifestSha256": "2af1b1fed330ffc6e025ba269852cc13d024a457f172e7d3b440c529ff44dfcb",
+  "components": [
+    {
+      "graphSha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
+      "kind": "local-status-owner",
+      "module": "status",
+      "overlaySha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2",
+      "projection": {
+        "bindingSha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2",
+        "format": "oddlang-local-status-owner-lock-v1",
+        "graphSha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
+        "sourceSha256": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497"
+      },
+      "reexports": [
+        "run_owner",
+        "BoundOwner",
+        "SnapshotPublisher",
+        "OwnerError"
+      ],
+      "sourceSha256": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/bin/marmish-status-owner.rs": "fe6bbadc3f591d767973761010e5490a5db874f6ff689252efc5aee4b34dae6f",
+    "src/group_0/__projection_0.rs": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497",
+    "src/group_0/mod.rs": "9cae26279ec159439c2d6c1ce91e239e5bfe20e56f0e81aec4f6958b850773b5",
+    "src/lib.rs": "05932d4a856a0d6d51085c23710c92b2792adbcd739fd3e20b5a105b32c46754"
+  },
+  "manifestSha256": "7f5b424a389d12b94dc16e343052ead6dd6ef3c422522c7838ba9fffa4c47310"
+}

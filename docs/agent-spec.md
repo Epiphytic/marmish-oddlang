@@ -23,6 +23,11 @@ against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
 reply extensions, default profile resolution and installed layout enforcement
 remain open. [Status client qualification](../verification/whole/status/client-README.md)
 
+The companion also generates a standalone local status owner. The pinned
+original client reads the same activating snapshot over a private Unix
+socket on macOS and Linux ARM64. This endpoint has no relay or execution provider.
+[Reverse status qualification](../verification/whole/status-owner/README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations
