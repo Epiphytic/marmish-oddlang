@@ -5,13 +5,15 @@ import argparse
 import json
 from pathlib import Path
 import runpy
+import shutil
 import tempfile
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 PORTABLE = ROOT / "oddlang/portable"
 MANIFEST = PORTABLE / "workspace-v7-recovered-vault-engine.json"
-FRAMEWORK = "595fb7a55dc2016cfab70c5b131bf2f6acfe9983"
+VAULT_FRAMEWORK = "595fb7a55dc2016cfab70c5b131bf2f6acfe9983"
+FRAMEWORK = "6e2d1ef00f286b6132b84e27a61805c659dfd437"
 UNIFIED = runpy.run_path(str(HERE.parent / "unified-vault/verify.py"))
 run = UNIFIED["run"]
 sha = UNIFIED["sha"]
@@ -31,31 +33,25 @@ def check_recovered_report(inputs):
     return {"graphSha256": digest, "recoveryReceiptSha256": sha(prior.read_bytes())}
 
 
-def from_bytes_test(work, original, reference_target, fixed):
+def from_bytes_test(work, original, fixed):
     harness = HERE / "fixed_bytes.rs"
-    build = run("cargo", "+1.97.1", "build", "--locked", "--offline", "--release",
-                "--target", "aarch64-apple-darwin", "--target-dir", reference_target,
-                "--lib", "--package", "marmish-vault", "--message-format=json", cwd=original)
-    records = list(map(json.loads, build.splitlines()))
-    library, = [
-        Path(name) for record in records
-        if record["reason"] == "compiler-artifact" and record["target"]["name"] == "marmish_vault"
-        for name in record["filenames"] if name.endswith(".rlib")
-    ]
-    dependencies = library.parent if library.parent.name == "deps" else library.parent / "deps"
-    assert dependencies.is_dir()
-    native_paths = sorted({path for record in records if record["reason"] == "build-script-executed"
-                           for path in record["linked_paths"]})
-    native_search = [arg for path in native_paths for arg in ("-L", path)]
-    original_test = work / "original-from-bytes"
-    generated_test = work / "generated-from-bytes"
-    run("rustc", "+1.97.1", "--test", "--edition=2021", harness,
-        "-L", f"dependency={dependencies}", "--extern", f"marmish_vault={library}",
-        *native_search, "-o", original_test)
-    fixed["link_test"](harness, work / "product", generated_test)
+    reference = work / "reference-from-bytes"
+    (reference / "src").mkdir(parents=True)
+    shutil.copyfile(harness, reference / "src/lib.rs")
+    shutil.copyfile(original / "Cargo.lock", reference / "Cargo.lock")
+    vault = json.dumps(str(original / "crates/marmish-vault"))
+    (reference / "Cargo.toml").write_text(
+        '[package]\nname = "observe-vault-from-bytes"\nversion = "0.0.0"\nedition = "2021"\n'
+        '[dependencies]\nmarmish-vault = { path = ' + vault + ' }\n[workspace]\n')
+    run("cargo", "+1.97.1", "metadata", "--offline", "--format-version", "1", cwd=reference)
+
     name = "from_bytes_owns_the_input_and_requires_drop"
-    for test in (original_test, generated_test):
-        lines = run(test, "--exact", name).decode().splitlines()
+    baseline = run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
+                   "--lib", "--", "--exact", name, cwd=reference)
+    generated = work / "generated-from-bytes"
+    fixed["link_test"](harness, work / "product", generated)
+    for result in (baseline, run(generated, "--exact", name)):
+        lines = result.decode().splitlines()
         assert lines.count(f"test {name} ... ok") == 1
         assert any(line.startswith("test result: ok. 1 passed; 0 failed; 0 ignored;") for line in lines)
     return {"name": name, "sourceSha256": sha(harness.read_bytes()), "originalAndGeneratedPassed": True}
@@ -87,13 +83,13 @@ def fixed_value_test(work, original, reference_target):
     reference = workspace["members"]["marmish-vault"]["manifest"]
     vault = json.loads((staged / reference["path"]).read_bytes())
     value, = [component for component in vault["components"] if "Secret" in component["reexports"]]
-    assert expected["original"] == UNIFIED["ORIGINAL"] and expected["framework"] == FRAMEWORK
+    assert expected["original"] == UNIFIED["ORIGINAL"] and expected["framework"] == VAULT_FRAMEWORK
     assert expected["unchangedModuleSha256"] == digest
     assert expected["graphSha256"] == value["graph"]["sha256"]
     assert expected["packageManifestSha256"] == reference["sha256"]
     return {"name": name, "unchangedModuleSha256": digest, "originalAndGeneratedPassed": True,
             "standaloneReceiptSha256": sha(standalone_receipt),
-            "fromBytesHoldout": from_bytes_test(work, original, reference_target, fixed)}
+            "fromBytesHoldout": from_bytes_test(work, original, fixed)}
 
 
 def main():

@@ -6,7 +6,7 @@ The macOS ARM64 verifier rebuilds the five members and both binaries from pinned
 
 The fixed vault test uses local byte literals. Credential storage, platform key access and vault helper behavior are separate obligations.
 
-Use clean checkouts of the original at `af54339d250290490d62d4475a77539b7e739071` and Oddlang at `595fb7a55dc2016cfab70c5b131bf2f6acfe9983`.
+Use clean checkouts of the original at `af54339d250290490d62d4475a77539b7e739071` and Oddlang at `6e2d1ef00f286b6132b84e27a61805c659dfd437`.
 
 ```sh
 python verification/whole/unified-recovered-vault/verify.py \
