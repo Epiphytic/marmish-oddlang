@@ -1,0 +1,10 @@
+{
+  "crateRootSha256": "382457f30531b992c700fbc46bc41216b067499b0c6de5ea93a8ce4f2f698316",
+  "format": "oddlang-serde-public-record-recovery-lock-v1",
+  "gap": "Independent downstream native callers must confirm the public export, traits and Serde wire behavior.",
+  "graphSha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5",
+  "overlaySha256": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8",
+  "rustdocSha256": "e8da1c15d2924dc8c4de85f0c421aa9a96013a7d2e8fadb515fb5ccf04562340",
+  "selectionSha256": "04283d0e997f232d12ceae4beb3bd43e18869b34091d09a632e8f35473ffa8c1",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53"
+}
