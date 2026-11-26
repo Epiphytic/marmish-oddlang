@@ -632,6 +632,8 @@
 {"path":"oddlang/portable/workspace-basic-client-owner/workspace.lock","language":"inventory","mode":"100644","sha256":"0914b643de26dbb3d0cd261858ff31a09e7fdcb3f571bbd330ce9478949f2e88","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands.json","language":"inventory","mode":"100644","sha256":"e921714128605286da90b0eb7e8dad4988119de0ef59915f24582c8d5133d106","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands/workspace.lock","language":"inventory","mode":"100644","sha256":"7e078d8dad898b707ac7341f9caffa038fd5afd9e13ea2464bbb060be988a6f1","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-bounded-owner-prepare-fixed.json","language":"inventory","mode":"100644","sha256":"bb705b09f8bdc7aad4c78b36c72343ffb88ff11162b80db70a0b51a1ce317608","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-bounded-owner-prepare-fixed/workspace.lock","language":"inventory","mode":"100644","sha256":"8c63cfe36fa61d4deada31bf8090a8d3c741b86e1c85789b4c6b124bbb6c86df","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-bounded-owner-prepare.json","language":"inventory","mode":"100644","sha256":"bb705b09f8bdc7aad4c78b36c72343ffb88ff11162b80db70a0b51a1ce317608","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-bounded-owner-prepare/workspace.lock","language":"inventory","mode":"100644","sha256":"73bfa6cb7b7c5a2cffa193f98cc42d1c734bd2d1fbc71668449865baccded213","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-composed-basic-owner.json","language":"inventory","mode":"100644","sha256":"d633d36a72dfaa36241aefd4d43a3dd6c00d05eef15fb97a4056f22bce4d0b0b","parse_status":"inventory"}
@@ -1043,7 +1045,7 @@
 {"path":"verification/whole/basic-command-interop/COMPOSED-OWNER.md","language":"inventory","mode":"100644","sha256":"39c51d9651be6eb8a8d18028325e99a5d1e578c9b71b937f9d2deaec63f82166","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-DELIVERY.md","language":"inventory","mode":"100644","sha256":"3a70a09829c9819a99640cd2cb5f9998518b23fb0587bb27c7f4acdf9f821dab","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"274b6c5aca0342bad8a366eddfc858a0ca3d2582fdb74c38b917a44d6688b7d9","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/PREPARE-ROOM.md","language":"inventory","mode":"100644","sha256":"f87fa5b16f0f42250f31ed2e4cd558b12e1b213b913a8fb5bfcb37015b3b6d3e","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/PREPARE-ROOM.md","language":"inventory","mode":"100644","sha256":"e56527df91f0cd841efb177a058df13eb9f0fdf333716502fa906877567208ac","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"9e399e61a3957418f1a66c8de592c1f35d40cbd06d6b9b505d9dea2cd1a612b3","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/audit_mac_policy.py","language":"python","mode":"100644","sha256":"1f4d144a608bbda5b50111030a37e85e6de112393019d3d1916e051eb8e6c4a0","parse_status":"parsed"}
@@ -1080,8 +1082,8 @@
 {"path":"verification/whole/basic-command-interop/local-profile-setup-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a1769f62264cb4293a13e26c3cdb3bd6ab44e69ceff4f5be32f7848cc048e3d3","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/observe.py","language":"python","mode":"100644","sha256":"e7f7fd059cefedf0aff12ebc28b1f876767b9a3fbc6acd6fea8ab699c37f6d3a","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/prepare_journal_fixture.c","language":"c","mode":"100644","sha256":"518f77402ce656353aa1bf53d6ac16072edc1f4f0100f5fef8ef309c9c29e405","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/prepare_preflight.py","language":"python","mode":"100644","sha256":"6052a939a400c606454a7dd6528786a801a7f2599c6db0f51006721894363e76","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/prepare_room.py","language":"python","mode":"100644","sha256":"683971ff89c8b8135c750b73a106399349dcd58df73dcd3cd9b70aabb45a28aa","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/prepare_preflight.py","language":"python","mode":"100644","sha256":"f104036b225af2173c64e6d071ea3bc5b14a50985e1a1fe5ce39aaa49acbe084","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/prepare_room.py","language":"python","mode":"100644","sha256":"62933950979c4379bbdf40ed2ddb739ccdecb0b19e6d43add72accdf8a5bc0a0","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/profile-setup-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"a002231a2c51b18bcc08ed866e2eb517b38ef7e9a960abda744102ce6fc8e6ae","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"5b14a6f48156cb0f8f6e59a33e7a8111ec131f5bb01cf65135a342935971b222","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-preflight-macos-arm64.json","language":"inventory","mode":"100644","sha256":"a1c2cf2ee37c015d24b1cfdddf4e13133fa27636458d7c8c61a4cffc058abec1","parse_status":"inventory"}

@@ -10,14 +10,13 @@ from build import PORTABLE, TOOLS, sha
 from composed_preflight import CASES, pinned_json
 
 INPUTS = (
-    "workspace-bounded-owner-prepare.json",
     "marmish-native-bounded-owner-prepare-package.json",
     "bounded-owner-prepare-v1/foreground.json",
     "bounded-owner-prepare-v1/status.rust.json",
 )
 
 
-def observe(export, expected):
+def observe(export, expected, workspace):
     build = pinned_json(export / "receipt.json", expected)
     if (build["format"] != "marmish-basic-command-generated-build-v1"
             or build["platform"] != "aarch64-apple-darwin"
@@ -26,7 +25,7 @@ def observe(export, expected):
             or set(build["artifacts"]) != {"marmish", "marmishd"}):
         raise ValueError("unexpected build provenance")
     selected = {}
-    for relative in INPUTS:
+    for relative in (workspace, *INPUTS):
         actual = sha(PORTABLE / relative)
         if build["stagedContracts"].get(relative) != actual:
             raise ValueError("incorrect owner prepare composition pin")
@@ -56,7 +55,10 @@ if __name__ == "__main__":
     parser.add_argument("export", type=lambda path: Path(path).resolve(strict=True))
     parser.add_argument("receipt", type=Path)
     parser.add_argument("--build-receipt-sha256", required=True)
+    parser.add_argument("--workspace", choices=("workspace-bounded-owner-prepare.json",
+                                                  "workspace-bounded-owner-prepare-fixed.json"),
+                        default="workspace-bounded-owner-prepare.json")
     options = parser.parse_args()
-    result = observe(options.export, options.build_receipt_sha256)
+    result = observe(options.export, options.build_receipt_sha256, options.workspace)
     with options.receipt.open("x") as output:
         output.write(json.dumps(result, indent=2) + "\n")

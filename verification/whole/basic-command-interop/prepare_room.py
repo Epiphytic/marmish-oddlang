@@ -16,6 +16,7 @@ import tempfile
 from observe import (BRIDGE, RELAY, account_options, copy_verified, file_digest,
                      host_preferences_state, json_command, until, verify_profile)
 from isolate import Workspace
+from composed_preflight import pinned_json
 from provider_activation import phase, publication, read_exact
 
 UNTRUSTED_ACCOUNT = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
@@ -56,6 +57,9 @@ def observe(args):
     before = host_preferences_state()
     pins = {"client": {"marmish": args.cli_sha, "marmishd": args.daemon_sha},
             "server": json.loads(BRIDGE.read_bytes())["builds"]["default"]["sha256"]}
+    build = pinned_json(args.generated / "receipt.json", args.build_receipt_sha256)
+    if {name: record["sha256"] for name, record in build["artifacts"].items()} != pins["client"]:
+        raise ValueError("cold build receipt does not bind both candidate executables")
     mounts = {"client": args.generated, "server": args.reference}
     workspace = Workspace()
     with workspace:
@@ -237,6 +241,7 @@ def observe(args):
     if workspace.root.exists() or host_preferences_state() != before:
         raise ValueError("workspace or host isolation changed")
     return {"schema": 1, "referencePins": pins["server"], "generatedPins": pins["client"],
+            "buildReceiptSha256": args.build_receipt_sha256, "upstreamStarts": upstream_starts,
             "relaySha256": RELAY_PIN, "journalHelperSha256": args.journal_sha,
             "fixtureSha256": file_digest(Path(__file__)), "durablePlacement": True,
             "upstreamAdmissionMatched": True, "wrongPeerAndRouteRejected": True,
@@ -252,6 +257,7 @@ if __name__ == "__main__":
     parser.add_argument("--cli-sha", required=True)
     parser.add_argument("--daemon-sha", required=True)
     parser.add_argument("--journal-sha", required=True)
+    parser.add_argument("--build-receipt-sha256", required=True)
     arguments = parser.parse_args()
     result = observe(arguments)
     with arguments.receipt.open("x") as output:
