@@ -1,0 +1,251 @@
+{
+  "candidateSha256": "6c78a37a240f64bbd608cff77c54175e0c02ff9fc4d763652cfabbd102d59438",
+  "controlled": {
+    "absent_socket": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "base_mode": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path\n",
+      "stdout": ""
+    },
+    "base_symlink": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path\n",
+      "stdout": ""
+    },
+    "binding_bounded_prefix": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "binding_canonical_root": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "binding_duplicate": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_collision\n",
+      "stdout": ""
+    },
+    "binding_mode": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file\n",
+      "stdout": ""
+    },
+    "binding_profile_mismatch": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_collision\n",
+      "stdout": ""
+    },
+    "binding_root_mismatch": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_collision\n",
+      "stdout": ""
+    },
+    "config_ignored": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "custom_profile": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "explicit_bypasses_files": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "foreground_precedes_discovery": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: foreground_operation\n",
+      "stdout": ""
+    },
+    "home_default": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "initializing_no_key": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "invalid_profile_precedes_missing_base": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_profile_name\n",
+      "stdout": ""
+    },
+    "limit_precedes_discovery": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: server_limit_operation\n",
+      "stdout": ""
+    },
+    "manifest_duplicate": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest\n",
+      "stdout": ""
+    },
+    "manifest_fifo": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file\n",
+      "stdout": ""
+    },
+    "manifest_format_precedence": {
+      "exit": 1,
+      "stderr": "marmish: storage: incompatible_state\n",
+      "stdout": ""
+    },
+    "manifest_hardlink": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file\n",
+      "stdout": ""
+    },
+    "manifest_large": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest\n",
+      "stdout": ""
+    },
+    "manifest_mode": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file\n",
+      "stdout": ""
+    },
+    "manifest_symlink": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "manifest_unknown": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest\n",
+      "stdout": ""
+    },
+    "manifest_unsigned_width": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest\n",
+      "stdout": ""
+    },
+    "missing_base": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "missing_binding": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "missing_manifest": {
+      "exit": 1,
+      "stderr": "marmish: identity: missing_manifest\n",
+      "stdout": ""
+    },
+    "missing_runtime": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "new_session_precedes_discovery": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: new_session_operation\n",
+      "stdout": ""
+    },
+    "no_home": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: home_directory\n",
+      "stdout": ""
+    },
+    "no_home_explicit_socket": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: home_directory\n",
+      "stdout": ""
+    },
+    "profile_mode": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path\n",
+      "stdout": ""
+    },
+    "profile_symlink": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path\n",
+      "stdout": ""
+    },
+    "ready_needs_key": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest\n",
+      "stdout": ""
+    },
+    "route_precedes_discovery": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: route_mode\n",
+      "stdout": ""
+    },
+    "runtime_mode": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path\n",
+      "stdout": ""
+    },
+    "socket_too_long": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_path_too_long\n",
+      "stdout": ""
+    },
+    "state_relative": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "xdg_absolute": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "xdg_relative": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+    },
+    "xdg_without_home": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: home_directory\n",
+      "stdout": ""
+    }
+  },
+  "corpusSha256": "773952355d72df85060cb9db78de82c2bb071265aedda66cfe1a6c0f1702bc40",
+  "fixturePathsAndContentsUnchanged": true,
+  "frameworkRevision": "a882f1cfe4a65880cb038f3ea32ccd7e7b271591",
+  "live": {
+    "defaultDirectory": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "shutdown": {
+      "engine_stop_complete": true,
+      "mdk_stop_complete": true,
+      "runtime_cleanup_complete": true
+    },
+    "stateDirectory": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    }
+  },
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+    "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+    "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+    "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+    "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "platform": "Darwin-arm64"
+}
