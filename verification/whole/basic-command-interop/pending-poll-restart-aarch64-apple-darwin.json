@@ -1,0 +1,66 @@
+{
+  "buildReceiptSha256": "75270eaa270b4c44e62818b1cf9a631f36bba7ebb4948d84fb82d0c814bc5ef3",
+  "fixtureSha256": "388222f4e05bf3b81cd8186e9915e69f6e7762d0bb61ed7d88a2add91523f042",
+  "format": "marmish-local-pending-poll-reference-v1",
+  "observations": [
+    {
+      "beforeStop": [
+        "status",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll"
+      ],
+      "clientSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+      "exactHandleOnRefusal": false,
+      "exit": 7,
+      "finalCursors": [
+        16,
+        16
+      ],
+      "fixtureRetainedAnswer": true,
+      "initialCursors": [
+        8,
+        9
+      ],
+      "mode": "upstream",
+      "restartOperations": [
+        "status",
+        "command_unconsumed",
+        "command_response",
+        "command_cursors",
+        "command_consume"
+      ],
+      "stderrHex": "7464657272ff0a",
+      "stdoutHex": "7374646f7574000a",
+      "workspaceRemoved": true
+    },
+    {
+      "beforeStop": [
+        "status",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll"
+      ],
+      "clientSha256": "2cdab7d1ec29293dd338d170bafd144914a04dd71a764f8279c0bd73e4ebe61a",
+      "exactHandleOnRefusal": true,
+      "exit": 255,
+      "finalCursors": [
+        8,
+        9
+      ],
+      "fixtureRetainedAnswer": true,
+      "initialCursors": [
+        8,
+        9
+      ],
+      "mode": "candidate",
+      "restartOperations": [
+        "status",
+        "command_unconsumed"
+      ],
+      "stderrHex": null,
+      "stdoutHex": "",
+      "workspaceRemoved": true
+    }
+  ]
+}
