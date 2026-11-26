@@ -1,0 +1,24 @@
+{
+  "format": "oddlang-checked-values-rust-v1",
+  "types": {
+    "urn:marmish:vault:helper:authorization-mode:v1:type": {
+      "name": "AuthorizationMode",
+      "order": [
+        "urn:marmish:vault:helper:authorization-mode:v1:type:Interactive",
+        "urn:marmish:vault:helper:authorization-mode:v1:type:Verify"
+      ],
+      "traits": [
+        "copy"
+      ],
+      "view": null,
+      "parse": null,
+      "shape": null,
+      "constructor": null
+    }
+  },
+  "variants": {
+    "urn:marmish:vault:helper:authorization-mode:v1:type:Interactive": "Interactive",
+    "urn:marmish:vault:helper:authorization-mode:v1:type:Verify": "Verify"
+  },
+  "errors": {}
+}
