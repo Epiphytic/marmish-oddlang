@@ -90,6 +90,13 @@ def caller_counts(file, expected_path, subject_path, package):
     subject_lock = read(subject_path.with_name("exports.lock"))["pin"]
     require(
         receipt["expectedExportsSha256"] == sha(expected_path)
+        and receipt["expectedLockSha256"] == sha(expected_path.with_name("exports.lock"))
+        and receipt["expectedUnresolved"]
+        == sorted(
+            row["path"] + [name]
+            for row in read(expected_path)["modules"].values()
+            for name in row["unresolved"]
+        )
         and receipt["subjectExportsSha256"] == sha(subject_path)
         and receipt["subjectLockSha256"] == sha(subject_path.with_name("exports.lock"))
         and receipt["compiler"] == subject_lock["compilerCommit"]

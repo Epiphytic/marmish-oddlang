@@ -1,0 +1,11 @@
+{
+  "format": "oddlang-finite-error-observation-v1",
+  "gaps": [
+    "thiserror expansion and caller-visible behavior require independent native replay",
+    "external enum exhaustiveness and crate-root reexports require downstream compilation"
+  ],
+  "graphSha256": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34",
+  "overlaySha256": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a",
+  "selectionSha256": "8b75a621a771dc647eaa9e79014d31bbf0c62782fab95e582715e3655465e230",
+  "sourceSha256": "54eb8a335f91cb09de6ecd8d598acdec3476ee7067968333f85c824a5fee2254"
+}

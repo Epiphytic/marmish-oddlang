@@ -1,6 +1,8 @@
 {
   "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
   "expectedExportsSha256": "0fd3957007adf6b4bbf4dfe35ff80cc0cd940ce30be623ab1eba71fcebc4e74c",
+  "expectedLockSha256": "e01b01c61111efa42bb120bb73179514fc03ab6be7a662f844a736f98382bab3",
+  "expectedUnresolved": [],
   "imports": [
     {
       "errorCodes": [

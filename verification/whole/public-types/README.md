@@ -73,7 +73,7 @@ python3 -B verification/whole/public-types/check_workspace.py ORIGINAL GENERATED
 python3 -B verification/whole/public-types/check_workspace.py ORIGINAL GENERATED_V5 ODDLANG --release v5
 ```
 
-To regenerate each added profile, run the pinned extractor's `probe_exports.py` as described above with the **member** Cargo.toml. Earlier archived core, stream and engine profiles use the workspace Cargo.toml. The lock records the manifest used. To regenerate the v6 native cross-library observations, use the cross-import verifier revision in `provenance.json`. The Cargo target directory may be the `native` output of the subject's public-type qualification.
+To regenerate each added profile, run the pinned extractor's `probe_exports.py` as described above with the **member** Cargo.toml. The first core, stream and engine profiles from the original and v5 use the workspace Cargo.toml. The lock records the manifest used. To regenerate the v6 native cross-library observations, use the cross-import verifier revision in `provenance.json`. The Cargo target directory may be the `native` output of the subject's public-type qualification.
 
 ```sh
 python3 -B "$ODDLANG/verification/rust-recovery/probe_consumer_paths.py" \
@@ -82,3 +82,5 @@ python3 -B "$ODDLANG/verification/rust-recovery/probe_consumer_paths.py" \
   "$GENERATED_V6/marmish-native/Cargo.toml" "$CARGO_PROBE_TARGET" /tmp/native-callers.json
 cmp /tmp/native-callers.json verification/whole/public-types/native-callers-v6.json
 ```
+
+The cross-import receipts bind both profile locks. All seven recorded directions have an empty expected-unresolved list. Use the same command with the corresponding original and candidate graph directories to reproduce the [v5 core](core-callers-v5.json), [v6 core](core-callers-v6.json), [v5 stream](stream-callers-v5.json) and [v6 stream](stream-callers-v6.json) results.
