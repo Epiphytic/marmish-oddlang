@@ -1,0 +1,123 @@
+{
+  "platform": "aarch64-unknown-linux-gnu",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "inputRevision": "2d6d102dd1b60eaa2d33c5fb0f17f7999ead7f30",
+  "framework": "8e3320aacb0106d543c3e21ab1faf60a02132c04",
+  "compilerSha256": "aba737d8e476b937cd358d07ed5deefc0183367fd5c9d9c4eb305ddc44c01dce",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "probeSha256": "6266c857848db98884cb2a748c1effd964531c04fb4e29fe7948533d8a6d05db",
+  "verifierSha256": "71aa91fcc23b163c7f16afc87c1653172fb2e26dbed632f639d8977ded26deb1",
+  "predecessorManifestSha256": "37034a24ca00fb803c30dfeb1d84f07a0142de5213966d398a1f19f943bcb14f",
+  "scenarios": {
+    "baseline": {
+      "modelSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+      "recovery": {
+        "Stream": {
+          "format": "oddlang-plain-choice-observation-v1",
+          "gap": "native name resolution, trait capabilities and public module paths require downstream compilation",
+          "graphSha256": "c1d9a9d1b2f41e6b09ce113b4348b3a8b599ad47a281c883c021a85fb7521b2e",
+          "overlaySha256": "104d588031c36f46ebf7172e4abd544b5055952e9160b3eb554f5c54253dd1de",
+          "selectionSha256": "577bad5335d37bfd3b01937fa92547ebbb022d0334ed6d9266684e377cc39970",
+          "sourceSha256": "b0ca62010591a4215832e91aed90773530830d20696310cfb05b3a713429ec6f"
+        },
+        "SubmitDisposition": {
+          "format": "oddlang-plain-choice-observation-v1",
+          "gap": "native name resolution, trait capabilities and public module paths require downstream compilation",
+          "graphSha256": "d763c0f3683897328c9e0933fd8c31bf9bc80de2053aec32ec138718e1e911b0",
+          "overlaySha256": "7a546ae089ea05f2390100fd0ade706c329f6011084e23d8cce3298bec77f61d",
+          "selectionSha256": "1cd040e58bbc1b9bb80216a92f90c4e2c5adfdaa9c2f25dce5566ea79291d3cc",
+          "sourceSha256": "a97f2f98798c5ca33ed202db11fb0ff4ea3ddf968ff2f741903b6b726f112667"
+        }
+      },
+      "graphSha256": "6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077",
+      "bindingSha256": "e877b08426227fa656b21320d751e8da09dbb67b8bcd21f2d3d3c2c275b20581",
+      "enginePackageLockSha256": "3a3ee8eee0991e685c491bcfdc9a4bd66b2296b2593b47fc9d15f779e48a603d",
+      "originalLibrarySha256": "bb96a59edbcc9c86c782e8ec493122365acaece46be67f0fd5636c1de5e0bebc",
+      "generatedLibrarySha256": "a053277f9162801e61d8d91fee3f0cc69ff67f667e8723d6e786ece108078a39",
+      "values": [
+        "Stream:Stdout:Stdout:0",
+        "Stream:Stderr:Stderr:1",
+        "SubmitDisposition:Accepted:Accepted:0",
+        "SubmitDisposition:Existing:Existing:1"
+      ],
+      "traits": {
+        "Stream.Copy": "available",
+        "Stream.Default": "E0277",
+        "Stream.Ord": "E0277",
+        "Stream.PartialOrd": "E0277",
+        "Stream.Hash": "E0277",
+        "Stream.Display": "E0277",
+        "Stream.Serialize": "E0277",
+        "Stream.Deserialize": "E0277",
+        "SubmitDisposition.Copy": "E0277",
+        "SubmitDisposition.Default": "E0277",
+        "SubmitDisposition.Ord": "E0277",
+        "SubmitDisposition.PartialOrd": "E0277",
+        "SubmitDisposition.Hash": "E0277",
+        "SubmitDisposition.Display": "E0277",
+        "SubmitDisposition.Serialize": "E0277",
+        "SubmitDisposition.Deserialize": "E0277",
+        "privateModule": "E0603"
+      }
+    },
+    "mutation": {
+      "modelSha256": "d2c76379f7ef6790c0643193462b19ca0f32fa129e4b2b2244ab5d6b96f209cb",
+      "recovery": {
+        "Stream": {
+          "format": "oddlang-plain-choice-observation-v1",
+          "gap": "native name resolution, trait capabilities and public module paths require downstream compilation",
+          "graphSha256": "4c680e82c2ff26b9a0fe082ae3f0e342042e2298c2c98f61444d03408a6f42e9",
+          "overlaySha256": "01275e73bdfe763e149d3183407cd84e745bd2a97ad13b2d0a6dbd71eb2b1e0d",
+          "selectionSha256": "9761ed264b4f13583c7c9aaee18edae6abac4edf68c08cd1808d497cc8115295",
+          "sourceSha256": "179cf189964df24bf776307ae727c3338fcac636cb508e7928a8c7d0758f7936"
+        },
+        "SubmitDisposition": {
+          "format": "oddlang-plain-choice-observation-v1",
+          "gap": "native name resolution, trait capabilities and public module paths require downstream compilation",
+          "graphSha256": "9b28f779c02b79af6a03c5ef75faea2fd4b0dfc2fd2963756f8aa39a97c97714",
+          "overlaySha256": "a5b8a7e86d7317a2fcb72957f53fc2b53d3f77d8056fdcf6b9629519acbcbd0c",
+          "selectionSha256": "dc5fedf3a60f0202ee0f8cbb6ee21de272b64947bad220323316c6a874f8cd3f",
+          "sourceSha256": "23f8317c967ce04740cbd370d43beb4fe555ef42101b315f286251873a29e5e3"
+        }
+      },
+      "graphSha256": "19ed45c050a7bf79de3da61cb4fedbe8d736cedd96891ad5212dd1ae34d4a5bf",
+      "bindingSha256": "9ca3d3054ab34a965ea71d27d1278f8fadaf1668b7de8211db86bc39a998dbd4",
+      "enginePackageLockSha256": "6a514af5f87863a3a87bdc0546036900e7410d32025bf25c7767deec2acdeed1",
+      "originalLibrarySha256": "dc7a26a96e51442f4ffbccc587ea13f7e27656a387ce3a6dd98bba010989d18b",
+      "generatedLibrarySha256": "71d16949beea37d70920e0a0f9e1b5763ac9dfb8103076292b820e8a84ca5392",
+      "values": [
+        "Stream:Stdout:Stdout:1",
+        "Stream:Stderr:Stderr:0",
+        "SubmitDisposition:Accepted:Accepted:1",
+        "SubmitDisposition:Existing:Existing:0"
+      ],
+      "traits": {
+        "Stream.Copy": "available",
+        "Stream.Default": "E0277",
+        "Stream.Ord": "E0277",
+        "Stream.PartialOrd": "E0277",
+        "Stream.Hash": "E0277",
+        "Stream.Display": "E0277",
+        "Stream.Serialize": "E0277",
+        "Stream.Deserialize": "E0277",
+        "SubmitDisposition.Copy": "available",
+        "SubmitDisposition.Default": "E0277",
+        "SubmitDisposition.Ord": "E0277",
+        "SubmitDisposition.PartialOrd": "E0277",
+        "SubmitDisposition.Hash": "E0277",
+        "SubmitDisposition.Display": "E0277",
+        "SubmitDisposition.Serialize": "E0277",
+        "SubmitDisposition.Deserialize": "E0277",
+        "privateModule": "E0603"
+      }
+    }
+  }
+}

@@ -1018,7 +1018,9 @@
 {"path":"verification/whole/core-value/caller.rs","language":"rust","mode":"100644","sha256":"275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b","parse_status":"parsed"}
 {"path":"verification/whole/core-value/reference.json","language":"inventory","mode":"100644","sha256":"c57a24dae5e69e69e6fe8bdab71e67fafb9c4390a4f06eb63c1e02441f73a40d","parse_status":"inventory"}
 {"path":"verification/whole/core-value/verify.py","language":"python","mode":"100644","sha256":"3f304b2ad6920f7c1d0a85ec1d07b5eed7a0091aa4f76c9311ca4e308b49682d","parse_status":"parsed"}
-{"path":"verification/whole/engine-fieldless-choices/README.md","language":"inventory","mode":"100644","sha256":"822171102b5b4bcb729e80a710649b00c3179a40cb22aa7fab118c202f21ef47","parse_status":"inventory"}
+{"path":"verification/whole/engine-fieldless-choices/README.md","language":"inventory","mode":"100644","sha256":"a0cc9f8c09f4f5e4c5791cc3f606f8f7c927cf08335abbb04f654a1500541437","parse_status":"inventory"}
+{"path":"verification/whole/engine-fieldless-choices/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"2a2db6d67dba1959144a4ed6e6d230f359db021a3cdef6d2f0f75e2efd0721bc","parse_status":"inventory"}
+{"path":"verification/whole/engine-fieldless-choices/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"e291cd78a324766a48b180e88bc1089380779ee92fb7bd39142b4f17d3be857e","parse_status":"inventory"}
 {"path":"verification/whole/engine-fieldless-choices/compose.py","language":"python","mode":"100644","sha256":"e6d94176f410ad2ab882b925aedd71e1d49473b0d3d1da0c52f9cb32ad8d7f34","parse_status":"parsed"}
 {"path":"verification/whole/engine-fieldless-choices/probe.rs","language":"rust","mode":"100644","sha256":"6266c857848db98884cb2a748c1effd964531c04fb4e29fe7948533d8a6d05db","parse_status":"parsed"}
 {"path":"verification/whole/engine-fieldless-choices/verify.py","language":"python","mode":"100644","sha256":"71aa91fcc23b163c7f16afc87c1653172fb2e26dbed632f639d8977ded26deb1","parse_status":"parsed"}

@@ -35,3 +35,9 @@ The generated package is
 `oddlang/portable/engine-fieldless-choices-package.json`. The case
 observations and graph and lock content are reproducible across builds.
 Library artifact hashes identify the individual run.
+
+Both native ARM64 runs matched the original for four value observations
+and 17 trait and visibility probes in each of the baseline and mutation
+cases. The graph, binding, and package lock digests matched across hosts.
+The [Darwin receipt](aarch64-apple-darwin.json) and
+[Linux receipt](aarch64-unknown-linux-gnu.json) identify the precise inputs.
