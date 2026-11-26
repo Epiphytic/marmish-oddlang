@@ -1,0 +1,88 @@
+{
+  "binarySha256": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+  "caseSha256": "f3f28234d9c2b0068e1ca17f91dd59e45783056cad4ef7199b7af8add5f6765f",
+  "mode": "original",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "results": {
+    "both-present": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"},\"stream\":{\"state\":\"pending\"}}\n"
+    },
+    "command-struct": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"ready\",\"session\":\"one\",\"local_account\":\"example\"}}\n"
+    },
+    "command-struct-extra": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "command-struct-missing": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "command-unit": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"}}\n"
+    },
+    "command-unit-extra-field": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"}}\n"
+    },
+    "command-unknown-tag": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "stream-invalid-field": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "stream-records-empty": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"entries\",\"entries\":[]}}\n"
+    },
+    "stream-struct": {
+      "exit": 1,
+      "stderr": "",
+      "stdout": "{\"ok\":false,\"result\":null,\"error\":null,\"stream\":{\"state\":\"failure\",\"category\":\"example\"}}\n"
+    },
+    "stream-unit": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"stream\":{\"state\":\"pending\"}}\n"
+    },
+    "tuple-empty": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "tuple-extra": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "tuple-full": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+    },
+    "tuple-minimal": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "tuple-with-extension": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null,\"command\":{\"state\":\"local_busy\"}}\n"
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "cargoLockSha256": "418835df33c0c6ec50f879b2e855b7b6533e5689d4f64585c7237dc8cfc2a88f",
+  "format": "oddlang-native-workspace-lock-v1",
+  "inputSha256": "96fe8fa16cbc934a8e2f20cfdaaee30e19ecff4db77327b438058412a6ab9deb",
+  "members": {
+    "marmish-native": {
+      "dependencies": [],
+      "inputSha256": "676645eefccf51e186407ca6bddefbce7d0621bbfb5aacc6ca179fa9aa439d73",
+      "standalonePackageLockSha256": "8833cc18ce0dfbcf52a7fb6a39f1d17d35e1734d9350e9bfc46f8978d54271f8",
+      "workspaceCargoManifestSha256": "1b009941ea9c62eb7a6091a6baeb366a37accbb6c7f383e257995d9aebbe2bbd"
+    }
+  },
+  "workspaceCargoManifestSha256": "196cd269aaf822aacab86f8b4090be32869c533603a2339714ac9b5e5ed32cb7"
+}

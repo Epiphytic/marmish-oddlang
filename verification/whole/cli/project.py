@@ -4,6 +4,7 @@
 import argparse
 import hashlib
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -60,6 +61,18 @@ def recover(oddlang, original):
             raise ValueError("recovered graph differs from published candidate")
 
 
+def stage(directory):
+    files = [HERE / "project.py"]
+    files.extend(INPUTS / name for name in (
+        "graph.json", "marmish.json", "marmishd.json", "package.json",
+        "package.lock", "parser-Cargo.lock", "workspace.json", "workspace.lock",
+    ))
+    for source in files:
+        target = directory / source.relative_to(ROOT)
+        target.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, target)
+
+
 def generate(oddlang, output):
     subprocess.run(
         [oddlang, "build", "native-workspace", "rust", INPUTS / "workspace.json", output],
@@ -77,6 +90,9 @@ def generate(oddlang, output):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    if len(sys.argv) == 3 and sys.argv[1] == "stage":
+        stage(Path(sys.argv[2]).resolve())
+        return 0
     parser.add_argument("mode", choices=["recover", "generate"])
     parser.add_argument("oddlang", type=lambda path: Path(path).resolve())
     parser.add_argument("directory", type=lambda path: Path(path).resolve())

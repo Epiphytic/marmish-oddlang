@@ -1,0 +1,4 @@
+{
+  "format": "oddlang-local-command-client-rust-v1",
+  "entry": "handle_status"
+}

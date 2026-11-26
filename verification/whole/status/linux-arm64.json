@@ -1,0 +1,111 @@
+{
+  "controlledCases": {
+    "actor-failure": {
+      "exit": 1,
+      "stderr": "",
+      "stdout": "{\"ok\":false,\"result\":null,\"error\":\"busy\"}\n"
+    },
+    "defaults": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "duplicate-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "extra-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "malformed": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "max-frame": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "missing-socket": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "missing-success": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "no-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "null-extensions": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":null,\"error\":null}\n"
+    },
+    "object-order": {
+      "exit": 0,
+      "stderr": "",
+      "stdout": "{\"ok\":true,\"result\":{\"a\":[3],\"z\":1},\"error\":null}\n"
+    },
+    "over-limit": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    },
+    "partial-header": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "short-body": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed\n",
+      "stdout": ""
+    },
+    "unknown-field": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "wrong-success-type": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_json\n",
+      "stdout": ""
+    },
+    "zero-frame": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: ipc_frame_size\n",
+      "stdout": ""
+    }
+  },
+  "expectedRequestHex": "000000167b226f7065726174696f6e223a22737461747573227d",
+  "mode": "original",
+  "originalBinaries": {
+    "marmish": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+    "marmish-engine-bridge": "4a81e043dbcc46b4040753d06f1acde048b6e135fa01e15d6a8dfd1e510e5f65",
+    "marmish-engine-worker": "13c0787e506205a4ffbb37e9c87ae2565326b702119b6cb542b0b439a1c8e5d2",
+    "marmish-keychain": "a77c5429e5140e74a49bab28ecbe2f64c4f328c93b41a8b81241fb84f267f7be",
+    "marmish-release-tool": "4a7eeff0f6467babf94b2cf0f003319baa0c2dbf42fb757288b9e3a62bb4da0c",
+    "marmish-worker": "50a68f593203dff75c8f704d8cd886b72bfe3ac7af234967e5df69b10f627542",
+    "marmishd": "227cb5b9b203a9f03bd54c2723a12a3871e766318f8868aa04ef686894b99e8b"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "realDaemon": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+  },
+  "shutdown": {
+    "engine_stop_complete": true,
+    "mdk_stop_complete": true,
+    "runtime_cleanup_complete": true
+  }
+}

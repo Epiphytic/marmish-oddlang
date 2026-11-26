@@ -12,6 +12,12 @@ bytes, enum tags and codec selection. Copy manifests, checkpoint handling
 and installed transfers remain separate qualification work.
 [Launch hash qualification](../verification/whole/copy-launch-hash/README.md)
 
+The Oddlang companion also generates one live status client operation with an
+explicit state directory and Unix socket. It matches the original client
+against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
+reply extensions, default profile resolution and installed layout enforcement
+remain open. [Status client qualification](../verification/whole/status/client-README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations
