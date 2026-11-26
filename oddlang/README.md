@@ -25,6 +25,8 @@ The earlier [v7 manifest](portable/workspace-v7.json) adds `release-info` to bot
 
 The separate [engine process-limit workspace](../verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
 
+The [recovered engine output-gap reason](../verification/whole/gap-reason-recovery/README.md) preserves the selected public unit enum's string spellings, Clone and equality behavior, and native declaration order.
+
 The [public journal record recovery](../verification/whole/journal-records/README.md) preserves three selected native records and their direct re-exports in the combined vault and engine workspace.
 
 The [RuntimeStatus data workspace](../verification/whole/runtime-status-data/README.md) adds the public MDK adapter status record to the canonical workspace and qualifies data-only callers on both ARM64 hosts.

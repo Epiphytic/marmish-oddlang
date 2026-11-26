@@ -11,3 +11,5 @@ python3 -B verification/whole/gap-reason-recovery/verify.py FRAMEWORK ORIGINAL R
   --framework-revision FRAMEWORK_REVISION --compiler-target COMPILER_TARGET \
   --reference-target REFERENCE_TARGET --mutation-target MUTATION_TARGET
 ```
+
+The [recovery compiler](https://github.com/Epiphytic/oddlang/tree/d0b715eb05c5f150164aa89d5d80ae19f0da01ce) is pinned at `d0b715e` and the original at `af54339d250290490d62d4475a77539b7e739071`. The published receipts record the exact companion input, recovery digests, original library digests and generated file locks. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
