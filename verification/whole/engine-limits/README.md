@@ -34,3 +34,12 @@ Scope ends at process limit initialization and its reachable error. The
 remainder of `EngineError`, engine bootstrap, descriptor enumeration,
 spawn gates, worker executables, and the separate native error-family
 composition require their own qualification.
+
+[macOS ARM64 receipt](aarch64-apple-darwin.json) · [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json)
+
+Both receipts pin the exact companion inputs and framework build and record the
+same 45 retained workspace tests, all 29 original stream tests, and the native
+engine observers. The highest inherited soft limit becomes 65,536 on macOS
+and stays at 65,537 on Linux. Each host records its own hard limit and verifies
+that it is preserved. The same generated client and daemon appear throughout
+each host's receipt.

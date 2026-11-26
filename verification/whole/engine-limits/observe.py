@@ -105,7 +105,7 @@ def startup(root, original, generated):
             records.append(dict(binary=name, arguments=args, exit=want[0],
                 stdout=want[1].decode(), stderr=want[2].decode(), fault=None))
         if darwin:
-            # Invalid argv would produce exit 2 if the hook did not precede Clap.
+            # The ordinary invalid-argument outcome differs from the startup failure.
             env = dict(os.environ, DYLD_INSERT_LIBRARIES=str(image))
             for x in (a,b):
                 result = run(x, *ordinary[2], cwd=root, env=env, check=False, preexec_fn=set_high)
