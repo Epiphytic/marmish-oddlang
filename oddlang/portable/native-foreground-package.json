@@ -137,7 +137,7 @@
       "module": "foreground",
       "graph": {
         "path": "native-foreground-owner-v1/graph.json",
-        "sha256": "504657b7552fa5736c7387aa3b2d3523553cbce6b7d0342c8e41cb279d588aac"
+        "sha256": "cdbd81b7da11235da38fe8bdd37281184d3eebdb352917c5ed0a358df69a0cb1"
       },
       "overlay": {
         "path": "native-foreground-owner-v1/rust.json",

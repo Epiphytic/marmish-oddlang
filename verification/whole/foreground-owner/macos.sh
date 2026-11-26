@@ -6,7 +6,7 @@ test "$(uname -s)/$(uname -m)" = "Darwin/arm64"
 here=$(cd "$(dirname "$0")" && pwd -P)
 output=$(realpath "$(dirname "$4")")/$(basename "$4")
 receipt=$(realpath "$(dirname "$5")")/$(basename "$5")
-pin=07b43dc3572472f56a5617c303dc27f9e0a2047a
+pin=543ebcd3cb47de0f74a4da70990b1c3d584e7c63
 test ! -e "$receipt"
 test -z "$(git -C "$here" status --porcelain --untracked-files=all)"
 bash "$here/../native-build/macos.sh" "$1" "$2" "$output" "$pin" \

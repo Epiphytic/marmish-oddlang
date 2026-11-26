@@ -5,10 +5,10 @@
     "state": "state_dir",
     "identity": "identity",
     "backend": "key_storage",
-    "backend_choices": [
-      "auto",
-      "file"
-    ],
+    "backend_choices": {
+      "auto": "files",
+      "file": "files"
+    },
     "route": "tor",
     "relay": "relay"
   },

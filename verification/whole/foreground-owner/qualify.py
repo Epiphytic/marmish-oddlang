@@ -3,6 +3,7 @@
 
 import argparse
 import ast
+from contextlib import contextmanager
 import hashlib
 import json
 import os
@@ -46,7 +47,7 @@ def call(argv, env, cwd):
     return observation(result.returncode, result.stdout, result.stderr)
 
 
-def hold(argv, env, root, runtime, profile, relay, action):
+def hold(argv, env, root, runtime, profile, relay, action, *, terminate=signal.SIGTERM):
     child = subprocess.Popen(
         argv, env=env, cwd=root, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
         stdin=subprocess.DEVNULL, umask=0o077,
@@ -77,7 +78,7 @@ def hold(argv, env, root, runtime, profile, relay, action):
         result["tlsRecordPrefix"] = first.hex()
     finally:
         if child.poll() is None:
-            child.send_signal(signal.SIGTERM)
+            child.send_signal(terminate)
         try:
             stdout, stderr = child.communicate(timeout=6)
         finally:
@@ -86,7 +87,7 @@ def hold(argv, env, root, runtime, profile, relay, action):
                 child.communicate()
             if peer is not None:
                 peer.close()
-    check(runtime.exists(), False, "owned runtime removed")
+    check(runtime.exists(), terminate == signal.SIGKILL, "owned runtime presence after termination")
     return result, observation(child.returncode, stdout, stderr)
 
 
@@ -136,6 +137,20 @@ def rejected_certificate(executable, common, root, runtime, env, server):
     return report
 
 
+@contextmanager
+def held_relay():
+    with socket.socket() as server:
+        server.bind(("127.0.0.1", 0))
+        server.listen()
+        server.settimeout(5)
+        yield server
+
+
+def relay_options(listener, *, scheme="wss"):
+    return ["--key-storage", "file", "--tor", "off",
+            "--relay", f"{scheme}://127.0.0.1:{listener.getsockname()[1]}"]
+
+
 def observe(original, generated, root, *, trust_failure=False):
     env = {"PATH": "/usr/bin:/bin", "LANG": "C", "HOME": str(root / "home"), "TMPDIR": str(root / "runtime")}
     for name in ("home", "runtime"):
@@ -144,57 +159,79 @@ def observe(original, generated, root, *, trust_failure=False):
     common = ["--state-dir", root / "state", "--identity", "station"]
     state = root / "state" / "station"
 
+    def start(binary, relay):
+        return [binary, "--foreground", *common, *relay_options(relay)]
 
-    with socket.socket() as relay:
-        relay.bind(("127.0.0.1", 0))
-        relay.listen()
-        relay.settimeout(5)
-        provider = ["--key-storage", "file", "--tor", "off", "--relay", f"wss://127.0.0.1:{relay.getsockname()[1]}"]
-        startup = [generated / "marmishd", "--foreground", *common, *provider]
-        init = call([client, *common, *provider, "init"], env, root)
-        check((init["exit"], init["stderr"]), (0, ""), "pinned original profile provisioning")
-        profile = PreparedProfile(state)
-        runtime = root / "runtime" / f"mr2-{os.geteuid()}-{profile.name_token}"
-        original_daemon = [original / "marmishd", "--foreground", *common, *provider]
-        query = [client, *common, "status"]
+    with held_relay() as relay:
+        init = call([client, *common, *relay_options(relay), "init"], env, root)
+    check((init["exit"], init["stderr"]), (0, ""), "pinned original profile provisioning")
+    profile = PreparedProfile(state)
+    runtime = root / "runtime" / f"mr2-{os.geteuid()}-{profile.name_token}"
+    query = [client, *common, "status"]
 
-        def inspect(competitor):
-            status = call(query, env, root)
-            check(status, SUCCESS, "original client auto-discovery status")
-            denied = call(competitor, env, root)
-            check(denied, LOCKED, "cross-implementation owner lock")
-            return {"status": status, "competingOwner": denied}
+    def inspect(competitor):
+        status = call(query, env, root)
+        check(status, SUCCESS, "original client auto-discovery status")
+        denied = call(competitor, env, root)
+        check(denied, LOCKED, "cross-implementation owner lock")
+        return {"status": status, "competingOwner": denied}
 
+    original_bin, generated_bin = original / "marmishd", generated / "marmishd"
+    # A contender uses its own port, so only the selected owner can supply the observed handshake.
+    with held_relay() as relay, held_relay() as competitor:
         original_result, original_stop = hold(
-            original_daemon, env, root, runtime, profile, relay, lambda: inspect(startup),
+            start(original_bin, relay), env, root, runtime, profile, relay,
+            lambda: inspect(start(generated_bin, competitor)),
         )
-        check(original_stop["exit"], 0, "original signal stop")
-        for flag in ("engine_stop_complete", "mdk_stop_complete", "runtime_cleanup_complete"):
-            check(json.loads(original_stop["stdout"])[flag], True, flag)
-        check(call(query, env, root), MISSING, "original post-stop discovery")
+    check(original_stop["exit"], 0, "original signal stop")
+    for flag in ("engine_stop_complete", "mdk_stop_complete", "runtime_cleanup_complete"):
+        check(json.loads(original_stop["stdout"])[flag], True, flag)
+    check(call(query, env, root), MISSING, "original post-stop discovery")
 
-        prior_manifest = (state / "profile.json").read_bytes()
+    prior_manifest = (state / "profile.json").read_bytes()
+    with held_relay() as relay, held_relay() as competitor:
         generated_result, generated_stop = hold(
-            startup, env, root, runtime, profile, relay, lambda: inspect(original_daemon),
+            start(generated_bin, relay), env, root, runtime, profile, relay,
+            lambda: inspect(start(original_bin, competitor)),
         )
-        check(generated_result, original_result, "foreground takeover status and exclusivity")
-        check(generated_stop, QUIET, "generated local cleanup")
-        check(call(query, env, root), MISSING, "generated post-stop discovery")
+    check(generated_result, original_result, "foreground takeover status and exclusivity")
+    check(generated_stop, QUIET, "generated local cleanup")
+    check(call(query, env, root), MISSING, "generated post-stop discovery")
+    expected_held = {"status": SUCCESS, "tlsRecordPrefix": "160301"}
+    with held_relay() as relay:
         reattach, reattach_stop = hold(
-            [*startup, "daemon"], env, root, runtime, profile, relay, lambda: {"status": call(query, env, root)},
+            [*start(generated_bin, relay), "daemon"], env, root, runtime, profile, relay,
+            lambda: {"status": call(query, env, root)},
         )
-        check(reattach, {"status": SUCCESS, "tlsRecordPrefix": "160301"}, "explicit daemon subcommand reattach")
-        check(reattach_stop, QUIET, "reattach cleanup")
-        check((state / "profile.json").read_bytes(), prior_manifest, "no profile rewrite")
+    check(reattach, expected_held, "explicit daemon subcommand reattach")
+    check(reattach_stop, QUIET, "reattach cleanup")
+    with held_relay() as relay:
+        _, killed = hold(
+            start(generated_bin, relay), env, root, runtime, profile, relay,
+            lambda: {"status": call(query, env, root)}, terminate=signal.SIGKILL,
+        )
+    check(killed["exit"], -signal.SIGKILL, "abrupt termination")
+    check((runtime / "binding.json").is_file() and (runtime / "s").is_socket(), True,
+          "prior runtime retained after SIGKILL")
+    with held_relay() as relay:
+        recovered, recovered_stop = hold(
+            start(generated_bin, relay), env, root, runtime, profile, relay,
+            lambda: {"status": call(query, env, root)},
+        )
+    check(recovered, expected_held, "stale runtime recovery")
+    check(recovered_stop, QUIET, "recovered owner cleanup")
+    check((state / "profile.json").read_bytes(), prior_manifest, "no profile rewrite")
 
-        controls = {}
-        plaintext = [*provider[:-1], provider[-1].replace("wss://", "ws://")]
-        for executable in (original / "marmishd", generated / "marmishd"):
+    controls = {}
+    with held_relay() as relay:
+        plaintext = relay_options(relay, scheme="ws")
+        for executable in (original_bin, generated_bin):
             outcome = call([executable, "--foreground", *common, *plaintext], env, root)
             check(outcome, {"exit": 1, "stdout": "", "stderr": "marmish: invalid input: plaintext_relay\n"},
                   "plaintext relay rejection before owner publication")
         controls["plaintext-relay"] = outcome
         check(runtime.exists(), False, "plaintext rejection left runtime unpublished")
+        startup = start(generated_bin, relay)
         signing = profile.credential("nostr", "nostr_ref")
         original_secret = signing.read_bytes()
         replacement = (1).to_bytes(32, "big")
@@ -215,8 +252,8 @@ def observe(original, generated, root, *, trust_failure=False):
             }, label)
         check(runtime.exists(), False, "failed preconditions did not publish runtime")
         runtime.mkdir(mode=0o700)
+        marker = runtime / "unrelated"
         try:
-            marker = runtime / "unrelated"
             marker.write_bytes(b"retain")
             controls["runtime-collision"] = call(startup, env, root)
             check(controls["runtime-collision"], {
@@ -242,6 +279,7 @@ def observe(original, generated, root, *, trust_failure=False):
     return {
         "original": original_result, "generated": generated_result, "originalShutdown": original_stop,
         "generatedShutdown": generated_stop, "reattachedStatus": reattach, "reattachedShutdown": reattach_stop,
+        "staleRuntimeRecovered": recovered, "recoveredOwnerShutdown": recovered_stop,
         "postStopDiscovery": MISSING, "profileUnmodified": True, "candidateControls": controls,
         "privateCertificateRejected": trust,
     }
@@ -289,7 +327,9 @@ def main():
             "fresh generated profile initialization",
             "admin/provider overrides, background launch and installed executable lifecycle",
             "SQLCipher database ownership, WebSocket/MDK readiness, active/degraded status and command execution",
-            "provider shutdown reports and recovery of previous runtime directories",
+            "provider shutdown reports and recovery of corrupt or conflicting runtime directories",
+            "authenticated TLS completion and production-length relay deadline",
+
         ],
     )
     with args.receipt.open("x") as output:
