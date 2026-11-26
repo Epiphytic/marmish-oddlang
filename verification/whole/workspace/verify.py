@@ -163,6 +163,27 @@ def v3_interfaces(work, target, original, binaries, compiler):
     }
 
 
+def verify_generated_tree(target, receipt, report, unified):
+    for name,r in receipt["members"].items():
+        pkg=target/name; lock=(pkg/"package.lock").read_bytes()
+        if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
+        generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
+                     for p in (pkg / "src").rglob("*") if p.is_file()}
+        if report:
+            allowed = {"Cargo.toml", "package.lock", "src"}
+            if name == "marmish-native":
+                allowed.add("build.rs")
+                generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
+            if {p.name for p in pkg.iterdir()} != allowed:
+                raise ValueError(f"unexpected generated package paths: {name}")
+        if generated != json.loads(lock)["generatedFiles"]:
+            raise ValueError("member source inventory mismatch")
+    if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
+    if unified:
+        if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
+            raise ValueError("workspace generated Cargo manifest mismatch")
+
+
 def passing_tests(output):
     return re.findall(r"^test ([\w:]+) \.\.\. ok$", output, re.M)
 
@@ -190,6 +211,53 @@ mod copy_caller {
 }
 """)
     return sha(suite), sha(exact)
+
+
+def stage_library_tests(target, original, workspace, combined, provisioning):
+    core_tests = target / "marmish-core/tests"
+    core_tests.mkdir()
+    contracts = original / "crates/marmish-core/tests/contracts.rs"
+    shutil.copyfile(contracts, core_tests / contracts.name)
+    digests = {"coreContracts": sha(contracts.read_bytes())}
+    stream = target / "marmish-stream"
+    manifest = PORTABLE / workspace["members"]["marmish-stream"]["manifest"]["path"]
+    components = json.loads(manifest.read_bytes())["components"]
+    marker = b"#[cfg(test)]\nmod tests {"
+
+    def test_module(name):
+        raw = (original / f"crates/marmish-stream/src/{name}.rs").read_bytes()
+        if raw.count(marker) != 1:
+            raise ValueError(f"unexpected upstream test module: {name}")
+        suite = raw[raw.index(marker):]
+        digests[name] = sha(suite)
+        return suite
+
+    for name, imports in (("codec", "Error, MAX_BLOCK, MAX_OFFSET"),
+                          ("windows", "Error, MAX_BLOCK, MAX_RECORDS, WINDOW_BYTES")):
+        index, = [i for i, component in enumerate(components) if component["module"] == name]
+        leaf = stream / f"src/group_{index}/__projection_{index}.rs"
+        with leaf.open("ab") as output:
+            output.write(f"\n#[cfg(test)]\nuse crate::{{{imports}}};\n".encode())
+            output.write(test_module(name))
+    if combined:
+        (stream / "src/original_wire_test_module.rs").write_bytes(test_module("wire"))
+        with (stream / "src/lib.rs").open("a") as library:
+            library.write("""
+#[cfg(test)]
+mod wire_caller {
+    use crate::wire::*;
+    use crate::codec::{Codec, EncodedBlock};
+    use crate::{MAX_BLOCK, MAX_CONTENT, MAX_OFFSET, WINDOW_BYTES};
+    const MAX_ARGV_BYTES: usize = 16384;
+    const MAX_ARGV_ITEMS: usize = 128;
+    const MAX_AGE_SECONDS: u64 = 604800;
+    const FUTURE_SKEW_SECONDS: u64 = 60;
+    include!("original_wire_test_module.rs");
+}
+""")
+    if provisioning:
+        digests["copyProtocol"], digests["exactCopyFrames"] = stage_copy_tests(original, stream)
+    return digests
 
 
 def profile_inspector(work, target, filename):
@@ -311,24 +379,8 @@ def main():
         file=target/"workspace.lock"
         if file.read_bytes()!=(PORTABLE/f"workspace-{args.release}/workspace.lock").read_bytes():raise ValueError("generated workspace lock drift")
         receipt=json.loads(file.read_bytes())
-        for name,r in receipt["members"].items():
-            pkg=target/name; lock=(pkg/"package.lock").read_bytes()
-            if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
-            generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
-                         for p in (pkg / "src").rglob("*") if p.is_file()}
-            if report:
-                allowed = {"Cargo.toml", "package.lock", "src"}
-                if name == "marmish-native":
-                    allowed.add("build.rs")
-                    generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
-                if {p.name for p in pkg.iterdir()} != allowed:
-                    raise ValueError(f"unexpected generated package paths: {name}")
-            if generated != json.loads(lock)["generatedFiles"]:
-                raise ValueError("member source inventory mismatch")
-        if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
+        verify_generated_tree(target, receipt, report, unified)
         if unified:
-            if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
-                raise ValueError("workspace generated Cargo manifest mismatch")
             v5 = json.loads((PORTABLE / "workspace-v5/workspace.lock").read_bytes())
             for member in ("marmish-core", "marmish-stream"):
                 if receipt["members"][member] != v5["members"][member]:
@@ -397,46 +449,8 @@ def main():
             if limits["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("process limit startup exercised different generated executables")
             interfaces["engineProcessLimits"] = limits
-        core=target/"marmish-core";(core/"tests").mkdir()
-        testfile=original/"crates/marmish-core/tests/contracts.rs";shutil.copyfile(testfile,core/"tests/contracts.rs")
-        stream=target/"marmish-stream"
-        stream_manifest=json.loads((PORTABLE/w["members"]["marmish-stream"]["manifest"]["path"]).read_bytes())
-        module_digests={"coreContracts":sha(testfile.read_bytes())}
-        for name,imports in (("codec","Error, MAX_BLOCK, MAX_OFFSET"),("windows","Error, MAX_BLOCK, MAX_RECORDS, WINDOW_BYTES")):
-            i=next(i for i,c in enumerate(stream_manifest["components"]) if c["module"]==name)
-            leaf=stream/f"src/group_{i}/__projection_{i}.rs"
-            src=(original/f"crates/marmish-stream/src/{name}.rs").read_bytes();marker=b"#[cfg(test)]\nmod tests {"
-            if src.count(marker)!=1:raise ValueError("unexpected upstream test content")
-            suite=src[src.index(marker):]
-            module_digests[name]=sha(suite)
-            with leaf.open("ab") as f:
-                f.write(f"\n#[cfg(test)]\nuse crate::{{{imports}}};\n".encode());f.write(suite)
-        if combined:
-            source = (original / "crates/marmish-stream/src/wire.rs").read_bytes()
-            marker = b"#[cfg(test)]\nmod tests {"
-            if source.count(marker) != 1:
-                raise ValueError("unexpected upstream wire test content")
-            suite = source[source.index(marker):]
-            module_digests["wire"] = sha(suite)
-            (stream / "src/original_wire_test_module.rs").write_bytes(suite)
-            # The original tests refer to four private implementation constants.
-            # These reference values belong only to the independent caller.
-            with (stream / "src/lib.rs").open("a") as library:
-                library.write("""
-#[cfg(test)]
-mod wire_caller {
-    use crate::wire::*;
-    use crate::codec::{Codec, EncodedBlock};
-    use crate::{MAX_BLOCK, MAX_CONTENT, MAX_OFFSET, WINDOW_BYTES};
-    const MAX_ARGV_BYTES: usize = 16384;
-    const MAX_ARGV_ITEMS: usize = 128;
-    const MAX_AGE_SECONDS: u64 = 604800;
-    const FUTURE_SKEW_SECONDS: u64 = 60;
-    include!("original_wire_test_module.rs");
-}
-""")
+        module_digests = stage_library_tests(target, original, w, combined, provisioning)
         if provisioning:
-            module_digests["copyProtocol"], module_digests["exactCopyFrames"] = stage_copy_tests(original, stream)
             reference_tests = envtools.run("cargo", "+1.97.1", "test", "--locked", "--release", "--offline",
                                            "--target-dir", work / "reference-library", "-p", "marmish-stream",
                                            "--lib", cwd=original)

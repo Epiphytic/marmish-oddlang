@@ -126,3 +126,39 @@ mkdir "$root/build"
 python3 -B verification/whole/suite/list_cargo.py "$root/reference" "$root/build" "$root/named.json" &&
 python3 -B verification/whole/suite/summarize_cargo.py "$root/test.log" "$root/named.json" "$root/result.json"
 ```
+
+## Upstream tests on the five-crate generated candidate
+
+The runner measures the v7 vault/engine workspace on each native host. It seals the generated package files, builds the release client and daemon, and then stages the upstream test modules. Each host has its own case-by-case receipt. A case qualifies only when its entire selected harness passes against that candidate and its case names match the upstream catalog.
+
+| Upstream harness | Cases | How it binds to the candidate |
+| --- | ---: | --- |
+| Core contracts | 7 | Unchanged upstream integration test compiled against generated core |
+| Stream library | 29 | Upstream test modules compiled against generated stream. Test-only wrappers supply private imports and constants for the wire and copy callers |
+| Native process limits | 1 | Unchanged upstream test recompiled against the two built executable paths. Substituting either role must fail the upstream help-output assertion |
+
+The process test runs outside the build sandbox. Product-specific assertions and tests on other workspace versions earn no credit here. The catalog covers native default-feature Rust release harnesses. Doctests, feature-specific builds, Python, Node and live acceptance runs require separate evidence.
+
+To reproduce a receipt, use a clean checkout of each recorded revision, a populated offline dependency cache and the host’s native toolchain. The four directory arguments identify the upstream checkout, Oddlang checkout, Oddlang compiler build cache and original Cargo target, respectively.
+
+```sh
+python3 -B verification/whole/suite/candidate_coverage.py \
+  "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/candidate.json
+python3 -B verification/whole/suite/check_coverage.py /tmp/candidate.json --require-complete
+```
+
+The completeness check exits 1 while any eligible catalog case lacks passing evidence.
+
+Most of the remaining default-release cases belong to the native and engine crates. The table counts runnable tests from the pinned upstream catalogs. The last column counts cases exercised by this runner on each host.
+
+| Upstream crate | macOS ARM64 catalog | Linux ARM64 catalog | Qualified per host |
+| --- | ---: | ---: | ---: |
+| marmish-native | 645 | 646 | 1 |
+| marmish-engine | 193 | 170 | 0 |
+| marmish-stream | 29 | 29 | 29 |
+| marmish-vault | 15 | 15 | 0 |
+| marmish-prototype | 11 | 11 | 0 |
+| marmish-mdk | 9 | 9 | 0 |
+| marmish-core | 7 | 7 | 7 |
+
+The [macOS candidate receipt](combined-v7-aarch64-apple-darwin.json) records 37 passed and 872 unverified. The [Linux candidate receipt](combined-v7-aarch64-unknown-linux-gnu.json) records 37 passed and 850 unverified. Each catalog also has five ignored cases. These counts belong to workspace lock `c07772ff1fd78ea0ea166a17cf1b9a61f6ad00823dea81d1fe0d681c49b34df3`.
