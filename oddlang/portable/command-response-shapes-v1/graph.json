@@ -690,6 +690,416 @@
           "requirePresence": true
         }
       ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response-envelope",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response-envelope:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:id",
+          "name": "id",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:protocol",
+          "name": "protocol",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:session",
+          "name": "session",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:type",
+          "name": "type",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-envelope:operation",
+          "name": "operation",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response-operation"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:command:response-operation",
+      "tag": "op",
+      "content": "body",
+      "variants": [
+        {
+          "id": "urn:marmish:command:response-operation:submit",
+          "name": "submit",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:response-operation:submit:error",
+                "name": "error",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:wire-error"
+                  }
+                },
+                "requirePresence": true
+              },
+              {
+                "id": "urn:marmish:command:response-operation:submit:ok",
+                "name": "ok",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:submit:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:submit:result",
+                "name": "result",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:submit-result"
+                  }
+                },
+                "requirePresence": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-operation:status",
+          "name": "status",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:response-operation:status:error",
+                "name": "error",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:wire-error"
+                  }
+                },
+                "requirePresence": true
+              },
+              {
+                "id": "urn:marmish:command:response-operation:status:ok",
+                "name": "ok",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:status:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:status:result",
+                "name": "result",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:status-result"
+                  }
+                },
+                "requirePresence": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-operation:poll",
+          "name": "poll",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:response-operation:poll:error",
+                "name": "error",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:wire-error"
+                  }
+                },
+                "requirePresence": true
+              },
+              {
+                "id": "urn:marmish:command:response-operation:poll:ok",
+                "name": "ok",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:poll:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:poll:result",
+                "name": "result",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:poll-result"
+                  }
+                },
+                "requirePresence": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-operation:cancel",
+          "name": "cancel",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:response-operation:cancel:error",
+                "name": "error",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:wire-error"
+                  }
+                },
+                "requirePresence": true
+              },
+              {
+                "id": "urn:marmish:command:response-operation:cancel:ok",
+                "name": "ok",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:cancel:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:cancel:result",
+                "name": "result",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:cancel-result"
+                  }
+                },
+                "requirePresence": true
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:response-operation:finish",
+          "name": "finish",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:response-operation:finish:error",
+                "name": "error",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:wire-error"
+                  }
+                },
+                "requirePresence": true
+              },
+              {
+                "id": "urn:marmish:command:response-operation:finish:ok",
+                "name": "ok",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:finish:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:response-operation:finish:result",
+                "name": "result",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:command:response:finish-result"
+                  }
+                },
+                "requirePresence": true
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:submit-result",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:submit-result:disposition",
+          "name": "disposition",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:disposition"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:submit-result:status",
+          "name": "status",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:status"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:status-result",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:status-result:status",
+          "name": "status",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:status"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:poll-result",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:poll-result:status",
+          "name": "status",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:status"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:poll-result:stderr",
+          "name": "stderr",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:chunk"
+          }
+        },
+        {
+          "id": "urn:marmish:command:response:poll-result:stdout",
+          "name": "stdout",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:chunk"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:cancel-result",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:cancel-result:status",
+          "name": "status",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:response:status"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:response:finish-result",
+      "fields": [
+        {
+          "id": "urn:marmish:command:response:finish-result:finished",
+          "name": "finished",
+          "type": {
+            "kind": "bool"
+          }
+        }
+      ]
     }
   ]
 }

@@ -93,8 +93,166 @@
     "urn:marmish:command:response:status:state": "state",
     "urn:marmish:command:response:status:stderr": "stderr",
     "urn:marmish:command:response:status:stdout": "stdout",
-    "urn:marmish:command:response:status:warning": "warning"
+    "urn:marmish:command:response:status:warning": "warning",
+    "urn:marmish:command:response-envelope:client": "client",
+    "urn:marmish:command:response-envelope:id": "id",
+    "urn:marmish:command:response-envelope:protocol": "protocol",
+    "urn:marmish:command:response-envelope:server": "server",
+    "urn:marmish:command:response-envelope:session": "session",
+    "urn:marmish:command:response-envelope:type": "message_type",
+    "urn:marmish:command:response-envelope:operation": "operation",
+    "urn:marmish:command:response-envelope": "ResponseFrame",
+    "urn:marmish:command:response-operation": "ResponseOperation",
+    "urn:marmish:command:response:submit-result": "SubmitResult",
+    "urn:marmish:command:response:submit-result:disposition": "disposition",
+    "urn:marmish:command:response:submit-result:status": "status",
+    "urn:marmish:command:response-operation:submit:error": "error",
+    "urn:marmish:command:response-operation:submit:ok": "ok",
+    "urn:marmish:command:response-operation:submit:request_sha256": "request_sha256",
+    "urn:marmish:command:response-operation:submit:result": "result",
+    "urn:marmish:command:response-operation:submit": "Submit",
+    "urn:marmish:command:response:status-result": "StatusResult",
+    "urn:marmish:command:response:status-result:status": "status",
+    "urn:marmish:command:response-operation:status:error": "error",
+    "urn:marmish:command:response-operation:status:ok": "ok",
+    "urn:marmish:command:response-operation:status:request_sha256": "request_sha256",
+    "urn:marmish:command:response-operation:status:result": "result",
+    "urn:marmish:command:response-operation:status": "Status",
+    "urn:marmish:command:response:poll-result": "PollResult",
+    "urn:marmish:command:response:poll-result:status": "status",
+    "urn:marmish:command:response:poll-result:stderr": "stderr",
+    "urn:marmish:command:response:poll-result:stdout": "stdout",
+    "urn:marmish:command:response-operation:poll:error": "error",
+    "urn:marmish:command:response-operation:poll:ok": "ok",
+    "urn:marmish:command:response-operation:poll:request_sha256": "request_sha256",
+    "urn:marmish:command:response-operation:poll:result": "result",
+    "urn:marmish:command:response-operation:poll": "Poll",
+    "urn:marmish:command:response:cancel-result": "CancelResult",
+    "urn:marmish:command:response:cancel-result:status": "status",
+    "urn:marmish:command:response-operation:cancel:error": "error",
+    "urn:marmish:command:response-operation:cancel:ok": "ok",
+    "urn:marmish:command:response-operation:cancel:request_sha256": "request_sha256",
+    "urn:marmish:command:response-operation:cancel:result": "result",
+    "urn:marmish:command:response-operation:cancel": "Cancel",
+    "urn:marmish:command:response:finish-result": "FinishResult",
+    "urn:marmish:command:response:finish-result:finished": "finished",
+    "urn:marmish:command:response-operation:finish:error": "error",
+    "urn:marmish:command:response-operation:finish:ok": "ok",
+    "urn:marmish:command:response-operation:finish:request_sha256": "request_sha256",
+    "urn:marmish:command:response-operation:finish:result": "result",
+    "urn:marmish:command:response-operation:finish": "Finish"
   },
   "externals": {},
-  "derives": {}
+  "derives": {
+    "urn:marmish:command:response:chunk": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:disposition": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:admission": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:state": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:outcome-kind": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:input-health": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:gap-reason": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:warning": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:error-code": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:wire-error": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:outcome": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:input-status": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:gap": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:output-status": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:status": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response-envelope": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response-operation": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:submit-result": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:status-result": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:poll-result": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:cancel-result": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ],
+    "urn:marmish:command:response:finish-result": [
+      "Clone",
+      "PartialEq",
+      "Eq"
+    ]
+  }
 }

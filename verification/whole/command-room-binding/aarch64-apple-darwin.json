@@ -1,0 +1,13 @@
+{
+  "compilerSha256": "f434a782e8d3217d0a1fd8a8d9cd7aadd42608cb0bfb46d381ef348b8391f2e4",
+  "accepted": 10,
+  "wrongBindingRejected": 40,
+  "operationsPerRole": 5,
+  "observationSha256": "f82cea55a5e27812dc92206fbef278957b4cd1fde027e899cbfb5a4574dbccd1",
+  "projectionLocks": {
+    "server": "d8b02e70b00778b806caabc41de68677d967b3c6b530c81e65f9589f7e57e152",
+    "client": "1cdb37f6ad9e03658b86b7ba450f79e876906e2f7545efe8d69d14265b75cdf0",
+    "claim": "85538de1547b8cc446a987d2de36756babc629c7349b279cb7534caaaacb98ff",
+    "relations": "7dd4922d9a71042c0f02c2633ab897c84aa5928a2c06d6c5680d7fb0e77fda2a"
+  }
+}
