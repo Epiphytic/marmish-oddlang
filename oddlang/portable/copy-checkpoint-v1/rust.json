@@ -1,0 +1,85 @@
+{
+  "format": "oddlang-binary-record-rust-v1",
+  "name": "Checkpoint",
+  "names": {
+    "urn:marmish:copy:checkpoint:field:manifest": "manifest",
+    "urn:marmish:copy:checkpoint:field:phase": "phase",
+    "urn:marmish:copy:checkpoint:field:normalized_path": "normalized_path",
+    "urn:marmish:copy:checkpoint:field:parent": "parent",
+    "urn:marmish:copy:checkpoint:field:private": "private",
+    "urn:marmish:copy:checkpoint:field:data": "data",
+    "urn:marmish:copy:checkpoint:field:durable_offset": "durable_offset",
+    "urn:marmish:copy:checkpoint:field:prefix_sha256": "prefix_sha256",
+    "urn:marmish:copy:checkpoint:field:last_stream": "last_stream",
+    "urn:marmish:copy:checkpoint:field:created": "created",
+    "urn:marmish:copy:checkpoint:field:updated": "updated",
+    "urn:marmish:copy:checkpoint:field:expires": "expires",
+    "urn:marmish:copy:checkpoint:field:committed_final": "committed_final",
+    "urn:marmish:copy:file-identity": "FileIdentity",
+    "urn:marmish:copy:file-identity:field:device": "device",
+    "urn:marmish:copy:file-identity:field:inode": "inode"
+  },
+  "externals": {
+    "urn:marmish:copy:Phase": {
+      "path": "crate::copy_protocol::Phase",
+      "variants": {
+        "urn:marmish:copy:Phase:Created": "Created",
+        "urn:marmish:copy:Phase:Receiving": "Receiving",
+        "urn:marmish:copy:Phase:Verifying": "Verifying",
+        "urn:marmish:copy:Phase:CommitPrepared": "CommitPrepared",
+        "urn:marmish:copy:Phase:Committed": "Committed"
+      }
+    }
+  },
+  "externalRecords": {
+    "urn:marmish:copy:manifest": {
+      "path": "crate::copy_protocol::Manifest",
+      "fields": {
+        "urn:marmish:copy:manifest:field:size": "size",
+        "urn:marmish:copy:manifest:field:sha256": "sha256"
+      }
+    }
+  },
+  "errorType": "crate::Error",
+  "integrity": "sha2",
+  "errors": {
+    "urn:marmish:copy:copy_checkpoint_version": {
+      "variant": "Invalid",
+      "argument": "copy_checkpoint_version"
+    },
+    "urn:marmish:copy:copy_checkpoint_checksum": {
+      "variant": "Invalid",
+      "argument": "copy_checkpoint_checksum"
+    },
+    "urn:marmish:copy:copy_enum": {
+      "variant": "Invalid",
+      "argument": "copy_enum"
+    },
+    "urn:marmish:copy:copy_option": {
+      "variant": "Invalid",
+      "argument": "copy_option"
+    },
+    "urn:marmish:copy:copy_truncated": {
+      "variant": "Invalid",
+      "argument": "copy_truncated"
+    },
+    "urn:marmish:copy:copy_trailing": {
+      "variant": "Invalid",
+      "argument": "copy_trailing"
+    },
+    "urn:marmish:copy:copy_local_path": {
+      "variant": "Invalid",
+      "argument": "copy_local_path"
+    },
+    "urn:marmish:copy:copy_checkpoint": {
+      "variant": "Invalid",
+      "argument": "copy_checkpoint"
+    },
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    },
+    "urn:marmish:stream:error:Offset": {
+      "variant": "Offset"
+    }
+  }
+}

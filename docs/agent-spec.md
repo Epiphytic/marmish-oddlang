@@ -29,6 +29,10 @@ helper start and build consistency checks on macOS ARM64. The witness
 distinguishes identity mismatches from lazily propagated Launch errors.
 [Copy field relations](../verification/whole/copy-field-relations/README.md)
 
+The generated Checkpoint and FileIdentity match the pinned binary record on
+macOS ARM64, including nested Manifest validation, phase and timing constraints,
+and the checksum footer. [Checkpoint qualification](../verification/whole/copy-checkpoint/README.md)
+
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
 against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
