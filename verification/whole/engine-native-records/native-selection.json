@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-rust-selected-record-selection-v1",
+  "id": "urn:marmish:native:public-records:transport",
+  "sourceSha256": "5490e5d39761df1fc386249c3e901a920c4343257836908a6f46746a22c06800",
+  "records": {
+    "ArtiDirs": "urn:marmish:native:public-records:transport:ArtiDirs"
+  }
+}

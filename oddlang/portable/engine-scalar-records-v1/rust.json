@@ -1,0 +1,9 @@
+{
+  "format": "oddlang-public-records-rust-v1",
+  "flattenModule": true,
+  "identifiers": {
+    "urn:marmish:engine:public-records:model": "root",
+    "urn:marmish:engine:public-records:model:InputReceipt": "InputReceipt",
+    "urn:marmish:engine:public-records:model:MaintenanceReport": "MaintenanceReport"
+  }
+}
