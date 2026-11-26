@@ -459,6 +459,10 @@
 {"path":"oddlang/portable/stream-wire-schema-v1/rust.json","language":"inventory","mode":"100644","sha256":"c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/rust.lock","language":"inventory","mode":"100644","sha256":"0b655483a01a120dff50e299edcbd0268a1543e28eba82701230e4cab4e4522a","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/selection.json","language":"inventory","mode":"100644","sha256":"8e35f3f34080bfbb073ef758d381d47dea403d917026c819a81655939cf7eb65","parse_status":"inventory"}
+{"path":"oddlang/portable/vault-fixed-bytes-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"1e7f93b188b5894a7bc4af9f2ade14f0bcc48f5a45b3f61fdc474fb1460edddd","parse_status":"inventory"}
+{"path":"oddlang/portable/vault-fixed-bytes-v1/graph.json","language":"inventory","mode":"100644","sha256":"f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b","parse_status":"inventory"}
+{"path":"oddlang/portable/vault-fixed-bytes-v1/rust.json","language":"inventory","mode":"100644","sha256":"1d40c1fbca36166021c7138ba6f00c57850c213c3cfd2204b5260944bfeaf736","parse_status":"inventory"}
+{"path":"oddlang/portable/vault-fixed-value-package.json","language":"inventory","mode":"100644","sha256":"22ac94e18a4f89f4650876c1a2abf173133a0325cad748a0631b88b1ee4fce90","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-value-domain-package.json","language":"inventory","mode":"100644","sha256":"735c7f981a459c853e28dec15df383f59dc2bfccb20135499a85e26f83bdf345","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"e176da6c02f877c1347a860da16c1aa1cfb447bd682570c2c4ca807215187005","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/errors-rust.json","language":"inventory","mode":"100644","sha256":"003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64","parse_status":"inventory"}
@@ -1141,6 +1145,11 @@
 {"path":"verification/whole/unified-vault/README.md","language":"inventory","mode":"100644","sha256":"eb972dc0904b4d274b95c54181a6fb860ed55d3169f62d589a67119ed32107f7","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"43f939ec8750b7438917ffb268744eb0e858a15db5b4dd076bd8cd551f2459aa","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/verify.py","language":"python","mode":"100644","sha256":"d17edca1817c5d0ac4fb5582efc75ab9f70306ec43817a66628b156d7328dd42","parse_status":"parsed"}
+{"path":"verification/whole/vault-fixed-bytes/README.md","language":"inventory","mode":"100644","sha256":"3fb49c31f1b1d4ac811eaf4561606a2a49bf5b59d0bc4106be06896659e0bb81","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5b3667cef31a601c0a9c366400c4a24525582dec5a4b2790c113da0ec8277b4b","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"e68f264082db1d93d932d700b3a2419451a80a60a869312eb9d57605fe53d92d","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/selection.json","language":"inventory","mode":"100644","sha256":"cda67211ae7f3bd2773ed2385e2a90d13a81c9c480a3b5be8cfbc8a7edadf9c2","parse_status":"inventory"}
+{"path":"verification/whole/vault-fixed-bytes/verify.py","language":"python","mode":"100644","sha256":"2ecf221a5bfd3440b4578a1e8a32e2911cfc740172c357fba21090a8659a9dd1","parse_status":"parsed"}
 {"path":"verification/whole/vault-values/README.md","language":"inventory","mode":"100644","sha256":"64c23d6e903aaaf2fedeb2d373f4ab181f6c062c17451969caf5c968fda13fc8","parse_status":"inventory"}
 {"path":"verification/whole/vault-values/caller.rs","language":"rust","mode":"100644","sha256":"2b356012872458e7b6161a4c9e8c03e40c3ef79b8a2817e7f63cd29bc4b569ad","parse_status":"parsed"}
 {"path":"verification/whole/vault-values/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"8735942516b82eed8ee6a738c8ead404f1f26ebfa13047bd7a25b0e7af37697e","parse_status":"inventory"}

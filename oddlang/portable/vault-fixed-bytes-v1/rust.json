@@ -1,0 +1,19 @@
+{
+  "format": "oddlang-checked-values-rust-v1",
+  "types": {
+    "urn:marmish:vault:secret": {
+      "name": "Secret",
+      "order": [],
+      "constructor": "from_bytes",
+      "parse": "from_slice",
+      "view": "as_bytes"
+    }
+  },
+  "variants": {},
+  "errors": {
+    "urn:marmish:vault:error:malformed": {
+      "errorType": "crate::Error",
+      "variant": "Malformed"
+    }
+  }
+}
