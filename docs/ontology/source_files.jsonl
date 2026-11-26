@@ -961,7 +961,11 @@
 {"path":"verification/whole/bridge/baseline.py","language":"python","mode":"100644","sha256":"e844e0409403f6a7df9b080991d4d40e148b1d02e6b3145ce729eb9cef060dca","parse_status":"parsed"}
 {"path":"verification/whole/bridge/darwin_effects.py","language":"python","mode":"100644","sha256":"f5ba5c5b27a15ad28433f250660338499873b2140bfd2a9d8511e55964667014","parse_status":"parsed"}
 {"path":"verification/whole/build-report/observe.py","language":"python","mode":"100644","sha256":"2379186ba2f0bef744ea074254222918c2d1f9a1c5ab8e823ec4acdf044d8a44","parse_status":"parsed"}
+{"path":"verification/whole/canonical-engine-choices/README.md","language":"inventory","mode":"100644","sha256":"70db5e34c3ac2766b973440690a799e03f1d9beb3b1c9162cc925958e80db1cd","parse_status":"inventory"}
+{"path":"verification/whole/canonical-engine-choices/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7419e73eb144ad846a37345b1a6c600c807051cb999456d59af756cc15f38473","parse_status":"inventory"}
+{"path":"verification/whole/canonical-engine-choices/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"65cb51ef1458b37c77605aacdc923ba63d3e916f340df39fea696688b76340ff","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/compose.py","language":"python","mode":"100644","sha256":"f00b6456bbc1c3ce0a135f9e34ab5a3ac36a749df3e42a68a9fa4a26a00d68f9","parse_status":"parsed"}
+{"path":"verification/whole/canonical-engine-choices/verify.py","language":"python","mode":"100644","sha256":"68535d9559b14dc97a405eb0f12b2a7419b03109e3787279a2e34f21697d0380","parse_status":"parsed"}
 {"path":"verification/whole/canonical-linux-imports/README.md","language":"inventory","mode":"100644","sha256":"557f7b0227ea81565536cb6e5dd637cae4cbff7b24e35938403378d347d5e939","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"691381304ddd75d092ef3ef6df6f38d1b815df8980d2f00ae6dc3d3d6db94f49","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/verify.py","language":"python","mode":"100644","sha256":"df5e8c6ace53f315cdbbf973d9d1991b97b152f6edbcb7c17acdea86de35db53","parse_status":"parsed"}

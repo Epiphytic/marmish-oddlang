@@ -1,0 +1,1423 @@
+{
+  "platform": "aarch64-unknown-linux-gnu",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "candidate": {
+    "release": "workspace-v7-canonical-engine-choices",
+    "input_revision": "934bd7c96af85e0c502cf943b1c1d72f36692a8e",
+    "framework_revision": "8e3320aacb0106d543c3e21ab1faf60a02132c04",
+    "lock_sha256": "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
+  },
+  "original": {
+    "revision": "af54339d250290490d62d4475a77539b7e739071",
+    "tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+    "files": {
+      "Cargo.toml": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53",
+      "Cargo.lock": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+      "crates/marmish-core/Cargo.toml": "902f311af435a59a6929bc1a55677caa68491ead24aff5f20277884dddc10377",
+      "crates/marmish-engine/Cargo.toml": "0a5cf6ab702b96a22c288d491ccff875ef96250f385d161e2273229c627c32e7",
+      "crates/marmish-mdk/Cargo.toml": "b6aee3678e34c02c2b4b69cc0a532424ac6d08c95ffd18cf9e1d7613446327b8",
+      "crates/marmish-native/Cargo.toml": "f92cdde82b3e4cf077294a7296117af4dcc28dba55bf1c9d694d7a4b273f539f",
+      "crates/marmish-prototype/Cargo.toml": "7c34b6353950fb24db84c27c1191d8ea628f21e0320820131315ca7b497c9ca9",
+      "crates/marmish-stream/Cargo.toml": "51433a6d952cb11d2a1228813b30c581ab200160e1b0344e2bb1e307749daf5e",
+      "crates/marmish-vault/Cargo.toml": "b610073c29513d08ab5bbc5db2a69aebd120b14341999eb0c6587535252759cc"
+    }
+  },
+  "compilerSha256": "aba737d8e476b937cd358d07ed5deefc0183367fd5c9d9c4eb305ddc44c01dce",
+  "inputs": {
+    "rootCargoLockSha256": "fe6e73cdd2e6926cea6369c00112cae5e312eb9834b567258ac4e91f90b403aa",
+    "rootCargoManifestSha256": "daceb00394a5764379a6e98ae988ecc46ee81d424825cb1e78de6fd62b7a4b9c",
+    "packageLocks": {
+      "marmish-core": "b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c",
+      "marmish-engine": "3a3ee8eee0991e685c491bcfdc9a4bd66b2296b2593b47fc9d15f779e48a603d",
+      "marmish-mdk": "75b38fdc8f30a25a6a55a3d1d25f162f765e5d3f549cc50b729c28d516a6fda6",
+      "marmish-native": "93b8e495c6287308e4f811d9fd8d8b9db1db7f0e667aef3bb6ccae34eb03bbb7",
+      "marmish-prototype": "3e4782fbdf741550339bcc579b1b959eb2b802f5d1412147c2512b2347cb1ff4",
+      "marmish-stream": "07ab8cf1998ed855511258246fb595ddf3191715f9038236517532722f7c495b",
+      "marmish-vault": "111090ff5fdac0dfa72ef050ed916ce9737408b5724080e30214e239c51e3da2"
+    },
+    "changedEngineSources": [
+      "src/group_1/mod.rs",
+      "src/lib.rs"
+    ],
+    "addedEngineSources": [
+      "src/group_1/__projection_3.rs"
+    ]
+  },
+  "cargoArtifactLogSha256": "97477fc946e0435eb09d44309ed280bb41e48d421617520d8f21f3ded1c607b7",
+  "cargoStaticAndMetadataClosureSha256": "51153e5aa4ce8235966b3162248577a2dee7c0c3fadb8cf8e0d2a0d0f62d70de",
+  "cargoStaticAndMetadataClosureEntries": 589,
+  "imports": {
+    "attempted": 140,
+    "baseline": 77,
+    "candidate": 79,
+    "added": [
+      [
+        "engine",
+        "Stream"
+      ],
+      [
+        "engine",
+        "SubmitDisposition"
+      ]
+    ],
+    "libraries": {
+      "core": {
+        "inventorySha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
+        "inventoryLockSha256": "7d1c8ebee95ee490c325b2d776505f031828b55f6f2e5bdf11ca2cbe81690a79",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "8febbdc4781c67825e8678bdc350451ae6b44f4adf4d7467c25639729eb468bd",
+        "metadataSha256": "d922ec8c24449a41a35b44f1381736547fda69cdda15f0c60732fbe98fcf102d",
+        "librarySha256": "d58a073448f144728b2b182851cfaf4e02c99405c8e2c9644125f8d608d16539",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 6,
+        "missing": 0,
+        "imports": [
+          {
+            "spelling": "ConfigError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "FrameError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Limits",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "ProbeEnvelope",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "RelaySet",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Retention",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "engine": {
+        "inventorySha256": "645e066eedb86800db43945333e678def1cacf507c5a935edf6cef6c6620bf46",
+        "inventoryLockSha256": "6b14d02d06c16d5a4f877382d64ab4d237bf8879c0ed5763f154fa19efcbc0d0",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "87efafefe871e6356febc4db95e03b701c2b952956f711170e9bb9411f777891",
+        "metadataSha256": "eb1c5c74ef0da1c084ac91be9523e8d959e11b0e79345f000f6ff2372d354446",
+        "librarySha256": "683fb19a3ae2675194d7eb63ecc5e2e3bf573744da952659c2739b2b9fcd8c66",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 9,
+        "missing": 39,
+        "imports": [
+          {
+            "spelling": "AuthorizedContext",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::AuthorizedContext`",
+                "rendered": "error[E0432]: unresolved import `observed::AuthorizedContext`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#AuthorizedContext as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `AuthorizedContext` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CanonicalExecOutcome",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CanonicalExecOutcome`",
+                "rendered": "error[E0432]: unresolved import `observed::CanonicalExecOutcome`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CanonicalExecOutcome as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CanonicalExecOutcome` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CleanupGuard",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CleanupGuard`",
+                "rendered": "error[E0432]: unresolved import `observed::CleanupGuard`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CleanupGuard as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CleanupGuard` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandPolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandPolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandPolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandPolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandPolicy` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandRequest",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandRequest`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandRequest`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandRequest as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandRequest` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EndpointId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EndpointId`",
+                "rendered": "error[E0432]: unresolved import `observed::EndpointId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EndpointId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EndpointId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Engine",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Engine`",
+                "rendered": "error[E0432]: unresolved import `observed::Engine`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Engine as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Engine` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EngineError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "EngineLimits",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EngineLimits`",
+                "rendered": "error[E0432]: unresolved import `observed::EngineLimits`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EngineLimits as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EngineLimits` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EnginePolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EnginePolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::EnginePolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EnginePolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EnginePolicy` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ExecuteToken",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ExecuteToken`",
+                "rendered": "error[E0432]: unresolved import `observed::ExecuteToken`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ExecuteToken as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ExecuteToken` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ExitOutcome",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ExitOutcome`",
+                "rendered": "error[E0432]: unresolved import `observed::ExitOutcome`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ExitOutcome as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ExitOutcome` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputGeneration",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputGeneration`",
+                "rendered": "error[E0432]: unresolved import `observed::InputGeneration`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputGeneration as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputGeneration` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputHealth",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputHealth`",
+                "rendered": "error[E0432]: unresolved import `observed::InputHealth`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputHealth as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputHealth` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputReceipt",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "InputStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::InputStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationId`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationState",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationState`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationState`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationState as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationState` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "JobId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::JobId`",
+                "rendered": "error[E0432]: unresolved import `observed::JobId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#JobId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `JobId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "KeyRestrictions",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::KeyRestrictions`",
+                "rendered": "error[E0432]: unresolved import `observed::KeyRestrictions`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#KeyRestrictions as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `KeyRestrictions` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LaunchFailure",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LaunchFailure`",
+                "rendered": "error[E0432]: unresolved import `observed::LaunchFailure`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LaunchFailure as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LaunchFailure` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveChild",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveChild`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveChild`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveChild as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveChild` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveCleanupProgress",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveCleanupProgress`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveCleanupProgress`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveCleanupProgress as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveCleanupProgress` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LivePipes",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LivePipes`",
+                "rendered": "error[E0432]: unresolved import `observed::LivePipes`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LivePipes as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LivePipes` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveProcessRecord",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveProcessRecord`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveProcessRecord`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveProcessRecord as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveProcessRecord` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveSpawnError",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveSpawnError`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveSpawnError`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveSpawnError as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveSpawnError` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "MaintenanceReport",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "MissingRange",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::MissingRange`",
+                "rendered": "error[E0432]: unresolved import `observed::MissingRange`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#MissingRange as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MissingRange` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "MissingReason",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::MissingReason`",
+                "rendered": "error[E0432]: unresolved import `observed::MissingReason`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#MissingReason as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MissingReason` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "NativeBinding",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::NativeBinding`",
+                "rendered": "error[E0432]: unresolved import `observed::NativeBinding`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#NativeBinding as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `NativeBinding` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "NotExecutableReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "NotFoundReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "OutputChunk",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OutputChunk`",
+                "rendered": "error[E0432]: unresolved import `observed::OutputChunk`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OutputChunk as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OutputChunk` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "OutputStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OutputStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::OutputStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OutputStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OutputStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "OwnedWorkerPresence",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OwnedWorkerPresence`",
+                "rendered": "error[E0432]: unresolved import `observed::OwnedWorkerPresence`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OwnedWorkerPresence as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OwnedWorkerPresence` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "PreparedLiveExec",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::PreparedLiveExec`",
+                "rendered": "error[E0432]: unresolved import `observed::PreparedLiveExec`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#PreparedLiveExec as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `PreparedLiveExec` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "PrincipalId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::PrincipalId`",
+                "rendered": "error[E0432]: unresolved import `observed::PrincipalId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#PrincipalId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `PrincipalId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ProvidedMaster",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ProvidedMaster`",
+                "rendered": "error[E0432]: unresolved import `observed::ProvidedMaster`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ProvidedMaster as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ProvidedMaster` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RecordedProcessDisposition",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RecordedProcessDisposition`",
+                "rendered": "error[E0432]: unresolved import `observed::RecordedProcessDisposition`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RecordedProcessDisposition as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RecordedProcessDisposition` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RegisteredCopyHelper",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RegisteredCopyHelper`",
+                "rendered": "error[E0432]: unresolved import `observed::RegisteredCopyHelper`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RegisteredCopyHelper as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RegisteredCopyHelper` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ResolutionReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Restrictions",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Restrictions`",
+                "rendered": "error[E0432]: unresolved import `observed::Restrictions`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Restrictions as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Restrictions` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "ServerId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ServerId`",
+                "rendered": "error[E0432]: unresolved import `observed::ServerId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ServerId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ServerId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Stream",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Submission",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Submission`",
+                "rendered": "error[E0432]: unresolved import `observed::Submission`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Submission as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Submission` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "SubmitDisposition",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "mdk": {
+        "inventorySha256": "35c61f7b11faf59da5ffadfe9bac34b0177b510e2b037665256f4c4fb772e942",
+        "inventoryLockSha256": "2cb0dad9375cbaede3122663e44d8ba079f48adce9489b502629ca3c57c778c7",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "ae296fe89bc7070ee406d6fb913a87dea1df89663f59c851879e96c534a29924",
+        "metadataSha256": "f1565d7e6c55f6e328f8d07064a64fd74764bb3836417b0f04c31e490147a1a8",
+        "librarySha256": "656f4adbf39b8c0796967305b8d34e4ff3ca8f103ba59e269eddbd8d7b02dc55",
+        "features": [],
+        "cargoFresh": true,
+        "importable": 2,
+        "missing": 3,
+        "imports": [
+          {
+            "spelling": "AdapterError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "CommandClass",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandClass`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandClass`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandClass as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandClass` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandPlan",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandPlan`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandPlan`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandPlan as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandPlan` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RealWn",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RealWn`",
+                "rendered": "error[E0432]: unresolved import `observed::RealWn`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RealWn as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RealWn` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "VersionObservation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "native": {
+        "inventorySha256": "0fd3957007adf6b4bbf4dfe35ff80cc0cd940ce30be623ab1eba71fcebc4e74c",
+        "inventoryLockSha256": "e01b01c61111efa42bb120bb73179514fc03ab6be7a662f844a736f98382bab3",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "1a9ce283ab4b4e01654c7a6a637df84fac37ae243dfb15467f96b08898582bc8",
+        "metadataSha256": "bc885ac3f5bee8c7e4b94f7791d9210f30a449039a256aadab039cad8824d220",
+        "librarySha256": "9949d487caf3d0ce5ef728b98daa3f2b214208bc39c319d1598b0b79b689b933",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 18,
+        "missing": 18,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "cli",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::cli`",
+                "rendered": "error[E0432]: unresolved import `observed::cli`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#cli as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `cli` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "daemon",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::daemon`",
+                "rendered": "error[E0432]: unresolved import `observed::daemon`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#daemon as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `daemon` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "daemon::Config",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::daemon`",
+                "rendered": "error[E0432]: unresolved import `observed::daemon`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#daemon::r#Config as witness;\n  |                   ^^^^^^^^ could not find `daemon` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "diagnostics",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error::Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error::Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "foundation",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#foundation as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `foundation` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation::Body",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#foundation::r#Body as witness;\n  |                   ^^^^^^^^^^^^ could not find `foundation` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation::Envelope",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#foundation::r#Envelope as witness;\n  |                   ^^^^^^^^^^^^ could not find `foundation` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation_check",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation_check`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation_check`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#foundation_check as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `foundation_check` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "identity",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "identity::BackendChoice",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "identity::IdentityMaterial",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::identity::IdentityMaterial`",
+                "rendered": "error[E0432]: unresolved import `observed::identity::IdentityMaterial`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#identity::r#IdentityMaterial as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `IdentityMaterial` in `identity`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "identity::ProfileLease",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::identity::ProfileLease`",
+                "rendered": "error[E0432]: unresolved import `observed::identity::ProfileLease`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#identity::r#ProfileLease as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ProfileLease` in `identity`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ipc",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ipc`",
+                "rendered": "error[E0432]: unresolved import `observed::ipc`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ipc as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ipc` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ipc::Response",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ipc`",
+                "rendered": "error[E0432]: unresolved import `observed::ipc`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#ipc::r#Response as witness;\n  |                   ^^^^^ could not find `ipc` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "journal",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::Conversation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::ReceivedMessage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::SendStatus",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::Conversation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::MdkOwner",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::MdkOwner`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::MdkOwner`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#MdkOwner as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MdkOwner` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::OpenedAccountBinding",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::OpenedAccountBinding`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::OpenedAccountBinding`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#OpenedAccountBinding as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OpenedAccountBinding` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::ReceivedMessage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::RuntimeStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::RuntimeStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::RuntimeStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#RuntimeStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RuntimeStatus` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::SendStatus",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport::ArtiDirs",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport::RelayConnector",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RelayConnector`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RelayConnector`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RelayConnector as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RelayConnector` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::RelayPolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RelayPolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RelayPolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RelayPolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RelayPolicy` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::RouteMode",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RouteMode`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RouteMode`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RouteMode as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RouteMode` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::TransportLimits",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::TransportLimits`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::TransportLimits`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#TransportLimits as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TransportLimits` in `transport`\n\n"
+              }
+            ]
+          }
+        ]
+      },
+      "prototype": {
+        "inventorySha256": "30d4ebefc9fda3853e7db7d25f1897b478ae8560e596ab5ad64c609c407fcca2",
+        "inventoryLockSha256": "45e1c7d1cfd34cd0b83fc7caddf4d463666607eb3e5999a7e66531b5b75a24a9",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "9575088e98f29611ea791de5f6d6cbd56fdebfa0dc157ce9af4e4d03f243403c",
+        "metadataSha256": "cbf5cf9d246d919071d7ba5fa79d52ca38080030c8ee09e0b7d529718923f6f2",
+        "librarySha256": "ee3fb29b5548dad142bba631deeb1120a7807584628310ba842067c39e396f3b",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 0,
+        "missing": 0,
+        "imports": []
+      },
+      "stream": {
+        "inventorySha256": "037d0559be12bc5e64b5ce48799f5a7132ad43acd82de60ad0127c5228b1313b",
+        "inventoryLockSha256": "c61d2a8f351787d9ca35d8e360e866ed3003e94833f0e2bac687cce040afd3c4",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "fb2d69d0f153db6ce13a0f5c91b42da92139ba14d308061dff324be4e2f5550a",
+        "metadataSha256": "56ba62031638e46bff10a6954378bd3b03aec585b7c4d5f5a20f57549cb81359",
+        "librarySha256": "8311aeea01ca646ff27f177e313d0fb7db8ee43a5059c9b41a5d7816c0cc099e",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 35,
+        "missing": 0,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec::Codec",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec::EncodedBlock",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::AttemptMode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Checkpoint",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::CopyError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Direction",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::FileIdentity",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Frame",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::FrameDecoder",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::HelperContext",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Launch",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Manifest",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Mtime",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Phase",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Stage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows::ReceiveWindow",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows::SendWindow",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Account",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Binding",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::CopyAdmissionError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Digest",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Id",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::OpenDisposition",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Request",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::RequestBody",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Response",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::ResponseBody",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Terminal",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::WireErrorCode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "vault": {
+        "inventorySha256": "0a51f70724480c47438ebdb42aca8d921160caa94ef2d1d2d187ff8ad92993c5",
+        "inventoryLockSha256": "a4730136837b6420c961d6abe57d14c8dc8a48ff5a2e45bf8c5bba49a29d5f04",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "63a7681588f431769bcdf8f3af1f4a1bb7a074bc2ef071d281a5305898b1d120",
+        "metadataSha256": "c919561b785e5369616a43e58c6caab2a6b3332cac631a4929d6b45d73a3f4e2",
+        "librarySha256": "4f733b924a82f1cb025b908bf084661c22a07d5ab0c4b4b9120f1d2eadea33bd",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 9,
+        "missing": 1,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "KeyRef",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Label",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Metadata",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Namespace",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Purpose",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Secret",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Vault",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Vault`",
+                "rendered": "error[E0432]: unresolved import `observed::Vault`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Vault as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Vault` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "helper",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "helper::AuthorizationMode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      }
+    }
+  },
+  "engine": {
+    "observations": {
+      "values": [
+        "Stream:Stdout:Stdout:0",
+        "Stream:Stderr:Stderr:1",
+        "SubmitDisposition:Accepted:Accepted:0",
+        "SubmitDisposition:Existing:Existing:1"
+      ],
+      "traits": {
+        "Stream.Copy": "available",
+        "Stream.Default": "E0277",
+        "Stream.Ord": "E0277",
+        "Stream.PartialOrd": "E0277",
+        "Stream.Hash": "E0277",
+        "Stream.Display": "E0277",
+        "Stream.Serialize": "E0277",
+        "Stream.Deserialize": "E0277",
+        "SubmitDisposition.Copy": "E0277",
+        "SubmitDisposition.Default": "E0277",
+        "SubmitDisposition.Ord": "E0277",
+        "SubmitDisposition.PartialOrd": "E0277",
+        "SubmitDisposition.Hash": "E0277",
+        "SubmitDisposition.Display": "E0277",
+        "SubmitDisposition.Serialize": "E0277",
+        "SubmitDisposition.Deserialize": "E0277",
+        "privateModule": "E0603"
+      }
+    },
+    "originalLibrarySha256": "1447c6be3baa56c142cb3e892f74253f6dd2f9b5c58078e789fed7d01ad823f3",
+    "candidateLibrarySha256": "683fb19a3ae2675194d7eb63ecc5e2e3bf573744da952659c2739b2b9fcd8c66",
+    "originalSerdeWitnessSha256": "af155f14a4b512e99ba30437947d8be5daac63866f9f2bce3e0d56173c41bc88",
+    "candidateSerdeWitnessSha256": "128d2c3fc9bb6ea06ab64d438e937332690e59096dc8a415e4aaf47fcf42641f"
+  },
+  "standaloneReceiptSha256": "e291cd78a324766a48b180e88bc1089380779ee92fb7bd39142b4f17d3be857e",
+  "verifierSha256": "68535d9559b14dc97a405eb0f12b2a7419b03109e3787279a2e34f21697d0380",
+  "helperSha256": {
+    "verification/whole/canonical-engine-choices/compose.py": "f00b6456bbc1c3ce0a135f9e34ab5a3ac36a749df3e42a68a9fa4a26a00d68f9",
+    "verification/whole/engine-fieldless-choices/verify.py": "71aa91fcc23b163c7f16afc87c1653172fb2e26dbed632f639d8977ded26deb1",
+    "verification/whole/engine-fieldless-choices/compose.py": "e6d94176f410ad2ab882b925aedd71e1d49473b0d3d1da0c52f9cb32ad8d7f34",
+    "verification/whole/engine-fieldless-choices/probe.rs": "6266c857848db98884cb2a748c1effd964531c04fb4e29fe7948533d8a6d05db",
+    "verification/whole/vault-mode/verify.py": "cddebf0c32b95aa19efead3979c197096f52b1b4cc86e0272087577ffd6fea53",
+    "verification/whole/journal-records/verify.py": "14d6008a6c42205b20eb3acb59e7176cf00dafe59118ed5b7c6625e9350ce90c",
+    "verification/whole/workspace/verify.py": "287de27fadbfc215d9119a084e6c5d1fe8de570fa4302b94b2b78aaae43e56cc",
+    "verification/whole/canonical-linux-imports/verify.py": "df5e8c6ace53f315cdbbf973d9d1991b97b152f6edbcb7c17acdea86de35db53",
+    "verification/whole/seven-public-imports/verify.py": "f0a04e083ed0113e29d8d4ea719cafaf34441dee36fdd86e249e9e497259892d"
+  }
+}
