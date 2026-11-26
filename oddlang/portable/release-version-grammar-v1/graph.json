@@ -1,0 +1,22 @@
+{
+  "format": "oddlang-text-grammar-v1",
+  "id": "urn:marmish:native:release-version",
+  "prefixes": [
+    "0.2.",
+    "0.3."
+  ],
+  "body": {
+    "notation": "canonical-ascii-decimal",
+    "bits": 64,
+    "minimum": 0
+  },
+  "suffix": {
+    "delimiter": "-rc.",
+    "body": {
+      "notation": "canonical-ascii-decimal",
+      "bits": 64,
+      "minimum": 1
+    }
+  },
+  "consumption": "entire-input"
+}
