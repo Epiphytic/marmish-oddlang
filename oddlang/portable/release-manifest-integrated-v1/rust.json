@@ -1,0 +1,61 @@
+{
+  "format": "oddlang-line-record-rust-v1",
+  "parser": "parse",
+  "visibility": "crate",
+  "error": {
+    "id": "urn:marmish:native:error:v1:variant:Invalid",
+    "type": [
+      "crate",
+      "Error"
+    ],
+    "variant": "Invalid"
+  },
+  "records": {
+    "artifact": {
+      "name": "Asset",
+      "fields": {
+        "name": "name",
+        "sha256": "sha256",
+        "bytes": "bytes",
+        "mode": "mode"
+      },
+      "derives": [
+        "clone",
+        "debug",
+        "partial-eq",
+        "eq"
+      ]
+    },
+    "manifest": {
+      "name": "Manifest",
+      "fields": {
+        "version": "version",
+        "target": "target",
+        "commit": "commit",
+        "signing": "signing",
+        "notarized": "notarized",
+        "minimum": "minimum",
+        "formats": "formats",
+        "files": "files"
+      },
+      "derives": [
+        "clone",
+        "debug",
+        "partial-eq",
+        "eq"
+      ]
+    }
+  },
+  "formatters": {
+    "identity": "id",
+    "download-name": "asset_name"
+  },
+  "support": {
+    "nestedGrammars": {
+      "urn:marmish:native:release-version": "version"
+    },
+    "textChoices": {
+      "target": "TARGETS"
+    }
+  }
+}
