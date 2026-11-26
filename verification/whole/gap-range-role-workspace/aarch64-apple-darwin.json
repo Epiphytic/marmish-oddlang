@@ -1,0 +1,58 @@
+{
+  "compilerSha256": "80bf57800165968c12f1fcf72232ee8ae992b8fc009456bebd59c476cf71a10d",
+  "deniedInputs": 3,
+  "directories": 45,
+  "engineManifestSha256": "8215c0bedcfce7e62c1e45edd8a3865802c138a45c16fa03e8d48b21ec98b8a7",
+  "files": 101,
+  "framework": "b530e740a6eaef5e993192777463bf39e222c477",
+  "host": "aarch64-apple-darwin",
+  "identicalCommonTreeSha256": "4296dca612607cd85cf5b5e20283407f002fdfd4983f3ae0c428ac842f2a4438",
+  "identicalRustFiles": 84,
+  "lockDeltas": {
+    "marmish-engine/package.lock": {
+      "components/5/overlaySha256": {
+        "after": "32ea4b52f438f6738962e85a905612ab644e5f40a222e04e32ca82294df1862b",
+        "before": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8"
+      },
+      "components/5/projection/overlaySha256": {
+        "after": "32ea4b52f438f6738962e85a905612ab644e5f40a222e04e32ca82294df1862b",
+        "before": "0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8"
+      },
+      "manifestSha256": {
+        "after": "8215c0bedcfce7e62c1e45edd8a3865802c138a45c16fa03e8d48b21ec98b8a7",
+        "before": "9ef9d1c704129baa45173bec7dad25b41c4af1b3c29e4a238356e8ad387138ac"
+      }
+    },
+    "workspace.lock": {
+      "inputSha256": {
+        "after": "b282f479fef502ae59e938b4ba365bc3eb2fb985bbf0163ee4edc1f602cc0c25",
+        "before": "fc1c86e5e700dbb85c1d2c579d6fd26254ad23c7b4646b7ea8817582e2daba3c"
+      },
+      "members/marmish-engine/inputSha256": {
+        "after": "8215c0bedcfce7e62c1e45edd8a3865802c138a45c16fa03e8d48b21ec98b8a7",
+        "before": "9ef9d1c704129baa45173bec7dad25b41c4af1b3c29e4a238356e8ad387138ac"
+      },
+      "members/marmish-engine/standalonePackageLockSha256": {
+        "after": "63e31fd5b73186dc225506a9aee3b1d2a5543a404a1cb3810168434813eef0a0",
+        "before": "64a1140f75d7d4ee202e016262ba2c7ada4806d4d7cd7334353544c7b1f594b7"
+      }
+    }
+  },
+  "manifestSha256": "b282f479fef502ae59e938b4ba365bc3eb2fb985bbf0163ee4edc1f602cc0c25",
+  "nativeEndpointReceiptSha256": "c5728e571e934298a34cb58a164107d19f831db3f113a0cd630e7c957261d00f",
+  "predecessorReceiptSha256": "320644aa9fcef8b779beaa226365d82f517718c481558aa603bbcb46e23f6a39",
+  "rangeRustSha256": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c",
+  "roleBindingSha256": "32ea4b52f438f6738962e85a905612ab644e5f40a222e04e32ca82294df1862b",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "stagedInputs": 105,
+  "stagedInputsSha256": "3b4e21db88be20c2fe8c7841e23b66cc5aa67549774f7ef4c944d626ba31bcc3",
+  "workspaceLockSha256": "bb670bb4031c2c193d974f51a3343764caf46abc0097e57e85beb46db0217ae9"
+}

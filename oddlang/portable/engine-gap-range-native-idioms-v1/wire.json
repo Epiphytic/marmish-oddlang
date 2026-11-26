@@ -1,0 +1,24 @@
+{
+  "cases": {
+    "path": "verification/whole/gap-range-endpoint/cases.json",
+    "sha256": "899ad8e122eba0f7f7ec257cd3586235b1b6aed70aac180e2e1a61cfd16e5858"
+  },
+  "endpoint": {
+    "absent": "open",
+    "encodeOpen": null,
+    "encodePresent": "exact-json-integer",
+    "id": "urn:marmish:engine:output-gap:range:end",
+    "integer": {
+      "maximum": "18446744073709551615",
+      "minimum": "0"
+    },
+    "null": "open"
+  },
+  "format": "marmish-json-field-contract-v1",
+  "graph": {
+    "path": "oddlang/portable/engine-gap-range-recovered-v1/graph.json",
+    "sha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5"
+  },
+  "pathBase": "companion-repository-root",
+  "role": "json-wire"
+}
