@@ -10,3 +10,5 @@ From clean checkouts, build with Rust 1.97.1, the [framework source at 7855c055]
 python3 -B verification/whole/canonical-range-data/verify.py INPUT_REVISION \
   FRAMEWORK ORIGINAL BASELINE_PRODUCT COMPILER_TARGET NEW_WORK_DIRECTORY RECEIPT
 ```
+
+The [candidate manifest](../../../oddlang/portable/workspace-v7-canonical-range-data.json) emits workspace lock `b3534d6003e1ca3d46484e5119e9f43aad95ed8aa90faad1b60b7a060edb68c0`. Both hosts matched all cases and the public import. Darwin used the [reviewed prebuilt compiler](https://github.com/Epiphytic/oddlang/blob/4e43a3d2367cbb1839ff224ccb24da175c6b8278/verification/public-records/receipts/aarch64-apple-darwin.json) through `--darwin-compiler`. Linux built the compiler from the clean pinned source. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
