@@ -50,6 +50,16 @@
       "wireBytes": 847,
       "wireSha256": "07ccab0806ffeddf370112c46976ddd526a2b09e056f0157f8b2811dc3cbc148"
     },
+    "error/escaped-quotes-510": {
+      "accepted": true,
+      "wireBytes": 1495,
+      "wireSha256": "92c6a40c69e6c1bba3be21cc450b0bd9e1daf962c45181a99652007de3c25abb"
+    },
+    "error/escaped-quotes-511": {
+      "accepted": false,
+      "wireBytes": 1497,
+      "wireSha256": "914df381931b2727b0efb1c7ba856f48eb786e964f7bec6bad55f8cef353415f"
+    },
     "error/known-reason": {
       "accepted": true,
       "wireBytes": 489,
@@ -184,6 +194,16 @@
       "accepted": true,
       "wireBytes": 468,
       "wireSha256": "f8d60561ce288f6bf36796e92e4d1ba656f4d086e1cf022bccfb17a5d1488b06"
+    },
+    "poll/full-metadata-and-0-bytes": {
+      "accepted": true,
+      "wireBytes": 1748,
+      "wireSha256": "aa819fc32759cf5e480e6bd5cbc3d4109d32e53dc506f051e5b14e8411f9efb5"
+    },
+    "poll/full-metadata-and-16384-bytes": {
+      "accepted": true,
+      "wireBytes": 23596,
+      "wireSha256": "3192a21853261091b7b4603eeda7a27ce2d87e8f5396fd8edbe4142334e8a9b8"
     },
     "poll/missing-result": {
       "accepted": false,

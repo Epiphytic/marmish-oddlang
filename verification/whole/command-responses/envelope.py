@@ -97,6 +97,23 @@ def cases():
     for cursor in (2**63-1, 2**63):
         res = dict(status=status, stdout=chunk, stderr=dict(chunk,next_cursor=cursor))
         yield f"poll/stderr-cursor-{cursor}", frame("poll",dict(body,result=res)), cursor<2**63
+    # Exercise maximum gaps, cursors and combined payload in one poll.
+    maximum = 2**63 - 1
+    large_stream = dict(closed=False, produced=maximum, retained=maximum, gaps=[
+        dict(start=maximum-1, end=maximum, reason="storage_failure") for _ in range(4)])
+    large_status = dict(status, state="unknown_launch", admission="dispatching",
+                        cancel_requested=False, warning="stdin_unconsumed",
+                        input=dict(inp, length=16384, accepted=16384, delivered=16384,
+                                   health="eof_pending", eof_sent=False),
+                        outcome=dict(kind="launch_failed", value=7), stderr=large_stream, stdout=large_stream)
+    for n in (0, 8192):
+        block = dict(bytes=base64.b64encode(bytes(n)).decode(), next_cursor=maximum)
+        yield f"poll/full-metadata-and-{2*n}-bytes", frame("poll", dict(body, result=dict(
+            status=large_status, stdout=block, stderr=block))), True
+    for count in (510, 511):
+        detail = "/" + '"' * count
+        yield f"error/escaped-quotes-{count}", frame("status", dict(body, ok=False, error=dict(
+            code="noncanonical_executable", detail=detail))), count == 510
     accepted = dict(body, result=dict(status=status))
     raw = frame("status", accepted)
     yield "status/duplicate-inner-ok", raw.replace(b'"ok":true', b'"ok":true,"ok":true',1), False
