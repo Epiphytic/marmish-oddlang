@@ -64,6 +64,14 @@ def run(original, framework, output):
         lock = work / "shapes/shapes.lock"
         if json.loads(lock.read_bytes())["shapesSha256"] != report["graphSha256"]:
             raise ValueError("shape lock mismatch")
+        checked = archive.ARCHIVE.parent / "stream-array-shapes-v2"
+        if (checked / "shapes.json").read_bytes() != graph_path.read_bytes():
+            raise ValueError("committed structural graph drift")
+        pinned = json.loads((checked / (host + ".lock")).read_bytes())
+        if archive.semantic_lock_sha256(json.loads(lock.read_bytes())) != archive.semantic_lock_sha256(pinned):
+            raise ValueError("committed semantic lock drift")
+        if report != json.loads(Path(__file__).with_name(host + ".json").read_bytes()):
+            raise ValueError("committed structural receipt drift")
         output.mkdir()
         for path in (graph_path, lock):
             (output / path.name).write_bytes(path.read_bytes())
