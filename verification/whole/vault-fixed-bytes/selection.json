@@ -1,0 +1,6 @@
+{
+  "source": "local::marmish_vault::Secret::{type}",
+  "domain": "urn:marmish:vault:secret:domain",
+  "value": "urn:marmish:vault:secret",
+  "failure": "urn:marmish:vault:error:malformed"
+}

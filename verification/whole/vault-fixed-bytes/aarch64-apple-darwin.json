@@ -1,0 +1,71 @@
+{
+  "framework": "595fb7a55dc2016cfab70c5b131bf2f6acfe9983",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-apple-darwin",
+  "profile": "release",
+  "test": "tests::strict_public_values",
+  "unchangedModuleSha256": "5389218be38e60288371fe63a79ae71d2e9dbb8408a34bc53e8010f03117359c",
+  "sourceSha256": "4547659ecea9b480bfb16e8f9aabc9d08037754f81b7b2b54383c06b8519ed9d",
+  "graphSha256": "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b",
+  "selectedStorage": {
+    "kind": "named",
+    "id": "external::zeroize::Zeroizing::{type}",
+    "arguments": [
+      {
+        "parameter": "external::zeroize::Zeroizing::{type}::Z::{type}",
+        "name": "Z",
+        "position": 0,
+        "value": {
+          "kind": "array",
+          "element": {
+            "kind": "unsigned-integer",
+            "bits": 8
+          },
+          "extent": {
+            "kind": "fixed",
+            "count": 32
+          }
+        }
+      }
+    ]
+  },
+  "packageManifestSha256": "22ac94e18a4f89f4650876c1a2abf173133a0325cad748a0631b88b1ee4fce90",
+  "packageLockSha256": "96ff692bf79e6231972807545092f0acfcbb6e4ec035838240fe0e9f3446aa44",
+  "cargoLockSha256": "1e7f93b188b5894a7bc4af9f2ade14f0bcc48f5a45b3f61fdc474fb1460edddd",
+  "sourceReadDenied": true,
+  "originalPassed": 1,
+  "generatedPassed": 1,
+  "recovery": {
+    "authored": [
+      "domain",
+      "value",
+      "failure",
+      "public method bindings"
+    ],
+    "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "crate": "marmish_vault",
+    "declaration": "local::marmish_vault::Secret::{type}",
+    "format": "oddlang-fixed-bytes-recovery-v1",
+    "graphSha256": "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b",
+    "observationSha256": "d75c0b7ed148c03290819dcf5a5636b81d86d9befd4b5b3ab2eadafe490d6e7b",
+    "observed": {
+      "element": "octet",
+      "length": 32,
+      "storageType": "external::zeroize::Zeroizing::{type}"
+    },
+    "providerAssumption": "onDrop follows from the reviewed Zeroizing provider identity",
+    "requiresIndependentQualification": [
+      "provider package identity and drop semantics",
+      "public conversions",
+      "borrowed view",
+      "failure mapping"
+    ],
+    "selectionSha256": "cda67211ae7f3bd2773ed2385e2a90d13a81c9c480a3b5be8cfbc8a7edadf9c2"
+  },
+  "widthControl": {
+    "length": 31,
+    "phase": "compile unchanged test module",
+    "diagnostic": "E0277",
+    "compilerExit": 1
+  }
+}
