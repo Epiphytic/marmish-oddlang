@@ -47,6 +47,14 @@ def check_product(product):
     added = members.pop(MEMBER)
     if members != old["members"] or len(members) != 5 or added["dependencies"]:
         raise ValueError("predecessor member locks, edges or isolated MDK member changed")
+    check_member_files(product, current)
+    standalone = data(HERE.parent / "mdk-public-data/darwin-arm64/receipt.json")
+    if added["standalonePackageLockSha256"] != standalone["lanes"]["baseline"]["packageLockSha256"]:
+        raise ValueError("MDK member differs from its standalone qualified projection")
+    return current
+
+
+def check_member_files(product, current):
     if sha(product / "Cargo.toml") != current["workspaceCargoManifestSha256"]:
         raise ValueError("workspace root manifest changed")
     if sha(product / "Cargo.lock") != current["cargoLockSha256"]:
@@ -64,11 +72,6 @@ def check_product(product):
             files["build.rs"] = sha(member / "build.rs")
         if files != data(lock)["generatedFiles"]:
             raise ValueError(f"sealed generated source differs: {name}")
-    standalone = data(HERE.parent / "mdk-public-data/darwin-arm64/receipt.json")
-    if added["standalonePackageLockSha256"] != standalone["lanes"]["baseline"]["packageLockSha256"]:
-        raise ValueError("MDK member differs from its standalone qualified projection")
-    return current
-
 
 def artifact(build, name):
     matches = []
@@ -118,7 +121,7 @@ def mdk_oracle(args, compiler, work, scratch, generated_build):
     }
 
 
-def qualified_oracles(args, host, work, scratch, compiler, product, build):
+def qualified_oracles(args, host, work, scratch, compiler, product, build, manifest=MANIFEST):
     predecessor = lane("unified-vault-journal")
     report = lane("unified-recovered-vault")
 
@@ -129,11 +132,11 @@ def qualified_oracles(args, host, work, scratch, compiler, product, build):
                 argv = (*argv[:index], host, *argv[index + 1:])
         return run(*argv, **options)
 
-    with patch.dict(predecessor["source_oracles"].__globals__, {"MANIFEST": MANIFEST}):
+    with patch.dict(predecessor["source_oracles"].__globals__, {"MANIFEST": manifest}):
         recovered, journal_source = predecessor["source_oracles"](compiler, args.original, scratch, report, work)
     release = lane("build-report", "observe.py")["observe"](
         args.original, PORTABLE, args.original_bin_dir, product / "target/release", host)
-    with patch.dict(report["fixed_value_test"].__globals__, {"MANIFEST": MANIFEST, "run": host_run}):
+    with patch.dict(report["fixed_value_test"].__globals__, {"MANIFEST": manifest, "run": host_run}):
         fixed = report["fixed_value_test"](work, args.original, args.original_target)
 
     vault = lane("vault-values")
@@ -159,7 +162,9 @@ def qualified_oracles(args, host, work, scratch, compiler, product, build):
     }
 
 
-def qualify(args, host, work, scratch):
+def qualify(args, host, work, scratch, *, manifest=MANIFEST, base=BASE, member=MEMBER,
+            check=check_product, extra_denied=None, extra_oracle=None,
+            receipt_format="marmish-six-member-mdk-public-data-v1"):
     assembly = lane("workspace")
     run("cargo", "+1.97.1", "build", "--offline", "--locked", "--bin", "oddlang",
         "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
@@ -167,7 +172,7 @@ def qualify(args, host, work, scratch):
     shutil.copy2(args.compiler_target / "debug/oddlang", compiler)
     inputs = work / "inputs"
     inputs.mkdir()
-    spec = assembly["stage_workspace"](MANIFEST, inputs)
+    spec = assembly["stage_workspace"](manifest, inputs)
     staged = {p.relative_to(inputs).as_posix(): sha(p)
               for p in sorted(inputs.rglob("*")) if p.is_file()}
     if any(Path(name).suffix not in {".json", ".ttl", ".lock"} for name in staged):
@@ -197,6 +202,7 @@ def qualify(args, host, work, scratch):
         "vault-holdout": HERE.parent / "unified-recovered-vault/fixed_bytes.rs",
         "release-observer": HERE.parent / "build-report/observe.py",
     }
+    denied.update(extra_denied or {})
     for name, path in denied.items():
         if not path.is_file():
             raise ValueError(f"missing source-denial probe: {name}")
@@ -206,20 +212,22 @@ def qualify(args, host, work, scratch):
         ):
             raise ValueError(f"source-free gate did not deny {name}")
     product = work / "product"
-    invoke(compiler, "build", "native-workspace", "rust", inputs / MANIFEST.name, product)
-    lock = check_product(product)
+    invoke(compiler, "build", "native-workspace", "rust", inputs / manifest.name, product)
+    lock = check(product)
     build = invoke("cargo", "build", "--workspace", "--release", "--locked", "--offline",
                    "--message-format=json", cwd=product)
-    observations = qualified_oracles(args, host, work, scratch, compiler, product, build)
+    observations = qualified_oracles(args, host, work, scratch, compiler, product, build, manifest)
+    if extra_oracle is not None:
+        observations.update(extra_oracle(product))
     return {
-        "format": "marmish-six-member-mdk-public-data-v1", "platform": host,
+        "format": receipt_format, "platform": host,
         "framework": args.framework_revision, "original": ORIGINAL,
         "companion": run("git", "rev-parse", "HEAD", cwd=ROOT).decode().strip(),
-        "predecessorWorkspaceLockSha256": sha((PORTABLE / BASE).with_suffix("") / "workspace.lock"),
-        "compilerSha256": sha(compiler), "workspaceManifestSha256": sha(MANIFEST),
+        "predecessorWorkspaceLockSha256": sha((PORTABLE / base).with_suffix("") / "workspace.lock"),
+        "compilerSha256": sha(compiler), "workspaceManifestSha256": sha(manifest),
         "workspaceLockSha256": sha(product / "workspace.lock"), "cargoLockSha256": lock["cargoLockSha256"],
         "physicalMembers": sorted(lock["members"]),
-        "unchangedMemberLocks": sorted(name for name in lock["members"] if name != MEMBER),
+        "unchangedMemberLocks": sorted(name for name in lock["members"] if name != member),
         "stagedInputs": staged, "deniedSourceProbes": sorted(denied), "gitProviders": providers,
     } | observations
 
