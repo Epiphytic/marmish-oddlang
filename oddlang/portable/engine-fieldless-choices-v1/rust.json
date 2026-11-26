@@ -1,0 +1,37 @@
+{
+  "errors": {},
+  "format": "oddlang-checked-values-rust-v1",
+  "types": {
+    "urn:marmish:engine:fieldless-choices:v1:stream:type": {
+      "constructor": null,
+      "name": "Stream",
+      "order": [
+        "urn:marmish:engine:fieldless-choices:v1:stream:type:Stdout",
+        "urn:marmish:engine:fieldless-choices:v1:stream:type:Stderr"
+      ],
+      "parse": null,
+      "shape": null,
+      "traits": [
+        "copy"
+      ],
+      "view": null
+    },
+    "urn:marmish:engine:fieldless-choices:v1:submit-disposition:type": {
+      "constructor": null,
+      "name": "SubmitDisposition",
+      "order": [
+        "urn:marmish:engine:fieldless-choices:v1:submit-disposition:type:Accepted",
+        "urn:marmish:engine:fieldless-choices:v1:submit-disposition:type:Existing"
+      ],
+      "parse": null,
+      "shape": null,
+      "view": null
+    }
+  },
+  "variants": {
+    "urn:marmish:engine:fieldless-choices:v1:stream:type:Stderr": "Stderr",
+    "urn:marmish:engine:fieldless-choices:v1:stream:type:Stdout": "Stdout",
+    "urn:marmish:engine:fieldless-choices:v1:submit-disposition:type:Accepted": "Accepted",
+    "urn:marmish:engine:fieldless-choices:v1:submit-disposition:type:Existing": "Existing"
+  }
+}
