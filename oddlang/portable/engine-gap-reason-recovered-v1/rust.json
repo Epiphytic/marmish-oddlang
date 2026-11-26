@@ -1,0 +1,19 @@
+{
+  "constantTypes": {},
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:engine:output-gap:reason": "MissingReason",
+    "urn:marmish:engine:output-gap:reason:expired": "Expired",
+    "urn:marmish:engine:output-gap:reason:limit": "Limit",
+    "urn:marmish:engine:output-gap:reason:storage-failure": "StorageFailure",
+    "urn:marmish:engine:output-gap:reason:uncertain-tail": "UncertainTail"
+  },
+  "variantOrder": {
+    "urn:marmish:engine:output-gap:reason": [
+      "urn:marmish:engine:output-gap:reason:limit",
+      "urn:marmish:engine:output-gap:reason:storage-failure",
+      "urn:marmish:engine:output-gap:reason:expired",
+      "urn:marmish:engine:output-gap:reason:uncertain-tail"
+    ]
+  }
+}
