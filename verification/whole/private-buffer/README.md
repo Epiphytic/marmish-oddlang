@@ -22,3 +22,22 @@ To repeat the original observations, use a clean reference checkout at `af54339d
 ```sh
 python3 -B verification/whole/private-buffer/baseline.py "$UPSTREAM" "$CARGO_TARGET" /tmp/buffer-original.json
 ```
+
+## Source-free native package
+
+The [package manifest](../../../oddlang/portable/prototype-buffer-package.json) binds the [portable graph](../../../oddlang/portable/prototype-buffer-v1/graph.json) and [Rust overlay](../../../oddlang/portable/prototype-buffer-v1/rust.json). To generate and compile the scoped library, check out the Oddlang revision in [compiler.json](compiler.json) and run the following commands.
+
+```sh
+oddlang build native-package rust oddlang/portable/prototype-buffer-package.json /tmp/prototype-reader
+cargo +1.97.1 build --manifest-path /tmp/prototype-reader/Cargo.toml --release --locked --offline
+```
+
+The native verifier independently rebuilds the graph from rustc observations. A source change from 8,192 to 4,096 bytes must change only the recovered extent. The original test must then fail compilation at its 8,192-byte initializer. Three separate graph changes exercise the empty-read, failed-refill and consumed-byte policies. The sealed build grants read access to the pinned inputs, compiler and native toolchain. It probes access to the original source and test oracle before any test is staged.
+
+```sh
+python3 -B verification/whole/private-buffer/verify.py "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" /tmp/candidate.json
+```
+
+The candidate uses an Oddlang CLI built with Rust 1.96.1. The observation adapter, native crate and native tests use Rust 1.97.1. The release only exposes the private reader to in-crate tests. The public bridge entrypoint remains unverified.
+
+Both native runs used companion inputs at `3c1ee1321449d1852e1aabcb00f6aa12e991af3b`. Each passed the original test plus the three independent observations. Each detected the width mutation at the upstream initializer and rejected all three altered transition policies at their expected assertions. [macOS candidate](candidate-aarch64-apple-darwin.json) · [Linux candidate](candidate-aarch64-unknown-linux-gnu.json)

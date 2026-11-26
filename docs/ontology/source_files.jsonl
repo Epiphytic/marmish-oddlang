@@ -983,8 +983,10 @@
 {"path":"verification/whole/native-error/probe.rs","language":"rust","mode":"100644","sha256":"1418e3f1b3cb4190859c2d220f1143fc43055243ea4b11a84b390b5411df3aa4","parse_status":"parsed"}
 {"path":"verification/whole/native-error/selection.json","language":"inventory","mode":"100644","sha256":"8b75a621a771dc647eaa9e79014d31bbf0c62782fab95e582715e3655465e230","parse_status":"inventory"}
 {"path":"verification/whole/native-error/verify.py","language":"python","mode":"100644","sha256":"afb9f63b3ccdef57827884d29253c5c6cffa55caf7955174a14c1a908955b527","parse_status":"parsed"}
-{"path":"verification/whole/private-buffer/README.md","language":"inventory","mode":"100644","sha256":"1db8cb2450e9926410019eea31c2925c0032fa034add5d52122efb1f3a75887b","parse_status":"inventory"}
+{"path":"verification/whole/private-buffer/README.md","language":"inventory","mode":"100644","sha256":"af5bc5efc22f142c2dce2a9788a938cf8b142e0be5e29c0426603235e4b77e4e","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/baseline.py","language":"python","mode":"100644","sha256":"29b13e5d3e1273c10f9c84d899591e100685a79b920686a91a7ba5eef6cda9af","parse_status":"parsed"}
+{"path":"verification/whole/private-buffer/candidate-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d65a804c689892a8967943b3840a728ef3f50a5a05d528562a4d83cf26386553","parse_status":"inventory"}
+{"path":"verification/whole/private-buffer/candidate-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"481968e99d6bdfbd1750f659382bbd16fcdc519e893d60633bbc1db828940eb4","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/compiler.json","language":"inventory","mode":"100644","sha256":"69724e9ea57e3755ddd442f7fe670030814c5ca06560623f118899a91f51dc99","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/observations.rs","language":"rust","mode":"100644","sha256":"93d7d4773a6dd43cde84f68bef973876a295b5a468e5a1b2f58da06089f64f5f","parse_status":"parsed"}
 {"path":"verification/whole/private-buffer/original-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"543bbfe72bcb8bb5c1a8b81480c142facfc09c0e764239ca38936319588f77fc","parse_status":"inventory"}
