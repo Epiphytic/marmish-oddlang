@@ -1,0 +1,283 @@
+{
+  "originalCommit": "af54339d250290490d62d4475a77539b7e739071",
+  "frameworkCommit": "7ed1c29acde2cc4cfdc58c2489935e703470ae70",
+  "platform": "aarch64-apple-darwin",
+  "companionRevision": "f465905841f5ce39b2160f8fbbef9a1d16f8e429",
+  "sourceFree": true,
+  "deniedReadProbes": [
+    "companionCaller",
+    "externalCheckoutExample",
+    "frameworkLibrary",
+    "originalLibrary",
+    "referenceExecutable"
+  ],
+  "verifierSha256": "d17edca1817c5d0ac4fb5582efc75ab9f70306ec43817a66628b156d7328dd42",
+  "compilerSha256": "4717a5ace1a6161591c2743302e7d7b439d4a58743b6a29b4ac581e869282775",
+  "manifestSha256": "db2719b9cf5f7097afd227211c639047faf2a6185b243d4d0c677d05e82c8374",
+  "referenceReleaseInfoSha256": "c73ac38ce51984092f62b8d9c7b0c0d770aff17e647940b44bc5a60b8e7a96f6",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "stagedInputs": {
+    "copy-checkpoint-v1/graph.json": "cf560b07a2086aa66cc146d0f4231b7a3d4f45b8feae0b1f14e65e892f2d6322",
+    "copy-checkpoint-v1/rust.json": "985f95338f4f09314398e769bde4e9c2a05962f023b53a62691435985cc85a5c",
+    "copy-field-relations-v1/graph.json": "d3a484322807add5874e82880155cb8812fa3f395fa4963164b1e85d962db158",
+    "copy-field-relations-v1/rust.json": "ff276384088a131aa5e5cfcb5dadfc88b4578851217ee3e8cf3506b40c75bf0f",
+    "copy-frame-v1/constants-rust.json": "b4e4ce4c80434a599ef8f85b5d867cab1711661d948e916222874750535ddd5c",
+    "copy-frame-v1/constants.json": "ebc8284d84200480f35122ebe909580a1f5058018ea2938d056492188ac534ea",
+    "copy-frame-v1/graph.json": "909a97e80be036ffffa97e453a35ac3d269df5e044c5f6e919a41664c327da3b",
+    "copy-frame-v1/launch-fragment-rust.json": "c1e49d11ec35dcbb75c3138ecf48a7f2e236aaa24add1d9827271630a1bdb54e",
+    "copy-frame-v1/launch-fragment.json": "a28a0cf76848891ee352d55b6c7af7a8a94ae1e3c8178e1327f3b5317d26ebd2",
+    "copy-frame-v1/manifest-fragment.json": "0d0c304e08267aa6913a65d2fb100a30332c351b0b02a7897e0cf7a652954bac",
+    "copy-frame-v1/rust.json": "5af45802a8275511afe6a515b708b6435b9ea4b97d00e2a34cbfd9c1d8520904",
+    "copy-helper-context-v1/graph.json": "6d7c578287b4b8e92bb8a7e62a40b49f9a73767dab2ac7ff5d7359b4966b2d0e",
+    "copy-helper-context-v1/rust.json": "5533266567625ce4bc5779ce1a95d5df5fa921c0050f78681acf1197e1be0548",
+    "copy-launch-hash-v1/launch-rust.json": "cade9a637d57bb150ca09988e342299e0007387ac888840a24441c015bdfb9cc",
+    "copy-launch-hash-v1/launch.json": "5e02a133153617370d168fb99cba20962d019f74715a4f2cde29bab8ecb64535",
+    "copy-launch-v1/enums-rust.json": "5ddd8100e68af2391d48ffdfca1ac3470c978f3741042a9acda46151500df512",
+    "copy-launch-v1/enums.json": "9ea5cc2f6ba85350ec16ba7c24465b5ec066502450fcabd8fcd2551ceee5d11b",
+    "copy-manifest-v1/rust.json": "a235e87f50c6c70cdbc27ef702f576b3419447497bf43c80a171badcc7d20480",
+    "core-config-v1/domain.ttl": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc",
+    "core-config-v1/rust.json": "e40105ffefb5cb6d62df6705c0b248e1bacf6e1e36d8c9bca6e4756b184155e5",
+    "core-frame-v1/domain.ttl": "a3429c691990835d1ee3ad13e90ce56fbcc15d84f28c6a2eedcf7f7135b9a0e8",
+    "core-frame-v1/rust.json": "325f13b37cb311aefdf0348b26b897785cdc9ebb78bba22965b0c267adb8318d",
+    "core-package-v1/Cargo.lock": "2e8cb5d183d18b85059dc5af723677169e07aff37ef5648fe098ac5b4d3f9d95",
+    "core-package.json": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4",
+    "core-relays-v1/graph.json": "98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff",
+    "core-relays-v1/rust.json": "e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c",
+    "engine-process-limits-package.json": "82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06",
+    "native-build-report-errors-engine-package.json": "8e665c1d45f036f850ac6058d0d4824dabde53e7dd5f3df21d8a92f562128ae8",
+    "native-build-report-v1/graph.json": "d5d22b5e567fd15c534abe58b8e5ac245a96fc4debe0a075ae0bc653d39cf7b8",
+    "native-build-report-v1/marmish-cli.json": "9bbbad3ed635092cad4a9075f6d3f83f06506ff8a1ace43c9aaec1cb95ddc95b",
+    "native-build-report-v1/marmishd-cli.json": "0de5666b77f6b6a816c33d40a52bf88aace7b7f36633263ef64c68de0f2095d2",
+    "native-build-report-v1/rust.json": "4070dd46da9c8db378501b0e9fa3973a184eb42ea34a5e173c548ba55df1b91a",
+    "native-cli-v1/graph.json": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+    "native-configured-init-v1/graph.json": "a036570a7069c20d278b49c33590117284a32332c162fbab55d850db2509f043",
+    "native-error-v1/graph.json": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34",
+    "native-error-v1/rust.json": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a",
+    "native-foreground-lifecycle-v1/Cargo.lock": "fcc8ad72282f71523b0564500fcbaeac75ad8504d1ffc0dffa2366e69a9a89c4",
+    "native-foreground-lifecycle-v1/encrypted-stores-rust.json": "99feaef62fdccca6f1618d2e44e0d484717fc9ef82cfdd565b55efd15a25f6d0",
+    "native-foreground-lifecycle-v1/rust.json": "9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c",
+    "native-status-discovery-v1/graph.json": "5516fc8b7ca45648b1744ae7489f8c2e2cbf70057bfa6057fbb5d868eb026700",
+    "native-status-owner-v1/graph.json": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
+    "native-status-owner-v1/rust.json": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2",
+    "native-status-v1/rust.json": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea",
+    "stream-block-package-v1/Cargo.lock": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e",
+    "stream-integrity-v1/graph.json": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec",
+    "stream-integrity-v1/rust.json": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088",
+    "stream-package-v5.json": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8",
+    "stream-shared-v1/graph.json": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e",
+    "stream-shared-v1/rust.json": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e",
+    "stream-windows-v1/graph.json": "9915405d2ba95ef10cdc18e5c80525053a9479ef963091a60100b633a1dec228",
+    "stream-windows-v1/rust.json": "26e77394884f1f0415e7b57995587aac9bcc6690dc9df5ebd80839597d0b5d9b",
+    "stream-wire-operations-v1/enums.graph.json": "397d6e3a0aa48cf2b01a17247ff0735d1eb631e54861318b70b1bf849dbf0e99",
+    "stream-wire-operations-v1/enums.rust.json": "83b2141977206474d6d38fb0737819b9f9ca57496a94dadee3174df2f3c10a9f",
+    "stream-wire-operations-v1/graph.json": "2cbb1fb931456d727210479cad40e79f236fd7d8ce50bd6fc4a0197e92c8b8d1",
+    "stream-wire-operations-v1/rust.json": "e2a4146ff118815f5f205e5910751f9a059b99d87a1362ab5e62d18042647a28",
+    "stream-wire-schema-v1/graph.json": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+    "stream-wire-schema-v1/rust.json": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
+    "vault-value-domain-package.json": "735c7f981a459c853e28dec15df383f59dc2bfccb20135499a85e26f83bdf345",
+    "vault-values-v1/Cargo.lock": "e176da6c02f877c1347a860da16c1aa1cfb447bd682570c2c4ca807215187005",
+    "vault-values-v1/errors-rust.json": "003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64",
+    "vault-values-v1/errors.json": "335d69a5b1c9942c47684ea1429a915d6b392a2c75b39d7abaffdf86df6d1764",
+    "vault-values-v1/graph.json": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be",
+    "vault-values-v1/rust.json": "b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0",
+    "workspace-engine-limits/engine-Cargo.lock": "7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7",
+    "workspace-engine-limits/graph.json": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5",
+    "workspace-engine-limits/rust.json": "61a0c8717640a5b6bb10b3877e847a0e017bfc741289ab5f28749d9d8e85a18a",
+    "workspace-v6/foreground-graph.json": "0212b6eaa08f7b650ee13ded76561007c39b6fa143c43192cc7286d93a5151a2",
+    "workspace-v7-vault-engine/Cargo.lock": "59b5c7fa75c94ba0ff9dd0fbf8887f51cbeaad7ef08b59bc26b1a18448568b52",
+    "workspace-v7-vault-engine.json": "db2719b9cf5f7097afd227211c639047faf2a6185b243d4d0c677d05e82c8374"
+  },
+  "cargoLockSha256": "59b5c7fa75c94ba0ff9dd0fbf8887f51cbeaad7ef08b59bc26b1a18448568b52",
+  "workspaceLockSha256": "c07772ff1fd78ea0ea166a17cf1b9a61f6ad00823dea81d1fe0d681c49b34df3",
+  "members": [
+    "marmish-core",
+    "marmish-engine",
+    "marmish-native",
+    "marmish-stream",
+    "marmish-vault"
+  ],
+  "copyCases": [
+    "copy_protocol::tests::all_frames_roundtrip_every_split_without_buffering_next_frame",
+    "copy_protocol::tests::checkpoint_rejects_corruption_trailing_fields_and_impossible_states",
+    "copy_protocol::tests::helper_context_rejects_missing_trailing_unknown_and_entrypoint_fields",
+    "copy_protocol::tests::helper_context_retention_has_replay_floor_and_config_ceiling",
+    "copy_protocol::tests::helper_context_roundtrip_limits_and_start_binding",
+    "copy_protocol::tests::launch_digest_binds_codec_mode_paths_and_metadata_but_not_attempt_binding",
+    "copy_protocol::tests::malformed_lengths_unknown_tags_enums_and_options_fail_closed",
+    "copy_protocol::tests::maximum_checkpoint_stays_below_control_cap",
+    "copy_protocol::tests::namespace_separates_principals_direction_and_transfer",
+    "copy_protocol::tests::one_byte_reassembly_and_multiple_frames",
+    "copy_protocol::tests::sizes_offsets_and_metadata_are_checked_before_encoding",
+    "exact::all_case_tags_and_canonical_payloads",
+    "exact::commit_constant_and_poisoned_decoder_outcomes_are_exact",
+    "exact::data_and_progress_guards_have_directional_precedence",
+    "exact::data_decode_rejects_offset_before_empty_body",
+    "exact::frame_headers_precede_tag_and_slot_checks",
+    "exact::inline_validation_precedes_codec_and_trailing",
+    "exact::launch_fragment_reports_early_read_errors",
+    "exact::public_copy_protocol_constants_and_signatures",
+    "exact::remaining_case_errors_preserve_exact_order"
+  ],
+  "vaultRows": 600,
+  "vaultStdoutSha256": "8d881e5e326cb7875a00072d5e65a3b02fb3695216071b6c3cf0dc47e77c558a",
+  "vaultPrivateConstructorRejections": 2,
+  "nativeErrorRows": 32,
+  "nativeErrorStdoutSha256": "b00a963d4a03f8d237f05bee23e2d6964b271e8d9abf7fa2fa3a7b7e7a210c6c",
+  "binaries": {
+    "marmish": 16,
+    "marmishd": 16
+  },
+  "processLimitCases": [
+    {
+      "beforeSoft": 1024,
+      "afterSoft": 1024,
+      "hard": 9223372036854775807,
+      "twoCallsIdempotent": true,
+      "bothDescriptorFlagsPreserved": true
+    },
+    {
+      "beforeSoft": 65536,
+      "afterSoft": 65536,
+      "hard": 9223372036854775807,
+      "twoCallsIdempotent": true,
+      "bothDescriptorFlagsPreserved": true
+    },
+    {
+      "beforeSoft": 65537,
+      "afterSoft": 65536,
+      "hard": 9223372036854775807,
+      "twoCallsIdempotent": true,
+      "bothDescriptorFlagsPreserved": true
+    }
+  ],
+  "processStartupCases": [
+    {
+      "binary": "marmish",
+      "arguments": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "Marmish native identity and encrypted transport foundation\n\nUsage: marmish [OPTIONS] [COMMAND]\n\nCommands:\n  copy-receipts       Inspect retained local download receipts or acknowledge an uncertain record\n  put                 Copy one local regular file to a remote literal path\n  get                 Copy one remote regular file to a local literal path\n  rsh                 Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n  stream              Execute with binary stdin/stdout streams and explicit remote cancellation\n  streams             List locally recorded streams and their last known remote states\n  stream-reconcile    Acknowledge that an uncertain orphan may still be running, releasing credit\n  keychain-authorize  Ask macOS for access to this existing profile, then verify without UI\n  release-info        Print this binary's native version, build target and source commit\n  install             Install a verified v0.2 bundle or select an already installed version\n  install-status      \n  uninstall           \n  setup               Create or update this named identity and its offline command configuration\n  init                Initialize encrypted native storage without connecting to relays\n  commands            List durable command handles without command arguments or output\n  command-status      Query an explicitly selected remote invocation\n  cancel              Explicitly request cancellation of an invocation\n  wait                Resume waiting and copying output using durable cursors\n  output              \n  daemon              Run this identity's serialized transport owner\n  status              \n  open-conversation   \n  send                Send a bounded foundation test payload, encoded as canonical base64\n  received            \n  foundation-check    Fresh-key encrypted exchange, restart, and receipt validation. No commands\n  command-check       Disposable-key live remote-command validation through explicit relays\n  help                Print this message or the help of the given subcommand(s)\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n  -V, --version\n          Print version\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmish",
+      "arguments": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "marmish-native 0.3.1\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmish",
+      "arguments": [
+        "--an-unknown-argument"
+      ],
+      "exit": 255,
+      "stdout": "",
+      "stderr": "error: unexpected argument '--an-unknown-argument' found\n\nUsage: marmish [OPTIONS] [COMMAND]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n",
+      "fault": null
+    },
+    {
+      "binary": "marmish",
+      "arguments": [
+        "release-info"
+      ],
+      "exit": 0,
+      "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmish",
+      "arguments": [
+        "--an-unknown-argument"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "marmish: process_limits\n",
+      "fault": "getrlimit NOFILE returns EPERM"
+    },
+    {
+      "binary": "marmishd",
+      "arguments": [
+        "--help"
+      ],
+      "exit": 0,
+      "stdout": "Marmish native identity and encrypted transport foundation\n\nUsage: marmishd [OPTIONS] [COMMAND]\n\nCommands:\n  copy-receipts       Inspect retained local download receipts or acknowledge an uncertain record\n  put                 Copy one local regular file to a remote literal path\n  get                 Copy one remote regular file to a local literal path\n  rsh                 Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh\n  stream              Execute with binary stdin/stdout streams and explicit remote cancellation\n  streams             List locally recorded streams and their last known remote states\n  stream-reconcile    Acknowledge that an uncertain orphan may still be running, releasing credit\n  keychain-authorize  Ask macOS for access to this existing profile, then verify without UI\n  release-info        Print this binary's native version, build target and source commit\n  install             Install a verified v0.2 bundle or select an already installed version\n  install-status      \n  uninstall           \n  setup               Create or update this named identity and its offline command configuration\n  init                Initialize encrypted native storage without connecting to relays\n  commands            List durable command handles without command arguments or output\n  command-status      Query an explicitly selected remote invocation\n  cancel              Explicitly request cancellation of an invocation\n  wait                Resume waiting and copying output using durable cursors\n  output              \n  daemon              Run this identity's serialized transport owner\n  status              \n  open-conversation   \n  send                Send a bounded foundation test payload, encoded as canonical base64\n  received            \n  foundation-check    Fresh-key encrypted exchange, restart, and receipt validation. No commands\n  command-check       Disposable-key live remote-command validation through explicit relays\n  help                Print this message or the help of the given subcommand(s)\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n  -V, --version\n          Print version\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmishd",
+      "arguments": [
+        "--version"
+      ],
+      "exit": 0,
+      "stdout": "marmish-native 0.3.1\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmishd",
+      "arguments": [
+        "--an-unknown-argument"
+      ],
+      "exit": 255,
+      "stdout": "",
+      "stderr": "error: unexpected argument '--an-unknown-argument' found\n\nUsage: marmishd [OPTIONS] [COMMAND]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n",
+      "fault": null
+    },
+    {
+      "binary": "marmishd",
+      "arguments": [
+        "release-info"
+      ],
+      "exit": 0,
+      "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+      "stderr": "",
+      "fault": null
+    },
+    {
+      "binary": "marmishd",
+      "arguments": [
+        "--an-unknown-argument"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "marmish: process_limits\n",
+      "fault": "getrlimit NOFILE returns EPERM"
+    }
+  ],
+  "processArtifacts": {
+    "originalBinaries": {
+      "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+      "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+    },
+    "generatedBinaries": {
+      "marmish": "0ec609cfb61b11031f5f1f773d89875eb4d1d3e6cdad3caf6b640ed0badbcec8",
+      "marmishd": "6cc1cf1a2f15c69d14f57716112c46d934f9f6724cf446c79366d4b280692db4"
+    },
+    "originalLibraries": {
+      "libc": "4719d2f293f53098df0e86e347346eef5cfda8444ae2bec77448a079aaaea4e5",
+      "marmish_engine": "fb6e2b984a05cf588b3f0e2f1a77ded6ba1e6d2b3ac8045bbc10f5af64ef58f1"
+    },
+    "generatedLibraries": {
+      "marmish_engine": "bff285a0b7ae7a9fb657cd86563c37f12acf6479ebcc7f177d3e3edb02373df9",
+      "libc": "4719d2f293f53098df0e86e347346eef5cfda8444ae2bec77448a079aaaea4e5"
+    },
+    "observerSha256": "2a56cdb8b4dbb24fae86780e7f70e3507458b3be4e6283ef31e34b276365415d",
+    "faultObserverSha256": "e8cd3a1518a1728cdf07af4fec9ae91a81adc0674704df0e6fae3004ed24b4db"
+  }
+}
