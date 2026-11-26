@@ -1,0 +1,36 @@
+{
+  "format": "oddlang-native-workspace-v1",
+  "cargoLock": {
+    "path": "workspace-engine-limits/Cargo.lock",
+    "sha256": "0f3ae7fdf527c2197c4b741a73390ca0653b3c98bbf2bb578704c893d6ecd89b"
+  },
+  "members": {
+    "marmish-core": {
+      "manifest": {
+        "path": "core-package.json",
+        "sha256": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4"
+      }
+    },
+    "marmish-stream": {
+      "manifest": {
+        "path": "stream-package-v5.json",
+        "sha256": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8"
+      }
+    },
+    "marmish-native": {
+      "manifest": {
+        "path": "native-engine-limits-package.json",
+        "sha256": "9d820b65186f32e52af20916686832fb2741cbf8f006dfd9f59a6caff3f09a1a"
+      },
+      "dependencies": [
+        "marmish-engine"
+      ]
+    },
+    "marmish-engine": {
+      "manifest": {
+        "path": "engine-process-limits-package.json",
+        "sha256": "82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06"
+      }
+    }
+  }
+}
