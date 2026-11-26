@@ -10,6 +10,8 @@ Build the current Rust workspace from the [v7 manifest](portable/workspace-v7.js
 
 The separate [engine process-limit workspace](../verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
 
+The [public journal record recovery](../verification/whole/journal-records/README.md) preserves three selected native records and their direct re-exports in the combined vault and engine workspace.
+
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
