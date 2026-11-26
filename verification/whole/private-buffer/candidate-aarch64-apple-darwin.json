@@ -1,0 +1,76 @@
+{
+  "target": "aarch64-apple-darwin",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "additionalPolicyControls": {
+    "consumedBytes": {
+      "packageLockSha256": "22d664baa8f0892a74f9fa1dee781aea6202dbc25f0acbe6a9e2979132236c7d",
+      "holdoutExit": 101,
+      "originalExit": 101
+    },
+    "emptyRead": {
+      "packageLockSha256": "e962ff817c230a73196903092cdb1d30ef86d8ffeddeb8d402a54a293d99e025",
+      "exit": 101
+    }
+  },
+  "erasureProvider": {
+    "name": "zeroize",
+    "version": "1.9.1",
+    "source": "registry+https://github.com/rust-lang/crates.io-index",
+    "checksum": "e13084392c5e4bc371903e2935a5eaeed24905a7511356b883835e18a78f6879"
+  },
+  "graphSha256": "8d8d44a3830f47fa0dbd50ffbf2e218aa94178a80201ae7696c6a3c31beb12e3",
+  "overlaySha256": "940a6aa07bdfdfe3f19de80972d534d17d6c2857f816e7001d6b4ffa2de8fe0d",
+  "originalCaseSha256": "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc",
+  "observationsSha256": "93d7d4773a6dd43cde84f68bef973876a295b5a468e5a1b2f58da06089f64f5f",
+  "baseline": {
+    "packageLockSha256": "f22e68aedf8f1c842e1dc5eca928d9aa3e0976e194ad6f6f88ab301bb8b6e34f",
+    "passed": [
+      "secret_request_tests::private_reader_wipes_consumed_spans",
+      "buffer_contract_observations::retained_span_and_consumed_bytes",
+      "buffer_contract_observations::failed_refill_retains_prior_end",
+      "buffer_contract_observations::zero_output_still_reads_and_eof_can_be_polled_again"
+    ],
+    "generatedPrefix": "buffer::__projection_0::"
+  },
+  "sourceWidthMutation": {
+    "packageLockSha256": "b785e09b4f2addf9fcb9a34b350422b7964ac087beb0bbdaad71c0e92eec3940",
+    "originalTestDiagnostic": "E0308",
+    "expectedExtent": 4096
+  },
+  "refillPolicyMutation": {
+    "packageLockSha256": "67a2c7f12b83502425e090c6acfd04b477d251ae6ec7bb9605fd3038a4db9308",
+    "exit": 101
+  },
+  "recovery": {
+    "authored": [
+      "portable identity",
+      "semantic field roles",
+      "all transition policies"
+    ],
+    "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "declaration": "local::marmish_prototype::PrivateReader::{type}",
+    "format": "oddlang-buffered-input-recovery-v1",
+    "graphSha256": "8d8d44a3830f47fa0dbd50ffbf2e218aa94178a80201ae7696c6a3c31beb12e3",
+    "observationSha256": "c48bf9e0b10ee63d29e2f3eabacae35ebe236f06c1163011b64cf72522328050",
+    "observed": [
+      "generic input identity",
+      "field order",
+      "octet storage provider and extent",
+      "index representations"
+    ],
+    "observedIndexBits": 64,
+    "overlaySha256": "940a6aa07bdfdfe3f19de80972d534d17d6c2857f816e7001d6b4ffa2de8fe0d",
+    "requiresIndependentQualification": [
+      "implementation behavior",
+      "storage release obligation",
+      "native visibility",
+      "generic constraints and defaults",
+      "storage provider package instance",
+      "target data layout"
+    ],
+    "selectionSha256": "6eadb532bcecd8c59330def695dc387841ba0c5c9f868b1473f738a8f9cd23ec"
+  },
+  "framework": "7a03e75e21a61890cf33d06d3b498368cc2c33af",
+  "frameworkCompiler": "rustc 1.96.1 (31fca3adb 2026-06-26)",
+  "productCompiler": "rustc 1.97.1 (8bab26f4f 2026-07-14)"
+}

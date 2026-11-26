@@ -1,0 +1,12 @@
+{
+  "fields": {
+    "begin": "start",
+    "end": "end",
+    "input": "inner",
+    "storage": "bytes"
+  },
+  "format": "oddlang-buffered-input-rust-v1",
+  "id": "urn:marmish:prototype:private-buffer",
+  "parameter": "R",
+  "type": "PrivateReader"
+}
