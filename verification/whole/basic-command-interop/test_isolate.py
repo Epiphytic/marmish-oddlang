@@ -4,7 +4,7 @@ import signal
 import subprocess
 import unittest
 
-from isolate import Workspace
+from isolate import SYSTEM_HOME, Workspace
 
 
 @unittest.skipUnless(platform.system() == "Darwin", "macOS sandbox is required")
@@ -31,6 +31,15 @@ class WorkspaceTests(unittest.TestCase):
 
     def test_interruption_cleanup(self):
         self.check_cleanup(InterruptedError)
+
+    def test_engine_account_directory_stat(self):
+        with Workspace() as workspace:
+            peer = workspace.instance("server")
+            stat = peer.run(["/usr/bin/stat", "-f", "%HT", SYSTEM_HOME])
+            self.assertEqual((stat.returncode, stat.stdout, stat.stderr), (0, b"Directory\n", b""))
+            listing = peer.run(["/bin/ls", "-A", SYSTEM_HOME])
+            self.assertNotEqual(listing.returncode, 0)
+            self.assertEqual(listing.stdout, b"")
 
     def test_success_cleanup(self):
         with Workspace() as workspace:

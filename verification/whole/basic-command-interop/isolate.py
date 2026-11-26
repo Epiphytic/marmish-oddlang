@@ -22,6 +22,7 @@ class Instance:
         self.profile.write_text(
             "(version 1)\n(allow default)\n"
             f"(deny file-read* (subpath {json.dumps(str(SYSTEM_HOME))}))\n"
+            f"(allow file-read-metadata (literal {json.dumps(str(SYSTEM_HOME))}))\n"
             f"(deny file-read* (subpath {json.dumps(str(root.parent))}))\n"
             f"(allow file-read* (subpath {json.dumps(str(root))}))\n"
             f"(allow file-read* (literal {json.dumps(str(root.parent))}))\n"
@@ -62,7 +63,7 @@ class Instance:
         result = self.run(["/usr/bin/touch", write_sentinel], timeout=5)
         if not result.returncode or write_sentinel.exists():
             raise ValueError("sandbox allowed an external write")
-        result = self.run(["/bin/ls", "-d", SYSTEM_HOME], timeout=5)
+        result = self.run(["/bin/ls", "-A", SYSTEM_HOME], timeout=5)
         if not result.returncode or result.stdout:
             raise ValueError("sandbox allowed access to the real home")
         result = self.run(["/usr/bin/security", "default-keychain", "-d", "user"], timeout=5)

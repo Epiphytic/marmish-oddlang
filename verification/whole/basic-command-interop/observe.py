@@ -1,5 +1,6 @@
 """Probe the pinned upstream control using a test-owned onion relay."""
 import argparse
+from contextlib import ExitStack
 import hashlib
 import json
 import os
@@ -223,29 +224,33 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 policy["cwd"] = str(server.root)
                 policy_path.write_text(json.dumps(policy))
                 observation["stage"] = "owner-activation"
-                with tempfile.TemporaryFile(dir=workspace.root) as owners:
-                    children = {}
-                    for role, instance in peers.items():
-                        options = account_options(instance, role, address)
-                        children[role] = instance.start(
-                            [instance.root / "marmishd", *options, "--foreground", "daemon"],
-                            stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=owners)
-
-                    def ready():
-                        for role, child in children.items():
-                            if child.poll() is not None:
-                                raise ValueError(f"{role} upstream owner stopped during activation")
+                with ExitStack() as logs:
+                    owner_logs = []
+                    try:
+                        for role in ("server", "client"):
                             instance = peers[role]
                             options = account_options(instance, role, address)
-                            status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
-                            if status.returncode or (json.loads(status.stdout).get("result") or {}).get("state") != "active":
-                                return False
-                        return True
+                            # The upstream engine reopens every inherited vnode by its named path.
+                            log_path = instance.root / "owner.stderr"
+                            fd = os.open(log_path, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
+                            owner_log = logs.enter_context(os.fdopen(fd, "w+b"))
+                            owner_logs.append(owner_log)
+                            child = instance.start(
+                                [instance.root / "marmishd", *options, "--foreground", "daemon"],
+                                stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=owner_log)
 
-                    try:
-                        until(ready, 250, "owner-activation")
+                            def ready():
+                                if child.poll() is not None:
+                                    raise ValueError(f"{role} owner stopped during activation")
+                                status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
+                                if status.returncode:
+                                    return False
+                                return (json.loads(status.stdout).get("result") or {}).get("state") == "active"
+
+                            until(ready, 170, "owner-activation")
+                            observation[f"{role}_active"] = True
                     except (ValueError, TimeoutError, subprocess.TimeoutExpired):
-                        transcript_bytes = os.pread(owners.fileno(), 65536, 0)
+                        transcript_bytes = b"\n".join(os.pread(log.fileno(), 65536, 0) for log in owner_logs)
                         codes = [line for line in (b"marmish: marmot: key_package_publish",
                                                    b"marmish: transport: relay_connect")
                                  if line in transcript_bytes.splitlines()]
