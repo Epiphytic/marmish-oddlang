@@ -1,0 +1,25 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "c579dcdfa8f0e94d3dc894242908475552cdbd83",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "declaredShapes": [
+    "Error",
+    "KeyRef",
+    "Label",
+    "Metadata",
+    "Namespace",
+    "Purpose"
+  ],
+  "observations": 2400,
+  "changedOutcomes": 4,
+  "originalSourceSha256": "4547659ecea9b480bfb16e8f9aabc9d08037754f81b7b2b54383c06b8519ed9d",
+  "mutatedSourceSha256": "53691a8e9a73a69a318ef75a298a0bec20a0a6f93fa749b9207e2fccdc608713",
+  "originalGraphSha256": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be",
+  "mutatedGraphSha256": "32a9b7d5d38bbc6b8618c52ea174964642ba8926e9acda29c40d9b9e3fd4096d",
+  "originalPackageLockSha256": "544c6f2d5b6ba9314b5963a239068a9bc519784d4c71762cedd1e588d48df2c8",
+  "mutatedPackageLockSha256": "dc028515652af30b8c090d3724adf3c8aa9a7223e09125b91b5d0df05c9bc401",
+  "callerSha256": "2b356012872458e7b6161a4c9e8c03e40c3ef79b8a2817e7f63cd29bc4b569ad",
+  "shapesSha256": "ef62915331df0597e13bb0f9e223ce8b286d890fc5437398e56de00356f38bd2",
+  "sourceReadDenied": true,
+  "privateStorageRejectsExternalConstruction": true
+}

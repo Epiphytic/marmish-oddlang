@@ -1,0 +1,46 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-vault",
+  "version": "0.1.0",
+  "edition": "2021",
+  "cargoLock": {
+    "path": "vault-values-v1/Cargo.lock",
+    "sha256": "e176da6c02f877c1347a860da16c1aa1cfb447bd682570c2c4ca807215187005"
+  },
+  "components": [
+    {
+      "kind": "shared-declarations",
+      "module": "errors",
+      "graph": {
+        "path": "vault-values-v1/errors.json",
+        "sha256": "335d69a5b1c9942c47684ea1429a915d6b392a2c75b39d7abaffdf86df6d1764"
+      },
+      "overlay": {
+        "path": "vault-values-v1/errors-rust.json",
+        "sha256": "003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64"
+      },
+      "reexports": [
+        "Error"
+      ]
+    },
+    {
+      "kind": "checked-values",
+      "module": "values",
+      "graph": {
+        "path": "vault-values-v1/graph.json",
+        "sha256": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be"
+      },
+      "overlay": {
+        "path": "vault-values-v1/rust.json",
+        "sha256": "b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0"
+      },
+      "reexports": [
+        "Namespace",
+        "Purpose",
+        "KeyRef",
+        "Label",
+        "Metadata"
+      ]
+    }
+  ]
+}
