@@ -1,0 +1,74 @@
+{
+  "candidateBinarySha256": "900be434337013caad08e0741104a4b9427bfcb504cbfc9d3901a65a3d215784",
+  "checks": [
+    "mandatory durable effects and counts independently checked before cross-consumption",
+    "generated owner and client consume generated profile before original initialization",
+    "bidirectional cross-consumption retains identity, schema, keys and counts",
+    "ordered invocation guards and lease denial preserve filesystem state",
+    "corrupt encrypted journal blocks ready transition without replacing either store"
+  ],
+  "corruptJournalProviderStderr": {
+    "candidate": [],
+    "original": []
+  },
+  "files": {
+    "arti-cache": "0o700",
+    "arti-state": "0o700",
+    "journal.db": "0o600",
+    "keys": "0o700",
+    "keys/nostr-<reference>": "0o600",
+    "keys/sqlcipher-<reference>": "0o600",
+    "mdk.db": "0o600",
+    "owner.lock": "0o600",
+    "profile.json": "0o600"
+  },
+  "frameworkRevision": "842fcc87d94dbe77b689e80b4801628dd7b8fd20",
+  "generatedOwnerBinarySha256": "e56c8d8fe7e17595ece239cb183c474590a09e48b010a555a1c77383400570f0",
+  "inspectorSha256": "cc1222be979ba0cfae65cc728f8e063df98084c3f29570f89bce4875212f7e7d",
+  "originalBinarySha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "platform": "Darwin-arm64",
+  "stores": {
+    "journal": {
+      "initialRows": {
+        "binding": 1,
+        "command_replay_state": 1,
+        "command_settings": 1,
+        "copy_local_floor": 1,
+        "copy_replay_state": 1,
+        "replay_state": 1
+      },
+      "objects": 43,
+      "version": 7
+    },
+    "mdk": {
+      "initialRows": {
+        "account_attachment_history_version": 1,
+        "account_recovery_comparison": 1,
+        "account_recovery_conversion": 1,
+        "account_recovery_coverage_uncover_state": 1,
+        "account_recovery_park_revision": 1,
+        "account_recovery_state": 1,
+        "attachment_partial_usage": 1,
+        "attachment_retention_usage": 1,
+        "avatar_cache_meta": 1,
+        "cgka_account_device_signers": 1,
+        "cgka_key_package_lifecycle": 1,
+        "cgka_maintenance_settings": 1,
+        "cgka_schema_migrations": 156,
+        "chat_list_navigation_meta": 1,
+        "chat_list_projection_meta": 1,
+        "chat_presentation_checkpoint": 1,
+        "chat_presentation_meta": 1,
+        "content_report_backfill": 1,
+        "message_draft_revision_clock": 1,
+        "openmls_values": 1,
+        "outgoing_attachment_recovery_cursor": 1,
+        "sqlite_sequence": 2,
+        "user_block_list": 1
+      },
+      "objects": 444,
+      "version": 0
+    }
+  }
+}
