@@ -7,3 +7,15 @@ From a clean checkout of that Deaddrop commit, populate Cargo's pinned dependenc
 ```sh
 python3 verification/whole/relay/replay.py /path/to/deaddrop /tmp/deaddrop-build
 ```
+
+## Foreground owner and direct relay admission
+
+The native macOS and Linux ARM64 owners reject a direct plaintext relay. With an explicit loopback WSS endpoint, the listener observes a TLS handshake record, and the original client discovers the activating owner using its state directory. The TLS fixture presents a fresh certificate for the loopback IP. OpenSSL verifies that certificate against the explicit test trust anchor. The original owner rejects it. After the fixture closes the listener, the owner exits with the relay connection error, prints its shutdown report and removes the Unix socket. These receipts establish the failed-activation path. A ready owner and authenticated exchange require separate receipts.
+
+Run the observer with all seven default binaries from the platform’s pinned bridge build, Python and OpenSSL. Temporary private keys stay in the per-run directory and are removed on exit.
+
+```sh
+python3 -B verification/whole/relay/owner_tls.py /path/to/original/bin verification/whole/bridge/aarch64-apple-darwin.json /tmp/owner-tls.json
+```
+
+For Linux ARM64 use `verification/whole/linux/aarch64-unknown-linux-gnu/bridge.json`. [macOS receipt](owner-tls-macos-arm64.json) · [Linux receipt](owner-tls-linux-arm64.json)

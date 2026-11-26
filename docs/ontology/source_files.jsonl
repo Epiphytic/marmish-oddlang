@@ -726,8 +726,11 @@
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/release.json","language":"inventory","mode":"100644","sha256":"0703ed36db56df2dea37f90dc1cdfa0e0d01c3990e5bb284d3157b37e5f7ca26","parse_status":"inventory"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/run.json","language":"inventory","mode":"100644","sha256":"43b6533f0bf34a48cf2390c6b02d1f9d37045c469902c435300a8271e7956f62","parse_status":"inventory"}
 {"path":"verification/whole/native-build/macos.sh","language":"bash","mode":"100755","sha256":"ba4ebd314313f7d16e13d4c3f342e58edc475de50b0da95f9f8f1483a2d41422","parse_status":"parsed"}
-{"path":"verification/whole/relay/README.md","language":"inventory","mode":"100644","sha256":"717fc3e3c713669dcbfa46d9b7521510e7d4f3d3f9ae7115e1606eeab79f57a9","parse_status":"inventory"}
+{"path":"verification/whole/relay/README.md","language":"inventory","mode":"100644","sha256":"365d7d4bbdbf22432ff452d10af1a163fa90c5a1079e9635128ccc28295deabe","parse_status":"inventory"}
 {"path":"verification/whole/relay/macos-arm64.json","language":"inventory","mode":"100644","sha256":"a75eb4a12c300ba53187da3ec6b8c0e1b5f81ec7e25b1565b23b6e54a8b32039","parse_status":"inventory"}
+{"path":"verification/whole/relay/owner-tls-linux-arm64.json","language":"inventory","mode":"100644","sha256":"7d1a092c2ac00eca24f8d7efdea64fcd708c9300974ac6246f12e8ec7a2feebf","parse_status":"inventory"}
+{"path":"verification/whole/relay/owner-tls-macos-arm64.json","language":"inventory","mode":"100644","sha256":"8920d08f4d80ae7cf39391c9cfb22ffd6098e55213068b85d58d01c212e9a509","parse_status":"inventory"}
+{"path":"verification/whole/relay/owner_tls.py","language":"python","mode":"100644","sha256":"aa0e0bbc5f861056cd6f44937a23fe7771f4b0b71c3a30d64e5f13fdbd821e8a","parse_status":"parsed"}
 {"path":"verification/whole/relay/replay.py","language":"python","mode":"100644","sha256":"ca84572e3dc3217e18c3a645317ae6249baad6f00c93998f351e22f012d9c9c8","parse_status":"parsed"}
 {"path":"verification/whole/release/README.md","language":"inventory","mode":"100644","sha256":"24f50fcf2e8839c158b5d3d99abedb7ab5bb598aef59034ba36456a5b1d8c542","parse_status":"inventory"}
 {"path":"verification/whole/release/reference.json","language":"inventory","mode":"100644","sha256":"c5022d166d48a8a6ab60c8e5c76ba763da821a72d72600c3cd94a993d9b762fa","parse_status":"inventory"}
