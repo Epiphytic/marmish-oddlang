@@ -1,0 +1,57 @@
+[
+  {
+    "id": "omitted",
+    "wire": "{\"start\":0,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "null",
+    "wire": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "zero",
+    "wire": "{\"start\":0,\"end\":0,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":0,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "safe-integer-max",
+    "wire": "{\"start\":0,\"end\":9007199254740991,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":9007199254740991,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "two-to-53",
+    "wire": "{\"start\":0,\"end\":9007199254740992,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":9007199254740992,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "two-to-53-plus-one",
+    "wire": "{\"start\":0,\"end\":9007199254740993,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":9007199254740993,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "u64-max",
+    "wire": "{\"start\":0,\"end\":18446744073709551615,\"reason\":\"Limit\"}",
+    "expected": "{\"start\":0,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+  },
+  {
+    "id": "u64-overflow",
+    "wire": "{\"start\":0,\"end\":18446744073709551616,\"reason\":\"Limit\"}",
+    "expected": null
+  },
+  {
+    "id": "negative",
+    "wire": "{\"start\":0,\"end\":-1,\"reason\":\"Limit\"}",
+    "expected": null
+  },
+  {
+    "id": "quoted-integer",
+    "wire": "{\"start\":0,\"end\":\"9007199254740993\",\"reason\":\"Limit\"}",
+    "expected": null
+  },
+  {
+    "id": "fraction",
+    "wire": "{\"start\":0,\"end\":1.5,\"reason\":\"Limit\"}",
+    "expected": null
+  }
+]

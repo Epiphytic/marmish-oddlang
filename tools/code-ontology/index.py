@@ -99,6 +99,8 @@ def classify(path):
         return LANGUAGES[path.suffix]
     if path.name in ROOT_INPUTS and len(parts) == 1:
         return "inventory"
+    if parts[0] == "verification" and path.suffix == ".ts":
+        return "inventory"  # TypeScript consumer receipts bind source without a parser.
     if parts[0] in {"oddlang", "verification"} and path.suffix in INVENTORY_TYPES | {".ttl", ".sha256", ".gz", ".log", ".txt"}:
         return "inventory"
     if parts[0] in SOURCE_ROOTS and path.suffix in INVENTORY_TYPES:
