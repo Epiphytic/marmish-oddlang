@@ -1,5 +1,7 @@
 # Marmish sources recovered by Oddlang
 
+The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.
+
 Build the current three-crate Rust workspace from the [v3 manifest](portable/workspace-v3.json). It includes the core library, stream interfaces and a native client that discovers an original local daemon. The [workspace build and qualification instructions](../verification/whole/workspace/README.md#workspace-v3) identify the compiler revision and the tested interfaces. Older experiments follow below.
 
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.

@@ -1,0 +1,590 @@
+{
+  "declarations": 186,
+  "framework": "ce22923ccc3f0f34b71c08525b455c16bc568d4e",
+  "graphSha256": "88bf8b8a6a6a7b73fa59fc613c8d4a17c6bd0f9642802ee9fc36439d1e12a719",
+  "host": "aarch64-apple-darwin",
+  "mutationRejected": "local::marmish_stream::copy_protocol::{type}::Launch::{type}::transfer",
+  "previousArrayGapOwners": 63,
+  "previousGraphSha256": "adece1520849329e0dadc84d07bf3e7dbbc70a27a676f7873b0164fa5baf41b7",
+  "remainingGaps": {
+    "compiler-disambiguated-identity": 153,
+    "data-layout-and-representation": 1,
+    "explicit-discriminant": 27,
+    "external-package-instance": 204,
+    "generic-constraints-and-defaults": 91,
+    "visibility-and-export-paths": 1,
+    "workspace-package-identities": 1
+  },
+  "resolvedFields": {
+    "local::marmish_stream::codec::{type}::EncodedBlock::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::codec::{type}::_#2::{impl}::serialize::__SerializeWith::{type}::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::codec::{type}::_#3::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::codec::{type}::_#3::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::last_stream": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Checkpoint::{type}::prefix_sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Checkpoint::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Commit::{type}::transfer": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Done::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Finish::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Finish::{type}::transfer": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Prefix::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Frame::{type}::Resume::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::client": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::expected_commit": {
+      "extents": [
+        {
+          "count": 20,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::launch_digest": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::server": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::session": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::stream": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::HelperContext::{type}::transfer": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Launch::{type}::client": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Launch::{type}::server": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Launch::{type}::transfer": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::client": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::server": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::Manifest::{type}::transfer": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#10::{impl}::serialize::__SerializeWith::{type}#1::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#10::{impl}::serialize::__SerializeWith::{type}#2::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#10::{impl}::serialize::__SerializeWith::{type}::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}#1::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}#2::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}#1::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}#2::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::copy_protocol::{type}::_#11::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::windows::{type}::Receipt::{type}::sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Binding::{type}::client": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Binding::{type}::server": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Binding::{type}::session": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Binding::{type}::stream": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Message::{type}::Response::{type}::request_sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::Response::{type}::request_sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::ResponseBody::{type}::Opened::{type}::open_sha256": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": true
+    },
+    "local::marmish_stream::wire::{type}::_#16::{impl}::serialize::__AdjacentlyTagged::{type}::data": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#16::{impl}::serialize::{impl}::serialize::__SerializeWith::{type}::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#17::{impl}::deserialize::{impl}#2::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}#1::value": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}#2::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}#3::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_map::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}#1::value": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}#2::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}#3::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#1::{impl}::deserialize::{impl}#2::visit_seq::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#4::{impl}::serialize::__AdjacentlyTagged::{type}#3::data": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#4::{impl}::serialize::{impl}#3::serialize::__SerializeWith::{type}::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_#5::{impl}::deserialize::{impl}#2::deserialize::{impl}#11::visit_map::__DeserializeWith::{type}::value": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_::{impl}::serialize::__SerializeWith::{type}#1::values": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_::{impl}::serialize::__SerializeWith::{type}#2::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_::{impl}::serialize::__SerializeWith::{type}#3::values": {
+      "extents": [
+        {
+          "count": 32,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    },
+    "local::marmish_stream::wire::{type}::_::{impl}::serialize::__SerializeWith::{type}::values": {
+      "extents": [
+        {
+          "count": 16,
+          "kind": "fixed"
+        }
+      ],
+      "rustdocFieldMatched": false
+    }
+  },
+  "rustdocCorroboratedFields": 33,
+  "rustdocFormat": 57,
+  "upstream": "af54339d250290490d62d4475a77539b7e739071"
+}
