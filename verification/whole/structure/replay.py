@@ -4,6 +4,12 @@ import json
 from pathlib import Path
 import subprocess
 import tempfile
+import hashlib
+import sys
+
+sys.dont_write_bytecode = True
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+from framework_pin import build_cli
 
 SOURCE = "af54339d250290490d62d4475a77539b7e739071"
 CASES = [
@@ -13,7 +19,10 @@ CASES = [
 ]
 
 
-def recover(args):
+def recover(args, oddlang):
+    expected = Path(__file__).resolve().parent / args.triple
+    if not expected.is_dir():
+        raise ValueError(f"missing archived structural baseline for {args.triple}")
     profile_dir = args.framework / "examples/marmish/portable-contract"
     base = (profile_dir / "structure.toml").read_text()
     adapter = (args.framework / "verification/rust-recovery/run.sh").resolve()
@@ -35,15 +44,23 @@ def recover(args):
                 for key in [line.partition("=")[0].strip()]
             ) + "\n")
             subprocess.run([
-                args.oddlang, "recover", "rust", str(args.upstream / "Cargo.toml"),
+                oddlang, "recover", "rust", str(args.upstream / "Cargo.toml"),
                 "--profile", str(profile), "--out", str(args.output / target),
             ], check=True)
+            actual = args.output / target
+            lock = json.loads((actual / "structure.lock").read_bytes())
+            if lock != json.loads((expected / f"{target}.lock.json").read_bytes()):
+                raise ValueError(f"{target} differs from the archived structural lock")
+            digest = hashlib.sha256((actual / "structure.ttl").read_bytes()).hexdigest()
+            if digest != lock["structureSha256"]:
+                raise ValueError(f"{target} graph digest mismatch")
 
 
 if __name__ == "__main__":
     p = argparse.ArgumentParser(description=__doc__)
     for name in ["framework", "upstream", "output"]:
         p.add_argument(name, type=Path)
-    p.add_argument("--oddlang", default="oddlang")
     p.add_argument("--triple", required=True)
-    recover(p.parse_args())
+    args = p.parse_args()
+    with build_cli(args.framework.resolve()) as oddlang:
+        recover(args, oddlang)

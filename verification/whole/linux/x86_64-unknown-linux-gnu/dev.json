@@ -1,0 +1,129 @@
+{
+  "alternateZlib": {
+    "directions": [
+      "Rust encoder to Python decoder",
+      "Python encoder to Rust decoder"
+    ],
+    "independentZlibHex": "78014b4c4a4ea43d0200db75270d",
+    "pythonZlibVersion": "1.3",
+    "rawBytes": 102,
+    "rawSha256": "ba42ac903664e676d4cf71d6c4c1260bb8fa74a5d714dc2d9a757d3cea5aecf6",
+    "rustZlibHex": "789cb5c2010d00000082b0ac68ff0ea4603b3b3d01db75270d"
+  },
+  "authoredCases": 96,
+  "corpusRevision": "49fc705408a230bd0ad896248d08dbdd2faad05a",
+  "freezeSha256": "9744b5727f86e472b76d69e6a7043d5e2e0f3715c79140d6086ce4ca2e20d339",
+  "holdout": null,
+  "mixedBinaryAndJson": {
+    "writerToReader": [
+      "binary-data-decode",
+      "maximum-data-decode",
+      "checkpoint-decode",
+      "progress-decode",
+      "error-record-decode",
+      "hello-request-decode",
+      "gap-response-decode",
+      "spec-frame-start-decode",
+      "spec-frame-manifest-decode",
+      "spec-frame-resume-decode",
+      "spec-frame-prefix-decode",
+      "spec-frame-data-decode",
+      "spec-frame-checkpoint-decode",
+      "spec-frame-done-decode",
+      "spec-frame-commit-decode",
+      "spec-frame-finish-decode",
+      "spec-frame-progress-decode",
+      "spec-frame-error-decode",
+      "spec-request-hello-decode",
+      "spec-request-copy_hello-decode",
+      "spec-request-open_copy-decode",
+      "spec-request-open-decode",
+      "spec-request-exchange-decode",
+      "spec-request-cancel-decode",
+      "spec-request-status-decode",
+      "spec-response-copy_hello-decode",
+      "spec-response-copy_refused-decode",
+      "spec-response-hello-decode",
+      "spec-response-opened-decode",
+      "spec-response-exchange-decode",
+      "spec-response-error-decode"
+    ]
+  },
+  "negativeControls": {
+    "copy-data-tag": [
+      "binary-data-encode"
+    ],
+    "error-precedence": [
+      "codec-block-length-before-offset"
+    ],
+    "rejected-transition": [
+      "seed-0-receive-retry"
+    ]
+  },
+  "oracleSourceSha256": {
+    "archived-run.py": "7504cbb9831ffbb27efe9681ccbebbcc52e9ce7783cb89be4045945d160c39a7",
+    "run.py": "9cd403957328358869428e9a10c2954d88788f42221c4ce681905d2c8ffa6ef1",
+    "seeded_cases.py": "0c53384301d8e13774fd5b0df245161edb440a7812e8159365ec54b6a1a48c6c",
+    "spec_cases.py": "ff6cefe53d2897de685d13754835b59ed5663fa0300d8a11e45f9695fe1533ed"
+  },
+  "priorCases": 50,
+  "provenance": {
+    "buildLocale": "C",
+    "callerBinding": "a219a463de8ccfb95f9295f58f4a8c6ce0a890acf2033a1b983c3fda22134ff2",
+    "callerSha256": "62324261fc934a247c941b3bb4b2048a2b554dab248c3b7e687082e7cafbb958",
+    "cargoCommand": "cargo +1.97.1 build --locked --offline --profile dev --target x86_64-unknown-linux-gnu --package marmish-stream --target-dir /tmp/oddlang-portable-stream-build-yzhhb8h7 --message-format=json-render-diagnostics",
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "compiler": [
+      "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+      "binary: rustc",
+      "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+      "commit-date: 2026-07-14",
+      "host: x86_64-unknown-linux-gnu",
+      "release: 1.97.1",
+      "LLVM version: 22.1.6"
+    ],
+    "features": {
+      "flate2": [
+        "any_impl",
+        "miniz_oxide",
+        "rust_backend"
+      ],
+      "marmish_stream": [],
+      "serde": [
+        "default",
+        "derive",
+        "serde_derive",
+        "std"
+      ],
+      "serde_json": [
+        "default",
+        "std"
+      ]
+    },
+    "librarySha256": {
+      "marmish_stream": "1d236974e44d6c1e10fc2fe7ebac2c84f509570aa5c84d4d5e5765869a8f94e7",
+      "serde": "8e3f5aacd04152229d951b50742f5346adec8bf051ef3c38b9986b8f68b7d800",
+      "serde_json": "9f2fc9943a3c6763fdbc6bcc94570d93cf6b7a040d097da028de7b2202055d50"
+    },
+    "profile": "dev",
+    "revision": "af54339d250290490d62d4475a77539b7e739071",
+    "rustcCommand": "rustc +1.97.1 --edition 2024 --crate-name stream_oracle --target x86_64-unknown-linux-gnu /home/runner/work/oddlang/oddlang/examples/marmish/portable-oracle/stream.rs -L dependency=/tmp/oddlang-portable-stream-build-yzhhb8h7/x86_64-unknown-linux-gnu/debug/deps -L dependency=/tmp/oddlang-portable-stream-build-yzhhb8h7/debug/deps -o /tmp/oddlang-portable-stream-build-yzhhb8h7/stream-oracle --extern marmish_stream=/tmp/oddlang-portable-stream-build-yzhhb8h7/x86_64-unknown-linux-gnu/debug/libmarmish_stream.rlib --extern serde=/tmp/oddlang-portable-stream-build-yzhhb8h7/x86_64-unknown-linux-gnu/debug/deps/libserde-19bc9f3a75da85eb.rlib --extern serde_json=/tmp/oddlang-portable-stream-build-yzhhb8h7/x86_64-unknown-linux-gnu/debug/deps/libserde_json-3d362a31a593bf0d.rlib",
+    "sourceSha256": {
+      "archived-main.rs": "6b5caa2a7d19af3960248ae86e7f175d4d142939efa7074c65ea6126eced8b1e",
+      "stream.rs": "330b2d57e272e0add9214bb6ef21f522d8e0f722d7e4419b53acda60ffa60657"
+    },
+    "target": "x86_64-unknown-linux-gnu"
+  },
+  "publicObservationSha256": "00693291df0b7ded5774ff7ba9a508a71b59162e0cdf210cbab4cb29b7e87ff5",
+  "runtime": {
+    "environment": {
+      "PATH": "/usr/bin:/bin"
+    },
+    "locale": "C",
+    "platform": "Linux-7.0.0-1014-aws-x86_64-with-glibc2.39",
+    "python": "3.12.3",
+    "timezone": "UTC"
+  },
+  "schema": 1,
+  "seededCases": 257
+}
