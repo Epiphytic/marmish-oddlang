@@ -5,6 +5,7 @@ import argparse
 import json
 from pathlib import Path
 import platform
+import re
 import socket
 import struct
 import subprocess
@@ -24,6 +25,27 @@ INVOCATIONS = b'{"operation":"command_invocations","after":null,"limit":64}'
 READY = b'{"ok":true,"result":{"state":"running"},"error":null}'
 CAPACITY = b'{"ok":true,"result":null,"error":null,"command":{"state":"failure","category":"command_room_capacity","handle":null}}'
 EMPTY = b'{"ok":true,"result":null,"error":null,"command":{"state":"invocations","entries":[],"next":null}}'
+ROOM = "123456789abc0123456789abcdef0123"
+LOCAL_ACCOUNT = "c6047f9441ed7d6d3045406e95c07cd85a778e4b8cef3ca7abac09b95c709ee5"
+ROOM_READY = (
+    b'{"ok":true,"result":null,"error":null,"command":{"state":"ready","session":"'
+    + ROOM.encode() + b'","local_account":"' + LOCAL_ACCOUNT.encode() + b'"}}'
+)
+LOCAL_BUSY = b'{"ok":true,"result":null,"error":null,"command":{"state":"local_busy"}}'
+STDIN = b"\x00\xff\n"
+SUBMIT_TEMPLATE = (
+    b'{"operation":"command_submit","remote":"' + ACCOUNT.encode() + b'","relays":["'
+    + RELAY.encode() + b'"],"session":"' + ROOM.encode()
+    + b'","request_id":"{request}","submit":{"argv":["L3Vzci9iaW4vdHJ1ZQ==","cGnDsWF0YQ=="],'
+      b'"invocation":"{invocation}","stdin":"AP8K"}}'
+)
+REQUEST_ID = b"[0-9a-f]{32}"
+SUBMIT_PATTERN = re.compile(
+    re.escape(SUBMIT_TEMPLATE)
+      .replace(re.escape(b"{request}"), b"(" + REQUEST_ID + b")")
+      .replace(re.escape(b"{invocation}"), b"(" + REQUEST_ID + b")")
+)
+
 CASES = {
     "foregroundSubmit": (["--stdin-none", NPUB, "--", "/usr/bin/true"],
                          ((PREPARE, CAPACITY),), b"marmish: command_room_capacity\n"),
@@ -32,6 +54,12 @@ CASES = {
     "wait": (["wait", "--latest", NPUB], ((INVOCATIONS, EMPTY),), b"marmish: command_not_found\n"),
     "malformedPrepareReply": (["--stdin-none", NPUB, "--", "/usr/bin/true"],
                               ((PREPARE, b"{"),), b"marmish: ipc_frame_json\n"),
+    "readyForegroundSubmit": (["--stdin", NPUB, "--", "/usr/bin/true", "piñata"],
+                              ((PREPARE, ROOM_READY), (SUBMIT_PATTERN, LOCAL_BUSY)),
+                              b"marmish: local_busy\n", STDIN),
+    "readyDetachedSubmit": (["--detach", "--stdin", NPUB, "--", "/usr/bin/true", "piñata"],
+                            ((PREPARE, ROOM_READY), (SUBMIT_PATTERN, LOCAL_BUSY)),
+                            b"marmish: local_busy\n", STDIN),
 }
 
 
@@ -43,12 +71,30 @@ def exchange(listener, request, response):
     connection, _ = listener.accept()
     with connection, connection.makefile("rb") as reader:
         connection.settimeout(3)
-        if reader.read(4) != frame(request)[:4] or reader.read(len(request)) != request:
-            raise ValueError("owner request bytes differ")
+        header = reader.read(4)
+        if len(header) != 4:
+            raise ValueError("missing local owner request header")
+        length, = struct.unpack(">I", header)
+        if not 0 < length <= 4096:
+            raise ValueError("unexpected local owner request length")
+        body = reader.read(length)
+        if len(body) != length:
+            raise ValueError("incomplete local owner request")
+        dynamic_ids = ()
+        if isinstance(request, bytes):
+            if body != request:
+                raise ValueError("owner request bytes differ")
+        else:
+            match = request.fullmatch(body)
+            if match is None or match[1] == match[2]:
+                raise ValueError("invalid command submit frame or ID bindings")
+            dynamic_ids = match.groups()
+            body = SUBMIT_TEMPLATE.replace(b"{request}", b"1" * 32).replace(b"{invocation}", b"2" * 32)
         if reader.read(1):
             raise ValueError("owner request was not half-closed")
         connection.sendall(frame(response))
         connection.shutdown(socket.SHUT_WR)
+        return frame(body).hex(), dynamic_ids
 
 
 def config(root):
@@ -64,7 +110,7 @@ def config(root):
     path.chmod(0o600)
 
 
-def observe(binary, workspace, argv, steps, expected_error):
+def observe(binary, workspace, argv, steps, expected_error, input_bytes=b""):
     state = workspace / "state"
     config(state)
     path = workspace / "owner"
@@ -73,17 +119,22 @@ def observe(binary, workspace, argv, steps, expected_error):
     policy += '(deny mach-lookup (global-name "com.apple.securityd") (global-name "com.apple.trustd"))'
     env = {"HOME": str(workspace), "TMPDIR": str(workspace), "PATH": "/usr/bin:/bin", "LC_ALL": "C"}
     transcript = ((STATUS, READY), *steps)
-    with socket.socket(socket.AF_UNIX) as listener:
+    requests, ids = [], []
+    with socket.socket(socket.AF_UNIX) as listener, tempfile.TemporaryFile(dir=workspace) as stdin:
+        stdin.write(input_bytes)
+        stdin.seek(0)
         listener.bind(str(path))
         listener.listen(1)
         listener.settimeout(3)
         command = [sandbox, option, policy, binary, "--state-dir", state, "--socket", path,
                    "--no-autostart", *argv]
-        with subprocess.Popen(command, cwd=workspace, env=env, stdin=subprocess.DEVNULL,
+        with subprocess.Popen(command, cwd=workspace, env=env, stdin=stdin,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE) as cli:
             try:
                 for request, reply in transcript:
-                    exchange(listener, request, reply)
+                    received, dynamic_ids = exchange(listener, request, reply)
+                    requests.append(received)
+                    ids.extend(dynamic_ids)
                 stdout, stderr = cli.communicate(timeout=3)
                 listener.setblocking(False)
                 try:
@@ -99,9 +150,12 @@ def observe(binary, workspace, argv, steps, expected_error):
                     cli.communicate(timeout=3)
     if (cli.returncode, stdout, stderr) != (255, b"", expected_error):
         raise ValueError(f"unexpected reference exit or streams: {cli.returncode}, {stdout!r}, {stderr!r}")
-    return {"argv": argv, "exit": cli.returncode, "stdoutHex": stdout.hex(), "stderrHex": stderr.hex(),
-            "unixRequestsHex": [frame(request).hex() for request, _ in transcript],
-            "unixRepliesHex": [frame(reply).hex() for _, reply in transcript]}
+    receipt = {"argv": argv, "exit": cli.returncode, "stdoutHex": stdout.hex(), "stderrHex": stderr.hex(),
+               "unixRequestsHex": requests, "unixRepliesHex": [frame(reply).hex() for _, reply in transcript]}
+    if ids:
+        receipt["stdinHex"] = input_bytes.hex()
+        receipt["normalizedIdFields"] = ["request_id", "submit.invocation"]
+    return receipt, ids
 
 
 def verify(binary):
@@ -110,12 +164,16 @@ def verify(binary):
     if pins["commit"] != ASSEMBLY["ORIGINAL"] or binary.name != "marmish" or sha(binary) != expected:
         raise ValueError("wrong pinned upstream client executable")
     results = {}
+    observed_ids = []
     with tempfile.TemporaryDirectory(prefix="odd-client-owner-", dir="/private/tmp") as directory:
         root = Path(directory)
         for index, (name, case) in enumerate(CASES.items()):
             work = root / str(index)
             work.mkdir(mode=0o700)
-            results[name] = observe(binary, work, *case)
+            results[name], identifiers = observe(binary, work, *case)
+            observed_ids.extend(identifiers)
+    if len(observed_ids) != 4 or len(set(observed_ids)) != len(observed_ids):
+        raise ValueError("command submit IDs were not distinct across cases")
     return {
         "format": "marmish-basic-command-local-owner-reference-v1",
         "upstreamRevision": pins["commit"],
