@@ -1,0 +1,17 @@
+# Composed setup, provider and local client candidate
+
+The [composed workspace](../../../oddlang/portable/workspace-composed-basic-owner.json) selects the leased file-profile setup graph, the foreground relay provider, and the bounded local client workflow. The [native package](../../../oddlang/portable/marmish-native-composed-basic-owner-package.json) binds these roles through a combined CLI mapping and its own Cargo locks. Earlier candidate descriptors and qualification receipts remain available by their recorded pins.
+
+The local handoff ends at the owner's IPC boundary. The provider scope covers authenticated relay activation and owned shutdown. The composed activation fixture performs setup, grant and trust for two fresh test identities, then starts the foreground provider on the granted server profile. It compares the selected relay and authorization configuration before and after startup. The test uses one owned relay and does not issue a command.
+
+Build with the [source-denied driver](BUILD.md) and pass `--workspace workspace-composed-basic-owner.json` together with the immutable companion and framework input revisions. Pass the exported receipt digest to `composed_preflight.py` before selecting the candidate for live runs. For `composed_owner.py`, also supply the pinned Deaddrop executable and isolation helper. Keep the original and generated actors in distinct private workspaces.
+
+## macOS ARM64 evidence
+
+The [clean build](composed-basic-owner-build-aarch64-apple-darwin.json) pins the companion input at `1248be44a68b149655c89c729d5ccbab9950a9c1` and framework input at `2aef9fbef50a63429a1924059c1fab444727578b`. It denied original source, reference binary and oracle fixture reads. The [independent preflight](composed-basic-owner-preflight-aarch64-apple-darwin.json) uses that build digest and checks the missing-provider and unprepared-foreground failures without network access.
+
+The [composed provider replay](composed-basic-owner-provider-aarch64-apple-darwin.json) verifies that setup creates separate private file profiles with matching grant and trust policy. It observes activation and the signed package in the owned relay, compares the prepared configuration after startup, and validates the shutdown report and cleanup. The [local client replay](composed-basic-owner-local-client-aarch64-apple-darwin.json) compares five local outcomes with the pinned original client observations. It verifies default endpoint discovery and relay set normalization, and checks twelve authorization and bounds failures before an owner connection. The local owner is a test fixture.
+
+Independent runs passed activation with the [generated client and upstream server](composed-mixed-activation-generated-client-upstream-server-macos-arm64.json) and with the [upstream client and generated server](composed-mixed-activation-upstream-client-generated-server-macos-arm64.json). Both runs use the same candidate build and preflight. They observe each role's status, signed key packages and owned teardown without invoking commands.
+
+The first composed provider replay reached activation and publication, then failed the terminal assertion before the fixture reported individual outcomes. The replay passed with diagnostic output added to the assertion. The original mismatch could not be attributed.

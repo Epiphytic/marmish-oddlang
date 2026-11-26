@@ -1,0 +1,5 @@
+{
+  "format": "oddlang-local-command-client-rust-v1",
+  "entry": "submit",
+  "profile_provider": "nostr-url-base64-unix"
+}
