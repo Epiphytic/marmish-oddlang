@@ -57,7 +57,7 @@ def from_bytes_test(work, original, fixed):
     return {"name": name, "sourceSha256": sha(harness.read_bytes()), "originalAndGeneratedPassed": True}
 
 
-def fixed_value_test(work, original, reference_target):
+def fixed_value_test(work, original, reference_target, *, predecessor_package=None):
     fixed = UNIFIED["lane"]("vault-fixed-bytes")
     name = fixed["NAME"]
     source = run("git", "-C", original, "show",
@@ -86,7 +86,17 @@ def fixed_value_test(work, original, reference_target):
     assert expected["original"] == UNIFIED["ORIGINAL"] and expected["framework"] == VAULT_FRAMEWORK
     assert expected["unchangedModuleSha256"] == digest
     assert expected["graphSha256"] == value["graph"]["sha256"]
-    assert expected["packageManifestSha256"] == reference["sha256"]
+    package_sha = reference["sha256"]
+    if predecessor_package is not None:
+        baseline = json.loads(predecessor_package.read_bytes())
+        inherited = baseline.pop("components")
+        successor = dict(vault)
+        components = successor.pop("components")
+        if baseline != successor or len(components) <= len(inherited) or components[:len(inherited)] != inherited:
+            raise ValueError("vault predecessor differs beyond appended components")
+        package_sha = sha(predecessor_package.read_bytes())
+    if expected["packageManifestSha256"] != package_sha:
+        raise ValueError("fixed-value package differs from the exact native precedent")
     return {"name": name, "unchangedModuleSha256": digest, "originalAndGeneratedPassed": True,
             "standaloneReceiptSha256": sha(standalone_receipt),
             "fromBytesHoldout": from_bytes_test(work, original, fixed)}
