@@ -1,0 +1,14 @@
+{
+  "executable": "marmish-profile-prepare",
+  "invalid_exit": 255,
+  "uncovered_exit": 125,
+  "operations": {
+    "prepare": "urn:marmish:private-files:credential-preparation"
+  },
+  "handlers": {
+    "urn:marmish:private-files:credential-preparation": [
+      "credentials",
+      "prepare_credentials"
+    ]
+  }
+}

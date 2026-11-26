@@ -1,6 +1,6 @@
 # Marmish native v0.3 agent specification
 
-The v3 workspace builds the native CLI with automatic local status discovery. The generated client matches the original on automatic local status discovery on both ARM64 platforms. Each workspace executable matches the frozen 34-case CLI transcript and passes the upstream inherited-limit help test. See the [workspace qualification](../verification/whole/workspace/README.md#workspace-v3) for release scope and receipts.
+The v4 workspace builds the native client, foreground daemon, core and stream from one locked Cargo release. The original and generated clients both discover and query each daemon during a real loopback TLS activation attempt. The release uses a prepared file-backed profile. Provider readiness, execution and installed services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v4)
 
 The Oddlang companion generates parser-only `marmish` and `marmishd`
 executables from a recovered command graph. Both match the pinned release on
@@ -28,6 +28,10 @@ The generated library also matches the copy Manifest correspondence and
 helper start and build consistency checks on macOS ARM64. The witness
 distinguishes identity mismatches from lazily propagated Launch errors.
 [Copy field relations](../verification/whole/copy-field-relations/README.md)
+
+The generated Checkpoint and FileIdentity match the pinned binary record on
+macOS ARM64, including nested Manifest validation, phase and timing constraints,
+and the checksum footer. [Checkpoint qualification](../verification/whole/copy-checkpoint/README.md)
 
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
