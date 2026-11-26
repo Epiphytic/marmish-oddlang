@@ -1,0 +1,27 @@
+{
+  "vocabulary": "oddlang-data-shapes-v2",
+  "pin": {
+    "package": "marmish-stream",
+    "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+    "targetKind": "lib",
+    "targetName": "marmish_stream",
+    "targetTriple": "aarch64-unknown-linux-gnu",
+    "defaultFeatures": true,
+    "features": [],
+    "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "manifestSha256": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53",
+    "packageManifestSha256": "51433a6d952cb11d2a1228813b30c581ab200160e1b0344e2bb1e307749daf5e",
+    "adapterSha256": "96d8f2af2f0964fbbecb6c0b3b06ad76fa42cc0419a9ab02848bb8429b3e5977",
+    "adapterInputsSha256": {
+      "Cargo.lock": "2f7f0cf1b3760f5d8523779342d81ae16ac6b904817197179004f513c23ef8a6",
+      "Cargo.toml": "0d96e4312b536ca466e1b553d3a0a3085f221932cd866531653d1884900ecabc",
+      "driver.rs": "a9348594760fbc4545d3e52aa04aadf4cf5164507203dfed66fd87c19c21583c",
+      "shape_model.rs": "7724a990d6ff14eb23581a66925b4e8a25df2023bad10077549428910b28aa1e",
+      "shapes.rs": "cf280fe64c6b8c3eb23573e8d0f1380dde2191f7320580dcba9baf13457a36a1"
+    },
+    "cargoConfigSha256": {}
+  },
+  "shapesSha256": "88bf8b8a6a6a7b73fa59fc613c8d4a17c6bd0f9642802ee9fc36439d1e12a719",
+  "qualification": "candidate"
+}
