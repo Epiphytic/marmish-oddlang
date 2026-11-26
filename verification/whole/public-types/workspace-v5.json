@@ -25,6 +25,10 @@
         "restrictedRejections": 2,
         "rustdocSpellings": 6
       },
+      "originalImportsAgainstGenerated": {
+        "compiled": 6,
+        "rejected": 0
+      },
       "package": "marmish-core"
     },
     {
@@ -78,8 +82,11 @@
         "restrictedRejections": 56,
         "rustdocSpellings": 36
       },
-      "package": "marmish-native",
-      "rejectedOriginalImports": 36
+      "originalImportsAgainstGenerated": {
+        "compiled": 0,
+        "rejected": 36
+      },
+      "package": "marmish-native"
     },
     {
       "generated": null,
@@ -118,6 +125,10 @@
         "publicReads": 132,
         "restrictedRejections": 9,
         "rustdocSpellings": 35
+      },
+      "originalImportsAgainstGenerated": {
+        "compiled": 35,
+        "rejected": 0
       },
       "package": "marmish-stream"
     },

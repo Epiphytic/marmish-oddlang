@@ -64,7 +64,7 @@ The [v5 report](workspace-v5.json) and [v6 report](workspace-v6.json) cover all 
 | prototype | 0 | — | No generated member. Its public `serve` function belongs to the value namespace. |
 | vault | 10 | — | No generated member. |
 
-An independent downstream caller tried each original native spelling against the generated v5 and v6 libraries. All 36 returned rustc E0432 (unresolved import) on each release. The inverse v6 check also returned E0432 for both generated parser modules against the original library. This explains why passing the native binary's parser and lifecycle tests does not establish Rust library compatibility. [v5 caller results](native-callers-v5.json) · [v6 caller results](native-callers-v6.json) · [inverse caller results](native-callers-rev.json)
+An independent downstream caller imported all six original core spellings and all 35 original stream spellings against each generated release. It also tried each original native spelling against the generated v5 and v6 libraries. All 36 returned rustc E0432 (unresolved import) on each release. The inverse v6 check also returned E0432 for both generated parser modules against the original library. This explains why passing the native binary's parser and lifecycle tests does not establish Rust library compatibility. [v5 caller results](native-callers-v5.json) · [v6 caller results](native-callers-v6.json) · [inverse caller results](native-callers-rev.json)
 
 To verify the stored summaries and source pins, pass the original checkout, a generated workspace and an Oddlang checkout containing the extractor revision in `provenance.json`.
 

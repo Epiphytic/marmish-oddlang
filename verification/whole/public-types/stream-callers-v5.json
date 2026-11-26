@@ -1,0 +1,355 @@
+{
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "expectedExportsSha256": "037d0559be12bc5e64b5ce48799f5a7132ad43acd82de60ad0127c5228b1313b",
+  "imports": [
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "Error"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "alias",
+      "importCompiles": true,
+      "spelling": [
+        "Result"
+      ],
+      "subjectKind": "alias"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "module",
+      "importCompiles": true,
+      "spelling": [
+        "codec"
+      ],
+      "subjectKind": "module"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "codec",
+        "Codec"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "codec",
+        "EncodedBlock"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "module",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol"
+      ],
+      "subjectKind": "module"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "AttemptMode"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Checkpoint"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "CopyError"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Direction"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "FileIdentity"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Frame"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "FrameDecoder"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "HelperContext"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Launch"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Manifest"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Mtime"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Phase"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "copy_protocol",
+        "Stage"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "module",
+      "importCompiles": true,
+      "spelling": [
+        "windows"
+      ],
+      "subjectKind": "module"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "windows",
+        "ReceiveWindow"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "windows",
+        "SendWindow"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "module",
+      "importCompiles": true,
+      "spelling": [
+        "wire"
+      ],
+      "subjectKind": "module"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "alias",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Account"
+      ],
+      "subjectKind": "alias"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Binding"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "CopyAdmissionError"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "alias",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Digest"
+      ],
+      "subjectKind": "alias"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "alias",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Id"
+      ],
+      "subjectKind": "alias"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "OpenDisposition"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Request"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "RequestBody"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Response"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "ResponseBody"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "Terminal"
+      ],
+      "subjectKind": "data"
+    },
+    {
+      "errorCodes": [],
+      "expectedKind": "data",
+      "importCompiles": true,
+      "spelling": [
+        "wire",
+        "WireErrorCode"
+      ],
+      "subjectKind": "data"
+    }
+  ],
+  "subjectExportsSha256": "96e24ea39ebf276e4003e25a0ace23043650689297851b7c5883f330195f976d",
+  "subjectLockSha256": "5a017596bc4af79dad3f6b042134ff2c2f7aa34777d8187fd2153c76a807f028",
+  "subjectPackage": "marmish-stream",
+  "subjectTargetName": "marmish_stream",
+  "target": "aarch64-apple-darwin"
+}

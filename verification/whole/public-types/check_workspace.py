@@ -85,31 +85,47 @@ def validate_sources(upstream, generated, pins, release, release_pin):
     return original, candidates
 
 
-def native_callers(file, expected_path, subject_path):
+def caller_counts(file, expected_path, subject_path, package):
     receipt = read(file)
+    subject_lock = read(subject_path.with_name("exports.lock"))["pin"]
     require(
         receipt["expectedExportsSha256"] == sha(expected_path)
         and receipt["subjectExportsSha256"] == sha(subject_path)
         and receipt["subjectLockSha256"] == sha(subject_path.with_name("exports.lock"))
-        and receipt["subjectPackage"] == "marmish-native"
+        and receipt["compiler"] == subject_lock["compilerCommit"]
+        and receipt["subjectTargetName"] == subject_lock["targetName"]
+        and receipt["subjectPackage"] == package
         and receipt["target"] == "aarch64-apple-darwin",
-        "unbound native caller evidence",
+        "unbound caller evidence",
     )
-    wanted = sorted(
-        tuple(row["path"]) + (name,)
-        for row in read(expected_path)["modules"].values()
-        for name in row["bindings"]
-    )
+
+    def kinds(path):
+        return {
+            tuple(row["path"]) + (name,): edge["kind"]
+            for row in read(path)["modules"].values()
+            for name, edge in row["bindings"].items()
+        }
+
+    wanted, subject = kinds(expected_path), kinds(subject_path)
     rows = receipt["imports"]
-    require([tuple(row["spelling"]) for row in rows] == wanted, "missing or repeated import probes")
     require(
-        all(
-            row["errorCodes"] == ["E0432"] and not row["importCompiles"] and row["subjectKind"] is None
-            for row in rows
-        ),
-        "native caller rejection differs from qualified result",
+        [tuple(row["spelling"]) for row in rows] == sorted(wanted), "missing or repeated import probes"
     )
-    return len(rows)
+    for row in rows:
+        key = tuple(row["spelling"])
+        require(
+            wanted[key] == row["expectedKind"] and subject.get(key) == row["subjectKind"],
+            "wrong namespace classification",
+        )
+        if key in subject:
+            require(row["importCompiles"] and not row["errorCodes"], "public import rejected")
+        else:
+            require(
+                not row["importCompiles"] and row["errorCodes"] == ["E0432"],
+                "difference from the observed unresolved import",
+            )
+    passed = sum(r["importCompiles"] for r in rows)
+    return {"compiled": passed, "rejected": len(rows) - passed}
 
 
 def summarize(upstream, generated, release, extractor):
@@ -212,14 +228,13 @@ def summarize(upstream, generated, release, extractor):
                 key: len(c[key]) for key in ("originalOnly", "generatedOnly", "changedAtSharedSpelling")
             }
             row["comparison"]["shared"] = c["sharedCount"]
-            if name == "marmish-native":
-                row["rejectedOriginalImports"] = native_callers(
-                    HERE / f"native-callers-{release}.json", original_graph, candidate_graph
+            row["originalImportsAgainstGenerated"] = caller_counts(
+                HERE / f"{suffix}-callers-{release}.json", original_graph, candidate_graph, name
+            )
+            if name == "marmish-native" and release == "v6":
+                row["generatedImportsAgainstOriginal"] = caller_counts(
+                    HERE / "native-callers-rev.json", candidate_graph, original_graph, name
                 )
-                if release == "v6":
-                    row["rejectedGeneratedImports"] = native_callers(
-                        HERE / "native-callers-rev.json", candidate_graph, original_graph
-                    )
         rows.append(row)
     require(
         set(candidates) <= set(originals) and observed == profiles.keys(),
