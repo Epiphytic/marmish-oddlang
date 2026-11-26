@@ -1,3 +1,9 @@
+# Working on the Oddlang companion
+
+This checkout is Epiphytic/marmish-oddlang. Its publication destination is the companion repository. Treat Epiphytic/marmish as a read-only original for extraction and independent testing. The historical upstream release and mirror instructions below apply to work in upstream Marmish. The companion owns its graph, target hints, conformance evidence and generated artifacts. The Oddlang framework owns reusable language features and backends.
+
+Follow the [whole-project plan](https://github.com/Epiphytic/oddlang/blob/764fdfab0991b9e94c4e8085ed5236a74c5c2324/docs/superpowers/plans/2026-11-25-whole-marmish.md). Keep portable structures and observable processing in the graph. Keep library hints advisory, reference binaries in verification, and all original source outside the qualified build. Register changes and results in the Oddlang work ontology. Review each phase with Claude in auto mode and merge validated companion PRs to this repository.
+
 # Working on Marmish
 
 ## Active direction: v0.2, native Rust
