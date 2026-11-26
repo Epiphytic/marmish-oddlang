@@ -16,3 +16,5 @@ The native test observes the behavior of a known private type. Its adapter names
 python3 -B verification/whole/private-buffer-inference/qualify.py \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_CARGO_TARGET" /tmp/observed-reader.json
 ```
+
+The native qualification requires clean checkouts of the original and the compiler named in [compiler.json](compiler.json). Rust 1.96.1 builds Oddlang, and Rust 1.97.1 runs the native cases. On each ARM64 host, all five inferred graphs produced the observed bytes, errors and poll counts for all three trials. Each graph and native package lock matched between hosts. Both runs used companion verifier commit `3703f0340f3535b0625928da0b89e255dff0c70d`. [macOS results](candidate-aarch64-apple-darwin.json) · [Linux results](candidate-aarch64-unknown-linux-gnu.json)
