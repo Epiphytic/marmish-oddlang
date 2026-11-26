@@ -114,7 +114,7 @@ def verify(args, scratch):
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in (DARWIN, LINUX) or f"commit-hash: {AUDIT.COMPILER}" not in version:
         raise ValueError("requires the pinned native ARM64 toolchain")
-    recovery_path = WHOLE / "gap-range-recovery" / f"{host}.json"
+    recovery_path = WHOLE / "gap-range-recovery" / host / "receipt.json"
     recovery = data(recovery_path)
     if recovery["framework"] != FRAMEWORK or recovery["original"] != AUDIT.ORIGINAL or (
         sha(args.compiler) != recovery["compilerSha256"]
