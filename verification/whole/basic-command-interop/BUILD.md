@@ -39,3 +39,9 @@ python3 -B verification/whole/basic-command-interop/candidate_preflight.py \
 ```
 
 See the [Claude review](../../../docs/reviews/basic-command-generated-build.md) for the provenance checks and remaining scope.
+
+## Profile setup candidate
+
+Select `workspace-profile-setup.json` using `--workspace`, with the full Git IDs of the compiler and companion inputs supplied through `--framework-pin` and `--companion-pin`. The driver inventories CLI roles from the selected manifest closure. This workspace binds setup in addition to initialization, status and release reporting.
+
+The local profile comparison invokes both builds with fresh file credentials and network access denied. It compares exact bytes after replacing only the freshly generated public identities, checks configuration permissions, and verifies workspace removal. Each relay spelling has twelve cases, including explicit grant, trust, rejection, revocation and reopening the granted server with init. The onion URL in this comparison is an offline fixture. [Local comparison receipt](local-profile-setup-aarch64-apple-darwin.json)

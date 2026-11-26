@@ -84,8 +84,8 @@ def verified_binaries(messages, product):
     return binaries
 
 
-def verify_product(product):
-    pinned = WORKSPACE.with_suffix("") / "workspace.lock"
+def verify_product(product, workspace):
+    pinned = workspace.with_suffix("") / "workspace.lock"
     emitted = product / "workspace.lock"
     if pinned.read_bytes() != emitted.read_bytes():
         raise ValueError("generated workspace lock differs")
@@ -121,33 +121,38 @@ def verify_product(product):
     return lock
 
 
-def candidate_roles(binaries):
-    native = read(PORTABLE / "marmish-native-canonical-offline-package.json")
-    declared = {item["name"] for item in native["binaries"]}
-    if binaries.keys() != declared:
-        raise ValueError("first-party executable artifact inventory differs from package")
+def candidate_roles(binaries, descriptor, inputs):
+    declared = set()
     roles = {}
-    for component in native["components"]:
-        if component["kind"] != "cli-surface":
-            continue
-        binding = read(PORTABLE / component["overlay"]["path"])
-        executable = binding["executable"]
-        if executable not in declared or executable in roles:
-            raise ValueError(f"unexpected CLI binding executable: {executable}")
-        roles[executable] = {
-            "boundOperations": sorted(operation for operation, iri in binding["operations"].items()
-                                      if iri in binding["handlers"] and operation),
-            "unboundOperations": sorted(operation for operation, iri in binding["operations"].items()
-                                        if iri not in binding["handlers"]),
-            "uncoveredExit": binding["uncovered_exit"],
-        }
+    for member in descriptor["members"].values():
+        manifest = inputs / member["manifest"]["path"]
+        package = read(manifest)
+        for binary in package.get("binaries", []):
+            if binary["name"] in declared:
+                raise ValueError("duplicate executable in workspace")
+            declared.add(binary["name"])
+        for component in package.get("components", []):
+            if component["kind"] != "cli-surface":
+                continue
+            binding = read(manifest.parent / component["overlay"]["path"])
+            executable = binding["executable"]
+            if executable in roles:
+                raise ValueError(f"duplicate CLI binding: {executable}")
+            handlers = binding.get("handlers", {})
+            roles[executable] = {
+                "boundOperations": sorted(op for op, iri in binding["operations"].items() if iri in handlers and op),
+                "unboundOperations": sorted(op for op, iri in binding["operations"].items() if iri not in handlers),
+                "uncoveredExit": binding["uncovered_exit"],
+            }
+    if binaries.keys() != declared or not roles.keys() <= declared:
+        raise ValueError("first-party executable inventory differs from workspace")
     return roles
 
 
-def qualify(work, compiler, export, probes, checkout):
+def qualify(work, compiler, export, probes, checkout, workspace, companion_pin, compiler_pin):
     inputs = work / "inputs"
     inputs.mkdir()
-    descriptor = ASSEMBLY["stage_workspace"](WORKSPACE, inputs)
+    descriptor = ASSEMBLY["stage_workspace"](workspace, inputs)
     staged = {path.relative_to(inputs).as_posix(): sha(path)
               for path in sorted(inputs.rglob("*")) if path.is_file()}
     if any(Path(path).suffix not in {".json", ".ttl", ".lock"} for path in staged):
@@ -180,11 +185,11 @@ def qualify(work, compiler, export, probes, checkout):
     tool = work / "oddlang"
     shutil.copy2(compiler, tool)
     product = work / "product"
-    run(*launcher, tool, "build", "native-workspace", "rust", inputs / WORKSPACE.name, product,
+    run(*launcher, tool, "build", "native-workspace", "rust", inputs / workspace.name, product,
         cwd=work, env=env)
     if (product / "target").exists():
         raise ValueError("found a target directory before compilation")
-    lock = verify_product(product)
+    lock = verify_product(product, workspace)
     cargo = Path(env["RUSTC"]).with_name("cargo")
     rustc = run(*launcher, env["RUSTC"], "-vV", cwd=work, env=env).decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {TOOLS.RUST_COMMIT}" not in rustc:
@@ -192,14 +197,15 @@ def qualify(work, compiler, export, probes, checkout):
     cargo_version = run(*launcher, cargo, "-V", cwd=work, env=env).decode().strip()
     output = run(*launcher, cargo, "build", "--workspace", "--release", "--locked", "--offline",
                  "--message-format=json", cwd=product, env=env)
-    verify_product(product)
+    verify_product(product, workspace)
     binaries = verified_binaries(output, product)
-    roles = candidate_roles(binaries)
+    roles = candidate_roles(binaries, descriptor, inputs)
     receipt = {
         "format": "marmish-basic-command-generated-build-v1",
-        "companionInputRevision": COMPANION,
+        "companionInputRevision": companion_pin,
+        "workspaceDescriptor": workspace.name,
         "buildDriverCheckout": checkout,
-        "frameworkRevision": FRAMEWORK,
+        "frameworkRevision": compiler_pin,
         "referenceTargetRevision": ASSEMBLY["ORIGINAL"],
         "platform": HOST,
         "osVersion": platform.mac_ver()[0],
@@ -252,16 +258,25 @@ def main():
     parser.add_argument("framework", type=lambda value: Path(value).resolve(strict=True))
     parser.add_argument("export", type=lambda value: Path(value).resolve())
     parser.add_argument("--deny", nargs=2, action="append", metavar=("LABEL", "FILE"), required=True)
+    parser.add_argument("--workspace", default=WORKSPACE.name, help="descriptor basename under oddlang/portable")
+    parser.add_argument("--framework-pin", default=FRAMEWORK)
+    parser.add_argument("--companion-pin", default=COMPANION)
     args = parser.parse_args()
+    if Path(args.workspace).name != args.workspace or not args.workspace.endswith(".json"):
+        parser.error("workspace must be a JSON descriptor basename")
+    workspace = PORTABLE / args.workspace
+    pins = (args.framework_pin, args.companion_pin)
+    if any(len(pin) != 40 or any(c not in "0123456789abcdef" for c in pin) for pin in pins):
+        parser.error("supply full immutable Git revisions")
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         parser.error("requires native macOS ARM64")
     if args.export.exists():
         parser.error("export must be a new directory")
-    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != FRAMEWORK:
+    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != args.framework_pin:
         parser.error("requires the pinned Oddlang compiler checkout")
     if run("git", "-C", args.framework, "status", "--porcelain", "--untracked-files=all"):
         parser.error("compiler checkout must be clean")
-    if (run("git", "-C", ROOT, "diff", "--name-only", COMPANION, "--", "oddlang/portable")
+    if (run("git", "-C", ROOT, "diff", "--name-only", args.companion_pin, "--", "oddlang/portable")
             or run("git", "-C", ROOT, "status", "--porcelain", "--untracked-files=all", "--",
                    "oddlang/portable", "verification/whole")):
         parser.error("build driver checkout must be clean and the portable inputs must match the companion pin")
@@ -273,7 +288,7 @@ def main():
     if not required <= probes.keys():
         parser.error(f"missing denial probes: {', '.join(sorted(required - probes.keys()))}")
     built_in_probes = {
-        "companionContract": WORKSPACE,
+        "companionContract": workspace,
         "compilerSource": args.framework / "src/lib.rs",
         "previousQualificationOracle": HERE.parent / "canonical-workspace/aarch64-apple-darwin.json",
     }
@@ -285,7 +300,7 @@ def main():
             "--target-dir", target, cwd=args.framework)
         with tempfile.TemporaryDirectory(prefix="odd-basic-build-") as directory:
             qualify(Path(directory).resolve(), Path(target).resolve() / "release/oddlang",
-                    args.export, probes, checkout)
+                    args.export, probes, checkout, workspace, args.companion_pin, args.framework_pin)
 
 
 if __name__ == "__main__":
