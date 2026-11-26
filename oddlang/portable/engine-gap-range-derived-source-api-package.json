@@ -1,0 +1,37 @@
+{
+  "cargoLock": {
+    "path": "engine-gap-reason-v1/Cargo.lock",
+    "sha256": "03049e1019f2cbf682c990ac1923097df93139d921c9e95b24c432468b08f2ca"
+  },
+  "components": [
+    {
+      "module": "model",
+      "recovery": {
+        "path": "engine-gap-reason-recovered-v1/recovery.lock",
+        "sha256": "fa6f7d9bff8532c15bf41c43259ca96a47a6ca8fc7f258202bbdc87de888963d"
+      }
+    },
+    {
+      "recovery": {
+        "path": "engine-gap-range-recovered-v1/recovery.lock",
+        "sha256": "72e239a6e6a4c561c747df792146d49061f0b0e65a75d2e8d9a0ef1aee7db8ed"
+      },
+      "sourceApi": {
+        "path": "engine-gap-range-native-idioms-v1/rust.json",
+        "sha256": "32ea4b52f438f6738962e85a905612ab644e5f40a222e04e32ca82294df1862b"
+      }
+    }
+  ],
+  "dependencies": {
+    "serde": {
+      "features": [
+        "derive"
+      ],
+      "version": "1.0.229"
+    }
+  },
+  "edition": "2024",
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-engine",
+  "version": "0.1.0"
+}
