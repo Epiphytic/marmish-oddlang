@@ -1,0 +1,38 @@
+<urn:oddlang:framing:Envelope> <urn:oddlang:framing:fields> <urn:oddlang:framing:version-then-payload> .
+<urn:oddlang:framing:Envelope> <urn:oddlang:framing:onDuplicate> <urn:oddlang:framing:reject> .
+<urn:oddlang:framing:Envelope> <urn:oddlang:framing:onUnknown> <urn:oddlang:framing:reject> .
+<urn:oddlang:framing:InvalidEncoding> <urn:oddlang:framing:display> "invalid canonical base64 payload" .
+<urn:oddlang:framing:InvalidJson> <urn:oddlang:framing:display> "invalid probe JSON" .
+<urn:oddlang:framing:InvalidVersion> <urn:oddlang:framing:display> "unsupported probe version" .
+<urn:oddlang:framing:JSON_BYTES> <urn:oddlang:framing:use> <urn:oddlang:framing:enforced> .
+<urn:oddlang:framing:JSON_BYTES> <urn:oddlang:framing:value> "32768"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<urn:oddlang:framing:NDJSON_BYTES> <urn:oddlang:framing:use> <urn:oddlang:framing:declared> .
+<urn:oddlang:framing:NDJSON_BYTES> <urn:oddlang:framing:value> "65536"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<urn:oddlang:framing:RAW_BYTES> <urn:oddlang:framing:use> <urn:oddlang:framing:enforced> .
+<urn:oddlang:framing:RAW_BYTES> <urn:oddlang:framing:value> "16384"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<urn:oddlang:framing:SizeLimit> <urn:oddlang:framing:display> "probe frame exceeds its size limit" .
+<urn:oddlang:framing:codec> <urn:oddlang:framing:errorType> <urn:oddlang:framing:FrameError> .
+<urn:oddlang:framing:codec> <urn:oddlang:framing:limitsType> <urn:oddlang:framing:Limits> .
+<urn:oddlang:framing:codec> <urn:oddlang:framing:nativeType> <urn:oddlang:framing:ProbeEnvelope> .
+<urn:oddlang:framing:codec> <urn:oddlang:framing:profile> <urn:oddlang:framing:framing-v1> .
+<urn:oddlang:framing:codec> <urn:oddlang:framing:wireRecord> <urn:oddlang:framing:Envelope> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:argumentType> <urn:oddlang:framing:octets> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:resultType> <urn:oddlang:framing:octets-or-FrameError> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-1> <urn:oddlang:framing:json-limit> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-2> <urn:oddlang:framing:json-decode-closed> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-3> <urn:oddlang:framing:version> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-4> <urn:oddlang:framing:encoded-limit> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-5> <urn:oddlang:framing:base64-decode> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-6> <urn:oddlang:framing:raw-limit> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-7> <urn:oddlang:framing:canonical> .
+<urn:oddlang:framing:decode> <urn:oddlang:framing:step-8> <urn:oddlang:framing:return-bytes> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:argumentType> <urn:oddlang:framing:octets> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:resultType> <urn:oddlang:framing:octets-or-FrameError> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:step-1> <urn:oddlang:framing:raw-limit> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:step-2> <urn:oddlang:framing:json-encode-base64> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:step-3> <urn:oddlang:framing:json-limit> .
+<urn:oddlang:framing:encode> <urn:oddlang:framing:step-4> <urn:oddlang:framing:return-frame> .
+<urn:oddlang:framing:payload> <urn:oddlang:framing:encoding> <urn:oddlang:framing:rfc4648-standard-padded-canonical> .
+<urn:oddlang:framing:payload> <urn:oddlang:framing:wireType> <urn:oddlang:framing:utf8-string> .
+<urn:oddlang:framing:version> <urn:oddlang:framing:value> "1"^^<http://www.w3.org/2001/XMLSchema#integer> .
+<urn:oddlang:framing:version> <urn:oddlang:framing:wireType> <urn:oddlang:framing:u32> .

@@ -1,5 +1,7 @@
 # Marmish
 
+The Oddlang graphs, release pins and regeneration commands are in [oddlang/](oddlang/README.md).
+
 Run remote commands over Marmot's MLS-encrypted Nostr transport. Marmish uses
 native Rust clients and daemons, with one named Nostr identity per daemon.
 The same identity can send commands and accept authorized commands.
