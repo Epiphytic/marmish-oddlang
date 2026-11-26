@@ -18,6 +18,7 @@ from observe import (BRIDGE, RELAY, account_options, copy_verified, file_digest,
 from isolate import Workspace
 from provider_activation import phase, publication, read_exact
 
+UNTRUSTED_ACCOUNT = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"
 RELAY_PIN = "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3"
 
 
@@ -121,9 +122,9 @@ def observe(args):
                 if role == "server":
                     argv.append("daemon")
                 return instance.start(argv, stdin=subprocess.DEVNULL,
-                                      stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+                                      stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-            owners = {role: start(role) for role in ("server", "client")}
+            owners = {"client": start("client")}
 
             def wait_owner(role):
                 child = owners[role]
@@ -135,12 +136,12 @@ def observe(args):
                 result = instance.run([instance.root / "marmish", *base_options[role], "status"], timeout=5)
                 return result.returncode == 0 and json.loads(result.stdout)["result"]["state"] == "active"
 
-            for role in owners:
-                until(lambda: wait_owner(role), 190, role)
-                publication(relay_dir / "relay.sqlite3", manifests[role]["public_key"])
+            until(lambda: wait_owner("client"), 190, "client")
+            publication(relay_dir / "relay.sqlite3", client)
 
             request = {"operation": "command_prepare", "remote": server, "relays": [address]}
             for altered, category in ((dict(request, remote=client), "command_unauthorized"),
+                                      (dict(request, remote=UNTRUSTED_ACCOUNT), "command_unauthorized"),
                                       (dict(request, relays=[]), "command_relay_binding")):
                 response = exchange(sockets["client"], altered)
                 if response != {"ok": True, "result": None, "error": None,
@@ -149,9 +150,27 @@ def observe(args):
             if select_rows(peers["client"], "client", manifests["client"], "placement"):
                 raise ValueError("rejected prepare allocated a room")
 
+            busy = {"ok": True, "result": None, "error": None, "command": {"state": "local_busy"}}
+
+            def missing_peer():
+                reply = exchange(sockets["client"], request)
+                if reply == busy:
+                    return None
+                if reply != {"ok": True, "result": None, "error": None,
+                             "command": {"state": "failure", "category": "key_package_unavailable", "handle": None}}:
+                    raise ValueError("unpublished peer did not produce a typed unavailable reply")
+                return True
+
+            until(missing_peer, 16, "missing key package")
+            if select_rows(peers["client"], "client", manifests["client"], "placement"):
+                raise ValueError("failed discovery allocated a room")
+            owners["server"] = start("server")
+            until(lambda: wait_owner("server"), 190, "server")
+            publication(relay_dir / "relay.sqlite3", server)
+
             def ready():
                 reply = exchange(sockets["client"], request)
-                if reply == {"ok": True, "result": None, "error": None, "command": {"state": "local_busy"}}:
+                if reply == busy:
                     return None
                 command = reply.get("command") or {}
                 session = command.get("session", "")
@@ -181,11 +200,13 @@ def observe(args):
                 raise ValueError("duplicate prepare changed the durable session")
             owner = owners["client"]
             owner.send_signal(signal.SIGTERM)
-            _, errors = owner.communicate(timeout=20)
+            output, errors = owner.communicate(timeout=20)
             peers["client"].check_stopped(owner)
             peers["client"].processes.remove(owner)
             if owner.returncode or errors or sockets["client"].exists():
-                raise ValueError("client owner failed its first stop")
+                raise ValueError(f"client owner failed its first stop (exit={owner.returncode}, "
+                                 f"output={output[:512]!r}, errors={errors[:512]!r}, "
+                                 f"socket_exists={sockets['client'].exists()})")
             owners["client"] = start("client")
             until(lambda: wait_owner("client"), 190, "reopened client")
             if until(ready, 20, "reopened preparation") != session or not admitted():
@@ -196,7 +217,8 @@ def observe(args):
             "relaySha256": RELAY_PIN, "journalHelperSha256": args.journal_sha,
             "fixtureSha256": file_digest(Path(__file__)), "durablePlacement": True,
             "upstreamAdmissionMatched": True, "wrongPeerAndRouteRejected": True,
-            "sameSessionAfterRetryAndRestart": True, "cleanup": True}
+            "discoveryRecoversWhenPeerAppears": True,
+            "sameSessionAfterDuplicateAndRestart": True, "cleanup": True}
 
 
 if __name__ == "__main__":

@@ -1075,7 +1075,7 @@
 {"path":"verification/whole/basic-command-interop/local-profile-setup-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a1769f62264cb4293a13e26c3cdb3bd6ab44e69ceff4f5be32f7848cc048e3d3","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/observe.py","language":"python","mode":"100644","sha256":"e7f7fd059cefedf0aff12ebc28b1f876767b9a3fbc6acd6fea8ab699c37f6d3a","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/prepare_journal_fixture.c","language":"c","mode":"100644","sha256":"ba4f7c2e62cc667f8466d3215806e630b31bfa41a0fb7deb6c83bcdce4b2be9f","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/prepare_room.py","language":"python","mode":"100644","sha256":"090ced45120a1582b9bd99258a3ce9053d7f2620d8d48145aea77416e3105dcf","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/prepare_room.py","language":"python","mode":"100644","sha256":"0e3dffe3601cbd80bfed44384860a07d8b47221fc005ad509089ef9917b0faa4","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/profile-setup-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"a002231a2c51b18bcc08ed866e2eb517b38ef7e9a960abda744102ce6fc8e6ae","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"5b14a6f48156cb0f8f6e59a33e7a8111ec131f5bb01cf65135a342935971b222","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-preflight-macos-arm64.json","language":"inventory","mode":"100644","sha256":"a1c2cf2ee37c015d24b1cfdddf4e13133fa27636458d7c8c61a4cffc058abec1","parse_status":"inventory"}
