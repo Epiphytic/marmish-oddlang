@@ -2201,7 +2201,8 @@
         "name": "inbound_enabled",
         "source": {
           "kind": "any_member",
-          "field": "execution_clients"
+          "field": "execution_clients",
+          "active_role_only": true
         }
       },
       {

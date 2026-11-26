@@ -1,7 +1,7 @@
 {
   "cargoLockSha256": "702ad31ae1692d628372a8feea8dd6d0c2890c05622862651e77a666ebeb40bb",
   "format": "oddlang-native-workspace-lock-v1",
-  "inputSha256": "e0fe219e783304e2849de9f8d85745ff2639a6673127fa29ac7b60a097055aa6",
+  "inputSha256": "299cc240e65fccee184766b17afbfb55394e6f85b5eb05cae829a8a3e99cd330",
   "members": {
     "marmish-core": {
       "dependencies": [],
@@ -26,8 +26,8 @@
         "marmish-engine",
         "marmish-stream"
       ],
-      "inputSha256": "c59f22a385aca68e8b42a59b19059053010e78bb5742ebd59abc06cd13937020",
-      "standalonePackageLockSha256": "98fce2c01b4e67e355672d26745c9a7fa93f522c7cfed97a1d50c43e359927ed",
+      "inputSha256": "99967c21470064a7e5b70b618755361612760d22bbf98fbdce64ed592fd3d535",
+      "standalonePackageLockSha256": "acaf8433b03f4390947df70feb74fe8e938723f1748ee875522e0dda438aa5f9",
       "workspaceCargoManifestSha256": "96775394a9b07b32a740e8a5a4db932d4055ba3ec3ad9c56451847f24ffb623a"
     },
     "marmish-prototype": {

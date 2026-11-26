@@ -64,6 +64,27 @@
         "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
         "configMode": 384
       },
+      "retain-grant-while-client": {
+        "status": 0,
+        "stdout": "86561640397b783ae7c12737d008af41878fea37ee54812499f7c2cad2b3850f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "575d54c1b1edd89d42d808fc596237634746e3a7780ee08e9188e047d149dfb8",
+        "configMode": 384
+      },
+      "deny-new-client-grant": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "575d54c1b1edd89d42d808fc596237634746e3a7780ee08e9188e047d149dfb8",
+        "configMode": 384
+      },
+      "reactivate-grant": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "85c1a85b7a1b042228cc2c0171ddf2afbadb562a23f1de1ad5b758753a6c24c6",
+        "configMode": 384
+      },
       "implicit-revoke": {
         "status": 1,
         "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -150,6 +171,27 @@
         "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
         "configMode": 384
       },
+      "retain-grant-while-client": {
+        "status": 0,
+        "stdout": "86561640397b783ae7c12737d008af41878fea37ee54812499f7c2cad2b3850f",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "fff3309e36274da106dbcebf886f19f41d64de488ec4b3dae54d7a9fc6f8d2eb",
+        "configMode": 384
+      },
+      "deny-new-client-grant": {
+        "status": 1,
+        "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stderr": "b905a817867eabd6ea6d6cd5c381d8f0b052e111fb873166a20485fd0a040aab",
+        "config": "fff3309e36274da106dbcebf886f19f41d64de488ec4b3dae54d7a9fc6f8d2eb",
+        "configMode": 384
+      },
+      "reactivate-grant": {
+        "status": 0,
+        "stdout": "f3ddf34ccbab655680d5490eb175a30a54797e85b902165d656a8c5464745d24",
+        "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "config": "25cb019c459a83ea078b793a96663971808f96a0c6a59be06329885015e401ae",
+        "configMode": 384
+      },
       "implicit-revoke": {
         "status": 1,
         "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -175,6 +217,6 @@
   },
   "workspacesRemoved": true,
   "networkDenied": true,
-  "originalSha256": "febd6292de4189333c28aba0dd9df7ad0909c46fd6bcb0733c38afc28a021b09",
-  "candidateSha256": "641cfdcf98441231d5f4ea9436641da6a47117d96d44400c66c1904de67174e1"
+  "originalSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "candidateSha256": "27daebc44a35970284f9f7627e18e8ecc1fafee14df2196351eaf3302d6f36dc"
 }

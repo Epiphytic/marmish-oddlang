@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+import socket
 
 from isolate import Workspace
 
@@ -21,6 +22,13 @@ def observe(installation, relay):
             peers[role] = peer
             with peer.profile.open("a") as file:
                 file.write("(deny network*)\n")
+            with socket.socket() as listener:
+                listener.bind(("127.0.0.1", 0))
+                listener.listen()
+                denied = peer.run(["/usr/bin/nc", "-v", "-z", "-w", "1", "127.0.0.1",
+                                   str(listener.getsockname()[1])], timeout=5)
+                if denied.returncode == 0 or b"Operation not permitted" not in denied.stderr:
+                    raise ValueError("could not verify sandbox network denial")
             for binary in installation.iterdir():
                 if binary.name.startswith("marmish") and binary.is_file() and binary.stat().st_mode & 0o111:
                     shutil.copy2(binary, peer.root / binary.name)
@@ -69,6 +77,9 @@ def observe(installation, relay):
             if result[role+"-invalid"]["config"] != result[role+"-update"]["config"]:
                 raise ValueError("rejected input changed authorization")
         invoke("server", "init-with-grant", [], operation="init")
+        invoke("server", "retain-grant-while-client", ["--update", "--role", "client"])
+        invoke("server", "deny-new-client-grant", ["--update", "--grant", ids["client"]], 1)
+        invoke("server", "reactivate-grant", ["--update", "--role", "server"])
         invoke("server", "implicit-revoke", ["--update","--no-grants"], 1)
         invoke("server", "revoke", ["--update","--revoke",ids["client"]])
         invoke("client", "untrust", ["--update","--untrust",ids["server"]])

@@ -20,7 +20,7 @@
     "marmish-native": {
       "manifest": {
         "path": "marmish-native-profile-setup-package.json",
-        "sha256": "c59f22a385aca68e8b42a59b19059053010e78bb5742ebd59abc06cd13937020"
+        "sha256": "99967c21470064a7e5b70b618755361612760d22bbf98fbdce64ed592fd3d535"
       },
       "dependencies": [
         "marmish-engine",

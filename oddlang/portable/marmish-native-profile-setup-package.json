@@ -258,7 +258,7 @@
       "module": "profile_initialize",
       "graph": {
         "path": "leased-profile-setup-v1/graph.json",
-        "sha256": "4f7e61f6a82ab98893c31032a042327e2035069be5078a0eb39a237bd2a3f583"
+        "sha256": "0db607877f8b96dfa939c107262beb1fa4dd4c95c5a98cc7ecf8bdcd90adc930"
       },
       "overlay": {
         "path": "leased-profile-setup-v1/profile.rust.json",
