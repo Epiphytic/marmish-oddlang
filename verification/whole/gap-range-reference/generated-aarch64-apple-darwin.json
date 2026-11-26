@@ -1,0 +1,135 @@
+{
+  "callerLockSha256": "9d9131d0dde46513ed89d3805bbd4e39aa374283e1572e46d4bb0d08a3c9cb0e",
+  "callerManifestSha256": "a098944bbc96bc3ee275b6854143e592d89de400e1426fd1478464047cdb30c2",
+  "copyControl": [
+    "E0277"
+  ],
+  "framework": "3c01918dd430afcf3b57a21a5b24191f99333025",
+  "frameworkBinarySha256": "79f4a6c95f5382506939b1e54e31749aa0401cedddb839a7a89debc2ff5cc930",
+  "host": "aarch64-apple-darwin",
+  "manifestSha256": "9ca6c1281daf3d15b93e4b03ddfe836af748299c395eea837c2cf2b58accd595",
+  "observations": [
+    {
+      "id": "Limit-string",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "Limit-object",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "StorageFailure-string",
+      "result": {
+        "encoded": "\"StorageFailure\""
+      }
+    },
+    {
+      "id": "StorageFailure-object",
+      "result": {
+        "encoded": "\"StorageFailure\""
+      }
+    },
+    {
+      "id": "Expired-string",
+      "result": {
+        "encoded": "\"Expired\""
+      }
+    },
+    {
+      "id": "Expired-object",
+      "result": {
+        "encoded": "\"Expired\""
+      }
+    },
+    {
+      "id": "UncertainTail-string",
+      "result": {
+        "encoded": "\"UncertainTail\""
+      }
+    },
+    {
+      "id": "UncertainTail-object",
+      "result": {
+        "encoded": "\"UncertainTail\""
+      }
+    },
+    {
+      "id": "case-sensitive",
+      "result": {
+        "column": 7,
+        "diagnostic": "unknown variant `limit`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+        "line": 1
+      }
+    },
+    {
+      "id": "unknown",
+      "result": {
+        "column": 7,
+        "diagnostic": "unknown variant `Other`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+        "line": 1
+      }
+    },
+    {
+      "id": "wrong-value",
+      "result": {
+        "column": 10,
+        "diagnostic": "invalid type: integer `1`, expected unit at line 1 column 10",
+        "line": 1
+      }
+    },
+    {
+      "id": "multiple",
+      "result": {
+        "column": 13,
+        "diagnostic": "expected value at line 1 column 13",
+        "line": 1
+      }
+    },
+    {
+      "id": "empty-object",
+      "result": {
+        "column": 2,
+        "diagnostic": "expected value at line 1 column 2",
+        "line": 1
+      }
+    },
+    {
+      "id": "numeric",
+      "result": {
+        "column": 1,
+        "diagnostic": "expected value at line 1 column 1",
+        "line": 1
+      }
+    },
+    {
+      "id": "array",
+      "result": {
+        "column": 1,
+        "diagnostic": "expected value at line 1 column 1",
+        "line": 1
+      }
+    },
+    {
+      "id": "unicode-escape",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "extra-input",
+      "result": {
+        "column": 9,
+        "diagnostic": "trailing characters at line 1 column 9",
+        "line": 1
+      }
+    }
+  ],
+  "packageLockSha256": "dbcd1e3a2e2e73016316212e27def44b0e99826bd54c36230626b196cd3d67e2",
+  "referenceSha256": "431a9eef60aa3ab14968ab9169cdb19a5ad5d825a1872f92bac8d659a944d777",
+  "rustcCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "verifierSha256": "bb3f40ab121fcce442cdea1475db5027d2cbf44bde52145d9196b686e29606a1"
+}
