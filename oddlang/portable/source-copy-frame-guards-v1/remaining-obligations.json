@@ -1,0 +1,19 @@
+{
+  "additionalQualification": [
+    "decoder",
+    "validation and named errors",
+    "nested fragment interiors"
+  ],
+  "format": "oddlang-tagged-frame-recovery-obligations-v1",
+  "method": "crate::copy_protocol::Frame::encode",
+  "role": "binary-frame-encoder",
+  "unresolved": {
+    "urn:marmish:copy:frame:Manifest": [
+      "fragment encoder: copy_protocol::Manifest::encode"
+    ],
+    "urn:marmish:copy:frame:Start": [
+      "checked guard: copy_protocol::Launch::validate",
+      "fragment writer: copy_protocol::encode_launch"
+    ]
+  }
+}
