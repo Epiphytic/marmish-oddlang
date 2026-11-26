@@ -1,0 +1,7 @@
+{
+  "format": "oddlang-finite-error-selection-v1",
+  "id": "urn:marmish:native:error:v1",
+  "sourceSha256": "54eb8a335f91cb09de6ecd8d598acdec3476ee7067968333f85c824a5fee2254",
+  "error": "Error",
+  "result": "Result"
+}

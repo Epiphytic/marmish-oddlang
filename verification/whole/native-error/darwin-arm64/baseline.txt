@@ -1,0 +1,32 @@
+DaemonStartup|_|"remote startup diagnostic: é"|"remote startup diagnostic: é"|DaemonStartup("remote startup diagnostic: é")|None
+Io|_|"local I/O failed"|"local I/O failed"|Io(Custom { kind: Other, error: "sentinel opaque provider data" })|Some("sentinel opaque provider data")
+Invalid|_|"invalid input: malformed request"|"invalid input: malformed request"|Invalid("malformed request")|None
+Identity|_|"identity: account missing"|"identity: account missing"|Identity("account missing")|None
+Storage|_|"storage: out of space"|"storage: out of space"|Storage("out of space")|None
+Transport|_|"transport: broken pipe"|"transport: broken pipe"|Transport("broken pipe")|None
+Mdk|_|"marmot: unavailable"|"marmot: unavailable"|Mdk("unavailable")|None
+Timeout|_|"operation deadline exceeded"|"operation deadline exceeded"|Timeout|None
+Copy|Unsupported|"copy: copy_unsupported"|"copy: copy_unsupported"|Copy(Unsupported)|None
+Copy|Protocol|"copy: copy_protocol_error"|"copy: copy_protocol_error"|Copy(Protocol)|None
+Copy|PermissionDenied|"copy: file_permission_denied"|"copy: file_permission_denied"|Copy(PermissionDenied)|None
+Copy|NotFound|"copy: file_not_found"|"copy: file_not_found"|Copy(NotFound)|None
+Copy|UnsafePath|"copy: unsafe_path"|"copy: unsafe_path"|Copy(UnsafePath)|None
+Copy|Busy|"copy: transfer_busy"|"copy: transfer_busy"|Copy(Busy)|None
+Copy|Conflict|"copy: transfer_conflict"|"copy: transfer_conflict"|Copy(Conflict)|None
+Copy|SourceChanged|"copy: source_changed"|"copy: source_changed"|Copy(SourceChanged)|None
+Copy|HashMismatch|"copy: hash_mismatch"|"copy: hash_mismatch"|Copy(HashMismatch)|None
+Copy|DiskFull|"copy: disk_full"|"copy: disk_full"|Copy(DiskFull)|None
+Copy|Quota|"copy: capacity"|"copy: capacity"|Copy(Quota)|None
+Copy|CommitUncertain|"copy: commit_uncertain"|"copy: commit_uncertain"|Copy(CommitUncertain)|None
+Copy|LocalIo|"copy: file_io_error"|"copy: file_io_error"|Copy(LocalIo)|None
+Copy|IdentityChanged|"copy: identity_changed"|"copy: identity_changed"|Copy(IdentityChanged)|None
+Stream|Unsupported|"stream: copy_unsupported"|"stream: copy_unsupported"|Stream(Unsupported)|None
+Stream|Invalid|"stream: preparation_failed"|"stream: preparation_failed"|Stream(Invalid)|None
+Stream|Denied|"stream: authorization_denied"|"stream: authorization_denied"|Stream(Denied)|None
+Stream|Conflict|"stream: stream_conflict"|"stream: stream_conflict"|Stream(Conflict)|None
+Stream|Gap|"stream: stream_gap"|"stream: stream_gap"|Stream(Gap)|None
+Stream|Expired|"stream: stream_expired"|"stream: stream_expired"|Stream(Expired)|None
+Stream|Capacity|"stream: capacity"|"stream: capacity"|Stream(Capacity)|None
+Stream|Uncertain|"stream: stream_uncertain"|"stream: stream_uncertain"|Stream(Uncertain)|None
+Stream|NotFound|"stream: stream_not_found"|"stream: stream_not_found"|Stream(NotFound)|None
+Stream|Closed|"stream: stream_closed"|"stream: stream_closed"|Stream(Closed)|None
