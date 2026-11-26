@@ -1,0 +1,10 @@
+{
+  "format": "oddlang-json-wire-schema-rust-v1",
+  "names": {
+    "urn:marmish:command:response:chunk": "Chunk",
+    "urn:marmish:command:response:chunk:bytes": "bytes",
+    "urn:marmish:command:response:chunk:next-cursor": "next_cursor"
+  },
+  "externals": {},
+  "derives": {}
+}
