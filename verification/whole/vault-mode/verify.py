@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import runpy
 import shutil
@@ -14,6 +15,7 @@ PORTABLE = ROOT / "oddlang/portable"
 DOMAIN = PORTABLE / "vault-mode-v1"
 MANIFEST = "vault-fixed-value-mode-package.json"
 SOURCE = Path("crates/marmish-vault/src/helper.rs")
+FRAMEWORK = "18ea58006de4482c0ebc61de9e800edc78eba987"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 JOURNAL = runpy.run_path(str(HERE.parent / "journal-records/verify.py"))
 WORKSPACE = runpy.run_path(str(HERE.parent / "workspace/verify.py"))
@@ -22,6 +24,37 @@ run = JOURNAL["run"]
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def reject_local_cargo_config(directory):
+    for base in (directory, *directory.parents):
+        for name in ("config", "config.toml"):
+            config = base / ".cargo" / name
+            if config.is_file():
+                raise ValueError(f"unexpected Cargo configuration: {config}")
+
+
+def host_build_env(cargo_home):
+    registry_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
+    cargo_home.mkdir()
+    for name in ("registry", "git"):
+        cache = registry_home / name
+        if cache.is_dir():
+            (cargo_home / name).symlink_to(cache.resolve(), target_is_directory=True)
+    env = JOURNAL["cargo_env"]()
+    env = {key: value for key, value in env.items()
+           if not key.startswith(("CARGO_", "RUSTC", "RUSTDOC", "RUSTFLAGS"))}
+    env.update(CARGO_HOME=str(cargo_home), CARGO_NET_OFFLINE="true")
+    return env
+
+
+def check_inputs(args):
+    for path, expected in ((args.framework, FRAMEWORK), (args.original, ORIGINAL)):
+        reject_local_cargo_config(path)
+        revision = run("git", "rev-parse", "HEAD", cwd=path).decode().strip()
+        dirty = run("git", "status", "--porcelain", "--untracked-files=all", cwd=path)
+        if revision != expected or dirty:
+            raise ValueError(f"expected a clean checkout at {expected}: {path}")
 
 
 def observe(library, scratch, host_deps):
@@ -46,6 +79,7 @@ def qualify(args, scratch, work, host):
     source = args.original / SOURCE
     compiler = work / "oddlang"
     shutil.copy2(args.compiler, compiler)
+    compiler_digest = sha(compiler)
     prefix, env = JOURNAL["sandbox"](WORKSPACE, work, [ROOT, args.original, args.framework, args.original_target, scratch], None)
 
     def inside(*cmd):
@@ -71,10 +105,11 @@ def qualify(args, scratch, work, host):
     results = {}
     for name, checkout, expected in (("baseline", args.original, ["interactive=0", "verify=1"]),
                                      ("mutation", mutant, ["interactive=1", "verify=0"])):
+        reject_local_cargo_config(checkout)
         reference_target = args.original_target / name
         native_build = run("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--target", host,
                            "--target-dir", reference_target, "-p", "marmish-vault", "--lib",
-                           "--message-format=json", cwd=checkout)
+                           "--message-format=json", cwd=checkout, env=args.build_env)
         lib, = [Path(file) for line in native_build.splitlines() if (r := json.loads(line))["reason"] == "compiler-artifact"
                 and Path(r["manifest_path"]).resolve() == (checkout/"crates/marmish-vault/Cargo.toml").resolve()
                 and r["target"]["kind"] == ["lib"] for file in r["filenames"] if file.endswith(".rlib")]
@@ -130,7 +165,7 @@ def qualify(args, scratch, work, host):
                              originalLibrarySha256=original_sha, generatedLibrarySha256=sha(generated), **actual)
     if results["baseline"]["graphSha256"] == results["mutation"]["graphSha256"]:
         raise ValueError("source change did not reach portable graph")
-    return results
+    return results, compiler_digest
 
 
 if __name__ == "__main__":
@@ -138,18 +173,20 @@ if __name__ == "__main__":
     for k in ("original", "framework", "compiler_target", "original_target", "receipt"):
         cli.add_argument(k, type=lambda s: Path(s).resolve())
     args = cli.parse_args()
-    for path, rev in ((args.original, ORIGINAL), (args.framework, "18ea58006de4482c0ebc61de9e800edc78eba987")):
-        if run("git", "rev-parse", "HEAD", cwd=path).decode().strip() != rev or run("git", "diff", "HEAD", "--", cwd=path):
-            raise ValueError(f"unexpected checkout {path}")
-    run("cargo", "+1.96.1", "build", "--bin", "oddlang", "--locked", "--offline",
-        "--target-dir", args.compiler_target, cwd=args.framework)
-    args.compiler = args.compiler_target / "debug/oddlang"
+    check_inputs(args)
     compiler = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     host, = (line[6:] for line in compiler if line.startswith("host: "))
     if host not in ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu"):
         raise ValueError(f"unsupported host {host}")
     with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as isolated:
-        results = qualify(args, Path(temp).resolve(), Path(isolated).resolve(), host)
-    witness = dict(original=ORIGINAL, host=host, compiler=compiler, framework=run("git","rev-parse","HEAD",cwd=args.framework).decode().strip(),
-                   compilerSha256=sha(args.compiler), probeSha256=sha(HERE/"probe.rs"), results=results)
+        scratch = Path(temp).resolve()
+        args.build_env = host_build_env(scratch / "cargo-home")
+        run("cargo", "+1.96.1", "build", "--bin", "oddlang", "--locked", "--offline",
+            "--target-dir", args.compiler_target, cwd=args.framework, env=args.build_env)
+        check_inputs(args)
+        args.compiler = args.compiler_target / "debug/oddlang"
+        results, compiler_digest = qualify(args, scratch, Path(isolated).resolve(), host)
+    check_inputs(args)
+    witness = dict(original=ORIGINAL, host=host, compiler=compiler, framework=FRAMEWORK,
+                   compilerSha256=compiler_digest, probeSha256=sha(HERE/"probe.rs"), results=results)
     args.receipt.write_text(json.dumps(witness, indent=2) + "\n")
