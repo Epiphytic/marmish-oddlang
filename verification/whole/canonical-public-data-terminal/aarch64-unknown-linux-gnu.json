@@ -10,11 +10,13 @@
     "release: 1.97.1",
     "LLVM version: 22.1.6"
   ],
-  "companion": "2da1fbfc64ebba3680ed69cbfd43a02c25d49af7",
+  "companion": "385a6faded5c5c75e4f4ac0f29790f5988582dc9",
   "framework": "900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab",
   "original": "af54339d250290490d62d4475a77539b7e739071",
   "workspaceLockSha256": "b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab",
-  "binaryBuildArtifactLogSha256": "7fcc8f7d81da20c513b02b0b23890b55fe89e0ad8364e6e832b3f194474a0f62",
+  "binaryBuildArtifactLogSha256": "462748c0c389197df52bce43115564cef4cd10f3414362d6abb950f6d1082d03",
+  "cargoLibraryClosureSha256": "e844aed913f57df93c739e79af6040dc0d4fbaa28d91b5a959391685728fce94",
+  "cargoLibraryClosureEntries": 589,
   "sourceWorkspaceReceiptSha256": "2a14b7a73e2dd3e6658ce2c9228c275d6aa7c1a147ccab746785b6282432845b",
   "terminalPrefixReceiptSha256": "01b7367edd3704738633c3e190f654096bb974df0acd62a47e2fced0daf59ff0",
   "originalBinaries": {
