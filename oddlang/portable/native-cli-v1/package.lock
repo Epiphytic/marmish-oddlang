@@ -1,0 +1,51 @@
+{
+  "cargoLockSha256": "00b7cc3d2119a6c2e7bea84707c90335d05710d86515a2166d97c56cbfc3ea17",
+  "cargoManifestSha256": "44c3fbe1c173fed631aaab13186b9e3e905187f96a88f874568aea6e3e199f64",
+  "components": [
+    {
+      "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "overlaySha256": "9216373cf3da52811232b6b2b9b89d08b078cae19f16d3fab42a8907412f7a77",
+      "projection": {
+        "bindingSha256": "9216373cf3da52811232b6b2b9b89d08b078cae19f16d3fab42a8907412f7a77",
+        "format": "oddlang-command-surface-lock-v1",
+        "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+        "provider": "clap@4.6.7",
+        "sourceSha256": "e5898982b8e5da9800634ef45f615be22422cad704cc3495d73885d66c127f35"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "sourceSha256": "e5898982b8e5da9800634ef45f615be22422cad704cc3495d73885d66c127f35"
+    },
+    {
+      "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "overlaySha256": "b26a47cf3c2127e29800e3282c8509ea32de2ebc7fe36c31f82a580e3bbce923",
+      "projection": {
+        "bindingSha256": "b26a47cf3c2127e29800e3282c8509ea32de2ebc7fe36c31f82a580e3bbce923",
+        "format": "oddlang-command-surface-lock-v1",
+        "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+        "provider": "clap@4.6.7",
+        "sourceSha256": "cb90185ff1eca7af5b351c75ec2326d5f718f37b1af641b3a1d50e778a19a290"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "sourceSha256": "cb90185ff1eca7af5b351c75ec2326d5f718f37b1af641b3a1d50e778a19a290"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/bin/marmish.rs": "d589eb9672c68e2526bafd908b7225063788281b8f8e07daed08b24d6fc5e196",
+    "src/bin/marmishd.rs": "51c608d76c242d4d67a3e5e7299aa187d395ce2dcf0ec139872efdc29bd474ee",
+    "src/group_0/__projection_0.rs": "e5898982b8e5da9800634ef45f615be22422cad704cc3495d73885d66c127f35",
+    "src/group_0/mod.rs": "a9c2e789f6882103d5ae711c4cd67cc0a3e47f403187996c4d68cbdb8bb3802e",
+    "src/group_1/__projection_1.rs": "cb90185ff1eca7af5b351c75ec2326d5f718f37b1af641b3a1d50e778a19a290",
+    "src/group_1/mod.rs": "0fe0db8e24b424125c76a051fd10499c77eea422cd4f38a69f9e555ba9b81f8e",
+    "src/lib.rs": "fc5ae47eb9cb70f14b7d901a0fb4137a517b3b51591539217a464f9794776106"
+  },
+  "manifestSha256": "036c06ce2c8f7d94cc7ba98e1cd84d86efdecdb8e376373826adad3ebe9cdac2"
+}

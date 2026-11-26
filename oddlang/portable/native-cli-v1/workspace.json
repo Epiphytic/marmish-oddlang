@@ -1,0 +1,15 @@
+{
+  "format": "oddlang-native-workspace-v1",
+  "cargoLock": {
+    "path": "parser-Cargo.lock",
+    "sha256": "00b7cc3d2119a6c2e7bea84707c90335d05710d86515a2166d97c56cbfc3ea17"
+  },
+  "members": {
+    "marmish-native": {
+      "manifest": {
+        "path": "package.json",
+        "sha256": "036c06ce2c8f7d94cc7ba98e1cd84d86efdecdb8e376373826adad3ebe9cdac2"
+      }
+    }
+  }
+}
