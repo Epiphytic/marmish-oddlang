@@ -56,7 +56,10 @@ def phase(path):
         return None
     with socket.socket(socket.AF_UNIX) as stream:
         stream.settimeout(10)
-        stream.connect(str(path))
+        try:
+            stream.connect(str(path))
+        except (FileNotFoundError, ConnectionRefusedError):
+            return None
         request = b'{"operation":"status"}'
         stream.sendall(struct.pack(">I", len(request)) + request)
         stream.shutdown(socket.SHUT_WR)
@@ -93,6 +96,10 @@ def observe(args):
         client = stage(args.client, owner.root / "marmish", args.client_sha256)
         daemon = stage(args.daemon, owner.root / "marmishd", args.daemon_sha256)
         service = stage(args.relay, relay.root / "relay", args.relay_sha256)
+        owner.allow_executables([client, daemon])
+        relay.allow_executables([service])
+        if owner.run(["/usr/bin/true"], timeout=5).returncode == 0:
+            raise ValueError("owner sandbox allowed an external executable")
         state = owner.root / "state"
         options = ["--state-dir", state, "--identity", "provider", "--key-storage", "file"]
         initialized = owner.run(
@@ -127,7 +134,7 @@ def observe(args):
 
             endpoint = until(address, 180)
             records = []
-            for _ in range(2):
+            for restart in (False, True):
                 server = owner.start(
                     [daemon, "--foreground", *options, "--tor", "auto", "--relay", endpoint],
                     stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
@@ -141,25 +148,37 @@ def observe(args):
 
                 until(ready, 315)
                 records.append(publication(relay_data / "relay.sqlite3", profile["public_key"]))
-                server.send_signal(signal.SIGTERM)
-                stdout, stderr = server.communicate(timeout=20)
+                if restart:
+                    relay_process.send_signal(signal.SIGTERM)
+                    relay_process.wait(timeout=20)
+                    relay.check_stopped(relay_process)
+                    relay.processes.remove(relay_process)
+                else:
+                    server.send_signal(signal.SIGTERM)
+                stdout, stderr = server.communicate(timeout=30)
                 owner.check_stopped(server)
                 owner.processes.remove(server)
                 report = json.loads(stdout)
-                if (server.returncode or stderr or not report["mdk_stop_complete"]
-                        or not report["runtime_cleanup_complete"] or socket_dir.exists()):
+                expected_error = b"marmish: transport: relay_connect\n" if restart else b""
+                if (server.returncode != int(restart) or stderr != expected_error
+                        or not report["mdk_stop_complete"] or not report["runtime_cleanup_complete"]
+                        or socket_dir.exists()):
                     raise ValueError("generated provider did not shut down and release its private socket")
             if records[0] != records[1]:
                 raise ValueError("restart changed the stable signed key package")
+    if workspace.root.exists():
+        raise ValueError("test workspace survived teardown")
     return {
         "schema": 1,
         "participants": {"clientSha256": args.client_sha256, "daemonSha256": args.daemon_sha256,
                          "relaySha256": args.relay_sha256},
         "fileIdentityInitialized": True,
+        "externalExecutableDenied": True,
         "nonOnionRejected": True,
         "relayStoredSignedKeyPackageForIdentity": True,
         "providerPhase": "provider_active",
         "samePublicationAfterRestart": True,
+        "disconnectRevokesReadiness": True,
         "providerStopped": True,
         "ownedRuntimeRemoved": True,
         "isolatedWorkspaceRemoved": True,

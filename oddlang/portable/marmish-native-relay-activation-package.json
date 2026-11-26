@@ -269,7 +269,7 @@
       "module": "foreground",
       "graph": {
         "path": "native-relay-activation-v1/foreground.json",
-        "sha256": "3b63ded9ba99560f95aa103c8873c5ee6c390fef8b288c5750e93b8068de0705"
+        "sha256": "c17bd1e9955f8e2ec4435e4e29bd6669fde0e38fb9c1c627cd81525f1db59d94"
       },
       "overlay": {
         "path": "native-relay-activation-v1/foreground.rust.json",

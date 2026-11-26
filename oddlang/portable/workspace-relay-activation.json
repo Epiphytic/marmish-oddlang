@@ -20,7 +20,7 @@
     "marmish-native": {
       "manifest": {
         "path": "marmish-native-relay-activation-package.json",
-        "sha256": "cfd2acc056ed13d4b4980374ff8cb5351a25a47c1f29f9d8c97841ba3f3ab90b"
+        "sha256": "8fb00c710a0209ce5f75dcf6320c48acda3bd03c7d099cd02fd577c7edca050f"
       },
       "dependencies": [
         "marmish-engine",
