@@ -1,0 +1,459 @@
+{
+  "format": "oddlang-binary-frame-v1",
+  "id": "urn:marmish:copy:frame",
+  "maximum": 16384,
+  "errors": {
+    "header": "urn:marmish:copy:copy_frame",
+    "length": "urn:marmish:copy:copy_frame_length",
+    "limit": "urn:marmish:stream:error:Limit",
+    "tag": "urn:marmish:copy:copy_frame_tag",
+    "truncated": "urn:marmish:copy:copy_truncated",
+    "trailing": "urn:marmish:copy:copy_trailing",
+    "decoderFailed": "urn:marmish:copy:copy_decoder_failed"
+  },
+  "types": {
+    "urn:marmish:copy:Codec": {
+      "kind": "enum",
+      "tags": {
+        "urn:marmish:copy:Codec:None": 0,
+        "urn:marmish:copy:Codec:Zlib": 1
+      }
+    },
+    "urn:marmish:copy:CopyError": {
+      "kind": "enum",
+      "tags": {
+        "urn:marmish:copy:CopyError:Busy": 6,
+        "urn:marmish:copy:CopyError:CommitUncertain": 12,
+        "urn:marmish:copy:CopyError:Conflict": 7,
+        "urn:marmish:copy:CopyError:DiskFull": 10,
+        "urn:marmish:copy:CopyError:HashMismatch": 9,
+        "urn:marmish:copy:CopyError:IdentityChanged": 14,
+        "urn:marmish:copy:CopyError:LocalIo": 13,
+        "urn:marmish:copy:CopyError:NotFound": 4,
+        "urn:marmish:copy:CopyError:PermissionDenied": 3,
+        "urn:marmish:copy:CopyError:Protocol": 2,
+        "urn:marmish:copy:CopyError:Quota": 11,
+        "urn:marmish:copy:CopyError:SourceChanged": 8,
+        "urn:marmish:copy:CopyError:UnsafePath": 5,
+        "urn:marmish:copy:CopyError:Unsupported": 1
+      }
+    },
+    "urn:marmish:copy:Phase": {
+      "kind": "enum",
+      "tags": {
+        "urn:marmish:copy:Phase:CommitPrepared": 4,
+        "urn:marmish:copy:Phase:Committed": 5,
+        "urn:marmish:copy:Phase:Created": 1,
+        "urn:marmish:copy:Phase:Receiving": 2,
+        "urn:marmish:copy:Phase:Verifying": 3
+      }
+    },
+    "urn:marmish:copy:Stage": {
+      "kind": "enum",
+      "tags": {
+        "urn:marmish:copy:Stage:Hashing": 1,
+        "urn:marmish:copy:Stage:PrefixHash": 2,
+        "urn:marmish:copy:Stage:Syncing": 4,
+        "urn:marmish:copy:Stage:Verifying": 3
+      }
+    },
+    "urn:marmish:copy:launch": {
+      "kind": "fragment"
+    },
+    "urn:marmish:copy:manifest": {
+      "kind": "fragment"
+    }
+  },
+  "cases": {
+    "urn:marmish:copy:frame:Checkpoint": {
+      "tag": 6,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Checkpoint:field:offset",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Checkpoint:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Checkpoint:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Checkpoint:field:offset"
+          }
+        }
+      ],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Commit": {
+      "tag": 8,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Commit:field:transfer",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Commit:field:size",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Commit:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Commit:field:approved",
+          "encoding": {
+            "kind": "literal",
+            "value": 1,
+            "error": "urn:marmish:copy:copy_disposition"
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Commit:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Commit:field:size"
+          }
+        }
+      ],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Data": {
+      "tag": 5,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Data:field:offset",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Data:field:bytes",
+          "encoding": {
+            "kind": "rest",
+            "minimum": 1,
+            "maximum": 8192,
+            "error": "urn:marmish:stream:error:Limit"
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Data:encode:guard:0",
+          "error": "urn:marmish:stream:error:Limit",
+          "require": {
+            "kind": "count",
+            "field": "urn:marmish:copy:frame:Data:field:bytes"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Data:encode:guard:1",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "end-at-most",
+            "offset": "urn:marmish:copy:frame:Data:field:offset",
+            "bytes": "urn:marmish:copy:frame:Data:field:bytes",
+            "maximum": 9223372036854775807
+          }
+        }
+      ],
+      "decodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Data:decode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "end-at-most",
+            "offset": "urn:marmish:copy:frame:Data:field:offset",
+            "bytes": "urn:marmish:copy:frame:Data:field:bytes",
+            "maximum": 9223372036854775807
+          }
+        }
+      ]
+    },
+    "urn:marmish:copy:frame:Done": {
+      "tag": 7,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Done:field:size",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Done:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Done:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Done:field:size"
+          }
+        }
+      ],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Error": {
+      "tag": 11,
+      "form": "tuple",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Error:field:code",
+          "encoding": {
+            "kind": "enum",
+            "id": "urn:marmish:copy:CopyError",
+            "error": "urn:marmish:copy:copy_enum"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Error:field:owner",
+          "encoding": {
+            "kind": "literal",
+            "value": 0,
+            "error": "urn:marmish:copy:copy_error_owner"
+          }
+        }
+      ],
+      "encodeGuards": [],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Finish": {
+      "tag": 9,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Finish:field:transfer",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Finish:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        }
+      ],
+      "encodeGuards": [],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Manifest": {
+      "tag": 2,
+      "form": "tuple",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Manifest:field:manifest",
+          "encoding": {
+            "kind": "fragment",
+            "id": "urn:marmish:copy:manifest"
+          }
+        }
+      ],
+      "encodeGuards": [],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Prefix": {
+      "tag": 4,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Prefix:field:offset",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Prefix:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Prefix:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Prefix:field:offset"
+          }
+        }
+      ],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Progress": {
+      "tag": 10,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Progress:field:stage",
+          "encoding": {
+            "kind": "enum",
+            "id": "urn:marmish:copy:Stage",
+            "error": "urn:marmish:copy:copy_enum"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Progress:field:examined",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Progress:field:total",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Progress:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Progress:field:total"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Progress:encode:guard:1",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "at-most",
+            "left": "urn:marmish:copy:frame:Progress:field:examined",
+            "right": "urn:marmish:copy:frame:Progress:field:total"
+          }
+        }
+      ],
+      "decodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Progress:decode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "at-most",
+            "left": "urn:marmish:copy:frame:Progress:field:examined",
+            "right": "urn:marmish:copy:frame:Progress:field:total"
+          }
+        }
+      ]
+    },
+    "urn:marmish:copy:frame:Resume": {
+      "tag": 3,
+      "form": "named",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Resume:field:phase",
+          "encoding": {
+            "kind": "enum",
+            "id": "urn:marmish:copy:Phase",
+            "error": "urn:marmish:copy:copy_enum"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Resume:field:offset",
+          "encoding": {
+            "kind": "unsigned",
+            "bits": 64,
+            "maximum": 9223372036854775807,
+            "error": "urn:marmish:stream:error:Offset"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Resume:field:sha256",
+          "encoding": {
+            "kind": "fixed",
+            "size": 32
+          }
+        }
+      ],
+      "encodeGuards": [
+        {
+          "id": "urn:marmish:copy:frame:Resume:encode:guard:0",
+          "error": "urn:marmish:stream:error:Offset",
+          "require": {
+            "kind": "range",
+            "field": "urn:marmish:copy:frame:Resume:field:offset"
+          }
+        }
+      ],
+      "decodeGuards": []
+    },
+    "urn:marmish:copy:frame:Start": {
+      "tag": 1,
+      "form": "tuple",
+      "slots": [
+        {
+          "id": "urn:marmish:copy:frame:Start:field:launch",
+          "encoding": {
+            "kind": "fragment",
+            "id": "urn:marmish:copy:launch"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:frame:Start:field:codec",
+          "encoding": {
+            "kind": "enum",
+            "id": "urn:marmish:copy:Codec",
+            "error": "urn:marmish:copy:copy_codec"
+          }
+        }
+      ],
+      "encodeGuards": [],
+      "decodeGuards": []
+    }
+  }
+}

@@ -10,6 +10,8 @@ The [copy correspondence verifier](../verification/whole/copy-source-corresponde
 
 The [source-derived copy frame profile](../verification/whole/source-copy-frame/README.md) recovers all eleven frame tags and the ordered top-level payload writes from the pinned Rust encoder.
 
+The [source-derived preflight release](../verification/whole/source-copy-frame-guards/README.md) recovers the ordering and error identities of nine encoder guards.
+
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.
 
 | Oddlang source | Generated Rust |

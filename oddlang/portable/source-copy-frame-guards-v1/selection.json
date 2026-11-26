@@ -1,0 +1,31 @@
+{
+  "format": "oddlang-frame-guard-selection-v1",
+  "method": "crate::copy_protocol::Frame::encode",
+  "sourceSha256": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2",
+  "evidenceSha256": "c6512545c9383b299aa4c9a815d74b09c3f38da648fb7d34c75a2967133f3c03",
+  "cases": {
+    "urn:marmish:copy:frame:Checkpoint": {
+      "range:offset": "urn:marmish:copy:frame:Checkpoint:encode:guard:0"
+    },
+    "urn:marmish:copy:frame:Commit": {
+      "range:size": "urn:marmish:copy:frame:Commit:encode:guard:0"
+    },
+    "urn:marmish:copy:frame:Data": {
+      "count:bytes": "urn:marmish:copy:frame:Data:encode:guard:0",
+      "end-at-most:offset:bytes": "urn:marmish:copy:frame:Data:encode:guard:1"
+    },
+    "urn:marmish:copy:frame:Done": {
+      "range:size": "urn:marmish:copy:frame:Done:encode:guard:0"
+    },
+    "urn:marmish:copy:frame:Prefix": {
+      "range:offset": "urn:marmish:copy:frame:Prefix:encode:guard:0"
+    },
+    "urn:marmish:copy:frame:Progress": {
+      "range:total": "urn:marmish:copy:frame:Progress:encode:guard:0",
+      "at-most:examined:total": "urn:marmish:copy:frame:Progress:encode:guard:1"
+    },
+    "urn:marmish:copy:frame:Resume": {
+      "range:offset": "urn:marmish:copy:frame:Resume:encode:guard:0"
+    }
+  }
+}
