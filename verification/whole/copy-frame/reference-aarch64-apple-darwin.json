@@ -1,0 +1,44 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "20f26a01bda33a1c6a6b284839dbf417f88af850",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "412d78d9014de11bb5a6aea24173671064257b0e4663a814f020e6661216fc1c",
+  "upstreamTestModuleSha256": "61d932f4d9c7c00874e10c09485da340a719dd9e5cfb6039f56d82fcb040a259",
+  "exactTestsSha256": "4ff9bb79ff7e2264eb9f02b5a59c6ff0e269fbeb13b4c7a04b947b57262e66b8",
+  "upstreamTests": 11,
+  "exactTests": 9,
+  "testNames": [
+    "copy_protocol::tests::all_frames_roundtrip_every_split_without_buffering_next_frame",
+    "copy_protocol::tests::checkpoint_rejects_corruption_trailing_fields_and_impossible_states",
+    "copy_protocol::tests::helper_context_rejects_missing_trailing_unknown_and_entrypoint_fields",
+    "copy_protocol::tests::helper_context_retention_has_replay_floor_and_config_ceiling",
+    "copy_protocol::tests::helper_context_roundtrip_limits_and_start_binding",
+    "copy_protocol::tests::launch_digest_binds_codec_mode_paths_and_metadata_but_not_attempt_binding",
+    "copy_protocol::tests::malformed_lengths_unknown_tags_enums_and_options_fail_closed",
+    "copy_protocol::tests::maximum_checkpoint_stays_below_control_cap",
+    "copy_protocol::tests::namespace_separates_principals_direction_and_transfer",
+    "copy_protocol::tests::one_byte_reassembly_and_multiple_frames",
+    "copy_protocol::tests::sizes_offsets_and_metadata_are_checked_before_encoding",
+    "exact::all_case_tags_and_canonical_payloads",
+    "exact::commit_constant_and_poisoned_decoder_outcomes_are_exact",
+    "exact::data_and_progress_guards_have_directional_precedence",
+    "exact::data_decode_rejects_offset_before_empty_body",
+    "exact::frame_headers_precede_tag_and_slot_checks",
+    "exact::inline_validation_precedes_codec_and_trailing",
+    "exact::launch_fragment_reports_early_read_errors",
+    "exact::public_copy_protocol_constants_and_signatures",
+    "exact::remaining_case_errors_preserve_exact_order"
+  ],
+  "repeatedStandaloneEvidence": {
+    "manifest": {
+      "constructions": 631,
+      "decodes": 2363
+    },
+    "checkpoint": {
+      "constructions": 290,
+      "decodes": 1827
+    }
+  },
+  "negativeControl": "reordering Data encode guards and deferring the early offset bound reverse exact Offset and Limit precedence"
+}

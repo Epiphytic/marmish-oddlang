@@ -1,0 +1,44 @@
+{
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:copy:public-bounds",
+  "constants": [
+    {
+      "id": "urn:marmish:copy:constant:MAX_PATH",
+      "value": 4096
+    },
+    {
+      "id": "urn:marmish:copy:constant:MAX_CONTROL",
+      "value": 16384
+    },
+    {
+      "id": "urn:marmish:copy:constant:DURABLE_WINDOW",
+      "value": 2097152
+    },
+    {
+      "id": "urn:marmish:copy:constant:CHECKPOINT_INTERVAL",
+      "value": 1048576
+    },
+    {
+      "id": "urn:marmish:copy:constant:MIN_RETENTION_SECS",
+      "value": 604860
+    },
+    {
+      "id": "urn:marmish:copy:constant:MAX_RETENTION_SECS",
+      "value": 31536000
+    },
+    {
+      "id": "urn:marmish:copy:constant:CONTEXT_VERSION",
+      "value": 1
+    },
+    {
+      "id": "urn:marmish:copy:constant:MAX_CONTEXT",
+      "value": 4096
+    }
+  ],
+  "textConstants": [
+    {
+      "id": "urn:marmish:copy:constant:HELPER_ENTRYPOINT",
+      "value": "__copy-helper-v1"
+    }
+  ]
+}
