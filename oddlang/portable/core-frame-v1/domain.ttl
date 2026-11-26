@@ -1,0 +1,20 @@
+@prefix c: <urn:oddlang:core:> .
+@prefix f: <urn:marmish:core:frame:> .
+
+f:probe a c:JsonEnvelope ;
+    c:shape c:ClosedRequiredObjectOrTuple ;
+    c:field f:version, f:payload ;
+    c:rawBytes 16384 ; c:wireBytes 32768 ; c:recordLineBytes 65536 ;
+    c:encodeOrder "raw-size json wire-size" ;
+    c:decodeOrder "wire-size json literal encoded-size base64 raw-size canonical" ;
+    c:sizeError f:SizeLimit ; c:jsonError f:InvalidJson ;
+    c:literalError f:InvalidVersion ; c:encodingError f:InvalidEncoding .
+
+f:version a c:JsonEnvelopeField ; c:position 0 ; c:wireName "version" ;
+    c:fieldKind c:UnsignedLiteral ; c:bits 32 ; c:value 1 .
+f:payload a c:JsonEnvelopeField ; c:position 1 ; c:wireName "payload" ; c:fieldKind c:CanonicalBase64 .
+
+f:SizeLimit a c:NamedError ; c:message "probe frame exceeds its size limit" .
+f:InvalidJson a c:NamedError ; c:message "invalid probe JSON" .
+f:InvalidVersion a c:NamedError ; c:message "unsupported probe version" .
+f:InvalidEncoding a c:NamedError ; c:message "invalid canonical base64 payload" .

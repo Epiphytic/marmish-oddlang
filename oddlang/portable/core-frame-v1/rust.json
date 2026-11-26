@@ -1,0 +1,25 @@
+{
+  "domain": "urn:marmish:core:frame:probe",
+  "codecType": "ProbeEnvelope",
+  "limitsType": "Limits",
+  "errorType": "FrameError",
+  "encode": "encode",
+  "decode": "decode",
+  "constants": {
+    "rawBytes": "RAW_BYTES",
+    "wireBytes": "JSON_BYTES",
+    "recordLineBytes": "NDJSON_BYTES"
+  },
+  "variants": {
+    "urn:marmish:core:frame:SizeLimit": "SizeLimit",
+    "urn:marmish:core:frame:InvalidJson": "InvalidJson",
+    "urn:marmish:core:frame:InvalidVersion": "InvalidVersion",
+    "urn:marmish:core:frame:InvalidEncoding": "InvalidEncoding"
+  },
+  "variantOrder": [
+    "urn:marmish:core:frame:SizeLimit",
+    "urn:marmish:core:frame:InvalidJson",
+    "urn:marmish:core:frame:InvalidVersion",
+    "urn:marmish:core:frame:InvalidEncoding"
+  ]
+}
