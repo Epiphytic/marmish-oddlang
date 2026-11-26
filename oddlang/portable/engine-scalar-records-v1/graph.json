@@ -1,0 +1,55 @@
+{
+  "format": "oddlang-public-records-v1",
+  "modules": [
+    {
+      "id": "urn:marmish:engine:public-records:model",
+      "records": [
+        {
+          "id": "urn:marmish:engine:public-records:model:InputReceipt",
+          "traits": [
+            "clone",
+            "debug"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:engine:public-records:model:InputReceipt/field/accepted",
+              "wire": "accepted",
+              "type": "u64"
+            },
+            {
+              "id": "urn:marmish:engine:public-records:model:InputReceipt/field/available_credit",
+              "wire": "available_credit",
+              "type": "u32"
+            },
+            {
+              "id": "urn:marmish:engine:public-records:model:InputReceipt/field/duplicate",
+              "wire": "duplicate",
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:engine:public-records:model:MaintenanceReport",
+          "traits": [
+            "clone",
+            "debug",
+            "default"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:engine:public-records:model:MaintenanceReport/field/records_removed",
+              "wire": "records_removed",
+              "type": "u32"
+            },
+            {
+              "id": "urn:marmish:engine:public-records:model:MaintenanceReport/field/spool_bytes_removed",
+              "wire": "spool_bytes_removed",
+              "type": "u64"
+            }
+          ]
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}
