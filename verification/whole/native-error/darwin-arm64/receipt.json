@@ -1,0 +1,45 @@
+{
+  "format": "marmish-native-error-evidence-v1",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "frameworkRevision": "40148302be04b3452bb5f1512207c0b7b31ad9c2",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "callerSha256": "1418e3f1b3cb4190859c2d220f1143fc43055243ea4b11a84b390b5411df3aa4",
+  "scope": "finite error API and display/source/From behavior; default debug build",
+  "variants": 10,
+  "typedCategories": {
+    "copy": 14,
+    "wire": 10
+  },
+  "profiles": {
+    "baseline": {
+      "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+      "sourceSha256": "54eb8a335f91cb09de6ecd8d598acdec3476ee7067968333f85c824a5fee2254",
+      "graphSha256": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34",
+      "overlaySha256": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a",
+      "workspaceSpecSha256": "3847ef6b5324db0801e9b02b5ba89f7023937a2dccb46aedd30b1fee30e7ba3c",
+      "workspaceLockSha256": "d697724d148e9d4ee8219d449851a7419d67ccb08ee7e568792a8c1b600941c1",
+      "originalAndGeneratedOutputSha256": "b00a963d4a03f8d237f05bee23e2d6964b271e8d9abf7fa2fa3a7b7e7a210c6c",
+      "matchedRows": 32,
+      "quotaDisplay": "capacity"
+    },
+    "mutant": {
+      "sourceRevision": "ddf93efef6af163e13bb4e05f99429bdec6f5bf9",
+      "sourceSha256": "4da334ce10968d63eb599138f54af021db60b7fb6d9122932d9ae82e2954d016",
+      "graphSha256": "8be8d581c5a5eb4f5999c6e5babea636deccce4bd9556d6c931c637e53fd55e2",
+      "overlaySha256": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a",
+      "workspaceSpecSha256": "3e1b435befd95a0df54d9dbd7db76a81afd115b6a455c8efa6be1edf2c0dc89a",
+      "workspaceLockSha256": "a4773e460d9c98c4db61d085c2264161de86499603d5f3a82f87ea14b64116a1",
+      "originalAndGeneratedOutputSha256": "61b9929c83254cfab3f25e02c748e96759f5ecff9e6b0dca4453d16f9b8013ee",
+      "matchedRows": 32,
+      "quotaDisplay": "transfer_limit"
+    }
+  }
+}

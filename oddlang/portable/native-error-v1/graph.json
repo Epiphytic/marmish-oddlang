@@ -1,0 +1,158 @@
+{
+  "format": "oddlang-finite-error-domain-v1",
+  "id": "urn:marmish:native:error:v1",
+  "error": "urn:marmish:native:error:v1:type:Error",
+  "result": "urn:marmish:native:error:v1:alias:Result",
+  "variants": {
+    "urn:marmish:native:error:v1:variant:Copy": {
+      "payload": {
+        "kind": "category",
+        "table": "urn:marmish:native:error:v1:table:copy_category"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "copy: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:DaemonStartup": {
+      "payload": {
+        "kind": "owned-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Identity": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "identity: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Invalid": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "invalid input: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Io": {
+      "payload": {
+        "kind": "io-error"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "local I/O failed"
+      },
+      "source": true,
+      "from": true
+    },
+    "urn:marmish:native:error:v1:variant:Mdk": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "marmot: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Storage": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "storage: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Stream": {
+      "payload": {
+        "kind": "category",
+        "table": "urn:marmish:native:error:v1:table:stream_category"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "stream: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Timeout": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "operation deadline exceeded"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:native:error:v1:variant:Transport": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "transport: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    }
+  },
+  "categories": {
+    "urn:marmish:native:error:v1:table:copy_category": {
+      "urn:marmish:native:error:v1:table:copy_category:member:Busy": "transfer_busy",
+      "urn:marmish:native:error:v1:table:copy_category:member:CommitUncertain": "commit_uncertain",
+      "urn:marmish:native:error:v1:table:copy_category:member:Conflict": "transfer_conflict",
+      "urn:marmish:native:error:v1:table:copy_category:member:DiskFull": "disk_full",
+      "urn:marmish:native:error:v1:table:copy_category:member:HashMismatch": "hash_mismatch",
+      "urn:marmish:native:error:v1:table:copy_category:member:IdentityChanged": "identity_changed",
+      "urn:marmish:native:error:v1:table:copy_category:member:LocalIo": "file_io_error",
+      "urn:marmish:native:error:v1:table:copy_category:member:NotFound": "file_not_found",
+      "urn:marmish:native:error:v1:table:copy_category:member:PermissionDenied": "file_permission_denied",
+      "urn:marmish:native:error:v1:table:copy_category:member:Protocol": "copy_protocol_error",
+      "urn:marmish:native:error:v1:table:copy_category:member:Quota": "capacity",
+      "urn:marmish:native:error:v1:table:copy_category:member:SourceChanged": "source_changed",
+      "urn:marmish:native:error:v1:table:copy_category:member:UnsafePath": "unsafe_path",
+      "urn:marmish:native:error:v1:table:copy_category:member:Unsupported": "copy_unsupported"
+    },
+    "urn:marmish:native:error:v1:table:stream_category": {
+      "urn:marmish:native:error:v1:table:stream_category:member:Capacity": "capacity",
+      "urn:marmish:native:error:v1:table:stream_category:member:Closed": "stream_closed",
+      "urn:marmish:native:error:v1:table:stream_category:member:Conflict": "stream_conflict",
+      "urn:marmish:native:error:v1:table:stream_category:member:Denied": "authorization_denied",
+      "urn:marmish:native:error:v1:table:stream_category:member:Expired": "stream_expired",
+      "urn:marmish:native:error:v1:table:stream_category:member:Gap": "stream_gap",
+      "urn:marmish:native:error:v1:table:stream_category:member:Invalid": "preparation_failed",
+      "urn:marmish:native:error:v1:table:stream_category:member:NotFound": "stream_not_found",
+      "urn:marmish:native:error:v1:table:stream_category:member:Uncertain": "stream_uncertain",
+      "urn:marmish:native:error:v1:table:stream_category:member:Unsupported": "copy_unsupported"
+    }
+  }
+}
