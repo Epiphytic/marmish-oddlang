@@ -4,7 +4,7 @@ The command wire binding contains the session, client account and server account
 
 The portable record and both role-specific comparisons are in `oddlang/portable/command-room-binding-v1`. The native binding uses `command_binding::WireBinding`. Oddlang projects these using its existing wire-schema and field-relation components.
 
-Run the compiled witness from the companion checkout.
+The archived macOS ARM64 run used the compiler built from Oddlang commit `a33d0d0aa77d51ba57c35272da41e9ba6da3e61f`. The receipt identifies the executable by SHA-256. Run the compiled witness from the companion checkout.
 
 ```sh
 python3 verification/whole/command-room-binding/verify.py "$ODDLANG"

@@ -70,7 +70,8 @@ def verify(cli):
         def digest(folder):
             return hashlib.sha256((root/folder/"projection.lock").read_bytes()).hexdigest()
 
-        return {"accepted": expected.count("ok"), "wrongBindingRejected": expected.count("command_wire_binding"),
+        return {"compilerSha256": hashlib.sha256(cli.read_bytes()).hexdigest(),
+                "accepted": expected.count("ok"), "wrongBindingRejected": expected.count("command_wire_binding"),
                 "operationsPerRole": len(operations), "observationSha256": hashlib.sha256(observed.encode()).hexdigest(),
                 "projectionLocks": {name: digest(name) for name in ("server", "client", "claim", "relations")}}
 

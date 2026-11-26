@@ -1,4 +1,5 @@
 {
+  "compilerSha256": "f434a782e8d3217d0a1fd8a8d9cd7aadd42608cb0bfb46d381ef348b8391f2e4",
   "accepted": 10,
   "wrongBindingRejected": 40,
   "operationsPerRole": 5,
