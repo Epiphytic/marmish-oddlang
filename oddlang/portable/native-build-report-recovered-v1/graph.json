@@ -1,0 +1,154 @@
+{
+  "format": "oddlang-build-report-v1",
+  "id": "urn:marmish:contract:native-cli:release-info",
+  "fields": [
+    {
+      "id": "urn:marmish:contract:native-cli:release-info:schema",
+      "wire": "schema",
+      "source": {
+        "kind": "unsigned",
+        "bits": 8,
+        "value": 1
+      }
+    },
+    {
+      "id": "urn:marmish:contract:native-cli:release-info:version",
+      "wire": "version",
+      "source": {
+        "kind": "package-version"
+      }
+    },
+    {
+      "id": "urn:marmish:contract:native-cli:release-info:target",
+      "wire": "target",
+      "source": {
+        "kind": "build-target"
+      }
+    },
+    {
+      "id": "urn:marmish:contract:native-cli:release-info:commit",
+      "wire": "commit",
+      "source": {
+        "kind": "revision",
+        "value": "af54339d250290490d62d4475a77539b7e739071"
+      }
+    },
+    {
+      "id": "urn:marmish:contract:native-cli:release-info:formats",
+      "wire": "formats",
+      "source": {
+        "kind": "unsigned-reference-list",
+        "bits": 32,
+        "length": 5,
+        "items": [
+          {
+            "chain": [
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_native:identity:PROFILE_FORMAT",
+                "integer": {
+                  "signed": false,
+                  "bits": 8
+                },
+                "value": 2
+              }
+            ],
+            "conversion": "widen"
+          },
+          {
+            "chain": [
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_native:journal:JOURNAL_FORMAT",
+                "integer": {
+                  "signed": true,
+                  "bits": 64
+                },
+                "value": 7
+              }
+            ],
+            "conversion": "wrap"
+          },
+          {
+            "chain": [
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_engine:ENGINE_FORMAT",
+                "integer": {
+                  "signed": true,
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_engine:store:ENGINE_FORMAT",
+                "integer": {
+                  "signed": true,
+                  "bits": 64
+                },
+                "value": 1
+              }
+            ],
+            "conversion": "wrap"
+          },
+          {
+            "chain": [
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_native:command_config:CONFIG_FORMAT",
+                "integer": {
+                  "signed": false,
+                  "bits": 32
+                },
+                "value": 1
+              }
+            ],
+            "conversion": "identity"
+          },
+          {
+            "chain": [
+              {
+                "id": "urn:marmish:contract:native-cli:release-info:constant:marmish_native:command_wire:COMMAND_FORMAT",
+                "integer": {
+                  "signed": false,
+                  "bits": 32
+                },
+                "value": 1
+              }
+            ],
+            "conversion": "identity"
+          }
+        ]
+      }
+    }
+  ],
+  "guards": [
+    {
+      "condition": "flag_false",
+      "argument": "foreground",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: foreground_operation"
+      }
+    },
+    {
+      "condition": "absent",
+      "argument": "max_commands",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: server_limit_operation"
+      }
+    },
+    {
+      "condition": "absent",
+      "argument": "max_uptime",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: server_limit_operation"
+      }
+    },
+    {
+      "condition": "flag_false",
+      "argument": "new_session",
+      "rejected": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: new_session_operation"
+      }
+    }
+  ]
+}
