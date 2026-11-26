@@ -184,3 +184,16 @@ Use `--candidate seven` with compiler `59f947dafdb4cf3055e35216857472ada895a76a`
 Core contracts, stream tests, native process limits, vault values and the engine's selected limits cases rerun on that build. The single original prototype case, `secret_request_tests::private_reader_wipes_consumed_spans`, is staged unchanged into the generated private buffer module. Its qualified case count is one. The other prototype unit case, all bridge integration cases and all original MDK cases remain unverified by this run. The MDK library's presence means Cargo produced its artifact. Public API and behavior compatibility require separate evidence.
 
 The [macOS receipt](seven-aarch64-apple-darwin.json) records 40 passed and 869 unverified. The [Linux receipt](seven-aarch64-unknown-linux-gnu.json) records 41 passed and 846 unverified. Each host has five additional ignored tests. Both hosts ran verifier commit `283d1c5783000266942e0312e2711680708ee001` against the companion workspace input `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df` and workspace lock `fdfa5b16d9172fe97705ee5794251c6168d0e226ea159334a52286e2e7172b68`.
+
+## Linux AMD64 named inventory
+
+The [manual native Linux AMD64 workflow](../../../.github/workflows/original-linux-amd64-inventory.yml)
+uses a GitHub-hosted x64 Linux runner, the pinned upstream revision and Rust
+1.97.1. It compiles the locked default release workspace using Cargo's
+`--no-run` and enumerates the compiled harnesses with `--list` and
+`--list --ignored`. The workflow uploads
+`named-release-x86_64-unknown-linux-gnu.json` as a platform-specific inventory.
+It grants only repository contents read access.
+
+The companion has Actions disabled, so this workflow has no AMD64 run receipt.
+The existing ARM64 inventories describe their own native profiles.

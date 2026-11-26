@@ -1,0 +1,47 @@
+name: Original Linux AMD64 named test inventory
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inventory:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    env:
+      UPSTREAM_REVISION: af54339d250290490d62d4475a77539b7e739071
+      RUSTC_COMMIT: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+      CARGO_TERM_COLOR: never
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Fetch the pinned inputs
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(uname -s)" = Linux
+          test "$(uname -m)" = x86_64
+          test "$RUNNER_ARCH" = X64
+          git init "$RUNNER_TEMP/original"
+          git -C "$RUNNER_TEMP/original" fetch --depth=1 https://github.com/Epiphytic/marmish "$UPSTREAM_REVISION"
+          git -C "$RUNNER_TEMP/original" checkout --detach FETCH_HEAD
+          test "$(git -C "$RUNNER_TEMP/original" rev-parse HEAD)" = "$UPSTREAM_REVISION"
+          rustup toolchain install 1.97.1 --profile minimal
+          rustc +1.97.1 -vV | grep -Fx "commit-hash: $RUSTC_COMMIT"
+          rustc +1.97.1 -vV | grep -Fx 'host: x86_64-unknown-linux-gnu'
+          cd "$RUNNER_TEMP/original"
+          cargo +1.97.1 fetch --locked --target x86_64-unknown-linux-gnu
+      - name: List default release test cases
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -B verification/whole/suite/list_cargo.py \
+            "$RUNNER_TEMP/original" "$RUNNER_TEMP/build" \
+            "$RUNNER_TEMP/named-release-x86_64-unknown-linux-gnu.json"
+      - name: Upload AMD64 inventory
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: named-release-x86_64-unknown-linux-gnu
+          path: ${{ runner.temp }}/named-release-x86_64-unknown-linux-gnu.json
+          if-no-files-found: error
