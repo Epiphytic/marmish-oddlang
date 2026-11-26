@@ -33,3 +33,6 @@ python3 -B verification/whole/basic-command-interop/pending_poll_recovery.py \
   verification/whole/basic-command-interop/retained-poll-build-aarch64-apple-darwin.json \
   "$RECEIPT"
 ```
+
+Claude Opus 5.5 auto follow-up approved the executable and fixture pins,
+comparison with the upstream restart, and the bounded refusal claims.
