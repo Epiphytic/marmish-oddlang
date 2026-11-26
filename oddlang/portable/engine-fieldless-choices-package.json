@@ -1,0 +1,83 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-engine",
+  "version": "0.1.0",
+  "edition": "2021",
+  "dependencies": {
+    "libc": {
+      "version": "0.2.189"
+    }
+  },
+  "cargoLock": {
+    "path": "workspace-engine-limits/engine-Cargo.lock",
+    "sha256": "7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7"
+  },
+  "components": [
+    {
+      "kind": "process-limit",
+      "module": "process_limits",
+      "reexports": [
+        "initialize_process_limits"
+      ],
+      "graph": {
+        "path": "workspace-engine-limits/graph.json",
+        "sha256": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5"
+      },
+      "overlay": {
+        "path": "engine-public-error-v1/process-rust.json",
+        "sha256": "8c13dfb5928d057e2ea7a4a65921bb26f31b823b854e14570de0748daac39cd0"
+      }
+    },
+    {
+      "kind": "finite-error-domain",
+      "module": "model",
+      "reexports": [
+        "EngineError",
+        "NotFoundReason",
+        "NotExecutableReason",
+        "ResolutionReason",
+        "Result"
+      ],
+      "graph": {
+        "path": "engine-public-error-v1/graph.json",
+        "sha256": "923dd560b5121674ae29a8eece3b7f5b75c2b99c5cfae03317213de2d6b3e32e"
+      },
+      "overlay": {
+        "path": "engine-public-error-v1/rust.json",
+        "sha256": "3695960cadc4b2576d6260aaa15a8c278c55f251ba8da72af8856a121f61bd23"
+      }
+    },
+    {
+      "kind": "public-records",
+      "module": "model",
+      "reexports": [
+        "InputReceipt",
+        "MaintenanceReport"
+      ],
+      "graph": {
+        "path": "engine-scalar-records-v1/graph.json",
+        "sha256": "2737dec183b717dd15b6738a1d3b60df6bd556d8301298c5c4e3fe4c119a7ed5"
+      },
+      "overlay": {
+        "path": "engine-scalar-records-v1/rust.json",
+        "sha256": "c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5"
+      }
+    },
+    {
+      "kind": "checked-values",
+      "module": "model",
+      "reexports": [
+        "Stream",
+        "SubmitDisposition"
+      ],
+      "graph": {
+        "path": "engine-fieldless-choices-v1/graph.json",
+        "sha256": "6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077"
+      },
+      "overlay": {
+        "path": "engine-fieldless-choices-v1/rust.json",
+        "sha256": "e877b08426227fa656b21320d751e8da09dbb67b8bcd21f2d3d3c2c275b20581"
+      }
+    }
+  ]
+}
