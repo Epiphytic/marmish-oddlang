@@ -60,13 +60,35 @@ def v3_interfaces(work, target, original, binaries, compiler):
     for name, digest in original_status["originalBinaries"].items():
         if sha((binaries / name).read_bytes()) != digest:
             raise ValueError(f"original executable digest mismatch: {name}")
+    replay = HERE.parent / "cli/replay.py"
+    fixture = replay.with_name("transcript.json")
+    for bindir in (binaries, target / "target/release"):
+        envtools.run(sys.executable, "-B", replay, "verify", bindir, "--fixture", fixture)
+    parser_evidence = {
+        "fixtureSha256": sha(fixture.read_bytes()),
+        "casesPerRole": {role: len(rows) for role, rows in json.loads(fixture.read_bytes()).items()},
+        "generatedBinaries": {role: sha((target / "target/release" / role).read_bytes())
+                              for role in ("marmish", "marmishd")},
+    }
     envtools.run(sys.executable, "-B", HERE.parent / "status/discovery_probe.py", binaries, runtime,
                  "--candidate", target / "target/release/marmish", "--framework-revision", compiler)
     status = json.loads(runtime.read_bytes())
+    release = target / "target/release"
+    libc, = (release / "deps").glob("liblibc-*.rlib")
+    toolchain = Path(envtools.run("rustc", "+1.97.1", "--print", "sysroot").strip())
+    process_limits = json.loads(envtools.run(
+        sys.executable, "-B", HERE.parent / "suite/process_limits.py", original,
+        "--rustc", toolchain / "bin/rustc", "--libc", libc,
+        "--client", release / "marmish", "--daemon", release / "marmishd",
+    ))
+    if process_limits["executables"] != parser_evidence["generatedBinaries"]:
+        raise ValueError("the process limits harness exercised different artifacts")
     return {
         "copyRelations": {"cases": len(cases), "callerSha256": sha(lane["CALLER"].read_bytes()),
                           "observationsSha256": sha(json.dumps(expected, separators=(",", ":")).encode())},
         "status": status,
+        "cliParser": parser_evidence,
+        "nativeProcessLimits": process_limits,
     }
 
 
