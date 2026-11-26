@@ -42,3 +42,13 @@ python3 -B verification/whole/workspace/verify.py /path/to/pinned/oddlang /path/
 ```
 
 The [macOS ARM64](v3-aarch64-apple-darwin.json) and [Linux ARM64](v3-aarch64-unknown-linux-gnu.json) receipts record the same workspace lock, upstream test identities and copy relation observations. Native binary hashes identify the individual builds.
+
+## Workspace v4
+
+The [v4 manifest](../../../oddlang/portable/workspace-v4.json) combines the v3 core and stream libraries, the native discovery client, and the foreground daemon under one locked Cargo release. Use the pinned Oddlang revision `68dc2e327aae8242938df6379cf5568c39190d65`, the pinned original checkout and native original executables.
+
+```sh
+python3 -B verification/whole/workspace/verify.py FRAMEWORK ORIGINAL RECEIPT --release v4 --original-bin-dir ORIGINAL_BINS
+```
+
+The verifier generates and builds with source, oracle and network access excluded, then exercises the unchanged upstream core and stream suites, copy field relations and discovery controls. The foreground matrix runs both original and generated clients against each real daemon. The daemons use an originally prepared private file profile, separate held loopback TLS listeners and ordinary public CLI names. The checks cover auto-discovered activation status, plaintext and trust errors, cross-implementation leases, SIGTERM, reattach and crash recovery. The scope ends at direct TLS startup and local status. Provider readiness, execution and installed service support remain open.
