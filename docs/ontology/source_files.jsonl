@@ -239,6 +239,11 @@
 {"path":"oddlang/framing/domain.ttl","language":"inventory","mode":"100644","sha256":"cb8a40a22b0de0da0e47d1208306d7c8cc22f69e02357c2ecf395caa43a5d16d","parse_status":"inventory"}
 {"path":"oddlang/framing/import.lock","language":"inventory","mode":"100644","sha256":"e39cf8da02d75442a98c1a338f694931ce5b7b2b5cb70c2759c50f1efea8bdcc","parse_status":"inventory"}
 {"path":"oddlang/framing/source-map.json","language":"inventory","mode":"100644","sha256":"07abceb6db814e75fc07a04fda09825ffcb93486bc039d8bb32d5a2606e66e26","parse_status":"inventory"}
+{"path":"oddlang/portable/basic-client-owner-workflow-v1/graph.json","language":"inventory","mode":"100644","sha256":"22c8d7bf3d556d664239eefe7f85edaa81cec8ebc92fd42611db46b3244d90b5","parse_status":"inventory"}
+{"path":"oddlang/portable/basic-client-owner-workflow-v1/marmish-cli.json","language":"inventory","mode":"100644","sha256":"301c4b4f8c7749c2beb050c47df600187c5f4633a8162904fa83581d33a394bd","parse_status":"inventory"}
+{"path":"oddlang/portable/basic-client-owner-workflow-v1/member.Cargo.lock","language":"inventory","mode":"100644","sha256":"2d818880bec0d6a7f398e0dda00df840ab5a9c0684d22acd05277530c7cd2e21","parse_status":"inventory"}
+{"path":"oddlang/portable/basic-client-owner-workflow-v1/rust.json","language":"inventory","mode":"100644","sha256":"b4c3ff5a484163fe80aa8aa04ba599eeecaa5d63355db7c58f1695008ba20eac","parse_status":"inventory"}
+{"path":"oddlang/portable/basic-client-owner-workflow-v1/workspace.Cargo.lock","language":"inventory","mode":"100644","sha256":"702ad31ae1692d628372a8feea8dd6d0c2890c05622862651e77a666ebeb40bb","parse_status":"inventory"}
 {"path":"oddlang/portable/command-requests-v1/graph.json","language":"inventory","mode":"100644","sha256":"7ef7b340fa1633a33588e88f5933a568f953fc5fd5343c50a28ad5b3f134f777","parse_status":"inventory"}
 {"path":"oddlang/portable/command-requests-v1/rust.json","language":"inventory","mode":"100644","sha256":"25227dc3f35bab68afd404016acedeb864b2329ebe09661313da1518820c4bf7","parse_status":"inventory"}
 {"path":"oddlang/portable/command-requests-v1/shape.json","language":"inventory","mode":"100644","sha256":"33fdc29a8fdddba6eb76aa518967f538734b2b7b4e6fd16b293f61bfd245e7a9","parse_status":"inventory"}
@@ -361,6 +366,7 @@
 {"path":"oddlang/portable/marmish-engine-canonical-range-data-package.json","language":"inventory","mode":"100644","sha256":"740167eb4fb8d243d030baeb61687903b187f63cf40a497fd13eea501c85d878","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-engine-canonical-range-native-idioms-package.json","language":"inventory","mode":"100644","sha256":"8215c0bedcfce7e62c1e45edd8a3865802c138a45c16fa03e8d48b21ec98b8a7","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-engine-canonical-recovered-range-package.json","language":"inventory","mode":"100644","sha256":"9ef9d1c704129baa45173bec7dad25b41c4af1b3c29e4a238356e8ad387138ac","parse_status":"inventory"}
+{"path":"oddlang/portable/marmish-native-basic-client-owner-package.json","language":"inventory","mode":"100644","sha256":"78ca39e28a821c53725f8fd02715bb412f592ab3d88327202e01590ebd1d9115","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-basic-commands-package.json","language":"inventory","mode":"100644","sha256":"395c69479766fba8a526174fec2d23577d9db85cfedf9dab110973b9af48fbaa","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-canonical-offline-package.json","language":"inventory","mode":"100644","sha256":"386579d124173fa64c200d97640bb96cfeb2203e283bd9a929800db022f94416","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-converged-diagnostics-cli-package.json","language":"inventory","mode":"100644","sha256":"91ac558b25bd7315a1c8f04015ef8d6eeac5164c0c59f0906addfca0898d9934","parse_status":"inventory"}
@@ -613,6 +619,8 @@
 {"path":"oddlang/portable/vault-values-v1/provenance.json","language":"inventory","mode":"100644","sha256":"e00d9fe4560fe3f1a8380ebb84639e3bba4fabf1fb70d99c64ba1ebf95959bab","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/rust.json","language":"inventory","mode":"100644","sha256":"b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/shapes.json","language":"inventory","mode":"100644","sha256":"ef62915331df0597e13bb0f9e223ce8b286d890fc5437398e56de00356f38bd2","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-basic-client-owner.json","language":"inventory","mode":"100644","sha256":"214cf667b06dcf5c64f4a045cb319e92970ed767024ff5389f5b146ab44a2811","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-basic-client-owner/workspace.lock","language":"inventory","mode":"100644","sha256":"e6fe27b145ee72483314daa042f8197cb138fe391ea05cb84d0a8ec3538d84db","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands.json","language":"inventory","mode":"100644","sha256":"e921714128605286da90b0eb7e8dad4988119de0ef59915f24582c8d5133d106","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands/workspace.lock","language":"inventory","mode":"100644","sha256":"7e078d8dad898b707ac7341f9caffa038fd5afd9e13ea2464bbb060be988a6f1","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits.json","language":"inventory","mode":"100644","sha256":"babeea9051ebdcd35f743e2621e1673a46b19b40a0c5ada1a8cef36d6ba26e2d","parse_status":"inventory"}
@@ -1018,6 +1026,7 @@
 {"path":"verification/whole/backend-choice/selection.json","language":"inventory","mode":"100644","sha256":"e3c3cbb13255a33abfd76ef8eb16b73d21fa758f77bd3571e55be722ec334207","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"9f6d409755e7280b83de6b0b910c2cbf07dfe17f0ec173dd4766d69d87352b03","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/CLIENT-OWNER.md","language":"inventory","mode":"100644","sha256":"c5083582fac94e40f1c86eac0042dfe2d00ab61a9ac6b4b0b65c8593bd45567c","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"274b6c5aca0342bad8a366eddfc858a0ca3d2582fdb74c38b917a44d6688b7d9","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"e4fbc37a17cce687c9ef1b5c1af6cad0614303d4f5d10cf02b18f0f5c2f1ccbd","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
@@ -1031,6 +1040,7 @@
 {"path":"verification/whole/basic-command-interop/generated-preflight-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7e2a5bd39a744eb5016790e503214378bc553896ea85c4d6554f510049e46b77","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-provider-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5b1e49ed036645ceef979be8be4d92084f4d94c4753496d18f79337fcc692208","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-provider-relay-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"b2ca936a0c1a67e6b29595e736dbbc4bd861f2f2588d89d41f60d72464128a4e","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/generated_client_owner.py","language":"python","mode":"100644","sha256":"eee9a2fa7358d71f3bbd35394ed84bcf0f00f402d4e0d9f81c6547cfb118f937","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/isolate.py","language":"python","mode":"100644","sha256":"683fc06a39c832332f0d3e79309a111a91369dec64d133b5ed6d5e24a22425fd","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/local-profile-setup-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a1769f62264cb4293a13e26c3cdb3bd6ab44e69ceff4f5be32f7848cc048e3d3","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/observe.py","language":"python","mode":"100644","sha256":"21930200a456382f014b11f9feac2c4e1ef0305626646f7ae95a03af24ad754a","parse_status":"parsed"}
