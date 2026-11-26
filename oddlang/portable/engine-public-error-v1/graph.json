@@ -1,0 +1,352 @@
+{
+  "format": "oddlang-finite-error-domain-v1",
+  "id": "urn:marmish:engine:error-domain",
+  "error": "urn:marmish:engine:error-domain:type:EngineError",
+  "result": "urn:marmish:engine:error-domain:alias:Result",
+  "variants": {
+    "urn:marmish:engine:error-domain:variant:AlreadyOpen": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "engine already open"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:Busy": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "engine busy"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:CommandDenied": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "command denied"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:CommandNotExecutable": {
+      "payload": {
+        "kind": "choice",
+        "choice": "urn:marmish:engine:error-domain:choice:NotExecutableReason"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "command not executable: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:CommandNotFound": {
+      "payload": {
+        "kind": "choice",
+        "choice": "urn:marmish:engine:error-domain:choice:NotFoundReason"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "command not found: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:CommandResolutionFailed": {
+      "payload": {
+        "kind": "choice",
+        "choice": "urn:marmish:engine:error-domain:choice:ResolutionReason"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "command resolution failed: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:ExpiredToken": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "execute token expired"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InputBackpressure": {
+      "payload": {
+        "kind": "product",
+        "fields": [
+          {
+            "id": "urn:marmish:engine:error-domain:variant:InputBackpressure:field:next_offset",
+            "width": "u64"
+          },
+          {
+            "id": "urn:marmish:engine:error-domain:variant:InputBackpressure:field:available_credit",
+            "width": "u32"
+          }
+        ]
+      },
+      "message": {
+        "kind": "literal",
+        "text": "input backpressure"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InputClosed": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "input closed"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InputConflict": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "input conflict"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InputExpired": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "input expired"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InputGap": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "input gap"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InvalidPolicy": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "invalid engine policy"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InvalidRequest": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "invalid command request"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InvalidToken": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "invalid execute token"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:InvocationConflict": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "invocation content conflict"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:NotFound": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "invocation not found"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:QuotaExceeded": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "engine quota exceeded"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:RecoveryUncertain": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "recovery outcome uncertain"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:RootForbidden": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "root execution forbidden"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:StaleGeneration": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "stale input generation"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:StorageFailure": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "storage failure"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:Unauthorized": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "unauthorized"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:UnsafePath": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "unsafe state path"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:error-domain:variant:UnsupportedStorage": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "unsupported storage filesystem or durability primitive"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:engine:worker-unavailable": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "worker unavailable"
+      },
+      "source": false,
+      "from": false
+    }
+  },
+  "categories": {},
+  "choices": {
+    "urn:marmish:engine:error-domain:choice:NotExecutableReason": [
+      {
+        "id": "urn:marmish:engine:error-domain:choice:NotExecutableReason:case:FilesystemPermission",
+        "text": "FilesystemPermission"
+      },
+      {
+        "id": "urn:marmish:engine:error-domain:choice:NotExecutableReason:case:NotRegularFile",
+        "text": "NotRegularFile"
+      },
+      {
+        "id": "urn:marmish:engine:error-domain:choice:NotExecutableReason:case:ExecuteBitMissing",
+        "text": "ExecuteBitMissing"
+      }
+    ],
+    "urn:marmish:engine:error-domain:choice:NotFoundReason": [
+      {
+        "id": "urn:marmish:engine:error-domain:choice:NotFoundReason:case:PathSearchExhausted",
+        "text": "PathSearchExhausted"
+      },
+      {
+        "id": "urn:marmish:engine:error-domain:choice:NotFoundReason:case:ExecutableMissing",
+        "text": "ExecutableMissing"
+      }
+    ],
+    "urn:marmish:engine:error-domain:choice:ResolutionReason": [
+      {
+        "id": "urn:marmish:engine:error-domain:choice:ResolutionReason:case:SymlinkLoop",
+        "text": "SymlinkLoop"
+      },
+      {
+        "id": "urn:marmish:engine:error-domain:choice:ResolutionReason:case:FilesystemIo",
+        "text": "FilesystemIo"
+      },
+      {
+        "id": "urn:marmish:engine:error-domain:choice:ResolutionReason:case:InvalidSearchPath",
+        "text": "InvalidSearchPath"
+      }
+    ]
+  },
+  "equality": true
+}
