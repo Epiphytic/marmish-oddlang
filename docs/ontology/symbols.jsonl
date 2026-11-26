@@ -15873,6 +15873,9 @@
 {"id":"verification/whole/suite/inventory.py/function_definition:git#1","path":"verification/whole/suite/inventory.py","parent_id":null,"kind":"function_definition","name":"git","start_line":15,"end_line":16}
 {"id":"verification/whole/suite/inventory.py/function_definition:inventory#1","path":"verification/whole/suite/inventory.py","parent_id":null,"kind":"function_definition","name":"inventory","start_line":19,"end_line":63}
 {"id":"verification/whole/suite/inventory.py/function_definition:main#1","path":"verification/whole/suite/inventory.py","parent_id":null,"kind":"function_definition","name":"main","start_line":66,"end_line":70}
+{"id":"verification/whole/suite/list_cargo.py/function_definition:command#1","path":"verification/whole/suite/list_cargo.py","parent_id":null,"kind":"function_definition","name":"command","start_line":11,"end_line":12}
+{"id":"verification/whole/suite/list_cargo.py/function_definition:cases#1","path":"verification/whole/suite/list_cargo.py","parent_id":null,"kind":"function_definition","name":"cases","start_line":15,"end_line":27}
+{"id":"verification/whole/suite/list_cargo.py/function_definition:inventory#1","path":"verification/whole/suite/list_cargo.py","parent_id":null,"kind":"function_definition","name":"inventory","start_line":30,"end_line":65}
 {"id":"verification/whole/suite/mdk_host.py/function_definition:observe#1","path":"verification/whole/suite/mdk_host.py","parent_id":null,"kind":"function_definition","name":"observe","start_line":11,"end_line":26}
 {"id":"verification/whole/suite/process_limits.py/function_definition:sha256#1","path":"verification/whole/suite/process_limits.py","parent_id":null,"kind":"function_definition","name":"sha256","start_line":19,"end_line":21}
 {"id":"verification/whole/suite/process_limits.py/function_definition:run#1","path":"verification/whole/suite/process_limits.py","parent_id":null,"kind":"function_definition","name":"run","start_line":24,"end_line":98}
