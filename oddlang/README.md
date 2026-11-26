@@ -1,5 +1,7 @@
 # Marmish sources recovered by Oddlang
 
+The standalone [vault value library](../verification/whole/vault-values/README.md) covers pure checked values and metadata. It has its own qualified package manifest.
+
 The [workspace public API comparison](../verification/whole/public-types/README.md#whole-workspace-on-darwin-arm64) covers all seven original libraries and shows which v5 and v6 types downstream Rust code can import.
 
 The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.

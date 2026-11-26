@@ -1,0 +1,55 @@
+{
+  "cargoLockSha256": "e176da6c02f877c1347a860da16c1aa1cfb447bd682570c2c4ca807215187005",
+  "cargoManifestSha256": "9588649f6102ea1f61e1f14b5bd65d83882633886343319a2cb2d5efcc418db3",
+  "components": [
+    {
+      "graphSha256": "335d69a5b1c9942c47684ea1429a915d6b392a2c75b39d7abaffdf86df6d1764",
+      "kind": "shared-declarations",
+      "module": "errors",
+      "overlaySha256": "003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64",
+      "projection": {
+        "artifact": "shared.rs",
+        "artifactSha256": "91fb61d22613728261531ecb2c363f353dc5b5a56b35817afa06255a61ce99e0",
+        "bindingSha256": "32276a0bcfeb9e7f2ed066facea688cdb98a41e6452b12c7179997c6258aff18",
+        "domain": "urn:marmish:vault:errors",
+        "domainSha256": "16eaace6a5961cd4aeb41a2f6583c6ee92689b4893cc7221a244fcccff0abbac",
+        "format": "oddlang-shared-projection-v1",
+        "obligationsSha256": "1c7209285759d80cb92750a83bb4279c11c8003651095c4ceb3e1ccfde4c9214"
+      },
+      "reexports": [
+        "Error"
+      ],
+      "sourceSha256": "91fb61d22613728261531ecb2c363f353dc5b5a56b35817afa06255a61ce99e0"
+    },
+    {
+      "graphSha256": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be",
+      "kind": "checked-values",
+      "module": "values",
+      "overlaySha256": "b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0",
+      "projection": {
+        "format": "oddlang-checked-values-v1",
+        "graphSha256": "4af6837dcc83d4a4d198092e8c0038537542140bd2b80b644d64c8d600ca9ca8",
+        "obligationsSha256": "4ea69a94282b6602f74e84c954069f1e27bed712c7ec8a63216ea8226f570118",
+        "overlaySha256": "869ac21c51d283926fb39dfb44d628b7e7324c169d40e8d74adac2d64ca34343",
+        "sourceSha256": "ca3ac70647ad5b1e5b5a9edb1ea565813b208ece3b5dc02062610a73ff6c0f86"
+      },
+      "reexports": [
+        "Namespace",
+        "Purpose",
+        "KeyRef",
+        "Label",
+        "Metadata"
+      ],
+      "sourceSha256": "ca3ac70647ad5b1e5b5a9edb1ea565813b208ece3b5dc02062610a73ff6c0f86"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "91fb61d22613728261531ecb2c363f353dc5b5a56b35817afa06255a61ce99e0",
+    "src/group_0/mod.rs": "d09006c940a53adb5f920633e0a75ce48bcb0b78f883f1f9075167deecac0a0b",
+    "src/group_1/__projection_1.rs": "ca3ac70647ad5b1e5b5a9edb1ea565813b208ece3b5dc02062610a73ff6c0f86",
+    "src/group_1/mod.rs": "7928902911229bc1ba422bdc679ae48f8b392ffccaf285fdc1e12c9dcac4731b",
+    "src/lib.rs": "7869d8aec912845f94ec50b9b52228838ebede5df63ac481e1bc7fc056c92254"
+  },
+  "manifestSha256": "735c7f981a459c853e28dec15df383f59dc2bfccb20135499a85e26f83bdf345"
+}

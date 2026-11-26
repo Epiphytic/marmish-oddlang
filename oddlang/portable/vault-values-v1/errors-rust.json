@@ -1,0 +1,29 @@
+{
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:vault:error": "Error",
+    "urn:marmish:vault:error:unavailable": "Unavailable",
+    "urn:marmish:vault:error:uninitialized": "Uninitialized",
+    "urn:marmish:vault:error:locked_or_denied": "LockedOrDenied",
+    "urn:marmish:vault:error:missing": "Missing",
+    "urn:marmish:vault:error:exists": "Exists",
+    "urn:marmish:vault:error:ambiguous": "Ambiguous",
+    "urn:marmish:vault:error:malformed": "Malformed",
+    "urn:marmish:vault:error:backend_failure": "BackendFailure"
+  },
+  "variantOrder": {
+    "urn:marmish:vault:error": [
+      "urn:marmish:vault:error:unavailable",
+      "urn:marmish:vault:error:uninitialized",
+      "urn:marmish:vault:error:locked_or_denied",
+      "urn:marmish:vault:error:missing",
+      "urn:marmish:vault:error:exists",
+      "urn:marmish:vault:error:ambiguous",
+      "urn:marmish:vault:error:malformed",
+      "urn:marmish:vault:error:backend_failure"
+    ]
+  },
+  "errorCategoryMethods": {
+    "urn:marmish:vault:error": "category"
+  }
+}
