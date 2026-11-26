@@ -56,6 +56,12 @@ the activation snapshot during a real held loopback TLS handshake on macOS
 and Linux ARM64. WebSocket/MDK readiness and installed startup remain open.
 [Foreground owner qualification](../verification/whole/foreground-owner/README.md)
 
+The standalone foreground lifecycle package retains both encrypted stores and
+the native account and relay providers during direct loopback TLS activation.
+It qualifies exact local shutdown output, failure before status publication,
+and post-shutdown durable readback on macOS and Linux ARM64.
+[Provider lifecycle qualification](../verification/whole/foreground-lifecycle/README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations

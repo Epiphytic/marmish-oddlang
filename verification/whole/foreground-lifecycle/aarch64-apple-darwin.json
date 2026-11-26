@@ -1,0 +1,200 @@
+{
+  "badStorageBindingRejected": true,
+  "candidateBinaries": {
+    "marmish": "289a75f3a9b46a11b1b66f66ef44a19f61bb89345bf604ad80d0fa562e62c01a",
+    "marmishd": "f5e74dd3311659583f00b0fc95e9e7bb5c7d04dbd0279d53075bb452074e3a75"
+  },
+  "cargoLockSha256": "fcc8ad72282f71523b0564500fcbaeac75ad8504d1ffc0dffa2366e69a9a89c4",
+  "cargoManifestSha256": "46f993c086e9f8437e5a778bf51b992c0880fe583fabb7291e4ccbc14f21fc2e",
+  "companionRevision": "f7535d7f4d45270779d1bf0a5690b0c4f7d05554",
+  "frameworkRevision": "e2fa69c3f18c0ac66f2ef4a0cad2c18e5e7dc98c",
+  "gitProviders": {
+    "https://github.com/erskingardner/openmls.git": "94f57b829d95840fc5b415b7a86f547f5c1f65ba",
+    "https://github.com/erskingardner/rust-nostr": "48801bf6f2f1cd55bb1729e94159946c8832a786",
+    "https://github.com/marmot-protocol/mdk": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2",
+    "https://github.com/rusqlite/rusqlite.git": "5ae7fdf83085c595fd54f977b3a56ccacabaf16b"
+  },
+  "inspectorSha256": "f904b6dd6d905e198fef42eaccdc8896e4e81cc799644b02de4ac245aec7ac72",
+  "observations": {
+    "generatedInit": {
+      "configuredProfileRejected": {
+        "exit": 125,
+        "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n",
+        "stdout": ""
+      },
+      "corrupt-account": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: storage: state_preflight",
+        "unchangedStores": true
+      },
+      "corrupt-journal": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: storage: state_preflight",
+        "unchangedStores": true
+      },
+      "sigint": {
+        "heldFiles": [
+          "journal.db",
+          "mdk.db"
+        ],
+        "leaseContender": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "noQueuedRetry": true,
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "terminal": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        },
+        "tlsEof": true,
+        "tlsHeldBeforeSignal": true,
+        "tlsRecordPrefix": "160301"
+      },
+      "sigterm": {
+        "heldFiles": [
+          "journal.db",
+          "mdk.db"
+        ],
+        "leaseContender": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "noQueuedRetry": true,
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "terminal": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        },
+        "tlsEof": true,
+        "tlsHeldBeforeSignal": true,
+        "tlsRecordPrefix": "160301"
+      },
+      "unsafe-journal": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: identity: unsafe_profile_file",
+        "unchangedStores": true
+      },
+      "untrustedCertificate": {
+        "exit": 1,
+        "stderr": "marmish: transport: relay_connect\n",
+        "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+      }
+    },
+    "originalInit": {
+      "configuredProfileRejected": {
+        "exit": 125,
+        "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n",
+        "stdout": ""
+      },
+      "corrupt-account": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: storage: state_preflight",
+        "unchangedStores": true
+      },
+      "corrupt-journal": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: storage: state_preflight",
+        "unchangedStores": true
+      },
+      "sigint": {
+        "heldFiles": [
+          "journal.db",
+          "mdk.db"
+        ],
+        "leaseContender": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "noQueuedRetry": true,
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "terminal": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        },
+        "tlsEof": true,
+        "tlsHeldBeforeSignal": true,
+        "tlsRecordPrefix": "160301"
+      },
+      "sigterm": {
+        "heldFiles": [
+          "journal.db",
+          "mdk.db"
+        ],
+        "leaseContender": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "noQueuedRetry": true,
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "terminal": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        },
+        "tlsEof": true,
+        "tlsHeldBeforeSignal": true,
+        "tlsRecordPrefix": "160301"
+      },
+      "unsafe-journal": {
+        "boundWithoutSocket": true,
+        "exit": 1,
+        "leaseReleased": true,
+        "providerTrace": [],
+        "stderr": "marmish: identity: unsafe_profile_file",
+        "unchangedStores": true
+      },
+      "untrustedCertificate": {
+        "exit": 1,
+        "stderr": "marmish: transport: relay_connect\n",
+        "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+      }
+    }
+  },
+  "observerSha256": "6ed34d64e1aa7d18e0cb685a43e1108fb636bc986fdf38847cebdff657f3b42b",
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "packageLockSha256": "2e653188f61f41c531451235bfc53259f05b20ef5113f0b885b02096bc5db47e",
+  "platform": "Darwin-arm64"
+}
