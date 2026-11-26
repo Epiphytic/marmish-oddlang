@@ -2,7 +2,7 @@
   "vocabulary": "oddlang-data-shapes-v1",
   "pin": {
     "package": "marmish-stream",
-    "sourceRevision": null,
+    "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
     "targetKind": "lib",
     "targetName": "marmish_stream",
     "targetTriple": "aarch64-apple-darwin",

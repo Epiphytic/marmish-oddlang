@@ -13,6 +13,16 @@ ORIGINAL, FRAMEWORK, ARCHIVE = map(Path, sys.argv[1:4])
 del sys.argv[1:4]
 
 
+def nodes(value):
+    if isinstance(value, dict):
+        yield value
+        for child in value.values():
+            yield from nodes(child)
+    elif isinstance(value, list):
+        for child in value:
+            yield from nodes(child)
+
+
 class ArchiveTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="shape-controls-")
@@ -28,6 +38,33 @@ class ArchiveTests(unittest.TestCase):
 
     def verify(self):
         verify(ORIGINAL, FRAMEWORK, self.archive)
+
+    def graph_for(self, cell):
+        return self.archive / "graphs" / f'{cell["graphSha256"]}.json'
+
+    def update_lock(self, cell, lock):
+        path = self.archive / "locks" / f"{key(cell)}.json"
+        write(path, lock)
+        cell.update(lockSha256=sha(path), semanticLockSha256=semantic_lock_sha256(lock))
+
+    def update_graph(self, path, graph):
+        old_digest = path.stem
+        write(path, graph)
+        digest = sha(path)
+        path.rename(path.with_name(f"{digest}.json"))
+        for cell in self.manifest["cells"]:
+            if cell.get("graphSha256") == old_digest:
+                cell["graphSha256"] = digest
+                lock = read(self.archive / "locks" / f"{key(cell)}.json")
+                lock["shapesSha256"] = digest
+                self.update_lock(cell, lock)
+        write(self.release, self.manifest)
+
+    def stream_graph(self):
+        cell = next(row for row in self.manifest["cells"] if row["target"] == "marmish_stream"
+                    and row["triple"] == "aarch64-apple-darwin")
+        path = self.graph_for(cell)
+        return path, read(path)
 
     def test_target_missing(self):
         self.manifest["targets"].pop()
@@ -77,16 +114,74 @@ class ArchiveTests(unittest.TestCase):
         fields = next(row["fields"] for row in graph["declarations"]
                       if len(row.get("fields", [])) >= 2)
         fields[0], fields[1] = fields[1], fields[0]
-        write(self.graph, graph)
-        digest = sha(self.graph)
-        self.graph.rename(self.graph.with_name(f"{digest}.json"))
-        lock = read(self.lock)
-        lock["shapesSha256"] = digest
-        write(self.lock, lock)
-        self.cell.update(graphSha256=digest, lockSha256=sha(self.lock),
-                         semanticLockSha256=semantic_lock_sha256(lock))
-        write(self.release, self.manifest)
+        self.update_graph(self.graph, graph)
         with self.assertRaisesRegex(ValueError, "invalid field order"):
+            self.verify()
+
+
+    def test_missing_or_null_source_revision_even_with_updated_digests(self):
+        linux = next(cell for cell in self.manifest["cells"] if "linux" in cell["triple"]
+                     and cell["status"] == "candidate")
+        for cell in (self.cell, linux):
+            path = self.archive / "locks" / f"{key(cell)}.json"
+            original_lock = read(path)
+            for deleted in (False, True):
+                with self.subTest(cell=key(cell), deleted=deleted):
+                    lock = {**original_lock, "pin": original_lock["pin"].copy()}
+                    if deleted:
+                        del lock["pin"]["sourceRevision"]
+                    else:
+                        lock["pin"]["sourceRevision"] = None
+                    self.update_lock(cell, lock)
+                    write(self.release, self.manifest)
+                    with self.assertRaisesRegex(ValueError, "missing or invalid source revision"):
+                        self.verify()
+            self.update_lock(cell, original_lock)
+
+    def test_missing_unresolved_gap_even_with_updated_digests(self):
+        path, graph = self.stream_graph()
+        graph["gaps"] = [gap for gap in graph["gaps"] if gap["reason"] != "array-length"]
+        self.update_graph(path, graph)
+        with self.assertRaisesRegex(ValueError, "missing required gaps"):
+            self.verify()
+
+    def test_unmatched_unresolved_gap_even_with_updated_digests(self):
+        graph = read(self.graph)
+        declaration = graph["declarations"][0]
+        graph["gaps"].append({"owner": declaration["id"], "reason": "array-length"})
+        graph["gaps"].sort(key=lambda gap: (gap["owner"], gap["reason"]))
+        self.update_graph(self.graph, graph)
+        with self.assertRaisesRegex(ValueError, "unmatched unresolved gap"):
+            self.verify()
+
+    def test_unknown_gap_reason_even_with_updated_digests(self):
+        graph = read(self.graph)
+        graph["gaps"][0]["reason"] = "fabricated-reason"
+        graph["gaps"].sort(key=lambda gap: (gap["owner"], gap["reason"]))
+        self.update_graph(self.graph, graph)
+        with self.assertRaisesRegex(ValueError, "unknown gap reason"):
+            self.verify()
+
+    def test_unknown_local_declaration_even_with_updated_digests(self):
+        path, graph = self.stream_graph()
+        reference = next(node for node in nodes(graph) if node.get("kind") == "named"
+                         and node["id"].startswith("local::"))
+        reference["id"] = "local::marmish_stream::missing::{type}"
+        self.update_graph(path, graph)
+        with self.assertRaisesRegex(ValueError, "unknown local declaration"):
+            self.verify()
+
+    def test_invalid_integer_width_even_with_updated_digests(self):
+        path, graph = self.stream_graph()
+        scalar = next(node for node in nodes(graph) if node.get("kind") == "unsigned-integer")
+        scalar["bits"] = 7
+        self.update_graph(path, graph)
+        with self.assertRaisesRegex(ValueError, "invalid unsigned-integer width"):
+            self.verify()
+
+    def test_unlisted_root_file(self):
+        (self.archive / "extra.json").write_text("{}")
+        with self.assertRaisesRegex(ValueError, "invalid archive root inventory"):
             self.verify()
 
 

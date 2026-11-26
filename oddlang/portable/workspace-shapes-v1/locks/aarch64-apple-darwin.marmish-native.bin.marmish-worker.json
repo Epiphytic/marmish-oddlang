@@ -2,7 +2,7 @@
   "vocabulary": "oddlang-data-shapes-v1",
   "pin": {
     "package": "marmish-native",
-    "sourceRevision": null,
+    "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
     "targetKind": "bin",
     "targetName": "marmish-worker",
     "targetTriple": "aarch64-apple-darwin",

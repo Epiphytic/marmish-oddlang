@@ -8,10 +8,12 @@ unions, ordered members, nominal type references and owner-scoped gaps.
 The compiler adapter emits no implementation bodies, source excerpts,
 source coordinates, compiler intermediate representation or compiled objects.
 
-[release.json](release.json) enumerates the workspace's seven Cargo packages
-and their 17 library and binary targets using the upstream Cargo metadata.
-Each profile identifies its package, target kind and name, target triple,
-default features and explicit features. The matrix includes each target in
+The release matrix enumerates the workspace's seven Cargo packages and their
+17 library and binary targets using the upstream Cargo metadata. Each profile
+identifies its package, target kind and name, target triple, default features
+and explicit features. [Release matrix](release.json)
+
+The matrix includes each target in
 the package's default profile where eligible. It also includes the engine
 targets with `fault-injection` and the native targets with `installed-checks`.
 Cargo's required features explain the feature-only binaries. This matrix uses
@@ -33,7 +35,8 @@ discriminants, compiler-generated identity, native layout, public visibility
 and external package instances. The archive leaves behavior, signatures,
 cross-package identity, layout equivalence, and source-independent contract
 qualification open. Each `unobserved` row identifies a profile with no
-archived graph. All 24 applicable macOS ARM64 profiles have archived graphs.
+archived graph. This release has graphs for all 72 applicable profiles, 24
+each on macOS ARM64, Linux ARM64 and Linux AMD64.
 
 ## Replay and checks
 
@@ -60,21 +63,32 @@ archive, use `seal NEW_ARCHIVE WORK_DIR [WORK_DIR ...]` with the same runner.
 The verifier compares the inventory against Cargo metadata, checks the complete
 profile matrix, validates payload digests and locks, and checks the graph's
 closed structure and order of declarations, parameters, arguments, variants,
-fields, tuple elements and gaps. The comparison checks raw graph bytes by
-digest and checks the semantic lock digest. That digest binds the source
-revision from the release and excludes host Cargo configuration. The raw lock
-preserves both fields as emitted. A different local Cargo configuration may
-still change the graph and cause replay to fail.
+fields, tuple elements and gaps. The verifier rejects unknown gap reasons,
+missing gaps for unresolved shapes, invalid primitive widths and missing local
+type declarations. Each raw lock must record the pinned upstream source
+revision. The comparison checks raw graph bytes and the semantic lock digest.
+The raw lock includes Cargo configuration fingerprints from its recovery host.
+The semantic digest excludes those machine-specific fingerprints. The verifier
+checks their format. Revalidating their content requires the original host
+configuration. A different local Cargo configuration can still change the
+recovered graph and cause replay to fail.
 
-The macOS core and stream default profiles, fault-only frontend, and
-installed-only check reproduced both graph and semantic lock digests in
-fresh compilation directories. The two feature-gated replays also used a
-separate source checkout. A native Linux ARM64 cache control reproduced the
-default engine worker's raw graph and lock bytes with and without a native C
-compiler cache. Rust target directories remained fresh in those runs.
+All 24 macOS profiles reproduced their graph and semantic lock digests from
+a separate source checkout with fresh compilation directories. The raw
+locks archived here come from that replay and record the upstream revision.
+Native Linux ARM64 replays reproduced the core
+library's raw graph and lock bytes. Cache controls for the default engine
+library and engine worker reproduced their raw graph and lock bytes with and
+without a native C compiler cache. Rust target directories remained fresh in
+those runs.
 
 The default engine library illustrates target-specific coverage. The macOS
 graph has 216 declarations and the Linux ARM64 graph has 209. Seven IDs
 occur only on macOS, including `ZombieIdentity` and `DarwinStage`. Five
 shared IDs have differing shapes. The release preserves each observation
 and its gaps under the corresponding triple.
+
+The Linux AMD64 observations were generated on native hosted runners with
+the pinned source and framework. The sealed archive retains the graph and
+raw lock for each profile. Twenty of the 24 corresponding Linux profiles
+have byte-identical graphs across ARM64 and AMD64. [Linux AMD64 recovery run](https://github.com/Epiphytic/oddlang/actions/runs/45774615811)
