@@ -1,0 +1,28 @@
+{
+  "source": "af54339d250290490d62d4475a77539b7e739071",
+  "publicUpstreamTests": [
+    "bounded_output_reclaims_only_consumed_prefix",
+    "exact_retry_conflict_gap_eof_and_partial_delivery"
+  ],
+  "privateStructuralTests": [
+    "many_windows_remain_binary_exact_and_bounded",
+    "receipt_memory_and_tiny_chunk_counts_are_bounded",
+    "boundary_failures_do_not_mutate_windows"
+  ],
+  "frozenTraces": 33,
+  "seededTraces": 96,
+  "operationResults": 13031,
+  "packageLockSha256": "49b84b10f869f886aef48895ce4244103a3383d3119388f8bd56a8fd6f885a8d",
+  "transcriptSha256": "7657f49b6a3fbc98157b82153829fc6b8e61ae7ab51c1b0673f95685144dc26a",
+  "lexicalTests": [
+    "boundary_failures_do_not_mutate_windows",
+    "bounded_output_reclaims_only_consumed_prefix",
+    "exact_retry_conflict_gap_eof_and_partial_delivery",
+    "many_windows_remain_binary_exact_and_bounded",
+    "receipt_memory_and_tiny_chunk_counts_are_bounded"
+  ],
+  "windowTestModuleSha256": "34cdb8cbbdc542171ae9602d857520bd82c35cf9fb921f2143664fa82e73cff7",
+  "generatedModuleBeforeTestsSha256": "84c13f511c801b663abb605b3c473ae98666d05a2c9fe3b40510db907946623f",
+  "mutation": "changing the retained conflict to OldRetry fails the unchanged upstream public test",
+  "isolation": "Seatbelt read allowlist and network deny during generation and release build"
+}

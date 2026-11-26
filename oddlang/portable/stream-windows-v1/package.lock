@@ -1,0 +1,85 @@
+{
+  "cargoLockSha256": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e",
+  "cargoManifestSha256": "413c5d1e4ef6ab244557032ed1ce166df626bfc5fdf756f7d51d85e9b060c0ff",
+  "components": [
+    {
+      "graphSha256": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e",
+      "kind": "shared-declarations",
+      "module": "stream_domain",
+      "overlaySha256": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e",
+      "projection": {
+        "artifact": "shared.rs",
+        "artifactSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+        "bindingSha256": "94a1c2077e8df7d53fecf61d3a002d41ea68f02bba8a85261238dbc5b56dd9f2",
+        "domain": "urn:marmish:stream:declarations",
+        "domainSha256": "ffa4cc6ef821240a95ed8c730724d95b21430d1aa687bac9cd44f63c592cfe6d",
+        "format": "oddlang-shared-projection-v1",
+        "obligationsSha256": "f0a346954c3f667c893ee6272f26a42690b4e65c10a9caf56edd373872d42a66"
+      },
+      "reexports": [
+        "MAX_BLOCK",
+        "MAX_ENCODED",
+        "MAX_CONTENT",
+        "WINDOW_BYTES",
+        "MAX_OFFSET",
+        "MAX_RECORDS",
+        "Error",
+        "Result"
+      ],
+      "sourceSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64"
+    },
+    {
+      "graphSha256": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec",
+      "kind": "integrity-block",
+      "module": "codec",
+      "overlaySha256": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088",
+      "projection": {
+        "artifact": "codec.rs",
+        "artifactSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+        "bindingSha256": "d40040eaa7bd0e575a2562e545acf1f56f600c68daab0a164e96f805f24552ce",
+        "domainSha256": "b22235123e61d7a6c2d55fb7352e56555617880b8f927caed951599bcb6c0162",
+        "format": "oddlang-integrity-block-v1",
+        "obligationsSha256": "185ce497091e96bfcd43f4aa3a2f2d0ee3aae40995f5bfa5973a4e8889e7ea01"
+      },
+      "reexports": [
+        "EncodedBlock",
+        "Codec",
+        "encode",
+        "decode"
+      ],
+      "sourceSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd"
+    },
+    {
+      "graphSha256": "9915405d2ba95ef10cdc18e5c80525053a9479ef963091a60100b633a1dec228",
+      "kind": "sequence-journal",
+      "module": "windows",
+      "overlaySha256": "26e77394884f1f0415e7b57995587aac9bcc6690dc9df5ebd80839597d0b5d9b",
+      "projection": {
+        "format": "oddlang-sequence-journal-v1",
+        "graphSha256": "ae9d47ce2c8d16339dde47d4d82b0847307bc0b5184f5d52ed437045f02b4bbc",
+        "obligationsSha256": "638abb40cda309f565a315b6d626663e1eec95ae35dcfa0cbc916d24b3a75f00",
+        "overlaySha256": "fe4a9fb04033cd0d05bf41437e33a3949286186a22bdf0f797d877a90439c5d0",
+        "receiptDigest": "sha256",
+        "source": "sequence_journal.rs",
+        "sourceSha256": "84c13f511c801b663abb605b3c473ae98666d05a2c9fe3b40510db907946623f",
+        "target": "rust"
+      },
+      "reexports": [
+        "ReceiveWindow",
+        "SendWindow"
+      ],
+      "sourceSha256": "84c13f511c801b663abb605b3c473ae98666d05a2c9fe3b40510db907946623f"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+    "src/group_0/mod.rs": "de460ff23105d868f6dcb2730c0d8e3dabe066ce694ed9ece34e8dd7732737e3",
+    "src/group_1/__projection_1.rs": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+    "src/group_1/mod.rs": "4aefb52f9fb8cbe0ddf2ac1d84e113c9ee37b03a8c451b755351f751ecec2ac7",
+    "src/group_2/__projection_2.rs": "84c13f511c801b663abb605b3c473ae98666d05a2c9fe3b40510db907946623f",
+    "src/group_2/mod.rs": "ed72e6e5382e66a4ef68c36f02aaa95ea3d519095916451bb030646a42169d4e",
+    "src/lib.rs": "c6f7d0f7f715a649a1b8cb2e6c3e74c2d006db4b30739e98c7b90977ee383d00"
+  },
+  "manifestSha256": "d08a594b711402db3e95a3ba942db3d908be58a596e5637b6537eef086fab1ea"
+}

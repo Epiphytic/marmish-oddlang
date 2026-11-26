@@ -268,6 +268,11 @@
 {"path":"oddlang/portable/stream-shared-v1/observation.json","language":"inventory","mode":"100644","sha256":"234da127eb3c5147018d88297f57ffbe6c4eb9502c7be222007b54342435edbf","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-shared-v1/rust.json","language":"inventory","mode":"100644","sha256":"664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-shared-v1/selection.json","language":"inventory","mode":"100644","sha256":"01ff64d546ac871720c9c11893b40ed4f6becb4b0d1c44b31c947bee612f7a5b","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-windows-package.json","language":"inventory","mode":"100644","sha256":"d08a594b711402db3e95a3ba942db3d908be58a596e5637b6537eef086fab1ea","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-windows-v1/README.md","language":"inventory","mode":"100644","sha256":"7ce77952384444103072db35100b6b5827b536c767f90b8fd34e3b4f1f95c735","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-windows-v1/graph.json","language":"inventory","mode":"100644","sha256":"9915405d2ba95ef10cdc18e5c80525053a9479ef963091a60100b633a1dec228","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-windows-v1/package.lock","language":"inventory","mode":"100644","sha256":"49b84b10f869f886aef48895ce4244103a3383d3119388f8bd56a8fd6f885a8d","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-windows-v1/rust.json","language":"inventory","mode":"100644","sha256":"26e77394884f1f0415e7b57995587aac9bcc6690dc9df5ebd80839597d0b5d9b","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/README.md","language":"inventory","mode":"100644","sha256":"008436303c3f664ad9cf26a200975f51194e82c83bf26fcd7695ae2e7c27193a","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/graph.json","language":"inventory","mode":"100644","sha256":"a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/obligations.json","language":"inventory","mode":"100644","sha256":"f8b34b2e309ac230ef955574699501625719c56550940bd82dda6ea651b8074b","parse_status":"inventory"}
@@ -642,6 +647,12 @@
 {"path":"verification/whole/stream-block/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"cb75e20611f31742d6d65b50e19a3cf32953cdad33507fa6f0984716b39467d7","parse_status":"inventory"}
 {"path":"verification/whole/stream-block/reference-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"c729fde982de34c1df6714a116862c65dbe34f044e6b39523d542b2f01c10ba9","parse_status":"inventory"}
 {"path":"verification/whole/stream-block/verify.py","language":"python","mode":"100644","sha256":"bcfa68bc563049266fcf22c0c81065b66be94213406521b15717981bae4e9fcf","parse_status":"parsed"}
+{"path":"verification/whole/stream-windows/README.md","language":"inventory","mode":"100644","sha256":"5de82eb21ae5ca9bbf255592988b86f80101e7db31e82e776390b81fdfb9be78","parse_status":"inventory"}
+{"path":"verification/whole/stream-windows/caller.rs","language":"rust","mode":"100644","sha256":"3005601b0099e021e6b1e2b642da66ae87b236e61133b3777a31654d6c673018","parse_status":"parsed"}
+{"path":"verification/whole/stream-windows/frozen-cases.json.gz","language":"inventory","mode":"100644","sha256":"9055b4727aa0e653248b21b956dcd86a8f599c0e7dec4408addc5deae06ea290","parse_status":"inventory"}
+{"path":"verification/whole/stream-windows/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"79ea1bd7de283355e9164906f3dd778194c7697bd77ebf8e264c76adf862f2de","parse_status":"inventory"}
+{"path":"verification/whole/stream-windows/release.py","language":"python","mode":"100644","sha256":"3f080a1c579665483ae753833b64c08ae00ce539d446b64847bd93dce5c59c6d","parse_status":"parsed"}
+{"path":"verification/whole/stream-windows/verify.py","language":"python","mode":"100644","sha256":"a4abe6983cf6012e4299ee9d1b800cf991c967415703397928c86d97b32ea8ed","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/README.md","language":"inventory","mode":"100644","sha256":"2906e3c361f112fd6eb4311d32b22fbf5a26b021869ef63c6c8c6121550a6e0a","parse_status":"inventory"}
 {"path":"verification/whole/stream-wire/caller.rs","language":"rust","mode":"100644","sha256":"929fa54af9e8545a3d34a75b45c6bdb4ae357803122392fc6d5d24b47af68c08","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/reference.json","language":"inventory","mode":"100644","sha256":"289c44af3445e6d3cdf0895b0bef3306bf570c0aaf94c329580c0ad8fc3e4d11","parse_status":"inventory"}

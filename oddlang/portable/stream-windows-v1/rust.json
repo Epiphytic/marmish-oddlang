@@ -1,0 +1,55 @@
+{
+  "format": "oddlang-sequence-journal-rust-v1",
+  "types": {
+    "urn:marmish:stream:journal:outbound": "SendWindow",
+    "urn:marmish:stream:journal:inbound": "ReceiveWindow"
+  },
+  "methods": {
+    "urn:marmish:stream:journal:outbound:upper": "produced",
+    "urn:marmish:stream:journal:outbound:lower": "acknowledged",
+    "urn:marmish:stream:journal:outbound:bytes-held": "buffered",
+    "urn:marmish:stream:journal:outbound:admissible": "credit",
+    "urn:marmish:stream:journal:outbound:final": "eof",
+    "urn:marmish:stream:journal:outbound:complete": "drained",
+    "urn:marmish:stream:journal:outbound:release": "acknowledge",
+    "urn:marmish:stream:journal:outbound:seal": "finish",
+    "urn:marmish:stream:journal:outbound:slice": "read",
+    "urn:marmish:stream:journal:outbound:append": "push",
+    "urn:marmish:stream:journal:inbound:upper": "accepted",
+    "urn:marmish:stream:journal:inbound:lower": "delivered",
+    "urn:marmish:stream:journal:inbound:bytes-held": "buffered",
+    "urn:marmish:stream:journal:inbound:admissible": "credit",
+    "urn:marmish:stream:journal:inbound:final": "eof",
+    "urn:marmish:stream:journal:inbound:complete": "drained",
+    "urn:marmish:stream:journal:inbound:release": "delivered_through",
+    "urn:marmish:stream:journal:inbound:seal": "finish",
+    "urn:marmish:stream:journal:inbound:slice": "pending",
+    "urn:marmish:stream:journal:inbound:admit": "accept"
+  },
+  "errorType": "crate::Error",
+  "errorVariants": {
+    "urn:marmish:stream:error:Ack": "Ack",
+    "urn:marmish:stream:error:Limit": "Limit",
+    "urn:marmish:stream:error:Offset": "Offset",
+    "urn:marmish:stream:error:Eof": "Eof",
+    "urn:marmish:stream:error:Conflict": "Conflict",
+    "urn:marmish:stream:error:OldRetry": "OldRetry",
+    "urn:marmish:stream:error:Gap": "Gap"
+  },
+  "storage": {
+    "urn:marmish:stream:journal:outbound": {
+      "start": "acknowledged",
+      "end": "produced",
+      "finalCursor": "eof",
+      "records": "chunks",
+      "receipts": "retained_receipts"
+    },
+    "urn:marmish:stream:journal:inbound": {
+      "start": "delivered_cursor",
+      "end": "accepted_cursor",
+      "finalCursor": "finished_at",
+      "records": "pending_records",
+      "receipts": "receipts"
+    }
+  }
+}
