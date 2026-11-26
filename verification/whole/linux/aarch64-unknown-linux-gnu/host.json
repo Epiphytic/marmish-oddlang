@@ -1,0 +1,15 @@
+{
+  "frameworkRevision": "b653f1ada68791cd2fb70293bf227c5665850d1e",
+  "kernel": "6.8.0-147-generic",
+  "libc": [
+    "glibc",
+    "2.39"
+  ],
+  "oracleSha256": "9cd403957328358869428e9a10c2954d88788f42221c4ce681905d2c8ffa6ef1",
+  "os": "Ubuntu 24.04.5 LTS",
+  "receipts": {
+    "dev": "07e55db079bd0746fe2cd9bd85e692724c5fdc151acedd677098967210188f74",
+    "release": "44d8ef5bb219883e8fbddd2179eb37c376a2289efe29a21eed5b4515a4981962"
+  },
+  "rustHost": "aarch64-unknown-linux-gnu"
+}

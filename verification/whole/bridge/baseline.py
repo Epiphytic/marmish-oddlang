@@ -16,7 +16,7 @@ import tempfile
 PIN = "af54339d250290490d62d4475a77539b7e739071"
 TREE = "9be3104dd1d55194ae6e442c0d3eb1c0b223a481"
 CARGO_LOCK = "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3"
-DRIVER = "7a675cffc8b08d5773645434df14aed77bfbf9c437e4c3044dc8fc1f9ced628a"
+DRIVER = "3a0c512e78fcefe0e0c8dc7d5241ad6f85b8c413b078b7376b49a092ecd76f84"
 FIXTURE = "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272"
 HIGH_NOFILE = 1_048_576
 HOSTS = {"aarch64-apple-darwin", "aarch64-unknown-linux-gnu", "x86_64-unknown-linux-gnu"}
@@ -111,6 +111,11 @@ def descriptor_probe(driver, bins, host):
         check(result["stderr"], "", "high limit stderr")
         check(result["status"], 0, "high limit exit")
         driver.compare_state("high-limit", fixture["states"]["absent"], state)
+    elif host == "aarch64-unknown-linux-gnu":
+        check(result["stdout"], fixture["replies"]["initialized"], "high limit stdout")
+        check(result["stderr"], "", "high limit stderr")
+        check(result["status"], 0, "high limit exit")
+        driver.compare_state("high-limit", fixture["states"]["closed"], state)
     return result
 
 
@@ -136,6 +141,9 @@ def main():
     if host.endswith("darwin"):
         receipt["macos"] = output(["sw_vers", "-productVersion"])
         receipt["sdk"] = output(["xcrun", "--sdk", "macosx", "--show-sdk-version"])
+    # The runtime rejects group-writable worker executables and their ancestors.
+    # Cargo inherits the VM account's (distribution-dependent) umask on creation.
+    os.umask(0o077)
     for profile, selection, files in BUILDS:
         opts = ["+1.97.1", "build", "--locked", "--offline", "--release", "--target", host,
                 *selection]

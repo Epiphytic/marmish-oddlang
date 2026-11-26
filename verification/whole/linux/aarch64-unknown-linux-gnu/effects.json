@@ -1,0 +1,28 @@
+{
+  "bridgeProcessAndLockSyscalls": [
+    "execve",
+    "exit_group",
+    "fcntl"
+  ],
+  "bsdProbeWhileOfdHeld": "available",
+  "descriptorLimits": [
+    256,
+    256
+  ],
+  "effectiveCapabilities": "0000000000000000",
+  "effectiveUid": 501,
+  "filesystemPolicy": "read-only host root with one writable state directory",
+  "initialState": "existing empty mode 0700 directory",
+  "lockAfterExit": "available",
+  "lockBeforeInit": "absent",
+  "lockDuringInit": "held",
+  "outsideCreateControl": "EROFS",
+  "process": "marmish-engine-bridge",
+  "stateDescriptorsAfterReply": [
+    "$STATE/engine.sqlite3",
+    "$STATE/engine.sqlite3-shm",
+    "$STATE/engine.sqlite3-wal",
+    "$STATE/frontend.lock",
+    "$STATE/jobs"
+  ]
+}

@@ -622,7 +622,7 @@
     "outside_write_control": "EPERM",
     "write_policy": "deny all filesystem writes outside the disposable state root"
   },
-  "oracle_driver_sha256": "7a675cffc8b08d5773645434df14aed77bfbf9c437e4c3044dc8fc1f9ced628a",
+  "oracle_driver_sha256": "3a0c512e78fcefe0e0c8dc7d5241ad6f85b8c413b078b7376b49a092ecd76f84",
   "oracle_fixture_sha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
   "repetitions": 2,
   "rustc": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
