@@ -35,3 +35,15 @@ python3 -B verification/whole/canonical-workspace/verify.py \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
+
+The [native macOS receipt](aarch64-apple-darwin.json) records 77 of 140
+original import spellings, including six additions to the preceding
+diagnostics and CLI workspace. It also records the terminal argument
+cases, parser cases, and native result comparisons on the pinned lock.
+
+The [native Linux receipt](aarch64-unknown-linux-gnu.json) uses the same
+compiler revision, input tree and workspace lock. Both hosts matched 164
+terminal argument cases and all 224 pure manifest rows, including 34
+acceptances, and ran both unchanged original parser tests. The parser's
+private import was rejected by the native compiler on both sides. Each
+source-free build passed 31 explicit denial probes.
