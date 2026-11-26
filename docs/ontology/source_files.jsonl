@@ -917,7 +917,8 @@
 {"path":"tools/v02-actions/workflow.mjs","language":"javascript","mode":"100644","sha256":"111cf763a898faad6c98f8a123e2e440120d7d6a1f574b30bcb4f1df67f8ce3f","parse_status":"parsed_with_omissions"}
 {"path":"tools/v02-actions/workflow.test.mjs","language":"javascript","mode":"100644","sha256":"1d10b942199bdb9a82e865cf8165214f1b68cb94e4ca0df091d5a66fb309a292","parse_status":"parsed"}
 {"path":"tools/v02-macos-fixture-diagnostic.py","language":"python","mode":"100644","sha256":"3793f9743823194f674404dd608d5ffcd2f1a00811aa9e35f53ab6e9b5f25409","parse_status":"parsed"}
-{"path":"verification/whole-marmish/inventory/README.md","language":"inventory","mode":"100644","sha256":"31db3dc2615b7eaa6b5c5618a653f58f104ef02f5a56dd390ba29b4e12d4dfc2","parse_status":"inventory"}
+{"path":"verification/whole-marmish/inventory/README.md","language":"inventory","mode":"100644","sha256":"98e5979c300f0cbc6dededcbe4b24462fcd98e973781631554278b0b9242f01d","parse_status":"inventory"}
+{"path":"verification/whole-marmish/inventory/candidate_targets.py","language":"python","mode":"100644","sha256":"76a54c66b9ca48c28245a963c04604b01f4b9b8f2f3f60e3531b2bc5b8867322","parse_status":"parsed"}
 {"path":"verification/whole-marmish/inventory/check.py","language":"python","mode":"100644","sha256":"8748c6a69c821e627ff4881bdd0c852840141897274e7660b937dd4b6fec80e5","parse_status":"parsed"}
 {"path":"verification/whole-marmish/inventory/graph.py","language":"python","mode":"100644","sha256":"1fa4208a6dee7f63b11a1c7ee69d5b4fa5197cfadd6b11fb13856d7c635241b4","parse_status":"parsed"}
 {"path":"verification/whole-marmish/inventory/inventory.json","language":"inventory","mode":"100644","sha256":"0312c1f46c858e18fe4958cbcabca6b7a26d2c3234381bcf8a33077bee6e509b","parse_status":"inventory"}
