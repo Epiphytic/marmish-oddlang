@@ -1,0 +1,54 @@
+{
+  "frameworkCommit": "200cb567a19399dff54c1049f77c9672907026db",
+  "companionRevision": "aba9798f2279ae03d06a82394fd815a69603ffdb",
+  "node": "v22.22.2",
+  "platform": "aarch64-apple-darwin",
+  "graphSha256": "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b",
+  "nativeGraphQualificationSha256": "5b3667cef31a601c0a9c366400c4a24525582dec5a4b2790c113da0ec8277b4b",
+  "compilerSha256": "fa7798674e34bf80d75356fff7e4e673b2f07f990a6fb80895176b6b20670258",
+  "verifierSha256": "c0a556da07cb9110a5349ac12643f571dbb8a71ac980fee2fcb5d9f0dd924613",
+  "nodeWitnessSha256": "d65cb118afa970a1d1563409633e8e9940056edbc8583d8992976cad882d09d3",
+  "deniedReadProbes": [
+    "rustBinding",
+    "rustWitness"
+  ],
+  "inputFiles": [
+    "domain.json"
+  ],
+  "artifactSha256": {
+    "obligations.json": "27bbc6a027e783d6da552ef8f463870567fb8c352a3e4fb73fbd008f85d92562",
+    "projection.lock": "fedd04fa1a7ee2879e67e55ba799b13bc7194bf6889c52811b4c0d7daa6ae3ca",
+    "values.mts": "2db5bf234ea385655591d04b1407cc5770027b3f8eb504cb6485295573419188"
+  },
+  "reorderedGraphEmitsIdenticalArtifacts": true,
+  "baseline": {
+    "short": "urn:marmish:vault:error:malformed",
+    "long": "urn:marmish:vault:error:malformed",
+    "owned": {
+      "id": "urn:marmish:vault:secret",
+      "width": 32,
+      "inputCopy": true,
+      "outputCopy": true
+    },
+    "shadowedWidth": "urn:marmish:vault:error:malformed",
+    "crossRealm": true,
+    "detached": "urn:marmish:vault:error:malformed"
+  },
+  "widthMutation": {
+    "short": "urn:marmish:vault:error:malformed",
+    "long": "urn:marmish:vault:error:malformed",
+    "owned": {
+      "id": "urn:marmish:vault:secret",
+      "width": 31,
+      "inputCopy": true,
+      "outputCopy": true
+    },
+    "shadowedWidth": "urn:marmish:vault:error:malformed",
+    "crossRealm": true,
+    "detached": "urn:marmish:vault:error:malformed"
+  },
+  "disposal": {
+    "qualification": "unsupported",
+    "reason": "Node.js provides no deterministic destruction or storage erasure for this value."
+  }
+}
