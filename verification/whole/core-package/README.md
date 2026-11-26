@@ -50,3 +50,17 @@ and forward `-Z unstable-options --output-format json` to rustdoc. Set
 to the pinned `oddlang inspect native-value-api FILE.json` and compare the
 two normalized outputs. Runtime checks provide the observed constant values,
 messages and behavior separately. [Framework API witness documentation](https://github.com/Epiphytic/oddlang/blob/79175c05928dc234d8f97f428472c65386e9f096/verification/rust-recovery/README.md)
+
+A native Linux ARM64 run built the same release using Bubblewrap with a
+read-only pinned toolchain and registry, a fresh writable output directory,
+and an isolated network namespace. Where unprivileged namespaces are
+unavailable, the runner starts Bubblewrap through sudo and drops privileges
+with setpriv before running the build. The assembly and release build had no
+mount for the reference source. Seven unchanged integration tests passed
+on each implementation, and all 1,735 observations matched the macOS
+transcript digest. [Linux ARM64 qualification](reference-aarch64-unknown-linux-gnu.json)
+
+```sh
+bash verification/whole/core-package/linux.sh oddlang/portable \
+  /path/to/original /path/to/pinned-oddlang-binary /tmp/core-package-linux-replay.json
+```

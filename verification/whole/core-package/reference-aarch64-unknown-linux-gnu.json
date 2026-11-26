@@ -1,0 +1,23 @@
+{
+  "reference": "af54339d250290490d62d4475a77539b7e739071",
+  "native": "aarch64",
+  "system": "Linux",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "oddlangSha256": "7fb6b79444c491be69bf1a512e95d6db3229e83d9a638f2d341cedd216aa2983",
+  "packageLockSha256": "b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c",
+  "graphManifestSha256": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4",
+  "callerSha256": "838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce",
+  "contractsSha256": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a",
+  "publicCases": 1735,
+  "upstreamTestsPerBuild": 7,
+  "transcriptSha256": "a0eba1d3a32c7238ba8f6f8b665d92f5205fc6bfc56a150f637f07516a856c0e",
+  "nativeGeneration": "bubblewrap; network and original source unavailable"
+}

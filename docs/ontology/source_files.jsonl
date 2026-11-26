@@ -563,11 +563,12 @@
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
 {"path":"verification/whole/core-node/check.mjs","language":"javascript","mode":"100644","sha256":"8b8773de0a9fb8539c4c8ba3a581534d00b66fd32b38959b91f9f74655ea82a7","parse_status":"parsed_with_omissions"}
-{"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"53eb076d45fa910b66124fad08cd443dd0e41ff442c33a366803959e43bd8c01","parse_status":"inventory"}
+{"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"cefbfcd08562b0d1465965994cd7084ad8cdf87da486cac0841863f2c40f1ede","parse_status":"inventory"}
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
-{"path":"verification/whole/core-package/linux.sh","language":"bash","mode":"100755","sha256":"513343de82a9d8dd255e0624f7b1927de21778dc670f9e90b988fbc20e16cf03","parse_status":"parsed"}
+{"path":"verification/whole/core-package/linux.sh","language":"bash","mode":"100755","sha256":"7af459012d01f082775b205a6da8bf89254afe3a7e05e5d2d686df7fb3a108a6","parse_status":"parsed"}
 {"path":"verification/whole/core-package/public-api-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"4ce9a0c5153a3f78c2e6adc1163b4b6235e28970dc41c887acf5827b24e6ae5f","parse_status":"inventory"}
 {"path":"verification/whole/core-package/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f26b4eeab1dca29f7b6352048a473af0b309b520ca3d0aafdde89e5238a8019a","parse_status":"inventory"}
+{"path":"verification/whole/core-package/reference-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"cfba96923644700805be69436db1c37d9496fa1c063dc83b0841b92247aca74c","parse_status":"inventory"}
 {"path":"verification/whole/core-package/verify.py","language":"python","mode":"100644","sha256":"59a1f306c2533d0a904755b1e87c9a906142d7c7362d4955dcaf50fb797b2159","parse_status":"parsed"}
 {"path":"verification/whole/core-value/README.md","language":"inventory","mode":"100644","sha256":"83828a36c38f444cefd049e01bdd510731777f4a8f52e8c45fe702c18463e5f3","parse_status":"inventory"}
 {"path":"verification/whole/core-value/caller.rs","language":"rust","mode":"100644","sha256":"275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b","parse_status":"parsed"}

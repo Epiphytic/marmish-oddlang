@@ -46,6 +46,7 @@ native=("${launcher[@]}" --unshare-net --unshare-pid --unshare-ipc --unshare-uts
 if [[ -d /lib64 ]]; then native+=(--ro-bind /lib64 /lib64); fi
 "${native[@]}" --ro-bind "$compiler" /oddlang --ro-bind "$work/in" /inputs \
     "${drop[@]}" /oddlang build native-package rust /inputs/core-package.json /out/generated
+cmp "$inputs/core-package-v1/package.lock" "$work/out/generated/package.lock"
 "${native[@]}" --chdir /out/generated "${drop[@]}" cargo build --release --locked --offline
 # Source and callers first become available after the clean build succeeds.
 git -C "$original" archive "$pin" | tar -x -C "$work/source"
