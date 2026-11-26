@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "participants": {
+    "clientSha256": "dd123f99af7a8b3f19362ba889f88c7a8c23ded93d8b1eca0830b9a6dfd4a51a",
+    "daemonSha256": "f76f5f098c0e45d05b3a8c87c96725c15a5c409bdc0781a7058b7f842b690081",
+    "relaySha256": "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3"
+  },
+  "isolationFixtureSha256": "e1928af22705b6f1a252533f58496c320bc780d536edcd170a650068aca56579",
+  "ownerFixtureSha256": "861cacd16cfb6ef2afa49f9cc3d2e17f32bbe3531d0cfa2da60b2b76f76965a3",
+  "fileIdentityInitialized": true,
+  "externalExecutableDenied": true,
+  "nonOnionRejected": true,
+  "relayStoredSignedKeyPackageForIdentity": true,
+  "providerPhase": "provider_active",
+  "samePublicationAfterRestart": true,
+  "exitedAfterRelayLoss": true,
+  "providerStopped": true,
+  "ownedRuntimeRemoved": true,
+  "isolatedWorkspaceRemoved": true,
+  "buildReceiptSha256": "5b1e49ed036645ceef979be8be4d92084f4d94c4753496d18f79337fcc692208",
+  "isolationFixtureRevision": "f33cd9dbaf310852416cb352c741591a597b7c84",
+  "relaySourceRevision": "b38b2841b081952dc7728da391fe0e26fc7c6181"
+}
