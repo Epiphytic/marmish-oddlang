@@ -10,7 +10,7 @@ cargo +1.97.1 build --manifest-path /tmp/native-engine-limits/Cargo.toml --locke
 ```
 
 To qualify the combined artifact, use a clean Oddlang checkout at
-`e31e5dcf305d419079af8033a706e8f61ec231ba`, the pinned original checkout,
+`aaf3f497d7b0fdcc543aa51dbdf19fbf517d261b`, the pinned original checkout,
 and the selected original native release binaries.
 
 ```sh

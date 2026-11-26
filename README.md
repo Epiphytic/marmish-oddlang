@@ -2,6 +2,8 @@
 
 Build Oddlang workspace v7 for the native core and stream libraries, configured encrypted file initialization, local foreground lifecycle and status, and `release-info` on both native executables. Provider readiness beyond TLS, remote execution, transfers and installed services remain open for the generated workspace. [Build and qualification](verification/whole/workspace/README.md#workspace-v7) · [Ontology and release pins](oddlang/README.md)
 
+The separate [engine process-limit workspace](verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
+
 Run remote commands over Marmot's MLS-encrypted Nostr transport. Marmish uses
 native Rust clients and daemons, with one named Nostr identity per daemon.
 The same identity can send commands and accept authorized commands.

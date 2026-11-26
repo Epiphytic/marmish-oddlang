@@ -6,6 +6,8 @@ The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) re
 
 Build the current Rust workspace from the [v7 manifest](portable/workspace-v7.json). It adds `release-info` to both native binaries and preserves the v6 initialization, lifecycle, status, core and stream scope. [Build and qualification](../verification/whole/workspace/README.md#workspace-v7)
 
+The separate [engine process-limit workspace](../verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
+
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
