@@ -334,7 +334,7 @@
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"fcc8ad72282f71523b0564500fcbaeac75ad8504d1ffc0dffa2366e69a9a89c4","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/encrypted-stores-rust.json","language":"inventory","mode":"100644","sha256":"99feaef62fdccca6f1618d2e44e0d484717fc9ef82cfdd565b55efd15a25f6d0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/graph.json","language":"inventory","mode":"100644","sha256":"94e4493495c3062ac88ff96a584fc53382c27388ee6db88efd9bf69f4f1108be","parse_status":"inventory"}
-{"path":"oddlang/portable/native-foreground-lifecycle-v1/package.lock","language":"inventory","mode":"100644","sha256":"fb03fb1dfcbb2bb6a55cae04e54ec075ad9330c72215e01884b65441ad0fc906","parse_status":"inventory"}
+{"path":"oddlang/portable/native-foreground-lifecycle-v1/package.lock","language":"inventory","mode":"100644","sha256":"2e653188f61f41c531451235bfc53259f05b20ef5113f0b885b02096bc5db47e","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/rust.json","language":"inventory","mode":"100644","sha256":"9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-owner-v1/README.md","language":"inventory","mode":"100644","sha256":"7e7dcab22cbc6117daf96a685d9a3ed103d0f84d47f24300b3c4ef2f47434629","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-owner-v1/cli-marmishd.json","language":"inventory","mode":"100644","sha256":"a703fe69e8fdf5e5989cbf6bcbb717738bf9619533def862cf39a771940f4ae3","parse_status":"inventory"}
@@ -794,9 +794,9 @@
 {"path":"verification/whole/core-value/caller.rs","language":"rust","mode":"100644","sha256":"275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b","parse_status":"parsed"}
 {"path":"verification/whole/core-value/reference.json","language":"inventory","mode":"100644","sha256":"c57a24dae5e69e69e6fe8bdab71e67fafb9c4390a4f06eb63c1e02441f73a40d","parse_status":"inventory"}
 {"path":"verification/whole/core-value/verify.py","language":"python","mode":"100644","sha256":"3f304b2ad6920f7c1d0a85ec1d07b5eed7a0091aa4f76c9311ca4e308b49682d","parse_status":"parsed"}
-{"path":"verification/whole/foreground-lifecycle/README.md","language":"inventory","mode":"100644","sha256":"a78342f90b45ad24f64d24186dae627fae5b5b6ef4b834e21e41b76fefbe333a","parse_status":"inventory"}
-{"path":"verification/whole/foreground-lifecycle/observe.py","language":"python","mode":"100644","sha256":"fbf8388247a1feb59fa7c9b932d78440842e3333a913a9c5108d0343d28863d3","parse_status":"parsed"}
-{"path":"verification/whole/foreground-lifecycle/verify.py","language":"python","mode":"100644","sha256":"6cac02cc82ebc67033d4244845b0847ddc77cd48b86167138e0452abd6e3e024","parse_status":"parsed"}
+{"path":"verification/whole/foreground-lifecycle/README.md","language":"inventory","mode":"100644","sha256":"9be6ced55cba22e2b6bc34e04b05fa511bd03da3f54c30bbc51850e29a88133e","parse_status":"inventory"}
+{"path":"verification/whole/foreground-lifecycle/observe.py","language":"python","mode":"100644","sha256":"6ed34d64e1aa7d18e0cb685a43e1108fb636bc986fdf38847cebdff657f3b42b","parse_status":"parsed"}
+{"path":"verification/whole/foreground-lifecycle/verify.py","language":"python","mode":"100644","sha256":"ae3678e96077ca43a7ab217ef7b6fc5a3f6da0336c8b8c5f231987a64a1be5be","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/README.md","language":"inventory","mode":"100644","sha256":"bd2e7841ebd8ca227998a889a0b7999ab59e8c56a708ab519e0043a7371cd2d2","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/generated-linux-arm64.json","language":"inventory","mode":"100644","sha256":"f2cf4820a7fbf1d864ecca11822f8c4c222305fe4ea8092d52303bb614631ef1","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/generated-macos-arm64.json","language":"inventory","mode":"100644","sha256":"1c3576609454693ea27afd8ab866b377f9dcb1ae91c0cc288e42e02f1866d8e7","parse_status":"inventory"}

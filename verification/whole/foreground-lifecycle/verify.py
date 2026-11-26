@@ -15,7 +15,7 @@ ROOT = HERE.parents[2]
 PORTABLE = ROOT / "oddlang/portable"
 MANIFEST = PORTABLE / "native-foreground-lifecycle-package.json"
 LOCK = PORTABLE / "native-foreground-lifecycle-v1/package.lock"
-FRAMEWORK = "2b877caa69876142311a570d5eff4b893b37ace5"
+FRAMEWORK = "e2fa69c3f18c0ac66f2ef4a0cad2c18e5e7dc98c"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 WORKSPACE_GATE = runpy.run_path(str(HERE.parent / "workspace/verify.py"))
 envtools = WORKSPACE_GATE["envtools"]
@@ -128,9 +128,12 @@ def main():
         sealed = package / "package.lock"
         if sealed.read_bytes() != LOCK.read_bytes() or sha(package / "Cargo.lock") != sha(cargo_lock):
             raise ValueError("generated package or Cargo lock differs from the release")
+        lock = json.loads(sealed.read_bytes())
+        if sha(package / "Cargo.toml") != lock["cargoManifestSha256"]:
+            raise ValueError("generated Cargo manifest differs from the sealed lock")
         observed = {path.relative_to(package).as_posix(): sha(path)
                     for path in (package / "src").rglob("*") if path.is_file()}
-        if observed != json.loads(sealed.read_bytes())["generatedFiles"]:
+        if observed != lock["generatedFiles"]:
             raise ValueError("generated source inventory differs")
         isolated("cargo", "build", "--locked", "--release", "--offline", cwd=package)
         release = package / "target/release"
@@ -146,7 +149,8 @@ def main():
                      "--framework-revision", FRAMEWORK)
         result = json.loads(evidence.read_bytes())
         result.update({"companionRevision": revision, "cargoLockSha256": sha(cargo_lock),
-                       "packageLockSha256": sha(sealed), "gitProviders": providers,
+                       "packageLockSha256": sha(sealed), "cargoManifestSha256": lock["cargoManifestSha256"],
+                       "gitProviders": providers,
                        "observerSha256": sha(HERE / "observe.py"), "badStorageBindingRejected": True})
     with args.receipt.open("x") as stream:
         stream.write(json.dumps(result, sort_keys=True, indent=2) + "\n")

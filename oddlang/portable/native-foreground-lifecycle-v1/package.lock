@@ -83,12 +83,12 @@
         "bindingSha256": "9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c",
         "format": "oddlang-foreground-profile-owner-lock-v1",
         "graphSha256": "94e4493495c3062ac88ff96a584fc53382c27388ee6db88efd9bf69f4f1108be",
-        "sourceSha256": "2f018bc0e8cfd4081f806aa7a6657fdad7bac3f306a580c2a68dd24b366ed0f2"
+        "sourceSha256": "c06e4e2f4d6ff3e703ad16aefb65519d691f7da016cafbe7fa85ac6e8484a795"
       },
       "reexports": [
         "run_foreground"
       ],
-      "sourceSha256": "2f018bc0e8cfd4081f806aa7a6657fdad7bac3f306a580c2a68dd24b366ed0f2"
+      "sourceSha256": "c06e4e2f4d6ff3e703ad16aefb65519d691f7da016cafbe7fa85ac6e8484a795"
     },
     {
       "graphSha256": "2594ebf460e65fa9c9623a40c9da10d884e77cb21f768305b2601a2a95c29832",
@@ -100,12 +100,12 @@
         "format": "oddlang-file-profile-lock-v1",
         "graphSha256": "2594ebf460e65fa9c9623a40c9da10d884e77cb21f768305b2601a2a95c29832",
         "obligationsSha256": "dce308a8174ddc7f05b8d119e850877ad3b1430dc9a887646c7e7501654c11ef",
-        "sourceSha256": "7dfb345ad482072a241386374288677e5cbadd20b6e64297957ed671d4312955"
+        "sourceSha256": "5e60c4114b0ecd8ed7a62a33272b348a77564ff89cc4984f2a3fc562f2fd8f68"
       },
       "reexports": [
         "initialize_profile"
       ],
-      "sourceSha256": "7dfb345ad482072a241386374288677e5cbadd20b6e64297957ed671d4312955"
+      "sourceSha256": "5e60c4114b0ecd8ed7a62a33272b348a77564ff89cc4984f2a3fc562f2fd8f68"
     }
   ],
   "format": "oddlang-native-package-lock-v1",
@@ -120,9 +120,9 @@
     "src/group_2/mod.rs": "22104158e0b623c1c801d960fb7c6ba84ff1b025e7ff847b00b1033f4539c1f8",
     "src/group_3/__projection_3.rs": "f5e799c46194daeb680eb708c82dbf86923fb8c00b67a0fc483b67b9d3353497",
     "src/group_3/mod.rs": "b332ddce974fe01c31831e359e3722123fe36a0fbfd9ed625ce0014a6728a4cc",
-    "src/group_4/__projection_4.rs": "2f018bc0e8cfd4081f806aa7a6657fdad7bac3f306a580c2a68dd24b366ed0f2",
+    "src/group_4/__projection_4.rs": "c06e4e2f4d6ff3e703ad16aefb65519d691f7da016cafbe7fa85ac6e8484a795",
     "src/group_4/mod.rs": "517159d204ab99004846d5395161c4f457da7176cdbcd6764e8eceb4ec780525",
-    "src/group_5/__projection_5.rs": "7dfb345ad482072a241386374288677e5cbadd20b6e64297957ed671d4312955",
+    "src/group_5/__projection_5.rs": "5e60c4114b0ecd8ed7a62a33272b348a77564ff89cc4984f2a3fc562f2fd8f68",
     "src/group_5/mod.rs": "4d3eb735aae0baa509e144d52b09ba0180c36b845e439c8602739d0fb213c095",
     "src/lib.rs": "33ecfe660a29d0a968263d41edf97fe6ffc75815f0ba5b5fc604f97321620a9d"
   },

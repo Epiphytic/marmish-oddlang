@@ -85,13 +85,27 @@ def signal_trial(owner, competitor, clients, profile, common, root, runtime, env
                 assert all(call([client, *common, "status"], env, root) == SUCCESS for client in clients)
                 contested = call([competitor, "--foreground", *common, *relay_options(blocked)], env, root)
                 assert contested == LOCKED
+                peer.setblocking(False)
+                try:
+                    assert peer.recv(1, socket.MSG_PEEK), "TLS dial closed before the termination signal"
+                except BlockingIOError:
+                    pass
+                peer.settimeout(8)
                 child.send_signal(sig)
-                out, err = child.communicate(timeout=10)
-                # A ClientHello can span records. Drain until the owned dial really closes.
+                # A ClientHello can span records. Observe EOF before collecting the process result.
                 drained = 0
                 while piece := peer.recv(4096):
                     drained += len(piece)
                     assert drained <= 65536
+            out, err = child.communicate(timeout=10)
+            relay.setblocking(False)
+            try:
+                retry, _ = relay.accept()
+            except BlockingIOError:
+                pass
+            else:
+                retry.close()
+                raise AssertionError("the owner opened another TCP connection during the held trial")
             result = observation(child.returncode, out, err)
         finally:
             if child.poll() is None:
@@ -99,7 +113,8 @@ def signal_trial(owner, competitor, clients, profile, common, root, runtime, env
                 child.communicate()
     assert not runtime.exists()
     release_check(profile)
-    return {"heldFiles": list(STORES), "tlsRecordPrefix": header[:3].hex(), "tlsEof": True,
+    return {"heldFiles": list(STORES), "tlsRecordPrefix": header[:3].hex(), "tlsHeldBeforeSignal": True,
+            "tlsEof": True, "noQueuedRetry": True,
             "status": SUCCESS, "leaseContender": contested, "terminal": result}
 
 
