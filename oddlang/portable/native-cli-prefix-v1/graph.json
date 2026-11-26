@@ -1,0 +1,1310 @@
+{
+  "profile": "command-surface-v1",
+  "package_name": "marmish-native",
+  "version": "0.3.1",
+  "root": {
+    "name": "marmish-native",
+    "help": "Marmish native identity and encrypted transport foundation",
+    "arguments": [
+      {
+        "id": "debug",
+        "long": "debug",
+        "value_name": "DEBUG",
+        "global": true
+      },
+      {
+        "id": "foreground",
+        "help": "Keep the daemon attached to the terminal or service supervisor",
+        "long": "foreground",
+        "value_name": "FOREGROUND",
+        "global": true
+      },
+      {
+        "id": "state_dir",
+        "long": "state-dir",
+        "value_name": "STATE_DIR",
+        "kind": "path",
+        "global": true
+      },
+      {
+        "id": "identity",
+        "long": "identity",
+        "short": "i",
+        "value_name": "IDENTITY",
+        "kind": "string",
+        "global": true,
+        "default_value": "default"
+      },
+      {
+        "id": "socket",
+        "long": "socket",
+        "value_name": "SOCKET",
+        "kind": "path",
+        "global": true
+      },
+      {
+        "id": "relay",
+        "long": "relay",
+        "value_name": "RELAY",
+        "kind": "string",
+        "repeated": true,
+        "global": true
+      },
+      {
+        "id": "tor",
+        "long": "tor",
+        "value_name": "TOR",
+        "kind": "string",
+        "global": true
+      },
+      {
+        "id": "key_storage",
+        "long": "key-storage",
+        "value_name": "KEY_STORAGE",
+        "kind": "string",
+        "global": true,
+        "default_value": "auto",
+        "possible_values": [
+          "auto",
+          "keychain",
+          "file"
+        ]
+      },
+      {
+        "id": "allow_peer",
+        "long": "allow-peer",
+        "value_name": "ALLOW_PEER",
+        "kind": "string",
+        "repeated": true,
+        "global": true
+      },
+      {
+        "id": "retention_seconds",
+        "long": "retention-seconds",
+        "value_name": "RETENTION_SECONDS",
+        "kind": "u64",
+        "global": true,
+        "default_value": "86400"
+      },
+      {
+        "id": "user",
+        "long": "user",
+        "short": "u",
+        "value_name": "USER",
+        "kind": "string",
+        "global": true
+      },
+      {
+        "id": "srv",
+        "long": "srv",
+        "value_name": "SRV",
+        "kind": "string",
+        "repeated": true,
+        "global": true
+      },
+      {
+        "id": "stdin",
+        "long": "stdin",
+        "value_name": "STDIN",
+        "global": true,
+        "conflicts": [
+          "stdin_none"
+        ]
+      },
+      {
+        "id": "stdin_none",
+        "long": "stdin-none",
+        "value_name": "STDIN_NONE",
+        "global": true
+      },
+      {
+        "id": "detach",
+        "long": "detach",
+        "value_name": "DETACH",
+        "global": true
+      },
+      {
+        "id": "new_session",
+        "help": "Open a fresh independent command room instead of reusing the default",
+        "long": "new-session",
+        "value_name": "NEW_SESSION",
+        "global": true
+      },
+      {
+        "id": "wait_seconds",
+        "long": "wait-seconds",
+        "value_name": "WAIT_SECONDS",
+        "kind": "u64",
+        "global": true,
+        "default_value": "180",
+        "bounds": {
+          "minimum": 1,
+          "maximum": 86400
+        }
+      },
+      {
+        "id": "no_autostart",
+        "long": "no-autostart",
+        "value_name": "NO_AUTOSTART",
+        "global": true
+      },
+      {
+        "id": "max_commands",
+        "long": "max-commands",
+        "value_name": "MAX_COMMANDS",
+        "kind": "string",
+        "global": true
+      },
+      {
+        "id": "max_uptime",
+        "long": "max-uptime",
+        "value_name": "MAX_UPTIME",
+        "kind": "string",
+        "global": true
+      }
+    ],
+    "groups": [
+      {
+        "id": "Args",
+        "multiple": true,
+        "arguments": [
+          "debug",
+          "foreground",
+          "state_dir",
+          "identity",
+          "socket",
+          "relay",
+          "tor",
+          "key_storage",
+          "allow_peer",
+          "retention_seconds",
+          "user",
+          "srv",
+          "stdin",
+          "stdin_none",
+          "detach",
+          "new_session",
+          "wait_seconds",
+          "no_autostart",
+          "max_commands",
+          "max_uptime"
+        ]
+      }
+    ],
+    "subcommands": [
+      {
+        "name": "copy-receipts",
+        "help": "Inspect retained local download receipts or acknowledge an uncertain record",
+        "arguments": [
+          {
+            "id": "forget",
+            "long": "forget",
+            "value_name": "FORGET",
+            "kind": "string",
+            "requires": [
+              "revision",
+              "acknowledge_retained_state"
+            ]
+          },
+          {
+            "id": "revision",
+            "long": "revision",
+            "value_name": "REVISION",
+            "kind": "u64",
+            "bounds": {
+              "minimum": 1
+            },
+            "requires": [
+              "forget"
+            ]
+          },
+          {
+            "id": "acknowledge_retained_state",
+            "help": "Remove only the index record; retained files require manual inspection",
+            "long": "acknowledge-retained-state",
+            "value_name": "ACKNOWLEDGE_RETAINED_STATE",
+            "requires": [
+              "forget"
+            ]
+          }
+        ],
+        "groups": [
+          {
+            "id": "CopyReceipts",
+            "multiple": true,
+            "arguments": [
+              "forget",
+              "revision",
+              "acknowledge_retained_state"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "put",
+        "help": "Copy one local regular file to a remote literal path",
+        "arguments": [
+          {
+            "id": "remote",
+            "help": "Remote npub or configured alias, optionally followed by @relay",
+            "value_name": "REMOTE",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "source",
+            "help": "Literal source path (local for put; remote for get)",
+            "value_name": "SOURCE",
+            "kind": "os_string",
+            "required": true
+          },
+          {
+            "id": "target",
+            "help": "Literal destination path (remote for put; local for get)",
+            "value_name": "TARGET",
+            "kind": "os_string",
+            "required": true
+          },
+          {
+            "id": "compress",
+            "long": "compress",
+            "value_name": "COMPRESS"
+          },
+          {
+            "id": "resume",
+            "help": "Resume this exact transfer with unchanged paths and preservation options",
+            "long": "resume",
+            "value_name": "RESUME",
+            "kind": "string"
+          },
+          {
+            "id": "overwrite",
+            "long": "overwrite",
+            "value_name": "OVERWRITE"
+          },
+          {
+            "id": "preserve_mode",
+            "long": "preserve-mode",
+            "value_name": "PRESERVE_MODE"
+          },
+          {
+            "id": "preserve_mtime",
+            "long": "preserve-mtime",
+            "value_name": "PRESERVE_MTIME"
+          },
+          {
+            "id": "idle_seconds",
+            "long": "idle-seconds",
+            "value_name": "IDLE_SECONDS",
+            "kind": "u64",
+            "default_value": "660",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "keepalive_seconds",
+            "long": "keepalive-seconds",
+            "value_name": "KEEPALIVE_SECONDS",
+            "kind": "u64",
+            "default_value": "300",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "probe_seconds",
+            "help": "Capability probe deadline, no greater than the idle timeout",
+            "long": "probe-seconds",
+            "value_name": "PROBE_SECONDS",
+            "kind": "u64",
+            "default_value": "15",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          }
+        ],
+        "groups": [
+          {
+            "id": "CopyArgs",
+            "multiple": true,
+            "arguments": [
+              "remote",
+              "source",
+              "target",
+              "compress",
+              "resume",
+              "overwrite",
+              "preserve_mode",
+              "preserve_mtime",
+              "idle_seconds",
+              "keepalive_seconds",
+              "probe_seconds"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "get",
+        "help": "Copy one remote regular file to a local literal path",
+        "arguments": [
+          {
+            "id": "remote",
+            "help": "Remote npub or configured alias, optionally followed by @relay",
+            "value_name": "REMOTE",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "source",
+            "help": "Literal source path (local for put; remote for get)",
+            "value_name": "SOURCE",
+            "kind": "os_string",
+            "required": true
+          },
+          {
+            "id": "target",
+            "help": "Literal destination path (remote for put; local for get)",
+            "value_name": "TARGET",
+            "kind": "os_string",
+            "required": true
+          },
+          {
+            "id": "compress",
+            "long": "compress",
+            "value_name": "COMPRESS"
+          },
+          {
+            "id": "resume",
+            "help": "Resume this exact transfer with unchanged paths and preservation options",
+            "long": "resume",
+            "value_name": "RESUME",
+            "kind": "string"
+          },
+          {
+            "id": "overwrite",
+            "long": "overwrite",
+            "value_name": "OVERWRITE"
+          },
+          {
+            "id": "preserve_mode",
+            "long": "preserve-mode",
+            "value_name": "PRESERVE_MODE"
+          },
+          {
+            "id": "preserve_mtime",
+            "long": "preserve-mtime",
+            "value_name": "PRESERVE_MTIME"
+          },
+          {
+            "id": "idle_seconds",
+            "long": "idle-seconds",
+            "value_name": "IDLE_SECONDS",
+            "kind": "u64",
+            "default_value": "660",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "keepalive_seconds",
+            "long": "keepalive-seconds",
+            "value_name": "KEEPALIVE_SECONDS",
+            "kind": "u64",
+            "default_value": "300",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "probe_seconds",
+            "help": "Capability probe deadline, no greater than the idle timeout",
+            "long": "probe-seconds",
+            "value_name": "PROBE_SECONDS",
+            "kind": "u64",
+            "default_value": "15",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          }
+        ],
+        "groups": [
+          {
+            "id": "CopyArgs",
+            "multiple": true,
+            "arguments": [
+              "remote",
+              "source",
+              "target",
+              "compress",
+              "resume",
+              "overwrite",
+              "preserve_mode",
+              "preserve_mtime",
+              "idle_seconds",
+              "keepalive_seconds",
+              "probe_seconds"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "rsh",
+        "help": "Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh"
+      },
+      {
+        "name": "stream",
+        "help": "Execute with binary stdin/stdout streams and explicit remote cancellation",
+        "arguments": [
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "compress",
+            "long": "compress",
+            "value_name": "COMPRESS"
+          },
+          {
+            "id": "idle_seconds",
+            "long": "idle-seconds",
+            "value_name": "IDLE_SECONDS",
+            "kind": "u64",
+            "default_value": "660",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "keepalive_seconds",
+            "long": "keepalive-seconds",
+            "value_name": "KEEPALIVE_SECONDS",
+            "kind": "u64",
+            "default_value": "300",
+            "bounds": {
+              "minimum": 1,
+              "maximum": 86400
+            }
+          },
+          {
+            "id": "argv",
+            "value_name": "ARGV",
+            "kind": "os_string",
+            "required": true,
+            "repeated": true,
+            "last": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "Stream",
+            "multiple": true,
+            "arguments": [
+              "destination",
+              "compress",
+              "idle_seconds",
+              "keepalive_seconds",
+              "argv"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "streams",
+        "help": "List locally recorded streams and their last known remote states",
+        "arguments": [
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "Streams",
+            "multiple": true,
+            "arguments": [
+              "destination"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "stream-reconcile",
+        "help": "Acknowledge that an uncertain orphan may still be running, releasing credit",
+        "arguments": [
+          {
+            "id": "stream",
+            "value_name": "STREAM",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "acknowledge_possible_live",
+            "long": "acknowledge-possible-live",
+            "value_name": "ACKNOWLEDGE_POSSIBLE_LIVE",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "StreamReconcile",
+            "multiple": true,
+            "arguments": [
+              "stream",
+              "acknowledge_possible_live"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "keychain-authorize",
+        "help": "Ask macOS for access to this existing profile, then verify without UI"
+      },
+      {
+        "name": "release-info",
+        "help": "Print this binary's native version, build target and source commit"
+      },
+      {
+        "name": "install",
+        "help": "Install a verified v0.2 bundle or select an already installed version",
+        "arguments": [
+          {
+            "id": "source_dir",
+            "long": "source-dir",
+            "value_name": "SOURCE_DIR",
+            "kind": "path",
+            "conflicts": [
+              "select"
+            ]
+          },
+          {
+            "id": "manifest",
+            "long": "manifest",
+            "value_name": "MANIFEST",
+            "kind": "path",
+            "requires": [
+              "source_dir"
+            ]
+          },
+          {
+            "id": "manifest_sha256",
+            "long": "manifest-sha256",
+            "value_name": "MANIFEST_SHA256",
+            "kind": "string",
+            "requires": [
+              "source_dir"
+            ]
+          },
+          {
+            "id": "select",
+            "long": "select",
+            "value_name": "SELECT",
+            "kind": "string",
+            "conflicts": [
+              "source_dir"
+            ]
+          },
+          {
+            "id": "prefix",
+            "long": "prefix",
+            "value_name": "PREFIX",
+            "kind": "path",
+            "required": true
+          },
+          {
+            "id": "bin_dir",
+            "long": "bin-dir",
+            "value_name": "BIN_DIR",
+            "kind": "path",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "Install",
+            "multiple": true,
+            "arguments": [
+              "source_dir",
+              "manifest",
+              "manifest_sha256",
+              "select",
+              "prefix",
+              "bin_dir"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "install-status",
+        "arguments": [
+          {
+            "id": "prefix",
+            "long": "prefix",
+            "value_name": "PREFIX",
+            "kind": "path",
+            "required": true
+          },
+          {
+            "id": "bin_dir",
+            "long": "bin-dir",
+            "value_name": "BIN_DIR",
+            "kind": "path",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "InstallStatus",
+            "multiple": true,
+            "arguments": [
+              "prefix",
+              "bin_dir"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "uninstall",
+        "arguments": [
+          {
+            "id": "prefix",
+            "long": "prefix",
+            "value_name": "PREFIX",
+            "kind": "path",
+            "required": true
+          },
+          {
+            "id": "bin_dir",
+            "long": "bin-dir",
+            "value_name": "BIN_DIR",
+            "kind": "path",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "Uninstall",
+            "multiple": true,
+            "arguments": [
+              "prefix",
+              "bin_dir"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "setup",
+        "help": "Create or update this named identity and its offline command configuration",
+        "arguments": [
+          {
+            "id": "interactive",
+            "long": "interactive",
+            "value_name": "INTERACTIVE"
+          },
+          {
+            "id": "role",
+            "long": "role",
+            "value_name": "ROLE",
+            "kind": "string",
+            "possible_values": [
+              "client",
+              "server",
+              "both",
+              "c",
+              "s",
+              "b"
+            ]
+          },
+          {
+            "id": "grant",
+            "long": "grant",
+            "value_name": "GRANT",
+            "kind": "string",
+            "repeated": true
+          },
+          {
+            "id": "revoke",
+            "long": "revoke",
+            "value_name": "REVOKE",
+            "kind": "string",
+            "repeated": true
+          },
+          {
+            "id": "trust",
+            "long": "trust",
+            "value_name": "TRUST",
+            "kind": "string",
+            "repeated": true
+          },
+          {
+            "id": "untrust",
+            "long": "untrust",
+            "value_name": "UNTRUST",
+            "kind": "string",
+            "repeated": true
+          },
+          {
+            "id": "update",
+            "long": "update",
+            "value_name": "UPDATE"
+          },
+          {
+            "id": "no_grants",
+            "long": "no-grants",
+            "value_name": "NO_GRANTS"
+          }
+        ],
+        "groups": [
+          {
+            "id": "Setup",
+            "multiple": true,
+            "arguments": [
+              "interactive",
+              "role",
+              "grant",
+              "revoke",
+              "trust",
+              "untrust",
+              "update",
+              "no_grants"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "init",
+        "help": "Initialize encrypted native storage without connecting to relays"
+      },
+      {
+        "name": "commands",
+        "help": "List durable command handles without command arguments or output",
+        "arguments": [
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "Commands",
+            "multiple": true,
+            "arguments": [
+              "destination"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "command-status",
+        "help": "Query an explicitly selected remote invocation",
+        "arguments": [
+          {
+            "id": "stream",
+            "help": "Cancel this locally recorded stream ID, including an uncertain attachment",
+            "long": "stream",
+            "value_name": "STREAM",
+            "kind": "string"
+          },
+          {
+            "id": "local",
+            "help": "Cancel an owned server process without requiring a remote grant",
+            "long": "local",
+            "value_name": "LOCAL",
+            "requires": [
+              "stream"
+            ]
+          },
+          {
+            "id": "handle",
+            "help": "Exact private handle JSON previously printed by marmish",
+            "long": "handle",
+            "value_name": "HANDLE",
+            "kind": "string"
+          },
+          {
+            "id": "handle_file",
+            "long": "handle-file",
+            "value_name": "HANDLE_FILE",
+            "kind": "path"
+          },
+          {
+            "id": "invocation",
+            "long": "invocation",
+            "value_name": "INVOCATION",
+            "kind": "string"
+          },
+          {
+            "id": "latest",
+            "long": "latest",
+            "value_name": "LATEST"
+          },
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "selector",
+            "required": true,
+            "arguments": [
+              "handle",
+              "handle_file",
+              "invocation",
+              "latest",
+              "stream"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "cancel",
+        "help": "Explicitly request cancellation of an invocation",
+        "arguments": [
+          {
+            "id": "stream",
+            "help": "Cancel this locally recorded stream ID, including an uncertain attachment",
+            "long": "stream",
+            "value_name": "STREAM",
+            "kind": "string"
+          },
+          {
+            "id": "local",
+            "help": "Cancel an owned server process without requiring a remote grant",
+            "long": "local",
+            "value_name": "LOCAL",
+            "requires": [
+              "stream"
+            ]
+          },
+          {
+            "id": "handle",
+            "help": "Exact private handle JSON previously printed by marmish",
+            "long": "handle",
+            "value_name": "HANDLE",
+            "kind": "string"
+          },
+          {
+            "id": "handle_file",
+            "long": "handle-file",
+            "value_name": "HANDLE_FILE",
+            "kind": "path"
+          },
+          {
+            "id": "invocation",
+            "long": "invocation",
+            "value_name": "INVOCATION",
+            "kind": "string"
+          },
+          {
+            "id": "latest",
+            "long": "latest",
+            "value_name": "LATEST"
+          },
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "selector",
+            "required": true,
+            "arguments": [
+              "handle",
+              "handle_file",
+              "invocation",
+              "latest",
+              "stream"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "wait",
+        "help": "Resume waiting and copying output using durable cursors",
+        "arguments": [
+          {
+            "id": "stream",
+            "help": "Cancel this locally recorded stream ID, including an uncertain attachment",
+            "long": "stream",
+            "value_name": "STREAM",
+            "kind": "string"
+          },
+          {
+            "id": "local",
+            "help": "Cancel an owned server process without requiring a remote grant",
+            "long": "local",
+            "value_name": "LOCAL",
+            "requires": [
+              "stream"
+            ]
+          },
+          {
+            "id": "handle",
+            "help": "Exact private handle JSON previously printed by marmish",
+            "long": "handle",
+            "value_name": "HANDLE",
+            "kind": "string"
+          },
+          {
+            "id": "handle_file",
+            "long": "handle-file",
+            "value_name": "HANDLE_FILE",
+            "kind": "path"
+          },
+          {
+            "id": "invocation",
+            "long": "invocation",
+            "value_name": "INVOCATION",
+            "kind": "string"
+          },
+          {
+            "id": "latest",
+            "long": "latest",
+            "value_name": "LATEST"
+          },
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "selector",
+            "required": true,
+            "arguments": [
+              "handle",
+              "handle_file",
+              "invocation",
+              "latest",
+              "stream"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "output",
+        "arguments": [
+          {
+            "id": "stream",
+            "help": "Cancel this locally recorded stream ID, including an uncertain attachment",
+            "long": "stream",
+            "value_name": "STREAM",
+            "kind": "string"
+          },
+          {
+            "id": "local",
+            "help": "Cancel an owned server process without requiring a remote grant",
+            "long": "local",
+            "value_name": "LOCAL",
+            "requires": [
+              "stream"
+            ]
+          },
+          {
+            "id": "handle",
+            "help": "Exact private handle JSON previously printed by marmish",
+            "long": "handle",
+            "value_name": "HANDLE",
+            "kind": "string"
+          },
+          {
+            "id": "handle_file",
+            "long": "handle-file",
+            "value_name": "HANDLE_FILE",
+            "kind": "path"
+          },
+          {
+            "id": "invocation",
+            "long": "invocation",
+            "value_name": "INVOCATION",
+            "kind": "string"
+          },
+          {
+            "id": "latest",
+            "long": "latest",
+            "value_name": "LATEST"
+          },
+          {
+            "id": "destination",
+            "value_name": "DESTINATION",
+            "kind": "string"
+          }
+        ],
+        "groups": [
+          {
+            "id": "selector",
+            "required": true,
+            "arguments": [
+              "handle",
+              "handle_file",
+              "invocation",
+              "latest",
+              "stream"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "daemon",
+        "help": "Run this identity's serialized transport owner"
+      },
+      {
+        "name": "status"
+      },
+      {
+        "name": "command-evidence",
+        "hidden": true,
+        "arguments": [
+          {
+            "id": "after",
+            "long": "after",
+            "value_name": "AFTER",
+            "kind": "u64"
+          },
+          {
+            "id": "limit",
+            "long": "limit",
+            "value_name": "LIMIT",
+            "kind": "u32",
+            "default_value": "64"
+          }
+        ],
+        "groups": [
+          {
+            "id": "CommandEvidence",
+            "multiple": true,
+            "arguments": [
+              "after",
+              "limit"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "command-cleanup-status",
+        "hidden": true
+      },
+      {
+        "name": "command-local-cancel",
+        "hidden": true,
+        "arguments": [
+          {
+            "id": "cursor",
+            "value_name": "CURSOR",
+            "kind": "u64",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "CommandLocalCancel",
+            "multiple": true,
+            "arguments": [
+              "cursor"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "command-prepare-cleanup",
+        "hidden": true
+      },
+      {
+        "name": "open-conversation",
+        "arguments": [
+          {
+            "id": "peer",
+            "value_name": "PEER",
+            "kind": "string",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "OpenConversation",
+            "multiple": true,
+            "arguments": [
+              "peer"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "send",
+        "help": "Send a bounded foundation test payload, encoded as canonical base64",
+        "arguments": [
+          {
+            "id": "session",
+            "value_name": "SESSION",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "id",
+            "value_name": "ID",
+            "kind": "string",
+            "required": true
+          },
+          {
+            "id": "data",
+            "value_name": "DATA",
+            "kind": "string",
+            "required": true
+          }
+        ],
+        "groups": [
+          {
+            "id": "Send",
+            "multiple": true,
+            "arguments": [
+              "session",
+              "id",
+              "data"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "received",
+        "arguments": [
+          {
+            "id": "after",
+            "long": "after",
+            "value_name": "AFTER",
+            "kind": "u64"
+          },
+          {
+            "id": "limit",
+            "long": "limit",
+            "value_name": "LIMIT",
+            "kind": "usize",
+            "default_value": "1"
+          }
+        ],
+        "groups": [
+          {
+            "id": "Received",
+            "multiple": true,
+            "arguments": [
+              "after",
+              "limit"
+            ]
+          }
+        ]
+      },
+      {
+        "name": "foundation-check",
+        "help": "Fresh-key encrypted exchange, restart, and receipt validation. No commands"
+      },
+      {
+        "name": "command-check",
+        "help": "Disposable-key live remote-command validation through explicit relays"
+      }
+    ]
+  },
+  "external": true,
+  "gaps": [
+    "Private bootstrap and helper entrypoints before public argument parsing",
+    "Rsync pre-parser and its external argument, environment and process semantics",
+    "Post-parse trailing argument and authorization restrictions",
+    "Per-binary command defaults and routing, daemon IPC, output and exit semantics after dispatch",
+    "Effectful implementation and conformance for every declared command operation",
+    "Leading root option policy applies to auxiliary terminal responses. Malformed prefixes, separators and successful auxiliary invocation are outside this projection."
+  ],
+  "terminal_subparsers": {
+    "rsh": {
+      "name": "marmish rsh",
+      "help": "Rsync remote shell; use rsync -s -e 'marmish rsh'. Global Marmish options go before rsh.",
+      "arguments": [
+        {
+          "id": "compress",
+          "long": "compress",
+          "value_name": "COMPRESS"
+        },
+        {
+          "id": "idle_seconds",
+          "long": "idle-seconds",
+          "value_name": "IDLE_SECONDS",
+          "kind": "u64",
+          "default_value": "660",
+          "bounds": {
+            "minimum": 1,
+            "maximum": 86400
+          }
+        },
+        {
+          "id": "keepalive_seconds",
+          "long": "keepalive-seconds",
+          "value_name": "KEEPALIVE_SECONDS",
+          "kind": "u64",
+          "default_value": "300",
+          "bounds": {
+            "minimum": 1,
+            "maximum": 86400
+          }
+        },
+        {
+          "id": "login",
+          "short": "l",
+          "value_name": "REMOTE_IDENTITY",
+          "kind": "string"
+        },
+        {
+          "id": "target_and_argv",
+          "value_name": "TARGET_AND_ARGV",
+          "kind": "os_string",
+          "required": true,
+          "repeated": true,
+          "trailing_var_arg": true,
+          "allow_hyphen_values": true
+        }
+      ],
+      "groups": [
+        {
+          "id": "RshArgs",
+          "multiple": true,
+          "arguments": [
+            "compress",
+            "idle_seconds",
+            "keepalive_seconds",
+            "login",
+            "target_and_argv"
+          ]
+        }
+      ]
+    }
+  },
+  "terminal_prefixes": {
+    "rsh": {
+      "allowed": [
+        "debug",
+        "identity",
+        "key_storage",
+        "no_autostart",
+        "relay",
+        "retention_seconds",
+        "socket",
+        "srv",
+        "state_dir",
+        "tor"
+      ],
+      "denied": "marmish rsh: unsupported global option; use rsync -l for the remote identity"
+    }
+  }
+}
