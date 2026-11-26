@@ -258,7 +258,7 @@
 {"path":"oddlang/portable/core-package.json","language":"inventory","mode":"100644","sha256":"89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4","parse_status":"inventory"}
 {"path":"oddlang/portable/core-relays-v1/graph.json","language":"inventory","mode":"100644","sha256":"98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff","parse_status":"inventory"}
 {"path":"oddlang/portable/core-relays-v1/rust.json","language":"inventory","mode":"100644","sha256":"e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c","parse_status":"inventory"}
-{"path":"oddlang/portable/native-cli-v1/README.md","language":"inventory","mode":"100644","sha256":"8e6af0aacb0b9eda459ad03052a55c1c264b43d1af47c04ce3744f0be16ee297","parse_status":"inventory"}
+{"path":"oddlang/portable/native-cli-v1/README.md","language":"inventory","mode":"100644","sha256":"3f36ba84770c55d40c9eb7c050ce540ba9b656d01fb0de11a42adb32ea494924","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/graph.json","language":"inventory","mode":"100644","sha256":"588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/marmish.json","language":"inventory","mode":"100644","sha256":"9216373cf3da52811232b6b2b9b89d08b078cae19f16d3fab42a8907412f7a77","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/marmishd.json","language":"inventory","mode":"100644","sha256":"b26a47cf3c2127e29800e3282c8509ea32de2ebc7fe36c31f82a580e3bbce923","parse_status":"inventory"}
@@ -594,7 +594,7 @@
 {"path":"verification/whole/cli/README.md","language":"inventory","mode":"100644","sha256":"e9d45c0088519f76d2c59ea02f369f795db0556ab2d4ee6fea1e7bf92ec62058","parse_status":"inventory"}
 {"path":"verification/whole/cli/generated-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"cc55538bd6167209d281e96c2ab39f0958f0a03e737b0bee80e452e9acd67de8","parse_status":"inventory"}
 {"path":"verification/whole/cli/macos.sh","language":"bash","mode":"100755","sha256":"0c92e1fc31d6753d303d3e39bb10168f61e8c821331664b2d28e863ec5bcf71d","parse_status":"parsed"}
-{"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"72c3a0fb16930133c470eec5a1482f593e52d277f63d9846b4b4060513ded724","parse_status":"parsed"}
+{"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"09f3b31b6a41b8474093eb3d73ae5c512d5ca732b410060d4b70ede0751c13ec","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
 {"path":"verification/whole/core-node/check.mjs","language":"javascript","mode":"100644","sha256":"8b8773de0a9fb8539c4c8ba3a581534d00b66fd32b38959b91f9f74655ea82a7","parse_status":"parsed_with_omissions"}

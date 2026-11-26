@@ -17,6 +17,7 @@ REVISION = "af54339d250290490d62d4475a77539b7e739071"
 PARSER = "crates/marmish-native/src/cli.rs"
 MANIFEST = "crates/marmish-native/Cargo.toml"
 PINS = {
+    "Cargo.lock": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
     PARSER: "a4122418f4f777a53e839487b3b162951ac2b1447ea26b968245322390c866d4",
     MANIFEST: "f92cdde82b3e4cf077294a7296117af4dcc28dba55bf1c9d694d7a4b273f539f",
 }
@@ -35,6 +36,17 @@ def recover(oddlang, original):
     package = tomllib.loads(pinned[MANIFEST].decode())["package"]
     if (package["name"], package["version"], package["edition"]) != ("marmish-native", "0.3.1", "2024"):
         raise ValueError("unexpected original package metadata")
+    def registry_packages(lock):
+        return {
+            (record["name"], record["version"], record["source"], record["checksum"])
+            for record in tomllib.loads(lock.decode())["package"]
+            if "source" in record
+        }
+
+    required = registry_packages((INPUTS / "parser-Cargo.lock").read_bytes())
+    available = registry_packages(pinned["Cargo.lock"])
+    if not required or not required.issubset(available):
+        raise ValueError("generated parser dependency pins differ from the original release")
     with tempfile.TemporaryDirectory(prefix="native-cli-recovery-") as temp:
         scratch = Path(temp)
         source = scratch / "parser.rs"
