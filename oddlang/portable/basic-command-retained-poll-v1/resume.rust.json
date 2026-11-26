@@ -1,0 +1,24 @@
+{
+  "format": "oddlang-local-command-client-rust-v1",
+  "entry": "resume",
+  "profile_provider": "nostr-url-base64-unix",
+  "delivery_provider": "base64-sha256",
+  "delivery_wire_checks": {
+    "urn:marmish:local-command-client:resume:state:poll": [
+      "command_responses",
+      "decode_poll"
+    ],
+    "urn:marmish:local-command-client:resume:state:recover_poll_answer": [
+      "command_responses",
+      "decode_poll"
+    ],
+    "urn:marmish:local-command-client:resume:state:finish_response": [
+      "command_responses",
+      "decode_finish"
+    ],
+    "urn:marmish:local-command-client:resume:state:retained_answer": [
+      "command_responses",
+      "decode_poll"
+    ]
+  }
+}
