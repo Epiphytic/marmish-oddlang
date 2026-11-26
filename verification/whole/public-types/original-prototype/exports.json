@@ -1,0 +1,13 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_prototype",
+  "modules": {
+    "local::marmish_prototype": {
+      "path": [],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {}
+}

@@ -1,0 +1,1119 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_native",
+  "modules": {
+    "local::marmish_native": {
+      "path": [],
+      "bindings": {
+        "Error": {
+          "kind": "data",
+          "target": "local::marmish_native::error::{type}::Error::{type}"
+        },
+        "Result": {
+          "kind": "alias",
+          "target": "local::marmish_native::error::{type}::Result::{type}"
+        },
+        "cli": {
+          "kind": "module",
+          "target": "local::marmish_native::cli::{type}"
+        },
+        "daemon": {
+          "kind": "module",
+          "target": "local::marmish_native::daemon::{type}"
+        },
+        "diagnostics": {
+          "kind": "module",
+          "target": "local::marmish_native::diagnostics::{type}"
+        },
+        "error": {
+          "kind": "module",
+          "target": "local::marmish_native::error::{type}"
+        },
+        "foundation": {
+          "kind": "module",
+          "target": "local::marmish_native::foundation::{type}"
+        },
+        "foundation_check": {
+          "kind": "module",
+          "target": "local::marmish_native::foundation_check::{type}"
+        },
+        "identity": {
+          "kind": "module",
+          "target": "local::marmish_native::identity::{type}"
+        },
+        "ipc": {
+          "kind": "module",
+          "target": "local::marmish_native::ipc::{type}"
+        },
+        "journal": {
+          "kind": "module",
+          "target": "local::marmish_native::journal::{type}"
+        },
+        "mdk_adapter": {
+          "kind": "module",
+          "target": "local::marmish_native::mdk_adapter::{type}"
+        },
+        "transport": {
+          "kind": "module",
+          "target": "local::marmish_native::transport::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::cli::{type}": {
+      "path": [
+        "cli"
+      ],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::daemon::{type}": {
+      "path": [
+        "daemon"
+      ],
+      "bindings": {
+        "Config": {
+          "kind": "data",
+          "target": "local::marmish_native::daemon::{type}::Config::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::diagnostics::{type}": {
+      "path": [
+        "diagnostics"
+      ],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::error::{type}": {
+      "path": [
+        "error"
+      ],
+      "bindings": {
+        "Error": {
+          "kind": "data",
+          "target": "local::marmish_native::error::{type}::Error::{type}"
+        },
+        "Result": {
+          "kind": "alias",
+          "target": "local::marmish_native::error::{type}::Result::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::foundation::{type}": {
+      "path": [
+        "foundation"
+      ],
+      "bindings": {
+        "Body": {
+          "kind": "data",
+          "target": "local::marmish_native::foundation::{type}::Body::{type}"
+        },
+        "Envelope": {
+          "kind": "data",
+          "target": "local::marmish_native::foundation::{type}::Envelope::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::foundation_check::{type}": {
+      "path": [
+        "foundation_check"
+      ],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::identity::{type}": {
+      "path": [
+        "identity"
+      ],
+      "bindings": {
+        "BackendChoice": {
+          "kind": "data",
+          "target": "local::marmish_native::identity::{type}::BackendChoice::{type}"
+        },
+        "IdentityMaterial": {
+          "kind": "data",
+          "target": "local::marmish_native::identity::{type}::IdentityMaterial::{type}"
+        },
+        "ProfileLease": {
+          "kind": "data",
+          "target": "local::marmish_native::identity::{type}::ProfileLease::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::ipc::{type}": {
+      "path": [
+        "ipc"
+      ],
+      "bindings": {
+        "Response": {
+          "kind": "data",
+          "target": "local::marmish_native::ipc::{type}::Response::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::journal::{type}": {
+      "path": [
+        "journal"
+      ],
+      "bindings": {
+        "Conversation": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::Conversation::{type}"
+        },
+        "ReceivedMessage": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::ReceivedMessage::{type}"
+        },
+        "SendStatus": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::SendStatus::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::mdk_adapter::{type}": {
+      "path": [
+        "mdk_adapter"
+      ],
+      "bindings": {
+        "Conversation": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::Conversation::{type}"
+        },
+        "MdkOwner": {
+          "kind": "data",
+          "target": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}"
+        },
+        "OpenedAccountBinding": {
+          "kind": "data",
+          "target": "local::marmish_native::mdk_adapter::{type}::OpenedAccountBinding::{type}"
+        },
+        "ReceivedMessage": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::ReceivedMessage::{type}"
+        },
+        "RuntimeStatus": {
+          "kind": "data",
+          "target": "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}"
+        },
+        "SendStatus": {
+          "kind": "data",
+          "target": "local::marmish_native::journal::{type}::SendStatus::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::transport::{type}": {
+      "path": [
+        "transport"
+      ],
+      "bindings": {
+        "ArtiDirs": {
+          "kind": "data",
+          "target": "local::marmish_native::transport::{type}::ArtiDirs::{type}"
+        },
+        "RelayConnector": {
+          "kind": "data",
+          "target": "local::marmish_native::transport::{type}::RelayConnector::{type}"
+        },
+        "RelayPolicy": {
+          "kind": "data",
+          "target": "local::marmish_native::transport::{type}::RelayPolicy::{type}"
+        },
+        "RouteMode": {
+          "kind": "data",
+          "target": "local::marmish_native::transport::{type}::RouteMode::{type}"
+        },
+        "TransportLimits": {
+          "kind": "data",
+          "target": "local::marmish_native::transport::{type}::TransportLimits::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_native::daemon::{type}::Config::{type}": {
+      "fields": {
+        "allowed_peers": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::allowed_peers",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "backend": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::backend",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "helper": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::helper",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "identity": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::identity",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "max_commands": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::max_commands",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "max_uptime": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::max_uptime",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "relay_policy": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::relay_policy",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "retention": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::retention",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "state_dir": {
+          "id": "local::marmish_native::daemon::{type}::Config::{type}::state_dir",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::error::{type}::Error::{type}": {
+      "fields": {},
+      "variants": {
+        "Copy": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Copy::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Copy::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "DaemonStartup": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::DaemonStartup::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::DaemonStartup::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Identity": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Identity::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Identity::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Invalid": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Invalid::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Invalid::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Io": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Io::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Io::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Mdk": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Mdk::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Mdk::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Storage": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Storage::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Storage::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Stream": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Stream::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Stream::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Timeout": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Timeout::{type}",
+          "fields": {}
+        },
+        "Transport": {
+          "id": "local::marmish_native::error::{type}::Error::{type}::Transport::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::error::{type}::Error::{type}::Transport::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_native::foundation::{type}::Body::{type}": {
+      "fields": {},
+      "variants": {
+        "Message": {
+          "id": "local::marmish_native::foundation::{type}::Body::{type}::Message::{type}",
+          "fields": {
+            "0": {
+              "id": "local::marmish_native::foundation::{type}::Body::{type}::Message::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Receipt": {
+          "id": "local::marmish_native::foundation::{type}::Body::{type}::Receipt::{type}",
+          "fields": {
+            "message_id": {
+              "id": "local::marmish_native::foundation::{type}::Body::{type}::Receipt::{type}::message_id",
+              "audience": {
+                "kind": "public"
+              }
+            },
+            "payload_sha256": {
+              "id": "local::marmish_native::foundation::{type}::Body::{type}::Receipt::{type}::payload_sha256",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        }
+      }
+    },
+    "local::marmish_native::foundation::{type}::Envelope::{type}": {
+      "fields": {
+        "body": {
+          "id": "local::marmish_native::foundation::{type}::Envelope::{type}::body",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::foundation::{type}"
+          }
+        },
+        "id": {
+          "id": "local::marmish_native::foundation::{type}::Envelope::{type}::id",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::foundation::{type}"
+          }
+        },
+        "recipient": {
+          "id": "local::marmish_native::foundation::{type}::Envelope::{type}::recipient",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::foundation::{type}"
+          }
+        },
+        "sender": {
+          "id": "local::marmish_native::foundation::{type}::Envelope::{type}::sender",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::foundation::{type}"
+          }
+        },
+        "session": {
+          "id": "local::marmish_native::foundation::{type}::Envelope::{type}::session",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::foundation::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::identity::{type}::BackendChoice::{type}": {
+      "fields": {},
+      "variants": {
+        "Auto": {
+          "id": "local::marmish_native::identity::{type}::BackendChoice::{type}::Auto::{type}",
+          "fields": {}
+        },
+        "File": {
+          "id": "local::marmish_native::identity::{type}::BackendChoice::{type}::File::{type}",
+          "fields": {}
+        },
+        "Keychain": {
+          "id": "local::marmish_native::identity::{type}::BackendChoice::{type}::Keychain::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_native::identity::{type}::IdentityMaterial::{type}": {
+      "fields": {
+        "root": {
+          "id": "local::marmish_native::identity::{type}::IdentityMaterial::{type}::root",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "signer": {
+          "id": "local::marmish_native::identity::{type}::IdentityMaterial::{type}::signer",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "slot": {
+          "id": "local::marmish_native::identity::{type}::IdentityMaterial::{type}::slot",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::identity::{type}::ProfileLease::{type}": {
+      "fields": {
+        "_lock": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::_lock",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "arti_cache": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::arti_cache",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "arti_state": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::arti_state",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "journal": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::journal",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "manifest": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::manifest",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "mdk": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::mdk",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "name": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::name",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "profile_id": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::profile_id",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "root": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::root",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        },
+        "runtime": {
+          "id": "local::marmish_native::identity::{type}::ProfileLease::{type}::runtime",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::identity::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::ipc::{type}::Response::{type}": {
+      "fields": {
+        "command": {
+          "id": "local::marmish_native::ipc::{type}::Response::{type}::command",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native"
+          }
+        },
+        "error": {
+          "id": "local::marmish_native::ipc::{type}::Response::{type}::error",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "ok": {
+          "id": "local::marmish_native::ipc::{type}::Response::{type}::ok",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "result": {
+          "id": "local::marmish_native::ipc::{type}::Response::{type}::result",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stream": {
+          "id": "local::marmish_native::ipc::{type}::Response::{type}::stream",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::journal::{type}::Conversation::{type}": {
+      "fields": {
+        "group_id": {
+          "id": "local::marmish_native::journal::{type}::Conversation::{type}::group_id",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "peer": {
+          "id": "local::marmish_native::journal::{type}::Conversation::{type}::peer",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "revoked": {
+          "id": "local::marmish_native::journal::{type}::Conversation::{type}::revoked",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "session": {
+          "id": "local::marmish_native::journal::{type}::Conversation::{type}::session",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::journal::{type}::ReceivedMessage::{type}": {
+      "fields": {
+        "application_id": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::application_id",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "cursor": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::cursor",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "data": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::data",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "invalidated": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::invalidated",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "sender": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::sender",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "session": {
+          "id": "local::marmish_native::journal::{type}::ReceivedMessage::{type}::session",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::journal::{type}::SendStatus::{type}": {
+      "fields": {
+        "app_event_id": {
+          "id": "local::marmish_native::journal::{type}::SendStatus::{type}::app_event_id",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "application_id": {
+          "id": "local::marmish_native::journal::{type}::SendStatus::{type}::application_id",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "state": {
+          "id": "local::marmish_native::journal::{type}::SendStatus::{type}::state",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}": {
+      "fields": {
+        "account": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::account",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "active": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::active",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "adapter": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::adapter",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "allowed": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::allowed",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "binding": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::binding",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "client": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::client",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "command_invalidation_cursor": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::command_invalidation_cursor",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "command_probe": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::command_probe",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "command_source_cursor": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::command_source_cursor",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "commands": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::commands",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "connector": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::connector",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "forwarder": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::forwarder",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "identity": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::identity",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "journal": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::journal",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "loss_baseline": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::loss_baseline",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "notification_loss": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::notification_loss",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "pending_budget": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::pending_budget",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "pending_cohort": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::pending_cohort",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "publication": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::publication",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "reconnect_after": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::reconnect_after",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "recovery": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::recovery",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "recovery_subscribed": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::recovery_subscribed",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "relay": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::relay",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "retention": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::retention",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "routing": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::routing",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "runtime": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::runtime",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "storage": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::storage",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "streams": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::streams",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "welcome_retry": {
+          "id": "local::marmish_native::mdk_adapter::{type}::MdkOwner::{type}::welcome_retry",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::mdk_adapter::{type}::OpenedAccountBinding::{type}": {
+      "fields": {
+        "profile": {
+          "id": "local::marmish_native::mdk_adapter::{type}::OpenedAccountBinding::{type}::profile",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        },
+        "public": {
+          "id": "local::marmish_native::mdk_adapter::{type}::OpenedAccountBinding::{type}::public",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::mdk_adapter::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}": {
+      "fields": {
+        "conversations": {
+          "id": "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}::conversations",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "identity": {
+          "id": "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}::identity",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "pending": {
+          "id": "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}::pending",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "received": {
+          "id": "local::marmish_native::mdk_adapter::{type}::RuntimeStatus::{type}::received",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::transport::{type}::ArtiDirs::{type}": {
+      "fields": {
+        "cache": {
+          "id": "local::marmish_native::transport::{type}::ArtiDirs::{type}::cache",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "state": {
+          "id": "local::marmish_native::transport::{type}::ArtiDirs::{type}::state",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::transport::{type}::RelayConnector::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_native::transport::{type}::RelayConnector::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::transport::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::transport::{type}::RelayPolicy::{type}": {
+      "fields": {
+        "limits": {
+          "id": "local::marmish_native::transport::{type}::RelayPolicy::{type}::limits",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::transport::{type}"
+          }
+        },
+        "mode": {
+          "id": "local::marmish_native::transport::{type}::RelayPolicy::{type}::mode",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::transport::{type}"
+          }
+        },
+        "routes": {
+          "id": "local::marmish_native::transport::{type}::RelayPolicy::{type}::routes",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::transport::{type}"
+          }
+        },
+        "urls": {
+          "id": "local::marmish_native::transport::{type}::RelayPolicy::{type}::urls",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_native::transport::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_native::transport::{type}::RouteMode::{type}": {
+      "fields": {},
+      "variants": {
+        "Always": {
+          "id": "local::marmish_native::transport::{type}::RouteMode::{type}::Always::{type}",
+          "fields": {}
+        },
+        "Auto": {
+          "id": "local::marmish_native::transport::{type}::RouteMode::{type}::Auto::{type}",
+          "fields": {}
+        },
+        "Off": {
+          "id": "local::marmish_native::transport::{type}::RouteMode::{type}::Off::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_native::transport::{type}::TransportLimits::{type}": {
+      "fields": {
+        "bootstrap_timeout": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::bootstrap_timeout",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "handshake_timeout": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::handshake_timeout",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "max_frame_bytes": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::max_frame_bytes",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "max_relays": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::max_relays",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "queue_capacity": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::queue_capacity",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "tor_connect_timeout": {
+          "id": "local::marmish_native::transport::{type}::TransportLimits::{type}::tor_connect_timeout",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    }
+  }
+}

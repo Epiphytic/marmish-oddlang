@@ -1,0 +1,226 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_vault",
+  "modules": {
+    "local::marmish_vault": {
+      "path": [],
+      "bindings": {
+        "Error": {
+          "kind": "data",
+          "target": "local::marmish_vault::Error::{type}"
+        },
+        "KeyRef": {
+          "kind": "data",
+          "target": "local::marmish_vault::KeyRef::{type}"
+        },
+        "Label": {
+          "kind": "data",
+          "target": "local::marmish_vault::Label::{type}"
+        },
+        "Metadata": {
+          "kind": "data",
+          "target": "local::marmish_vault::Metadata::{type}"
+        },
+        "Namespace": {
+          "kind": "data",
+          "target": "local::marmish_vault::Namespace::{type}"
+        },
+        "Purpose": {
+          "kind": "data",
+          "target": "local::marmish_vault::Purpose::{type}"
+        },
+        "Secret": {
+          "kind": "data",
+          "target": "local::marmish_vault::Secret::{type}"
+        },
+        "Vault": {
+          "kind": "data",
+          "target": "local::marmish_vault::Vault::{type}"
+        },
+        "helper": {
+          "kind": "module",
+          "target": "local::marmish_vault::helper::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_vault::helper::{type}": {
+      "path": [
+        "helper"
+      ],
+      "bindings": {
+        "AuthorizationMode": {
+          "kind": "data",
+          "target": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_vault::Error::{type}": {
+      "fields": {},
+      "variants": {
+        "Ambiguous": {
+          "id": "local::marmish_vault::Error::{type}::Ambiguous::{type}",
+          "fields": {}
+        },
+        "BackendFailure": {
+          "id": "local::marmish_vault::Error::{type}::BackendFailure::{type}",
+          "fields": {}
+        },
+        "Exists": {
+          "id": "local::marmish_vault::Error::{type}::Exists::{type}",
+          "fields": {}
+        },
+        "LockedOrDenied": {
+          "id": "local::marmish_vault::Error::{type}::LockedOrDenied::{type}",
+          "fields": {}
+        },
+        "Malformed": {
+          "id": "local::marmish_vault::Error::{type}::Malformed::{type}",
+          "fields": {}
+        },
+        "Missing": {
+          "id": "local::marmish_vault::Error::{type}::Missing::{type}",
+          "fields": {}
+        },
+        "Unavailable": {
+          "id": "local::marmish_vault::Error::{type}::Unavailable::{type}",
+          "fields": {}
+        },
+        "Uninitialized": {
+          "id": "local::marmish_vault::Error::{type}::Uninitialized::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_vault::KeyRef::{type}": {
+      "fields": {
+        "id": {
+          "id": "local::marmish_vault::KeyRef::{type}::id",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        },
+        "purpose": {
+          "id": "local::marmish_vault::KeyRef::{type}::purpose",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        },
+        "version": {
+          "id": "local::marmish_vault::KeyRef::{type}::version",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_vault::Label::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_vault::Label::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_vault::Metadata::{type}": {
+      "fields": {
+        "key_ref": {
+          "id": "local::marmish_vault::Metadata::{type}::key_ref",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "label": {
+          "id": "local::marmish_vault::Metadata::{type}::label",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_vault::Namespace::{type}": {
+      "fields": {},
+      "variants": {
+        "Legacy": {
+          "id": "local::marmish_vault::Namespace::{type}::Legacy::{type}",
+          "fields": {}
+        },
+        "MarmishV2": {
+          "id": "local::marmish_vault::Namespace::{type}::MarmishV2::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_vault::Purpose::{type}": {
+      "fields": {},
+      "variants": {
+        "Nostr": {
+          "id": "local::marmish_vault::Purpose::{type}::Nostr::{type}",
+          "fields": {}
+        },
+        "Sqlcipher": {
+          "id": "local::marmish_vault::Purpose::{type}::Sqlcipher::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_vault::Secret::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_vault::Secret::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_vault::Vault::{type}": {
+      "fields": {
+        "namespace": {
+          "id": "local::marmish_vault::Vault::{type}::namespace",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        },
+        "provider": {
+          "id": "local::marmish_vault::Vault::{type}::provider",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_vault"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_vault::helper::{type}::AuthorizationMode::{type}": {
+      "fields": {},
+      "variants": {
+        "Interactive": {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}::Interactive::{type}",
+          "fields": {}
+        },
+        "Verify": {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}::Verify::{type}",
+          "fields": {}
+        }
+      }
+    }
+  }
+}

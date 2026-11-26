@@ -1,0 +1,82 @@
+{
+  "changedAtSharedSpelling": [
+    {
+      "generated": {
+        "fieldAudiences": {
+          "accepted_cursor": "scope",
+          "delivered_cursor": "scope",
+          "finished_at": "scope",
+          "pending_records": "scope",
+          "receipts": "scope"
+        },
+        "kind": "data"
+      },
+      "generatedAliases": [
+        [
+          "windows",
+          "ReceiveWindow"
+        ]
+      ],
+      "original": {
+        "fieldAudiences": {
+          "queue": "scope",
+          "receipts": "scope"
+        },
+        "kind": "data"
+      },
+      "originalAliases": [
+        [
+          "windows",
+          "ReceiveWindow"
+        ]
+      ],
+      "spelling": [
+        "windows",
+        "ReceiveWindow"
+      ]
+    },
+    {
+      "generated": {
+        "fieldAudiences": {
+          "acknowledged": "scope",
+          "chunks": "scope",
+          "eof": "scope",
+          "produced": "scope",
+          "retained_receipts": "scope"
+        },
+        "kind": "data"
+      },
+      "generatedAliases": [
+        [
+          "windows",
+          "SendWindow"
+        ]
+      ],
+      "original": {
+        "fieldAudiences": {
+          "acknowledged": "scope",
+          "chunks": "scope",
+          "eof": "scope",
+          "produced": "scope"
+        },
+        "kind": "data"
+      },
+      "originalAliases": [
+        [
+          "windows",
+          "SendWindow"
+        ]
+      ],
+      "spelling": [
+        "windows",
+        "SendWindow"
+      ]
+    }
+  ],
+  "generatedOnly": [],
+  "generatedSha256": "96e24ea39ebf276e4003e25a0ace23043650689297851b7c5883f330195f976d",
+  "originalOnly": [],
+  "originalSha256": "037d0559be12bc5e64b5ce48799f5a7132ad43acd82de60ad0127c5228b1313b",
+  "profiles": "public module type edges and field reading at the canonical cut",
+  "sharedCount": 35
+}

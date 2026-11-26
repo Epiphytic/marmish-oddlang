@@ -1,0 +1,38 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_native",
+  "modules": {
+    "local::marmish_native": {
+      "path": [],
+      "bindings": {
+        "marmish_parser": {
+          "kind": "module",
+          "target": "local::marmish_native::marmish_parser::{type}"
+        },
+        "marmishd_parser": {
+          "kind": "module",
+          "target": "local::marmish_native::marmishd_parser::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::marmish_parser::{type}": {
+      "path": [
+        "marmish_parser"
+      ],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::marmish_native::marmishd_parser::{type}": {
+      "path": [
+        "marmishd_parser"
+      ],
+      "bindings": {},
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {}
+}

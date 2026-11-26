@@ -1,0 +1,33 @@
+{
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "expectedExportsSha256": "515184d7343bd8df131ddf3ffaa10be9adc09c23ee35cb334e95262011727b43",
+  "imports": [
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "marmish_parser"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "marmishd_parser"
+      ],
+      "subjectKind": null
+    }
+  ],
+  "subjectExportsSha256": "0fd3957007adf6b4bbf4dfe35ff80cc0cd940ce30be623ab1eba71fcebc4e74c",
+  "subjectLockSha256": "e01b01c61111efa42bb120bb73179514fc03ab6be7a662f844a736f98382bab3",
+  "subjectPackage": "marmish-native",
+  "subjectTargetName": "marmish_native",
+  "target": "aarch64-apple-darwin"
+}
