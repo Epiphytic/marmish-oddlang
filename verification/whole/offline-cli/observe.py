@@ -12,6 +12,7 @@ from compose import BASE, WORKSPACE
 HERE = Path(__file__).resolve().parent
 SEVEN = HERE.parent / "unified-buffered/aarch64-apple-darwin.json"
 CLI = HERE.parent / "cli/transcript.json"
+SUCCESSOR_FRAMEWORK = "0fc48e920e30baf6396218cee0983732ba6c3a78"
 ROLES = ("marmish", "marmishd")
 CASES = [
     ["-h"], ["-V"], ["help"], ["help", "--help"], ["help", "not-a-command"],
@@ -60,6 +61,8 @@ def compare(original, baseline, baseline_build, successor, successor_build):
     provenance = json.loads(SEVEN.read_bytes())
     if builds["baseline"]["frameworkRevision"] != provenance["framework"]:
         raise ValueError("baseline compiler revision differs from the sealed release receipt")
+    if builds["successor"]["frameworkRevision"] != SUCCESSOR_FRAMEWORK:
+        raise ValueError("successor compiler revision differs from the reviewed runtime")
     if identities["original"] != provenance["releaseInfo"]["originalBinaries"]:
         raise ValueError("original binaries differ from the sealed release receipt")
     receipts = json.loads(CLI.read_bytes())

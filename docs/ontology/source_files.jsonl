@@ -1010,7 +1010,7 @@
 {"path":"verification/whole/offline-cli/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"ff7324eec77bbb84647a4faa249b875b917ccf3db372c70f1a413b860c79b2c1","parse_status":"inventory"}
 {"path":"verification/whole/offline-cli/build.py","language":"python","mode":"100644","sha256":"9a0356c18ccd0a54fdd169b517accba1383c7abdf826e565b4b9d9a6b85783b9","parse_status":"parsed"}
 {"path":"verification/whole/offline-cli/compose.py","language":"python","mode":"100644","sha256":"035e77e32ae22a4a1d8c0e63f0fb7135221c66b0fcdd73b94bf7a7e619fc3a04","parse_status":"parsed"}
-{"path":"verification/whole/offline-cli/observe.py","language":"python","mode":"100644","sha256":"cf76558b2f2dedc2f4199be7a8a93a2505847a843de5063faee01f8f682e35a7","parse_status":"parsed"}
+{"path":"verification/whole/offline-cli/observe.py","language":"python","mode":"100644","sha256":"ffb64aa017f9edbd4557de32cac6b4a5c9e68e71888132a9ecb7ac71f040a534","parse_status":"parsed"}
 {"path":"verification/whole/private-buffer-inference/README.md","language":"inventory","mode":"100644","sha256":"b1e340761aadc5227cf47e80dd6af7807c0e9d8d24e5679b307a11d10c89a220","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer-inference/candidate-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f3ccb33f8a26d7b7a9eb580264d23128e85800c29d606af7c9803c73a8beb142","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer-inference/candidate-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"4aaa141efd8a877ca2bea362356d9f96e3f68ea24dbef0e5c87e7a00249ca0df","parse_status":"inventory"}
