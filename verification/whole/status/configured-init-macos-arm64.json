@@ -1,0 +1,65 @@
+{
+  "candidateBinarySha256": "d647454f6cd10fc9a27e0c35256126492f3afb648c15641eef56b8711212aa3c",
+  "cases": [
+    {
+      "case": "home",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "original",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "home",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "candidate",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "relative-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "original",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "relative-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "candidate",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    }
+  ],
+  "controls": [
+    "bidirectional reuse after first durable inspection",
+    "malformed config",
+    "duplicate policy field",
+    "oversized config",
+    "unsafe config mode",
+    "missing HOME",
+    "stale rows refuse counted success"
+  ],
+  "frameworkRevision": "241d73ed6cd6d56f58ead84181fac7717467f822",
+  "originalBinarySha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "platform": "Darwin-arm64"
+}

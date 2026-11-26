@@ -1,0 +1,89 @@
+{
+  "candidateBinarySha256": "16dc807aba93b2d6ba12b0db8bd4b93223838c344735bd6c0ff30ebf917b54f1",
+  "cases": [
+    {
+      "case": "home",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "original",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "home",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "candidate",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "relative-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "original",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "relative-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "candidate",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "absolute-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "original",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    },
+    {
+      "case": "absolute-xdg",
+      "counts": [
+        0,
+        1,
+        2
+      ],
+      "implementation": "candidate",
+      "incomingRows": 3,
+      "preparedReclassified": 1,
+      "version": 7
+    }
+  ],
+  "controls": [
+    "bidirectional reuse after first durable inspection",
+    "malformed config",
+    "duplicate policy field",
+    "oversized config",
+    "unsafe config mode",
+    "missing HOME",
+    "stale rows refuse counted success"
+  ],
+  "frameworkRevision": "241d73ed6cd6d56f58ead84181fac7717467f822",
+  "originalBinarySha256": "4ebc7b2e0b7bb2cb31af3e6d13dfd7a4bfee0b1bd8d5e17e9b888df2189dde7d",
+  "platform": "Linux-aarch64"
+}

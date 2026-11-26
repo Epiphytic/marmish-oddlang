@@ -1,0 +1,464 @@
+{
+  "format": "oddlang-field-relation-v1",
+  "id": "urn:marmish:copy:cross-record-relations",
+  "types": {
+    "urn:marmish:copy:Direction": {
+      "fields": {},
+      "equality": true
+    },
+    "urn:marmish:copy:helper-context": {
+      "fields": {
+        "urn:marmish:copy:helper-context:field:client": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:helper-context:field:direction": {
+          "kind": "named",
+          "id": "urn:marmish:copy:Direction"
+        },
+        "urn:marmish:copy:helper-context:field:expected_commit": {
+          "kind": "fixed-bytes",
+          "size": 20
+        },
+        "urn:marmish:copy:helper-context:field:expected_target": {
+          "kind": "text"
+        },
+        "urn:marmish:copy:helper-context:field:expected_version": {
+          "kind": "text"
+        },
+        "urn:marmish:copy:helper-context:field:launch_digest": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:helper-context:field:server": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:helper-context:field:transfer": {
+          "kind": "fixed-bytes",
+          "size": 32
+        }
+      }
+    },
+    "urn:marmish:copy:launch": {
+      "fields": {
+        "urn:marmish:copy:launch:field:client": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:launch:field:destination": {
+          "kind": "bytes"
+        },
+        "urn:marmish:copy:launch:field:direction": {
+          "kind": "named",
+          "id": "urn:marmish:copy:Direction"
+        },
+        "urn:marmish:copy:launch:field:overwrite": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:launch:field:preserve_mode": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:launch:field:preserve_mtime": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:launch:field:server": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:launch:field:source": {
+          "kind": "bytes"
+        },
+        "urn:marmish:copy:launch:field:transfer": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:launch:field:version": {
+          "kind": "unsigned",
+          "bits": 32
+        }
+      }
+    },
+    "urn:marmish:copy:manifest": {
+      "fields": {
+        "urn:marmish:copy:manifest:field:client": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:manifest:field:destination": {
+          "kind": "bytes"
+        },
+        "urn:marmish:copy:manifest:field:direction": {
+          "kind": "named",
+          "id": "urn:marmish:copy:Direction"
+        },
+        "urn:marmish:copy:manifest:field:overwrite": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:manifest:field:preserve_mode": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:manifest:field:preserve_mtime": {
+          "kind": "bool"
+        },
+        "urn:marmish:copy:manifest:field:server": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:manifest:field:source": {
+          "kind": "bytes"
+        },
+        "urn:marmish:copy:manifest:field:transfer": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:copy:manifest:field:version": {
+          "kind": "unsigned",
+          "bits": 32
+        }
+      }
+    },
+    "urn:marmish:stream:codec": {
+      "fields": {},
+      "copy": true
+    }
+  },
+  "calls": {
+    "urn:marmish:copy:helper-context:validate": {
+      "receiver": "urn:marmish:copy:helper-context",
+      "arguments": [],
+      "output": null
+    },
+    "urn:marmish:copy:launch:digest": {
+      "receiver": "urn:marmish:copy:launch",
+      "arguments": [
+        {
+          "kind": "named",
+          "id": "urn:marmish:stream:codec"
+        }
+      ],
+      "output": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    }
+  },
+  "relations": {
+    "urn:marmish:copy:helper-context:validate-build": {
+      "receiver": "urn:marmish:copy:helper-context",
+      "arguments": [
+        {
+          "id": "urn:marmish:copy:helper-context:validate-build:argument:version",
+          "value": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:helper-context:validate-build:argument:target",
+          "value": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:helper-context:validate-build:argument:commit",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 20
+          }
+        }
+      ],
+      "steps": [
+        {
+          "kind": "check",
+          "call": {
+            "method": "urn:marmish:copy:helper-context:validate",
+            "object": "receiver",
+            "arguments": []
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:expected_version"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:copy:helper-context:validate-build:argument:version"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:expected_target"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:copy:helper-context:validate-build:argument:target"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:expected_commit"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:copy:helper-context:validate-build:argument:commit"
+          }
+        }
+      ],
+      "failure": "urn:marmish:copy:copy_context_build"
+    },
+    "urn:marmish:copy:helper-context:validate-start": {
+      "receiver": "urn:marmish:copy:helper-context",
+      "arguments": [
+        {
+          "id": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+          "value": {
+            "kind": "named",
+            "id": "urn:marmish:copy:launch"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:helper-context:validate-start:argument:codec",
+          "value": {
+            "kind": "named",
+            "id": "urn:marmish:stream:codec"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "kind": "check",
+          "call": {
+            "method": "urn:marmish:copy:helper-context:validate",
+            "object": "receiver",
+            "arguments": []
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:client"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+            "field": "urn:marmish:copy:launch:field:client"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:server"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+            "field": "urn:marmish:copy:launch:field:server"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:transfer"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+            "field": "urn:marmish:copy:launch:field:transfer"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:direction"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+            "field": "urn:marmish:copy:launch:field:direction"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:helper-context:field:launch_digest"
+          },
+          "right": {
+            "kind": "result",
+            "call": {
+              "method": "urn:marmish:copy:launch:digest",
+              "object": "urn:marmish:copy:helper-context:validate-start:argument:launch",
+              "arguments": [
+                "urn:marmish:copy:helper-context:validate-start:argument:codec"
+              ]
+            }
+          }
+        }
+      ],
+      "failure": "urn:marmish:copy:copy_context_launch"
+    },
+    "urn:marmish:copy:launch:matches-manifest": {
+      "receiver": "urn:marmish:copy:launch",
+      "arguments": [
+        {
+          "id": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+          "value": {
+            "kind": "named",
+            "id": "urn:marmish:copy:manifest"
+          }
+        }
+      ],
+      "steps": [
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:version"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:version"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:transfer"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:transfer"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:client"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:client"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:server"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:server"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:direction"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:direction"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:source"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:source"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:destination"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:destination"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:overwrite"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:overwrite"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:preserve_mode"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:preserve_mode"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:copy:launch:field:preserve_mtime"
+          },
+          "right": {
+            "kind": "field",
+            "object": "urn:marmish:copy:launch:matches-manifest:argument:manifest",
+            "field": "urn:marmish:copy:manifest:field:preserve_mtime"
+          }
+        }
+      ],
+      "failure": null
+    }
+  }
+}
