@@ -1,0 +1,6 @@
+{
+    "release": "workspace-v7-converged-public-api",
+    "input_revision": "02ee3b82c21e1d32a6ba0bd9534bef18cef7ae07",
+    "framework_revision": "225c32d49be4ac7f96a9ff7874220b5307753a90",
+    "lock_sha256": "3ed25cad2b1399e1c63787fedca0abbb465e758c9cfb6c635b17188a40b2dfaa"
+}
