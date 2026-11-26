@@ -94,7 +94,10 @@ def host_preferences_state():
     }
     result = {}
     for category, path in paths.items():
-        entries = [path, *sorted(path.iterdir())] if path.is_dir() else [path]
+        try:
+            entries = [path, *sorted(path.iterdir())] if path.is_dir() else [path]
+        except (FileNotFoundError, NotADirectoryError):
+            entries = [path]
         snapshot = {}
         for entry in entries:
             try:
@@ -104,6 +107,33 @@ def host_preferences_state():
                 snapshot[entry] = None
         result[category] = snapshot
     return result
+
+
+class HostMetadataAudit:
+    def __init__(self, snapshot):
+        self.snapshot = snapshot
+        self.previous = None
+        self.label = "start"
+        self.changes = []
+        self.errors = []
+        self.checkpoint("start", required=False)
+
+    def checkpoint(self, label, required=True):
+        try:
+            current = self.snapshot()
+        except OSError as error:
+            self.errors.append({"checkpoint": label, "error": type(error).__name__})
+            if required:
+                raise ValueError("host metadata unavailable") from None
+            return
+        categories = sorted(name for name in (self.previous or {}) if self.previous[name] != current[name])
+        if categories:
+            self.changes.append({"after": self.label, "before": label, "categories": categories})
+        self.previous = current
+        self.label = label
+
+    def changed_categories(self):
+        return sorted({name for interval in self.changes for name in interval["categories"]})
 
 
 def drain(stream, stop):
@@ -185,12 +215,18 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                            generated_binary_sha256=artifact_pins[generated_role],
                            missing_generated_artifacts=sorted(pins.keys() - artifact_pins[generated_role].keys()))
     observation["setups"] = {}
-    host_before = host_preferences_state()
+    audit = HostMetadataAudit(host_preferences_state)
+
+    def set_stage(name):
+        audit.checkpoint(name)
+        observation["stage"] = name
     workspace = Workspace()
     stop_readers = Event()
     readers = []
     try:
         with workspace:
+            if audit.errors:
+                raise ValueError("host metadata unavailable before provisioning")
             peers = {role: workspace.instance(role) for role in ("client", "server")}
             service = workspace.instance("relay")
             observation["sandbox_probes"] = True
@@ -204,7 +240,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
             relay_bin = service.root / "deaddrop"
             copy_verified(deaddrop, relay_bin, deaddrop_digest)
             service.allow_executables((relay_bin,))
-            observation["stage"] = "relay-startup"
+            set_stage("relay-startup")
             with tempfile.TemporaryFile(dir=service.root) as transcript:
                 relay = service.start([relay_bin, "relay", "--data-dir", service.root / "data"],
                                       stdin=subprocess.DEVNULL, stdout=transcript, stderr=subprocess.DEVNULL)
@@ -222,7 +258,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
 
                 address = until(relay_url, 150, "relay-startup")
                 observation["owned_onion_constructed"] = True
-                observation["stage"] = "offline-setup"
+                set_stage("offline-setup")
                 accounts = {}
                 account_keys = {}
                 account_sockets = {}
@@ -283,7 +319,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                     policy["command_policy"]["defaults"] = {"allow_exec": list(map(str, fixtures))}
                     policy["cwd"] = str(server.root)
                     policy_path.write_text(json.dumps(policy))
-                observation["stage"] = "owner-activation"
+                set_stage("owner-activation")
                 owner_logs = {}
                 observation["owner_states"] = {}
                 observation["last_owner_status"] = {}
@@ -294,17 +330,24 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         owner_args = [instance.root / "marmishd", *options, "--foreground"]
                         if role != generated_role:
                             owner_args.append("daemon")
+                        needs_engine = role == "server" and generated_role is None and not activation_only
+                        activation_deadline = time.monotonic() + (190 if needs_engine else 170)
                         child = instance.start(owner_args, stdin=subprocess.DEVNULL,
                                                stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                         _, stdout_reader = drain(child.stdout, stop_readers)
                         owner_logs[role], stderr_reader = drain(child.stderr, stop_readers)
                         readers.extend((stdout_reader, stderr_reader))
-                        if role == "server" and generated_role is None and not activation_only:
+                        if needs_engine:
                             database = instance.root / "state" / role / "commands" / "engine.sqlite3"
-                            observation["stage"] = "server-engine-initialization"
-                            until(lambda: database.is_file() and database.stat().st_size > 0,
-                                  20, "server-engine-initialization")
-                            observation["stage"] = "owner-activation"
+                            set_stage("server-engine-initialization")
+                            def engine_started():
+                                if child.poll() is not None:
+                                    observation["last_owner_status"][role] = {"daemon_exit": child.returncode}
+                                    raise ValueError("server stopped before engine initialization")
+                                return database.is_file() and database.stat().st_size > 0
+
+                            until(engine_started, activation_deadline-time.monotonic(), "server-engine-initialization")
+                            set_stage("owner-activation")
                             observation["engine_db_has_contents_before_status"] = True
 
                         def ready():
@@ -329,7 +372,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             expected = "provider_active" if role == generated_role else "active"
                             return state if state == expected else None
 
-                        observation["owner_states"][role] = until(ready, 170, "owner-activation")
+                        observation["owner_states"][role] = until(ready, activation_deadline-time.monotonic(), "owner-activation")
                 except (ValueError, TimeoutError, subprocess.TimeoutExpired):
                     diagnostics = {}
                     for role, log in owner_logs.items():
@@ -345,7 +388,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                     if len([p for p in instance.tmp.glob("mr2-*/s") if p.is_socket()]) != 1:
                         raise ValueError("private daemon socket not verified")
                 if activation_only:
-                    observation["stage"] = "relay-publications"
+                    set_stage("relay-publications")
                     relay_db = service.root / "data" / "relay.sqlite3"
                     observation["peer_publications"] = {}
                     for role, account in account_keys.items():
@@ -354,15 +397,15 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             "event_sha256": hashlib.sha256(event.encode()).hexdigest(),
                             "key_package_bound_to_identity": True,
                         }
-                    observation["stage"] = "activation-complete"
+                    set_stage("activation-complete")
                 else:
-                    observation["stage"] = "command-corpus"
+                    set_stage("command-corpus")
                     client = peers["client"]
                     base = [client.root / "marmish", *account_options(client, "client"),
                             "--no-autostart", "--wait-seconds", "300"]
                     reference_commands(observation["attempts"], client, base, address, accounts["server"],
-                                       account_keys["server"], fixtures, first_foreground_only)
-                    observation["stage"] = "complete"
+                                       account_keys["server"], fixtures, first_foreground_only, audit.checkpoint)
+                    set_stage("complete")
                     observation["reference_complete"] = generated_role is None
     except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
         observation["failure_type"] = type(error).__name__
@@ -379,10 +422,12 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
             reader.join(timeout=1)
     readers_stopped = not any(reader.is_alive() for reader in readers)
     observation["workspace_removed"] = hasattr(workspace, "root") and not workspace.root.exists()
-    host_after = host_preferences_state()
-    changed = sorted(category for category in host_before if host_after[category] != host_before[category])
+    audit.checkpoint("teardown", required=False)
+    observation["host_metadata_audit_errors"] = audit.errors
+    observation["host_metadata_changes"] = audit.changes
+    changed = audit.changed_categories()
     observation["host_metadata_changed_categories"] = changed
-    observation["host_preferences_metadata_unchanged"] = not changed
+    observation["host_preferences_metadata_unchanged"] = not changed and not audit.errors
     if (not readers_stopped or not workspace.cleanup_verified or not observation["workspace_removed"]
             or not observation["host_preferences_metadata_unchanged"]):
         observation["cleanup_verification"] = "blocked"
@@ -395,12 +440,14 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
 
 
 def reference_commands(attempts, client, base, relay, server_npub, server_hex, fixtures,
-                       first_foreground_only=False):
+                       first_foreground_only=False, checkpoint=None):
     handles = set()
     expected_files = set()
     for repetition in range(1 if first_foreground_only else 4):
         cases = SHORT_CASES[:1] if first_foreground_only else (*SHORT_CASES, finite_case(repetition))
         for case in cases:
+            if checkpoint is not None:
+                checkpoint(f"start-{repetition}-{case.name}")
             elapsed_start = time.monotonic_ns()
             attempt = {"case": case.name, "repetition": repetition,
                        "temperature": "cold" if repetition == 0 else "warm", "matched": False}
