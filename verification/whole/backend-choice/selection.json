@@ -1,0 +1,6 @@
+{
+  "format": "oddlang-plain-choice-selection-v1",
+  "id": "urn:marmish:native:identity:backend-choice:v1",
+  "name": "BackendChoice",
+  "sourceSha256": "0f8d1e4bcc9865ada76cc757b8bddcbc3a15397f0075c57d0eb6bd967b2a349d"
+}

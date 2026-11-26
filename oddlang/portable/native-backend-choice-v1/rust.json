@@ -1,0 +1,26 @@
+{
+  "format": "oddlang-checked-values-rust-v1",
+  "types": {
+    "urn:marmish:native:identity:backend-choice:v1:type": {
+      "name": "BackendChoice",
+      "order": [
+        "urn:marmish:native:identity:backend-choice:v1:type:Auto",
+        "urn:marmish:native:identity:backend-choice:v1:type:Keychain",
+        "urn:marmish:native:identity:backend-choice:v1:type:File"
+      ],
+      "traits": [
+        "copy"
+      ],
+      "view": null,
+      "parse": null,
+      "shape": null,
+      "constructor": null
+    }
+  },
+  "variants": {
+    "urn:marmish:native:identity:backend-choice:v1:type:Auto": "Auto",
+    "urn:marmish:native:identity:backend-choice:v1:type:File": "File",
+    "urn:marmish:native:identity:backend-choice:v1:type:Keychain": "Keychain"
+  },
+  "errors": {}
+}
