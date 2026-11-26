@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-rust-root-record-selection-v1",
+  "id": "urn:marmish:mdk:public-records:v1",
+  "sourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794",
+  "records": {
+    "VersionObservation": "urn:marmish:mdk:version-observation:v1"
+  }
+}

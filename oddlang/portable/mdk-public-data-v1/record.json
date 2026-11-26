@@ -1,0 +1,29 @@
+{
+  "format": "oddlang-public-records-v1",
+  "modules": [
+    {
+      "id": "urn:marmish:mdk:public-records:v1",
+      "records": [
+        {
+          "id": "urn:marmish:mdk:version-observation:v1",
+          "traits": [
+            "debug"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:mdk:version-observation:v1/field/stdout",
+              "wire": "stdout",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:mdk:version-observation:v1/field/stderr",
+              "wire": "stderr",
+              "type": "text"
+            }
+          ]
+        }
+      ],
+      "aliases": []
+    }
+  ]
+}
