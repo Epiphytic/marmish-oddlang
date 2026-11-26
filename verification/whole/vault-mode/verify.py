@@ -71,14 +71,15 @@ def qualify(args, scratch, work, host):
     results = {}
     for name, checkout, expected in (("baseline", args.original, ["interactive=0", "verify=1"]),
                                      ("mutation", mutant, ["interactive=1", "verify=0"])):
+        reference_target = args.original_target / name
         native_build = run("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--target", host,
-                           "--target-dir", args.original_target, "-p", "marmish-vault", "--lib",
+                           "--target-dir", reference_target, "-p", "marmish-vault", "--lib",
                            "--message-format=json", cwd=checkout)
         lib, = [Path(file) for line in native_build.splitlines() if (r := json.loads(line))["reason"] == "compiler-artifact"
                 and Path(r["manifest_path"]).resolve() == (checkout/"crates/marmish-vault/Cargo.toml").resolve()
                 and r["target"]["kind"] == ["lib"] for file in r["filenames"] if file.endswith(".rlib")]
         original_sha = sha(lib)
-        original = observe(lib, scratch, args.original_target / "release/deps")
+        original = observe(lib, scratch, reference_target / "release/deps")
         select = json.loads((HERE / "selection.json").read_bytes())
         if name == "baseline" and select["sourceSha256"] != sha(checkout / SOURCE):
             raise ValueError("different original helper module")
@@ -108,6 +109,12 @@ def qualify(args, scratch, work, host):
             shutil.copy2(src, dest)
         spec = inputs / MANIFEST
         spec.write_text(json.dumps(manifest, indent=2) + "\n")
+        if name == "baseline":
+            checked = work / "obligations"
+            inside(compiler, "build", "checked-values", "rust", inputs / DOMAIN.name / "graph.json",
+                   inputs / DOMAIN.name / "rust.json", checked)
+            if (checked / "obligations.json").read_bytes() != (DOMAIN / "obligations.json").read_bytes():
+                raise ValueError("published independent test obligations changed")
         product = work / (name + "-package")
         inside(compiler, "build", "native-package", "rust", spec, product)
         lock = sha(product / "package.lock")
@@ -117,7 +124,7 @@ def qualify(args, scratch, work, host):
         generated = product / "target/release/libmarmish_vault.rlib"
         actual = observe(generated, scratch, generated.parent / "deps")
         if actual != original or actual["values"] != expected:
-            raise ValueError(f"public type differs at {name}")
+            raise ValueError(f"{name}: original={original!r}, generated={actual!r}, expected={expected!r}")
         results[name] = dict(sourceSha256=sha(checkout/SOURCE), graphSha256=sha(output/"graph.json"),
                              overlaySha256=sha(output/"rust.json"), packageLockSha256=lock,
                              originalLibrarySha256=original_sha, generatedLibrarySha256=sha(generated), **actual)
