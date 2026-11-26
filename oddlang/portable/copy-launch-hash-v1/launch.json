@@ -1,0 +1,332 @@
+{
+  "format": "oddlang-json-wire-schema-v1",
+  "id": "urn:marmish:copy:launch-contract",
+  "types": [
+    {
+      "kind": "external",
+      "id": "urn:marmish:copy:AttemptMode"
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:copy:Direction"
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:copy:launch",
+      "fields": [
+        {
+          "id": "urn:marmish:copy:launch:field:version",
+          "name": "version",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:mode",
+          "name": "mode",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:copy:AttemptMode"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:transfer",
+          "name": "transfer",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:direction",
+          "name": "direction",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:copy:Direction"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:source",
+          "name": "source",
+          "type": {
+            "kind": "bounded-base64",
+            "policy": {
+              "maxBytes": 4096,
+              "encodedLimitMessage": "stream capacity reached",
+              "decodedLimitMessage": "invalid stream input: base64",
+              "syntaxMessage": "invalid stream input: base64"
+            }
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:destination",
+          "name": "destination",
+          "type": {
+            "kind": "bounded-base64",
+            "policy": {
+              "maxBytes": 4096,
+              "encodedLimitMessage": "stream capacity reached",
+              "decodedLimitMessage": "invalid stream input: base64",
+              "syntaxMessage": "invalid stream input: base64"
+            }
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:overwrite",
+          "name": "overwrite",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:preserve_mode",
+          "name": "preserve_mode",
+          "type": {
+            "kind": "bool"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:preserve_mtime",
+          "name": "preserve_mtime",
+          "type": {
+            "kind": "bool"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:codec"
+    }
+  ],
+  "guards": [
+    {
+      "id": "urn:marmish:copy:launch:guard:version",
+      "owner": "urn:marmish:copy:launch",
+      "require": {
+        "field": "urn:marmish:copy:launch:field:version",
+        "kind": "unsigned-range",
+        "minimum": 1,
+        "maximum": 1
+      },
+      "error": "urn:marmish:copy:copy_version"
+    },
+    {
+      "id": "urn:marmish:copy:launch:guard:source-length",
+      "owner": "urn:marmish:copy:launch",
+      "require": {
+        "field": "urn:marmish:copy:launch:field:source",
+        "kind": "count",
+        "minimum": 1,
+        "maximum": 4096
+      },
+      "error": "urn:marmish:copy:copy_path"
+    },
+    {
+      "id": "urn:marmish:copy:launch:guard:source-content",
+      "owner": "urn:marmish:copy:launch",
+      "require": {
+        "field": "urn:marmish:copy:launch:field:source",
+        "kind": "excludes-byte",
+        "byte": 0
+      },
+      "error": "urn:marmish:copy:copy_path"
+    },
+    {
+      "id": "urn:marmish:copy:launch:guard:destination-length",
+      "owner": "urn:marmish:copy:launch",
+      "require": {
+        "field": "urn:marmish:copy:launch:field:destination",
+        "kind": "count",
+        "minimum": 1,
+        "maximum": 4096
+      },
+      "error": "urn:marmish:copy:copy_path"
+    },
+    {
+      "id": "urn:marmish:copy:launch:guard:destination-content",
+      "owner": "urn:marmish:copy:launch",
+      "require": {
+        "field": "urn:marmish:copy:launch:field:destination",
+        "kind": "excludes-byte",
+        "byte": 0
+      },
+      "error": "urn:marmish:copy:copy_path"
+    }
+  ],
+  "hashViews": [
+    {
+      "id": "urn:marmish:copy:launch:view:digest",
+      "owner": "urn:marmish:copy:launch",
+      "algorithm": "sha256",
+      "domain": [
+        109,
+        97,
+        114,
+        109,
+        105,
+        115,
+        104,
+        45,
+        99,
+        111,
+        112,
+        121,
+        45,
+        108,
+        97,
+        117,
+        110,
+        99,
+        104,
+        47,
+        49,
+        0
+      ],
+      "validate": true,
+      "parameters": [
+        {
+          "id": "urn:marmish:copy:launch:parameter:codec",
+          "external": "urn:marmish:stream:codec"
+        }
+      ],
+      "fields": [
+        {
+          "field": "urn:marmish:copy:launch:field:version",
+          "encoding": "unsigned-be"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:mode",
+          "encoding": "external-tag-u8"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:transfer",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:client",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:server",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:direction",
+          "encoding": "external-tag-u8"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:source",
+          "encoding": "u32-be-length-prefixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:destination",
+          "encoding": "u32-be-length-prefixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:overwrite",
+          "encoding": "bool-u8"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:preserve_mode",
+          "encoding": "bool-u8"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:preserve_mtime",
+          "encoding": "bool-u8"
+        },
+        {
+          "parameter": "urn:marmish:copy:launch:parameter:codec",
+          "encoding": "external-tag-u8"
+        }
+      ],
+      "output": {
+        "kind": "bytes"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:launch:view:namespace",
+      "owner": "urn:marmish:copy:launch",
+      "algorithm": "sha256",
+      "domain": [
+        109,
+        97,
+        114,
+        109,
+        105,
+        115,
+        104,
+        45,
+        99,
+        111,
+        112,
+        121,
+        45,
+        115,
+        116,
+        97,
+        116,
+        101,
+        47,
+        49,
+        0
+      ],
+      "fields": [
+        {
+          "field": "urn:marmish:copy:launch:field:client",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:server",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:transfer",
+          "encoding": "fixed-bytes"
+        },
+        {
+          "field": "urn:marmish:copy:launch:field:direction",
+          "encoding": "external-tag-u8"
+        }
+      ],
+      "output": {
+        "kind": "lower-hex",
+        "prefix": ".marmish-copy-v1-"
+      }
+    }
+  ],
+  "hashTags": {
+    "urn:marmish:copy:AttemptMode": {
+      "urn:marmish:copy:AttemptMode:Create": 1,
+      "urn:marmish:copy:AttemptMode:Resume": 2
+    },
+    "urn:marmish:copy:Direction": {
+      "urn:marmish:copy:Direction:Put": 1,
+      "urn:marmish:copy:Direction:Get": 2
+    },
+    "urn:marmish:stream:codec": {
+      "urn:marmish:stream:codec:none": 0,
+      "urn:marmish:stream:codec:zlib": 1
+    }
+  }
+}
