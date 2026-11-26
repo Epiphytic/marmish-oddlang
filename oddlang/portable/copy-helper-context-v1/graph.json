@@ -1,0 +1,200 @@
+{
+  "format": "oddlang-binary-record-v1",
+  "id": "urn:marmish:copy:helper-context",
+  "maximum": 4096,
+  "layout": [
+    {
+      "id": "urn:marmish:copy:helper-context:field:domain",
+      "encoding": {
+        "kind": "literal",
+        "bytes": [
+          109,
+          97,
+          114,
+          109,
+          105,
+          115,
+          104,
+          45,
+          99,
+          111,
+          112,
+          121,
+          45,
+          99,
+          111,
+          110,
+          116,
+          101,
+          120,
+          116,
+          47,
+          49,
+          0
+        ],
+        "error": "urn:marmish:copy:copy_context"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:context_version",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 32,
+        "minimum": 1,
+        "maximum": 1
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:helper_protocol",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 32,
+        "minimum": 1,
+        "maximum": 1
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:client",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:server",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:group",
+      "encoding": {
+        "kind": "bytes",
+        "minimum": 1,
+        "maximum": 1024,
+        "overflow": "urn:marmish:stream:error:Limit"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:session",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 16
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:stream",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 16
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:transfer",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:direction",
+      "encoding": {
+        "kind": "enum-u8",
+        "external": "urn:marmish:copy:Direction",
+        "tags": {
+          "urn:marmish:copy:Direction:Put": 1,
+          "urn:marmish:copy:Direction:Get": 2
+        },
+        "error": "urn:marmish:copy:copy_enum"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:launch_digest",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:retention_seconds",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 64,
+        "minimum": 604860,
+        "maximum": 31536000
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:expected_version",
+      "encoding": {
+        "kind": "ascii-atom",
+        "minimum": 1,
+        "maximum": 64,
+        "punctuation": [
+          46,
+          45,
+          95
+        ],
+        "overflow": "urn:marmish:stream:error:Limit",
+        "error": "urn:marmish:copy:copy_context_build"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:expected_target",
+      "encoding": {
+        "kind": "ascii-atom",
+        "minimum": 1,
+        "maximum": 64,
+        "punctuation": [
+          46,
+          45,
+          95
+        ],
+        "overflow": "urn:marmish:stream:error:Limit",
+        "error": "urn:marmish:copy:copy_context_build"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:expected_commit",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 20
+      }
+    },
+    {
+      "id": "urn:marmish:copy:helper-context:field:entrypoint",
+      "encoding": {
+        "kind": "length-prefixed-literal",
+        "bytes": [
+          95,
+          95,
+          99,
+          111,
+          112,
+          121,
+          45,
+          104,
+          101,
+          108,
+          112,
+          101,
+          114,
+          45,
+          118,
+          49
+        ],
+        "maximum": 64,
+        "overflow": "urn:marmish:stream:error:Limit",
+        "error": "urn:marmish:copy:copy_context_entrypoint"
+      }
+    }
+  ],
+  "errors": {
+    "value": "urn:marmish:copy:copy_context",
+    "decodeSize": "urn:marmish:copy:copy_context",
+    "encodeSize": "urn:marmish:stream:error:Limit",
+    "truncated": "urn:marmish:copy:copy_truncated",
+    "trailing": "urn:marmish:copy:copy_trailing"
+  }
+}
