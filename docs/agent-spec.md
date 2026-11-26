@@ -1,6 +1,6 @@
 # Marmish native v0.3 agent specification
 
-The v4 workspace builds the native client, foreground daemon, core and stream from one locked Cargo release. The original and generated clients both discover and query each daemon during a real loopback TLS activation attempt. The release uses a prepared file-backed profile. Provider readiness, execution and installed services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v4)
+The v5 workspace assembles the complete stream copy protocol, core library, encrypted file-profile initialization and both native status peers. The release verifies both original and generated initializers, foreground owners and clients through real loopback TLS activation. Provider readiness, remote execution, installed transfers, and installed services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v5)
 
 The Oddlang companion generates parser-only `marmish` and `marmishd`
 executables from a recovered command graph. Both match the pinned release on

@@ -56,3 +56,22 @@ The verifier generates and builds with source, oracle and network access exclude
 On Linux, prewarm a writable offline Cargo registry with `cargo +1.97.1 metadata --format-version 1 --locked --offline` on a generated workspace before the gate mounts that registry read-only. Cargo may need to unpack target-specific packages even when their archives are cached.
 
 The [macOS ARM64 receipt](v4-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v4-aarch64-unknown-linux-gnu.json) identify the exact verifier revision and generated executables. Both report the same workspace locks, parser transcript, library tests and foreground outcomes. The pre-existing no-home discovery case retains its platform-specific result. Linux uses the configured XDG state directory, and macOS reports `home_directory`.
+
+## Workspace v5
+
+The [v5 manifest](../../../oddlang/portable/workspace-v5.json) builds the core library, stream library with the complete copy protocol codec, and the native executables with encrypted file-profile initialization and foreground local status. Use Oddlang revision `fa40d7fab0bd6308ed7b13ef2aa97206145ebd36`, Rust 1.97.1 and a populated offline Cargo cache.
+
+```sh
+oddlang build native-workspace rust oddlang/portable/workspace-v5.json /tmp/marmish-v5
+cargo +1.97.1 build --manifest-path /tmp/marmish-v5/Cargo.toml --workspace --locked --release --offline
+
+python3 -B verification/whole/workspace/verify.py FRAMEWORK ORIGINAL RECEIPT --release v5 --original-bin-dir ORIGINAL_BINS
+```
+
+Prepare the registry cache with the locked metadata command above for v4, using the v5 workspace. The v5 gate builds four fresh shallow Git repositories from the provider commits already in Cargo's local Git cache. It stages those commits and the registry cache, then generates and builds with the original application source and binaries, independent fixtures, and network excluded. The release lock binds the generated files and native dependency set.
+
+The verifier runs all 29 unchanged upstream stream tests, seven upstream core tests, nine independent exact frame checks, and the unchanged executable help smoke test. It also repeats the 68 parser cases, 94 copy field relations and status discovery probes. The foreground matrix initializes two fresh named profiles, one with each client. Each client then discovers and queries each daemon while a real loopback TLS attempt is held. The matrix checks lease contention, TLS trust failure, shutdown, crash recovery and preservation of the initialized identity and credentials. A separate observer opens both encrypted databases and checks the schema and empty-state counts before a cross-consumer can repair either profile.
+
+This release covers explicit direct-relay initialization for fresh and pristine file-backed profiles, local status during foreground activation, and the in-process copy codec. Provider readiness, older or nonempty profile migrations, Keychain, Tor, installed services, end-to-end transfers and remote command execution remain open.
+
+The [macOS ARM64 receipt](v5-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v5-aarch64-unknown-linux-gnu.json) agree on the generated locks, profile/foreground observations, database shapes, stream tests and exact frame checks. Native artifact hashes identify each host build. The no-home discovery case retains the original platform-specific result. Linux also records matching original and generated SQLCipher diagnostics for the corrupt-journal test.

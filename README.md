@@ -1,6 +1,6 @@
 # Marmish
 
-Build the Oddlang-generated core, stream and native CLI workspace using the [v3 build instructions](verification/whole/workspace/README.md#workspace-v3). Browse its [ontology and release pins](oddlang/README.md).
+Build Oddlang workspace v5 to get the native core and stream libraries, file-backed encrypted profile initialization, and local status during foreground TLS activation. Remote execution, transfers, and installed services remain open for the generated workspace. [Build and qualification](verification/whole/workspace/README.md#workspace-v5) · [Ontology and release pins](oddlang/README.md)
 
 Run remote commands over Marmot's MLS-encrypted Nostr transport. Marmish uses
 native Rust clients and daemons, with one named Nostr identity per daemon.
