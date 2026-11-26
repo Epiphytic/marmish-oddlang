@@ -35,3 +35,19 @@ Cargo locks.
 The scope is public record construction, field shape, clone semantics,
 serialization order and alias assignability. Journal storage, transport,
 commands and MDK behavior remain separate obligations.
+
+## Composition and receipts
+
+The macOS ARM64 replay extends [companion #67](https://github.com/Epiphytic/marmish-oddlang/pull/67)
+at `aee87208cdfe403a77e652902f65d5b77804f42c`. Its common framework implementation
+ancestor is `7ed1c29acde2cc4cfdc58c2489935e703470ae70`. The journal addition changes
+only the native member's projected sources. The combined dependency lock,
+native workspace edges and four other member receipts match that ancestor.
+
+The recovered build report and fixed-width vault additions in
+[companion #70](https://github.com/Epiphytic/marmish-oddlang/pull/70) have their own
+qualification and remain outside this replay. Linux ARM64 exercises the
+standalone public record package. The reordered source mutation exercises
+the standalone package on both hosts.
+
+[macOS ARM64 combined workspace receipt](aarch64-apple-darwin.json)
