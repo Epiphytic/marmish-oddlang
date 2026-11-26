@@ -122,3 +122,21 @@ binding:retention-policy a o:RustBinding ;
     o:exportRole "crate-root public data reexport" ;
     o:originalPath "marmish_core::config::Retention" ;
     o:generatedPath "marmish_core::config::__projection_0::Retention" .
+
+# Direct semantic correspondence, independent of the optional native bindings.
+@prefix config: <urn:marmish:core:configuration:> .
+@prefix frame: <urn:marmish:core:frame:> .
+@prefix core: <urn:oddlang:core:> .
+
+m:retention-policy o:semanticComponent m:retention-domain ; o:domain config:retention .
+m:relay-set o:semanticComponent m:relay-set-domain ; o:domain config:relaySet .
+m:probe-envelope o:semanticComponent m:probe-envelope-domain ; o:domain frame:probe .
+
+m:configuration-failure o:semanticComponent m:retention-domain ;
+    o:errorCase config:DisallowedComponents, config:DisallowedHost, config:DisallowedScheme,
+        config:EmptyRelaySet, config:InvalidUrl, config:LoopbackDenied, config:RetentionOutOfRange .
+m:framing-failure o:semanticComponent m:probe-envelope-domain ;
+    o:errorCase frame:SizeLimit, frame:InvalidJson, frame:InvalidVersion, frame:InvalidEncoding .
+
+m:frame-limits o:semanticComponent m:probe-envelope-domain ; o:parameterSubject frame:probe ;
+    o:parameterPredicate core:rawBytes, core:wireBytes, core:recordLineBytes .

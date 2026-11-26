@@ -128,10 +128,10 @@ def artifacts(raw, root, packages, target, *, generated):
                             for path in row["linked_paths"]})
 
 
-def compiler_probe(work, artifact, body, *, binary=False, link_paths=(), allowed=IMPORT_ERRORS):
+def compiler_probe(work, artifact, body, *, binary=False, link_paths=(), allowed=IMPORT_ERRORS, target=HOST):
     path = work / "caller.rs"
     path.write_text(body)
-    command = ["rustc", "+1.97.1", "--edition", "2024", "--target", HOST,
+    command = ["rustc", "+1.97.1", "--edition", "2024", "--target", target,
                "--error-format=json", "--crate-name", "separate_caller",
                "--extern", f"observed={artifact[1 if binary else 0]}",
                "-L", f"dependency={artifact[0].parent}", "-L", f"dependency={artifact[3]}", "caller.rs"]
@@ -154,7 +154,7 @@ def compiler_probe(work, artifact, body, *, binary=False, link_paths=(), allowed
                              "rendered": row["rendered"]} for row in diagnostics]}
 
 
-def imports(name, artifact, original):
+def imports(name, artifact, original, *, target=HOST):
     root = INVENTORY / f"original-{name}"
     graph_path = root / "exports.json"
     lock_path = root / "exports.lock"
@@ -185,12 +185,12 @@ def imports(name, artifact, original):
     assert len(paths) == COUNTS[name]
     with tempfile.TemporaryDirectory(prefix=f"odd-imports-{name}-") as temp:
         work = Path(temp)
-        assert compiler_probe(work, artifact, "pub use observed as subject;")["compiles"]
+        assert compiler_probe(work, artifact, "pub use observed as subject;", target=target)["compiles"]
         rows = []
         for path, kind in sorted(paths.items()):
             spelling = "::".join(("observed", *("r#" + segment for segment in path)))
             result = compiler_probe(work, artifact,
-                                    f"#![deny(ambiguous_glob_imports)]\npub use {spelling} as witness;\n")
+                                    f"#![deny(ambiguous_glob_imports)]\npub use {spelling} as witness;\n", target=target)
             rows.append({"spelling": "::".join(path), "originalInventoryKind": kind, **result})
     count = sum(row["compiles"] for row in rows)
     return {
