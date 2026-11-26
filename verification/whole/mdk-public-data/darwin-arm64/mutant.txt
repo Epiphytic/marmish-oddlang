@@ -1,0 +1,8 @@
+InvalidExecutable|InvalidExecutable|an explicit absolute executable file is required|0
+MissingExecutable|MissingExecutable|configured executable is unavailable|1
+Timeout|Timeout|subprocess deadline exceeded|2
+OutputLimit|OutputLimit|response exceeds the fixed size limit|3
+InvalidResponse|InvalidResponse|response was rejected|4
+SubprocessFailure|SubprocessFailure|subprocess failed|5
+LiveEgressUnverified|LiveEgressUnverified|strict configured-relay egress is unverified; operation cannot start|6
+VersionObservation { stderr: "\tstatus\r\n", stdout: "released \"é\"\n!" }

@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-public-records-rust-v1",
+  "flattenModule": true,
+  "identifiers": {
+    "urn:marmish:mdk:public-records:v1": "root",
+    "urn:marmish:mdk:version-observation:v1": "VersionObservation"
+  }
+}
