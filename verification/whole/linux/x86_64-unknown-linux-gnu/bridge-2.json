@@ -1,0 +1,437 @@
+{
+  "binary_sha256": {
+    "bridge": "a8fc535ec209197fe298315d6f2631ad5ef621643e715e34ae23e62b5fe23d48",
+    "worker": "b455547b35c04495ca3287e86323d130b934d3e297b3291c5a5c92df70dd38d4"
+  },
+  "cases": [
+    {
+      "args": [
+        "--help"
+      ],
+      "cwd": "$RUN/cwd",
+      "exchanges": [],
+      "final_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "id": "argument-rejection",
+      "initial_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "key_retained_after_eof": null,
+      "status": 1,
+      "stderr": "",
+      "stdin_before_eof": "",
+      "stdout_after_eof": ""
+    },
+    {
+      "args": [],
+      "cwd": "$RUN/cwd",
+      "exchanges": [],
+      "final_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "id": "clean-eof",
+      "initial_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "key_retained_after_eof": null,
+      "status": 0,
+      "stderr": "",
+      "stdin_before_eof": "",
+      "stdout_after_eof": ""
+    },
+    {
+      "args": [],
+      "cwd": "$RUN/cwd",
+      "exchanges": [],
+      "final_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "id": "partial-frame-at-eof",
+      "initial_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "key_retained_after_eof": null,
+      "status": 0,
+      "stderr": "",
+      "stdin_before_eof": "{",
+      "stdout_after_eof": "{\"error\":{\"code\":\"invalid_framing\"},\"id\":null,\"ok\":false}\n"
+    },
+    {
+      "args": [],
+      "cwd": "$RUN/cwd",
+      "exchanges": [
+        {
+          "state": {
+            "entries": {
+              "cwd": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state/engine.key": {
+                "bytes": 40,
+                "magic": "MRMSKEY1",
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3": {
+                "bytes": 4096,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-shm": {
+                "bytes": 32768,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-wal": {
+                "bytes": 41232,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/frontend.lock": {
+                "bytes": 0,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/jobs": {
+                "mode": "0700",
+                "type": "dir"
+              }
+            },
+            "frontend_lock": "held"
+          },
+          "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$RUNNER_TEMP/build/x86_64-unknown-linux-gnu/release/marmish-engine-worker\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+          "stdout": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n"
+        }
+      ],
+      "final_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          },
+          "state": {
+            "mode": "0700",
+            "type": "dir"
+          },
+          "state/engine.key": {
+            "bytes": 40,
+            "magic": "MRMSKEY1",
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/engine.sqlite3": {
+            "bytes": 40960,
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/frontend.lock": {
+            "bytes": 0,
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/jobs": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "available"
+      },
+      "id": "version-1-init-before-eof",
+      "initial_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "key_retained_after_eof": true,
+      "status": 0,
+      "stderr": "",
+      "stdin_before_eof": "",
+      "stdout_after_eof": ""
+    },
+    {
+      "args": [],
+      "cwd": "$RUN/cwd",
+      "exchanges": [
+        {
+          "state": {
+            "entries": {
+              "cwd": {
+                "mode": "0700",
+                "type": "dir"
+              }
+            },
+            "frontend_lock": "absent"
+          },
+          "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":0,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$RUNNER_TEMP/build/x86_64-unknown-linux-gnu/release/marmish-engine-worker\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+          "stdout": "{\"error\":{\"code\":\"invalid_request\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n"
+        },
+        {
+          "state": {
+            "entries": {
+              "cwd": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state/engine.key": {
+                "bytes": 40,
+                "magic": "MRMSKEY1",
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3": {
+                "bytes": 4096,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-shm": {
+                "bytes": 32768,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-wal": {
+                "bytes": 41232,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/frontend.lock": {
+                "bytes": 0,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/jobs": {
+                "mode": "0700",
+                "type": "dir"
+              }
+            },
+            "frontend_lock": "held"
+          },
+          "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$RUNNER_TEMP/build/x86_64-unknown-linux-gnu/release/marmish-engine-worker\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+          "stdout": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n"
+        },
+        {
+          "contents_unchanged": true,
+          "state": {
+            "entries": {
+              "cwd": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state": {
+                "mode": "0700",
+                "type": "dir"
+              },
+              "state/engine.key": {
+                "bytes": 40,
+                "magic": "MRMSKEY1",
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3": {
+                "bytes": 4096,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-shm": {
+                "bytes": 32768,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/engine.sqlite3-wal": {
+                "bytes": 41232,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/frontend.lock": {
+                "bytes": 0,
+                "mode": "0600",
+                "type": "file"
+              },
+              "state/jobs": {
+                "mode": "0700",
+                "type": "dir"
+              }
+            },
+            "frontend_lock": "held"
+          },
+          "stdin": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"op\":\"init\",\"version\":1,\"state_root\":\"$RUN/state\",\"worker_executable\":\"$RUNNER_TEMP/build/x86_64-unknown-linux-gnu/release/marmish-engine-worker\",\"server\":\"1111111111111111111111111111111111111111111111111111111111111111\",\"allowed_principals\":[\"2222222222222222222222222222222222222222222222222222222222222222\"],\"cwd\":\"$RUN/cwd\"}\n",
+          "stdout": "{\"error\":{\"code\":\"invalid_request\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n"
+        }
+      ],
+      "final_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          },
+          "state": {
+            "mode": "0700",
+            "type": "dir"
+          },
+          "state/engine.key": {
+            "bytes": 40,
+            "magic": "MRMSKEY1",
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/engine.sqlite3": {
+            "bytes": 40960,
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/frontend.lock": {
+            "bytes": 0,
+            "mode": "0600",
+            "type": "file"
+          },
+          "state/jobs": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "available"
+      },
+      "id": "retry-after-rejected-version-and-double-init",
+      "initial_state": {
+        "entries": {
+          "cwd": {
+            "mode": "0700",
+            "type": "dir"
+          }
+        },
+        "frontend_lock": "absent"
+      },
+      "key_retained_after_eof": true,
+      "status": 0,
+      "stderr": "",
+      "stdin_before_eof": "",
+      "stdout_after_eof": ""
+    }
+  ],
+  "controls": {
+    "expected_status": "rejected",
+    "wrong_channel": "rejected"
+  },
+  "environment": {
+    "LANG": "C",
+    "PATH": "/usr/bin:/bin"
+  },
+  "fixture_sha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
+  "format": 1,
+  "startup_limits": {
+    "AS": [
+      -1,
+      -1
+    ],
+    "CORE": [
+      0,
+      -1
+    ],
+    "CPU": [
+      -1,
+      -1
+    ],
+    "DATA": [
+      -1,
+      -1
+    ],
+    "FSIZE": [
+      -1,
+      -1
+    ],
+    "MEMLOCK": [
+      8388608,
+      8388608
+    ],
+    "MSGQUEUE": [
+      819200,
+      819200
+    ],
+    "NICE": [
+      0,
+      0
+    ],
+    "NOFILE": [
+      256,
+      256
+    ],
+    "NPROC": [
+      55514,
+      55514
+    ],
+    "OFILE": [
+      65536,
+      65536
+    ],
+    "RSS": [
+      -1,
+      -1
+    ],
+    "RTPRIO": [
+      0,
+      0
+    ],
+    "RTTIME": [
+      -1,
+      -1
+    ],
+    "SIGPENDING": [
+      55514,
+      55514
+    ],
+    "STACK": [
+      16777216,
+      -1
+    ]
+  },
+  "umask": "0077"
+}
