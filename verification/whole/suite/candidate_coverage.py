@@ -15,6 +15,7 @@ import tempfile
 from inventory import PIN
 import process_limits
 import selected_tests
+import parser_cases
 
 HERE = Path(__file__).resolve().parent
 WHOLE = HERE.parent
@@ -26,6 +27,8 @@ MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 
 CANDIDATES = {
     "v7": (MANIFEST, FRAMEWORK),
+    "manifest": (MANIFEST.with_name("workspace-v7-converged-release-manifest.json"),
+                 "da1b0033ae9345c2d8288b4164d4fd1dbf5bcade"),
     "seven": (MANIFEST.with_name("workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"),
               "59f947dafdb4cf3055e35216857472ada895a76a"),
     "recovered": (MANIFEST.with_name("workspace-v7-recovered-vault-engine.json"),
@@ -139,7 +142,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     if path.is_file()}
 
         pristine = snapshot()
-        include_reader = candidate == "seven"
+        include_reader = candidate in {"seven", "manifest"}
         targets = ["--workspace","--lib","--bins"] if include_reader else ["-p","marmish-native","--bins"]
         built_libraries = {}
         if include_reader:
@@ -178,14 +181,18 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         injected = {"marmish-core/tests/contracts.rs","marmish-stream/src/original_wire_test_module.rs",
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
         additional = {}
-        if candidate in {"recovered","seven"}:
+        if candidate != "v7":
             paths, additional = selected_tests.stage(original, product)
             injected.update(paths)
         if include_reader:
             additional["prototypeReader"] = selected_tests.stage_reader(original,product)
             appended.add(selected_tests.READER_LEAF)
+        if candidate == "manifest":
+            parser_leaf, parser_prefix = parser_cases.stage(original, product)
+            appended.add(parser_leaf)
+            additional.update(parser_cases.SOURCES)
         staged = snapshot()
-        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader):
+        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(candidate == "manifest"):
             raise ValueError("unexpected staged file inventory")
         for path, contents in pristine.items():
             if path in appended:
@@ -227,6 +234,10 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
                     invocations[harness][name] = runs
                 witnessed[harness] = names
+        if candidate == "manifest":
+            invocations[parser_cases.HARNESS] = parser_cases.witness(
+                inside, product, parser_prefix, assembly["passing_tests"], selected_tests.check_execution)
+            witnessed[parser_cases.HARNESS] = list(parser_cases.NAMES)
         # Use Cargo's artifact for the harness target. Native and test builds can
         # legitimately leave multiple feature-specific libc archives in release/deps.
         libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]

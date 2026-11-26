@@ -197,3 +197,9 @@ It grants only repository contents read access.
 
 The companion has Actions disabled, so this workflow has no AMD64 run receipt.
 The existing ARM64 inventories describe their own native profiles.
+
+## Native release-manifest parser
+
+The `manifest` candidate uses [this seven-member workspace](../../../oddlang/portable/workspace-v7-converged-release-manifest.json) and compiler revision `da1b0033ae9345c2d8288b4164d4fd1dbf5bcade`. It reruns the earlier seven-member selection on the new release and adds two original private Rust unit tests to the native library harness. Each test must execute individually under its exact generated module path. The receipt credits its original module name after the verifier observes exactly one pass. The unchanged test source (including its sample helper) and the included version vectors are identified by SHA-256. The 224 differential parser inputs are a separate contract corpus and contribute zero additional named suite cases.
+
+The [macOS ARM64 receipt](manifest-aarch64-apple-darwin.json) records 42 passed and 867 unverified, and the [Linux ARM64 receipt](manifest-aarch64-unknown-linux-gnu.json) records 43 passed and 844 unverified. Each host has five additional ignored cases. Both ran verifier commit `545664e99f446a82471f53e93eeda8646a62f3e3` and built all seven members before loading upstream test sources. The receipt checker rejects missing tests, a substituted input vector, a zero-pass invocation and full-suite certification.
