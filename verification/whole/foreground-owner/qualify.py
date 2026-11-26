@@ -152,7 +152,7 @@ def relay_options(listener, *, scheme="wss"):
 
 
 def observe(original, generated, root, *, trust_failure=False, include_generated_client=False,
-            profile_initializer=None):
+            profile_initializer=None, provider_terminal=False):
     env = {"PATH": "/usr/bin:/bin", "LANG": "C", "HOME": str(root / "home"), "TMPDIR": str(root / "runtime")}
     for name in ("home", "runtime"):
         (root / name).mkdir(mode=0o700)
@@ -203,6 +203,7 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
             lambda: inspect(start(generated_bin, competitor)),
         )
     check(original_stop["exit"], 0, "original signal stop")
+    stopped = original_stop if provider_terminal else QUIET
     for flag in ("engine_stop_complete", "mdk_stop_complete", "runtime_cleanup_complete"):
         check(json.loads(original_stop["stdout"])[flag], True, flag)
     check(call(query, env, root), MISSING, "original post-stop discovery")
@@ -214,7 +215,7 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
             lambda: inspect(start(original_bin, competitor)),
         )
     check(generated_result, original_result, "foreground takeover status and exclusivity")
-    check(generated_stop, QUIET, "generated local cleanup")
+    check(generated_stop, stopped, "generated local cleanup")
     check(call(query, env, root), MISSING, "generated post-stop discovery")
     expected_held = {"status": SUCCESS, "tlsRecordPrefix": "160301"}
     if include_generated_client:
@@ -226,7 +227,7 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
             queries,
         )
     check(reattach, expected_held, "explicit daemon subcommand reattach")
-    check(reattach_stop, QUIET, "reattach cleanup")
+    check(reattach_stop, stopped, "reattach cleanup")
     with held_relay() as relay:
         _, killed = hold(
             start(generated_bin, relay), env, root, runtime, profile, relay,
@@ -241,7 +242,7 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
             queries,
         )
     check(recovered, expected_held, "stale runtime recovery")
-    check(recovered_stop, QUIET, "recovered owner cleanup")
+    check(recovered_stop, stopped, "recovered owner cleanup")
     check((state / "profile.json").read_bytes(), prior_manifest, "no profile rewrite")
 
     controls = {}
@@ -294,7 +295,8 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
             server = certificate(Path(directory))
             trust["original"] = rejected_certificate(original / "marmishd", common, root, runtime, env, server)
             trust["generated"] = rejected_certificate(generated / "marmishd", common, root, runtime, env, server)
-        check(trust["generated"]["stdout"], "", "no provider stop report")
+        expected = trust["original"]["stdout"] if provider_terminal else ""
+        check(trust["generated"]["stdout"], expected, "certificate failure stop report")
         for flag in ("engine_stop_complete", "mdk_stop_complete", "runtime_cleanup_complete"):
             check(json.loads(trust["original"]["stdout"])[flag], True, flag)
 

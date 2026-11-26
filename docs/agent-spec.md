@@ -1,6 +1,6 @@
 # Marmish native v0.3 agent specification
 
-The v5 workspace assembles the complete stream copy protocol, core library, encrypted file-profile initialization and both native status peers. The release verifies both original and generated initializers, foreground owners and clients through real loopback TLS activation. Provider readiness, remote execution, installed transfers, and installed services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v5)
+The v6 workspace keeps the v5 core and stream libraries and assembles configured file initialization and the local provider lifetime with the native status client. The same executables qualify saved-config initialization and the no-config foreground role. Provider readiness beyond TLS, remote execution, installed transfers and services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v6)
 
 The Oddlang companion generates parser-only `marmish` and `marmishd`
 executables from a recovered command graph. Both match the pinned release on

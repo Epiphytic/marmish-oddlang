@@ -89,3 +89,21 @@ cargo +1.97.1 build --manifest-path /tmp/marmish-fresh/Cargo.toml --workspace --
 The [cold-cache verifier](cold_cache.py) stages only the 55 inputs reachable from the v5 manifest. In a new Cargo home it checks the default offline failure, permits locked fetching in a second empty home, regenerates with Cargo offline and compares both products to the published workspace, package and source hashes. It runs the frozen 34-case parser transcript on each release executable. It accepts a clean pinned Oddlang checkout and a receipt output path. Building the verifier’s compiler uses its own existing toolchain dependency cache.
 
 The [macOS ARM64 receipt](cold-cache-aarch64-apple-darwin.json) and [Linux ARM64 receipt](cold-cache-aarch64-unknown-linux-gnu.json) record identical input digests and workspace lock. Each host compiled both release binaries offline after acquisition and passed 34 parser cases per binary.
+
+## Workspace v6
+
+The [v6 manifest](../../../oddlang/portable/workspace-v6.json) builds the same v5 core and stream libraries with both qualified file-profile roles. The native client initializes encrypted state using explicit or supported stored configuration. The same native release supplies the foreground provider owner and discovering status client for prepared no-config file profiles during direct loopback TLS activation. The v5 release and both its library member locks remain intact.
+
+Use Oddlang `ab7171bb583f7e04c63896caeafaa476eb810d5a`, Rust 1.97.1, and the completed offline cache described in the v5 instructions. Use a fresh destination.
+
+```sh
+oddlang build native-workspace rust oddlang/portable/workspace-v6.json /tmp/marmish-v6
+cargo +1.97.1 build --manifest-path /tmp/marmish-v6/Cargo.toml --workspace --locked --release --offline
+python3 -B verification/whole/workspace/verify.py FRAMEWORK ORIGINAL RECEIPT --release v6 --original-bin-dir ORIGINAL_BINS
+```
+
+Generation and the release build run with application source, original executable and oracle access excluded, and with network access denied. All native observers use the same generated executable pair. The configured-init observer checks filesystem selection, checked configuration and bidirectional reuse of encrypted current-format recent journal records. The foreground observer crosses both original and generated initializers, owners and clients with direct, no-config profiles. It checks active store ownership while TLS is held, original-matching signal and trust-error reports, startup rejection, and usable durable state after shutdown. The v5 parser, stream, core, discovery, copy relation and abrupt ownership recovery cases are replayed on the same release.
+
+Configured foreground execution, readiness beyond TLS, older or nonempty migrations beyond the configured initializer's named cases, Keychain, Tor, installed services and end-to-end transfers remain open.
+
+The [macOS ARM64 receipt](v6-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v6-aarch64-unknown-linux-gnu.json) agree on the workspace seals, common configured-init observations, core and stream tests, and direct lifecycle outcomes. Linux also exercises absolute XDG state selection and records the matching original SQLCipher trace on corrupt stores.
