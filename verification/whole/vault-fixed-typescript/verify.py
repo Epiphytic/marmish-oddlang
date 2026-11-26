@@ -15,14 +15,14 @@ ROOT = HERE.parents[2]
 DATA = ROOT / "oddlang/portable/vault-fixed-bytes-v1"
 GRAPH = DATA / "graph.json"
 GRAPH_SHA256 = "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b"
-FRAMEWORK = "95a7314f3699a4fd169a27dd52b424a36b4bea71"
+FRAMEWORK = "200cb567a19399dff54c1049f77c9672907026db"
 VALUE = "urn:marmish:vault:secret"
 FAILURE = "urn:marmish:vault:error:malformed"
 OUTPUTS = {"values.mts", "obligations.json", "projection.lock"}
 
 
 def run(*args, cwd=None):
-    return subprocess.check_output(args, cwd=cwd)
+    return subprocess.run(args, cwd=cwd, check=True, capture_output=True).stdout
 
 
 def sha(data):
@@ -41,7 +41,7 @@ def observe(prefix, witness, output, width, work):
     result = json.loads(runtime)
     assert result == {
         "short": FAILURE, "long": FAILURE, "shadowedWidth": FAILURE, "detached": FAILURE,
-        "owned": {"width": width, "inputCopy": True, "outputCopy": True},
+        "owned": {"id": VALUE, "width": width, "inputCopy": True, "outputCopy": True},
         "crossRealm": True,
     }
     return result
@@ -144,4 +144,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except subprocess.CalledProcessError as error:
+        raise SystemExit(error.stderr.decode(errors="replace") or str(error)) from error
