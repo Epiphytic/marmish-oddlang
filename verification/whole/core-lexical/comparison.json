@@ -1,0 +1,244 @@
+{
+  "darwinDownstreamImportAudit": {
+    "attempted": 6,
+    "canonicalReceiptSha256": "047f5e31367594e067f57d9b2fc07cc880e2b825138967b0d4d4c1c87ba8415f",
+    "compiled": 6,
+    "inventorySha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab"
+  },
+  "generated": {
+    "ambiguous": 1,
+    "compilerOnly": 0,
+    "outsideVisibilityScopeByKind": {
+      "field": 9,
+      "package": 1,
+      "variant": 26
+    },
+    "rustdocOnly": 0,
+    "unambiguous": 89,
+    "visibilityAgreements": 53,
+    "visibilityDisagreements": 0,
+    "visibilityUnresolved": 0
+  },
+  "observedHosts": [
+    "aarch64-apple-darwin",
+    "aarch64-unknown-linux-gnu"
+  ],
+  "original": {
+    "ambiguous": 1,
+    "compilerOnly": 0,
+    "outsideVisibilityScopeByKind": {
+      "package": 1,
+      "variant": 11
+    },
+    "rustdocOnly": 0,
+    "unambiguous": 29,
+    "visibilityAgreements": 17,
+    "visibilityDisagreements": 0,
+    "visibilityUnresolved": 0
+  },
+  "publicDataRolePairs": [
+    {
+      "component": {
+        "graph": {
+          "path": "core-config-v1/domain.ttl",
+          "sha256": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc"
+        },
+        "kind": "value-domain",
+        "module": "config",
+        "overlay": {
+          "path": "core-config-v1/rust.json",
+          "sha256": "e40105ffefb5cb6d62df6705c0b248e1bacf6e1e36d8c9bca6e4756b184155e5"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "config",
+        "__projection_0",
+        "ConfigError"
+      ],
+      "generatedSourceFile": "src/group_0/__projection_0.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "sum",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "config",
+        "ConfigError"
+      ],
+      "spelling": "ConfigError"
+    },
+    {
+      "component": {
+        "graph": {
+          "path": "core-frame-v1/domain.ttl",
+          "sha256": "a3429c691990835d1ee3ad13e90ce56fbcc15d84f28c6a2eedcf7f7135b9a0e8"
+        },
+        "kind": "json-envelope",
+        "module": "frame",
+        "overlay": {
+          "path": "core-frame-v1/rust.json",
+          "sha256": "325f13b37cb311aefdf0348b26b897785cdc9ebb78bba22965b0c267adb8318d"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "__projection_2",
+        "FrameError"
+      ],
+      "generatedSourceFile": "src/group_2/__projection_2.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "sum",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "FrameError"
+      ],
+      "spelling": "FrameError"
+    },
+    {
+      "component": {
+        "graph": {
+          "path": "core-frame-v1/domain.ttl",
+          "sha256": "a3429c691990835d1ee3ad13e90ce56fbcc15d84f28c6a2eedcf7f7135b9a0e8"
+        },
+        "kind": "json-envelope",
+        "module": "frame",
+        "overlay": {
+          "path": "core-frame-v1/rust.json",
+          "sha256": "325f13b37cb311aefdf0348b26b897785cdc9ebb78bba22965b0c267adb8318d"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "__projection_2",
+        "Limits"
+      ],
+      "generatedSourceFile": "src/group_2/__projection_2.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "record",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "Limits"
+      ],
+      "spelling": "Limits"
+    },
+    {
+      "component": {
+        "graph": {
+          "path": "core-frame-v1/domain.ttl",
+          "sha256": "a3429c691990835d1ee3ad13e90ce56fbcc15d84f28c6a2eedcf7f7135b9a0e8"
+        },
+        "kind": "json-envelope",
+        "module": "frame",
+        "overlay": {
+          "path": "core-frame-v1/rust.json",
+          "sha256": "325f13b37cb311aefdf0348b26b897785cdc9ebb78bba22965b0c267adb8318d"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "__projection_2",
+        "ProbeEnvelope"
+      ],
+      "generatedSourceFile": "src/group_2/__projection_2.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "record",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "frame",
+        "ProbeEnvelope"
+      ],
+      "spelling": "ProbeEnvelope"
+    },
+    {
+      "component": {
+        "graph": {
+          "path": "core-relays-v1/graph.json",
+          "sha256": "98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff"
+        },
+        "kind": "endpoint-set",
+        "module": "config",
+        "overlay": {
+          "path": "core-relays-v1/rust.json",
+          "sha256": "e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "config",
+        "__projection_1",
+        "RelaySet"
+      ],
+      "generatedSourceFile": "src/group_0/__projection_1.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "record",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "config",
+        "RelaySet"
+      ],
+      "spelling": "RelaySet"
+    },
+    {
+      "component": {
+        "graph": {
+          "path": "core-config-v1/domain.ttl",
+          "sha256": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc"
+        },
+        "kind": "value-domain",
+        "module": "config",
+        "overlay": {
+          "path": "core-config-v1/rust.json",
+          "sha256": "e40105ffefb5cb6d62df6705c0b248e1bacf6e1e36d8c9bca6e4756b184155e5"
+        }
+      },
+      "declaredAccessInBoth": "public",
+      "generatedDeclarationPath": [
+        "marmish_core",
+        "config",
+        "__projection_0",
+        "Retention"
+      ],
+      "generatedSourceFile": "src/group_0/__projection_0.rs",
+      "nativeRole": "crate-root public data reexport",
+      "normalizedKind": "record",
+      "originalDeclarationPath": [
+        "marmish_core",
+        "config",
+        "Retention"
+      ],
+      "spelling": "Retention"
+    }
+  ],
+  "sameLexicalKeys": [
+    {
+      "kind": "module",
+      "path": [
+        "marmish_core",
+        "config"
+      ]
+    },
+    {
+      "kind": "module",
+      "path": [
+        "marmish_core",
+        "frame"
+      ]
+    },
+    {
+      "kind": "package",
+      "path": [
+        "marmish_core"
+      ]
+    }
+  ],
+  "scope": "lexical declarations at a selected native compiler profile"
+}

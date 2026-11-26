@@ -1,0 +1,3851 @@
+{
+  "cargoLockSha256": "2e8cb5d183d18b85059dc5af723677169e07aff37ef5648fe098ac5b4d3f9d95",
+  "cargoProfile": "release",
+  "comparison": {
+    "ambiguous": [
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 32
+          },
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 32
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "oddlang_json_record",
+          "_"
+        ],
+        "rustdoc": []
+      }
+    ],
+    "compilerOnly": [],
+    "declaredAccess": {
+      "agreement": [
+        {
+          "compiler": {
+            "within": [
+              "marmish_core"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "config"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_0"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_0",
+            "ConfigError"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_0",
+            "Retention"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_0"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_0",
+            "Retention",
+            "0"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_0"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "RelaySet"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "RelaySet",
+            "0"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Component"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "constant",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DEDUPLICATE"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsPolicy"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsPolicy",
+            "loopback_suffixes"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsPolicy",
+            "rewrite_error"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsPolicy",
+            "syntax"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsPolicy",
+            "trailing_dot"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "DnsSyntax"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "constant",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "EMPTY_ERROR"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "type-alias",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Error"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "FamilyPolicy"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "FamilyPolicy",
+            "allow"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "FamilyPolicy",
+            "default_allow"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "FamilyPolicy",
+            "deny"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "constant",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "INPUT_RULES"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "InputRule"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "InputRule",
+            "characters"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "InputRule",
+            "error"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "InputRule",
+            "unicode_control"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "InputRule",
+            "unicode_whitespace"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "IpPolicy"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "IpPolicy",
+            "ipv4"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "IpPolicy",
+            "ipv6"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "IpPolicy",
+            "loopback_v4"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "IpPolicy",
+            "loopback_v6"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "constant",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "PARSE_ERROR"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Prefix"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Prefix",
+            "mask"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Prefix",
+            "network"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "constant",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "RULES"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "Rule"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "TrailingDot"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "normalize"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "normalize_entry"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "__projection_1",
+            "endpoint_set_impl",
+            "valid_dns_labels"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config",
+              "__projection_1",
+              "endpoint_set_impl"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "frame"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "FrameError"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "Limits"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "ProbeEnvelope"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "oddlang_json_record"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "oddlang_json_record",
+            "Record"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "oddlang_json_record",
+            "Record",
+            "binary"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "frame",
+            "__projection_2",
+            "oddlang_json_record",
+            "Record",
+            "literal"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame",
+              "__projection_2"
+            ]
+          }
+        }
+      ],
+      "different": [],
+      "outsideScopeMatchedByKind": {
+        "field": 9,
+        "package": 1,
+        "variant": 26
+      },
+      "unresolved": []
+    },
+    "matched": [
+      {
+        "compiler": [
+          {
+            "file": "src/lib.rs",
+            "line": 1
+          }
+        ],
+        "kind": "package",
+        "path": [
+          "marmish_core"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/lib.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/lib.rs",
+            "line": 2
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "config"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/mod.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/mod.rs",
+            "line": 1
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 2
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 2
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 6
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "DisallowedComponents"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 7
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "DisallowedHost"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 7
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 5
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "DisallowedScheme"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 5
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 3
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "EmptyRelaySet"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 3
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 4
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "InvalidUrl"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 4
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 8
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "LoopbackDenied"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 8
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 9
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "ConfigError",
+          "RetentionOutOfRange"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 26
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "Retention"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 26
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 26
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_0",
+          "Retention",
+          "0"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_0.rs",
+            "line": 26
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/mod.rs",
+            "line": 3
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 237
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "RelaySet"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 237
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 237
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "RelaySet",
+          "0"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 237
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 2
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 2
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 35
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 35
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 39
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component",
+          "Fragment"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 39
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 37
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component",
+          "Password"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 37
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 40
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component",
+          "Port"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 40
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 38
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component",
+          "Query"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 38
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 36
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Component",
+          "Username"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 36
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 222
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DEDUPLICATE"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 222
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 69
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsPolicy"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 69
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 72
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsPolicy",
+          "loopback_suffixes"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 72
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 73
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsPolicy",
+          "rewrite_error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 73
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 70
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsPolicy",
+          "syntax"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 70
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 71
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsPolicy",
+          "trailing_dot"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 71
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 56
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsSyntax"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 56
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 58
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsSyntax",
+          "Any"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 58
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 57
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsSyntax",
+          "AsciiLabels"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 57
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 59
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "DnsSyntax",
+          "Deny"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 59
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 221
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "EMPTY_ERROR"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 221
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 6
+          }
+        ],
+        "kind": "type-alias",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 6
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 108
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "FamilyPolicy"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 108
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 109
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "FamilyPolicy",
+          "allow"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 109
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 111
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "FamilyPolicy",
+          "default_allow"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 111
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 110
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "FamilyPolicy",
+          "deny"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 110
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 223
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "INPUT_RULES"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 223
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 8
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "InputRule"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 8
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 11
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "InputRule",
+          "characters"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 11
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 12
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "InputRule",
+          "error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 12
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 10
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "InputRule",
+          "unicode_control"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 10
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 9
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "InputRule",
+          "unicode_whitespace"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 9
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 129
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "IpPolicy"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 129
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 132
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "IpPolicy",
+          "ipv4"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 132
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 133
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "IpPolicy",
+          "ipv6"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 133
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 130
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "IpPolicy",
+          "loopback_v4"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 130
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 131
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "IpPolicy",
+          "loopback_v6"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 131
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 227
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "PARSE_ERROR"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 227
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 97
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Prefix"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 97
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 99
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Prefix",
+          "mask"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 99
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 98
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Prefix",
+          "network"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 98
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 228
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "RULES"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 228
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 15
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 15
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 16
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "AllowedSchemes"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 16
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 18
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "AllowedSchemes",
+          "error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 18
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 17
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "AllowedSchemes",
+          "schemes"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 17
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 25
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "HostPolicy"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 25
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 26
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "HostPolicy",
+          "dns"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 26
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 28
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "HostPolicy",
+          "error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 28
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 27
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "HostPolicy",
+          "ip"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 27
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 30
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "LoopbackOptIn"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 30
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 31
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "LoopbackOptIn",
+          "error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 31
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 20
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "UrlComponents"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 20
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 22
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "UrlComponents",
+          "allowed_paths"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 22
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 23
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "UrlComponents",
+          "error"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 23
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 21
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "Rule",
+          "UrlComponents",
+          "forbid"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 21
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 63
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "TrailingDot"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 63
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 64
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "TrailingDot",
+          "Preserve"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 64
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 66
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "TrailingDot",
+          "Reject"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 66
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 65
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "TrailingDot",
+          "StripOne"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 65
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 197
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "normalize"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 197
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 136
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "normalize_entry"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 136
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 211
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "__projection_1",
+          "endpoint_set_impl",
+          "valid_dns_labels"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_0/__projection_1.rs",
+            "line": 211
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/lib.rs",
+            "line": 4
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "frame"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/mod.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/mod.rs",
+            "line": 1
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 11
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "FrameError"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 11
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 15
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "FrameError",
+          "InvalidEncoding"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 15
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 13
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "FrameError",
+          "InvalidJson"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 13
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 14
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "FrameError",
+          "InvalidVersion"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 14
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 12
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "FrameError",
+          "SizeLimit"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 12
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 2
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "Limits"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 2
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 42
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "ProbeEnvelope"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 42
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 31
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "oddlang_json_record"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 31
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 34
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "oddlang_json_record",
+          "Record"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 34
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 38
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "oddlang_json_record",
+          "Record",
+          "binary"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 38
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 36
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "frame",
+          "__projection_2",
+          "oddlang_json_record",
+          "Record",
+          "literal"
+        ],
+        "rustdoc": [
+          {
+            "file": "src/group_2/__projection_2.rs",
+            "line": 36
+          }
+        ]
+      }
+    ],
+    "rustdocOnly": [],
+    "unkeyedCompilerByKind": {
+      "associated-constant": 4,
+      "associated-function": 41,
+      "associated-type": 2,
+      "closure": 18,
+      "constant": 1,
+      "constructor": 29,
+      "enum": 1,
+      "extern-crate": 3,
+      "field": 2,
+      "implementation": 48,
+      "import": 25,
+      "lifetime-parameter": 64,
+      "struct": 2,
+      "type-parameter": 8,
+      "variant": 2
+    },
+    "unkeyedRustdocByKind": {
+      "assoc_const": 4,
+      "function": 29,
+      "impl": 278,
+      "use": 12
+    }
+  },
+  "compilerCfg": [
+    "panic=\"unwind\"",
+    "target_abi=\"\"",
+    "target_arch=\"aarch64\"",
+    "target_endian=\"little\"",
+    "target_env=\"\"",
+    "target_family=\"unix\"",
+    "target_feature=\"aes\"",
+    "target_feature=\"crc\"",
+    "target_feature=\"dit\"",
+    "target_feature=\"dotprod\"",
+    "target_feature=\"dpb\"",
+    "target_feature=\"dpb2\"",
+    "target_feature=\"fcma\"",
+    "target_feature=\"fhm\"",
+    "target_feature=\"flagm\"",
+    "target_feature=\"fp16\"",
+    "target_feature=\"frintts\"",
+    "target_feature=\"jsconv\"",
+    "target_feature=\"lor\"",
+    "target_feature=\"lse\"",
+    "target_feature=\"neon\"",
+    "target_feature=\"paca\"",
+    "target_feature=\"pacg\"",
+    "target_feature=\"pan\"",
+    "target_feature=\"pmuv3\"",
+    "target_feature=\"ras\"",
+    "target_feature=\"rcpc\"",
+    "target_feature=\"rcpc2\"",
+    "target_feature=\"rdm\"",
+    "target_feature=\"sb\"",
+    "target_feature=\"sha2\"",
+    "target_feature=\"sha3\"",
+    "target_feature=\"ssbs\"",
+    "target_feature=\"vh\"",
+    "target_has_atomic=\"128\"",
+    "target_has_atomic=\"16\"",
+    "target_has_atomic=\"32\"",
+    "target_has_atomic=\"64\"",
+    "target_has_atomic=\"8\"",
+    "target_has_atomic=\"ptr\"",
+    "target_has_atomic_primitive_alignment=\"128\"",
+    "target_has_atomic_primitive_alignment=\"16\"",
+    "target_has_atomic_primitive_alignment=\"32\"",
+    "target_has_atomic_primitive_alignment=\"64\"",
+    "target_has_atomic_primitive_alignment=\"8\"",
+    "target_has_atomic_primitive_alignment=\"ptr\"",
+    "target_os=\"macos\"",
+    "target_pointer_width=\"64\"",
+    "target_vendor=\"apple\"",
+    "unix"
+  ],
+  "defaultFeatures": true,
+  "formatVersion": 57,
+  "package": "marmish-core",
+  "previousSpanReportSha256": null,
+  "profile": {
+    "checkCfg": [
+      "cfg(docsrs,test)",
+      "cfg(feature, values())"
+    ],
+    "codegen": [
+      "opt-level=3"
+    ],
+    "crateName": [
+      "marmish_core"
+    ],
+    "crateType": [
+      "lib"
+    ],
+    "edition": [
+      "--edition=2021"
+    ],
+    "explicitCfg": [],
+    "externAliases": [
+      "base64",
+      "serde",
+      "serde_json",
+      "url"
+    ],
+    "externBindings": {
+      "base64": {
+        "crate": "base64",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"alloc\"",
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "base64",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "0.22.1"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "serde": {
+        "crate": "serde",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"default\"",
+          "feature=\"derive\"",
+          "feature=\"serde_derive\"",
+          "feature=\"std\"",
+          "if_docsrs_then_no_serde_core"
+        ],
+        "package": {
+          "name": "serde",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "1.0.229"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "serde_json": {
+        "crate": "serde_json",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "fast_arithmetic=\"64\"",
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "serde_json",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "1.0.151"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "url": {
+        "crate": "url",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "url",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "2.5.8"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      }
+    },
+    "pathMaps": [
+      "--remap-path-prefix=$WORKSPACE=/oddlang-workspace"
+    ],
+    "target": [
+      "aarch64-apple-darwin"
+    ]
+  },
+  "requestedFeatures": [],
+  "rustdocImplicitCfg": [
+    "doc"
+  ],
+  "schema": 1,
+  "source": null,
+  "spanEvidence": {
+    "includingExpansions": {
+      "compilerOnly": [
+        [
+          "src/group_0/__projection_0.rs",
+          1,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          25,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          236,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "src/group_0/mod.rs",
+          1,
+          "__projection_0",
+          "module"
+        ],
+        [
+          "src/group_0/mod.rs",
+          3,
+          "__projection_1",
+          "module"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          10,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "FIELDS",
+          "constant"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "Value",
+          "assoc_type"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "_",
+          "constant"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "__Field",
+          "enum"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "__FieldVisitor",
+          "struct"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "__Visitor",
+          "struct"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "__field0",
+          "variant"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "__field1",
+          "variant"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "expecting",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "lifetime",
+          "struct_field"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "marker",
+          "struct_field"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "visit_bytes",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "visit_map",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "visit_seq",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "visit_str",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "visit_u64",
+          "function"
+        ],
+        [
+          "src/group_2/mod.rs",
+          1,
+          "__projection_2",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          2,
+          "config",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          4,
+          "frame",
+          "module"
+        ]
+      ],
+      "matched": 112,
+      "rustdocOnly": [
+        [
+          "src/group_0/__projection_0.rs",
+          1,
+          "__projection_0",
+          "module"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          1,
+          "__projection_1",
+          "module"
+        ],
+        [
+          "src/group_0/mod.rs",
+          1,
+          "config",
+          "module"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          1,
+          "__projection_2",
+          "module"
+        ],
+        [
+          "src/group_2/mod.rs",
+          1,
+          "frame",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          1,
+          "marmish_core",
+          "module"
+        ]
+      ]
+    },
+    "ordinary": {
+      "compilerOnly": [
+        [
+          "src/group_0/mod.rs",
+          1,
+          "__projection_0",
+          "module"
+        ],
+        [
+          "src/group_0/mod.rs",
+          3,
+          "__projection_1",
+          "module"
+        ],
+        [
+          "src/group_2/mod.rs",
+          1,
+          "__projection_2",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          2,
+          "config",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          4,
+          "frame",
+          "module"
+        ]
+      ],
+      "matched": 96,
+      "rustdocOnly": [
+        [
+          "src/group_0/__projection_0.rs",
+          1,
+          "__projection_0",
+          "module"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          1,
+          "eq",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          1,
+          "fmt",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          25,
+          "clone",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          25,
+          "eq",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_0.rs",
+          25,
+          "fmt",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          1,
+          "__projection_1",
+          "module"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          55,
+          "clone",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          62,
+          "clone",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          236,
+          "clone",
+          "function"
+        ],
+        [
+          "src/group_0/__projection_1.rs",
+          236,
+          "eq",
+          "function"
+        ],
+        [
+          "src/group_0/mod.rs",
+          1,
+          "config",
+          "module"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          1,
+          "__projection_2",
+          "module"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          1,
+          "clone",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          1,
+          "default",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          1,
+          "fmt",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          10,
+          "eq",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          10,
+          "fmt",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "deserialize",
+          "function"
+        ],
+        [
+          "src/group_2/__projection_2.rs",
+          32,
+          "serialize",
+          "function"
+        ],
+        [
+          "src/group_2/mod.rs",
+          1,
+          "frame",
+          "module"
+        ],
+        [
+          "src/lib.rs",
+          1,
+          "marmish_core",
+          "module"
+        ]
+      ]
+    }
+  },
+  "targetKind": "lib",
+  "tools": {
+    "commit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "host": "aarch64-apple-darwin",
+    "release": "1.97.1",
+    "rustcSha256": "210df6794001b73ec3d453878707fa1e0bdcb63c427024a6e6574bbe5615a4da",
+    "rustdocSha256": "aa94960b6a477441f6d1a797394daf4cafcc889d837550c8fa462b102e3fa5da"
+  },
+  "workspaceManifestSha256": "6d90f06c2d4be37dc7f2c8e84501d12a3e2819a6450a03508b60893ec0098624"
+}
