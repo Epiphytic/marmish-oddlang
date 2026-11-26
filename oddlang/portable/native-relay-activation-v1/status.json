@@ -1,0 +1,42 @@
+{
+  "format": "oddlang-local-status-owner-v1",
+  "request": {
+    "key": "operation",
+    "value": "status"
+  },
+  "reply": {
+    "ok": "ok",
+    "result": "result",
+    "error": "error",
+    "state": "state",
+    "invalid_request": "invalid_request"
+  },
+  "listener": {
+    "framing": "u32_be_json_half_close",
+    "peer": "same_effective_uid",
+    "maximum_frame_bytes": 65536,
+    "maximum_clients": 64,
+    "maximum_path_bytes_exclusive": 104,
+    "read_deadline_ms": 15000,
+    "write_deadline_ms": 15000,
+    "accept_retry_ms": 50
+  },
+  "lifecycle": {
+    "bound": "activating",
+    "stopping": "stopping",
+    "transitions": [
+      {
+        "from": "activating",
+        "to": "provider_active"
+      }
+    ]
+  },
+  "diagnostics": {
+    "io": "marmish status owner: local I/O failed",
+    "private_parent": "marmish status owner: invalid input: socket_directory_permissions",
+    "path": "marmish status owner: invalid input: socket_path_length",
+    "occupied": "marmish status owner: socket occupied",
+    "invalid_transition": "marmish status owner: invalid local status transition",
+    "cleanup": "marmish status owner: socket cleanup failed"
+  }
+}

@@ -2,10 +2,12 @@
 """Build and export the pinned basic-command candidate without the oracle."""
 
 import argparse
+from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
 import platform
+import re
 import runpy
 import shutil
 import subprocess
@@ -24,6 +26,13 @@ HOST = "aarch64-apple-darwin"
 ASSEMBLY_FILE = HERE.parent / "workspace/verify.py"
 ASSEMBLY = runpy.run_path(str(ASSEMBLY_FILE))
 TOOLS = ASSEMBLY["envtools"]
+
+
+@dataclass(frozen=True)
+class BuildInputs:
+    workspace: Path
+    companion_revision: str
+    framework_revision: str
 
 
 def run(*command, cwd=None, env=None):
@@ -84,8 +93,8 @@ def verified_binaries(messages, product):
     return binaries
 
 
-def verify_product(product):
-    pinned = WORKSPACE.with_suffix("") / "workspace.lock"
+def verify_product(product, workspace):
+    pinned = workspace.with_suffix("") / "workspace.lock"
     emitted = product / "workspace.lock"
     if pinned.read_bytes() != emitted.read_bytes():
         raise ValueError("generated workspace lock differs")
@@ -121,8 +130,9 @@ def verify_product(product):
     return lock
 
 
-def candidate_roles(binaries):
-    native = read(PORTABLE / "marmish-native-canonical-offline-package.json")
+def candidate_roles(binaries, workspace):
+    member = read(workspace)["members"]["marmish-native"]["manifest"]
+    native = read(PORTABLE / member["path"])
     declared = {item["name"] for item in native["binaries"]}
     if binaries.keys() != declared:
         raise ValueError("first-party executable artifact inventory differs from package")
@@ -144,10 +154,10 @@ def candidate_roles(binaries):
     return roles
 
 
-def qualify(work, compiler, export, probes, checkout):
+def qualify(work, compiler, export, probes, checkout, pins):
     inputs = work / "inputs"
     inputs.mkdir()
-    descriptor = ASSEMBLY["stage_workspace"](WORKSPACE, inputs)
+    descriptor = ASSEMBLY["stage_workspace"](pins.workspace, inputs)
     staged = {path.relative_to(inputs).as_posix(): sha(path)
               for path in sorted(inputs.rglob("*")) if path.is_file()}
     if any(Path(path).suffix not in {".json", ".ttl", ".lock"} for path in staged):
@@ -180,11 +190,11 @@ def qualify(work, compiler, export, probes, checkout):
     tool = work / "oddlang"
     shutil.copy2(compiler, tool)
     product = work / "product"
-    run(*launcher, tool, "build", "native-workspace", "rust", inputs / WORKSPACE.name, product,
+    run(*launcher, tool, "build", "native-workspace", "rust", inputs / pins.workspace.name, product,
         cwd=work, env=env)
     if (product / "target").exists():
         raise ValueError("found a target directory before compilation")
-    lock = verify_product(product)
+    lock = verify_product(product, pins.workspace)
     cargo = Path(env["RUSTC"]).with_name("cargo")
     rustc = run(*launcher, env["RUSTC"], "-vV", cwd=work, env=env).decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {TOOLS.RUST_COMMIT}" not in rustc:
@@ -192,14 +202,14 @@ def qualify(work, compiler, export, probes, checkout):
     cargo_version = run(*launcher, cargo, "-V", cwd=work, env=env).decode().strip()
     output = run(*launcher, cargo, "build", "--workspace", "--release", "--locked", "--offline",
                  "--message-format=json", cwd=product, env=env)
-    verify_product(product)
+    verify_product(product, pins.workspace)
     binaries = verified_binaries(output, product)
-    roles = candidate_roles(binaries)
+    roles = candidate_roles(binaries, pins.workspace)
     receipt = {
         "format": "marmish-basic-command-generated-build-v1",
-        "companionInputRevision": COMPANION,
+        "companionInputRevision": pins.companion_revision,
         "buildDriverCheckout": checkout,
-        "frameworkRevision": FRAMEWORK,
+        "frameworkRevision": pins.framework_revision,
         "referenceTargetRevision": ASSEMBLY["ORIGINAL"],
         "platform": HOST,
         "osVersion": platform.mac_ver()[0],
@@ -252,16 +262,27 @@ def main():
     parser.add_argument("framework", type=lambda value: Path(value).resolve(strict=True))
     parser.add_argument("export", type=lambda value: Path(value).resolve())
     parser.add_argument("--deny", nargs=2, action="append", metavar=("LABEL", "FILE"), required=True)
+    parser.add_argument("--workspace", help="Portable workspace descriptor basename")
+    parser.add_argument("--companion-revision", help="Companion commit containing the portable closure")
+    parser.add_argument("--framework-revision", help="Framework compiler commit")
     args = parser.parse_args()
+    supplied = (args.workspace, args.companion_revision, args.framework_revision)
+    pins = BuildInputs(WORKSPACE, COMPANION, FRAMEWORK)
+    if any(supplied):
+        if not all(supplied) or not re.fullmatch(r"workspace-[a-z0-9-]+\.json", args.workspace):
+            parser.error("a candidate requires a workspace basename and both commit pins")
+        if not all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in supplied[1:]):
+            parser.error("candidate revisions must use full lowercase Git IDs")
+        pins = BuildInputs(PORTABLE / args.workspace, args.companion_revision, args.framework_revision)
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         parser.error("requires native macOS ARM64")
     if args.export.exists():
         parser.error("export must be a new directory")
-    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != FRAMEWORK:
+    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != pins.framework_revision:
         parser.error("requires the pinned Oddlang compiler checkout")
     if run("git", "-C", args.framework, "status", "--porcelain", "--untracked-files=all"):
         parser.error("compiler checkout must be clean")
-    if (run("git", "-C", ROOT, "diff", "--name-only", COMPANION, "--", "oddlang/portable")
+    if (run("git", "-C", ROOT, "diff", "--name-only", pins.companion_revision, "--", "oddlang/portable")
             or run("git", "-C", ROOT, "status", "--porcelain", "--untracked-files=all", "--",
                    "oddlang/portable", "verification/whole")):
         parser.error("build driver checkout must be clean and the portable inputs must match the companion pin")
@@ -273,7 +294,7 @@ def main():
     if not required <= probes.keys():
         parser.error(f"missing denial probes: {', '.join(sorted(required - probes.keys()))}")
     built_in_probes = {
-        "companionContract": WORKSPACE,
+        "companionContract": pins.workspace,
         "compilerSource": args.framework / "src/lib.rs",
         "previousQualificationOracle": HERE.parent / "canonical-workspace/aarch64-apple-darwin.json",
     }
@@ -285,7 +306,7 @@ def main():
             "--target-dir", target, cwd=args.framework)
         with tempfile.TemporaryDirectory(prefix="odd-basic-build-") as directory:
             qualify(Path(directory).resolve(), Path(target).resolve() / "release/oddlang",
-                    args.export, probes, checkout)
+                    args.export, probes, checkout, pins)
 
 
 if __name__ == "__main__":
