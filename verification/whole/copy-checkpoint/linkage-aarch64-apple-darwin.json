@@ -1,0 +1,14 @@
+{
+  "cliSha256": "867fdc554017565dbd0f14ca22e4b90f11b1b3aebb466af2a13d85ee3ea00dbd",
+  "framework": "00af3dab60da87ef5a5f5b9ce84813c4051eed79",
+  "releaseSha256": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8",
+  "results": {
+    "impossible-slot": "nested codec minimum exceeds slot: urn:marmish:copy:checkpoint:field:manifest",
+    "pinned-inner-limit": "8e5d0b262179714b4d5d0750716a913ddc34f152f7b3dc91a3bee2c66853aae5",
+    "released": "07ab8cf1998ed855511258246fb595ddf3191715f9038236517532722f7c495b",
+    "wrong-inner-limit": "nested codec maximum mismatch: urn:marmish:copy:manifest",
+    "wrong-record": "nested codec identity mismatch: urn:marmish:copy:manifest",
+    "wrong-sha256-binding": "nested codec member mismatch: urn:marmish:copy:manifest / urn:marmish:copy:manifest:field:sha256",
+    "wrong-size-binding": "nested codec member mismatch: urn:marmish:copy:manifest / urn:marmish:copy:manifest:field:size"
+  }
+}

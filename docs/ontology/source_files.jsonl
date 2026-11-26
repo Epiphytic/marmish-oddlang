@@ -742,8 +742,10 @@
 {"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"30cb4a41671db00b9c8c4898dadbf93d4c84a1643514ef8f71096699612f27bd","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
-{"path":"verification/whole/copy-checkpoint/README.md","language":"inventory","mode":"100644","sha256":"9bd30f2adf094118b9cbedafb37daffe9afeb4178983020291d0bd47c3c0f356","parse_status":"inventory"}
+{"path":"verification/whole/copy-checkpoint/README.md","language":"inventory","mode":"100644","sha256":"cef5b50dc34c26a3dc80e9ef377ed8d89a21112238581132225c5045823fc437","parse_status":"inventory"}
 {"path":"verification/whole/copy-checkpoint/caller.rs","language":"rust","mode":"100644","sha256":"7698dc7bccb0bdcdbd0444faca09682df73f94389aae68ae64d76fedf45209e5","parse_status":"parsed"}
+{"path":"verification/whole/copy-checkpoint/check_linkage.py","language":"python","mode":"100644","sha256":"e5a85a35ddd34041d967357894b9ec8a109e634ca9bda40365ea760b9933c938","parse_status":"parsed"}
+{"path":"verification/whole/copy-checkpoint/linkage-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7af953b49d1b61c986b1e96fba71db1684dac6ea1c88716a17ba023057c1cda9","parse_status":"inventory"}
 {"path":"verification/whole/copy-checkpoint/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"14d11418d4ddc78c3400243c8bda14c39b0dd162c419fad4a00d1f02eeeb3405","parse_status":"inventory"}
 {"path":"verification/whole/copy-checkpoint/verify.py","language":"python","mode":"100644","sha256":"f9858a18ceeb61b1c81d9dd9cc3fc6cb3fb702cd21345556e12ddcc7b02c17da","parse_status":"parsed"}
 {"path":"verification/whole/copy-field-relations/README.md","language":"inventory","mode":"100644","sha256":"446a5ecd9703c67fc1f6855364ef167b3fb7ebdc478d62b986439902bc10a10f","parse_status":"inventory"}
