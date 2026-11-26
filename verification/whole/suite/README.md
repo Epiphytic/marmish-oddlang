@@ -109,3 +109,20 @@ python3 -B verification/whole/suite/list_cargo.py "$UPSTREAM" "$CARGO_TARGET_DIR
 Each row identifies a Cargo workspace package, target kind and target name, source path, the package’s own features and executable digest. The two harness listings distinguish default runnable cases from ignored cases. The inventory covers compiled host-default release harnesses. Doctests, fault-injection builds, installed checks and interpreted suites have separate entry points. Harness digests identify a particular build and may vary across build directories.
 
 The [macOS ARM64 inventory](named-release-aarch64-apple-darwin.json) contains 909 runnable cases. The [Linux ARM64 inventory](named-release-aarch64-unknown-linux-gnu.json) contains 887. Each lists 24 compiled harnesses and five ignored cases. Some ignored cases are child-process entry points invoked by other tests. These counts describe test discovery. Case execution results are recorded separately.
+
+## Complete original default release on Linux ARM64
+
+With the checkout and target directory under a private home directory, the unchanged original passed all 887 runnable cases. All 24 compiled harnesses and seven library doctest targets returned success. Five cases were ignored by the default harness selection. The [execution receipt](private-release-aarch64-unknown-linux-gnu.json) binds the completed Cargo log to the [named inventory](named-release-aarch64-unknown-linux-gnu.json) through the exact 24 executable digests. It records original behavior for later candidate comparison.
+
+The earlier public-directory run remains as evidence for `UnsafePath`. This successful run used a fresh clone under a mode-0700 directory with umask 077 set before checkout, build and test. The package working directory and test executables thus both satisfied upstream’s path checks.
+
+```sh
+umask 077
+root=$(mktemp -d "$HOME/marmish-baseline.XXXXXX")
+git clone --no-local "$UPSTREAM" "$root/reference"
+git -C "$root/reference" checkout --detach af54339d250290490d62d4475a77539b7e739071
+mkdir "$root/build"
+(cd "$root/reference" && CARGO_TARGET_DIR="$root/build" cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast -- --test-threads=1) > "$root/test.log" 2>&1 &&
+python3 -B verification/whole/suite/list_cargo.py "$root/reference" "$root/build" "$root/named.json" &&
+python3 -B verification/whole/suite/summarize_cargo.py "$root/test.log" "$root/named.json" "$root/result.json"
+```

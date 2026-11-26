@@ -1,0 +1,134 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "namedInventorySha256": "6a29f31601de24d45b9afb035087b8313a5a6d07ac991c67bf6c8145730745a4",
+  "logSha256": "ea547e4eab700919afb52b32178fa603d459b67067c0b81174f8c9f50913e718",
+  "selection": "native release workspace, default features",
+  "harnesses": {
+    "marmish-core/lib/marmish_core": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-core/test/contracts": {
+      "passed": 7,
+      "ignored": 0
+    },
+    "marmish-engine/bin/marmish-engine-worker": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-engine/lib/marmish_engine": {
+      "passed": 146,
+      "ignored": 1
+    },
+    "marmish-engine/test/concurrent_storage": {
+      "passed": 2,
+      "ignored": 0
+    },
+    "marmish-engine/test/encrypted_storage": {
+      "passed": 3,
+      "ignored": 0
+    },
+    "marmish-engine/test/engine": {
+      "passed": 14,
+      "ignored": 0
+    },
+    "marmish-engine/test/faults": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-engine/test/native_storage": {
+      "passed": 5,
+      "ignored": 0
+    },
+    "marmish-mdk/lib/marmish_mdk": {
+      "passed": 9,
+      "ignored": 0
+    },
+    "marmish-native/bin/marmish": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-native/bin/marmish-release-tool": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-native/bin/marmish-worker": {
+      "passed": 1,
+      "ignored": 0
+    },
+    "marmish-native/bin/marmishd": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-native/lib/marmish_native": {
+      "passed": 644,
+      "ignored": 3
+    },
+    "marmish-native/test/process_limits": {
+      "passed": 1,
+      "ignored": 0
+    },
+    "marmish-prototype/bin/marmish-engine-bridge": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-prototype/lib/marmish_prototype": {
+      "passed": 2,
+      "ignored": 0
+    },
+    "marmish-prototype/test/bridge": {
+      "passed": 9,
+      "ignored": 0
+    },
+    "marmish-stream/lib/marmish_stream": {
+      "passed": 29,
+      "ignored": 0
+    },
+    "marmish-vault/bin/marmish-keychain": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish-vault/lib/marmish_vault": {
+      "passed": 12,
+      "ignored": 0
+    },
+    "marmish-vault/test/helper": {
+      "passed": 3,
+      "ignored": 0
+    },
+    "marmish-vault/test/native_vault": {
+      "passed": 0,
+      "ignored": 1
+    }
+  },
+  "doctests": {
+    "marmish_core": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_engine": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_mdk": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_native": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_prototype": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_stream": {
+      "passed": 0,
+      "ignored": 0
+    },
+    "marmish_vault": {
+      "passed": 0,
+      "ignored": 0
+    }
+  }
+}
