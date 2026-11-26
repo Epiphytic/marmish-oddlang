@@ -163,6 +163,27 @@ def v3_interfaces(work, target, original, binaries, compiler):
     }
 
 
+def verify_generated_tree(target, receipt, report, unified):
+    for name,r in receipt["members"].items():
+        pkg=target/name; lock=(pkg/"package.lock").read_bytes()
+        if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
+        generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
+                     for p in (pkg / "src").rglob("*") if p.is_file()}
+        if report:
+            allowed = {"Cargo.toml", "package.lock", "src"}
+            if name == "marmish-native":
+                allowed.add("build.rs")
+                generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
+            if {p.name for p in pkg.iterdir()} != allowed:
+                raise ValueError(f"unexpected generated package paths: {name}")
+        if generated != json.loads(lock)["generatedFiles"]:
+            raise ValueError("member source inventory mismatch")
+    if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
+    if unified:
+        if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
+            raise ValueError("workspace generated Cargo manifest mismatch")
+
+
 def passing_tests(output):
     return re.findall(r"^test ([\w:]+) \.\.\. ok$", output, re.M)
 
@@ -358,24 +379,8 @@ def main():
         file=target/"workspace.lock"
         if file.read_bytes()!=(PORTABLE/f"workspace-{args.release}/workspace.lock").read_bytes():raise ValueError("generated workspace lock drift")
         receipt=json.loads(file.read_bytes())
-        for name,r in receipt["members"].items():
-            pkg=target/name; lock=(pkg/"package.lock").read_bytes()
-            if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
-            generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
-                         for p in (pkg / "src").rglob("*") if p.is_file()}
-            if report:
-                allowed = {"Cargo.toml", "package.lock", "src"}
-                if name == "marmish-native":
-                    allowed.add("build.rs")
-                    generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
-                if {p.name for p in pkg.iterdir()} != allowed:
-                    raise ValueError(f"unexpected generated package paths: {name}")
-            if generated != json.loads(lock)["generatedFiles"]:
-                raise ValueError("member source inventory mismatch")
-        if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
+        verify_generated_tree(target, receipt, report, unified)
         if unified:
-            if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
-                raise ValueError("workspace generated Cargo manifest mismatch")
             v5 = json.loads((PORTABLE / "workspace-v5/workspace.lock").read_bytes())
             for member in ("marmish-core", "marmish-stream"):
                 if receipt["members"][member] != v5["members"][member]:

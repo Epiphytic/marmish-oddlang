@@ -9,6 +9,7 @@ import runpy
 import shutil
 import subprocess
 import sys
+import tomllib
 import tempfile
 
 from inventory import PIN
@@ -116,8 +117,41 @@ def qualify(original, framework, compiler_cache, reference_target):
         lock = (product/"workspace.lock").read_bytes()
         if lock != (MANIFEST.with_suffix("")/"workspace.lock").read_bytes():
             raise ValueError("generated workspace differs from the published candidate")
+        seal = json.loads(lock)
+        assembly["verify_generated_tree"](product, seal, True, True)
+
+        def snapshot():
+            return {path.relative_to(product).as_posix(): path.read_bytes()
+                    for member in seal["members"] for path in (product/member).rglob("*")
+                    if path.is_file()}
+
+        pristine = snapshot()
         inside("cargo", "build", "--locked", "--offline", "--release", "-p", "marmish-native", "--bins", cwd=product)
+        release = product/"target/release"
+        binary_hashes = {role: sha((release/role).read_bytes()) for role in ("marmish","marmishd")}
+        pin(original, PIN)
+        assembly["verify_generated_tree"](product, seal, True, True)
         modules = assembly["stage_library_tests"](product, original, workspace, True, True)
+        modules.pop("exactCopyFrames")
+        prior = json.loads((WHOLE/"workspace"/f"v7-{host}.json").read_bytes())
+        if modules != {k:v for k,v in prior["testModules"].items() if k != "exactCopyFrames"}:
+            raise ValueError("upstream test module identity changed")
+        stream = workspace["members"]["marmish-stream"]["manifest"]["path"]
+        components = json.loads((assembly["PORTABLE"]/stream).read_bytes())["components"]
+        appended = {"marmish-stream/src/lib.rs"} | {
+            f"marmish-stream/src/group_{i}/__projection_{i}.rs"
+            for i, component in enumerate(components) if component["module"] in {"codec","windows"}}
+        injected = {"marmish-core/tests/contracts.rs","marmish-stream/src/original_wire_test_module.rs",
+                    "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
+        staged = snapshot()
+        if set(staged) != set(pristine) | injected or len(appended) != 3:
+            raise ValueError("unexpected staged file inventory")
+        for path, contents in pristine.items():
+            if path in appended:
+                if staged[path] == contents or not staged[path].startswith(contents):
+                    raise ValueError(f"staging replaced generated code in {path}")
+            elif staged[path] != contents:
+                raise ValueError(f"staging altered {path}")
         witnessed = {}
         for harness, target in [(CORE, ["-p","marmish-core","--test","contracts"]),
                                 (STREAM, ["-p","marmish-stream","--lib"])]:
@@ -129,15 +163,25 @@ def qualify(original, framework, compiler_cache, reference_target):
                 raise ValueError(f"complete harness did not pass: {harness}")
             witnessed[harness] = names
         release = product/"target/release"
-        libc, = (release/"deps").glob("liblibc-*.rlib")
+        # Use Cargo's artifact for the harness target. Native and test builds can
+        # legitimately leave multiple feature-specific libc archives in release/deps.
+        libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]
+                     if p["name"] == "libc"]
+        artifacts = inside("cargo","build","--release","--offline","--locked","--lib","--target",host,
+                           "-p",f"libc@{libc_pin['version']}","--message-format=json",cwd=product)
+        libc, = [Path(path) for line in artifacts.splitlines()
+                 if (row:=json.loads(line)).get("reason")=="compiler-artifact" and row["target"]["name"]=="libc"
+                 for path in row["filenames"] if path.endswith(".rlib")]
         rustc = Path(run("rustup","which","--toolchain","1.97.1","rustc").decode().strip())
         processes = process_limits.run(original,rustc,libc,{n:release/n for n in ("marmish","marmishd")},None)
+        if processes["executables"] != binary_hashes:
+            raise ValueError("harness received different release binaries")
         witnessed[NATIVE] = [processes["test"]]
         rows, totals = reconcile(inventory, witnessed)
         return dict(original=PIN, framework=FRAMEWORK, target=host, profile=inventory["selection"],
                     manifestSha256=sha(MANIFEST.read_bytes()), workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
-                    nativeProcessTest=processes, harnesses=rows, totals=totals)
+                    releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals)
 
 
 if __name__ == "__main__":
