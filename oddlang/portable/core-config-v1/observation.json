@@ -5,8 +5,10 @@
   "host": "aarch64-apple-darwin",
   "numericCoverage": "sampled; interval property requires independent review",
   "package": "marmish-core",
+  "probeSha256": "c20e834b410a33017842a5291bebdd77cf2f01fd34ee5b02182de5d75060b7bf",
   "profile": "release",
   "qualification": "candidate",
-  "selectionSha256": "815c7f052fa1f64e7dd69704efd9a488119aed7ceff310cb52f40a216eeb2d07",
-  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071"
+  "selectionSha256": "8544af014d64328f56ee3fe2b20e7561a00c6cba3c1bbeafc2d2b09c0550fa88",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "sourceTree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481"
 }

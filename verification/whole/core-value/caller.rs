@@ -89,7 +89,7 @@ fn seeded_samples() {
 
 #[test]
 fn exact_error_messages() {
-    for (variant, expected) in [
+    for (ordinal, (variant, expected)) in [
         (
             ConfigError::EmptyRelaySet,
             "an explicit nonempty relay set is required",
@@ -112,11 +112,16 @@ fn exact_error_messages() {
             ConfigError::RetentionOutOfRange,
             "retention must be between one second and 365 days",
         ),
-    ] {
+    ]
+    .into_iter()
+    .enumerate()
+    {
         let label = named_error(&variant);
         assert_eq!(format!("{variant:?}"), label);
         assert_eq!(variant.to_string(), expected);
         assert!((&variant as &dyn Error).source().is_none());
-        println!("OBS\t{label}\t{variant}");
+        let display = variant.to_string();
+        assert_eq!(variant as usize, ordinal);
+        println!("OBS\t{label}\t{display}\t{ordinal}");
     }
 }

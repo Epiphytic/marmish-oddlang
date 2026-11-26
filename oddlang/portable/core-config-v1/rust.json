@@ -13,5 +13,14 @@
     "urn:marmish:core:configuration:DisallowedHost": "DisallowedHost",
     "urn:marmish:core:configuration:LoopbackDenied": "LoopbackDenied",
     "urn:marmish:core:configuration:RetentionOutOfRange": "RetentionOutOfRange"
-  }
+  },
+  "variantOrder": [
+    "urn:marmish:core:configuration:EmptyRelaySet",
+    "urn:marmish:core:configuration:InvalidUrl",
+    "urn:marmish:core:configuration:DisallowedScheme",
+    "urn:marmish:core:configuration:DisallowedComponents",
+    "urn:marmish:core:configuration:DisallowedHost",
+    "urn:marmish:core:configuration:LoopbackDenied",
+    "urn:marmish:core:configuration:RetentionOutOfRange"
+  ]
 }

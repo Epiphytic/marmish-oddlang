@@ -1,5 +1,5 @@
 {
-  "callerSha256": "4385c16b9e0d29f7eb8f428aab3ad8d7a81c225d983e7fe36c14cc0046f58b44",
+  "callerSha256": "275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b",
   "cases": {
     "boundaryInputs": 14,
     "errorMessages": 7,
@@ -9,17 +9,16 @@
   },
   "generated": {
     "domainFileSha256": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc",
-    "librarySha256": "aee3b788dc85af0d68dbe351f7a6e45da04927af8e79c641b186c6ffcc2154a1",
     "projectionLock": {
       "artifact": "value.rs",
-      "artifactSha256": "a113f84f8b15a252ec9617f9bbfdef1cab2d3c04e1f9b3662de46b718c850f96",
-      "bindingSha256": "d6d3a11ac26561767d5efacb09f93867f9a589a03fa1dde9e1083ac659455f92",
+      "artifactSha256": "d6e3a2459e4532ca1baa7ce55177708db592f21658c537ee0e7c84c5a7dc3be2",
+      "bindingSha256": "c8f1f0137defae4b1b57433d32ceb0369df716b4006533b6111bc86bb4f2a9b3",
       "domainSha256": "220c5dbc8381f20271dca61bec439a563d1ca2d9c1908f853eba3c76f71ff61d",
       "format": "oddlang-value-domain-v1",
       "obligationsSha256": "769d945af40cc2a0c76855b98b84cab48e5c3c117f91d73b49d5f31c686cc364"
     },
     "regeneratedFromGraphAndBinding": true,
-    "rustBindingFileSha256": "f095612c3a480cd3a998f07f87734be79683e9c6afbd4a620e737a1e955da65b"
+    "rustBindingFileSha256": "e40105ffefb5cb6d62df6705c0b248e1bacf6e1e36d8c9bca6e4756b184155e5"
   },
   "mutation": {
     "control": "rejected allowed input Some(31536000)",
@@ -27,8 +26,8 @@
     "maximum": 31535999,
     "projectionLock": {
       "artifact": "value.rs",
-      "artifactSha256": "4b8043acd6c1065980b8ac64c24f5ac2f834b504fd4e5dc2124ba83de43cf6f6",
-      "bindingSha256": "d6d3a11ac26561767d5efacb09f93867f9a589a03fa1dde9e1083ac659455f92",
+      "artifactSha256": "f3d661d4676ef61e27f902f04e7d8290ab2c310c235f2fbcc6a1034a8bac8e04",
+      "bindingSha256": "c8f1f0137defae4b1b57433d32ceb0369df716b4006533b6111bc86bb4f2a9b3",
       "domainSha256": "d75b872731dee2c352474712cf096e0eb7b90f3eac8527c17dee0e1c212d98d9",
       "format": "oddlang-value-domain-v1",
       "obligationsSha256": "cb6eb11f4b4549b9d435a67e559804fbdf4d3c2d1069f5dab80fe1cc0a675bb3"
@@ -38,17 +37,16 @@
   "observations": {
     "generated": {
       "count": 790,
-      "sha256": "4c6afcba2042da1b3ef514ad25178839623bdb7402f5c65cd6a12437199b5809"
+      "sha256": "35d1ececef77122d27a581a3a34c0cbed8d7e9deb35ff003bd014ef07487147e"
     },
     "original": {
       "count": 790,
-      "sha256": "4c6afcba2042da1b3ef514ad25178839623bdb7402f5c65cd6a12437199b5809"
+      "sha256": "35d1ececef77122d27a581a3a34c0cbed8d7e9deb35ff003bd014ef07487147e"
     }
   },
   "original": {
     "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
     "contractsFileSha256": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a",
-    "librarySha256": "339b3d3be8899e413dbc119e9aa9eac4929f35307ccebdd5e0a7233124a54813",
     "retentionTest": "retention_distinguishes_default_from_disabled_and_bounds_numbers",
     "retentionTestBodySha256": "2e2f5b1f2b8f51025432a07d18e8b2ebc5f0948875b92cdd1dd6c5b74c7c94f9",
     "retentionTestResult": "passed",
@@ -63,5 +61,10 @@
     "host: aarch64-apple-darwin",
     "release: 1.97.1",
     "LLVM version: 22.1.6"
-  ]
+  ],
+  "typescript": {
+    "explicitAbsence": true,
+    "generatedCases": 8,
+    "samples": 264
+  }
 }

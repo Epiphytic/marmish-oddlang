@@ -59,7 +59,7 @@ def generate(oddlang, work, domain, overlay, name, supplied=None):
     ):
         raise ValueError("projection lock differs from actual graph and generated artifacts")
     if supplied:
-        for file in ("value.rs", "obligations.json"):
+        for file in ("value.rs", "obligations.json", "projection.lock"):
             if (output / file).read_bytes() != (supplied / file).read_bytes():
                 raise ValueError(f"fresh graph-only generation differs from supplied {file}")
     library = output / "libmarmish_core.rlib"
@@ -112,6 +112,19 @@ def main():
         generated, pins = generate(
             options.oddlang.resolve(), work, domain, overlay, "generated", options.generated.resolve()
         )
+        if json.loads((CONTRACT / "rust.lock").read_bytes()) != pins:
+            raise ValueError("committed Rust projection lock mismatch")
+        cli = options.oddlang.resolve()
+        node_release = work / "typescript"
+        run(cli, "build", "value-domain", "typescript", CONTRACT, node_release)
+        if (node_release / "projection.lock").read_bytes() != (CONTRACT / "typescript.lock").read_bytes():
+            raise ValueError("committed TypeScript projection lock mismatch")
+        node_result = json.loads(run("node", "--experimental-strip-types", HERE.parent / "core-node/check.mjs", node_release))
+        observed = work / "observation"
+        run(cli, "recover", "value-domain", original / "Cargo.toml", CONTRACT / "selection.json", observed)
+        for file in ("domain.ttl", "observation.json"):
+            if (observed / file).read_bytes() != (CONTRACT / file).read_bytes():
+                raise ValueError(f"source recovery differs from committed {file}")
         changed, changed_pins = generate(options.oddlang.resolve(), work, mutant, overlay, "mutant")
         if (changed_pins["domainSha256"] == pins["domainSha256"]
                 or changed_pins["bindingSha256"] != pins["bindingSha256"]):
@@ -173,15 +186,14 @@ def main():
                 "retentionTestBodySha256": sha(unchanged.group()),
                 "retentionTest": UPSTREAM_TEST,
                 "retentionTestResult": "passed",
-                "librarySha256": file_sha(library),
             },
             "generated": {
                 "projectionLock": pins,
                 "domainFileSha256": sha(domain),
                 "rustBindingFileSha256": sha(overlay),
-                "librarySha256": file_sha(generated),
                 "regeneratedFromGraphAndBinding": True,
             },
+            "typescript": node_result,
             "rustc": compiler.splitlines(),
             "callerSha256": file_sha(caller),
             "cases": {

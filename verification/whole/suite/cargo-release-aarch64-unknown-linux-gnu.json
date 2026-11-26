@@ -1,0 +1,211 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-unknown-linux-gnu",
+  "command": "cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast --target aarch64-unknown-linux-gnu --target-dir \"$HOME/release-build\" -- --test-threads=1",
+  "exit": 101,
+  "logSha256": "ef74461b4f3c45fa0cea42478cf13e00cb5d138d1a9f918b459b3cc5eb655d77",
+  "testTargets": [
+    {
+      "target": "unittests src/lib.rs (marmish_core-bdb8213b242fa5a9)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/contracts.rs (contracts-e8a2c33b6dc671fe)",
+      "passed": 7,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_engine-de13e5a96fc54e0a)",
+      "passed": 145,
+      "failed": 1,
+      "ignored": 1
+    },
+    {
+      "target": "unittests src/bin/marmish-worker.rs (marmish_engine_worker-000df91d78e0ef5e)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/concurrent_storage.rs (concurrent_storage-a45f4f57e569f6b5)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/encrypted_storage.rs (encrypted_storage-f46ab649d0ad6311)",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/engine.rs (engine-8f95522218d09e87)",
+      "passed": 14,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/faults.rs (faults-5693b549bde8c272)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/native_storage.rs (native_storage-b07c28312e861812)",
+      "passed": 5,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_mdk-418d2e3f313a02d0)",
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_native-035c03255c302ad7)",
+      "passed": 644,
+      "failed": 0,
+      "ignored": 3
+    },
+    {
+      "target": "unittests src/bin/marmish.rs (marmish-459409dc972a151a)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-release-tool.rs (marmish_release_tool-96fb543fcbb63544)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-worker.rs (marmish_worker-30f90ea1dbb71b6e)",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmishd.rs (marmishd-e2f03a71fc3ec32c)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/process_limits.rs (process_limits-a9e8f04f3807ab05)",
+      "passed": 1,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_prototype-2bf61de9b4c36843)",
+      "passed": 2,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/main.rs (marmish_engine_bridge-1893f84341870a9c)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/bridge.rs (bridge-4b002e71408017bd)",
+      "passed": 9,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_stream-c9ddda0c15f6ab43)",
+      "passed": 29,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/lib.rs (marmish_vault-00d8ad21c086396c)",
+      "passed": 12,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "unittests src/bin/marmish-keychain.rs (marmish_keychain-78a906d977bfb49c)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/helper.rs (helper-d0e1af1309301f97)",
+      "passed": 3,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "tests/native_vault.rs (native_vault-18c96bba1f6192f6)",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 1
+    },
+    {
+      "target": "marmish_core",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_engine",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_mdk",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_native",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_prototype",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_stream",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    },
+    {
+      "target": "marmish_vault",
+      "passed": 0,
+      "failed": 0,
+      "ignored": 0
+    }
+  ],
+  "totals": {
+    "passed": 886,
+    "failed": 1,
+    "ignored": 5
+  },
+  "isolatedFailure": {
+    "case": "process_limits_tests::normalized_startup_executes_offline_exact_bytes_and_status",
+    "location": "crates/marmish-engine/src/process_limits_tests.rs:145",
+    "diagnostic": "Engine::open returned UnsafePath",
+    "harnessSha256": "e338af21f92c4d830f11aae8e34bfb3e6fec6d32bf76e0ef5a9b4b236d622d96",
+    "cargoDepsAndOriginalCwdExit": 101,
+    "privateExecutableAndOriginalCwdExit": 101,
+    "cargoDepsAndPrivateCwdExit": 101,
+    "privateExecutableAndPrivateCwdExit": 0,
+    "observedMode": "Cargo deps and package cwd have group-writable 0775 ancestors. Private executable and cwd are mode 0700. Executable bytes matched in all four runs."
+  }
+}

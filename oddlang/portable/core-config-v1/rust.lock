@@ -1,7 +1,7 @@
 {
   "artifact": "value.rs",
-  "artifactSha256": "a113f84f8b15a252ec9617f9bbfdef1cab2d3c04e1f9b3662de46b718c850f96",
-  "bindingSha256": "d6d3a11ac26561767d5efacb09f93867f9a589a03fa1dde9e1083ac659455f92",
+  "artifactSha256": "d6e3a2459e4532ca1baa7ce55177708db592f21658c537ee0e7c84c5a7dc3be2",
+  "bindingSha256": "c8f1f0137defae4b1b57433d32ceb0369df716b4006533b6111bc86bb4f2a9b3",
   "domainSha256": "220c5dbc8381f20271dca61bec439a563d1ca2d9c1908f853eba3c76f71ff61d",
   "format": "oddlang-value-domain-v1",
   "obligationsSha256": "769d945af40cc2a0c76855b98b84cab48e5c3c117f91d73b49d5f31c686cc364"
