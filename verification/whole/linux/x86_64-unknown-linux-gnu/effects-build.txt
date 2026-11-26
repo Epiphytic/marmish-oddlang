@@ -1,0 +1,13 @@
+af54339d250290490d62d4475a77539b7e739071
+9be3104dd1d55194ae6e442c0d3eb1c0b223a481
+9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3  Cargo.lock
+24a5037a8f0a264369ef37bb46e019ade6c524beaead1c28f77a429f856a066b  rust-toolchain.toml
+rustc 1.97.1 (8bab26f4f 2026-07-14)
+binary: rustc
+commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452
+commit-date: 2026-07-14
+host: x86_64-unknown-linux-gnu
+release: 1.97.1
+LLVM version: 22.1.6
+Linux 7.0.0-1014-aws x86_64
+strace -- version 6.8
