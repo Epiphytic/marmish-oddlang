@@ -151,7 +151,7 @@ def relay_options(listener, *, scheme="wss"):
             "--relay", f"{scheme}://127.0.0.1:{listener.getsockname()[1]}"]
 
 
-def observe(original, generated, root, *, trust_failure=False):
+def observe(original, generated, root, *, trust_failure=False, include_generated_client=False):
     env = {"PATH": "/usr/bin:/bin", "LANG": "C", "HOME": str(root / "home"), "TMPDIR": str(root / "runtime")}
     for name in ("home", "runtime"):
         (root / name).mkdir(mode=0o700)
@@ -168,13 +168,22 @@ def observe(original, generated, root, *, trust_failure=False):
     profile = PreparedProfile(state)
     runtime = root / "runtime" / f"mr2-{os.geteuid()}-{profile.name_token}"
     query = [client, *common, "status"]
+    generated_query = [generated / "marmish", *common, "status"]
+
+    def queries():
+        result = {"status": call(query, env, root)}
+        if include_generated_client:
+            candidate = call(generated_query, env, root)
+            check(candidate, SUCCESS, "generated client auto-discovery")
+            result["generatedClientStatus"] = candidate
+        return result
 
     def inspect(competitor):
-        status = call(query, env, root)
-        check(status, SUCCESS, "original client auto-discovery status")
+        observed = queries()
+        check(observed["status"], SUCCESS, "original client auto-discovery status")
         denied = call(competitor, env, root)
         check(denied, LOCKED, "cross-implementation owner lock")
-        return {"status": status, "competingOwner": denied}
+        return dict(observed, competingOwner=denied)
 
     original_bin, generated_bin = original / "marmishd", generated / "marmishd"
     # A contender uses its own port, so only the selected owner can supply the observed handshake.
@@ -198,17 +207,20 @@ def observe(original, generated, root, *, trust_failure=False):
     check(generated_stop, QUIET, "generated local cleanup")
     check(call(query, env, root), MISSING, "generated post-stop discovery")
     expected_held = {"status": SUCCESS, "tlsRecordPrefix": "160301"}
+    if include_generated_client:
+        expected_held["generatedClientStatus"] = SUCCESS
+        check(call(generated_query, env, root), MISSING, "generated client after local teardown")
     with held_relay() as relay:
         reattach, reattach_stop = hold(
             [*start(generated_bin, relay), "daemon"], env, root, runtime, profile, relay,
-            lambda: {"status": call(query, env, root)},
+            queries,
         )
     check(reattach, expected_held, "explicit daemon subcommand reattach")
     check(reattach_stop, QUIET, "reattach cleanup")
     with held_relay() as relay:
         _, killed = hold(
             start(generated_bin, relay), env, root, runtime, profile, relay,
-            lambda: {"status": call(query, env, root)}, terminate=signal.SIGKILL,
+            queries, terminate=signal.SIGKILL,
         )
     check(killed["exit"], -signal.SIGKILL, "abrupt termination")
     check((runtime / "binding.json").is_file() and (runtime / "s").is_socket(), True,
@@ -216,7 +228,7 @@ def observe(original, generated, root, *, trust_failure=False):
     with held_relay() as relay:
         recovered, recovered_stop = hold(
             start(generated_bin, relay), env, root, runtime, profile, relay,
-            lambda: {"status": call(query, env, root)},
+            queries,
         )
     check(recovered, expected_held, "stale runtime recovery")
     check(recovered_stop, QUIET, "recovered owner cleanup")

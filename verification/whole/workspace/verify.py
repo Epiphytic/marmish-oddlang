@@ -11,6 +11,7 @@ import runpy
 import shutil
 import subprocess
 import tempfile
+import tomllib
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
@@ -23,6 +24,12 @@ spec.loader.exec_module(envtools)
 
 
 def sha(data):return hashlib.sha256(data).hexdigest()
+
+
+def registry(lock):
+    entries = tomllib.loads(lock.read_text())["package"]
+    return {(pkg["name"], pkg["version"], pkg["source"], pkg["checksum"])
+            for pkg in entries if pkg.get("source", "").startswith("registry+")}
 
 
 def linux_isolation(work):
@@ -60,32 +67,59 @@ def v3_interfaces(work, target, original, binaries, compiler):
     for name, digest in original_status["originalBinaries"].items():
         if sha((binaries / name).read_bytes()) != digest:
             raise ValueError(f"original executable digest mismatch: {name}")
+    replay = HERE.parent / "cli/replay.py"
+    fixture = replay.with_name("transcript.json")
+    for bindir in (binaries, target / "target/release"):
+        envtools.run(sys.executable, "-B", replay, "verify", bindir, "--fixture", fixture)
+    parser_evidence = {
+        "fixtureSha256": sha(fixture.read_bytes()),
+        "casesPerRole": {role: len(rows) for role, rows in json.loads(fixture.read_bytes()).items()},
+        "generatedBinaries": {role: sha((target / "target/release" / role).read_bytes())
+                              for role in ("marmish", "marmishd")},
+    }
     envtools.run(sys.executable, "-B", HERE.parent / "status/discovery_probe.py", binaries, runtime,
                  "--candidate", target / "target/release/marmish", "--framework-revision", compiler)
     status = json.loads(runtime.read_bytes())
+    release = target / "target/release"
+    libc, = (release / "deps").glob("liblibc-*.rlib")
+    toolchain = Path(envtools.run("rustc", "+1.97.1", "--print", "sysroot").strip())
+    process_limits = json.loads(envtools.run(
+        sys.executable, "-B", HERE.parent / "suite/process_limits.py", original,
+        "--rustc", toolchain / "bin/rustc", "--libc", libc,
+        "--client", release / "marmish", "--daemon", release / "marmishd",
+    ))
+    if process_limits["executables"] != parser_evidence["generatedBinaries"]:
+        raise ValueError("the process limits harness exercised different artifacts")
     return {
         "copyRelations": {"cases": len(cases), "callerSha256": sha(lane["CALLER"].read_bytes()),
                           "observationsSha256": sha(json.dumps(expected, separators=(",", ":")).encode())},
         "status": status,
+        "cliParser": parser_evidence,
+        "nativeProcessLimits": process_limits,
     }
 
 
 def main():
     ap=argparse.ArgumentParser()
     for name in ("framework","original","receipt"):ap.add_argument(name,type=Path)
-    ap.add_argument("--release", choices=("v1", "v2", "v3"), default="v1")
+    ap.add_argument("--release", choices=("v1", "v2", "v3", "v4"), default="v1")
     ap.add_argument("--original-bin-dir", type=Path)
     args=ap.parse_args()
-    if args.release == "v3" and args.original_bin_dir is None:
-        ap.error("--release v3 requires --original-bin-dir for the mixed status replay")
+    if args.release in ("v3", "v4") and args.original_bin_dir is None:
+        ap.error("this release requires --original-bin-dir for the mixed status replay")
+    binaries = args.original_bin_dir.resolve() if args.original_bin_dir else None
     combined = args.release != "v1"
     compiler = {"v1": FRAMEWORK, "v2": "911614cef63a84ecf840cb1228c8a944f1d54d48",
-                "v3": "11a8b7038b37295729b9e43cfe9a917b9a688f14"}[args.release]
+                "v3": "11a8b7038b37295729b9e43cfe9a917b9a688f14",
+                "v4": "68dc2e327aae8242938df6379cf5568c39190d65"}[args.release]
     original=args.original.resolve(); framework=args.framework.resolve()
     def pin(repo,expected):
         if envtools.run("git","rev-parse","HEAD",cwd=repo).strip()!=expected or envtools.run("git","status","--porcelain","--untracked-files=all",cwd=repo):
             raise ValueError(f"expected a clean pinned checkout: {repo}")
     pin(framework,compiler);pin(original,ORIGINAL)
+    companion = envtools.run("git", "rev-parse", "HEAD", cwd=ROOT).strip()
+    if args.release == "v4":
+        pin(ROOT, companion)
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp).resolve(); graph=work/"inputs";graph.mkdir()
         def stage(base,descriptor):
@@ -106,13 +140,27 @@ def main():
             for component in m["components"]:
                 for descriptor in component.get("wireShape", {}).values():
                     stage(src.parent, descriptor)
+        if args.release == "v4":
+            reference_lock = original / "Cargo.lock"
+            if sha(reference_lock.read_bytes()) != "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3":
+                raise ValueError("original dependency lock differs")
+            available = registry(reference_lock)
+            for descriptor in ("Cargo.lock", "native-Cargo.lock"):
+                selected = registry(PORTABLE / "workspace-v4" / descriptor)
+                if not selected or not selected <= available:
+                    raise ValueError(f"v4 closure differs from original: {descriptor}")
         envtools.run("cargo","+1.97.1","build","--locked","--offline","--bin","oddlang","--target-dir",work/"compiler",cwd=framework)
         if sys.platform=="linux":
             sandbox,env=linux_isolation(work)
             platform="Linux "+os.uname().machine
         else:
             readable,env=envtools.isolation_environment(work,"aarch64-apple-darwin")
-            sandbox=envtools.isolated(work,readable,original,framework,ROOT)
+            if args.release == "v4":
+                env["CC"] = env["CARGO_TARGET_AARCH64_APPLE_DARWIN_LINKER"]
+                env["AR"] = envtools.run("xcrun", "--sdk", "macosx", "--find", "ar").strip()
+                sandbox = envtools.isolated(work, readable, original, framework, ROOT, binaries)
+            else:
+                sandbox=envtools.isolated(work,readable,original,framework,ROOT)
             platform="Darwin ARM64"
         target=work/"generated"
         def inside(*cmd,cwd=work):
@@ -129,10 +177,25 @@ def main():
             generated={p.relative_to(pkg).as_posix():sha(p.read_bytes()) for p in (pkg/"src").rglob("*") if p.is_file()}
             if generated!=json.loads(lock)["generatedFiles"]:raise ValueError("member source inventory mismatch")
         if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
-        probe=subprocess.run([*sandbox,"/bin/cat",original/"Cargo.toml"],env=env,cwd=work,capture_output=True)
-        if probe.returncode==0 or not any(e in probe.stderr for e in (b"Operation not permitted",b"No such file or directory")):raise ValueError("reference source access")
-        inside("cargo","build","--workspace","--locked","--release","--offline",cwd=target)
-        interfaces = v3_interfaces(work, target, original, args.original_bin_dir.resolve(), compiler) if args.release == "v3" else {}
+        inaccessible = [original / "Cargo.toml"]
+        if args.release == "v4":
+            inaccessible += [binaries / "marmish", binaries / "marmishd", framework / "src/main.rs",
+                             HERE.parent / "relay/owner-tls-macos-arm64.json"]
+        for path in inaccessible:
+            probe = subprocess.run([*sandbox, "/bin/cat", path], env=env, cwd=work, capture_output=True)
+            if probe.returncode == 0 or not any(error in probe.stderr for error in (
+                b"Operation not permitted", b"No such file or directory",
+            )):
+                raise ValueError(f"generation can read excluded input {path}")
+        inside("cargo", "build", "--workspace", "--locked", "--release", "--offline", cwd=target)
+        interfaces = v3_interfaces(work, target, original, binaries, compiler) if args.release in ("v3", "v4") else {}
+        if args.release == "v4":
+            mixed = work / "foreground.json"
+            envtools.run(sys.executable, "-B", HERE / "foreground_matrix.py", binaries, target, mixed)
+            interfaces["foreground"] = json.loads(mixed.read_bytes())
+            interfaces["companionRevision"] = companion
+            interfaces["workspaceManifestSha256"] = sha(manifest.read_bytes())
+            interfaces["cargoLockSha256"] = receipt["cargoLockSha256"]
         core=target/"marmish-core";(core/"tests").mkdir()
         testfile=original/"crates/marmish-core/tests/contracts.rs";shutil.copyfile(testfile,core/"tests/contracts.rs")
         stream=target/"marmish-stream"
