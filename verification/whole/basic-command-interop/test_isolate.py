@@ -37,9 +37,20 @@ class WorkspaceTests(unittest.TestCase):
             peer = workspace.instance("server")
             stat = peer.run(["/usr/bin/stat", "-f", "%HT", SYSTEM_HOME])
             self.assertEqual((stat.returncode, stat.stdout, stat.stderr), (0, b"Directory\n", b""))
+            protected = peer.run(["/usr/bin/stat", "-f", "%HT", SYSTEM_HOME / "Library"])
+            self.assertNotEqual(protected.returncode, 0)
+            self.assertEqual(protected.stdout, b"")
             listing = peer.run(["/bin/ls", "-A", SYSTEM_HOME])
             self.assertNotEqual(listing.returncode, 0)
             self.assertEqual(listing.stdout, b"")
+
+    def test_process_exec_requires_admitted_binary(self):
+        with Workspace() as workspace:
+            peer = workspace.instance("server")
+            denied = peer.run(["/usr/bin/true"])
+            self.assertNotEqual(denied.returncode, 0)
+            peer.allow_executables(("/usr/bin/true",))
+            self.assertEqual(peer.run(["/usr/bin/true"]).returncode, 0)
 
     def test_success_cleanup(self):
         with Workspace() as workspace:

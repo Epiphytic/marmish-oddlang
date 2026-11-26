@@ -146,8 +146,13 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
             for role, instance in peers.items():
                 for name, checksum in artifact_pins[role].items():
                     copy_verified(artifact_dirs[role] / name, instance.root / name, checksum)
+                instance.allow_executables(tuple(instance.root / name for name in artifact_pins[role]))
+            observation["receipt_bound_peer_executables"] = {
+                role: sorted(artifact_pins[role]) for role in peers
+            }
             relay_bin = service.root / "deaddrop"
             copy_verified(deaddrop, relay_bin, deaddrop_digest)
+            service.allow_executables((relay_bin,))
             observation["stage"] = "relay-startup"
             with tempfile.TemporaryFile(dir=service.root) as transcript:
                 relay = service.start([relay_bin, "relay", "--data-dir", service.root / "data"],
@@ -206,9 +211,6 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             or config["relays"] != [address] or config["tor"] != "auto"):
                         raise ValueError("refusing unexpected peer authorization or relay scope")
                 observation["explicit_peer_authorization_verified"] = True
-                if observation.get("missing_generated_artifacts"):
-                    observation["stage"] = "missing-generated-artifacts"
-                    raise ValueError("generated helper roles unavailable")
                 server = peers["server"]
                 policy_path = server.root / "state" / "server" / "config.json"
                 fixtures = (server.root / "short", server.root / "finite")
@@ -218,6 +220,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 fixtures[0].chmod(0o500)
                 observation["short_fixture_sha256"] = file_digest(fixtures[0])
                 copy_verified(installed_fixture, fixtures[1], fixture_digest)
+                server.allow_executables((*tuple(server.root / name for name in artifact_pins["server"]),
+                                          *fixtures, interpreter))
                 (server.root / "receipts").mkdir(mode=0o700)
                 policy = json.loads(policy_path.read_bytes())
                 policy["command_policy"]["defaults"] = {"allow_exec": list(map(str, fixtures))}
@@ -225,7 +229,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                 policy_path.write_text(json.dumps(policy))
                 observation["stage"] = "owner-activation"
                 with ExitStack() as logs:
-                    owner_logs = []
+                    owner_logs = {}
+                    observation["owner_states"] = {}
                     try:
                         for role in ("server", "client"):
                             instance = peers[role]
@@ -234,7 +239,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                             log_path = instance.root / "owner.stderr"
                             fd = os.open(log_path, os.O_CREAT | os.O_EXCL | os.O_RDWR, 0o600)
                             owner_log = logs.enter_context(os.fdopen(fd, "w+b"))
-                            owner_logs.append(owner_log)
+                            owner_logs[role] = owner_log
                             child = instance.start(
                                 [instance.root / "marmishd", *options, "--foreground", "daemon"],
                                 stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=owner_log)
@@ -245,18 +250,22 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                                 status = instance.run([instance.root / "marmish", *options, "status"], timeout=5)
                                 if status.returncode:
                                     return False
-                                return (json.loads(status.stdout).get("result") or {}).get("state") == "active"
+                                state = (json.loads(status.stdout).get("result") or {}).get("state")
+                                expected = "provider_active" if role == generated_role else "active"
+                                return state if state == expected else None
 
-                            until(ready, 170, "owner-activation")
-                            observation[f"{role}_active"] = True
+                            observation["owner_states"][role] = until(ready, 170, "owner-activation")
                     except (ValueError, TimeoutError, subprocess.TimeoutExpired):
-                        transcript_bytes = b"\n".join(os.pread(log.fileno(), 65536, 0) for log in owner_logs)
-                        codes = [line for line in (b"marmish: marmot: key_package_publish",
-                                                   b"marmish: transport: relay_connect")
-                                 if line in transcript_bytes.splitlines()]
-                        observation["terminal_diagnostics"] = [item.decode() for item in codes]
+                        diagnostics = {}
+                        for role, log in owner_logs.items():
+                            lines = os.pread(log.fileno(), 65536, 0).splitlines()
+                            diagnostics[role] = [line.decode() for line in (
+                                b"marmish: marmot: key_package_publish", b"marmish: transport: relay_connect")
+                                if line in lines]
+                        observation["terminal_diagnostics"] = diagnostics
                         raise
-                    observation["both_upstream_owners_active"] = True
+                    if generated_role is None:
+                        observation["both_upstream_owners_active"] = True
                     for instance in peers.values():
                         if len([p for p in instance.tmp.glob("mr2-*/s") if p.is_socket()]) != 1:
                             raise ValueError("private daemon socket not verified")

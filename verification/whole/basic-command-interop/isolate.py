@@ -10,6 +10,8 @@ import tempfile
 
 SYSTEM_HOME = Path(pwd.getpwuid(os.geteuid()).pw_dir).resolve()
 SANDBOX = "/usr/bin/sandbox-exec"
+PROBE_EXECUTABLES = ("/bin/cat", "/bin/ls", "/bin/sleep", "/usr/bin/security",
+                     "/usr/bin/stat", "/usr/bin/touch")
 
 
 class Instance:
@@ -19,7 +21,7 @@ class Instance:
         self.tmp = root / "tmp"
         self.tmp.mkdir(mode=0o700)
         self.profile = root / "sandbox.sb"
-        self.profile.write_text(
+        self.policy = (
             "(version 1)\n(allow default)\n"
             f"(deny file-read* (subpath {json.dumps(str(SYSTEM_HOME))}))\n"
             f"(allow file-read-metadata (literal {json.dumps(str(SYSTEM_HOME))}))\n"
@@ -32,6 +34,12 @@ class Instance:
             "(allow mach-lookup (global-name \"com.apple.system.opendirectoryd.libinfo\"))\n"
         )
         self.processes = []
+        self.allow_executables(PROBE_EXECUTABLES)
+
+    def allow_executables(self, paths):
+        filters = " ".join(f"(literal {json.dumps(str(Path(path).resolve(strict=True)))})"
+                           for path in paths)
+        self.profile.write_text(self.policy + f"(deny process-exec)\n(allow process-exec {filters})\n")
 
     def start(self, arguments, **kwargs):
         process = subprocess.Popen(
