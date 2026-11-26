@@ -136,7 +136,9 @@ def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     serde = artifact(native, "serde")
     sealed = artifact(build, "marmish_native")
     orig_choice = IDENTITY["observe"](ref, ref.parent / "deps", serde, serde.parent, scratch / "choice-original")
-    gen_choice = IDENTITY["observe"](sealed, deps, serde, serde.parent, scratch / "choice-generated")
+    generated_serde = artifact(build, "serde")
+    gen_choice = IDENTITY["observe"](sealed, deps, generated_serde, generated_serde.parent,
+                                      scratch / "choice-generated")
     if orig_choice != gen_choice:
         raise ValueError("sealed identity choice differs from original")
     values, negatives = gen_choice
