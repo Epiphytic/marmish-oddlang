@@ -1,0 +1,26 @@
+{
+  "cargoLockSha256": "81135afc89c035ddf7b7aa9eac34a58fda996e9bef3ccd70c16e1059d86541f5",
+  "format": "oddlang-native-workspace-lock-v1",
+  "inputSha256": "863f20974241684c8763f3aad308fe1a02bbefa5d4a2676f1fefd89ea5477928",
+  "members": {
+    "marmish-core": {
+      "dependencies": [],
+      "inputSha256": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4",
+      "standalonePackageLockSha256": "b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c",
+      "workspaceCargoManifestSha256": "2573085411bca05a6efd1dc98f6d5a204ce814a1b6630270669e6b5445860851"
+    },
+    "marmish-native": {
+      "dependencies": [],
+      "inputSha256": "8bb02bc17141a5aa74dee53fe474599d2d521ac85346cad7fda12c716631cab3",
+      "standalonePackageLockSha256": "d18ca540d17e0f7e09311eba396adf17d8336c3624dbeafed47dbd58e910058e",
+      "workspaceCargoManifestSha256": "286e9183506bd4be5ae0107dcf716e82f03bc633f4c56619fe21f182fd2a4910"
+    },
+    "marmish-stream": {
+      "dependencies": [],
+      "inputSha256": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8",
+      "standalonePackageLockSha256": "07ab8cf1998ed855511258246fb595ddf3191715f9038236517532722f7c495b",
+      "workspaceCargoManifestSha256": "bedad86db09c9690e2cb04f2c7e00dc39eb3dc132ad8ba7dd8d32fa0b86a8b22"
+    }
+  },
+  "workspaceCargoManifestSha256": "b1d8e87f0afc5bb5135f303ead310995e944c856c890512200589180d84e5098"
+}

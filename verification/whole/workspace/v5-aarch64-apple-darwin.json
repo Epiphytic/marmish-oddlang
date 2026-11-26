@@ -1,0 +1,721 @@
+{
+  "framework": "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaceLockSha256": "12f45ddf99163d5a4ea64361e38289c7cbd00f3717b6e5ae1899e4c87d5470fd",
+  "qualification": "Darwin ARM64, release, source and network isolated",
+  "testModules": {
+    "coreContracts": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a",
+    "codec": "8f22f6113ec0ccf903ba62127b84e73d77841fbca2ca00d26d6ac6f8d0332d2c",
+    "windows": "34cdb8cbbdc542171ae9602d857520bd82c35cf9fb921f2143664fa82e73cff7",
+    "wire": "770b8765497ea5b53ae08505c390700594b1f9d21068fa5a0316f5b02c9f4d02",
+    "copyProtocol": "61d932f4d9c7c00874e10c09485da340a719dd9e5cfb6039f56d82fcb040a259",
+    "exactCopyFrames": "4ff9bb79ff7e2264eb9f02b5a59c6ff0e269fbeb13b4c7a04b947b57262e66b8"
+  },
+  "tests": [
+    "all_case_tags_and_canonical_payloads",
+    "bounded_opaque_bytes_round_trip",
+    "canonical_urls_deduplicate_in_order",
+    "codec::__projection_1::tests::incompressible_maximum_block_uses_none",
+    "codec::__projection_1::tests::rejects_bounds_and_length",
+    "codec::__projection_1::tests::rejects_corruption_truncation_frames_and_dictionary",
+    "codec::__projection_1::tests::rejects_nonbeneficial_zlib_representation",
+    "codec::__projection_1::tests::roundtrips_and_fallback",
+    "commit_constant_and_poisoned_decoder_outcomes_are_exact",
+    "copy_caller::tests::all_frames_roundtrip_every_split_without_buffering_next_frame",
+    "copy_caller::tests::checkpoint_rejects_corruption_trailing_fields_and_impossible_states",
+    "copy_caller::tests::helper_context_rejects_missing_trailing_unknown_and_entrypoint_fields",
+    "copy_caller::tests::helper_context_retention_has_replay_floor_and_config_ceiling",
+    "copy_caller::tests::helper_context_roundtrip_limits_and_start_binding",
+    "copy_caller::tests::launch_digest_binds_codec_mode_paths_and_metadata_but_not_attempt_binding",
+    "copy_caller::tests::malformed_lengths_unknown_tags_enums_and_options_fail_closed",
+    "copy_caller::tests::maximum_checkpoint_stays_below_control_cap",
+    "copy_caller::tests::namespace_separates_principals_direction_and_transfer",
+    "copy_caller::tests::one_byte_reassembly_and_multiple_frames",
+    "copy_caller::tests::sizes_offsets_and_metadata_are_checked_before_encoding",
+    "data_and_progress_guards_have_directional_precedence",
+    "data_decode_rejects_offset_before_empty_body",
+    "diagnostics_never_echo_raw_values",
+    "frame_headers_precede_tag_and_slot_checks",
+    "hostile_json_version_and_encoding_are_rejected",
+    "inline_validation_precedes_codec_and_trailing",
+    "launch_fragment_reports_early_read_errors",
+    "loopback_is_explicit_and_private_literals_stay_denied",
+    "no_defaults_or_extra_url_components",
+    "public_copy_protocol_constants_and_signatures",
+    "remaining_case_errors_preserve_exact_order",
+    "retention_distinguishes_default_from_disabled_and_bounds_numbers",
+    "windows::__projection_13::tests::boundary_failures_do_not_mutate_windows",
+    "windows::__projection_13::tests::bounded_output_reclaims_only_consumed_prefix",
+    "windows::__projection_13::tests::exact_retry_conflict_gap_eof_and_partial_delivery",
+    "windows::__projection_13::tests::many_windows_remain_binary_exact_and_bounded",
+    "windows::__projection_13::tests::receipt_memory_and_tiny_chunk_counts_are_bounded",
+    "wire_caller::tests::age_only_checks_open_and_immutable_digest_excludes_sequence",
+    "wire_caller::tests::base64_is_strict_and_nested_unknown_fields_fail",
+    "wire_caller::tests::cancelled_terminal_requires_accepted_cancellation",
+    "wire_caller::tests::copy_wire_is_closed_bounded_and_byte_preserving",
+    "wire_caller::tests::input_closed_is_required_and_truthful_for_terminal_and_cancel",
+    "wire_caller::tests::rejects_invalid_argv_offsets_and_snapshots",
+    "wire_caller::tests::rejects_noncanonical_unknown_and_oversized_envelopes",
+    "wire_caller::tests::worst_case_fit_and_roundtrip_every_variant"
+  ],
+  "copyRelations": {
+    "cases": 94,
+    "callerSha256": "b930543875806ffedf7b1d15aa01a49511d297d3f091d2bf3079b3dfe95fc00f",
+    "observationsSha256": "2fdc49c664670af630a0deb4661321bd158922d3fef3dac4861e439d7f09bf87"
+  },
+  "status": {
+    "candidateSha256": "5d20db337049e21b7d9210d9468db3ad9a67b045adb88c0fd749d55d13d5359a",
+    "controlled": {
+      "absent_socket": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "base_mode": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_path\n",
+        "stdout": ""
+      },
+      "base_symlink": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_path\n",
+        "stdout": ""
+      },
+      "binding_bounded_prefix": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "binding_canonical_root": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "binding_duplicate": {
+        "exit": 1,
+        "stderr": "marmish: identity: runtime_collision\n",
+        "stdout": ""
+      },
+      "binding_mode": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_file\n",
+        "stdout": ""
+      },
+      "binding_profile_mismatch": {
+        "exit": 1,
+        "stderr": "marmish: identity: runtime_collision\n",
+        "stdout": ""
+      },
+      "binding_root_mismatch": {
+        "exit": 1,
+        "stderr": "marmish: identity: runtime_collision\n",
+        "stdout": ""
+      },
+      "config_ignored": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "custom_profile": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "explicit_bypasses_files": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "foreground_precedes_discovery": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: foreground_operation\n",
+        "stdout": ""
+      },
+      "home_default": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "initializing_no_key": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "invalid_profile_precedes_missing_base": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_profile_name\n",
+        "stdout": ""
+      },
+      "limit_precedes_discovery": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: server_limit_operation\n",
+        "stdout": ""
+      },
+      "manifest_duplicate": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest\n",
+        "stdout": ""
+      },
+      "manifest_fifo": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_file\n",
+        "stdout": ""
+      },
+      "manifest_format_precedence": {
+        "exit": 1,
+        "stderr": "marmish: storage: incompatible_state\n",
+        "stdout": ""
+      },
+      "manifest_hardlink": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_file\n",
+        "stdout": ""
+      },
+      "manifest_large": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest\n",
+        "stdout": ""
+      },
+      "manifest_mode": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_file\n",
+        "stdout": ""
+      },
+      "manifest_symlink": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "manifest_unknown": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest\n",
+        "stdout": ""
+      },
+      "manifest_unsigned_width": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest\n",
+        "stdout": ""
+      },
+      "missing_base": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "missing_binding": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "missing_manifest": {
+        "exit": 1,
+        "stderr": "marmish: identity: missing_manifest\n",
+        "stdout": ""
+      },
+      "missing_runtime": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "new_session_precedes_discovery": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: new_session_operation\n",
+        "stdout": ""
+      },
+      "no_home": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: home_directory\n",
+        "stdout": ""
+      },
+      "no_home_explicit_socket": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: home_directory\n",
+        "stdout": ""
+      },
+      "profile_mode": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_path\n",
+        "stdout": ""
+      },
+      "profile_symlink": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_path\n",
+        "stdout": ""
+      },
+      "ready_needs_key": {
+        "exit": 1,
+        "stderr": "marmish: identity: invalid_manifest\n",
+        "stdout": ""
+      },
+      "route_precedes_discovery": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: route_mode\n",
+        "stdout": ""
+      },
+      "runtime_mode": {
+        "exit": 1,
+        "stderr": "marmish: identity: unsafe_profile_path\n",
+        "stdout": ""
+      },
+      "socket_too_long": {
+        "exit": 1,
+        "stderr": "marmish: identity: runtime_path_too_long\n",
+        "stdout": ""
+      },
+      "state_relative": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "xdg_absolute": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "xdg_relative": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"fixture\"},\"error\":null}\n"
+      },
+      "xdg_without_home": {
+        "exit": 1,
+        "stderr": "marmish: invalid input: home_directory\n",
+        "stdout": ""
+      }
+    },
+    "corpusSha256": "773952355d72df85060cb9db78de82c2bb071265aedda66cfe1a6c0f1702bc40",
+    "fixturePathsAndContentsUnchanged": true,
+    "frameworkRevision": "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36",
+    "live": {
+      "defaultDirectory": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+      },
+      "shutdown": {
+        "engine_stop_complete": true,
+        "mdk_stop_complete": true,
+        "runtime_cleanup_complete": true
+      },
+      "stateDirectory": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+      }
+    },
+    "originalBinaries": {
+      "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+      "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+      "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+      "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+      "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+      "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+      "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+    },
+    "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+    "platform": "Darwin-arm64"
+  },
+  "cliParser": {
+    "fixtureSha256": "e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746",
+    "casesPerRole": {
+      "marmish": 34,
+      "marmishd": 34
+    },
+    "generatedBinaries": {
+      "marmish": "5d20db337049e21b7d9210d9468db3ad9a67b045adb88c0fd749d55d13d5359a",
+      "marmishd": "dc624ce2b1f5f57b8fb75c93ba06b5575dd609fa31ee393ad68bc12fa488c1ca"
+    }
+  },
+  "nativeProcessLimits": {
+    "upstream_commit": "af54339d250290490d62d4475a77539b7e739071",
+    "source": "crates/marmish-native/tests/process_limits.rs",
+    "test": "actual_native_entrypoints_accept_inherited_limits",
+    "source_sha256": "47a5d6d6fc37526a3a0d6ec825d99c1c5a13aa8cdc93479db673d88f6e727057",
+    "compiler": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "libc_sha256": "b5fce0e5aa3f9244de4a920802bd391cdb8327b7feaf586ee53bba3ce54271a8",
+    "executables": {
+      "marmish": "5d20db337049e21b7d9210d9468db3ad9a67b045adb88c0fd749d55d13d5359a",
+      "marmishd": "dc624ce2b1f5f57b8fb75c93ba06b5575dd609fa31ee393ad68bc12fa488c1ca"
+    },
+    "staged_pair_exit": 0,
+    "mutants": {
+      "marmish": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      },
+      "marmishd": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      }
+    }
+  },
+  "foreground": {
+    "generatedBinarySha256": {
+      "marmish": "5d20db337049e21b7d9210d9468db3ad9a67b045adb88c0fd749d55d13d5359a",
+      "marmishd": "dc624ce2b1f5f57b8fb75c93ba06b5575dd609fa31ee393ad68bc12fa488c1ca"
+    },
+    "generatedInit": {
+      "candidateControls": {
+        "identity-mismatch": {
+          "exit": 1,
+          "stderr": "marmish: identity: identity_mismatch\n",
+          "stdout": ""
+        },
+        "plaintext-relay": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: plaintext_relay\n",
+          "stdout": ""
+        },
+        "runtime-collision": {
+          "exit": 1,
+          "stderr": "marmish: identity: runtime_collision\n",
+          "stdout": ""
+        },
+        "unsafe-credential": {
+          "exit": 1,
+          "stderr": "marmish: identity: unsafe_profile_file\n",
+          "stdout": ""
+        }
+      },
+      "generated": {
+        "competingOwner": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "generatedShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "original": {
+        "competingOwner": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "originalShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+      },
+      "postStopDiscovery": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "privateCertificateRejected": {
+        "generated": {
+          "exit": 1,
+          "stderr": "marmish: transport: relay_connect\n",
+          "stdout": ""
+        },
+        "original": {
+          "exit": 1,
+          "stderr": "marmish: transport: relay_connect\n",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        }
+      },
+      "profileUnmodified": true,
+      "reattachedShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "reattachedStatus": {
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "recoveredOwnerShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "staleRuntimeRecovered": {
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      }
+    },
+    "originalInit": {
+      "candidateControls": {
+        "identity-mismatch": {
+          "exit": 1,
+          "stderr": "marmish: identity: identity_mismatch\n",
+          "stdout": ""
+        },
+        "plaintext-relay": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: plaintext_relay\n",
+          "stdout": ""
+        },
+        "runtime-collision": {
+          "exit": 1,
+          "stderr": "marmish: identity: runtime_collision\n",
+          "stdout": ""
+        },
+        "unsafe-credential": {
+          "exit": 1,
+          "stderr": "marmish: identity: unsafe_profile_file\n",
+          "stdout": ""
+        }
+      },
+      "generated": {
+        "competingOwner": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "generatedShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "original": {
+        "competingOwner": {
+          "exit": 1,
+          "stderr": "marmish: identity: profile_in_use\n",
+          "stdout": ""
+        },
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "originalShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+      },
+      "postStopDiscovery": {
+        "exit": 1,
+        "stderr": "marmish: local I/O failed\n",
+        "stdout": ""
+      },
+      "privateCertificateRejected": {
+        "generated": {
+          "exit": 1,
+          "stderr": "marmish: transport: relay_connect\n",
+          "stdout": ""
+        },
+        "original": {
+          "exit": 1,
+          "stderr": "marmish: transport: relay_connect\n",
+          "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+        }
+      },
+      "profileUnmodified": true,
+      "reattachedShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "reattachedStatus": {
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      },
+      "recoveredOwnerShutdown": {
+        "exit": 0,
+        "stderr": "",
+        "stdout": ""
+      },
+      "staleRuntimeRecovered": {
+        "generatedClientStatus": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "status": {
+          "exit": 0,
+          "stderr": "",
+          "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+        },
+        "tlsRecordPrefix": "160301"
+      }
+    }
+  },
+  "companionRevision": "6571590aeea701d8ea99f8d1fd84e27869ff7fe3",
+  "workspaceManifestSha256": "863f20974241684c8763f3aad308fe1a02bbefa5d4a2676f1fefd89ea5477928",
+  "cargoLockSha256": "81135afc89c035ddf7b7aa9eac34a58fda996e9bef3ccd70c16e1059d86541f5",
+  "gitProviders": {
+    "https://github.com/marmot-protocol/mdk": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2",
+    "https://github.com/rusqlite/rusqlite.git": "5ae7fdf83085c595fd54f977b3a56ccacabaf16b",
+    "https://github.com/erskingardner/rust-nostr": "48801bf6f2f1cd55bb1729e94159946c8832a786",
+    "https://github.com/erskingardner/openmls.git": "94f57b829d95840fc5b415b7a86f547f5c1f65ba"
+  },
+  "encryptedInit": {
+    "candidateBinarySha256": "5d20db337049e21b7d9210d9468db3ad9a67b045adb88c0fd749d55d13d5359a",
+    "checks": [
+      "mandatory durable effects and counts independently checked before cross-consumption",
+      "generated owner and client consume generated profile before original initialization",
+      "bidirectional cross-consumption retains identity, schema, keys and counts",
+      "ordered invocation guards and lease denial preserve filesystem state",
+      "corrupt encrypted journal blocks ready transition without replacing either store"
+    ],
+    "corruptJournalProviderStderr": {
+      "candidate": [],
+      "original": []
+    },
+    "files": {
+      "arti-cache": "0o700",
+      "arti-state": "0o700",
+      "journal.db": "0o600",
+      "keys": "0o700",
+      "keys/nostr-<reference>": "0o600",
+      "keys/sqlcipher-<reference>": "0o600",
+      "mdk.db": "0o600",
+      "owner.lock": "0o600",
+      "profile.json": "0o600"
+    },
+    "frameworkRevision": "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36",
+    "generatedOwnerBinarySha256": "dc624ce2b1f5f57b8fb75c93ba06b5575dd609fa31ee393ad68bc12fa488c1ca",
+    "inspectorSha256": "4a65a6fe83a1e30826920175adce5f4f6ee4934bb40c724e23a3162fc99a80cb",
+    "originalBinarySha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+    "platform": "Darwin-arm64",
+    "stores": {
+      "journal": {
+        "initialRows": {
+          "binding": 1,
+          "command_replay_state": 1,
+          "command_settings": 1,
+          "copy_local_floor": 1,
+          "copy_replay_state": 1,
+          "replay_state": 1
+        },
+        "objects": 43,
+        "version": 7
+      },
+      "mdk": {
+        "initialRows": {
+          "account_attachment_history_version": 1,
+          "account_recovery_comparison": 1,
+          "account_recovery_conversion": 1,
+          "account_recovery_coverage_uncover_state": 1,
+          "account_recovery_park_revision": 1,
+          "account_recovery_state": 1,
+          "attachment_partial_usage": 1,
+          "attachment_retention_usage": 1,
+          "avatar_cache_meta": 1,
+          "cgka_account_device_signers": 1,
+          "cgka_key_package_lifecycle": 1,
+          "cgka_maintenance_settings": 1,
+          "cgka_schema_migrations": 156,
+          "chat_list_navigation_meta": 1,
+          "chat_list_projection_meta": 1,
+          "chat_presentation_checkpoint": 1,
+          "chat_presentation_meta": 1,
+          "content_report_backfill": 1,
+          "message_draft_revision_clock": 1,
+          "openmls_values": 1,
+          "outgoing_attachment_recovery_cursor": 1,
+          "sqlite_sequence": 2,
+          "user_block_list": 1
+        },
+        "objects": 444,
+        "version": 0
+      }
+    }
+  },
+  "originalStreamTests": [
+    "codec::tests::incompressible_maximum_block_uses_none",
+    "codec::tests::rejects_bounds_and_length",
+    "codec::tests::rejects_corruption_truncation_frames_and_dictionary",
+    "codec::tests::rejects_nonbeneficial_zlib_representation",
+    "codec::tests::roundtrips_and_fallback",
+    "copy_protocol::tests::all_frames_roundtrip_every_split_without_buffering_next_frame",
+    "copy_protocol::tests::checkpoint_rejects_corruption_trailing_fields_and_impossible_states",
+    "copy_protocol::tests::helper_context_rejects_missing_trailing_unknown_and_entrypoint_fields",
+    "copy_protocol::tests::helper_context_retention_has_replay_floor_and_config_ceiling",
+    "copy_protocol::tests::helper_context_roundtrip_limits_and_start_binding",
+    "copy_protocol::tests::launch_digest_binds_codec_mode_paths_and_metadata_but_not_attempt_binding",
+    "copy_protocol::tests::malformed_lengths_unknown_tags_enums_and_options_fail_closed",
+    "copy_protocol::tests::maximum_checkpoint_stays_below_control_cap",
+    "copy_protocol::tests::namespace_separates_principals_direction_and_transfer",
+    "copy_protocol::tests::one_byte_reassembly_and_multiple_frames",
+    "copy_protocol::tests::sizes_offsets_and_metadata_are_checked_before_encoding",
+    "windows::tests::boundary_failures_do_not_mutate_windows",
+    "windows::tests::bounded_output_reclaims_only_consumed_prefix",
+    "windows::tests::exact_retry_conflict_gap_eof_and_partial_delivery",
+    "windows::tests::many_windows_remain_binary_exact_and_bounded",
+    "windows::tests::receipt_memory_and_tiny_chunk_counts_are_bounded",
+    "wire::tests::age_only_checks_open_and_immutable_digest_excludes_sequence",
+    "wire::tests::base64_is_strict_and_nested_unknown_fields_fail",
+    "wire::tests::cancelled_terminal_requires_accepted_cancellation",
+    "wire::tests::copy_wire_is_closed_bounded_and_byte_preserving",
+    "wire::tests::input_closed_is_required_and_truthful_for_terminal_and_cancel",
+    "wire::tests::rejects_invalid_argv_offsets_and_snapshots",
+    "wire::tests::rejects_noncanonical_unknown_and_oversized_envelopes",
+    "wire::tests::worst_case_fit_and_roundtrip_every_variant"
+  ]
+}

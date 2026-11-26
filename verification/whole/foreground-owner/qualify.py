@@ -151,7 +151,8 @@ def relay_options(listener, *, scheme="wss"):
             "--relay", f"{scheme}://127.0.0.1:{listener.getsockname()[1]}"]
 
 
-def observe(original, generated, root, *, trust_failure=False, include_generated_client=False):
+def observe(original, generated, root, *, trust_failure=False, include_generated_client=False,
+            profile_initializer=None):
     env = {"PATH": "/usr/bin:/bin", "LANG": "C", "HOME": str(root / "home"), "TMPDIR": str(root / "runtime")}
     for name in ("home", "runtime"):
         (root / name).mkdir(mode=0o700)
@@ -163,9 +164,18 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
         return [binary, "--foreground", *common, *relay_options(relay)]
 
     with held_relay() as relay:
-        init = call([client, *common, *relay_options(relay), "init"], env, root)
-    check((init["exit"], init["stderr"]), (0, ""), "pinned original profile provisioning")
+        init = call([profile_initializer or client, *common, *relay_options(relay), "init"], env, root)
+    check((init["exit"], init["stderr"]), (0, ""), "profile provisioning")
     profile = PreparedProfile(state)
+    credentials = {}
+    if profile_initializer is not None:
+        check(json.loads(init["stdout"]), {
+            "identity": profile.document["public_key"], "conversations": 0, "received": 0, "pending": 0,
+        }, "initialized identity and counts")
+        for provider, key in (("nostr", "nostr_ref"), ("sqlcipher", "sqlcipher_ref")):
+            path = profile.credential(provider, key)
+            check(stat.S_IMODE(path.stat().st_mode), 0o600, "private credential mode")
+            credentials[path] = path.read_bytes()
     runtime = root / "runtime" / f"mr2-{os.geteuid()}-{profile.name_token}"
     query = [client, *common, "status"]
     generated_query = [generated / "marmish", *common, "status"]
@@ -288,6 +298,9 @@ def observe(original, generated, root, *, trust_failure=False, include_generated
         for flag in ("engine_stop_complete", "mdk_stop_complete", "runtime_cleanup_complete"):
             check(json.loads(trust["original"]["stdout"])[flag], True, flag)
 
+    for path, before in credentials.items():
+        check(path.read_bytes() == before, True, "credential retained after foreground interoperation")
+        check(stat.S_IMODE(path.stat().st_mode), 0o600, "retained credential mode")
     return {
         "original": original_result, "generated": generated_result, "originalShutdown": original_stop,
         "generatedShutdown": generated_stop, "reattachedStatus": reattach, "reattachedShutdown": reattach_stop,
