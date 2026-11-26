@@ -145,12 +145,23 @@ def generated(args, host, work, scratch, helper, body, probe):
         raise ValueError("deleting a name family did not affect the lock")
     with (changed / location).open("ab") as leaf:
         leaf.write(WRAPPER + helper + body + b"\n}\n")
+    source = (changed / location).read_text()
+    case_start = source.index(f"fn {CASE}()")
+    decoy_setup = source.index('fs::write(root.path().join("marmish-0.3.invalid.manifest")', case_start)
+    assertion = source.index("assert!(verify_directory(", decoy_setup)
+    next_removal = source.index("fs::remove_file(&path)", decoy_setup)
+    if not decoy_setup < assertion < next_removal:
+        raise ValueError("cannot locate the upstream ambiguity assertion")
+    line = source.count("\n", 0, assertion) + 1
+    column = assertion - source.rindex("\n", 0, assertion)
+    panic = f"panicked at {location}:{line}:{column}:\n"
+    message = "assertion failed: verify_directory(root.path(), AssetNaming::VersionedDownloads, pin).is_err()"
     failing = subprocess.run(
         [*prefix_in(changed), "cargo", "test", "--locked", "--offline", "--release", "-p", MEMBER,
          "--lib", *extra, "--", "--exact", qualified + CASE],
         cwd=changed, env=env, capture_output=True, text=True)
     if (failing.returncode != 101 or f"test {qualified}{CASE} ... FAILED" not in failing.stdout
-            or 'assertion failed: verify_directory(root.path(), AssetNaming::VersionedDownloads, pin).is_err()' not in failing.stdout
+            or panic + message not in failing.stdout
             or "test result: FAILED. 0 passed; 1 failed; 0 ignored;" not in failing.stdout):
         raise ValueError(f"removed catalog family did not fail the unchanged case: {failing}")
     return cases, sha(lock), sha(mutant_lock), removed

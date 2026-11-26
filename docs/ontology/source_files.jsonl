@@ -1124,7 +1124,7 @@
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/run.json","language":"inventory","mode":"100644","sha256":"43b6533f0bf34a48cf2390c6b02d1f9d37045c469902c435300a8271e7956f62","parse_status":"inventory"}
 {"path":"verification/whole/local-file-catalog/compose.py","language":"python","mode":"100644","sha256":"b626138372c3f70f0708be0028f962362867acf042a5dc15b96de824a0933c87","parse_status":"parsed"}
 {"path":"verification/whole/local-file-catalog/observe.rs","language":"rust","mode":"100644","sha256":"45e52786a32036181fefe7d83df452cb21cb5cf980434ea8b57683e80ee5fece","parse_status":"parsed"}
-{"path":"verification/whole/local-file-catalog/verify.py","language":"python","mode":"100644","sha256":"b134d5d9c1bdd9a1064cceedde9834429f4c2ee924e14ba4b531461e207d0ed7","parse_status":"parsed"}
+{"path":"verification/whole/local-file-catalog/verify.py","language":"python","mode":"100644","sha256":"8e9de9bb4ec3e62effa94ed0ca6bd2c4ed6f98ec8e1a6718da9ed927aa8909cc","parse_status":"parsed"}
 {"path":"verification/whole/local-file-integrity/observe.rs","language":"rust","mode":"100644","sha256":"280f3aeb3ad7ea7a6c70d9511219730b236ef62aeb951f01286e0926ee3df931","parse_status":"parsed"}
 {"path":"verification/whole/local-file-integrity/verify.py","language":"python","mode":"100644","sha256":"d9287342565e20372e4d12be7cb3a2fe8fca5a3874a063faa2605f9ec984f7aa","parse_status":"parsed"}
 {"path":"verification/whole/mdk-json-input/README.md","language":"inventory","mode":"100644","sha256":"4c224a6075021492809ba52497fa24a5ae351e39ee6f4469e550b44335a8eebd","parse_status":"inventory"}
