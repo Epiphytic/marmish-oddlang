@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-local-request-queue-v1",
+  "id": "urn:marmish:command:owner:request-queue-v1",
+  "accountBytes": 32,
+  "roomBytes": 16,
+  "idBytes": 16,
+  "maximumFrameBytes": 32768
+}
