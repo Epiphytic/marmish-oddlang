@@ -33,3 +33,21 @@ the existing probe-framing module while keeping the same native binding
 and rejects the wrong owner. The [query result](observed.txt) records the
 type ID, portable owner and import spelling for each row, followed by the
 negative-control outcome.
+
+## Resolve a type without a target binding
+
+[The semantic lookup](semantic-roles.sparql.txt) follows a type directly to its
+pinned component and to the declarations that give it meaning. Three types
+select a domain root. Each error sum selects its component’s named error cases.
+The limits type selects three predicates on the envelope root. These are
+parameters on that declaration, so a backend can read the limits without
+inventing an extra record in the envelope graph.
+
+Run the independent resolver from the repository root. It checks each result
+against the pinned component bytes, repeats the query after removing the
+Rust binding nodes and overlay links, and substitutes a different error
+component to verify that the mapping rejects it.
+
+```sh
+uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/semantic_roles.py
+```
