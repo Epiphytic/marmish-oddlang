@@ -894,8 +894,9 @@
 {"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"30cb4a41671db00b9c8c4898dadbf93d4c84a1643514ef8f71096699612f27bd","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
-{"path":"verification/whole/converged-public-api/README.md","language":"inventory","mode":"100644","sha256":"d9039263fbf0a8d22e5eea37acea6588284b778874f5aa47a5f73233f26ae2b9","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/README.md","language":"inventory","mode":"100644","sha256":"0fa55c86eb74f01d8e00c1eb77a8070607b677fdfe473147a5999efcd3d79fbc","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f15b3d225a557944c7dafcfdb2df5a247d81f7ded07e62764de1b8c0f4d19103","parse_status":"inventory"}
+{"path":"verification/whole/converged-public-api/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"0670df89693b823345c76acb5d27fdb537528e14bbf2aad638d6b861f41be8bb","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/compose.py","language":"python","mode":"100644","sha256":"9a4d4130f7425b0c0c0883cb1dad5b444a61e814f7a5f2e55d932423df94d0d0","parse_status":"parsed"}
 {"path":"verification/whole/converged-public-api/darwin-imports.json","language":"inventory","mode":"100644","sha256":"8683cef63ff6120f08b9d8037e9932b526a315843860daccaf575cd6b7ff5c2c","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/import-profile.json","language":"inventory","mode":"100644","sha256":"f645ddbedb28e1de0c76ccf70acc1475cd3c01dc28f0c32eb0f2bdafd38b71f9","parse_status":"inventory"}
