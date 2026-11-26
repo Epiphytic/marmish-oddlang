@@ -18,3 +18,5 @@ Run `python3 -B verify.py ORIGINAL ODDLANG COMPILER_CACHE REFERENCE_CACHE RECEIP
 The [macOS ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) record identical baseline and mutated graph and package lock hashes. Both hosts observed the same values and all seven rejected trait bounds. These measurements cover the vault package independently.
 
 Both host runs were repeated after tightening provenance. The verifier checks clean Git revisions before and after compilation and again before publishing the receipt. Binary digests identify artifacts from that individual build. Source, graph, overlay and lock digests remained identical in both replays. Run `python3 -B -m unittest test_verify` here to exercise the moving-revision and untracked Cargo configuration controls.
+
+The reference and compiler builds use a temporary Cargo home containing links to the local offline registry and Git dependency caches. The verifier clears inherited Cargo and Rust compiler build overrides and rejects Cargo config files in each source directory and its ancestors.
