@@ -251,11 +251,19 @@ def qualify(args, scratch):
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in {DARWIN, LINUX} or f"commit-hash: {AUDIT.COMPILER}" not in version:
         raise ValueError("expected native pinned Rust 1.97.1")
-    run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "oddlang",
-        "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
+    if args.prebuilt is None:
+        run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "oddlang",
+            "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
+        executable = args.compiler_target / "debug/oddlang"
+    else:
+        executable = args.prebuilt
+        if digest(executable) != args.prebuilt_sha256:
+            raise ValueError("prebuilt compiler digest differs from its build receipt")
     work = args.work
     work.mkdir()
-    compiler = Path(shutil.copy2(args.compiler_target / "debug/oddlang", work / "oddlang"))
+    compiler = Path(shutil.copy2(executable, work / "oddlang"))
+    if args.prebuilt is not None and digest(compiler) != args.prebuilt_sha256:
+        raise ValueError("staged compiler changed during copy")
     assembly = lane("workspace")
     inputs = work / "inputs"
     inputs.mkdir()
@@ -266,7 +274,8 @@ def qualify(args, scratch):
         raise ValueError("assembly inputs must be graph, overlay and lock data")
     cache = work / "providers"
     providers = assembly["stage_provider_git_cache"](PORTABLE / spec["cargoLock"]["path"], cache)
-    prefix, env = JOURNAL["sandbox"](assembly, work, (ROOT, args.original, args.framework, args.compiler_target, scratch), cache)
+    compiler_inputs = args.compiler_target if args.prebuilt is None else args.prebuilt
+    prefix, env = JOURNAL["sandbox"](assembly, work, (ROOT, args.original, args.framework, compiler_inputs, scratch), cache)
     denied = [
         args.original / ENGINE_DATA["SOURCE"], args.original / STATUS_DATA["SOURCE"], args.framework / "src/lib.rs",
         ENGINE_DATA["HERE"] / "probe.rs", STATUS_DATA["PROBE"], REASON["PROBE"],
@@ -323,7 +332,11 @@ if __name__ == "__main__":
     p.add_argument("input_revision")
     for name in ("framework", "original", "compiler_target", "work", "receipt"):
         p.add_argument(name, type=lambda value: Path(value).resolve())
+    p.add_argument("--prebuilt", type=lambda value: Path(value).resolve())
+    p.add_argument("--prebuilt-sha256")
     args = p.parse_args()
+    if (args.prebuilt is None) != (args.prebuilt_sha256 is None):
+        p.error("--prebuilt and --prebuilt-sha256 are required together")
     with tempfile.TemporaryDirectory(prefix="odd-combined-data-callers-") as temp:
         result = qualify(args, Path(temp).resolve())
     args.receipt.write_text(json.dumps(result, indent=2) + "\n")
