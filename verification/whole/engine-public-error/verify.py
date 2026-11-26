@@ -34,9 +34,16 @@ TRAITS = {
     "Copy": "Copy",
     "Default": "Default",
     "Hash": "std::hash::Hash",
+    "PartialOrd": "PartialOrd",
     "Ord": "Ord",
     "Serialize": "serde::Serialize",
+    "Deserialize": "for<'de> serde::Deserialize<'de>",
+    "FromIo": "From<std::io::Error>",
 }
+REASON_TRAITS = {
+    name: TRAITS[name]
+    for name in ("Default", "Hash", "PartialOrd", "Ord", "Serialize", "Deserialize")
+} | {"Display": "std::fmt::Display", "Error": "std::error::Error"}
 REASONS = ["NotFoundReason", "NotExecutableReason", "ResolutionReason"]
 
 
@@ -68,8 +75,8 @@ def observe(rlib, deps, serde, scratch):
     negatives = {
         **{f"EngineError.{name}": ("E0277", f"require::<EngineError>();", bound)
            for name, bound in TRAITS.items()},
-        **{f"{name}.Serialize": ("E0277", f"require::<{name}>();", "serde::Serialize")
-           for name in REASONS},
+        **{f"{name}.{trait}": ("E0277", f"require::<{name}>();", bound)
+           for name in REASONS for trait, bound in REASON_TRAITS.items()},
         "mixedReason": ("E0308", "let _ = EngineError::CommandNotFound(NotExecutableReason::NotRegularFile);", "Sized"),
         "offsetWidth": ("E0308", "let x = u128::MAX; let _ = EngineError::InputBackpressure { next_offset: x, available_credit: 0 };", "Sized"),
         "creditWidth": ("E0308", "let x = u64::MAX; let _ = EngineError::InputBackpressure { next_offset: 0, available_credit: x };", "Sized"),
