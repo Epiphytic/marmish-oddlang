@@ -1,0 +1,170 @@
+{
+  "format": "marmish-pure-release-manifest-projection-v1",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "5bd0d54858380efadfdfa62d37d8293594ab2ebd",
+  "companion": "f882c258a3c44d2772481e81b2b530fb8f82b5db",
+  "platform": "aarch64-unknown-linux-gnu",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "compilerSha256": "a8c273893ef708b9e6d4bc175e1a8c9ef1956a924ee9c8d5e2fd607a71546cc2",
+  "sourceSha256": "e11224fa0dd59f656beb94ee29b07baff9be0698896f450ebf45a40847a2ba70",
+  "changedSourceSha256": "0817fd1632fccb2824ae78c765a415b0c0a080aec4b2ee593b8265466a34213b",
+  "oracleReceiptSha256": "f8b967b72a1001c6fa61d5ac4677739613527ada79297d07df8508253a8c65fa",
+  "vectorsSha256": "c7670f87d2a5f2ca113f8a37c7283a92107b8ecd15474d1a165a1ce7e9de308b",
+  "callerSha256": "c47132c88068dbf556cbd0653fd8686ef9d0aeeee54644d05e9926d224b9c2c7",
+  "observerCargoLockSha256": "a011b308fee8d7a854901aa355142e9357098c3e673897f0ea152879808f7c2a",
+  "deniedSourceProbes": [
+    "blind-vectors",
+    "compiler-source",
+    "oracle-caller",
+    "original-observations",
+    "original-parser"
+  ],
+  "resultShapes": {
+    "fieldsAndTraits": {
+      "Asset": {
+        "visibility": "crate",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "static-text"
+            }
+          },
+          {
+            "name": "sha256",
+            "type": {
+              "kind": "bytes",
+              "length": 32
+            }
+          },
+          {
+            "name": "bytes",
+            "type": {
+              "kind": "unsigned",
+              "bits": 64
+            }
+          },
+          {
+            "name": "mode",
+            "type": {
+              "kind": "unsigned",
+              "bits": 32
+            }
+          }
+        ],
+        "derives": [
+          "clone",
+          "debug",
+          "eq",
+          "partial-eq"
+        ],
+        "methods": []
+      },
+      "Manifest": {
+        "visibility": "crate",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "target",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "commit",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "signing",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "notarized",
+            "type": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "minimum",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "formats",
+            "type": {
+              "kind": "unsigned-array",
+              "bits": 32,
+              "length": 5
+            }
+          },
+          {
+            "name": "files",
+            "type": {
+              "kind": "record-vector",
+              "record": "Asset"
+            }
+          }
+        ],
+        "derives": [
+          "clone",
+          "debug",
+          "eq",
+          "partial-eq"
+        ],
+        "methods": [
+          {
+            "name": "asset_name",
+            "visibility": "crate"
+          },
+          {
+            "name": "id",
+            "visibility": "crate"
+          },
+          {
+            "name": "parse",
+            "visibility": "crate"
+          }
+        ]
+      }
+    },
+    "originalRustdocSha256": "47176152dbc2dc1e3f2274edad9c59a5245314e8a5fb0cc7a0fd0ac572625f17",
+    "generatedRustdocSha256": "f3b9b3a76d79664acafe58fdfda015fcde3e30c745496579b938871dc61ab8c5"
+  },
+  "changedCases": [
+    "size-3-16777217"
+  ],
+  "lanes": {
+    "baseline": {
+      "cases": 224,
+      "accepted": 34,
+      "resultsSha256": "602e037a6b3a5c02726fd90d1e3205a4c3b4af2d832ddb6459cf97aa4cfd333f",
+      "packageLockSha256": "6f59d92733c74cb6e40795d6a1091fd08dcff81b75dbaf5657d046af226b2d2a",
+      "projectionSha256": "05fc095aa05e84bce9b0040fe9e43b1805457b1456f2ab312022b63fa0779f81"
+    },
+    "changed": {
+      "cases": 224,
+      "accepted": 35,
+      "resultsSha256": "812ab1027036110632df73489d419b10d0a846160ae97d4d565f8978e667fb51",
+      "packageLockSha256": "fbebd3f7640eb74871068c4a60427e80201df74e637ccdd80da3d92f876f4a1d",
+      "projectionSha256": "5f27aa04d680780e208ce607e22592740ad019f1eeea8d457a61dc21dd2dfe26"
+    }
+  }
+}

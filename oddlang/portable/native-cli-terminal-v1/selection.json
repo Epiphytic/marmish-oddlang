@@ -1,0 +1,8 @@
+{
+  "root": "RshArgs",
+  "package_name": "marmish-native",
+  "version": "",
+  "gaps": [
+    "Recovery covers only the argument declaration. Conditional pre-parser selection and successful parsing effects are recorded separately."
+  ]
+}

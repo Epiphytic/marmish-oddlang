@@ -1,0 +1,660 @@
+{
+  "format": "oddlang-line-grammar-v1",
+  "id": "urn:marmish:native:release-manifest:v1",
+  "maxBytes": 4096,
+  "forbiddenBytes": [
+    13,
+    9
+  ],
+  "textGrammars": [
+    {
+      "format": "oddlang-text-grammar-v1",
+      "id": "urn:marmish:native:release-version",
+      "prefixes": [
+        "0.2.",
+        "0.3."
+      ],
+      "body": {
+        "notation": "canonical-ascii-decimal",
+        "bits": 64,
+        "minimum": 0
+      },
+      "suffix": {
+        "delimiter": "-rc.",
+        "body": {
+          "notation": "canonical-ascii-decimal",
+          "bits": 64,
+          "minimum": 1
+        }
+      },
+      "consumption": "entire-input"
+    }
+  ],
+  "rows": [
+    [
+      {
+        "kind": "literal",
+        "text": "marmish-manifest"
+      },
+      {
+        "kind": "literal",
+        "text": "1"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "version"
+      },
+      {
+        "kind": "text",
+        "capture": "version",
+        "grammar": "urn:marmish:native:release-version"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "target"
+      },
+      {
+        "kind": "text",
+        "capture": "target",
+        "choices": [
+          "x86_64-unknown-linux-gnu",
+          "aarch64-unknown-linux-gnu",
+          "aarch64-apple-darwin"
+        ]
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "commit"
+      },
+      {
+        "kind": "radix16",
+        "capture": "commit",
+        "digits": 40,
+        "decode": false
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "signing"
+      },
+      {
+        "kind": "text",
+        "capture": "signing"
+      },
+      {
+        "kind": "boolean",
+        "capture": "notarized",
+        "falseToken": "notarized=no",
+        "trueToken": "notarized=yes"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "minimum"
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "text",
+          "capture": "family"
+        },
+        "right": {
+          "kind": "split",
+          "delimiter": ".",
+          "left": {
+            "kind": "decimal",
+            "bits": 64,
+            "minimum": 0,
+            "capture": null
+          },
+          "right": {
+            "kind": "decimal",
+            "bits": 64,
+            "minimum": 0,
+            "capture": null
+          },
+          "capture": null
+        },
+        "capture": "minimum"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "state"
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "literal",
+          "text": "profile"
+        },
+        "right": {
+          "kind": "decimal",
+          "bits": 32,
+          "minimum": 1,
+          "capture": "profile"
+        },
+        "capture": null
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "literal",
+          "text": "journal"
+        },
+        "right": {
+          "kind": "decimal",
+          "bits": 32,
+          "minimum": 1,
+          "capture": "journal"
+        },
+        "capture": null
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "literal",
+          "text": "engine"
+        },
+        "right": {
+          "kind": "decimal",
+          "bits": 32,
+          "minimum": 1,
+          "capture": "engine"
+        },
+        "capture": null
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "literal",
+          "text": "config"
+        },
+        "right": {
+          "kind": "decimal",
+          "bits": 32,
+          "minimum": 1,
+          "capture": "config"
+        },
+        "capture": null
+      },
+      {
+        "kind": "split",
+        "delimiter": "=",
+        "left": {
+          "kind": "literal",
+          "text": "commands"
+        },
+        "right": {
+          "kind": "decimal",
+          "bits": 32,
+          "minimum": 1,
+          "capture": "commands"
+        },
+        "capture": null
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "file"
+      },
+      {
+        "kind": "radix16",
+        "capture": "file-1-digest",
+        "digits": 64,
+        "decode": true
+      },
+      {
+        "kind": "decimal",
+        "bits": 64,
+        "minimum": 1,
+        "capture": "file-1-size",
+        "maximum": 268435456
+      },
+      {
+        "kind": "integer-token",
+        "capture": "file-1-mode",
+        "text": "0555",
+        "bits": 32,
+        "value": 365
+      },
+      {
+        "kind": "literal",
+        "text": "marmish",
+        "capture": "file-1-name"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "file"
+      },
+      {
+        "kind": "radix16",
+        "capture": "file-2-digest",
+        "digits": 64,
+        "decode": true
+      },
+      {
+        "kind": "decimal",
+        "bits": 64,
+        "minimum": 1,
+        "capture": "file-2-size",
+        "maximum": 268435456
+      },
+      {
+        "kind": "integer-token",
+        "capture": "file-2-mode",
+        "text": "0555",
+        "bits": 32,
+        "value": 365
+      },
+      {
+        "kind": "literal",
+        "text": "marmishd",
+        "capture": "file-2-name"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "file"
+      },
+      {
+        "kind": "radix16",
+        "capture": "file-3-digest",
+        "digits": 64,
+        "decode": true
+      },
+      {
+        "kind": "decimal",
+        "bits": 64,
+        "minimum": 1,
+        "capture": "file-3-size",
+        "maximum": 268435456
+      },
+      {
+        "kind": "integer-token",
+        "capture": "file-3-mode",
+        "text": "0555",
+        "bits": 32,
+        "value": 365
+      },
+      {
+        "kind": "literal",
+        "text": "marmish-worker",
+        "capture": "file-3-name"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "file"
+      },
+      {
+        "kind": "radix16",
+        "capture": "file-4-digest",
+        "digits": 64,
+        "decode": true
+      },
+      {
+        "kind": "decimal",
+        "bits": 64,
+        "minimum": 1,
+        "capture": "file-4-size",
+        "maximum": 16777216
+      },
+      {
+        "kind": "integer-token",
+        "capture": "file-4-mode",
+        "text": "0444",
+        "bits": 32,
+        "value": 292
+      },
+      {
+        "kind": "literal",
+        "text": "THIRD-PARTY-LICENSES",
+        "capture": "file-4-name"
+      }
+    ],
+    [
+      {
+        "kind": "literal",
+        "text": "end"
+      }
+    ]
+  ],
+  "constraints": [
+    {
+      "kind": "allowed-tuples",
+      "afterRow": 6,
+      "captures": [
+        "target",
+        "family",
+        "signing",
+        "notarized"
+      ],
+      "allowed": [
+        [
+          "x86_64-unknown-linux-gnu",
+          "glibc",
+          "none",
+          false
+        ],
+        [
+          "aarch64-unknown-linux-gnu",
+          "glibc",
+          "none",
+          false
+        ],
+        [
+          "aarch64-apple-darwin",
+          "macos",
+          "adhoc",
+          false
+        ],
+        [
+          "aarch64-apple-darwin",
+          "macos",
+          "developer-id",
+          false
+        ],
+        [
+          "aarch64-apple-darwin",
+          "macos",
+          "developer-id",
+          true
+        ]
+      ]
+    },
+    {
+      "kind": "checked-sum",
+      "afterRow": 11,
+      "captures": [
+        "file-1-size",
+        "file-2-size",
+        "file-3-size",
+        "file-4-size"
+      ],
+      "maximum": 822083584
+    }
+  ],
+  "recordResult": {
+    "failure": {
+      "id": "urn:marmish:native:error:v1:variant:Invalid",
+      "code": "install_manifest"
+    },
+    "records": {
+      "artifact": [
+        {
+          "id": "name",
+          "type": {
+            "kind": "static-text"
+          }
+        },
+        {
+          "id": "sha256",
+          "type": {
+            "kind": "bytes",
+            "length": 32
+          }
+        },
+        {
+          "id": "bytes",
+          "type": {
+            "kind": "unsigned",
+            "bits": 64
+          }
+        },
+        {
+          "id": "mode",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        }
+      ],
+      "manifest": [
+        {
+          "id": "version",
+          "type": {
+            "kind": "owned-text"
+          }
+        },
+        {
+          "id": "target",
+          "type": {
+            "kind": "owned-text"
+          }
+        },
+        {
+          "id": "commit",
+          "type": {
+            "kind": "owned-text"
+          }
+        },
+        {
+          "id": "signing",
+          "type": {
+            "kind": "owned-text"
+          }
+        },
+        {
+          "id": "notarized",
+          "type": {
+            "kind": "boolean"
+          }
+        },
+        {
+          "id": "minimum",
+          "type": {
+            "kind": "owned-text"
+          }
+        },
+        {
+          "id": "formats",
+          "type": {
+            "kind": "unsigned-array",
+            "bits": 32,
+            "length": 5
+          }
+        },
+        {
+          "id": "files",
+          "type": {
+            "kind": "record-vector",
+            "record": "artifact"
+          }
+        }
+      ]
+    },
+    "entry": {
+      "record": "manifest",
+      "fields": {
+        "version": {
+          "kind": "capture",
+          "id": "version"
+        },
+        "target": {
+          "kind": "capture",
+          "id": "target"
+        },
+        "commit": {
+          "kind": "capture",
+          "id": "commit"
+        },
+        "signing": {
+          "kind": "capture",
+          "id": "signing"
+        },
+        "notarized": {
+          "kind": "capture",
+          "id": "notarized"
+        },
+        "minimum": {
+          "kind": "capture",
+          "id": "minimum"
+        },
+        "formats": {
+          "kind": "array",
+          "captures": [
+            "profile",
+            "journal",
+            "engine",
+            "config",
+            "commands"
+          ]
+        },
+        "files": {
+          "kind": "vector",
+          "items": [
+            {
+              "record": "artifact",
+              "fields": {
+                "name": {
+                  "kind": "capture",
+                  "id": "file-1-name"
+                },
+                "sha256": {
+                  "kind": "capture",
+                  "id": "file-1-digest"
+                },
+                "bytes": {
+                  "kind": "capture",
+                  "id": "file-1-size"
+                },
+                "mode": {
+                  "kind": "capture",
+                  "id": "file-1-mode"
+                }
+              }
+            },
+            {
+              "record": "artifact",
+              "fields": {
+                "name": {
+                  "kind": "capture",
+                  "id": "file-2-name"
+                },
+                "sha256": {
+                  "kind": "capture",
+                  "id": "file-2-digest"
+                },
+                "bytes": {
+                  "kind": "capture",
+                  "id": "file-2-size"
+                },
+                "mode": {
+                  "kind": "capture",
+                  "id": "file-2-mode"
+                }
+              }
+            },
+            {
+              "record": "artifact",
+              "fields": {
+                "name": {
+                  "kind": "capture",
+                  "id": "file-3-name"
+                },
+                "sha256": {
+                  "kind": "capture",
+                  "id": "file-3-digest"
+                },
+                "bytes": {
+                  "kind": "capture",
+                  "id": "file-3-size"
+                },
+                "mode": {
+                  "kind": "capture",
+                  "id": "file-3-mode"
+                }
+              }
+            },
+            {
+              "record": "artifact",
+              "fields": {
+                "name": {
+                  "kind": "capture",
+                  "id": "file-4-name"
+                },
+                "sha256": {
+                  "kind": "capture",
+                  "id": "file-4-digest"
+                },
+                "bytes": {
+                  "kind": "capture",
+                  "id": "file-4-size"
+                },
+                "mode": {
+                  "kind": "capture",
+                  "id": "file-4-mode"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    "formatters": [
+      {
+        "id": "identity",
+        "argument": false,
+        "parts": [
+          {
+            "kind": "field",
+            "field": "version"
+          },
+          {
+            "kind": "literal",
+            "text": "-"
+          },
+          {
+            "kind": "field",
+            "field": "target"
+          }
+        ]
+      },
+      {
+        "id": "download-name",
+        "argument": true,
+        "parts": [
+          {
+            "kind": "argument"
+          },
+          {
+            "kind": "literal",
+            "text": "-"
+          },
+          {
+            "kind": "field",
+            "field": "version"
+          },
+          {
+            "kind": "literal",
+            "text": "-"
+          },
+          {
+            "kind": "field",
+            "field": "target"
+          }
+        ]
+      }
+    ]
+  }
+}
