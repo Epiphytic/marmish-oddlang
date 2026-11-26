@@ -1,6 +1,7 @@
 """Inspect a stored candidate receipt against its named upstream release catalog."""
 import argparse
 import json
+import re
 from pathlib import Path
 import sys
 
@@ -30,12 +31,23 @@ def inspect(receipt):
         raise ValueError("missing or unexpected harness")
     witnesses = {k:v["passed"] for k,v in rows.items() if v["passed"]}
     native = receipt["nativeProcessTest"]
-    partial = selected_tests.cases(host) if candidate == "recovered" else {}
+    reader = candidate == "seven"
+    if reader:
+        expected_members = set(json.loads((manifest.with_suffix("")/"workspace.lock").read_bytes())["members"])
+        built = receipt["builtLibraries"]
+        if set(built) != expected_members or not all(re.fullmatch(r"[0-9a-f]{64}",d) for d in built.values()):
+            raise ValueError("missing or invalid native workspace library artifacts")
+    elif "builtLibraries" in receipt:
+        raise ValueError("unexpected workspace library evidence")
+    partial = selected_tests.cases(host,reader) if candidate in {"recovered","seven"} else {}
+    expected_sources = dict(selected_tests.EXPECTED)
+    if reader:
+        expected_sources["prototypeReader"] = selected_tests.READER_CASE["TEST_HASH"]
     expected_processes = {k:{name:2 if k == selected_tests.ENGINE else 1 for name in names}
                           for k,names in partial.items()}
     if receipt.get("passingProcesses") != (expected_processes if partial else None):
         raise ValueError("partial test process evidence differs")
-    if any(witnesses.get(k) != v for k,v in partial.items()) or receipt.get("selectedTestSources") != (selected_tests.EXPECTED if partial else None):
+    if any(witnesses.get(k) != v for k,v in partial.items()) or receipt.get("selectedTestSources") != (expected_sources if partial else None):
         raise ValueError("partial harness source or observed cases disagree")
     if set(witnesses) != {CORE, STREAM, NATIVE} | set(partial) or witnesses[NATIVE] != [native["test"]]:
         raise ValueError("pass without matching qualified harness")

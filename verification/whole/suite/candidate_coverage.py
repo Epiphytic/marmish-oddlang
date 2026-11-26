@@ -26,6 +26,8 @@ MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 
 CANDIDATES = {
     "v7": (MANIFEST, FRAMEWORK),
+    "seven": (MANIFEST.with_name("workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"),
+              "59f947dafdb4cf3055e35216857472ada895a76a"),
     "recovered": (MANIFEST.with_name("workspace-v7-recovered-vault-engine.json"),
                   "6e2d1ef00f286b6132b84e27a61805c659dfd437"),
 }
@@ -137,7 +139,29 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     if path.is_file()}
 
         pristine = snapshot()
-        inside("cargo", "build", "--locked", "--offline", "--release", "-p", "marmish-native", "--bins", cwd=product)
+        include_reader = candidate == "seven"
+        targets = ["--workspace","--lib","--bins"] if include_reader else ["-p","marmish-native","--bins"]
+        built_libraries = {}
+        if include_reader:
+            artifacts = inside("cargo","build","--locked","--offline","--release",*targets,"--message-format=json",cwd=product)
+            for line in artifacts.splitlines():
+                event = json.loads(line)
+                if event.get("reason") != "compiler-artifact" or event["target"]["kind"] != ["lib"]:
+                    continue
+                name = event["target"]["name"].replace("_","-")
+                if name not in seal["members"]:
+                    continue
+                manifest_path = Path(event["manifest_path"])
+                if manifest_path != product/name/"Cargo.toml" or name in built_libraries:
+                    raise ValueError(f"wrong compiled workspace library identity: {name}")
+                library, = [Path(f) for f in event["filenames"] if f.endswith(".rlib")]
+                if not library.is_relative_to(product/"target/release"):
+                    raise ValueError(f"unexpected candidate artifact location: {name}")
+                built_libraries[name] = sha(library.read_bytes())
+            if set(built_libraries) != set(seal["members"]):
+                raise ValueError("Cargo did not build every sealed library")
+        else:
+            inside("cargo","build","--locked","--offline","--release",*targets,cwd=product)
         release = product/"target/release"
         binary_hashes = {role: sha((release/role).read_bytes()) for role in ("marmish","marmishd")}
         pin(original, PIN)
@@ -154,11 +178,14 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         injected = {"marmish-core/tests/contracts.rs","marmish-stream/src/original_wire_test_module.rs",
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
         additional = {}
-        if candidate == "recovered":
+        if candidate in {"recovered","seven"}:
             paths, additional = selected_tests.stage(original, product)
             injected.update(paths)
+        if include_reader:
+            additional["prototypeReader"] = selected_tests.stage_reader(original,product)
+            appended.add(selected_tests.READER_LEAF)
         staged = snapshot()
-        if set(staged) != set(pristine) | injected or len(appended) != 3:
+        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader):
             raise ValueError("unexpected staged file inventory")
         for path, contents in pristine.items():
             if path in appended:
@@ -179,21 +206,25 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         release = product/"target/release"
         invocations = {}
         if additional:
-            for harness, names in selected_tests.cases(host).items():
+            for harness, names in selected_tests.cases(host,include_reader).items():
                 package = harness.split("/")[0]
+                reader = harness == selected_tests.PROTOTYPE
+                target = ["--lib"] if reader else ["--test","selected_upstream"]
+                test_prefix = selected_tests.READER_PREFIX if reader else ""
                 command = ("cargo","test","--locked","--offline","--release","-p",package,
-                           "--test","selected_upstream","--")
+                           *target,"--")
                 listing = inside(*command,"--list",cwd=product).decode()
                 if sorted(line.removesuffix(": test") for line in listing.splitlines()
-                          if line.endswith(": test")) != names:
+                          if line.endswith(": test")) != [test_prefix+n for n in names]:
                     raise ValueError(f"unexpected upstream tests registered for {package}")
                 invocations[harness] = {}
                 for name in names:
-                    raw = inside(*command,"--exact",name,"--format","pretty",cwd=product).decode()
+                    registered = test_prefix+name
+                    raw = inside(*command,"--exact",registered,"--format","pretty",cwd=product).decode()
                     # Engine starts a second test harness process at this exact name.
                     # Each process must really run the case and report its own success.
                     runs = 2 if harness == selected_tests.ENGINE else 1
-                    selected_tests.check_execution(name, runs, raw, assembly["passing_tests"](raw))
+                    selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
                     invocations[harness][name] = runs
                 witnessed[harness] = names
         # Use Cargo's artifact for the harness target. Native and test builds can
@@ -215,6 +246,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     manifestSha256=manifest_digest, workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
+                    **({"builtLibraries":built_libraries} if include_reader else {}),
                     **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))
 
 
