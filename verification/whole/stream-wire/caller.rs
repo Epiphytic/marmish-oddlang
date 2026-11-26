@@ -42,11 +42,13 @@ fn main() {
         "stream": "10".repeat(16), "session": "20".repeat(16),
         "client": "30".repeat(32), "server": "40".repeat(32)
     });
+    let block = codec::encode(0, b"q", codec::Codec::None).unwrap();
+    let block = serde_json::to_value(block).unwrap();
     let request = [
         json!({"op":"hello","data":{"codecs":["none","zlib"]}}),
         json!({"op":"copy_hello","data":{"versions":[1],"codecs":["none"]}}),
         json!({"op":"open","data":{"argv":["dG9vbA==","/w==",""],"codec":"zlib"}}),
-        json!({"op":"exchange","data":{"stdin":null,"stdin_eof":0,"stdout_ack":2,"stderr_ack":1}}),
+        json!({"op":"exchange","data":{"stdin":block,"stdin_eof":1,"stdout_ack":2,"stderr_ack":1}}),
         json!({"op":"cancel"}),
         json!({"op":"status"}),
     ];
@@ -56,7 +58,7 @@ fn main() {
         json!({"op":"hello","data":{"codecs":["none","zlib"],"frame_bytes":1024,"window_bytes":4096}}),
         json!({"op":"opened","data":{"codec":"zlib","open_sha256":"50".repeat(32),"disposition":"existing"}}),
         json!({"op":"exchange","data":{"stdin_accepted":4,"stdin_delivered":4,"stdin_closed":true,
-              "stdout":null,"stderr":null,"stdout_eof":0,"stderr_eof":0,"cancel_requested":false,
+              "stdout":block,"stderr":null,"stdout_eof":1,"stderr_eof":0,"cancel_requested":false,
               "terminal":{"kind":"exited","data":{"code":0}}}}),
         json!({"op":"error","data":{"code":"not_found"}}),
     ];
@@ -72,6 +74,7 @@ fn main() {
     shape_pairs += pairs::<wire::Terminal, projected::Terminal>(&terminal);
 
     let mut envelope_pairs = 0;
+    let mut canonical = None;
     for body in &request {
         let value = wire::Request {
             binding: serde_json::from_value(binding.clone()).unwrap(),
@@ -79,6 +82,7 @@ fn main() {
             body: serde_json::from_value(body.clone()).unwrap(),
         };
         let original = wire::encode_request(&value).unwrap();
+        canonical.get_or_insert_with(|| String::from_utf8(original.clone()).unwrap());
         let reordered = serde_json::from_slice::<projected::Envelope>(&original).unwrap();
         let projected = serde_json::to_vec(&reordered).unwrap();
         assert_eq!(projected, original);
@@ -107,8 +111,30 @@ fn main() {
         r#"{"op":"open","data":{"argv":["YQ=="],"argv":["Yg=="],"codec":"none"}}"#,
         r#"{"op":"open","data":{"argv":["YQ=="],"codec":"none","extra":0}}"#,
     ];
-    for wire in closed {
-        rejected::<wire::RequestBody, projected::RequestBody>(wire, None);
+    let mut structural_controls = 0;
+    for document in closed {
+        rejected::<wire::RequestBody, projected::RequestBody>(document, None);
+        structural_controls += 1;
+    }
+    let canonical = canonical.unwrap();
+    for malformed in [
+        canonical.replacen("{", r#"{"extra":0,"#, 1),
+        canonical.replacen("{", r#"{"protocol":"marmish-stream/1","#, 1),
+        canonical.replacen(
+            r#""direction":"request""#,
+            r#""direction":"request","extra":0"#,
+            1,
+        ),
+        canonical.replacen(
+            r#""direction":"request""#,
+            r#""direction":"request","direction":"request""#,
+            1,
+        ),
+    ] {
+        assert_ne!(malformed, canonical);
+        assert!(wire::decode_request(malformed.as_bytes()).is_err());
+        assert!(serde_json::from_str::<projected::Envelope>(&malformed).is_err());
+        structural_controls += 1;
     }
     let malformed = [
         (vec!["!".to_owned(); 129], "argv_limit"),
@@ -121,11 +147,13 @@ fn main() {
     for (argv, diagnostic) in malformed {
         let value = json!({"op":"open","data":{"argv":argv,"codec":"none"}});
         rejected::<wire::RequestBody, projected::RequestBody>(&value.to_string(), Some(diagnostic));
+        structural_controls += 1;
     }
     let bad_binding = binding
         .to_string()
         .replace(&"30".repeat(32), &"AB".repeat(32));
     rejected::<wire::Binding, projected::Binding>(&bad_binding, Some("hex"));
+    structural_controls += 1;
 
     // Structural admission alone permits an empty argv. The original wire
     // operation applies a separate guard.
@@ -145,7 +173,7 @@ fn main() {
         json!({
             "matchedPublicShapePairs":shape_pairs,
             "matchedCanonicalOriginalEnvelopePairs":envelope_pairs,
-            "matchedStructuralControls":closed.len() + 7,
+            "matchedStructuralControls":structural_controls,
             "guardDistinctionObserved":true,
             "externalBindings":"original-public-types",
         })

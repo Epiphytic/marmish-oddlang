@@ -105,5 +105,45 @@
     "urn:marmish:stream:wire:CopyAdmissionError": "crate::wire::CopyAdmissionError",
     "urn:marmish:stream:wire:OpenDisposition": "crate::wire::OpenDisposition",
     "urn:marmish:stream:wire:WireErrorCode": "crate::wire::WireErrorCode"
+  },
+  "externalDerives": {
+    "urn:marmish:copy:launch": [
+      "Clone",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:stream:integrity-block": [
+      "Clone",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:stream:integrity-block:representation": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:stream:wire:CopyAdmissionError": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:stream:wire:OpenDisposition": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:stream:wire:WireErrorCode": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ]
   }
 }

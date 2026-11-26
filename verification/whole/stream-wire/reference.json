@@ -1,10 +1,10 @@
 {
-  "callerSha256": "c24e6125ed633c82d28149813fd91202e9d75e1173dfa448d8912795d085d7df",
+  "callerSha256": "929fa54af9e8545a3d34a75b45c6bdb4ae357803122392fc6d5d24b47af68c08",
   "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
   "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
   "originalTree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
   "projection": {
-    "bindingSha256": "0af69669ec5c2bd44211472c42fe8fabfd70be5190fd90bf51a55808c9df0eec",
+    "bindingSha256": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
     "format": "oddlang-json-wire-schema-v1",
     "graphSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
     "obligationsSha256": "f8b34b2e309ac230ef955574699501625719c56550940bd82dda6ea651b8074b",
@@ -15,7 +15,7 @@
     "guardDistinctionObserved": true,
     "matchedCanonicalOriginalEnvelopePairs": 12,
     "matchedPublicShapePairs": 17,
-    "matchedStructuralControls": 11
+    "matchedStructuralControls": 15
   },
   "rustc": [
     "rustc 1.97.1 (8bab26f4f 2026-07-14)",

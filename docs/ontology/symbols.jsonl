@@ -15529,7 +15529,7 @@
 {"id":"verification/whole/stream-wire/caller.rs/mod_item:projected#1","path":"verification/whole/stream-wire/caller.rs","parent_id":null,"kind":"mod_item","name":"projected","start_line":6,"end_line":6}
 {"id":"verification/whole/stream-wire/caller.rs/function_item:pairs#1","path":"verification/whole/stream-wire/caller.rs","parent_id":null,"kind":"function_item","name":"pairs","start_line":8,"end_line":24}
 {"id":"verification/whole/stream-wire/caller.rs/function_item:rejected#1","path":"verification/whole/stream-wire/caller.rs","parent_id":null,"kind":"function_item","name":"rejected","start_line":26,"end_line":37}
-{"id":"verification/whole/stream-wire/caller.rs/function_item:main#1","path":"verification/whole/stream-wire/caller.rs","parent_id":null,"kind":"function_item","name":"main","start_line":39,"end_line":153}
+{"id":"verification/whole/stream-wire/caller.rs/function_item:main#1","path":"verification/whole/stream-wire/caller.rs","parent_id":null,"kind":"function_item","name":"main","start_line":39,"end_line":181}
 {"id":"verification/whole/stream-wire/verify.py/function_definition:command#1","path":"verification/whole/stream-wire/verify.py","parent_id":null,"kind":"function_definition","name":"command","start_line":17,"end_line":18}
 {"id":"verification/whole/stream-wire/verify.py/function_definition:digest#1","path":"verification/whole/stream-wire/verify.py","parent_id":null,"kind":"function_definition","name":"digest","start_line":21,"end_line":22}
 {"id":"verification/whole/stream-wire/verify.py/function_definition:match#1","path":"verification/whole/stream-wire/verify.py","parent_id":null,"kind":"function_definition","name":"match","start_line":25,"end_line":27}

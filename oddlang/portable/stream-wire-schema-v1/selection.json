@@ -12,27 +12,65 @@
   "externals": {
     "Codec": {
       "id": "urn:marmish:stream:integrity-block:representation",
-      "rustPath": "crate::codec::Codec"
+      "rustPath": "crate::codec::Codec",
+      "derives": [
+        "Clone",
+        "Copy",
+        "Debug",
+        "Eq",
+        "PartialEq"
+      ]
     },
     "EncodedBlock": {
       "id": "urn:marmish:stream:integrity-block",
-      "rustPath": "crate::codec::EncodedBlock"
+      "rustPath": "crate::codec::EncodedBlock",
+      "derives": [
+        "Clone",
+        "Eq",
+        "PartialEq"
+      ]
     },
     "crate::copy_protocol::Launch": {
       "id": "urn:marmish:copy:launch",
-      "rustPath": "crate::copy_protocol::Launch"
+      "rustPath": "crate::copy_protocol::Launch",
+      "derives": [
+        "Clone",
+        "Eq",
+        "PartialEq"
+      ]
     },
     "CopyAdmissionError": {
       "id": "urn:marmish:stream:wire:CopyAdmissionError",
-      "rustPath": "crate::wire::CopyAdmissionError"
+      "rustPath": "crate::wire::CopyAdmissionError",
+      "derives": [
+        "Clone",
+        "Copy",
+        "Debug",
+        "Eq",
+        "PartialEq"
+      ]
     },
     "OpenDisposition": {
       "id": "urn:marmish:stream:wire:OpenDisposition",
-      "rustPath": "crate::wire::OpenDisposition"
+      "rustPath": "crate::wire::OpenDisposition",
+      "derives": [
+        "Clone",
+        "Copy",
+        "Debug",
+        "Eq",
+        "PartialEq"
+      ]
     },
     "WireErrorCode": {
       "id": "urn:marmish:stream:wire:WireErrorCode",
-      "rustPath": "crate::wire::WireErrorCode"
+      "rustPath": "crate::wire::WireErrorCode",
+      "derives": [
+        "Clone",
+        "Copy",
+        "Debug",
+        "Eq",
+        "PartialEq"
+      ]
     }
   },
   "adapters": {
