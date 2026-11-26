@@ -1394,3 +1394,5 @@ publication. See the [phase design](phases/code-ontology.md) for coverage,
 parser limits, and the installer cutover boundary.
 
 The three-member Oddlang release pins the core, stream and partial command-line packages under one Cargo workspace. Its stream package combines the existing windows and wire surfaces. The release evidence covers 25 unchanged upstream tests on native macOS ARM64 and Linux ARM64. The daemon in this version implements the CLI grammar. The status client requires explicit state and socket paths. Later typed digest and reply contracts can be versioned separately. [Combined workspace](../verification/whole/workspace/README.md)
+
+Oddlang can recover the ordered field layout used by the Launch digest directly from the expanded Rust module. The macOS ARM64 verification rebuilds the original layout and an independently compiled source mutation. Both generated versions agree with their native counterparts across 227 requests each. [Launch layout and reproduction](../oddlang/portable/copy-launch-layout-v1/README.md)

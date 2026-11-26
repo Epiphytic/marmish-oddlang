@@ -1,0 +1,16 @@
+{
+  "externalTagTypes": {
+    "AttemptMode": "urn:marmish:copy:AttemptMode",
+    "Direction": "urn:marmish:copy:Direction"
+  },
+  "format": "oddlang-rust-record-writer-observation-v1",
+  "graphSha256": "c08812745ba8a9c1438ff69af3c2e7246aa2af045c3131e8a544ea5f1c514769",
+  "module": [
+    "copy_protocol"
+  ],
+  "record": "Launch",
+  "resolutionGaps": [],
+  "scope": "lexical",
+  "sourceSha256": "8ff23ba3f0a6c8cb57f1268c002c9ca131ac1a7b81a2b339ff8604e88fe22791",
+  "writer": "encode_launch"
+}
