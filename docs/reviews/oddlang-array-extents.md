@@ -1,0 +1,3 @@
+Claude CLI in auto mode reproduced the graph, lock and receipt on macOS and Linux ARM64. It independently mutated all 63 field shapes and confirmed the rustdoc comparison detected extent and element changes at each of the 33 visible fields. Changing an extent on a Serde-generated field can escape that independent comparison.
+
+The first review requested a publicly retrievable compiler pin. [Oddlang PR 59](https://github.com/Epiphytic/oddlang/pull/59) publishes the pinned revision. The revised instructions identify the single deliberate mutation in the replay and the 30 fields lacking independent rustdoc evidence. The replay checks its products against the archived release.
