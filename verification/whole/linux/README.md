@@ -32,3 +32,8 @@ python3 -B verification/whole/linux/sealed.py build "$FRAMEWORK" "$ORIGINAL" dev
 python3 -B verification/whole/linux/sealed.py judge "$FRAMEWORK" "$SSH_CONFIG" "$GUEST_ALIAS" \
   "$GUEST_BUILD/build.json" "$QUALIFICATION_CAPSULE" /tmp/arm64-dev.json
 ```
+
+
+## Native Linux AMD64
+
+The archived dev and release stream receipts matched the frozen public observation digest on a native hosted x86-64 runner. A second run built the seven-package workspace binaries, the MDK probe, the fault frontend, two installed-check targets, and the separate installed fixture. Both release executables returned the expected version and help. The unchanged process-limits test passed. The bridge passed five cases twice with both mutation controls rejected. The directory contains separate receipts for each run. [Stream CI](https://github.com/Epiphytic/oddlang/actions/runs/45772674699) · [Release and bridge CI](https://github.com/Epiphytic/oddlang/actions/runs/45773302127)

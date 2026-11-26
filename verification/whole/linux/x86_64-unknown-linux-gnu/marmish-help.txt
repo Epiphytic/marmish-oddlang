@@ -1,0 +1,78 @@
+Marmish native identity and encrypted transport foundation
+
+Usage: marmish [OPTIONS] [COMMAND]
+
+Commands:
+  copy-receipts       Inspect retained local download receipts or acknowledge an uncertain record
+  put                 Copy one local regular file to a remote literal path
+  get                 Copy one remote regular file to a local literal path
+  rsh                 Rsync remote shell: rsync -s -e 'marmish rsh'. Global options go before rsh
+  stream              Execute with binary stdin/stdout streams and explicit remote cancellation
+  streams             List locally recorded streams and their last known remote states
+  stream-reconcile    Acknowledge that an uncertain orphan may still be running, releasing credit
+  keychain-authorize  Ask macOS for access to this existing profile, then verify without UI
+  release-info        Print this binary's native version, build target and source commit
+  install             Install a verified v0.2 bundle or select an already installed version
+  install-status      
+  uninstall           
+  setup               Create or update this named identity and its offline command configuration
+  init                Initialize encrypted native storage without connecting to relays
+  commands            List durable command handles without command arguments or output
+  command-status      Query an explicitly selected remote invocation
+  cancel              Explicitly request cancellation of an invocation
+  wait                Resume waiting and copying output using durable cursors
+  output              
+  daemon              Run this identity's serialized transport owner
+  status              
+  open-conversation   
+  send                Send a bounded foundation test payload, encoded as canonical base64
+  received            
+  foundation-check    Fresh-key encrypted exchange, restart, and receipt validation. No commands
+  command-check       Disposable-key live remote-command validation through explicit relays
+  help                Print this message or the help of the given subcommand(s)
+
+Options:
+      --debug
+          
+      --foreground
+          Keep the daemon attached to the terminal or service supervisor
+      --state-dir <STATE_DIR>
+          
+  -i, --identity <IDENTITY>
+          [default: default]
+      --socket <SOCKET>
+          
+      --relay <RELAY>
+          
+      --tor <TOR>
+          
+      --key-storage <KEY_STORAGE>
+          [default: auto] [possible values: auto, keychain, file]
+      --allow-peer <ALLOW_PEER>
+          
+      --retention-seconds <RETENTION_SECONDS>
+          [default: 86400]
+  -u, --user <USER>
+          
+      --srv <SRV>
+          
+      --stdin
+          
+      --stdin-none
+          
+      --detach
+          
+      --new-session
+          Open a fresh independent command room instead of reusing the default
+      --wait-seconds <WAIT_SECONDS>
+          [default: 180]
+      --no-autostart
+          
+      --max-commands <MAX_COMMANDS>
+          
+      --max-uptime <MAX_UPTIME>
+          
+  -h, --help
+          Print help
+  -V, --version
+          Print version
