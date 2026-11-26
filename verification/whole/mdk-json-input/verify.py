@@ -52,6 +52,14 @@ def case_bytes(original):
     return test
 
 
+def stage_case(product, original):
+    test = case_bytes(original)
+    with (product / LEAF).open("ab") as code:
+        code.write(b"\n#[cfg(test)] mod tests {\nuse super::{parse_json, parse_ndjson, OUTPUT_LIMIT};\n"
+                   b"use crate::AdapterError;\n" + test + b"\n}\n")
+    return sha(test)
+
+
 def cargo_test(crate, target, name, *, original):
     args = ["cargo", "+1.97.1", "test", "--release", "--locked", "--offline",
             "--lib", "--target-dir", target]
@@ -173,9 +181,8 @@ def sealed(work, scratch, args, recovered, mutated):
         lock = sha((product / "package.lock").read_bytes())
         with (product / LEAF).open("ab") as code:
             code.write(b"\n" + (HERE / "observe.rs").read_bytes())
-            if label == "baseline":
-                code.write(b"\n#[cfg(test)] mod tests {\nuse super::{parse_json, parse_ndjson, OUTPUT_LIMIT};\n"
-                           b"use crate::AdapterError;\n" + case_bytes(args.original) + b"\n}\n")
+        if label == "baseline":
+            stage_case(product, args.original)
         target = product / "target"
         if label == "baseline":
             cargo_test(product, target, f"metadata::__projection_2::tests::{CASE}", original=False)

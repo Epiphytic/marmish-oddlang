@@ -1,0 +1,68 @@
+{
+  "cargoLock": {
+    "path": "mdk-json-input-v1/Cargo.lock",
+    "sha256": "d067757370cacfcb518fff4bd52b49c728a0a948ed4965a14bebafcb8ad5ae76"
+  },
+  "components": [
+    {
+      "graph": {
+        "path": "mdk-public-data-v1/error.json",
+        "sha256": "c776b9cfc809dfe0aa5643b2c99f0c3b4cbe0ec0140432d67e770067c747cad1"
+      },
+      "kind": "finite-error-domain",
+      "module": "data_error",
+      "overlay": {
+        "path": "mdk-public-data-v1/error-rust.json",
+        "sha256": "84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7"
+      },
+      "reexports": [
+        "AdapterError"
+      ],
+      "rootReexports": [
+        "AdapterError"
+      ],
+      "visibility": "private"
+    },
+    {
+      "graph": {
+        "path": "mdk-public-data-v1/record.json",
+        "sha256": "48f24862839acd1b1b6076b075452f79db54a8a451b5b74e2b92445eeae57ec0"
+      },
+      "kind": "public-records",
+      "module": "data_record",
+      "overlay": {
+        "path": "mdk-public-data-v1/record-rust.json",
+        "sha256": "2e1ade765b15787e8271ddf79670ca3291cec0c84d3c2b76a4de778ff572783f"
+      },
+      "reexports": [
+        "VersionObservation"
+      ],
+      "rootReexports": [
+        "VersionObservation"
+      ],
+      "visibility": "private"
+    },
+    {
+      "graph": {
+        "path": "mdk-json-input-v1/graph.json",
+        "sha256": "6b24f0203c0b14d0ccca7db77692bce8bea4cc68458be76d764edddfa947278a"
+      },
+      "kind": "bounded-json-input",
+      "module": "metadata",
+      "overlay": {
+        "path": "mdk-json-input-v1/rust.json",
+        "sha256": "f64fef03c920bc784486d6daf52a09cc3efa5daf001841c047ea90cb22350a2e"
+      },
+      "reexports": []
+    }
+  ],
+  "devDependencies": {
+    "serde_json": {
+      "version": "1.0.151"
+    }
+  },
+  "edition": "2021",
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-mdk",
+  "version": "0.1.0"
+}

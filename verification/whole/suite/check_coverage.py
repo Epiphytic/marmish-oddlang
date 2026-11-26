@@ -34,7 +34,16 @@ def inspect(receipt):
         raise ValueError("missing or unexpected harness")
     witnesses = {k:v["passed"] for k,v in rows.items() if v["passed"]}
     native = receipt["nativeProcessTest"]
-    reader = suite_kind in {"seven", "manifest"}
+    mdk = suite_kind == "manifest-mdk"
+    manifest_cases = suite_kind in {"manifest", "manifest-mdk"}
+    reader = suite_kind == "seven" or manifest_cases
+    if mdk:
+        if (receipt.get("mdkZeroTestControl") != selected_tests.MDK_CONTROL
+                or receipt.get("mdkNormalDependencies") != []
+                or receipt.get("mdkDeniedSourcePaths") != list(selected_tests.MDK_DENIED_SOURCES)):
+            raise ValueError("missing MDK runtime or zero-test control")
+    elif {"mdkZeroTestControl", "mdkNormalDependencies", "mdkDeniedSourcePaths"} & receipt.keys():
+        raise ValueError("unexpected MDK control")
     if reader:
         expected_members = set(json.loads((manifest.with_suffix("")/"workspace.lock").read_bytes())["members"])
         built = receipt["builtLibraries"]
@@ -42,11 +51,13 @@ def inspect(receipt):
             raise ValueError("missing or invalid native workspace library artifacts")
     elif "builtLibraries" in receipt:
         raise ValueError("unexpected workspace library evidence")
-    partial = selected_tests.cases(host,reader) if suite_kind != "v7" else {}
+    partial = selected_tests.cases(host, reader, mdk) if suite_kind != "v7" else {}
     expected_sources = dict(selected_tests.EXPECTED)
-    if suite_kind == "manifest":
+    if manifest_cases:
         partial[parser_cases.HARNESS] = parser_cases.NAMES
         expected_sources.update(parser_cases.SOURCES)
+    if mdk:
+        expected_sources["mdkSyntheticJson"] = selected_tests.MDK_SOURCE_SHA
     if reader:
         expected_sources["prototypeReader"] = selected_tests.READER_CASE["TEST_HASH"]
     expected_processes = {k:{name:2 if k == selected_tests.ENGINE else 1 for name in names}
