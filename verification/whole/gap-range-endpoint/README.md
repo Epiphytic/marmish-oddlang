@@ -49,3 +49,19 @@ profile's corpus. The TypeScript probe likewise consumes every profile's
 corpus. A private-field declaration is rejected for the Rust drop-in
 binding. The replacement hint strings are advisory input controls;
 they do not describe additional native implementations.
+
+## Evidence
+
+- The independent native corpus matched all 11 cases on
+  [Darwin ARM64](aarch64-apple-darwin.json) and [Linux ARM64](aarch64-unknown-linux-gnu.json).
+- The [Darwin binding replay](binding-aarch64-apple-darwin.json) matched all
+  11 Rust and TypeScript cases for each hint profile and compiled the unchanged
+  Rust source-API caller. A second [Darwin replay](omitted-hints-aarch64-apple-darwin.json)
+  ran the same entry point in a checkout with the hints file deleted. Both
+  emitted the same package files and matched the same wire outcomes.
+- The [seven-member workspace candidate](../gap-range-role-workspace/)
+  selects the same Rust role binding.
+
+Fresh Rust binding requalification on Linux ARM64 is pending guest recovery.
+The Linux receipt above covers the independent original and retained-build
+wire observations.
