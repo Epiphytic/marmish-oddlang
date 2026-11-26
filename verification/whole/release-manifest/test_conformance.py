@@ -17,10 +17,15 @@ class ManifestContractTests(unittest.TestCase):
             path = Path(tmp) / "vectors.json"
             subprocess.run([sys.executable, "-B", HERE / "conformance.py", "vectors", path], check=True)
             self.assertEqual(path.read_bytes(), (HERE / path.name).read_bytes())
+        observations = []
         for host in ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu"):
             with self.subTest(host=host):
                 receipt = json.loads((HERE / f"{host}.json").read_bytes(), object_pairs_hook=unique_object)
+                self.assertIn(f"host: {host}", receipt.pop("compiler"))
                 check(receipt["baseline"], cases())
+                self.assertEqual(receipt["changedCases"], ["size-3-16777217"])
+                observations.append(receipt)
+        self.assertEqual(*observations)
 
     def test_malformed_observations(self):
         fixtures = {"sample": (b"x", {"count": 1, "enabled": False})}

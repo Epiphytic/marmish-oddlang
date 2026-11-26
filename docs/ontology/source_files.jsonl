@@ -1095,7 +1095,7 @@
 {"path":"verification/whole/release-manifest/conformance.py","language":"python","mode":"100644","sha256":"c13f33da6d94f0711023137fa9ad8cbc3800fcfc56061747f62ddef8eca1bf65","parse_status":"parsed"}
 {"path":"verification/whole/release-manifest/corpus.py","language":"python","mode":"100644","sha256":"04d3db49c13831178169374fdc69e8773e1de3a8baa1b7467ccd6e17f946af12","parse_status":"parsed"}
 {"path":"verification/whole/release-manifest/probe.rs","language":"rust","mode":"100644","sha256":"c47132c88068dbf556cbd0653fd8686ef9d0aeeee54644d05e9926d224b9c2c7","parse_status":"parsed"}
-{"path":"verification/whole/release-manifest/test_conformance.py","language":"python","mode":"100644","sha256":"1a5678305d41dcca4136a1dbda3044fac83d3c37bde3a3e201d1d0e87861db2b","parse_status":"parsed"}
+{"path":"verification/whole/release-manifest/test_conformance.py","language":"python","mode":"100644","sha256":"4c658c4c9a98f34d2c85774f0ac043a3ca3cf94fd2483e0e6a34121c4aaec865","parse_status":"parsed"}
 {"path":"verification/whole/release-manifest/vectors.json","language":"inventory","mode":"100644","sha256":"c7670f87d2a5f2ca113f8a37c7283a92107b8ecd15474d1a165a1ce7e9de308b","parse_status":"inventory"}
 {"path":"verification/whole/release-manifest/verify.py","language":"python","mode":"100644","sha256":"a8c71a7461617cb981f7f4c736b7bafe451649500f6da30722840da4a168cda4","parse_status":"parsed"}
 {"path":"verification/whole/release-version-grammar/README.md","language":"inventory","mode":"100644","sha256":"a1808d420de04e8a844b164a7401e48482b1654304f4d17147b1bebe5fb13bf0","parse_status":"inventory"}
