@@ -133,7 +133,7 @@
     }
   },
   "format": "marmish-basic-command-local-owner-reference-v1",
-  "probeSha256": "1aa94c4da15fe79c0ab88e951013ce2aacb60636a665414b59e2267db6846e32",
+  "probeSha256": "4fd3680bb0f724f36f2cdb5e35046859a6dac03b571780387df6c5845b950870",
   "releaseReceiptSha256": "9dbd623321914008353e58e333efa2f6a9a2de8425e489720c9230d0cdfa1810",
   "upstreamClientSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
   "upstreamRevision": "af54339d250290490d62d4475a77539b7e739071",

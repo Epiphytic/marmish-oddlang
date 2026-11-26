@@ -1,0 +1,37 @@
+{
+  "participants": {
+    "client-daemon": {
+      "binary_sha256": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41",
+      "kernel_policy": {
+        "config_creation_denied": true,
+        "credential_file_read_denied": true,
+        "credential_file_write_denied": true,
+        "keychain_service_denied": true,
+        "writable_control": true
+      }
+    },
+    "relay": {
+      "binary_sha256": "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3",
+      "kernel_policy": {
+        "config_creation_denied": true,
+        "credential_file_read_denied": true,
+        "credential_file_write_denied": true,
+        "keychain_service_denied": true,
+        "writable_control": true
+      }
+    },
+    "server-daemon": {
+      "binary_sha256": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41",
+      "kernel_policy": {
+        "config_creation_denied": true,
+        "credential_file_read_denied": true,
+        "credential_file_write_denied": true,
+        "keychain_service_denied": true,
+        "writable_control": true
+      }
+    }
+  },
+  "schema": 1,
+  "scope": "macos-arm64-loopback-native-policy",
+  "workspace_removed": true
+}
