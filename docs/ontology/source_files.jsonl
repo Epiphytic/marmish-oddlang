@@ -1078,7 +1078,7 @@
 {"path":"verification/whole/basic-command-interop/PREPARE-ROOM.md","language":"inventory","mode":"100644","sha256":"3f290d6d86c81e47813b12394251049485ec225631900af58ee16662e648f0e2","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"81d761d3e80cb67f9fc9dc426ee8a5b36ade39802f1db52e1e5b3dd75316371c","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/RETAINED-POLL.md","language":"inventory","mode":"100644","sha256":"edee3e4c7801dffd3be11664091675ed907870d18ac635051c200cff8947fb30","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/RETAINED-POLL.md","language":"inventory","mode":"100644","sha256":"538969b4d31e8d5e58944d818d6cc3fabe75d2edd00b7d94f63f363b5074a18e","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/audit_mac_policy.py","language":"python","mode":"100644","sha256":"1f4d144a608bbda5b50111030a37e85e6de112393019d3d1916e051eb8e6c4a0","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/authorized_submit_offline.py","language":"python","mode":"100644","sha256":"f0397c335a983c4144b35fc358df1569085ff75760abcab37874a1e7775aa0ea","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/authorized_submit_offline.rs","language":"rust","mode":"100644","sha256":"43b309849447fd7768c3452d3c57ce379d7df1cad6d4e7ea11b1a0c03734769c","parse_status":"parsed"}
