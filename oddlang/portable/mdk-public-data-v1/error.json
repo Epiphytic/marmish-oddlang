@@ -1,0 +1,85 @@
+{
+  "format": "oddlang-finite-error-domain-v1",
+  "id": "urn:marmish:mdk:adapter-error:v1",
+  "error": "urn:marmish:mdk:adapter-error:v1:type:AdapterError",
+  "variants": {
+    "urn:marmish:mdk:adapter-error:v1:variant:InvalidExecutable": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "an explicit absolute executable file is required"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:InvalidResponse": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "response is malformed or truncated"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:LiveEgressUnverified": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "strict configured-relay egress is unverified; operation cannot start"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:MissingExecutable": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "configured executable is unavailable"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:OutputLimit": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "response exceeds the fixed size limit"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:SubprocessFailure": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "subprocess failed"
+      },
+      "source": false,
+      "from": false
+    },
+    "urn:marmish:mdk:adapter-error:v1:variant:Timeout": {
+      "payload": {
+        "kind": "unit"
+      },
+      "message": {
+        "kind": "literal",
+        "text": "subprocess deadline exceeded"
+      },
+      "source": false,
+      "from": false
+    }
+  },
+  "categories": {}
+}

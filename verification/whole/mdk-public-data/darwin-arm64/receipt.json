@@ -1,0 +1,105 @@
+{
+  "format": "marmish-mdk-public-data-evidence-v1",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "frameworkRevision": "f6ef205351425d36df450b18b71e5757448ea514",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "probeSha256": "8c4c60fd165030b9337f424d829f46eb5173795b46df6cd0d00460bd08ba4ab3",
+  "lanes": {
+    "baseline": {
+      "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+      "recovery": {
+        "error": {
+          "format": "oddlang-finite-error-observation-v1",
+          "gaps": [
+            "thiserror expansion and caller-visible behavior require independent native replay",
+            "external enum exhaustiveness and crate-root reexports require downstream compilation"
+          ],
+          "graphSha256": "c776b9cfc809dfe0aa5643b2c99f0c3b4cbe0ec0140432d67e770067c747cad1",
+          "overlaySha256": "84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7",
+          "selectionSha256": "70035f48fe0dc176a105d5a95315dc45fdf0f2bddfc4aa1f69f97d8d561dc49e",
+          "sourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794"
+        },
+        "record": {
+          "crateSourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794",
+          "format": "oddlang-root-public-record-recovery-lock-v1",
+          "gap": "Rust derive and type bindings require downstream native compilation",
+          "graphSha256": "48f24862839acd1b1b6076b075452f79db54a8a451b5b74e2b92445eeae57ec0",
+          "overlaySha256": "2e1ade765b15787e8271ddf79670ca3291cec0c84d3c2b76a4de778ff572783f",
+          "selectionSha256": "55521cc505a39cf56adbdd16b40027b0c466b9d44cd05631d7145632aa7cca9a"
+        }
+      },
+      "packageLockSha256": "75b38fdc8f30a25a6a55a3d1d25f162f765e5d3f549cc50b729c28d516a6fda6",
+      "outputSha256": "855b1fa98421386d72a9cb0ed1500e69af1c2a8a09de82fd725d98cab62613e4",
+      "negativeRustDiagnostics": {
+        "rootResult": "E0432",
+        "VersionObservation:Clone": "E0277",
+        "VersionObservation:Copy": "E0277",
+        "VersionObservation:Eq": "E0277",
+        "VersionObservation:PartialEq": "E0277",
+        "VersionObservation:Default": "E0277",
+        "VersionObservation:Serialize": "E0277",
+        "VersionObservation:Deserialize": "E0277",
+        "VersionObservation:Error": "E0277",
+        "AdapterError:Clone": "E0277",
+        "AdapterError:Copy": "E0277",
+        "AdapterError:Eq": "E0277",
+        "AdapterError:PartialEq": "E0277",
+        "AdapterError:Default": "E0277",
+        "AdapterError:Serialize": "E0277",
+        "AdapterError:Deserialize": "E0277"
+      }
+    },
+    "mutant": {
+      "sourceRevision": "bf73ac9a09aeb39431434ee3bd108c1ba3b593cb",
+      "recovery": {
+        "error": {
+          "format": "oddlang-finite-error-observation-v1",
+          "gaps": [
+            "thiserror expansion and caller-visible behavior require independent native replay",
+            "external enum exhaustiveness and crate-root reexports require downstream compilation"
+          ],
+          "graphSha256": "fbccbcbc87a509fa353cbefcd908440bf4f3d2411be914febbb74c37c9ff03d2",
+          "overlaySha256": "84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7",
+          "selectionSha256": "363c3942869c2d6ae822d9625f76f3665a53f7cf26fa5b9f970278ce28d1e86e",
+          "sourceSha256": "8562f707fc98ba13c717d99224f21f426b5528de3969711e316d613e867bf5ef"
+        },
+        "record": {
+          "crateSourceSha256": "8562f707fc98ba13c717d99224f21f426b5528de3969711e316d613e867bf5ef",
+          "format": "oddlang-root-public-record-recovery-lock-v1",
+          "gap": "Rust derive and type bindings require downstream native compilation",
+          "graphSha256": "7a8384e4e2da24f3e5a9942fb2f4798c8561c1bcacea3f63645a10e854a06866",
+          "overlaySha256": "2e1ade765b15787e8271ddf79670ca3291cec0c84d3c2b76a4de778ff572783f",
+          "selectionSha256": "7bc432b818158bc1325c5d042ee9907c36005d2ccb5789b190032e826e96f609"
+        }
+      },
+      "packageLockSha256": "371ec28985e8b6773802d91c4fbd7934b61b84e418a55de0ed74925adf657411",
+      "outputSha256": "1924c50d7e577f10831422549ee9e4deb6b1e37de022f6ad4d36fb6a03e7d0df",
+      "negativeRustDiagnostics": {
+        "rootResult": "E0432",
+        "VersionObservation:Clone": "E0277",
+        "VersionObservation:Copy": "E0277",
+        "VersionObservation:Eq": "E0277",
+        "VersionObservation:PartialEq": "E0277",
+        "VersionObservation:Default": "E0277",
+        "VersionObservation:Serialize": "E0277",
+        "VersionObservation:Deserialize": "E0277",
+        "VersionObservation:Error": "E0277",
+        "AdapterError:Clone": "E0277",
+        "AdapterError:Copy": "E0277",
+        "AdapterError:Eq": "E0277",
+        "AdapterError:PartialEq": "E0277",
+        "AdapterError:Default": "E0277",
+        "AdapterError:Serialize": "E0277",
+        "AdapterError:Deserialize": "E0277"
+      }
+    }
+  }
+}

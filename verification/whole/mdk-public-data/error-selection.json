@@ -1,0 +1,6 @@
+{
+  "format": "oddlang-finite-error-selection-v1",
+  "id": "urn:marmish:mdk:adapter-error:v1",
+  "sourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794",
+  "error": "AdapterError"
+}
