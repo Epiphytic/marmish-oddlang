@@ -1,0 +1,13 @@
+PREFIX o: <urn:oddlang:structural-ownership:>
+SELECT ?type ?owner ?kind ?binding ?spelling ?role ?facadeType ?original ?generated
+       ?component ?componentKind ?graph ?graphSha ?overlay ?overlaySha
+WHERE {
+  ?type a o:Type ; o:owner ?owner ; o:declarationKind ?kind .
+  ?binding a o:RustBinding ; o:type ?type ; o:exportSpelling ?spelling ;
+           o:exportRole ?role ; o:originalFacade ?facadeType ;
+           o:originalPath ?original ; o:generatedPath ?generated ;
+           o:component ?component .
+  ?component o:componentKind ?componentKind ; o:graph ?graph ; o:graphSha256 ?graphSha ;
+             o:rustOverlay ?overlay ; o:rustOverlaySha256 ?overlaySha .
+}
+ORDER BY ?spelling

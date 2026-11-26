@@ -1,0 +1,7 @@
+urn:marmish:structure:core:configuration-failure	urn:marmish:structure:core:configuration	ConfigError
+urn:marmish:structure:core:framing-failure	urn:marmish:structure:core:probe-framing	FrameError
+urn:marmish:structure:core:frame-limits	urn:marmish:structure:core:probe-framing	Limits
+urn:marmish:structure:core:probe-envelope	urn:marmish:structure:core:probe-framing	ProbeEnvelope
+urn:marmish:structure:core:relay-set	urn:marmish:structure:core:configuration	RelaySet
+urn:marmish:structure:core:retention-policy	urn:marmish:structure:core:configuration	Retention
+wrong portable owner for Retention (rejected)
