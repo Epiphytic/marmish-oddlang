@@ -126,10 +126,18 @@ def observe(args):
 
             owners = {"client": start("client")}
 
+            class UpstreamActivationDeadline(Exception):
+                pass
+
             def wait_owner(role):
                 child = owners[role]
                 if child.poll() is not None:
-                    raise ValueError(f"{role} owner exited with {child.returncode}: {child.stderr.read(512)!r}")
+                    diagnostic = child.stderr.read(512)
+                    if role == "server" and (child.returncode, diagnostic) == (
+                        1, b"marmish: operation deadline exceeded\n"
+                    ):
+                        raise UpstreamActivationDeadline
+                    raise ValueError(f"{role} owner exited with {child.returncode}: {diagnostic!r}")
                 if role == "client":
                     return phase(sockets[role]) == "provider_active"
                 instance = peers[role]
@@ -164,8 +172,20 @@ def observe(args):
             until(missing_peer, 16, "missing key package")
             if select_rows(peers["client"], "client", manifests["client"], "placement"):
                 raise ValueError("failed discovery allocated a room")
-            owners["server"] = start("server")
-            until(lambda: wait_owner("server"), 190, "server")
+            for upstream_starts in (1, 2):
+                owners["server"] = start("server")
+                try:
+                    until(lambda: wait_owner("server"), 190, "server")
+                except UpstreamActivationDeadline:
+                    if upstream_starts == 2:
+                        raise
+                    failed = owners["server"]
+                    peers["server"].check_stopped(failed)
+                    peers["server"].processes.remove(failed)
+                    if sockets["server"].exists():
+                        raise ValueError("upstream timeout retained its runtime socket")
+                else:
+                    break
             publication(relay_dir / "relay.sqlite3", server)
 
             def ready():
