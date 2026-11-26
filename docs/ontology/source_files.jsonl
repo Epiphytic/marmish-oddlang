@@ -705,7 +705,7 @@
 {"path":"oddlang/portable/workspace-v7-engine-public-error-identity/workspace.lock","language":"inventory","mode":"100644","sha256":"d89469b03c3cb808181a154424b07ad43fcaee8191dee191e5cb5d3da950cc3c","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-local-file-catalog.json","language":"inventory","mode":"100644","sha256":"855df899152453be8b01044aeffb0d194021c55033569656d9d4492c5fa44a10","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-local-file-catalog/Cargo.lock","language":"inventory","mode":"100644","sha256":"e280c09159eb9b93cf502cfbd50eb63ca07ab9f20aabf646e5557c1e83b5925e","parse_status":"inventory"}
-{"path":"oddlang/portable/workspace-v7-local-file-catalog/workspace.lock","language":"inventory","mode":"100644","sha256":"4a7c900444c7c6de93d5300ff41a94adbd9abc409ae6c79192db4d1d77d4a303","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-v7-local-file-catalog/workspace.lock","language":"inventory","mode":"100644","sha256":"6cc00cdb304db004d4fc7ca7433155442dc7c34170123441904ab696a9d9551c","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-local-file-integrity.json","language":"inventory","mode":"100644","sha256":"727d736989a2546d2caef215dc64717b263ea516cfef4b0ac052026e704bf77a","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-local-file-integrity/workspace.lock","language":"inventory","mode":"100644","sha256":"24f1bda8604bfc74da3584f707538ff8b27997ccabc5f169139da5a4ed5c95b3","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-v7-native-error.json","language":"inventory","mode":"100644","sha256":"e7c223bc158b957c9970bc7c543fffbfc40cae5e115984a89fcdc31dac623b64","parse_status":"inventory"}
