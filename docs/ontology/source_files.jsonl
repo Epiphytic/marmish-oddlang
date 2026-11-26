@@ -964,8 +964,9 @@
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"9ff00fc3389e19bcd4765f4ed71d0d9f8fc7c91ed22f8cc8ff1782e7e39f9c66","parse_status":"parsed"}
 {"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"662c2ae77a665eefb17c4c0b58837ac6537da886d456447504534b5deecfb8e9","parse_status":"parsed"}
-{"path":"verification/whole/generated-diagnostics/README.md","language":"inventory","mode":"100644","sha256":"6606dbb80a65337afc343483c3ce8d6cb6ad810c42dd6328affa1d0528e414ab","parse_status":"inventory"}
+{"path":"verification/whole/generated-diagnostics/README.md","language":"inventory","mode":"100644","sha256":"928a4316a0c87be16084079ad1cc0039f4dd5f5bf85b0241824c22d641bb76d2","parse_status":"inventory"}
 {"path":"verification/whole/generated-diagnostics/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"0a9a62dd4ee52b46f31ced7dbee14c5407b582208c620f818a3aed90190a830a","parse_status":"inventory"}
+{"path":"verification/whole/generated-diagnostics/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"dda4b2baed4f32a85b832aa6c6046c2aec0b7a3b5a7dd575e321946b66528458","parse_status":"inventory"}
 {"path":"verification/whole/generated-diagnostics/parent-package.lock","language":"inventory","mode":"100644","sha256":"9db16e19b2274045b35ef0d48da617b836bf45050810ceb2710ebc880d4feff7","parse_status":"inventory"}
 {"path":"verification/whole/generated-diagnostics/verify.py","language":"python","mode":"100644","sha256":"c10c4684ad7ea6cc795b260cdf978dc95fba271082ba21a720c6e1017431884d","parse_status":"parsed"}
 {"path":"verification/whole/journal-records/README.md","language":"inventory","mode":"100644","sha256":"b8479901dd1bfc417909d90935076ac282900e01d0ecf730ff2a382f2716a2e2","parse_status":"inventory"}

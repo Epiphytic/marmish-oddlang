@@ -14,3 +14,5 @@ cargo +1.97.1 build --release --locked --offline --workspace --manifest-path "$o
 ```
 
 The qualifier stages only the graph inputs and dependency providers, denies access to the original diagnostic module and downstream probe during generation and compilation, then recovers the graph from the original and checks every byte. It compiles the [same outside caller](../public-diagnostics/probe.rs) against the generated library. The four [original scenarios](../public-diagnostics/README.md) check exit status, final stage and stderr, including a closed pipe. The Rust library artifact hashes identify each tested build. Agreement is assessed on the observed public results.
+
+The [Darwin ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) cover the same workspace lock, compiler and graph inputs. Both generated libraries reproduced all four original scenarios on their own host. Each sealed build denied all twelve source and caller access probes.
