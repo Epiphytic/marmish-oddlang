@@ -1018,8 +1018,9 @@
 {"path":"verification/whole/private-buffer/original-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"afb5c82487d5e62303c7a97bc0b5d82887bcfdf84ed45f3d5c3d933b304247f8","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/selection.json","language":"inventory","mode":"100644","sha256":"6eadb532bcecd8c59330def695dc387841ba0c5c9f868b1473f738a8f9cd23ec","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/verify.py","language":"python","mode":"100644","sha256":"eaf8a7c5bc94774c1ed1b8750996eaed40ca19148ead7cd91e62c5d23787f69d","parse_status":"parsed"}
-{"path":"verification/whole/prototype-constant/README.md","language":"inventory","mode":"100644","sha256":"0789fcc8e6b65befde0602789c91ef7b6e2cfc1618c835f3322082fbd4694b3c","parse_status":"inventory"}
+{"path":"verification/whole/prototype-constant/README.md","language":"inventory","mode":"100644","sha256":"0c6d9b668ecf24d066487af6561a4288f765459cb0a84912c492dc7add4615a3","parse_status":"inventory"}
 {"path":"verification/whole/prototype-constant/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f60df7d3df17bb6bca804405936c3355580a1525f0b053d762b5d4bbf830742d","parse_status":"inventory"}
+{"path":"verification/whole/prototype-constant/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"7c9548915c43b7798c634ddb092782c4a11836b320b539603179f409fdb435a9","parse_status":"inventory"}
 {"path":"verification/whole/prototype-constant/caller.rs","language":"rust","mode":"100644","sha256":"5b72430941ebb321218c45342401ca372502290892932c679879cfe1c7660f6c","parse_status":"parsed"}
 {"path":"verification/whole/prototype-constant/compose.py","language":"python","mode":"100644","sha256":"cad0348a6eeea3a65cd701c155e150e38070c945bd6084df3155e14cf9d52b50","parse_status":"parsed"}
 {"path":"verification/whole/prototype-constant/verify.py","language":"python","mode":"100644","sha256":"27c78846284cfc033cb75b32f35e48226c97af7491c2c533f49911a694362b1e","parse_status":"parsed"}

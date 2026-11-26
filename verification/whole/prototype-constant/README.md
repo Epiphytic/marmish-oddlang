@@ -39,4 +39,4 @@ python3 -B verification/whole/prototype-constant/verify.py \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
 
-[ARM64 macOS sealed receipt](aarch64-apple-darwin.json).
+[ARM64 macOS sealed receipt](aarch64-apple-darwin.json) · [ARM64 Linux sealed receipt](aarch64-unknown-linux-gnu.json).
