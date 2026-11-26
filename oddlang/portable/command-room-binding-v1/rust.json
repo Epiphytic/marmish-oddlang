@@ -1,0 +1,37 @@
+{
+  "format": "oddlang-field-relation-rust-v1",
+  "types": {
+    "urn:marmish:command:wire-binding": "crate::command_binding::WireBinding"
+  },
+  "fields": {
+    "urn:marmish:command:wire-binding:session": "session",
+    "urn:marmish:command:wire-binding:client": "client",
+    "urn:marmish:command:wire-binding:server": "server"
+  },
+  "calls": {},
+  "relations": {
+    "urn:marmish:command:wire-binding:client-room": {
+      "name": "check_client_room",
+      "arguments": {
+        "urn:marmish:command:wire-binding:client-room:expected_session": "expected_session",
+        "urn:marmish:command:wire-binding:client-room:local_account": "local_account",
+        "urn:marmish:command:wire-binding:client-room:peer_account": "peer_account"
+      }
+    },
+    "urn:marmish:command:wire-binding:server-room": {
+      "name": "check_server_room",
+      "arguments": {
+        "urn:marmish:command:wire-binding:server-room:expected_session": "expected_session",
+        "urn:marmish:command:wire-binding:server-room:local_account": "local_account",
+        "urn:marmish:command:wire-binding:server-room:peer_account": "peer_account"
+      }
+    }
+  },
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:command:wire-binding:mismatch": {
+      "variant": "Invalid",
+      "argument": "command_wire_binding"
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "format": "marmish-bounded-room-prepare-preflight-v1",
+  "buildReceiptSha256": "ced6d82150d00bfb4dc385a941ab85a9eef7fe994424fc80fc1da51281d60df5",
+  "preflightSha256": "f104036b225af2173c64e6d071ea3bc5b14a50985e1a1fe5ce39aaa49acbe084",
+  "cases": {
+    "setupWithoutFileProvider": {
+      "role": "marmish",
+      "argv": [
+        "setup",
+        "--role",
+        "client",
+        "--no-grants"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "marmish: profile preparation requires the file key provider\n"
+    },
+    "foregroundWithoutState": {
+      "role": "marmishd",
+      "argv": [
+        "--foreground"
+      ],
+      "exit": 125,
+      "stdout": "",
+      "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n"
+    }
+  },
+  "compositionPins": {
+    "workspace-bounded-owner-prepare-fixed.json": "bb705b09f8bdc7aad4c78b36c72343ffb88ff11162b80db70a0b51a1ce317608",
+    "marmish-native-bounded-owner-prepare-package.json": "3ac6776cd4fee821b2f542ba759c1cb123182f3b9cededae4b29e8df0f7db9db",
+    "bounded-owner-prepare-v1/foreground.json": "85758606c0a4e25b81f7f4982ec93e252144af63ef945885bee90bbbe690b193",
+    "bounded-owner-prepare-v1/status.rust.json": "707806582774f79f3d5f94e02d239a627b63078ea8ab398fb6d4c26d767431ab"
+  },
+  "workspaceRemoved": true
+}
