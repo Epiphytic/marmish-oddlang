@@ -282,6 +282,13 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         _, stdout_reader = drain(child.stdout, stop_readers)
                         owner_logs[role], stderr_reader = drain(child.stderr, stop_readers)
                         readers.extend((stdout_reader, stderr_reader))
+                        if role == "server" and generated_role is None:
+                            database = instance.root / "state" / role / "commands" / "engine.sqlite3"
+                            observation["stage"] = "server-engine-initialization"
+                            until(lambda: database.is_file() and database.stat().st_size > 0,
+                                  20, "server-engine-initialization")
+                            observation["stage"] = "owner-activation"
+                            observation["engine_db_has_contents_before_status"] = True
 
                         def ready():
                             exit_status = child.poll()
