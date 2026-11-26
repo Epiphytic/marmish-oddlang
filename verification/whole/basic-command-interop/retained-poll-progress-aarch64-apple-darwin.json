@@ -1,0 +1,234 @@
+{
+  "allFramesCompared": true,
+  "cases": {
+    "badDigest": {
+      "diagnosticSha256": "8b0c538bafd65db59ba2716368b403eb23c6fabe9c5fcd1b7ab8e31f3ca918aa",
+      "exit": 255,
+      "handlePrefix": true,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response"
+      ],
+      "stderrSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "commandDenied": {
+      "diagnosticSha256": "d2a01aa3abf38ebfab12dc938a869ae1bd6226a5cade1392893241c88589c296",
+      "exit": 255,
+      "handlePrefix": true,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume"
+      ],
+      "stderrSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "detach": {
+      "diagnosticSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "exit": 0,
+      "handlePrefix": true,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume"
+      ],
+      "stderrSha256": null,
+      "stdoutSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "finiteOutput": {
+      "exit": 7,
+      "handlePrefix": false,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrSha256": "14abdba36ad878cb2974b98fbdd8f2b84123b9483fe74f805b0756f9f384cdbb",
+      "stdoutSha256": "9b7dd6e8634ff02875beb3de30ec510c11f68df054f59b11abfeeb0539fc7460"
+    },
+    "foreground": {
+      "exit": 7,
+      "handlePrefix": false,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrSha256": "7132719a6f43e1dae9c2e8bc1382ea592136ec96f1bd331e988d229432e3b32f",
+      "stdoutSha256": "be86144570a576711d7f17c218c2beb07739c99eb925c4ab4ff9b3b33e8b9edd"
+    },
+    "separateFinish": {
+      "exit": 7,
+      "handlePrefix": false,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_response",
+        "command_consume"
+      ],
+      "stderrSha256": "7132719a6f43e1dae9c2e8bc1382ea592136ec96f1bd331e988d229432e3b32f",
+      "stdoutSha256": "be86144570a576711d7f17c218c2beb07739c99eb925c4ab4ff9b3b33e8b9edd"
+    },
+    "wait": {
+      "exit": 7,
+      "handlePrefix": false,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrSha256": "7132719a6f43e1dae9c2e8bc1382ea592136ec96f1bd331e988d229432e3b32f",
+      "stdoutSha256": "be86144570a576711d7f17c218c2beb07739c99eb925c4ab4ff9b3b33e8b9edd"
+    },
+    "waitNonzero": {
+      "exit": 7,
+      "handlePrefix": false,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrSha256": "902e4d9a6e75979f38e6c739c53992680c12798bb42f6212baa5beb8dba841a4",
+      "stdoutSha256": "0cdfe60dd534e198399e7d0f657d8f802bd66afe3eeed43de248a94b918033d4"
+    }
+  },
+  "clientSha256": "42b8b611ce070a616662ec17f0987ed2230ed8dfa9797661aac80f051591e79e",
+  "fixtureSha256": "2c672b136c68649515c4844f4b68f4715e417acd7b9296384dd648012ba5aa2a",
+  "format": "marmish-basic-command-bounded-local-progress-v1",
+  "progressAdmission": {
+    "digestValidWrongSession": {
+      "exit": 255,
+      "output": false,
+      "pollConsumed": false
+    },
+    "staleInitialCursors": {
+      "exit": 255,
+      "output": false,
+      "pollConsumed": false
+    }
+  },
+  "resumeAdmission": {
+    "duplicateHandleMember": {
+      "exit": 125,
+      "ownerContact": false
+    },
+    "unauthorizedAccount": {
+      "exit": 1,
+      "ownerContact": false
+    },
+    "unsafeManifest": {
+      "exit": 1,
+      "ownerContact": false
+    },
+    "wrongProfile": {
+      "exit": 125,
+      "ownerContact": false
+    }
+  },
+  "workspaceRemoved": true
+}

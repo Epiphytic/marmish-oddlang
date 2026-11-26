@@ -62,15 +62,22 @@ def reject(binary, case):
 def main():
     args = argparse.ArgumentParser(description=__doc__)
     args.add_argument("client", type=lambda value: Path(value).resolve(strict=True))
-    args.add_argument("sha256")
+    args.add_argument("build_receipt", type=Path)
     args.add_argument("receipt", type=Path)
     values = args.parse_args()
-    if ref.sha(values.client) != values.sha256:
+    build_bytes = values.build_receipt.read_bytes()
+    build = json.loads(build_bytes)
+    selector = Path(__file__).parents[3] / "oddlang/portable/workspace-retained-poll.json"
+    if build["stagedContracts"].get(selector.name) != ref.sha(selector):
+        raise ValueError("build receipt selects a different workspace")
+    expected = build["artifacts"]["marmish"]["sha256"]
+    if ref.sha(values.client) != expected:
         raise ValueError("candidate executable digest differs")
     recovered = pending.observe(values.client, "upstream")
     recovered.pop("mode")
     cases = ("corrupt_digest", "wrong_session", "wrong_request_hash", "changed_cursors")
-    result = dict(format="marmish-retained-local-poll-recovery-v1", clientSha256=values.sha256,
+    result = dict(format="marmish-retained-local-poll-recovery-v1", clientSha256=expected,
+                  buildReceiptSha256=sha256(build_bytes).hexdigest(),
                   fixtureSha256=ref.sha(Path(__file__)), restartFixtureSha256=ref.sha(Path(pending.__file__)),
                   recovery=recovered, refusals={case: reject(values.client, case) for case in cases})
     with values.receipt.open("x") as output:

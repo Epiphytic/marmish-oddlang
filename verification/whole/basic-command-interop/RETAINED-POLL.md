@@ -9,8 +9,27 @@ release both stream chunks, then request consumption with the previous pair.
 
 The [restart witness](PENDING-POLL.md) supplies the independent upstream
 transcript and the previous generated candidate's refusal. The recovery
-fixture uses that same interrupted wait boundary. It also supplies distinct
-invalid cases for an outer digest, a digest-valid wrong session, an inner
+fixture uses that same interrupted wait boundary. It also supplies distinct candidate-only
+refusal controls for an outer digest, a digest-valid wrong session, an inner
 request hash and a changed committed cursor. Each stops before output and
-poll consumption. The in-memory owner actor supplies the retained record.
+poll consumption. These diagnostics and decisions are candidate-specific.
+The matching upstream claim applies to recovery of a valid terminal entry. The in-memory owner actor supplies the retained record.
 Owner durability and encrypted delivery require separate evidence.
+
+The fixture exercises a single retained terminal entry. Multiple entries and
+retry or nonterminal retained replies have their own coverage obligations.
+
+The [cold build](retained-poll-build-aarch64-apple-darwin.json) compiled both
+executables with Seatbelt filesystem and network restrictions. The
+[recovery receipt](retained-poll-recovery-aarch64-apple-darwin.json) matches
+the original client's exact restart calls, stream suffixes, exit 7 and
+committed cursor advance. The
+[regression replay](retained-poll-progress-aarch64-apple-darwin.json)
+matched all eight earlier positive cases and six existing refusals.
+
+```sh
+python3 -B verification/whole/basic-command-interop/pending_poll_recovery.py \
+  "$SEALED_CLIENT" \
+  verification/whole/basic-command-interop/retained-poll-build-aarch64-apple-darwin.json \
+  "$RECEIPT"
+```
