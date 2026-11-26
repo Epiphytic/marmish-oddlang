@@ -4,6 +4,6 @@ The package manifest in the parent directory projects a public `copy_protocol` m
 
 The source-pinned selector and compiler-extracted field inventory establish the record structure. The upstream native enum observer establishes the version, numeric tags, textual tags, and checked-conversion behavior. The bounded adapters and guard semantics are authored and checked against independent original behavior. `observation.json` retains the raw lexical recoverer's macro, derive and adapter gaps. The native inventory, exhaustive enum conversion checks, public caller and differential corpus provide additional evidence for the exported surface.
 
-The qualified surface ends at construction, encoding, decoding, enum conversion and ordered validation. The launch digest, namespace, manifest matching, helper context, manifest, checkpoint and tagged copy frames still need semantic projection and independent qualification.
+The qualified surface ends at construction, encoding, decoding, enum conversion and ordered validation. The [extended Launch package](../copy-launch-hash-v1/README.md) adds the digest and namespace methods. Manifest matching, helper context, manifest, checkpoint and tagged copy frames still need semantic projection and independent qualification.
 
 Reproduction and host evidence are in [verification](../../../verification/whole/copy-launch/README.md).

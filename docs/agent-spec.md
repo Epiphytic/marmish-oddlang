@@ -6,6 +6,12 @@ executables from a recovered command graph. Both match the pinned release on
 Live dispatch, daemon IPC, private helper protocols and rsync remain open.
 [CLI qualification](../verification/whole/cli/README.md)
 
+The generated Launch package also preserves the pinned copy digest and
+namespace API on macOS ARM64, including validation precedence, raw path
+bytes, enum tags and codec selection. Copy manifests, checkpoint handling
+and installed transfers remain separate qualification work.
+[Launch hash qualification](../verification/whole/copy-launch-hash/README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations
