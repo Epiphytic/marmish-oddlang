@@ -1,0 +1,71 @@
+{
+  "Error": {
+    "kind": "sum",
+    "orderedVariants": [
+      "Unavailable",
+      "Uninitialized",
+      "LockedOrDenied",
+      "Missing",
+      "Exists",
+      "Ambiguous",
+      "Malformed",
+      "BackendFailure"
+    ]
+  },
+  "KeyRef": {
+    "form": "record",
+    "kind": "product",
+    "orderedFields": [
+      {
+        "name": "version",
+        "type": "u8"
+      },
+      {
+        "name": "purpose",
+        "type": "Purpose"
+      },
+      {
+        "name": "id",
+        "type": "String"
+      }
+    ]
+  },
+  "Label": {
+    "form": "tuple",
+    "kind": "product",
+    "orderedFields": [
+      {
+        "name": null,
+        "type": "String"
+      }
+    ]
+  },
+  "Metadata": {
+    "form": "record",
+    "kind": "product",
+    "orderedFields": [
+      {
+        "name": "key_ref",
+        "type": "KeyRef"
+      },
+      {
+        "name": "label",
+        "type": "Label"
+      }
+    ]
+  },
+  "Namespace": {
+    "kind": "sum",
+    "orderedVariants": [
+      "Legacy",
+      "MarmishV2"
+    ]
+  },
+  "Purpose": {
+    "kind": "sum",
+    "orderedVariants": [
+      "Nostr",
+      "Sqlcipher"
+    ]
+  }
+}

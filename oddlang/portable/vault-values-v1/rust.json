@@ -1,0 +1,100 @@
+{
+  "format": "oddlang-checked-values-rust-v1",
+  "types": {
+    "urn:marmish:vault:namespace": {
+      "name": "Namespace",
+      "order": [
+        "urn:marmish:vault:namespace:legacy",
+        "urn:marmish:vault:namespace:marmish-v2"
+      ],
+      "traits": [
+        "copy"
+      ],
+      "view": "version"
+    },
+    "urn:marmish:vault:purpose": {
+      "name": "Purpose",
+      "order": [
+        "urn:marmish:vault:purpose:nostr",
+        "urn:marmish:vault:purpose:sqlcipher"
+      ],
+      "traits": [
+        "copy",
+        "hash"
+      ],
+      "view": "as_str",
+      "parse": "parse"
+    },
+    "urn:marmish:vault:key-ref": {
+      "name": "KeyRef",
+      "order": [
+        "urn:marmish:vault:key-ref:version",
+        "urn:marmish:vault:key-ref:purpose",
+        "urn:marmish:vault:key-ref:id"
+      ],
+      "shape": "named",
+      "members": {
+        "urn:marmish:vault:key-ref:version": {
+          "name": "version",
+          "getter": "version"
+        },
+        "urn:marmish:vault:key-ref:purpose": {
+          "name": "purpose",
+          "getter": "purpose"
+        },
+        "urn:marmish:vault:key-ref:id": {
+          "name": "id",
+          "getter": "id"
+        }
+      },
+      "constructor": "new",
+      "traits": [
+        "hash"
+      ]
+    },
+    "urn:marmish:vault:label": {
+      "name": "Label",
+      "order": [
+        "urn:marmish:vault:label:value"
+      ],
+      "shape": "tuple",
+      "members": {
+        "urn:marmish:vault:label:value": {
+          "name": "value",
+          "getter": "as_str"
+        }
+      },
+      "constructor": "new"
+    },
+    "urn:marmish:vault:metadata": {
+      "name": "Metadata",
+      "order": [
+        "urn:marmish:vault:metadata:key_ref",
+        "urn:marmish:vault:metadata:label"
+      ],
+      "shape": "named",
+      "members": {
+        "urn:marmish:vault:metadata:key_ref": {
+          "name": "key_ref",
+          "public": true
+        },
+        "urn:marmish:vault:metadata:label": {
+          "name": "label",
+          "public": true
+        }
+      }
+    }
+  },
+  "variants": {
+    "urn:marmish:vault:namespace:legacy": "Legacy",
+    "urn:marmish:vault:namespace:marmish-v2": "MarmishV2",
+    "urn:marmish:vault:purpose:nostr": "Nostr",
+    "urn:marmish:vault:purpose:sqlcipher": "Sqlcipher"
+  },
+  "errors": {
+    "urn:marmish:vault:error:malformed": {
+      "errorType": "crate::Error",
+      "variant": "Malformed"
+    }
+  }
+}

@@ -1,0 +1,91 @@
+{
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:vault:errors",
+  "errors": [
+    {
+      "id": "urn:marmish:vault:error",
+      "variants": [
+        {
+          "id": "urn:marmish:vault:error:unavailable",
+          "payload": "none",
+          "category": "unavailable",
+          "message": [
+            {
+              "text": "unavailable"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:uninitialized",
+          "payload": "none",
+          "category": "uninitialized",
+          "message": [
+            {
+              "text": "uninitialized"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:locked_or_denied",
+          "payload": "none",
+          "category": "locked_or_denied",
+          "message": [
+            {
+              "text": "locked_or_denied"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:missing",
+          "payload": "none",
+          "category": "missing",
+          "message": [
+            {
+              "text": "missing"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:exists",
+          "payload": "none",
+          "category": "exists",
+          "message": [
+            {
+              "text": "exists"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:ambiguous",
+          "payload": "none",
+          "category": "ambiguous",
+          "message": [
+            {
+              "text": "ambiguous"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:malformed",
+          "payload": "none",
+          "category": "malformed",
+          "message": [
+            {
+              "text": "malformed"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:vault:error:backend_failure",
+          "payload": "none",
+          "category": "backend_failure",
+          "message": [
+            {
+              "text": "backend_failure"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

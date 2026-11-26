@@ -1,0 +1,13 @@
+{
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "remaining": [
+    "Secret storage and ownership",
+    "Vault provider and platform access",
+    "helper protocol and executable",
+    "unified workspace integration"
+  ],
+  "semantics": "reviewed source contracts and independent native oracle",
+  "sourcePath": "crates/marmish-vault/src/lib.rs",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "sourceSha256": "4547659ecea9b480bfb16e8f9aabc9d08037754f81b7b2b54383c06b8519ed9d"
+}

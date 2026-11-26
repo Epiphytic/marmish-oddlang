@@ -1,0 +1,112 @@
+{
+  "format": "oddlang-checked-values-v1",
+  "id": "urn:marmish:vault:values",
+  "types": {
+    "urn:marmish:vault:namespace": {
+      "kind": "enum",
+      "values": {
+        "urn:marmish:vault:namespace:legacy": 1,
+        "urn:marmish:vault:namespace:marmish-v2": 2
+      }
+    },
+    "urn:marmish:vault:purpose": {
+      "kind": "enum",
+      "values": {
+        "urn:marmish:vault:purpose:nostr": "nostr",
+        "urn:marmish:vault:purpose:sqlcipher": "sqlcipher"
+      },
+      "failure": "urn:marmish:vault:error:malformed"
+    },
+    "urn:marmish:vault:key-ref": {
+      "kind": "record",
+      "fields": {
+        "urn:marmish:vault:key-ref:version": {
+          "kind": "u8"
+        },
+        "urn:marmish:vault:key-ref:purpose": {
+          "kind": "named",
+          "id": "urn:marmish:vault:purpose"
+        },
+        "urn:marmish:vault:key-ref:id": {
+          "kind": "text"
+        }
+      },
+      "constructor": "urn:marmish:vault:error:malformed",
+      "guards": [
+        {
+          "kind": "one-of",
+          "field": "urn:marmish:vault:key-ref:version",
+          "values": [
+            1,
+            2
+          ]
+        },
+        {
+          "kind": "utf8-byte-length",
+          "field": "urn:marmish:vault:key-ref:id",
+          "minimum": 64,
+          "maximum": 64
+        },
+        {
+          "kind": "ascii-bytes",
+          "field": "urn:marmish:vault:key-ref:id",
+          "ranges": [
+            {
+              "minimum": 48,
+              "maximum": 57
+            },
+            {
+              "minimum": 97,
+              "maximum": 102
+            }
+          ]
+        }
+      ]
+    },
+    "urn:marmish:vault:label": {
+      "kind": "record",
+      "fields": {
+        "urn:marmish:vault:label:value": {
+          "kind": "text"
+        }
+      },
+      "constructor": "urn:marmish:vault:error:malformed",
+      "guards": [
+        {
+          "kind": "utf8-byte-length",
+          "field": "urn:marmish:vault:label:value",
+          "minimum": 1,
+          "maximum": 128
+        },
+        {
+          "kind": "exclude-unicode",
+          "field": "urn:marmish:vault:label:value",
+          "ranges": [
+            {
+              "minimum": 8232,
+              "maximum": 8238
+            },
+            {
+              "minimum": 8294,
+              "maximum": 8297
+            }
+          ],
+          "generalCategoryCc": true
+        }
+      ]
+    },
+    "urn:marmish:vault:metadata": {
+      "kind": "record",
+      "fields": {
+        "urn:marmish:vault:metadata:key_ref": {
+          "kind": "named",
+          "id": "urn:marmish:vault:key-ref"
+        },
+        "urn:marmish:vault:metadata:label": {
+          "kind": "named",
+          "id": "urn:marmish:vault:label"
+        }
+      }
+    }
+  }
+}
