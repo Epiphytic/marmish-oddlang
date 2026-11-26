@@ -28,6 +28,15 @@ and usage receipts. The invocation set supplies no remote destination or
 command. Its sandbox denies writes, network and forks. The four previously
 uncovered leading-option cases retain the same observed differences.
 
+The Darwin run matched 128 of 132 CLI observations and 71 of 140 original
+public import spellings. The only new import beyond the public API parent
+is `marmish_native::diagnostics`. The engine error, identity and diagnostic
+consumers matched their original peers. The prototype's `MAX_LINE` returned
+131072 and the `serve` compile-only probe still reports an absent symbol.
+The Linux replay matched 82 of 86 help and version observations. Both
+native runs use the same workspace lock and preserve the same four
+leading-option differences.
+
 ## Reproduce
 
 Use clean checkouts at the receipt's workspace input, framework and
