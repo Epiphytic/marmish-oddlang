@@ -1,0 +1,21 @@
+{
+  "format": "oddlang-finite-error-domain-v1",
+  "id": "urn:marmish:native:error:v1",
+  "error": "urn:marmish:native:error:v1:type:Error",
+  "result": "urn:marmish:native:error:v1:alias:Result",
+  "variants": {
+    "urn:marmish:native:error:v1:variant:Invalid": {
+      "payload": {
+        "kind": "static-text"
+      },
+      "message": {
+        "kind": "insertion",
+        "prefix": "invalid input: ",
+        "suffix": ""
+      },
+      "source": false,
+      "from": false
+    }
+  },
+  "categories": {}
+}
