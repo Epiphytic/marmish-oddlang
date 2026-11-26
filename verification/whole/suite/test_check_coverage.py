@@ -94,7 +94,10 @@ class CoverageControls(unittest.TestCase):
                         inspect(mutated)
 
     def test_partial_parser_receipts_reject_full_certification(self):
-        for receipt in sorted(HERE.glob("manifest-aarch64-*.json")):
+        receipts = [HERE / f"{candidate}-{host}.json"
+                    for candidate in ("manifest", "canonical")
+                    for host in ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu")]
+        for receipt in receipts:
             result = subprocess.run(
                 [sys.executable, "-B", HERE/"check_coverage.py", receipt, "--require-complete"],
                 capture_output=True, text=True)
