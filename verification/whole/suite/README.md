@@ -176,3 +176,11 @@ The original workspace is needed by the test oracle. Both generated release exec
 The credited engine cases cover preserved limits. A no-op implementation also passes those cases. High-soft-limit normalization on macOS and the rest of the engine library need their own evidence.
 
 The [macOS receipt](recovered-aarch64-apple-darwin.json) records 39 passed and 870 unverified. The [Linux receipt](recovered-aarch64-unknown-linux-gnu.json) records 40 passed and 847 unverified. Each has five ignored. Both cold runs used companion verifier commit `64f86802a4348fe424977bf134f4ecb45daa4f60`. An engine case gets one catalog credit after its parent and child both run that exact test. Changing the child's filter to an absent name lets Cargo return success, while the coverage gate rejects it on both hosts. [Child-selection control](recovered-child-control.json)
+
+## Seven-member workspace
+
+Use `--candidate seven` with compiler `59f947dafdb4cf3055e35216857472ada895a76a` to run this selection on the [seven-member workspace](../../../oddlang/portable/workspace-v7-recovered-vault-engine-journal-mdk-buffered.json). Before staging any tests, Cargo must produce all seven sealed libraries and both declared release executables. The receipt records each library artifact digest and binds the process test to both executable digests.
+
+Core contracts, stream tests, native process limits, vault values and the engine's selected limits cases rerun on that build. The single original prototype case, `secret_request_tests::private_reader_wipes_consumed_spans`, is staged unchanged into the generated private buffer module. Its qualified case count is one. The other prototype unit case, all bridge integration cases and all original MDK cases remain unverified by this run. The MDK library's presence means Cargo produced its artifact. Public API and behavior compatibility require separate evidence.
+
+The [macOS receipt](seven-aarch64-apple-darwin.json) records 40 passed and 869 unverified. The [Linux receipt](seven-aarch64-unknown-linux-gnu.json) records 41 passed and 846 unverified. Each host has five additional ignored tests. Both hosts ran verifier commit `283d1c5783000266942e0312e2711680708ee001` against the companion workspace input `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df` and workspace lock `fdfa5b16d9172fe97705ee5794251c6168d0e226ea159334a52286e2e7172b68`.
