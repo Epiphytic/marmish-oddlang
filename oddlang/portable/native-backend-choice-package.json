@@ -1,0 +1,29 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "cargoLock": {
+    "path": "native-backend-choice-v1/Cargo.lock",
+    "sha256": "034267f5c2a97c4b5743ee027037f7da193c897450d00d2ac4ebf73d6d658778"
+  },
+  "components": [
+    {
+      "kind": "checked-values",
+      "module": "identity",
+      "visibility": "public",
+      "graph": {
+        "path": "native-backend-choice-v1/graph.json",
+        "sha256": "78dbab0729733f0c4e700dfbdabd0175e823864867bd69a0c7bc3e8c71c75926"
+      },
+      "overlay": {
+        "path": "native-backend-choice-v1/rust.json",
+        "sha256": "87037762d967a9bb0bdd24a8b92b651dd7297856c8cfa7eb97ee37af9a6d2809"
+      },
+      "reexports": [
+        "BackendChoice"
+      ],
+      "rootReexports": []
+    }
+  ]
+}
