@@ -6,7 +6,7 @@ Node exercises exact-width admission and the declared value and failure identiti
 
 The obligation catalog records deterministic destruction and storage erasure as unsupported for this target. The replay uses local byte literals.
 
-Use a clean Oddlang checkout at `200cb567a19399dff54c1049f77c9672907026db` and Node.js with native TypeScript support.
+Use a clean Oddlang checkout at `0f8410636148e3afa96005c9c24390fbd32eb602` and Node.js with native TypeScript support.
 
 ```sh
 python verification/whole/vault-fixed-typescript/verify.py \
