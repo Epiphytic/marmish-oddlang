@@ -51,7 +51,7 @@ python3 -B "$QUALIFIER/qualify_tagged.py" --linux-privileged-mounts \
   --original-revision af54339d250290490d62d4475a77539b7e739071 --receipt /tmp/data-public.json
 ```
 
-For the sealed comparison, use the same guest command from the macOS judge, supplying absolute guest paths as arguments. The judge appends the receipt path and blind input mode. Use a new guest receipt path per run. The guest executes the public cases and reports raw adapter results to the judge over SSH. The judge compares expected outcomes on the host and publishes only counts and commitments. Copy the guest receipt alongside the judge receipt and compare its SHA-256 against `guestReceiptSha256`.
+For the sealed comparison, use the same guest command from the macOS judge, supplying absolute guest paths as arguments. The judge appends the receipt path and blind input mode. Use a new guest receipt path per run. The guest executes the public cases and the blind inputs supplied by the host. It reports raw adapter results to the judge over SSH. The judge compares expected outcomes on the host and publishes only counts and commitments. Copy the guest receipt alongside the judge receipt and compare its SHA-256 against `guestReceiptSha256`.
 
 ```sh
 python3 -B verification/whole/linux/sealed.py judge-data "$FROZEN_FRAMEWORK" "$SSH_CONFIG" \

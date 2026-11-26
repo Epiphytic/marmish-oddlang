@@ -103,6 +103,14 @@ def judge_data(args):
         raise RuntimeError("isolated generated target comparison failed") from None
     receipt_bytes = remote("cat", str(args.guest_receipt)).stdout
     receipt = json.loads(receipt_bytes)
+    driver_pins = {
+        "linux_boundary.py": "559e56472735f81ca0400e221c207b202a632b0358fd8d0e3695adeefe30e387",
+        "qualify_tagged.py": "f2fd54fc8768215eb41d4052b8194f15699f4bc72a5266a9e07ebf7086b6a973",
+        "tagged_adapter.mjs": "5be9dd353fabb41c58439c4b3dda71e1a1252e648c24b5a6d3d8eac737643c52",
+        "tagged_adapter.rs": "8f8315f5975326950ec9ca9bcb08192e9b382f7951c642a0e4f3e000247cf2f1",
+    }
+    if receipt["driverSourceSha256"] != driver_pins:
+        raise ValueError("unexpected guest qualifier or adapter")
     pinned = json.loads((expected.ROOT / "tagged-qualification.json").read_bytes())
     for field in ("approvedGraphSha256", "publicCaseIds", "comparedOperationResults", "mixedPeers",
                   "mutation"):
