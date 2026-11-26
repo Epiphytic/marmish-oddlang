@@ -2,10 +2,12 @@
 """Build and export the pinned basic-command candidate without the oracle."""
 
 import argparse
+from dataclasses import dataclass
 import hashlib
 import json
 from pathlib import Path
 import platform
+import re
 import runpy
 import shutil
 import subprocess
@@ -26,6 +28,13 @@ ASSEMBLY = runpy.run_path(str(ASSEMBLY_FILE))
 TOOLS = ASSEMBLY["envtools"]
 
 
+@dataclass(frozen=True)
+class BuildInputs:
+    workspace: Path
+    companion_revision: str
+    framework_revision: str
+
+
 def run(*command, cwd=None, env=None):
     return subprocess.check_output(command, cwd=cwd, env=env, timeout=1200)
 
@@ -39,9 +48,9 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def copy_registry(lock, source, target):
+def copy_registry(locks, source, target):
     """Stage archives by lock checksum and unpack them only inside Seatbelt."""
-    rows = tomllib.loads(lock.read_text())["package"]
+    rows = (row for lock in locks for row in tomllib.loads(lock.read_text())["package"])
     source_cache = source / "cache"
     shutil.copytree(source / "index", target / "index",
                     ignore=shutil.ignore_patterns(".git", ".DS_Store"))
@@ -52,6 +61,10 @@ def copy_registry(lock, source, target):
         if row.get("source") != "registry+https://github.com/rust-lang/crates.io-index":
             raise ValueError(f"unexpected registry: {row}")
         filename = f"{row['name']}-{row['version']}.crate"
+        if filename in staged:
+            if staged[filename] != row["checksum"]:
+                raise ValueError(f"inconsistent lock checksums for {filename}")
+            continue
         matches = list(source_cache.glob(f"index.crates.io-*/{filename}"))
         if len(matches) != 1 or sha(matches[0]) != row["checksum"]:
             raise ValueError(f"missing or mismatched cached archive: {filename}")
@@ -149,20 +162,31 @@ def candidate_roles(binaries, descriptor, inputs):
     return roles
 
 
-def qualify(work, compiler, export, probes, checkout, workspace, companion_pin, compiler_pin):
+def qualify(work, compiler, export, probes, checkout, pins):
     inputs = work / "inputs"
     inputs.mkdir()
-    descriptor = ASSEMBLY["stage_workspace"](workspace, inputs)
+    descriptor = ASSEMBLY["stage_workspace"](pins.workspace, inputs)
     staged = {path.relative_to(inputs).as_posix(): sha(path)
               for path in sorted(inputs.rglob("*")) if path.is_file()}
     if any(Path(path).suffix not in {".json", ".ttl", ".lock"} for path in staged):
         raise ValueError("unexpected input file type")
     cargo_lock = inputs / descriptor["cargoLock"]["path"]
+    locks = [cargo_lock]
+    for member in descriptor["members"].values():
+        manifest = inputs / member["manifest"]["path"]
+        member_lock = manifest.parent / read(manifest)["cargoLock"]["path"]
+        if member_lock not in locks:
+            locks.append(member_lock)
+    git_sources = lambda lock: {source for _, _, source, _ in ASSEMBLY["external_packages"](lock)
+                                if source.startswith("git+")}
+    root_git_sources = git_sources(cargo_lock)
+    if any(not git_sources(lock) <= root_git_sources for lock in locks):
+        raise ValueError("member selects a Git provider absent from workspace lock")
     readable, env = TOOLS.isolation_environment(work, HOST)
     registry_link = Path(env["CARGO_HOME"]) / "registry"
     registry_source = registry_link.resolve(strict=True)
     registry_link.unlink()
-    archives = copy_registry(cargo_lock, registry_source, registry_link)
+    archives = copy_registry(locks, registry_source, registry_link)
     providers = ASSEMBLY["stage_provider_git_cache"](cargo_lock, Path(env["CARGO_HOME"]) / "git")
     developer = Path(env["DEVELOPER_DIR"])
     xcode = next(path for path in developer.parents if path.suffix == ".app")
@@ -185,11 +209,11 @@ def qualify(work, compiler, export, probes, checkout, workspace, companion_pin, 
     tool = work / "oddlang"
     shutil.copy2(compiler, tool)
     product = work / "product"
-    run(*launcher, tool, "build", "native-workspace", "rust", inputs / workspace.name, product,
+    run(*launcher, tool, "build", "native-workspace", "rust", inputs / pins.workspace.name, product,
         cwd=work, env=env)
     if (product / "target").exists():
         raise ValueError("found a target directory before compilation")
-    lock = verify_product(product, workspace)
+    lock = verify_product(product, pins.workspace)
     cargo = Path(env["RUSTC"]).with_name("cargo")
     rustc = run(*launcher, env["RUSTC"], "-vV", cwd=work, env=env).decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {TOOLS.RUST_COMMIT}" not in rustc:
@@ -197,15 +221,14 @@ def qualify(work, compiler, export, probes, checkout, workspace, companion_pin, 
     cargo_version = run(*launcher, cargo, "-V", cwd=work, env=env).decode().strip()
     output = run(*launcher, cargo, "build", "--workspace", "--release", "--locked", "--offline",
                  "--message-format=json", cwd=product, env=env)
-    verify_product(product, workspace)
+    verify_product(product, pins.workspace)
     binaries = verified_binaries(output, product)
     roles = candidate_roles(binaries, descriptor, inputs)
     receipt = {
         "format": "marmish-basic-command-generated-build-v1",
-        "companionInputRevision": companion_pin,
-        "workspaceDescriptor": workspace.name,
+        "companionInputRevision": pins.companion_revision,
         "buildDriverCheckout": checkout,
-        "frameworkRevision": compiler_pin,
+        "frameworkRevision": pins.framework_revision,
         "referenceTargetRevision": ASSEMBLY["ORIGINAL"],
         "platform": HOST,
         "osVersion": platform.mac_ver()[0],
@@ -258,25 +281,27 @@ def main():
     parser.add_argument("framework", type=lambda value: Path(value).resolve(strict=True))
     parser.add_argument("export", type=lambda value: Path(value).resolve())
     parser.add_argument("--deny", nargs=2, action="append", metavar=("LABEL", "FILE"), required=True)
-    parser.add_argument("--workspace", default=WORKSPACE.name, help="descriptor basename under oddlang/portable")
-    parser.add_argument("--framework-pin", default=FRAMEWORK)
-    parser.add_argument("--companion-pin", default=COMPANION)
+    parser.add_argument("--workspace", help="Portable workspace descriptor basename")
+    parser.add_argument("--companion-revision", "--companion-pin", help="Companion commit containing the portable closure")
+    parser.add_argument("--framework-revision", "--framework-pin", help="Framework compiler commit")
     args = parser.parse_args()
-    if Path(args.workspace).name != args.workspace or not args.workspace.endswith(".json"):
-        parser.error("workspace must be a JSON descriptor basename")
-    workspace = PORTABLE / args.workspace
-    pins = (args.framework_pin, args.companion_pin)
-    if any(len(pin) != 40 or any(c not in "0123456789abcdef" for c in pin) for pin in pins):
-        parser.error("supply full immutable Git revisions")
+    supplied = (args.workspace, args.companion_revision, args.framework_revision)
+    pins = BuildInputs(WORKSPACE, COMPANION, FRAMEWORK)
+    if any(supplied):
+        if not all(supplied) or not re.fullmatch(r"workspace-[a-z0-9-]+\.json", args.workspace):
+            parser.error("a candidate requires a workspace basename and both commit pins")
+        if not all(re.fullmatch(r"[0-9a-f]{40}", revision) for revision in supplied[1:]):
+            parser.error("candidate revisions must use full lowercase Git IDs")
+        pins = BuildInputs(PORTABLE / args.workspace, args.companion_revision, args.framework_revision)
     if (platform.system(), platform.machine()) != ("Darwin", "arm64"):
         parser.error("requires native macOS ARM64")
     if args.export.exists():
         parser.error("export must be a new directory")
-    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != args.framework_pin:
+    if run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() != pins.framework_revision:
         parser.error("requires the pinned Oddlang compiler checkout")
     if run("git", "-C", args.framework, "status", "--porcelain", "--untracked-files=all"):
         parser.error("compiler checkout must be clean")
-    if (run("git", "-C", ROOT, "diff", "--name-only", args.companion_pin, "--", "oddlang/portable")
+    if (run("git", "-C", ROOT, "diff", "--name-only", pins.companion_revision, "--", "oddlang/portable")
             or run("git", "-C", ROOT, "status", "--porcelain", "--untracked-files=all", "--",
                    "oddlang/portable", "verification/whole")):
         parser.error("build driver checkout must be clean and the portable inputs must match the companion pin")
@@ -288,7 +313,7 @@ def main():
     if not required <= probes.keys():
         parser.error(f"missing denial probes: {', '.join(sorted(required - probes.keys()))}")
     built_in_probes = {
-        "companionContract": workspace,
+        "companionContract": pins.workspace,
         "compilerSource": args.framework / "src/lib.rs",
         "previousQualificationOracle": HERE.parent / "canonical-workspace/aarch64-apple-darwin.json",
     }
@@ -300,7 +325,7 @@ def main():
             "--target-dir", target, cwd=args.framework)
         with tempfile.TemporaryDirectory(prefix="odd-basic-build-") as directory:
             qualify(Path(directory).resolve(), Path(target).resolve() / "release/oddlang",
-                    args.export, probes, checkout, workspace, args.companion_pin, args.framework_pin)
+                    args.export, probes, checkout, pins)
 
 
 if __name__ == "__main__":
