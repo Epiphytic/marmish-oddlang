@@ -1088,6 +1088,11 @@
 {"path":"verification/whole/release-info-structure/selection.json","language":"inventory","mode":"100644","sha256":"e3e505cd72b7aa5a6b75ce344234399977e837608d5482960ee8cc103e31cf7e","parse_status":"inventory"}
 {"path":"verification/whole/release-info-structure/types.rs","language":"rust","mode":"100644","sha256":"1f98e65b3e9d8a5bd263c8dccc9978653ffab93c6ab96305bb2a7d52c7b0910d","parse_status":"parsed"}
 {"path":"verification/whole/release-info-structure/verify.py","language":"python","mode":"100644","sha256":"a7e0bba86bb133124f5f94e090a589cee23f0ef8f472c88f326517e8cd4dca64","parse_status":"parsed"}
+{"path":"verification/whole/release-manifest/README.md","language":"inventory","mode":"100644","sha256":"9b3b8d15ac8890835353de496293681a8ddf6a51ec279089d9e678e6e263ff58","parse_status":"inventory"}
+{"path":"verification/whole/release-manifest/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"46589df6f10f44a00f51894ad4be7bc2cc9e4807f08d8092dd4c0b40be51bba8","parse_status":"inventory"}
+{"path":"verification/whole/release-manifest/corpus.py","language":"python","mode":"100644","sha256":"04d3db49c13831178169374fdc69e8773e1de3a8baa1b7467ccd6e17f946af12","parse_status":"parsed"}
+{"path":"verification/whole/release-manifest/probe.rs","language":"rust","mode":"100644","sha256":"c47132c88068dbf556cbd0653fd8686ef9d0aeeee54644d05e9926d224b9c2c7","parse_status":"parsed"}
+{"path":"verification/whole/release-manifest/verify.py","language":"python","mode":"100644","sha256":"a8c71a7461617cb981f7f4c736b7bafe451649500f6da30722840da4a168cda4","parse_status":"parsed"}
 {"path":"verification/whole/release-version-grammar/README.md","language":"inventory","mode":"100644","sha256":"a1808d420de04e8a844b164a7401e48482b1654304f4d17147b1bebe5fb13bf0","parse_status":"inventory"}
 {"path":"verification/whole/release-version-grammar/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"50a847bbd59327a0e34c67051cdc300722a4f6bb576a311de8e59524b3c27cdb","parse_status":"inventory"}
 {"path":"verification/whole/release-version-grammar/verify.py","language":"python","mode":"100644","sha256":"4e836badb22c6386529affecfdf678a77bf318348de69d2237db9cd22544d9d9","parse_status":"parsed"}
@@ -1240,6 +1245,9 @@
 {"path":"verification/whole/suite/seven-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"8573535a963066ad097f7ef23e75bac7c5bc42df0274839a7f532bda8b5e50fd","parse_status":"inventory"}
 {"path":"verification/whole/suite/summarize_cargo.py","language":"python","mode":"100644","sha256":"ee7588c4a2cb939dd1601b2f7951084e131d29ba5d3b806324d5269766a9a93d","parse_status":"parsed"}
 {"path":"verification/whole/suite/test_check_coverage.py","language":"python","mode":"100644","sha256":"e45d9993229734745968d9ba431792e6922c208283a579c6c0365b787a020b52","parse_status":"parsed"}
+{"path":"verification/whole/unified-buffered/README.md","language":"inventory","mode":"100644","sha256":"39d7b86b89d7360762e80f3e978ff1b90165877025cba90708f2c567526085fb","parse_status":"inventory"}
+{"path":"verification/whole/unified-buffered/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"3c30b36ae828124f484a9d6aaec2dc7a6014f18081ecc7a3c4c501eba2777e8f","parse_status":"inventory"}
+{"path":"verification/whole/unified-buffered/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"71177d127b6b6b17cf1875a6459715947888227118cb5b5cf4e774013dbc3a54","parse_status":"inventory"}
 {"path":"verification/whole/unified-buffered/compose.py","language":"python","mode":"100644","sha256":"4f14237367e6b08c62a242b53dd72457c3231665425e6d55e308a69c99788460","parse_status":"parsed"}
 {"path":"verification/whole/unified-buffered/verify.py","language":"python","mode":"100644","sha256":"3e404c1f750c8620e03a3db2562c110897c439905a4b857d8cd1db82fcd10a88","parse_status":"parsed"}
 {"path":"verification/whole/unified-mdk/README.md","language":"inventory","mode":"100644","sha256":"aaaf40ae71889754029254fec0bcc7a6c98beadd9f28ec6bb9ce58b4b6920b13","parse_status":"inventory"}
