@@ -1,0 +1,67 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {
+    "clap": {
+      "version": "4.6.7"
+    }
+  },
+  "cargoLock": {
+    "path": "parser-Cargo.lock",
+    "sha256": "00b7cc3d2119a6c2e7bea84707c90335d05710d86515a2166d97c56cbfc3ea17"
+  },
+  "components": [
+    {
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "marmish.json",
+        "sha256": "9216373cf3da52811232b6b2b9b89d08b078cae19f16d3fab42a8907412f7a77"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "marmishd.json",
+        "sha256": "b26a47cf3c2127e29800e3282c8509ea32de2ebc7fe36c31f82a580e3bbce923"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    }
+  ],
+  "binaries": [
+    {
+      "name": "marmish",
+      "entry": [
+        "marmish_parser",
+        "run_cli"
+      ]
+    },
+    {
+      "name": "marmishd",
+      "entry": [
+        "marmishd_parser",
+        "run_cli"
+      ]
+    }
+  ]
+}

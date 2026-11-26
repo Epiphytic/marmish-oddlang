@@ -1,0 +1,12 @@
+{
+  "root": "Args",
+  "package_name": "marmish-native",
+  "version": "0.3.1",
+  "gaps": [
+    "Private bootstrap and helper entrypoints before public argument parsing",
+    "Rsync pre-parser and its external argument, environment and process semantics",
+    "Post-parse trailing argument and authorization restrictions",
+    "Per-binary command defaults and routing, daemon IPC, output and exit semantics after dispatch",
+    "Effectful implementation and conformance for every declared command operation"
+  ]
+}

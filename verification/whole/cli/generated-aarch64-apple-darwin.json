@@ -1,0 +1,34 @@
+{
+  "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "frameworkRevision": "c01279eb61ed9e86b51b2eeaf0c5b744397c74a3",
+  "platform": "aarch64-apple-darwin",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
+  "packageLockSha256": "8487fb792d4963b1f517ecc3f169b918d88358ebd7e0fe81fc728064a4126736",
+  "workspaceLockSha256": "a9185b4f7dd3e9b69fdc971f287dcc82e7d289b3e823327f51f625519107feb2",
+  "releaseOracleSha256": "e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746",
+  "isolation": "macOS Seatbelt file-data allowlist and network denial; staged graph inputs, pinned compiler and toolchain, Cargo registry, SDK and operating system only",
+  "observations": {
+    "marmish": {
+      "count": 34
+    },
+    "marmishd": {
+      "count": 34
+    }
+  },
+  "uncovered": [
+    "command callbacks",
+    "daemon IPC",
+    "rsync",
+    "private helpers",
+    "platforms outside the Darwin arm64 replay"
+  ]
+}

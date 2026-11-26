@@ -1,5 +1,11 @@
 # Marmish native v0.3 agent specification
 
+The Oddlang companion generates parser-only `marmish` and `marmishd`
+executables from a recovered command graph. Both match the pinned release on
+34 help, version and unknown-option process observations on macOS ARM64.
+Live dispatch, daemon IPC, private helper protocols and rsync remain open.
+[CLI qualification](../verification/whole/cli/README.md)
+
 **Interactive terminal and peer operations are planned.** The
 [native roadmap](phases/interactive-peers-roadmap.md) covers PTY/tmux,
 display update reduction, pinned-key onboarding, inbound server invitations
