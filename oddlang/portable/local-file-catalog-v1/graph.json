@@ -1,0 +1,36 @@
+{
+  "assetNames": [
+    "marmish",
+    "marmishd",
+    "marmish-worker",
+    "THIRD-PARTY-LICENSES"
+  ],
+  "attributeChecks": "fixed-owner-and-mode",
+  "candidateNameEncoding": "utf8",
+  "digest": "sha256",
+  "error": {
+    "ambiguous": "install_manifest_path",
+    "digest": "install_digest",
+    "id": "urn:marmish:native:error:v1:variant:Invalid"
+  },
+  "filePolicy": "urn:marmish:native:read-only-file:v1",
+  "fixedCatalog": "manifest",
+  "format": "oddlang-local-file-catalog-v1",
+  "guards": [
+    "unique-name",
+    "bounded-read",
+    "catalog-digest",
+    "parse",
+    "canonical-name",
+    "ordered-assets"
+  ],
+  "id": "urn:marmish:native:read-only-file-catalog:v1",
+  "manifestGrammar": "urn:marmish:native:release-manifest:v1",
+  "maximumCatalogBytes": 4096,
+  "namingAnchor": "marmish",
+  "prefixes": [
+    "marmish-0.2.",
+    "marmish-0.3."
+  ],
+  "suffix": ".manifest"
+}

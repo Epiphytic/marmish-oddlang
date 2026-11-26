@@ -1,0 +1,23 @@
+{
+  "format": "oddlang-local-file-catalog-rust-v1",
+  "entry": "verify_directory",
+  "namingType": "AssetNaming",
+  "fixedVariant": "InstalledFixedNames",
+  "selectedVariant": "VersionedDownloads",
+  "names": "NAMES",
+  "record": {
+    "module": ["crate", "native_manifest"],
+    "type": "Manifest",
+    "parse": "parse",
+    "assetName": "asset_name",
+    "assets": "files",
+    "name": "name",
+    "bytes": "bytes",
+    "mode": "mode",
+    "digest": "sha256"
+  },
+  "file": {"module": ["crate", "file_integrity"], "read": "read_bounded", "verify": "verify_file"},
+  "error": ["crate", "Error"],
+  "invalidVariant": "Invalid",
+  "ioVariant": "Io"
+}
