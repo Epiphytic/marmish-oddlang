@@ -40,7 +40,7 @@ def recover(oddlang, original):
         return {
             (record["name"], record["version"], record["source"], record["checksum"])
             for record in tomllib.loads(lock.decode())["package"]
-            if "source" in record
+            if record.get("source", "").startswith("registry+")
         }
 
     required = registry_packages((INPUTS / "parser-Cargo.lock").read_bytes())

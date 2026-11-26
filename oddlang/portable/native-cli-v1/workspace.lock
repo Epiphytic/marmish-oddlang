@@ -6,7 +6,7 @@
     "marmish-native": {
       "dependencies": [],
       "inputSha256": "036c06ce2c8f7d94cc7ba98e1cd84d86efdecdb8e376373826adad3ebe9cdac2",
-      "standalonePackageLockSha256": "e68553928bb0f14b7981ff51bea21a0f3d23ce29e1c7fa52021382c23292e44a",
+      "standalonePackageLockSha256": "8487fb792d4963b1f517ecc3f169b918d88358ebd7e0fe81fc728064a4126736",
       "workspaceCargoManifestSha256": "e6b1b6fe8b8764044ca9c89e0161798e02183d9ef68418af6c8935c30a3efa01"
     }
   },

@@ -1,7 +1,7 @@
 {
   "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
-  "frameworkRevision": "942eb5b16d4c4d61042d86c546fb34e772f179b6",
-  "oddlangSha256": "5192d7ad05f73fa2dfd46ab0b2e1217809f11038f23dd76afbd2f13ea3612ebf",
+  "frameworkRevision": "c01279eb61ed9e86b51b2eeaf0c5b744397c74a3",
+  "oddlangSha256": "463c6e655faf6b8048ed94ddfb62de0dc22b6d99b003f31675e1e0382f619bd9",
   "platform": "aarch64-apple-darwin",
   "rustc": [
     "rustc 1.97.1 (8bab26f4f 2026-07-14)",
@@ -13,18 +13,18 @@
     "LLVM version: 22.1.6"
   ],
   "graphSha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08",
-  "packageLockSha256": "e68553928bb0f14b7981ff51bea21a0f3d23ce29e1c7fa52021382c23292e44a",
-  "workspaceLockSha256": "3f7f380eeebf8dcb5c1fafa1a385a36e9d0efbfa302a7100f85732a008c80d88",
+  "packageLockSha256": "8487fb792d4963b1f517ecc3f169b918d88358ebd7e0fe81fc728064a4126736",
+  "workspaceLockSha256": "a9185b4f7dd3e9b69fdc971f287dcc82e7d289b3e823327f51f625519107feb2",
   "releaseOracleSha256": "e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746",
-  "isolation": "macOS Seatbelt; network, original checkout, original Git objects, and captured oracle denied during generation and locked offline release build",
+  "isolation": "macOS Seatbelt file-data allowlist and network denial; staged graph inputs, pinned compiler and toolchain, Cargo registry, SDK and operating system only",
   "observations": {
     "marmish": {
       "count": 34,
-      "binarySha256": "7c0ee09189c3df9ae6aa2f6b90c8d66f3d3fca74cebc3cb2ff320fa657ec7b1e"
+      "binarySha256": "7649131735c4af787c10d8ba722026c057734aaaadf5ac87b5a1d1c8982b61f3"
     },
     "marmishd": {
       "count": 34,
-      "binarySha256": "ffb1a145845c4b5524d1483ca1e3d0bbf3e92fb06a44f09b5e359453b6de08b2"
+      "binarySha256": "6a0b8515c5446a07c8443f518a7a6f8a89591452c22f13892f2f9e162b33767d"
     }
   },
   "uncovered": [
