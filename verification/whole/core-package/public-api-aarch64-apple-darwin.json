@@ -1,0 +1,682 @@
+{
+  "crate": "marmish_core",
+  "format": "oddlang-native-value-api-v1",
+  "target": "aarch64-apple-darwin",
+  "types": {
+    "ConfigError": {
+      "members": {},
+      "shape": {
+        "variants": [
+          {
+            "explicitValue": null,
+            "name": "EmptyRelaySet"
+          },
+          {
+            "explicitValue": null,
+            "name": "InvalidUrl"
+          },
+          {
+            "explicitValue": null,
+            "name": "DisallowedScheme"
+          },
+          {
+            "explicitValue": null,
+            "name": "DisallowedComponents"
+          },
+          {
+            "explicitValue": null,
+            "name": "DisallowedHost"
+          },
+          {
+            "explicitValue": null,
+            "name": "LoopbackDenied"
+          },
+          {
+            "explicitValue": null,
+            "name": "RetentionOutOfRange"
+          }
+        ]
+      },
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::cmp::Eq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::PartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::error::Error",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Debug",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Display",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::StructuralPartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    },
+    "FrameError": {
+      "members": {},
+      "shape": {
+        "variants": [
+          {
+            "explicitValue": null,
+            "name": "SizeLimit"
+          },
+          {
+            "explicitValue": null,
+            "name": "InvalidJson"
+          },
+          {
+            "explicitValue": null,
+            "name": "InvalidVersion"
+          },
+          {
+            "explicitValue": null,
+            "name": "InvalidEncoding"
+          }
+        ]
+      },
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::cmp::Eq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::PartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::error::Error",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Debug",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Display",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::StructuralPartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    },
+    "Limits": {
+      "members": {
+        "JSON_BYTES": {
+          "constantType": {
+            "primitive": "usize"
+          }
+        },
+        "NDJSON_BYTES": {
+          "constantType": {
+            "primitive": "usize"
+          }
+        },
+        "RAW_BYTES": {
+          "constantType": {
+            "primitive": "usize"
+          }
+        }
+      },
+      "shape": "unit",
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::clone::Clone",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::default::Default",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Debug",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Copy",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    },
+    "ProbeEnvelope": {
+      "members": {
+        "decode": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": false,
+              "type": {
+                "borrows": {
+                  "sequence": {
+                    "primitive": "u8"
+                  }
+                },
+                "lifetime": null,
+                "mutable": false
+              }
+            }
+          ],
+          "result": {
+            "arguments": [
+              {
+                "arguments": [
+                  {
+                    "primitive": "u8"
+                  }
+                ],
+                "named": "alloc::vec::Vec"
+              },
+              {
+                "arguments": [],
+                "named": "local::FrameError"
+              }
+            ],
+            "named": "core::result::Result"
+          },
+          "variadic": false
+        },
+        "encode": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": false,
+              "type": {
+                "borrows": {
+                  "sequence": {
+                    "primitive": "u8"
+                  }
+                },
+                "lifetime": null,
+                "mutable": false
+              }
+            }
+          ],
+          "result": {
+            "arguments": [
+              {
+                "arguments": [
+                  {
+                    "primitive": "u8"
+                  }
+                ],
+                "named": "alloc::vec::Vec"
+              },
+              {
+                "arguments": [],
+                "named": "local::FrameError"
+              }
+            ],
+            "named": "core::result::Result"
+          },
+          "variadic": false
+        }
+      },
+      "shape": "unit",
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    },
+    "RelaySet": {
+      "members": {
+        "as_slice": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": true,
+              "type": {
+                "borrows": {
+                  "receiverType": true
+                },
+                "lifetime": null,
+                "mutable": false
+              }
+            }
+          ],
+          "result": {
+            "borrows": {
+              "sequence": {
+                "arguments": [],
+                "named": "alloc::string::String"
+              }
+            },
+            "lifetime": null,
+            "mutable": false
+          },
+          "variadic": false
+        },
+        "parse": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": false,
+              "type": {
+                "borrows": {
+                  "sequence": {
+                    "arguments": [],
+                    "named": "alloc::string::String"
+                  }
+                },
+                "lifetime": null,
+                "mutable": false
+              }
+            },
+            {
+              "receiver": false,
+              "type": {
+                "primitive": "bool"
+              }
+            }
+          ],
+          "result": {
+            "arguments": [
+              {
+                "receiverType": true
+              },
+              {
+                "arguments": [],
+                "named": "local::ConfigError"
+              }
+            ],
+            "named": "core::result::Result"
+          },
+          "variadic": false
+        }
+      },
+      "shape": {
+        "privateTupleArity": 1
+      },
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::clone::Clone",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::Eq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::PartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::StructuralPartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    },
+    "Retention": {
+      "members": {
+        "MAX_SECONDS": {
+          "constantType": {
+            "primitive": "u64"
+          }
+        },
+        "from_seconds": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": false,
+              "type": {
+                "arguments": [
+                  {
+                    "primitive": "u64"
+                  }
+                ],
+                "named": "core::option::Option"
+              }
+            }
+          ],
+          "result": {
+            "arguments": [
+              {
+                "receiverType": true
+              },
+              {
+                "arguments": [],
+                "named": "local::ConfigError"
+              }
+            ],
+            "named": "core::result::Result"
+          },
+          "variadic": false
+        },
+        "seconds": {
+          "header": {
+            "abi": "Rust",
+            "is_async": false,
+            "is_const": false,
+            "is_unsafe": false
+          },
+          "parameters": [
+            {
+              "receiver": true,
+              "type": {
+                "borrows": {
+                  "receiverType": true
+                },
+                "lifetime": null,
+                "mutable": false
+              }
+            }
+          ],
+          "result": {
+            "arguments": [
+              {
+                "primitive": "u64"
+              }
+            ],
+            "named": "core::option::Option"
+          },
+          "variadic": false
+        }
+      },
+      "shape": {
+        "privateTupleArity": 1
+      },
+      "traits": [
+        {
+          "negative": false,
+          "trait": "core::clone::Clone",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::Eq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::cmp::PartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::default::Default",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::fmt::Debug",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Copy",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Freeze",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Send",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::StructuralPartialEq",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Sync",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::Unpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::marker::UnsafeUnpin",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::RefUnwindSafe",
+          "unsafe": false
+        },
+        {
+          "negative": false,
+          "trait": "core::panic::unwind_safe::UnwindSafe",
+          "unsafe": false
+        }
+      ]
+    }
+  }
+}

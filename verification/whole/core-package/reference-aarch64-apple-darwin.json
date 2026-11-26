@@ -1,0 +1,148 @@
+{
+  "callerSha256": "838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce",
+  "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "differentialCounts": {
+    "decode": 1074,
+    "encode": 516,
+    "frame-error": 4,
+    "limits": 1,
+    "relay": 132,
+    "retention": 8
+  },
+  "differentialTranscriptSha256": "a0eba1d3a32c7238ba8f6f8b665d92f5205fc6bfc56a150f637f07516a856c0e",
+  "frameworkRevision": "a635eec8e0f71d2dabc9aee28655e26494a7506f",
+  "generatedRelease": {
+    "Cargo.lock": "2e8cb5d183d18b85059dc5af723677169e07aff37ef5648fe098ac5b4d3f9d95",
+    "Cargo.toml": "6d90f06c2d4be37dc7f2c8e84501d12a3e2819a6450a03508b60893ec0098624",
+    "package.lock": "b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c",
+    "src/group_0/__projection_0.rs": "d6e3a2459e4532ca1baa7ce55177708db592f21658c537ee0e7c84c5a7dc3be2",
+    "src/group_0/__projection_1.rs": "6f640bb1bda54071673855357118fc0f90d0fc728dd375c86ab75bcacfada93e",
+    "src/group_0/mod.rs": "404cf0f6bf6a92e580e83800d3641a24357a8bcf33b0227a1c30b568cc7ae7c7",
+    "src/group_2/__projection_2.rs": "cf498c7aeb7e62d2cc6aeea2887c311f8d83750cefc5cfdf24d1b908159b9cb5",
+    "src/group_2/mod.rs": "c66425524bbad13a1a9196ec10002e67f0843acd74e0ba1fec318d5df92e1172",
+    "src/lib.rs": "f96bc225d01780445eb4a6328b706353997714d8d33fb0a9d63c7b13ba4ac5a8"
+  },
+  "host": "aarch64-apple-darwin",
+  "mutations": {
+    "frame-error-order": {
+      "case": [
+        "frame-error",
+        "SizeLimit"
+      ],
+      "mutated": {
+        "debug": "SizeLimit",
+        "display": "probe frame exceeds its size limit",
+        "error": "SizeLimit",
+        "hasSource": false,
+        "ordinal": 1
+      },
+      "original": {
+        "debug": "SizeLimit",
+        "display": "probe frame exceeds its size limit",
+        "error": "SizeLimit",
+        "hasSource": false,
+        "ordinal": 0
+      },
+      "packageLockSha256": "2779623243c058484724efe818507733d9d5b2b288dc49042d240fe7b88fb901",
+      "transcriptSha256": "1c13c574718789f93ba2f0135203d7690b338a1284664e054516a74fe8cc63c1"
+    },
+    "frame-version": {
+      "case": [
+        "decode",
+        "tuple-good"
+      ],
+      "mutated": {
+        "debug": "InvalidVersion",
+        "display": "unsupported probe version",
+        "error": "InvalidVersion",
+        "hasSource": false,
+        "ordinal": 2
+      },
+      "original": {
+        "bytes": [
+          0,
+          1,
+          255
+        ]
+      },
+      "packageLockSha256": "29f9fbae42db0a3a712707f28313208ec69ef44049e4f10a5c769af30b7ee0f6",
+      "transcriptSha256": "3849c0bc34bc602eed75671aa1f35e9571264c6c55c87710f819c9c55f26c00b"
+    },
+    "relay-rule-order": {
+      "case": [
+        "relay",
+        "raw-whitespace-before-at"
+      ],
+      "mutated": {
+        "debug": "DisallowedComponents",
+        "display": "relay URL contains unsupported components",
+        "error": "DisallowedComponents",
+        "hasSource": false,
+        "ordinal": 3
+      },
+      "original": {
+        "debug": "InvalidUrl",
+        "display": "invalid relay URL",
+        "error": "InvalidUrl",
+        "hasSource": false,
+        "ordinal": 1
+      },
+      "packageLockSha256": "a0ee7a4c2b43e3e29731b2385820bcaf078a46973dfa64e0a89051bc5bcdb781",
+      "transcriptSha256": "a2aa3627a96b672e0e2658f547a41230e45f67b47abdc3b864c3fce47c35d574"
+    },
+    "retention-bound": {
+      "case": [
+        "retention",
+        "Some(31536000)"
+      ],
+      "mutated": {
+        "debug": "RetentionOutOfRange",
+        "display": "retention must be between one second and 365 days",
+        "error": "RetentionOutOfRange",
+        "hasSource": false,
+        "ordinal": 6
+      },
+      "original": {
+        "seconds": 31536000
+      },
+      "packageLockSha256": "92653cb0d92c8ddae29d0ae469829bd85b4878849a10dcfbf728e1f76c0c63e8",
+      "transcriptSha256": "f044992861e401f9472fba6ae024b5755b3720b1d2d56445a0dfbecda5ff3e15"
+    }
+  },
+  "originalCargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "originalPublicSource": {
+    "config.rs": "2d39557b91c89de5c7790a53e35fd76f3ab94fbb5a8df43ed348da749cc81140",
+    "frame.rs": "3023d3947b16d6d108cf741a057df7214dba9a2985d6b0e3e9a6703af02576ba",
+    "lib.rs": "848308c07c696e6fd82a3828e96bc4ac9a8d5eb55802382085b7eadff93fa365"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "packageManifestSha256": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4",
+  "rejectedGraphDigestDrift": true,
+  "sourceIsolation": {
+    "deniedConnectCanary": true,
+    "deniedReadCanaries": 4,
+    "networkDenied": true,
+    "provider": "macOS Seatbelt",
+    "referenceCopiedAfterReleaseBuild": true
+  },
+  "twoGenerationsEqual": true,
+  "unchangedTestGroupCounts": [
+    [
+      0,
+      0,
+      0
+    ],
+    [
+      7,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0
+    ]
+  ],
+  "unchangedTestSha256": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a",
+  "unchangedTestsPassedPerImplementation": 7
+}

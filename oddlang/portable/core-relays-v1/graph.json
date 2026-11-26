@@ -1,0 +1,115 @@
+{
+  "vocabulary": "oddlang-endpoint-set-v1",
+  "id": "urn:marmish:core:configuration:relaySet",
+  "parser": "whatwg-url",
+  "providerHint": {
+    "cargoPackage": "url",
+    "version": "2.5.8"
+  },
+  "errors": [
+    "urn:marmish:core:configuration:EmptyRelaySet",
+    "urn:marmish:core:configuration:InvalidUrl",
+    "urn:marmish:core:configuration:DisallowedScheme",
+    "urn:marmish:core:configuration:DisallowedComponents",
+    "urn:marmish:core:configuration:DisallowedHost",
+    "urn:marmish:core:configuration:LoopbackDenied"
+  ],
+  "empty": {
+    "kind": "reject",
+    "error": "urn:marmish:core:configuration:EmptyRelaySet"
+  },
+  "deduplicate": true,
+  "rules": [
+    {
+      "kind": "forbidden-input",
+      "unicodeWhitespace": true,
+      "unicodeControl": true,
+      "characters": "",
+      "error": "urn:marmish:core:configuration:InvalidUrl"
+    },
+    {
+      "kind": "forbidden-input",
+      "unicodeWhitespace": false,
+      "unicodeControl": false,
+      "characters": ",@\\",
+      "error": "urn:marmish:core:configuration:DisallowedComponents"
+    },
+    {
+      "kind": "parse",
+      "error": "urn:marmish:core:configuration:InvalidUrl"
+    },
+    {
+      "kind": "allowed-schemes",
+      "schemes": [
+        "ws",
+        "wss"
+      ],
+      "error": "urn:marmish:core:configuration:DisallowedScheme"
+    },
+    {
+      "kind": "url-components",
+      "forbid": [
+        "username",
+        "password",
+        "query",
+        "fragment"
+      ],
+      "allowedPaths": [
+        "/"
+      ],
+      "error": "urn:marmish:core:configuration:DisallowedComponents"
+    },
+    {
+      "kind": "host-policy",
+      "error": "urn:marmish:core:configuration:DisallowedHost",
+      "dns": {
+        "syntax": "ascii-labels",
+        "trailingDot": "strip-one",
+        "loopbackSuffixes": [
+          "localhost"
+        ],
+        "rewriteError": "urn:marmish:core:configuration:InvalidUrl"
+      },
+      "ip": {
+        "loopback": [
+          "127.0.0.0/8",
+          "::1/128"
+        ],
+        "ipv4": {
+          "allow": [],
+          "deny": [
+            "0.0.0.0/8",
+            "10.0.0.0/8",
+            "100.64.0.0/10",
+            "169.254.0.0/16",
+            "172.16.0.0/12",
+            "192.0.0.0/24",
+            "192.0.2.0/24",
+            "192.168.0.0/16",
+            "198.18.0.0/15",
+            "198.51.100.0/24",
+            "203.0.113.0/24",
+            "224.0.0.0/3"
+          ],
+          "defaultAllow": true
+        },
+        "ipv6": {
+          "allow": [
+            "2000::/3"
+          ],
+          "deny": [
+            "2002::/16",
+            "2001::/23",
+            "2001:db8::/32",
+            "3fff::/20"
+          ],
+          "defaultAllow": false
+        }
+      }
+    },
+    {
+      "kind": "loopback-opt-in",
+      "error": "urn:marmish:core:configuration:LoopbackDenied"
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "vocabulary": "oddlang-endpoint-set-rust-v1",
+  "typeName": "RelaySet",
+  "constructor": "parse",
+  "getter": "as_slice",
+  "errorType": "super::ConfigError",
+  "errorVariants": {
+    "urn:marmish:core:configuration:EmptyRelaySet": "EmptyRelaySet",
+    "urn:marmish:core:configuration:InvalidUrl": "InvalidUrl",
+    "urn:marmish:core:configuration:DisallowedScheme": "DisallowedScheme",
+    "urn:marmish:core:configuration:DisallowedComponents": "DisallowedComponents",
+    "urn:marmish:core:configuration:DisallowedHost": "DisallowedHost",
+    "urn:marmish:core:configuration:LoopbackDenied": "LoopbackDenied"
+  },
+  "derives": [
+    "Clone",
+    "PartialEq",
+    "Eq"
+  ]
+}
