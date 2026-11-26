@@ -37,7 +37,7 @@ def load(directory, name="verify.py"):
 CONVERGENCE = load(HERE.parent / "converged-public-api")
 SHAPES = load(PROJECTION, "shapes.py")
 DIFFERENTIAL = load(PROJECTION)
-SIX = CONVERGENCE["SIX"]
+ENGINE, LIMIT, SIX = (CONVERGENCE[key] for key in ("ENGINE", "LIMIT", "SIX"))
 run, sha, data = (SIX[key] for key in ("run", "sha", "data"))
 
 
@@ -243,6 +243,13 @@ def main():
         receipt = SIX["qualify"](
             args, host, work, scratch, manifest=MANIFEST, base=BASE + ".json", member=MEMBER, check=check,
             extra_denied={
+                "original-prototype": args.original / LIMIT["SOURCE"],
+                "constant-caller": LIMIT["FILE"],
+                "reader-caller": LIMIT["BUFFERED"]["PRIVATE"] / "observations.rs",
+                "original-engine-error": args.original / ENGINE["SOURCE"],
+                "engine-error-caller": ENGINE["HERE"] / "probe.rs",
+                "original-native-choice": args.original / ENGINE["IDENTITY"]["SOURCE"],
+                "choice-caller": HERE.parent / "backend-choice/probe.rs",
                 "original-release-manifest": args.original / SOURCE,
                 "original-release-versions": args.original / VECTOR_SOURCE,
                 "manifest-oracle-caller": OBSERVATIONS / "probe.rs",
