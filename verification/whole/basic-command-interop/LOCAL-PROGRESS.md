@@ -46,3 +46,8 @@ stopped before owner contact. Nonzero initial cursors for a fresh submit and a
 wrong-session response with a valid outer digest stopped before output or
 poll consumption. Use `--check-resume-admission` with the generated client to
 replay these six additional cases.
+
+The [package codec comparison](bounded-local-progress-workspace-codec-aarch64-apple-darwin.json)
+used the emitted `marmish-native` response module pinned by the same workspace
+lock. It checks 117 mainline packet observations, including 36 admitted
+responses, and rejects all 20 cross-operation decoder pairings.

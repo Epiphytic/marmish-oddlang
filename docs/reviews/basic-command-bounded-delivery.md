@@ -13,3 +13,10 @@ The pinned upstream client independently supplies the expected CLI and local
 frame observations. The generated fixture counterpart covers the same
 local calls. Authenticated delivery through a generated owner belongs to
 separate peer-side qualification.
+
+The Opus 5.5 follow-up approved the frozen package and evidence. It validated
+all seven manifests and 111 staged contract hashes, the shared fixture digest,
+the sealed build and executable digests, eight equal local cases, and the
+candidate-only authority and cursor rejections. The owner fixture confines
+network access to its Unix socket and permits execution of the selected
+client executable. The commit pins the fixture's helper files by ancestry.
