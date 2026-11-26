@@ -1,0 +1,42 @@
+{
+  "additionalQualification": [
+    "decoder",
+    "validation and named errors",
+    "nested fragment interiors"
+  ],
+  "format": "oddlang-tagged-frame-recovery-obligations-v1",
+  "method": "crate::copy_protocol::Frame::encode",
+  "role": "binary-frame-encoder",
+  "unresolved": {
+    "urn:marmish:copy:frame:Checkpoint": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Commit": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Data": [
+      "conditional guard at line 392",
+      "checked guard: end"
+    ],
+    "urn:marmish:copy:frame:Done": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Manifest": [
+      "fragment encoder: copy_protocol::Manifest::encode"
+    ],
+    "urn:marmish:copy:frame:Prefix": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Progress": [
+      "checked guard: copy_protocol::offset",
+      "conditional guard at line 432"
+    ],
+    "urn:marmish:copy:frame:Resume": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Start": [
+      "checked guard: copy_protocol::Launch::validate",
+      "fragment writer: copy_protocol::encode_launch"
+    ]
+  }
+}

@@ -8,6 +8,8 @@ To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Carg
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
 
+The [source-derived copy frame profile](../verification/whole/source-copy-frame/README.md) recovers all eleven frame tags and the ordered top-level payload writes from the pinned Rust encoder.
+
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.
 
 | Oddlang source | Generated Rust |

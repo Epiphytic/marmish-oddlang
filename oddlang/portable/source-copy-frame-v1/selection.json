@@ -1,0 +1,54 @@
+{
+  "format": "oddlang-tagged-frame-selection-v1",
+  "method": "crate::copy_protocol::Frame::encode",
+  "sourceSha256": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2",
+  "evidenceSha256": "eb67843b2e8210187e8d15fd37d0957b2505706e06eabee182470ab5fc2198a0",
+  "tupleSlots": {
+    "urn:marmish:copy:frame:Start": [
+      "urn:marmish:copy:frame:Start:field:launch",
+      "urn:marmish:copy:frame:Start:field:codec"
+    ],
+    "urn:marmish:copy:frame:Manifest": [
+      "urn:marmish:copy:frame:Manifest:field:manifest"
+    ],
+    "urn:marmish:copy:frame:Error": [
+      "urn:marmish:copy:frame:Error:field:code"
+    ]
+  },
+  "fragmentHelpers": {
+    "urn:marmish:copy:launch": "copy_protocol::encode_launch",
+    "urn:marmish:copy:manifest": "copy_protocol::Manifest::encode"
+  },
+  "acceptedUnresolved": {
+    "urn:marmish:copy:frame:Start": [
+      "checked guard: copy_protocol::Launch::validate",
+      "fragment writer: copy_protocol::encode_launch"
+    ],
+    "urn:marmish:copy:frame:Manifest": [
+      "fragment encoder: copy_protocol::Manifest::encode"
+    ],
+    "urn:marmish:copy:frame:Data": [
+      "conditional guard at line 392",
+      "checked guard: end"
+    ],
+    "urn:marmish:copy:frame:Progress": [
+      "checked guard: copy_protocol::offset",
+      "conditional guard at line 432"
+    ],
+    "urn:marmish:copy:frame:Resume": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Prefix": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Checkpoint": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Done": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "urn:marmish:copy:frame:Commit": [
+      "checked guard: copy_protocol::offset"
+    ]
+  }
+}
