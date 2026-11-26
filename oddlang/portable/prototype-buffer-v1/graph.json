@@ -1,0 +1,17 @@
+{
+  "format": "oddlang-buffered-input-v1",
+  "id": "urn:marmish:prototype:private-buffer",
+  "capacity": 8192,
+  "fieldOrder": [
+    "input",
+    "storage",
+    "begin",
+    "end"
+  ],
+  "transitions": {
+    "emptyRead": "refill-if-exhausted",
+    "refillError": "reset-begin-retain-end",
+    "consumedBytes": "erase",
+    "releaseStorage": "erase"
+  }
+}
