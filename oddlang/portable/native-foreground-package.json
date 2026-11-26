@@ -1,0 +1,168 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {
+    "clap": {
+      "version": "4.6.7"
+    },
+    "libc": {
+      "version": "0.2.189"
+    },
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "tokio": {
+      "version": "1.54.1",
+      "features": [
+        "io-util",
+        "macros",
+        "net",
+        "rt",
+        "signal",
+        "sync",
+        "time"
+      ]
+    },
+    "secp256k1": {
+      "version": "0.30.0"
+    },
+    "zeroize": {
+      "version": "1.9.1"
+    },
+    "rustls": {
+      "version": "0.23.46",
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "std",
+        "tls12"
+      ]
+    },
+    "tokio-rustls": {
+      "version": "0.26.6",
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "tls12"
+      ]
+    },
+    "webpki-roots": {
+      "version": "1.0.11"
+    }
+  },
+  "cargoLock": {
+    "path": "native-foreground-owner-v1/foreground-Cargo.lock",
+    "sha256": "3d3e1894fd0b74b1230734a96c8f52a4f786a82290e25bfa4c105eb90a955c42"
+  },
+  "components": [
+    {
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-v1/graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "native-status-v1/cli-marmish.json",
+        "sha256": "20403a093377feffac805c997b1e174c6f3db4b8e6c03a35ab8d22113926f705"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-v1/graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "native-foreground-owner-v1/cli-marmishd.json",
+        "sha256": "a703fe69e8fdf5e5989cbf6bcbb717738bf9619533def862cf39a771940f4ae3"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-command-client",
+      "module": "local_status",
+      "graph": {
+        "path": "native-status-v1/graph.json",
+        "sha256": "275bc3f31d9368b3b203be535e07fc990d1a4f74c85212947dc323bcdeaa2312"
+      },
+      "overlay": {
+        "path": "native-status-v1/rust.json",
+        "sha256": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea"
+      },
+      "reexports": [
+        "handle_status"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-status-owner",
+      "module": "status_owner",
+      "graph": {
+        "path": "native-status-owner-v1/graph.json",
+        "sha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d"
+      },
+      "overlay": {
+        "path": "native-status-owner-v1/rust.json",
+        "sha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2"
+      },
+      "reexports": [
+        "BoundOwner",
+        "SnapshotPublisher",
+        "OwnerError",
+        "run_owner"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "foreground-profile-owner",
+      "module": "foreground",
+      "graph": {
+        "path": "native-foreground-owner-v1/graph.json",
+        "sha256": "504657b7552fa5736c7387aa3b2d3523553cbce6b7d0342c8e41cb279d588aac"
+      },
+      "overlay": {
+        "path": "native-foreground-owner-v1/rust.json",
+        "sha256": "fc9b922380cd9076733c631b8c03a37dd62f896856c226dbc161a25b7ec8f84f"
+      },
+      "reexports": [
+        "run_foreground"
+      ],
+      "rootReexports": []
+    }
+  ],
+  "binaries": [
+    {
+      "name": "marmish",
+      "entry": [
+        "marmish_parser",
+        "run_cli"
+      ]
+    },
+    {
+      "name": "marmishd",
+      "entry": [
+        "marmishd_parser",
+        "run_cli"
+      ]
+    }
+  ]
+}
