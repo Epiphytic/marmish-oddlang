@@ -1,0 +1,470 @@
+{
+  "binaries": [
+    {
+      "entry": [
+        "marmish_parser",
+        "run_cli"
+      ],
+      "name": "marmish",
+      "startup": {
+        "dependency": "marmish-engine",
+        "entry": [
+          "initialize_process_limits"
+        ],
+        "exit": 1,
+        "stderr": "marmish: process_limits"
+      }
+    },
+    {
+      "entry": [
+        "marmishd_parser",
+        "run_cli"
+      ],
+      "name": "marmishd",
+      "startup": {
+        "dependency": "marmish-engine",
+        "entry": [
+          "initialize_process_limits"
+        ],
+        "exit": 1,
+        "stderr": "marmish: process_limits"
+      }
+    }
+  ],
+  "cargoLock": {
+    "path": "local-file-catalog-v1/Cargo.lock",
+    "sha256": "6f0d4656294a3293f8bec9a31e98b230e8600520b3b6e84110dbee3762b5bef0"
+  },
+  "components": [
+    {
+      "graph": {
+        "path": "native-cli-prefix-v1/graph.json",
+        "sha256": "e42435541ec64e62319e00926bd4880017a0cf26c061c36c8c04868f4f9d0c6a"
+      },
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "overlay": {
+        "path": "native-cli-terminal-v1/marmish-cli.json",
+        "sha256": "c009ef2646b7bbd839b81cf025e8424d16a0a73ed178821ac0383daa2de712d0"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": [],
+      "visibility": "public"
+    },
+    {
+      "graph": {
+        "path": "native-cli-prefix-v1/graph.json",
+        "sha256": "e42435541ec64e62319e00926bd4880017a0cf26c061c36c8c04868f4f9d0c6a"
+      },
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "overlay": {
+        "path": "native-cli-terminal-v1/marmishd-cli.json",
+        "sha256": "fc89b4c73b663813a1c571ce57ad384e6ce7af52ff73cecfe3a50da56ea16b58"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": [],
+      "visibility": "public"
+    },
+    {
+      "graph": {
+        "path": "native-status-discovery-v1/graph.json",
+        "sha256": "5516fc8b7ca45648b1744ae7489f8c2e2cbf70057bfa6057fbb5d868eb026700"
+      },
+      "kind": "local-command-client",
+      "module": "local_status",
+      "overlay": {
+        "path": "native-status-v1/rust.json",
+        "sha256": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea"
+      },
+      "reexports": [
+        "handle_status"
+      ],
+      "rootReexports": []
+    },
+    {
+      "graph": {
+        "path": "native-status-owner-v1/graph.json",
+        "sha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d"
+      },
+      "kind": "local-status-owner",
+      "module": "status_owner",
+      "overlay": {
+        "path": "native-status-owner-v1/rust.json",
+        "sha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2"
+      },
+      "reexports": [
+        "BoundOwner",
+        "SnapshotPublisher",
+        "OwnerError",
+        "run_owner"
+      ],
+      "rootReexports": []
+    },
+    {
+      "graph": {
+        "path": "workspace-v6/foreground-graph.json",
+        "sha256": "0212b6eaa08f7b650ee13ded76561007c39b6fa143c43192cc7286d93a5151a2"
+      },
+      "kind": "foreground-profile-owner",
+      "module": "foreground",
+      "overlay": {
+        "path": "native-foreground-lifecycle-v1/rust.json",
+        "sha256": "9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c"
+      },
+      "reexports": [
+        "run_foreground"
+      ],
+      "rootReexports": []
+    },
+    {
+      "crateReexports": [
+        "open_retained_stores"
+      ],
+      "graph": {
+        "path": "native-configured-init-v1/graph.json",
+        "sha256": "a036570a7069c20d278b49c33590117284a32332c162fbab55d850db2509f043"
+      },
+      "kind": "file-profile",
+      "module": "profile_initialize",
+      "overlay": {
+        "path": "native-foreground-lifecycle-v1/encrypted-stores-rust.json",
+        "sha256": "99feaef62fdccca6f1618d2e44e0d484717fc9ef82cfdd565b55efd15a25f6d0"
+      },
+      "reexports": [
+        "initialize_profile"
+      ],
+      "rootReexports": []
+    },
+    {
+      "graph": {
+        "path": "native-build-report-recovered-v1/graph.json",
+        "sha256": "20358d51451b80ffc68f2044a2e32e996373267d3f262a94796b34bfb590d5d7"
+      },
+      "kind": "build-report",
+      "module": "release_metadata",
+      "overlay": {
+        "path": "native-build-report-v1/rust.json",
+        "sha256": "4070dd46da9c8db378501b0e9fa3973a184eb42ea34a5e173c548ba55df1b91a"
+      },
+      "reexports": [
+        "report_release"
+      ],
+      "rootReexports": []
+    },
+    {
+      "graph": {
+        "path": "native-error-v1/graph.json",
+        "sha256": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34"
+      },
+      "kind": "finite-error-domain",
+      "module": "error",
+      "overlay": {
+        "path": "native-error-v1/rust.json",
+        "sha256": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a"
+      },
+      "reexports": [
+        "Error",
+        "Result"
+      ],
+      "visibility": "public"
+    },
+    {
+      "graph": {
+        "path": "native-journal-records-v1/graph.json",
+        "sha256": "466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2"
+      },
+      "kind": "public-records",
+      "module": "record_views",
+      "overlay": {
+        "path": "native-journal-records-v1/rust.json",
+        "sha256": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5"
+      },
+      "reexports": [
+        "journal",
+        "mdk_adapter"
+      ]
+    },
+    {
+      "graph": {
+        "path": "native-backend-choice-v1/graph.json",
+        "sha256": "78dbab0729733f0c4e700dfbdabd0175e823864867bd69a0c7bc3e8c71c75926"
+      },
+      "kind": "checked-values",
+      "module": "identity",
+      "overlay": {
+        "path": "native-backend-choice-v1/rust.json",
+        "sha256": "87037762d967a9bb0bdd24a8b92b651dd7297856c8cfa7eb97ee37af9a6d2809"
+      },
+      "reexports": [
+        "BackendChoice"
+      ],
+      "rootReexports": [],
+      "visibility": "public"
+    },
+    {
+      "graph": {
+        "path": "native-diagnostics-v1/graph.json",
+        "sha256": "a517354acc5ead6297cff9d8d78fe1e5a4678e6b7f2ea305f7fb6b9eb690a353"
+      },
+      "kind": "structured-diagnostics",
+      "module": "diagnostics",
+      "overlay": {
+        "path": "native-diagnostics-v1/rust.json",
+        "sha256": "f8a06e4910d6bd71cdc8620d36295a5a89b777544f4eb03ba8af11bfc297e6c3"
+      },
+      "reexports": [
+        "enable",
+        "event",
+        "stage"
+      ],
+      "rootReexports": [],
+      "visibility": "public"
+    },
+    {
+      "crateReexports": [
+        "Manifest",
+        "Asset",
+        "version",
+        "TARGETS"
+      ],
+      "graph": {
+        "path": "release-manifest-v1/graph.json",
+        "sha256": "d72b16b4e4e4f0c92e1d0e2743164ef6556a03bb52e9eaec1f9b8a26963a0896"
+      },
+      "kind": "line-grammar",
+      "module": "native_manifest",
+      "overlay": {
+        "path": "release-manifest-integrated-v1/rust.json",
+        "sha256": "38b090c700692b800e1a3348dde736ba9bed3601cabb0f6b535857561638ebaa"
+      },
+      "reexports": []
+    },
+    {
+      "graph": {
+        "path": "native-path-records-v1/graph.json",
+        "sha256": "23819586cc9d517cc6197c85fc42834b16e62acdc65e6d5f00e78150202977ba"
+      },
+      "kind": "public-records",
+      "module": "transport",
+      "overlay": {
+        "path": "native-path-records-v1/rust.json",
+        "sha256": "92e9dd4ba53d9a89ae489c6198bb9d48d9a580aa673579d44220754817a430d4"
+      },
+      "reexports": [
+        "ArtiDirs"
+      ],
+      "rootReexports": [],
+      "visibility": "public"
+    },
+    {
+      "crateReexports": [
+        "safe_file",
+        "read_bounded",
+        "verify_file"
+      ],
+      "graph": {
+        "path": "local-file-integrity-v1/graph.json",
+        "sha256": "e39e319a8178793f7aac862913f1ec694c83171af5930779de61b44da4af8bb4"
+      },
+      "kind": "read-only-file",
+      "module": "file_integrity",
+      "overlay": {
+        "path": "local-file-integrity-v1/rust.json",
+        "sha256": "8cab13658e053aec6bd5eebe14b6e91dee5db18c923a1c1313a40f9a7961dd26"
+      },
+      "reexports": []
+    },
+    {
+      "crateReexports": [
+        "AssetNaming",
+        "NAMES",
+        "verify_directory"
+      ],
+      "graph": {
+        "path": "local-file-catalog-v1/graph.json",
+        "sha256": "261f40a32f2e243e806ed87f9197daed4d7acab02a281b44b03337f8e9f7c136"
+      },
+      "kind": "local-file-catalog",
+      "module": "native_manifest",
+      "overlay": {
+        "path": "local-file-catalog-v1/rust.json",
+        "sha256": "7f21564d170e369987db6608ded623c1adc4c6f7340b44bde1ef46fa78f09976"
+      },
+      "reexports": []
+    }
+  ],
+  "dependencies": {
+    "async-trait": {
+      "version": "0.1.92"
+    },
+    "base64": {
+      "version": "0.22.1"
+    },
+    "cgka-traits": {
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      },
+      "version": "0.15.0-dev"
+    },
+    "clap": {
+      "version": "4.6.7"
+    },
+    "getrandom": {
+      "features": [],
+      "version": "0.4.3"
+    },
+    "hex": {
+      "version": "0.4.3"
+    },
+    "hkdf": {
+      "version": "0.12.4"
+    },
+    "libc": {
+      "version": "0.2.189"
+    },
+    "marmot-session": {
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      },
+      "version": "0.15.0-dev"
+    },
+    "nostr": {
+      "defaultFeatures": false,
+      "features": [
+        "std",
+        "rand",
+        "os-rng",
+        "nip04",
+        "nip49",
+        "nip59"
+      ],
+      "source": {
+        "git": "https://github.com/erskingardner/rust-nostr",
+        "revision": "48801bf6f2f1cd55bb1729e94159946c8832a786"
+      },
+      "version": "0.45.5"
+    },
+    "nostr-sdk": {
+      "defaultFeatures": false,
+      "source": {
+        "git": "https://github.com/erskingardner/rust-nostr",
+        "revision": "48801bf6f2f1cd55bb1729e94159946c8832a786"
+      },
+      "version": "0.45.4"
+    },
+    "rusqlite": {
+      "defaultFeatures": false,
+      "features": [
+        "bundled-sqlcipher-vendored-openssl"
+      ],
+      "version": "0.40.1"
+    },
+    "rustix": {
+      "features": [
+        "fs"
+      ],
+      "version": "1.1.5"
+    },
+    "rustls": {
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "std",
+        "tls12"
+      ],
+      "version": "0.23.46"
+    },
+    "secp256k1": {
+      "features": [],
+      "version": "0.30.0"
+    },
+    "serde": {
+      "features": [
+        "derive"
+      ],
+      "version": "1.0.229"
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "sha2": {
+      "version": "0.10.9"
+    },
+    "storage-sqlite": {
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      },
+      "version": "0.15.0-dev"
+    },
+    "tokio": {
+      "features": [
+        "io-util",
+        "macros",
+        "net",
+        "rt",
+        "signal",
+        "sync",
+        "time"
+      ],
+      "version": "1.54.1"
+    },
+    "tokio-rustls": {
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "tls12"
+      ],
+      "version": "0.26.6"
+    },
+    "transport-nostr-adapter": {
+      "features": [
+        "sdk"
+      ],
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      },
+      "version": "0.15.0-dev"
+    },
+    "transport-nostr-peeler": {
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      },
+      "version": "0.15.0-dev"
+    },
+    "url": {
+      "version": "2.5.8"
+    },
+    "webpki-roots": {
+      "version": "1.0.11"
+    },
+    "zeroize": {
+      "features": [],
+      "version": "1.9.1"
+    }
+  },
+  "devDependencies": {
+    "tempfile": {
+      "version": "3.27.0"
+    }
+  },
+  "edition": "2024",
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "registryPatches": {
+    "libsqlite3-sys": {
+      "git": "https://github.com/rusqlite/rusqlite.git",
+      "revision": "5ae7fdf83085c595fd54f977b3a56ccacabaf16b"
+    }
+  },
+  "version": "0.3.1"
+}
