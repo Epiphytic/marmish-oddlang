@@ -1,0 +1,15 @@
+{
+  "format": "oddlang-typed-finite-error-selection-v1",
+  "id": "urn:marmish:engine:error-domain",
+  "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+  "error": "EngineError",
+  "result": "Result",
+  "choices": [
+    "NotFoundReason",
+    "NotExecutableReason",
+    "ResolutionReason"
+  ],
+  "variantIds": {
+    "WorkerUnavailable": "urn:marmish:engine:worker-unavailable"
+  }
+}

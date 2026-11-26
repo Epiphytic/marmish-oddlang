@@ -5,9 +5,11 @@ from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import subprocess
 import tempfile
+from typing import NamedTuple
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -49,14 +51,35 @@ def git(root, *args):
     return run(["git", "-C", root, *args], root).stdout
 
 
-def verify_product(product, inputs):
+class Candidate(NamedTuple):
+    release: str
+    input_revision: str
+    framework_revision: str
+    lock_sha256: str
+
+
+DEFAULT_CANDIDATE = Candidate(RELEASE, INPUT_REVISION, RUNTIME, WORKSPACE_LOCK)
+
+
+def candidate_profile(path):
+    if path is None:
+        return DEFAULT_CANDIDATE
+    profile = Candidate(**read(path))
+    patterns = (r"[a-z][a-z0-9-]*", r"[0-9a-f]{40}", r"[0-9a-f]{40}", r"[0-9a-f]{64}")
+    if not all(isinstance(value, str) and re.fullmatch(pattern, value)
+               for value, pattern in zip(profile, patterns)):
+        raise ValueError("invalid candidate profile")
+    return profile
+
+
+def verify_product(product, inputs, profile=DEFAULT_CANDIDATE):
     portable = inputs / "oddlang/portable"
-    release = portable / f"{RELEASE}.json"
-    for path in (release, portable / RELEASE / "workspace.lock"):
-        assert path.read_bytes() == git(inputs, "show", f"{INPUT_REVISION}:{path.relative_to(inputs)}")
+    release = portable / f"{profile.release}.json"
+    for path in (release, portable / profile.release / "workspace.lock"):
+        assert path.read_bytes() == git(inputs, "show", f"{profile.input_revision}:{path.relative_to(inputs)}")
     locked = (product / "workspace.lock").read_bytes()
-    assert sha(locked) == WORKSPACE_LOCK
-    assert locked == (portable / RELEASE / "workspace.lock").read_bytes()
+    assert sha(locked) == profile.lock_sha256
+    assert locked == (portable / profile.release / "workspace.lock").read_bytes()
     workspace = json.loads(locked)
     assert sha(release.read_bytes()) == workspace["inputSha256"]
     assert set(workspace["members"]) == {f"marmish-{name}" for name in COUNTS}
@@ -210,7 +233,9 @@ def main():
     parser.add_argument("--release-inputs", type=lambda value: Path(value).resolve(), default=ROOT)
     parser.add_argument("--candidate-artifacts", type=Path)
     parser.add_argument("--original-artifacts", type=Path)
+    parser.add_argument("--candidate-profile", type=Path)
     args = parser.parse_args()
+    profile = candidate_profile(args.candidate_profile)
     for target in (args.candidate_target, args.original_target):
         assert not target.is_relative_to(args.product) and not target.is_relative_to(args.original)
     assert git(args.original, "rev-parse", "HEAD").decode().strip() == ORIGINAL
@@ -219,7 +244,7 @@ def main():
     assert f"commit-hash: {COMPILER}" in version and f"host: {HOST}" in version
     provenance = INVENTORY / "provenance.json"
     assert read(provenance)["original"]["revision"] == ORIGINAL
-    manifest = verify_product(args.product, args.release_inputs)
+    manifest = verify_product(args.product, args.release_inputs, profile)
     candidate = (args.candidate_artifacts.read_bytes() if args.candidate_artifacts else
                  run(["cargo", "+1.97.1", "build", "--release", "--workspace", "--lib", "--locked",
                       "--offline", "--target-dir", args.candidate_target, "--message-format=json"],
@@ -236,11 +261,11 @@ def main():
         result = dict(zip(COUNTS, jobs.map(lambda name: imports(name, found[f"marmish-{name}"], args.original), COUNTS)))
     probe = prototype_probe(original["marmish-prototype"], found["marmish-prototype"],
                             original_link, candidate_link)
-    assert verify_product(args.product, args.release_inputs) == manifest
+    assert verify_product(args.product, args.release_inputs, profile) == manifest
     report = {
-        "workspaceInputRevision": INPUT_REVISION, "frameworkRevision": RUNTIME, "original": ORIGINAL,
-        "workspaceLockSha256": WORKSPACE_LOCK,
-        "workspaceManifestSha256": sha((args.release_inputs / "oddlang/portable" / f"{RELEASE}.json").read_bytes()),
+        "workspaceInputRevision": profile.input_revision, "frameworkRevision": profile.framework_revision, "original": ORIGINAL,
+        "workspaceLockSha256": profile.lock_sha256,
+        "workspaceManifestSha256": sha((args.release_inputs / "oddlang/portable" / f"{profile.release}.json").read_bytes()),
         "upstreamInventoryProvenanceSha256": sha(provenance.read_bytes()), "rustc": version,
         "candidateArtifactLogSha256": sha(candidate), "originalArtifactLogSha256": sha(baseline),
         "verifierSha256": sha(Path(__file__).read_bytes()),

@@ -114,7 +114,7 @@ def main():
             manifest=MANIFEST, base=BASE, member=MEMBER, check=check_product,
             extra_denied={"original-prototype": args.original / BUFFER["SOURCE"],
                           "buffer-caller": PRIVATE / "observations.rs"},
-            extra_oracle=lambda product: buffer_oracle(product, args.original, host),
+            extra_oracle=lambda product, build: buffer_oracle(product, args.original, host),
             receipt_format="marmish-seven-member-private-buffer-v1",
         )
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
