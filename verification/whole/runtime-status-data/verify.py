@@ -1,5 +1,6 @@
 """Qualify RuntimeStatus through data-only callers of sealed native packages."""
 import argparse
+import fcntl
 import json
 from pathlib import Path
 import runpy
@@ -198,13 +199,6 @@ def verify(args, host, work, scratch):
     build = invoke("cargo", "build", "--lib", "-p", MEMBER, "--release", "--locked", "--offline",
                    "--message-format=json", cwd=product)
     generated, generated_library = caller(scratch / "generated", build)
-    originals = {}
-    for case, flags in (("default", ()), ("installed-checks", ("--no-default-features", "--features", "installed-checks"))):
-        actual, lib = caller(scratch / case, cargo_reference(args.original, args.original_target, *flags))
-        if actual != generated or actual["jsonLines"] != baseline_expected():
-            raise ValueError(f"RuntimeStatus caller mismatch with original profile {case}")
-        originals[case] = lib
-
     projection = work / "mutation-projection"
     invoke(compiler, "build", "public-records", "rust", mutation_inputs / "graph.json",
            mutation_inputs / "rust.json", projection)
@@ -213,9 +207,20 @@ def verify(args, host, work, scratch):
     run("rustc", "+1.97.1", "--edition=2024", "--crate-type=rlib", "--crate-name=marmish_native",
         "-L", f"dependency={serde.parent}", "--extern", f"serde={serde}", projection / "records.rs", "-o", changed_native)
     changed, changed_library = caller(scratch / "generated-mutation", build, changed_native)
-    reference_mutation, mutation_library = caller(
-        scratch / "original-mutation", cargo_reference(mutant, args.original_target),
-    )
+    args.original_target.mkdir(parents=True, exist_ok=True)
+    # Cargo may assign the original and the mutated crate the same output path.
+    # Hold the reference lock through linking every external caller.
+    with (args.original_target / ".oddlang-runtime-status-reference.lock").open("a") as lock:
+        fcntl.flock(lock, fcntl.LOCK_EX)
+        originals = {}
+        for case, flags in (("default", ()), ("installed-checks", ("--no-default-features", "--features", "installed-checks"))):
+            actual, lib = caller(scratch / case, cargo_reference(args.original, args.original_target, *flags))
+            if actual != generated or actual["jsonLines"] != baseline_expected():
+                raise ValueError(f"RuntimeStatus caller mismatch for {case}: {actual!r} != {generated!r}")
+            originals[case] = lib
+        reference_mutation, mutation_library = caller(
+            scratch / "original-mutation", cargo_reference(mutant, args.original_target),
+        )
     observed = [json.loads(line) for line in changed["jsonLines"][:-1]]
     if changed != reference_mutation or changed == generated or changed["diagnostics"] != generated["diagnostics"]:
         raise ValueError("changed source and changed projection failed to track record ordering")
