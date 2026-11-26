@@ -81,13 +81,17 @@ def resolve(graph):
     return rows
 
 
-def main():
-    graph = Graph().parse(PORTABLE / "core-structure-v1/ownership.ttl")
-    complete = resolve(graph)
+def remove_native_bindings(graph):
     for binding in list(graph.subjects(RDF.type, O.RustBinding)):
         graph.remove((binding, None, None))
     for hint in (O.originalFacade, O.rustOverlay, O.rustOverlaySha256):
         graph.remove((None, hint, None))
+
+
+def main():
+    graph = Graph().parse(PORTABLE / "core-structure-v1/ownership.ttl")
+    complete = resolve(graph)
+    remove_native_bindings(graph)
     require(resolve(graph) == complete, "semantic resolution depends on native bindings")
     print(f"{len(TYPES)} types resolve to {len(complete)} domain, case and parameter selections without native bindings")
     wrong = M["configuration-failure"]

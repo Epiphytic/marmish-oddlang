@@ -51,3 +51,15 @@ component to verify that the mapping rejects it.
 ```sh
 uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/semantic_roles.py
 ```
+
+To exercise a second target, pass the Oddlang executable from framework revision
+`8a20ea283d0d43da42f054a7c7774eb9e6a20da7` to the command below. It starts
+with the retention type IRI, resolves the domain after removing the native
+bindings, and copies just that graph into an empty compiler input directory.
+The emitted TypeScript must match its archived projection lock and pass the
+existing Node checks for 264 sampled inputs, eight generated cases and
+explicit absence.
+
+```sh
+uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/project_retention.py /path/to/oddlang
+```

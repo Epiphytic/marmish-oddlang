@@ -1027,11 +1027,12 @@
 {"path":"verification/whole/core-lexical/package.lock","language":"inventory","mode":"100644","sha256":"b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c","parse_status":"inventory"}
 {"path":"verification/whole/core-lexical/replay.py","language":"python","mode":"100644","sha256":"292ff1816b0ec14c902c6ceeca355b8be7f5e1ae78831abf6349ec08f14e86c1","parse_status":"parsed"}
 {"path":"verification/whole/core-node/check.mjs","language":"javascript","mode":"100644","sha256":"8b8773de0a9fb8539c4c8ba3a581534d00b66fd32b38959b91f9f74655ea82a7","parse_status":"parsed_with_omissions"}
-{"path":"verification/whole/core-ownership/README.md","language":"inventory","mode":"100644","sha256":"2b9eb291fe3ef087adf107058311bd4813fe2e1f5d2aad499cf46678610376ee","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/README.md","language":"inventory","mode":"100644","sha256":"8a732a6bc8af10f569425dce8e589db7e28a948d32058f4823675ff88eeb3698","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/observed.txt","language":"inventory","mode":"100644","sha256":"3d6a9b6d98f2f6507e60e9e3de15cd6b45b94c2e894646b9efeacc1934a250c3","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/ownership.sparql.txt","language":"inventory","mode":"100644","sha256":"a648adc334abbbeb0a4453e38f6f6a71f33006e09cb7be4a151362e823a9b371","parse_status":"inventory"}
+{"path":"verification/whole/core-ownership/project_retention.py","language":"python","mode":"100644","sha256":"144b70d1798cceb362302756b90777799bb6ffceeae2fc0e36239e3b47826441","parse_status":"parsed"}
 {"path":"verification/whole/core-ownership/semantic-roles.sparql.txt","language":"inventory","mode":"100644","sha256":"ef1715923e024c1e7df06b2b55bee31efbb5fbe740806c91b6060faa4d6f16a9","parse_status":"inventory"}
-{"path":"verification/whole/core-ownership/semantic_roles.py","language":"python","mode":"100644","sha256":"e8cdb83e442eb2df29a3e10c5961afc39c73ed5b52302667dfe8f19aff07e414","parse_status":"parsed"}
+{"path":"verification/whole/core-ownership/semantic_roles.py","language":"python","mode":"100644","sha256":"dc1ee989540579e08ae600a780bc1889045f183753268e4d8cbf34b2879bb735","parse_status":"parsed"}
 {"path":"verification/whole/core-ownership/verify.py","language":"python","mode":"100644","sha256":"ac476bf5a5969cffc76073d3479328c5cd9defaf0861937677cdddcb30332ff0","parse_status":"parsed"}
 {"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"517618872c06dbf67ba4c80fba35396a72b1cbe8b8954e5dc51da60a930514df","parse_status":"inventory"}
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
