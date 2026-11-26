@@ -1011,6 +1011,17 @@
 {"path":"verification/whole/copy-source-correspondence/README.md","language":"inventory","mode":"100644","sha256":"aafaef321453d800975c8a057cb65730d934169913455e50bfbc78baa55765d0","parse_status":"inventory"}
 {"path":"verification/whole/copy-source-correspondence/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"30da71c162231b96990b6475d535a78eb2875c4c767fecd84888f4e80e4ad36f","parse_status":"inventory"}
 {"path":"verification/whole/copy-source-correspondence/verify.py","language":"python","mode":"100644","sha256":"3fea40c738440a3e0872b45199935757e7cbe34389869f24e09c235e78f5c09e","parse_status":"parsed"}
+{"path":"verification/whole/core-lexical/README.md","language":"inventory","mode":"100644","sha256":"213d84739201662212a21d011577d56875ae377d967fdcd5c0ea2941fa224e48","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-apple-darwin/generated.json","language":"inventory","mode":"100644","sha256":"c5870700d3862d7108b67aaf5af8633f22c26339618f9ccb566e9e675c5034d0","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-apple-darwin/original.json","language":"inventory","mode":"100644","sha256":"161f2359be4b29005f2139fdc25a11cf055abb612832515a3bdd2b994e5879fc","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-apple-darwin/receipt.json","language":"inventory","mode":"100644","sha256":"4414a1b61fac60c2f31c3d01028162c9ef680e11db8643e08286b11129d04445","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-unknown-linux-gnu/generated.json","language":"inventory","mode":"100644","sha256":"a7cef6e56ba2d985b1abbcb5b0071e6fd7b3b8fb696445e0ba2505a3ee5ab2fc","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-unknown-linux-gnu/original.json","language":"inventory","mode":"100644","sha256":"4180ea0dfb44fd11943fc8edc7899e6088cadd650edf68eb2d4a398e3629cfdd","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/aarch64-unknown-linux-gnu/receipt.json","language":"inventory","mode":"100644","sha256":"3b7e07ae3ab1ef0512433d52eabae6e46f169e20ec5e70c1faa310b8030f626d","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/compare.py","language":"python","mode":"100644","sha256":"b60d1430f558c60a0d1ac9f5d20629d90f75603fd7ca55fbde8bf6cd07e8cac8","parse_status":"parsed"}
+{"path":"verification/whole/core-lexical/comparison.json","language":"inventory","mode":"100644","sha256":"78bb3ad858f58f5f064eacdc89b06825e774ba3fbd11c0bc55aa898e2857565a","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/package.lock","language":"inventory","mode":"100644","sha256":"b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c","parse_status":"inventory"}
+{"path":"verification/whole/core-lexical/replay.py","language":"python","mode":"100644","sha256":"292ff1816b0ec14c902c6ceeca355b8be7f5e1ae78831abf6349ec08f14e86c1","parse_status":"parsed"}
 {"path":"verification/whole/core-node/check.mjs","language":"javascript","mode":"100644","sha256":"8b8773de0a9fb8539c4c8ba3a581534d00b66fd32b38959b91f9f74655ea82a7","parse_status":"parsed_with_omissions"}
 {"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"517618872c06dbf67ba4c80fba35396a72b1cbe8b8954e5dc51da60a930514df","parse_status":"inventory"}
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
