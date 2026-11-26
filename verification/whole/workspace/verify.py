@@ -7,6 +7,7 @@ import importlib.util
 import json
 from pathlib import Path
 import re
+import runpy
 import shutil
 import subprocess
 import tempfile
@@ -44,13 +45,42 @@ def linux_isolation(work):
     return args, dict(os.environ)
 
 
+def v3_interfaces(work, target, original, binaries, compiler):
+    lane = runpy.run_path(str(HERE.parent / "copy-field-relations/verify.py"))
+    cases, expected = lane["corpus"]()
+    for name, crate, lock in (
+        ("original", original / "crates/marmish-stream", original / "Cargo.lock"),
+        ("generated", target / "marmish-stream", target / "Cargo.lock"),
+    ):
+        executable = lane["consumer"](crate, work / ("relation-" + name), lock, lane["CALLER"])
+        if lane["observe"](executable, cases) != expected:
+            raise ValueError(f"{name} copy relations differ from portable oracle")
+    runtime = work / "status.json"
+    original_status = json.loads((HERE.parent / "status" / ("linux-arm64.json" if sys.platform == "linux" else "macos-arm64.json")).read_bytes())
+    for name, digest in original_status["originalBinaries"].items():
+        if sha((binaries / name).read_bytes()) != digest:
+            raise ValueError(f"original executable digest mismatch: {name}")
+    envtools.run(sys.executable, "-B", HERE.parent / "status/discovery_probe.py", binaries, runtime,
+                 "--candidate", target / "target/release/marmish", "--framework-revision", compiler)
+    status = json.loads(runtime.read_bytes())
+    return {
+        "copyRelations": {"cases": len(cases), "callerSha256": sha(lane["CALLER"].read_bytes()),
+                          "observationsSha256": sha(json.dumps(expected, separators=(",", ":")).encode())},
+        "status": status,
+    }
+
+
 def main():
     ap=argparse.ArgumentParser()
     for name in ("framework","original","receipt"):ap.add_argument(name,type=Path)
-    ap.add_argument("--release", choices=("v1", "v2"), default="v1")
+    ap.add_argument("--release", choices=("v1", "v2", "v3"), default="v1")
+    ap.add_argument("--original-bin-dir", type=Path)
     args=ap.parse_args()
-    combined = args.release == "v2"
-    compiler = "911614cef63a84ecf840cb1228c8a944f1d54d48" if combined else FRAMEWORK
+    if args.release == "v3" and args.original_bin_dir is None:
+        ap.error("--release v3 requires --original-bin-dir for the mixed status replay")
+    combined = args.release != "v1"
+    compiler = {"v1": FRAMEWORK, "v2": "911614cef63a84ecf840cb1228c8a944f1d54d48",
+                "v3": "11a8b7038b37295729b9e43cfe9a917b9a688f14"}[args.release]
     original=args.original.resolve(); framework=args.framework.resolve()
     def pin(repo,expected):
         if envtools.run("git","rev-parse","HEAD",cwd=repo).strip()!=expected or envtools.run("git","status","--porcelain","--untracked-files=all",cwd=repo):
@@ -65,7 +95,7 @@ def main():
             target=graph/orig.relative_to(PORTABLE)
             target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(orig,target)
             return orig
-        manifest=PORTABLE/("workspace-v2.json" if combined else "workspace.json")
+        manifest=PORTABLE/(f"workspace-{args.release}.json" if combined else "workspace.json")
         w=json.loads(manifest.read_bytes())
         shutil.copyfile(manifest,graph/manifest.name)
         stage(PORTABLE,w["cargoLock"])
@@ -102,6 +132,7 @@ def main():
         probe=subprocess.run([*sandbox,"/bin/cat",original/"Cargo.toml"],env=env,cwd=work,capture_output=True)
         if probe.returncode==0 or not any(e in probe.stderr for e in (b"Operation not permitted",b"No such file or directory")):raise ValueError("reference source access")
         inside("cargo","build","--workspace","--locked","--release","--offline",cwd=target)
+        interfaces = v3_interfaces(work, target, original, args.original_bin_dir.resolve(), compiler) if args.release == "v3" else {}
         core=target/"marmish-core";(core/"tests").mkdir()
         testfile=original/"crates/marmish-core/tests/contracts.rs";shutil.copyfile(testfile,core/"tests/contracts.rs")
         stream=target/"marmish-stream"
@@ -145,7 +176,7 @@ mod wire_caller {
         expected_count = 25 if combined else 17
         if len(names)!=len(set(names)) or len(names)!=expected_count:raise ValueError(f"expected {expected_count} tests, saw {names}")
         args.receipt.write_text(json.dumps(dict(framework=compiler,original=ORIGINAL,workspaceLockSha256=sha(file.read_bytes()),
-            qualification=platform+", release, source and network isolated",testModules=module_digests,tests=sorted(names)),indent=2)+"\n")
+            qualification=platform+", release, source and network isolated",testModules=module_digests,tests=sorted(names),**interfaces),indent=2)+"\n")
 
 
 if __name__=="__main__":main()
