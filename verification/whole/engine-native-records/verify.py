@@ -32,12 +32,12 @@ LIMIT = CONVERGED["LIMIT"]
 
 TYPES = {
     "engine": {
-        "marmish_engine::InputReceipt": ("Copy", "Default", "Eq", "Ord", "Hash", "Serialize", "Deserialize"),
-        "marmish_engine::MaintenanceReport": ("Copy", "Eq", "Ord", "Hash", "Serialize", "Deserialize"),
+        "marmish_engine::InputReceipt": ("Copy", "Default", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize"),
+        "marmish_engine::MaintenanceReport": ("Copy", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize"),
     },
-    "native": {"marmish_native::transport::ArtiDirs": ("Copy", "Default", "Eq", "Ord", "Hash", "Serialize", "Deserialize")},
+    "native": {"marmish_native::transport::ArtiDirs": ("Copy", "Default", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize")},
 }
-BOUNDS = {"Hash": "std::hash::Hash", "Serialize": "serde::Serialize",
+BOUNDS = {"Hash": "std::hash::Hash", "Display": "std::fmt::Display", "Serialize": "serde::Serialize",
           "Deserialize": "for<'de> serde::Deserialize<'de>"}
 
 
