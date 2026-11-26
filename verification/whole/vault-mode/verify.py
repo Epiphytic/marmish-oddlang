@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import runpy
 import shutil
@@ -25,8 +26,31 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def reject_local_cargo_config(directory):
+    for base in (directory, *directory.parents):
+        for name in ("config", "config.toml"):
+            config = base / ".cargo" / name
+            if config.is_file():
+                raise ValueError(f"unexpected Cargo configuration: {config}")
+
+
+def host_build_env(cargo_home):
+    registry_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
+    cargo_home.mkdir()
+    for name in ("registry", "git"):
+        cache = registry_home / name
+        if cache.is_dir():
+            (cargo_home / name).symlink_to(cache.resolve(), target_is_directory=True)
+    env = JOURNAL["cargo_env"]()
+    env = {key: value for key, value in env.items()
+           if not key.startswith(("CARGO_", "RUSTC", "RUSTDOC", "RUSTFLAGS"))}
+    env.update(CARGO_HOME=str(cargo_home), CARGO_NET_OFFLINE="true")
+    return env
+
+
 def check_inputs(args):
     for path, expected in ((args.framework, FRAMEWORK), (args.original, ORIGINAL)):
+        reject_local_cargo_config(path)
         revision = run("git", "rev-parse", "HEAD", cwd=path).decode().strip()
         dirty = run("git", "status", "--porcelain", "--untracked-files=all", cwd=path)
         if revision != expected or dirty:
@@ -81,10 +105,11 @@ def qualify(args, scratch, work, host):
     results = {}
     for name, checkout, expected in (("baseline", args.original, ["interactive=0", "verify=1"]),
                                      ("mutation", mutant, ["interactive=1", "verify=0"])):
+        reject_local_cargo_config(checkout)
         reference_target = args.original_target / name
         native_build = run("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--target", host,
                            "--target-dir", reference_target, "-p", "marmish-vault", "--lib",
-                           "--message-format=json", cwd=checkout, env=JOURNAL["cargo_env"]())
+                           "--message-format=json", cwd=checkout, env=args.build_env)
         lib, = [Path(file) for line in native_build.splitlines() if (r := json.loads(line))["reason"] == "compiler-artifact"
                 and Path(r["manifest_path"]).resolve() == (checkout/"crates/marmish-vault/Cargo.toml").resolve()
                 and r["target"]["kind"] == ["lib"] for file in r["filenames"] if file.endswith(".rlib")]
@@ -149,16 +174,18 @@ if __name__ == "__main__":
         cli.add_argument(k, type=lambda s: Path(s).resolve())
     args = cli.parse_args()
     check_inputs(args)
-    run("cargo", "+1.96.1", "build", "--bin", "oddlang", "--locked", "--offline",
-        "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
-    check_inputs(args)
-    args.compiler = args.compiler_target / "debug/oddlang"
     compiler = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     host, = (line[6:] for line in compiler if line.startswith("host: "))
     if host not in ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu"):
         raise ValueError(f"unsupported host {host}")
     with tempfile.TemporaryDirectory() as temp, tempfile.TemporaryDirectory() as isolated:
-        results, compiler_digest = qualify(args, Path(temp).resolve(), Path(isolated).resolve(), host)
+        scratch = Path(temp).resolve()
+        args.build_env = host_build_env(scratch / "cargo-home")
+        run("cargo", "+1.96.1", "build", "--bin", "oddlang", "--locked", "--offline",
+            "--target-dir", args.compiler_target, cwd=args.framework, env=args.build_env)
+        check_inputs(args)
+        args.compiler = args.compiler_target / "debug/oddlang"
+        results, compiler_digest = qualify(args, scratch, Path(isolated).resolve(), host)
     check_inputs(args)
     witness = dict(original=ORIGINAL, host=host, compiler=compiler, framework=FRAMEWORK,
                    compilerSha256=compiler_digest, probeSha256=sha(HERE/"probe.rs"), results=results)
