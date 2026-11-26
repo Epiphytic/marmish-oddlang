@@ -1,4 +1,5 @@
 {
+  "cargoManifestSha256": "f92cdde82b3e4cf077294a7296117af4dcc28dba55bf1c9d694d7a4b273f539f",
   "crateSourceSha256": "23ae99337acc10bb1ae6252af0c4cd3339a1b41f940bcdcda660434a9e84c501",
   "format": "oddlang-public-record-recovery-lock-v1",
   "globSourceSha256": {
@@ -15,5 +16,6 @@
     "mdk_adapter": "975202ee4cbc0c2b5c95ca822d0d728bb36c662d1306466c65e52f497bcb47a8"
   },
   "overlaySha256": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5",
-  "selectionSha256": "9564e6bc732df50ba03db95c24be890e90393ef9d9a46b8e08728bbc22a12f75"
+  "rustEdition": "2024",
+  "selectionSha256": "13de3530247c0b77d4fb5c3fd389b3fa743cc6ff3f8ce2c7cf87686b9d107fac"
 }

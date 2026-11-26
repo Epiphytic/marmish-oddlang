@@ -2,7 +2,8 @@
 
 This slice recovers `Conversation`, `SendStatus`, and `ReceivedMessage` from
 the pinned original `marmish-native` journal. The [source selection](../../../oddlang/portable/native-journal-records-v1/selection.json)
-pins the crate module declarations, both Rust modules, and four local
+pins the native package Cargo manifest and its explicit Rust 2024 edition,
+plus the crate module declarations, both Rust modules, and four local
 child scopes used by the original journal glob imports. The [portable graph](../../../oddlang/portable/native-journal-records-v1/graph.json)
 contains thirteen ordered fields and three public re-export relations.
 The Rust overlay supplies the public names used under `journal` and `mdk_adapter`.
@@ -25,7 +26,7 @@ python3 -B verification/whole/journal-records/verify.py \
     --original-target PATH_TO_LOCAL_ORIGINAL_CARGO_TARGET
 ```
 
-Use Oddlang commit `8db09ef379b6b7650072690689f55cdb2a89bc77`, Rust 1.97.1, and
+Use Oddlang commit `5c84857fe308c61be1eaa597137d31eb53c34146`, Rust 1.97.1, and
 the [workspace build prerequisites](../workspace/README.md). The original
 version is `af54339d250290490d62d4475a77539b7e739071`. The generated inputs,
 including the mutation, contain graph data, Rust identifier bindings and

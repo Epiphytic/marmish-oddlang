@@ -366,9 +366,9 @@
 {"path":"oddlang/portable/native-journal-records-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"1c3b09b44bde3801449d7aeab09067fd1df73b7b0a86ff2f49ded3693556a9bd","parse_status":"inventory"}
 {"path":"oddlang/portable/native-journal-records-v1/graph.json","language":"inventory","mode":"100644","sha256":"466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2","parse_status":"inventory"}
 {"path":"oddlang/portable/native-journal-records-v1/package.lock","language":"inventory","mode":"100644","sha256":"bfb4ee9235cbb4de4cb5df2d03a78caa761149afa99749dadffbdefa227db29f","parse_status":"inventory"}
-{"path":"oddlang/portable/native-journal-records-v1/recovery.lock","language":"inventory","mode":"100644","sha256":"1d3e2f7afdb41cb0d188fda8850488ca7c7c1c162a887ceabf346c7ed3a2def1","parse_status":"inventory"}
+{"path":"oddlang/portable/native-journal-records-v1/recovery.lock","language":"inventory","mode":"100644","sha256":"967e7e7b391121c754e2b28b1549d4bdf15fadb4c22c08c8f8b2c69e8c9e02f2","parse_status":"inventory"}
 {"path":"oddlang/portable/native-journal-records-v1/rust.json","language":"inventory","mode":"100644","sha256":"e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5","parse_status":"inventory"}
-{"path":"oddlang/portable/native-journal-records-v1/selection.json","language":"inventory","mode":"100644","sha256":"9564e6bc732df50ba03db95c24be890e90393ef9d9a46b8e08728bbc22a12f75","parse_status":"inventory"}
+{"path":"oddlang/portable/native-journal-records-v1/selection.json","language":"inventory","mode":"100644","sha256":"13de3530247c0b77d4fb5c3fd389b3fa743cc6ff3f8ce2c7cf87686b9d107fac","parse_status":"inventory"}
 {"path":"oddlang/portable/native-provisioned-status-package.json","language":"inventory","mode":"100644","sha256":"8bb02bc17141a5aa74dee53fe474599d2d521ac85346cad7fda12c716631cab3","parse_status":"inventory"}
 {"path":"oddlang/portable/native-status-discovery-package.json","language":"inventory","mode":"100644","sha256":"f7802fd585f1fafda4ea1ba7f8c2dee259fed413cb26cf2c8136bbb22f70c2b0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-status-discovery-v1/README.md","language":"inventory","mode":"100644","sha256":"c27e3325efc3625b5c137269b42b2a3dfd6a80bae9158fe1fd2a95880f48186a","parse_status":"inventory"}
@@ -900,9 +900,9 @@
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"9ff00fc3389e19bcd4765f4ed71d0d9f8fc7c91ed22f8cc8ff1782e7e39f9c66","parse_status":"parsed"}
 {"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"662c2ae77a665eefb17c4c0b58837ac6537da886d456447504534b5deecfb8e9","parse_status":"parsed"}
-{"path":"verification/whole/journal-records/README.md","language":"inventory","mode":"100644","sha256":"cea621a8b1607d819a12e2347262852ac28fa27585bd7b958afe2e1949d2cbf6","parse_status":"inventory"}
+{"path":"verification/whole/journal-records/README.md","language":"inventory","mode":"100644","sha256":"3aeb16922e4cda95550b3e7894f04873d031b503ab2cecca344607b673715978","parse_status":"inventory"}
 {"path":"verification/whole/journal-records/probe.rs","language":"rust","mode":"100644","sha256":"7d327ff3a60da740ccdfae70214d7e0c06a376eaf69b922e03996a30afe02cfe","parse_status":"parsed"}
-{"path":"verification/whole/journal-records/verify.py","language":"python","mode":"100644","sha256":"101c06fcfd0df7f4802135bc6a719964368d286ff471457087a5819393fe7012","parse_status":"parsed"}
+{"path":"verification/whole/journal-records/verify.py","language":"python","mode":"100644","sha256":"2023fc512a1ea37d59cf93ac5a62efe77798bd7503a959e88696729b54392875","parse_status":"parsed"}
 {"path":"verification/whole/legacy/README.md","language":"inventory","mode":"100644","sha256":"6f8034364c5640322f842b1160a35a861a55936f82ce13c9c62a5e80c507f0fe","parse_status":"inventory"}
 {"path":"verification/whole/legacy/macos-arm64.json","language":"inventory","mode":"100644","sha256":"a4802b629f2e65cfe96d8727018bb3567df645a24f4557af92fb63a5a961f1ce","parse_status":"inventory"}
 {"path":"verification/whole/legacy/observe.py","language":"python","mode":"100644","sha256":"bd977e555144f783448a1d7df34aea9e27e27fc1f8cf221ae56d602ec2220968","parse_status":"parsed"}
