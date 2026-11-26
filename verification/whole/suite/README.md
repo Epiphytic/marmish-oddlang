@@ -233,3 +233,48 @@ python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-mdk-suite.j
 ```
 
 The [macOS ARM64 receipt](canonical-mdk-aarch64-apple-darwin.json) records 43 of 909 active cases passed and 866 unverified. The [Linux ARM64 receipt](canonical-mdk-aarch64-unknown-linux-gnu.json) records 44 of 887 passed and 843 unverified. Each host has five additional ignored cases. The named MDK test is the only additional pass on each host.
+
+## Combined public-data candidate
+
+The [combined public-data workspace](../../../oddlang/portable/workspace-v7-canonical-public-data.json)
+uses compiler `900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab`, companion input
+`04f31258ccfef64ab1c2049a6f399dfcdceebcfb`, and workspace lock SHA-256
+`b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab`.
+It replays the existing canonical named selection. The verifier compares
+every harness and case disposition with the pinned receipt from the same
+host. It lists the core and stream harnesses before execution and requires
+the exact canonical names.
+
+The selection covers the seven core contracts, 29 in-memory stream
+contracts, one vault-value case, the prototype reader, two release
+manifest cases, and selected engine descriptor-limit cases. The engine
+cases re-execute only their own exact test harness. The native process
+integration case invokes only `--help` on the staged client and daemon.
+Everything outside that named selection remains explicitly unverified
+or ignored in the receipts.
+
+```sh
+python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-public-data \
+  "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" "$RECEIPT"
+python3 -B verification/whole/suite/check_coverage.py "$RECEIPT"
+python3 -B verification/whole/suite/check_coverage.py "$RECEIPT" --require-complete
+```
+
+The [Darwin replay](canonical-public-data-aarch64-apple-darwin.json)
+matches all 42 canonical names, with 867 unverified and five ignored.
+The [Linux replay](canonical-public-data-aarch64-unknown-linux-gnu.json)
+matches all 43 canonical names, with 844 unverified and five ignored.
+Linux includes the one Linux-only engine descriptor-limit case. Neither
+replay changes any canonical case disposition.
+
+### Default promotion gates
+
+The named test receipts list the unverified cases by upstream Cargo
+harness and exact name. The full-coverage check still rejects promotion
+on that baseline. The earlier canonical CLI corpus has 164 in-scope
+terminal observations per host. That corpus still needs a replay on
+this candidate lock. The named native-process case
+covers the two terminal help invocations only. Other test profiles,
+targets, installation and live operation have separate evidence and
+receive no coverage credit here. The published default remains pinned
+to the previous canonical workspace.
