@@ -1,0 +1,20 @@
+{
+  "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "graphSha256": "220c5dbc8381f20271dca61bec439a563d1ca2d9c1908f853eba3c76f71ff61d",
+  "host": "aarch64-apple-darwin",
+  "numericCoverage": "sampled; interval property requires independent review",
+  "package": "marmish-core",
+  "probeSha256": "c20e834b410a33017842a5291bebdd77cf2f01fd34ee5b02182de5d75060b7bf",
+  "profile": "release",
+  "qualification": "candidate",
+  "selectionSha256": "db95820e094aa5bc3902c0980619693a28a36b82a79fb3228982cdd2451d060f",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "sourceTree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+  "structuralDerivation": {
+    "independentNativeAgreement": true,
+    "method": "rust-optional-unsigned-interval-v1",
+    "module": "crates/marmish-core/src/config.rs",
+    "sourceSha256": "2d39557b91c89de5c7790a53e35fd76f3ab94fbb5a8df43ed348da749cc81140"
+  }
+}

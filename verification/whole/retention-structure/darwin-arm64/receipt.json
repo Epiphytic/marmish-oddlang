@@ -1,0 +1,40 @@
+{
+  "callerSha256": "b52c8e65bfd4237f7de789775c8bdf1ea986a3736a3ef39b7b4474f609caefac",
+  "cases": {
+    "baseline": {
+      "callerOutputSha256": "b1957576ec099289ce6a132e3a4eed353faf514437210602d2e9623a59e7dddf",
+      "graphSha256": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc",
+      "packageLockSha256": "a2f7d02f0530e421c9b09156fcb308b27b9cbbe5aedd2a9e73ae0fa037b87494",
+      "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+      "tests": [
+        "bounded_opaque_bytes_round_trip",
+        "canonical_urls_deduplicate_in_order",
+        "diagnostics_never_echo_raw_values",
+        "hostile_json_version_and_encoding_are_rejected",
+        "loopback_is_explicit_and_private_literals_stay_denied",
+        "no_defaults_or_extra_url_components",
+        "retention_distinguishes_default_from_disabled_and_bounds_numbers"
+      ]
+    },
+    "mutated": {
+      "callerOutputSha256": "537cc46abd775211e015b18aaf4b2b26815b4bf2979482135cfb5b2afd70fa04",
+      "graphSha256": "44157f77943cd0c513b127085ba85509184ca06a011d8bbf80c30a6d2c63d349",
+      "packageLockSha256": "de2ea8d9b5aefa0288a7e39be62ccfc62a05cbaaa0066f8f92839bc2f292b9d9",
+      "sourceRevision": "481604e1adbd0feefe038f7b9010b0522fd46713",
+      "tests": [
+        "bounded_opaque_bytes_round_trip",
+        "canonical_urls_deduplicate_in_order",
+        "diagnostics_never_echo_raw_values",
+        "hostile_json_version_and_encoding_are_rejected",
+        "loopback_is_explicit_and_private_literals_stay_denied",
+        "no_defaults_or_extra_url_components",
+        "retention_distinguishes_default_from_disabled_and_bounds_numbers"
+      ]
+    }
+  },
+  "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "frameworkRevision": "a2fa1bb3858a4a42547a31c784afeaaf3df190d8",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "target": "aarch64-apple-darwin",
+  "unchangedTestSha256": "c60165759a7b61d8973010129a6056a3190158f83946c269d26d8e6c0c6cd88a"
+}

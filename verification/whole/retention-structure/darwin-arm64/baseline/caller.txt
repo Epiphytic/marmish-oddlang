@@ -1,0 +1,9 @@
+default=Some(86400)
+advertised=31536000
+None => None
+Some(0) => RetentionOutOfRange: retention must be between one second and 365 days
+Some(1) => Some(1)
+Some(604800) => Some(604800)
+Some(604801) => Some(604801)
+Some(31536000) => Some(31536000)
+Some(18446744073709551615) => RetentionOutOfRange: retention must be between one second and 365 days
