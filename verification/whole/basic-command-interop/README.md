@@ -22,3 +22,5 @@ Add `--generated-dir /path/to/export --generated-role server` for upstream clien
 For a newly built candidate, pass its independently pinned `--generated-build-record` and `--generated-preflight-record`. The first provides the expected artifact manifest. The second binds the export's receipt digest. The output records both pin digests. Omitting these options selects the historical build and preflight records in this directory.
 
 Use `--activation-only` with a mixed pairing to observe setup, peer authorization and relay activation. The upstream owner reports `active` through its CLI. The generated owner reports `provider_active` over its own discovered private socket. The observer checks each account's signed key package in the owned relay database and records scoped activation evidence and cleanup.
+
+Replay the sealed setup candidate using `--generated-build-record verification/whole/basic-command-interop/profile-setup-initial-build-macos-arm64.json` and `--generated-preflight-record verification/whole/basic-command-interop/profile-setup-initial-preflight-macos-arm64.json`. The associated mixed receipts identify the generated role and the observed owner exit.

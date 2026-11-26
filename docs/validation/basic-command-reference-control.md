@@ -15,3 +15,5 @@ A later run with the sandbox directory-stat repair and private named daemon logs
 ## Sealed setup candidate
 
 The companion candidate built from `d187bf9047c2755ac5a6969fc66bee611a966eee` passed the mixed setup stage in both directions on macOS ARM64. Both peers returned setup exit 0. Distinct file-backed credentials, exact peer authorization, the sole owned relay and cleanup were verified for each attempt. The upstream-client pairing stopped at generated server foreground owner exit 125. In the generated-client pairing the upstream server reached active before the generated client owner exited 125. Each pairing used an independent fresh relay and profile workspace. The command corpus was not run in these mixed attempts.
+
+The exact artifact manifest and independently run setup preflight are recorded as `profile-setup-initial-build-macos-arm64.json` and `profile-setup-initial-preflight-macos-arm64.json` in the interoperability verification directory. Their digests match the pins in both mixed receipts.

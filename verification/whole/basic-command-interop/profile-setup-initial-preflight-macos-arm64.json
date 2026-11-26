@@ -1,0 +1,76 @@
+{
+  "buildReceiptSha256": "5b14a6f48156cb0f8f6e59a33e7a8111ec131f5bb01cf65135a342935971b222",
+  "cases": {
+    "authorize": {
+      "argv": [
+        "keychain-authorize"
+      ],
+      "exit": 125,
+      "role": "marmish",
+      "stderr": "command operation unavailable\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    },
+    "daemonWithoutState": {
+      "argv": [
+        "--foreground"
+      ],
+      "exit": 125,
+      "role": "marmishd",
+      "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    },
+    "detachedSubmit": {
+      "argv": [
+        "--detach",
+        "audit-peer",
+        "/usr/bin/true"
+      ],
+      "exit": 125,
+      "role": "marmish",
+      "stderr": "command operation unavailable\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    },
+    "foregroundSubmit": {
+      "argv": [
+        "audit-peer",
+        "/usr/bin/true"
+      ],
+      "exit": 125,
+      "role": "marmish",
+      "stderr": "command operation unavailable\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    },
+    "setup": {
+      "argv": [
+        "setup",
+        "--role",
+        "client",
+        "--no-grants"
+      ],
+      "exit": 1,
+      "role": "marmish",
+      "stderr": "marmish: profile preparation requires the file key provider\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    },
+    "wait": {
+      "argv": [
+        "wait",
+        "--latest",
+        "audit-peer"
+      ],
+      "exit": 125,
+      "role": "marmish",
+      "stderr": "command operation unavailable\n",
+      "stdout": "",
+      "workspaceUnchanged": true
+    }
+  },
+  "format": "marmish-basic-command-generated-preflight-v1",
+  "preflightSha256": "bf0c7ded099447d19680655209153977e68fee1841c9c7880d2a847dd37fdcde",
+  "workspaceRemoved": true
+}
