@@ -1,0 +1,83 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-vault",
+  "version": "0.1.0",
+  "edition": "2021",
+  "cargoLock": {
+    "path": "vault-fixed-bytes-v1/Cargo.lock",
+    "sha256": "1e7f93b188b5894a7bc4af9f2ade14f0bcc48f5a45b3f61fdc474fb1460edddd"
+  },
+  "components": [
+    {
+      "kind": "shared-declarations",
+      "module": "errors",
+      "graph": {
+        "path": "vault-values-v1/errors.json",
+        "sha256": "335d69a5b1c9942c47684ea1429a915d6b392a2c75b39d7abaffdf86df6d1764"
+      },
+      "overlay": {
+        "path": "vault-values-v1/errors-rust.json",
+        "sha256": "003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64"
+      },
+      "reexports": [
+        "Error"
+      ]
+    },
+    {
+      "kind": "checked-values",
+      "module": "values",
+      "graph": {
+        "path": "vault-values-v1/graph.json",
+        "sha256": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be"
+      },
+      "overlay": {
+        "path": "vault-values-v1/rust.json",
+        "sha256": "b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0"
+      },
+      "reexports": [
+        "Namespace",
+        "Purpose",
+        "KeyRef",
+        "Label",
+        "Metadata"
+      ]
+    },
+    {
+      "kind": "checked-values",
+      "module": "fixed_value",
+      "graph": {
+        "path": "vault-fixed-bytes-v1/graph.json",
+        "sha256": "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b"
+      },
+      "overlay": {
+        "path": "vault-fixed-bytes-v1/rust.json",
+        "sha256": "1d40c1fbca36166021c7138ba6f00c57850c213c3cfd2204b5260944bfeaf736"
+      },
+      "reexports": [
+        "Secret"
+      ]
+    },
+    {
+      "kind": "checked-values",
+      "module": "helper",
+      "visibility": "public",
+      "graph": {
+        "path": "vault-mode-v1/graph.json",
+        "sha256": "96e2f288f7279b7639d72d460efda9c93b3a0b0ea8cea2b6494baf4785e1de73"
+      },
+      "overlay": {
+        "path": "vault-mode-v1/rust.json",
+        "sha256": "36cc7f91481be8a4d7f069aafde5c90d2dd44042a15d871252695493341db835"
+      },
+      "reexports": [
+        "AuthorizationMode"
+      ],
+      "rootReexports": []
+    }
+  ],
+  "dependencies": {
+    "zeroize": {
+      "version": "1.9.1"
+    }
+  }
+}

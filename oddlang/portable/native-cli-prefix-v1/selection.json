@@ -1,0 +1,7 @@
+{
+  "allow": "allowed_global",
+  "route": "split",
+  "error": "bad",
+  "supplied": "supplied",
+  "item": "id"
+}
