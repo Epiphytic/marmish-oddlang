@@ -15,3 +15,21 @@ The verifier replaces exactly three stage paths with the new workspace manifest,
 Workspace lock SHA-256 `bb670bb4031c2c193d974f51a3343764caf46abc0097e57e85beb46db0217ae9`.
 
 The [ARM64 macOS replay](aarch64-apple-darwin.json) compared 101 files and 45 directories. All 84 Rust files matched byte for byte. Exactly six provenance fields changed across the workspace and engine package locks. The corresponding sealed seven-member assembly on ARM64 Linux is pending guest recovery. The separate native endpoint corpus was already replayed against the byte-identical predecessor on both hosts.
+
+### Downstream Rust imports
+
+The fixed downstream corpus compiled **82 of 140** import spellings on macOS
+ARM64. The additional accepted spelling was `marmish_engine::MissingRange`.
+All other outcomes and rejection codes matched the previous 81-of-140
+measurement. There are no prototype import spellings in this corpus.
+
+The [receipt](imports-aarch64-apple-darwin.json) identifies the libraries built
+for the range workspace, lock `b3534d60`, and the role workspace with equivalent
+generated sources, lock `bb670bb4`. Each probe compiles a consumer to Rust
+metadata. Runtime processing and peer compatibility require separate evidence.
+To replay against the retained release libraries, run:
+
+```sh
+python3 -B verification/whole/gap-range-role-workspace/imports.py \
+  "$ORIGINAL" "$RETAINED_RANGE_BUILD" /tmp/range-imports.json
+```

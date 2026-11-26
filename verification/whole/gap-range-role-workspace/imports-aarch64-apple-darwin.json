@@ -1,0 +1,740 @@
+{
+  "host": "aarch64-apple-darwin",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "runnerSha256": "0f4c6a31d5645b2500aa2a02452201b856c3432e0d1ddcc251899fb24b203160",
+  "receiptDigests": {
+    "canonical-public-data": "34e22c9d92e198de1f2b374bc7426ca930721048ee21eaa706b473e109864f1f",
+    "canonical-range-data": "4b90f3dd77dace69b8cf3e2719bda5a773c28ea77fc899991977b44073c426bf",
+    "canonical-recovered-range": "320644aa9fcef8b779beaa226365d82f517718c481558aa603bbcb46e23f6a39",
+    "gap-range-role-workspace": "4743f1867369acf4c8c60438ef1caa694851a6c840b340e99f8a0509673e4241"
+  },
+  "measuredLibraryWorkspace": "b3534d6003e1ca3d46484e5119e9f43aad95ed8aa90faad1b60b7a060edb68c0",
+  "equivalentSourceWorkspace": "bb670bb4031c2c193d974f51a3343764caf46abc0097e57e85beb46db0217ae9",
+  "libraries": {
+    "core": {
+      "accepted": 6,
+      "attempted": 6,
+      "imports": {
+        "ConfigError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "FrameError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Limits": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "ProbeEnvelope": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "RelaySet": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Retention": {
+          "compiled": true,
+          "diagnostics": []
+        }
+      }
+    },
+    "engine": {
+      "accepted": 11,
+      "attempted": 48,
+      "imports": {
+        "AuthorizedContext": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "CanonicalExecOutcome": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "CleanupGuard": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "CommandPolicy": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "CommandRequest": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "EndpointId": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "Engine": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "EngineError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "EngineLimits": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "EnginePolicy": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ExecuteToken": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ExitOutcome": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InputGeneration": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InputHealth": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InputReceipt": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "InputStatus": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InvocationId": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InvocationState": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "InvocationStatus": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "JobId": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "KeyRestrictions": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LaunchFailure": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LiveChild": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LiveCleanupProgress": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LivePipes": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LiveProcessRecord": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "LiveSpawnError": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "MaintenanceReport": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "MissingRange": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "MissingReason": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "NativeBinding": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "NotExecutableReason": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "NotFoundReason": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "OutputChunk": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "OutputStatus": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "OwnedWorkerPresence": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "PreparedLiveExec": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "PrincipalId": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ProvidedMaster": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "RecordedProcessDisposition": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "RegisteredCopyHelper": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ResolutionReason": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Restrictions": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "Result": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "ServerId": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "Stream": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Submission": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "SubmitDisposition": {
+          "compiled": true,
+          "diagnostics": []
+        }
+      }
+    },
+    "mdk": {
+      "accepted": 2,
+      "attempted": 5,
+      "imports": {
+        "AdapterError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "CommandClass": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "CommandPlan": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "RealWn": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "VersionObservation": {
+          "compiled": true,
+          "diagnostics": []
+        }
+      }
+    },
+    "native": {
+      "accepted": 19,
+      "attempted": 36,
+      "imports": {
+        "Error": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Result": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "cli": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "daemon": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "daemon::Config": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "diagnostics": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "error": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "error::Error": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "error::Result": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "foundation": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "foundation::Body": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "foundation::Envelope": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "foundation_check": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "identity": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "identity::BackendChoice": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "identity::IdentityMaterial": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "identity::ProfileLease": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ipc": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "ipc::Response": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "journal": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "journal::Conversation": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "journal::ReceivedMessage": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "journal::SendStatus": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "mdk_adapter": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "mdk_adapter::Conversation": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "mdk_adapter::MdkOwner": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "mdk_adapter::OpenedAccountBinding": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "mdk_adapter::ReceivedMessage": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "mdk_adapter::RuntimeStatus": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "mdk_adapter::SendStatus": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "transport": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "transport::ArtiDirs": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "transport::RelayConnector": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "transport::RelayPolicy": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "transport::RouteMode": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "transport::TransportLimits": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        }
+      }
+    },
+    "prototype": {
+      "accepted": 0,
+      "attempted": 0,
+      "imports": {}
+    },
+    "stream": {
+      "accepted": 35,
+      "attempted": 35,
+      "imports": {
+        "Error": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Result": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "codec": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "codec::Codec": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "codec::EncodedBlock": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::AttemptMode": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Checkpoint": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::CopyError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Direction": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::FileIdentity": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Frame": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::FrameDecoder": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::HelperContext": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Launch": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Manifest": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Mtime": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Phase": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "copy_protocol::Stage": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "windows": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "windows::ReceiveWindow": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "windows::SendWindow": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Account": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Binding": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::CopyAdmissionError": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Digest": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Id": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::OpenDisposition": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Request": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::RequestBody": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Response": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::ResponseBody": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::Terminal": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "wire::WireErrorCode": {
+          "compiled": true,
+          "diagnostics": []
+        }
+      }
+    },
+    "vault": {
+      "accepted": 9,
+      "attempted": 10,
+      "imports": {
+        "Error": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "KeyRef": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Label": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Metadata": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Namespace": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Purpose": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Secret": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "Vault": {
+          "compiled": false,
+          "diagnostics": [
+            "E0432"
+          ]
+        },
+        "helper": {
+          "compiled": true,
+          "diagnostics": []
+        },
+        "helper::AuthorizationMode": {
+          "compiled": true,
+          "diagnostics": []
+        }
+      }
+    }
+  }
+}
