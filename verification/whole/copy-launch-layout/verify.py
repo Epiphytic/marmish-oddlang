@@ -14,7 +14,7 @@ spec.loader.exec_module(oracle)
 from inputs import PIN, consumer, observe, read, run, sha, write
 from verify import staged
 
-FRAMEWORK = "aaadc7f90f1e9bab4873952811f49727490a85e6"
+FRAMEWORK = "f45f1308d995114740a8d55770f5c4ab3615bc40"
 DATA = oracle.MANIFEST.parent / "copy-launch-layout-v1"
 
 
@@ -113,7 +113,10 @@ def main():
         write(work / "mutant-selection.json", selection)
         changed = work / "changed"
         run(cli, "recover", "record-writer", mutant_expansion, work / "mutant-selection.json", changed)
-        slots = read(changed / "graph.json")["fields"]
+        altered_layout = read(changed / "graph.json")
+        if read(changed / "observation.json")["resolutionGaps"] or altered_layout["externalTags"] != layout["externalTags"]:
+            raise ValueError("unexpected resolution or byte tag changes in mutated layout")
+        slots = altered_layout["fields"]
         view["fields"][:-1] = [{"field": slot["field"], "encoding": slot["encoding"]} for slot in slots]
         original_contract_hash = sha(contract_path)
         write(contract_path, contract)
