@@ -1038,6 +1038,11 @@
 {"path":"verification/whole/prototype-constant/caller.rs","language":"rust","mode":"100644","sha256":"5b72430941ebb321218c45342401ca372502290892932c679879cfe1c7660f6c","parse_status":"parsed"}
 {"path":"verification/whole/prototype-constant/compose.py","language":"python","mode":"100644","sha256":"cad0348a6eeea3a65cd701c155e150e38070c945bd6084df3155e14cf9d52b50","parse_status":"parsed"}
 {"path":"verification/whole/prototype-constant/verify.py","language":"python","mode":"100644","sha256":"27c78846284cfc033cb75b32f35e48226c97af7491c2c533f49911a694362b1e","parse_status":"parsed"}
+{"path":"verification/whole/public-diagnostics/README.md","language":"inventory","mode":"100644","sha256":"874e7d72f19a23d15d055961f978dfafa459fb841e729f17d34b49714f028c0f","parse_status":"inventory"}
+{"path":"verification/whole/public-diagnostics/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"94d47966693c3fcb26ab66da15304bfa4642ab1e0b725fee9830fcf0e9c26169","parse_status":"inventory"}
+{"path":"verification/whole/public-diagnostics/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"c66fa86d7ab5b8f7312a04b770333a0d50fc824f8290095f6e133f987544f170","parse_status":"inventory"}
+{"path":"verification/whole/public-diagnostics/probe.rs","language":"rust","mode":"100644","sha256":"d05a851521554e306f6d52f94d7581c967b397ef650c9163de50834869282f3a","parse_status":"parsed"}
+{"path":"verification/whole/public-diagnostics/verify.py","language":"python","mode":"100644","sha256":"02c401d2a00b30999059ef4fe8b6ed68c610f4eac082b51e622dab95a7efeff8","parse_status":"parsed"}
 {"path":"verification/whole/public-types/README.md","language":"inventory","mode":"100644","sha256":"c9f0380b2bc216212211ed8af4108d8ab76a00383e62198bb119636cd9f4045b","parse_status":"inventory"}
 {"path":"verification/whole/public-types/check_workspace.py","language":"python","mode":"100644","sha256":"e4da43293327057c46edeb330875933fe634d7fd2c7a7658092885612289fe90","parse_status":"parsed"}
 {"path":"verification/whole/public-types/core-callers-v5.json","language":"inventory","mode":"100644","sha256":"e0656fb107b5f9e686b803a74b79c707ab9914d81faabd3b9a7312bfecae7d1d","parse_status":"inventory"}
