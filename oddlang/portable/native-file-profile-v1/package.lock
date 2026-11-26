@@ -1,0 +1,50 @@
+{
+  "cargoLockSha256": "4ff02b1b3cfef8b9cc41489ba178d6112a61c9e84fd8fbc2d961ef516c94b798",
+  "cargoManifestSha256": "b2004182b1224e1996c43e15e5df3fc4319e0189f8d7268abdb186f38e5d2294",
+  "components": [
+    {
+      "graphSha256": "e8718379f6310229d35367257aa7431b9f3b1dbbc698005b08c56f689d18dde6",
+      "kind": "cli-surface",
+      "module": "cli",
+      "overlaySha256": "895bcfb44437b237911301d1fdd0fb8ec3405046bbe996c486dcb5de35cd12e5",
+      "projection": {
+        "bindingSha256": "895bcfb44437b237911301d1fdd0fb8ec3405046bbe996c486dcb5de35cd12e5",
+        "format": "oddlang-command-surface-lock-v1",
+        "graphSha256": "e8718379f6310229d35367257aa7431b9f3b1dbbc698005b08c56f689d18dde6",
+        "provider": "clap@4.6.7",
+        "sourceSha256": "159b24e62a35f9e7f3251c2581de44060686685ec733b0e2d3f667589bd4f5c3"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "sourceSha256": "159b24e62a35f9e7f3251c2581de44060686685ec733b0e2d3f667589bd4f5c3"
+    },
+    {
+      "graphSha256": "060013e6e3be64fd080e710212c5e905a849420c64d486953006d7343e2b5249",
+      "kind": "file-profile",
+      "module": "credentials",
+      "overlaySha256": "037058837a24da95a8a4dbe412bc326b861883ca47abd6bdf2923f9bdd5bc546",
+      "projection": {
+        "bindingSha256": "037058837a24da95a8a4dbe412bc326b861883ca47abd6bdf2923f9bdd5bc546",
+        "format": "oddlang-file-profile-lock-v1",
+        "graphSha256": "060013e6e3be64fd080e710212c5e905a849420c64d486953006d7343e2b5249",
+        "obligationsSha256": "91f860ba0ad3226a2b31679617865dcd5bc2c84035e078162dd6667f510e7857",
+        "sourceSha256": "82554d4afd889c7aa44123c9f9a5cf562ec8e0e48ac61ff05c76c021387b2391"
+      },
+      "reexports": [
+        "prepare_credentials"
+      ],
+      "sourceSha256": "82554d4afd889c7aa44123c9f9a5cf562ec8e0e48ac61ff05c76c021387b2391"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/bin/marmish-profile-prepare.rs": "938261a991f45bb97913e58bd884aa3ac1f5a53f9b9470e6951dfab8e19691f4",
+    "src/group_0/__projection_0.rs": "159b24e62a35f9e7f3251c2581de44060686685ec733b0e2d3f667589bd4f5c3",
+    "src/group_0/mod.rs": "a9c2e789f6882103d5ae711c4cd67cc0a3e47f403187996c4d68cbdb8bb3802e",
+    "src/group_1/__projection_1.rs": "82554d4afd889c7aa44123c9f9a5cf562ec8e0e48ac61ff05c76c021387b2391",
+    "src/group_1/mod.rs": "7f09811f80f10bf7e81be35ba1f62eccd0f04abb12c2ac76d6577ebd59e9cb5f",
+    "src/lib.rs": "2ec1dea84453081532d4872922556de5c7a8fdbba63cabea52662fa3969c54ec"
+  },
+  "manifestSha256": "c8c9488e3dff113d7f486752015af9c78ce130a7ecc669084e1f6815cb41658b"
+}

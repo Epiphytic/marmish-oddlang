@@ -1,0 +1,21 @@
+{
+  "candidateBinarySha256": "d1dce5c0b7f10b77041c247c5b2ab43734e13559794bb869075327b9001b5700",
+  "checks": [
+    "private directories and single-link files",
+    "two independent random profiles",
+    "independent x-only identity",
+    "repeat preserves pending contents and inodes",
+    "exclusive lease",
+    "original creates stores from prepared identity",
+    "generated reads original ready credentials",
+    "invalid key length",
+    "mismatched public identity",
+    "unsafe key and state modes"
+  ],
+  "frameworkRevision": "6e986370a7f0a84efdae709c0e2bb3c193f62c11",
+  "originalBinarySha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "platform": "Darwin-arm64",
+  "scope": "pending credential preparation",
+  "storesWereAbsentBeforeOriginalInit": true
+}

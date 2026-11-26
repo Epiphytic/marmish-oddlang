@@ -1,0 +1,34 @@
+{
+  "profile": "command-surface-v1",
+  "package_name": "marmish-profile-prepare",
+  "version": "0.3.1",
+  "root": {
+    "name": "marmish-profile-prepare",
+    "arguments": [
+      {
+        "id": "state_dir",
+        "long": "state-dir",
+        "kind": "path",
+        "global": true
+      },
+      {
+        "id": "identity",
+        "long": "identity",
+        "short": "i",
+        "kind": "string",
+        "global": true
+      },
+      {
+        "id": "key_storage",
+        "long": "key-storage",
+        "kind": "string",
+        "global": true
+      }
+    ],
+    "subcommands": [
+      {
+        "name": "prepare"
+      }
+    ]
+  }
+}
