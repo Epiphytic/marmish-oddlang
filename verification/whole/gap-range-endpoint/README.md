@@ -2,7 +2,9 @@
 
 The recovered endpoint is `urn:marmish:engine:output-gap:range:end`.
 The [portable wire contract](../../../oddlang/portable/engine-gap-range-native-idioms-v1/wire.json)
-links the recovered field and pins the [shared cases](cases.json). Omission
+declares the `json-wire` role, links the recovered field, and pins the
+[shared cases](cases.json). Its paths are relative to the companion
+repository root. Omission
 and JSON null decode to an open end. An open end encodes as null. A present
 endpoint carries an exact unsigned 64-bit integer. The shared object-form
 cases exercise `9007199254740993` and `18446744073709551615` as unquoted
@@ -32,8 +34,8 @@ check with Node 22 and cached TypeScript 5.9.3 by adding `--typescript`.
 
 ```sh
 lane=verification/whole/gap-range-endpoint
-python3 -B "$lane/native.py" "$ORIGINAL" "$ORIGINAL_TARGET" "$RETAINED" "$OUTPUT"
-python3 -B "$lane/verify.py" "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$OUTPUT" --typescript
+python3 -B "$lane/native.py" "$ORIGINAL" "$ORIGINAL_TARGET" "$RETAINED" "$REFERENCE_RECEIPT"
+python3 -B "$lane/verify.py" "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$BINDING_RECEIPT" --typescript
 ```
 
 The verifier stages the published hints, alternative representations,

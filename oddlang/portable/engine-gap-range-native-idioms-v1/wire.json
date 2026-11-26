@@ -19,5 +19,6 @@
     "path": "oddlang/portable/engine-gap-range-recovered-v1/graph.json",
     "sha256": "f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5"
   },
-  "pathBase": "companion-repository-root"
+  "pathBase": "companion-repository-root",
+  "role": "json-wire"
 }

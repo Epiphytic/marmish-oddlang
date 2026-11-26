@@ -54,8 +54,8 @@ def stage(work, profile):
 
 def validate_contract():
     wire = read(BUNDLE / "wire.json")
-    if wire["pathBase"] != "companion-repository-root":
-        raise ValueError("unexpected wire contract path base")
+    if (wire["role"], wire["pathBase"]) != ("json-wire", "companion-repository-root"):
+        raise ValueError("unexpected wire contract role or path base")
     graph = PRIOR["PRIOR"]["checked_pin"](ROOT, wire["graph"])
     endpoint, = [field for module in read(graph)["modules"] for record in module["records"]
                  for field in record["fields"] if field["id"] == STABLE_ID]
