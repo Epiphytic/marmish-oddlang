@@ -1,0 +1,133 @@
+{
+  "companion": "ca51be0df639bde8948f3f8b0a20b698d4a08f91",
+  "compilerSha256": "576e63807f90b8d8cb53cb0a19899840ab6c4f4c5e967715a24205986bf8f8ac",
+  "deniedReads": [
+    "model.rs",
+    "lib.rs",
+    "probe.rs",
+    "traits.rs"
+  ],
+  "format": "marmish-gap-range-compact-source-api-v1",
+  "framework": "f74fea91c697e1e59ba894fb5284cb1717efec0f",
+  "frameworkBuildToolchain": [
+    "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "binary: rustc",
+    "commit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd",
+    "commit-date: 2026-06-26",
+    "host: aarch64-apple-darwin",
+    "release: 1.96.1",
+    "LLVM version: 22.1.2"
+  ],
+  "generatedFiles": {
+    "Cargo.lock": "03049e1019f2cbf682c990ac1923097df93139d921c9e95b24c432468b08f2ca",
+    "Cargo.toml": "d9c0429cbb129d48828ac547a4e49d6375b6a214527867e078462e1af9024d06",
+    "src/group_0/__projection_0.rs": "e8f5ebe06b1b6f504c11f7380fb5e6107bd92ed0e51e8b9662310cc459c8693a",
+    "src/group_0/__projection_1.rs": "4f3159463c6bc615d0c7156e84fdf1ebdfb59edeb7fb12725f773644b7f5d59c",
+    "src/group_0/mod.rs": "4280c49315f335ec1cfa8c31f605f135b4a0bc15a8ca2bfd6dc1133c9fc5cfc5",
+    "src/lib.rs": "8b0b5b00a320945c48220826234351488d9f745966f008f5f0cb9b522b27c8f8"
+  },
+  "host": "aarch64-apple-darwin",
+  "manifestSha256": "34de7474f188c3be69b73d7465b2967bd417b10b79567d5c7c99dffdce405d8b",
+  "observations": [
+    {
+      "id": "omitted",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "null",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "zero",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":0,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "safe-integer-max",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":9007199254740991,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "two-to-53",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":9007199254740992,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "two-to-53-plus-one",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":9007199254740993,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "u64-max",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "u64-overflow",
+      "result": {
+        "column": 37,
+        "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 37",
+        "line": 1
+      }
+    },
+    {
+      "id": "negative",
+      "result": {
+        "column": 19,
+        "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 19",
+        "line": 1
+      }
+    },
+    {
+      "id": "quoted-integer",
+      "result": {
+        "column": 35,
+        "diagnostic": "invalid type: string \"9007199254740993\", expected u64 at line 1 column 35",
+        "line": 1
+      }
+    },
+    {
+      "id": "fraction",
+      "result": {
+        "column": 20,
+        "diagnostic": "invalid type: floating point `1.5`, expected u64 at line 1 column 20",
+        "line": 1
+      }
+    }
+  ],
+  "packageLockSha256": "33b079c7270de14ff4c96df8c2bcde207e5071dafbe2c224d35c3c9464ca0767",
+  "portableInputs": {
+    "oddlang/portable/engine-gap-range-native-idioms-v1/hints.json": "faa5d66557b0e5f8f87d8e8d0404bf6c441211b47a8c9295f866ea601d701561",
+    "oddlang/portable/engine-gap-range-native-idioms-v1/wire.json": "cf50c5b308a3a745829b363fd9de90b24769b3294f7c31f42ff70ddc0543f468",
+    "verification/whole/gap-range-endpoint/cases.json": "899ad8e122eba0f7f7ec257cd3586235b1b6aed70aac180e2e1a61cfd16e5858"
+  },
+  "previousCompactLockSha256": "6026aabe42e5df097473733f3003356e7e9b350be8d3e349d94f7d956c296e9b",
+  "referenceReceiptSha256": "082a75b9bae0191cb94b9ae3935666c013d92833b2b8c8e0f3b3203ceaa6dbb1",
+  "rejections": {
+    "changed-binding": "source API overlay differs from recovered binding",
+    "private-field": "unknown variant `private`, expected `public` at line 21 column 31",
+    "stale-pin": "input digest mismatch: engine-gap-range-native-idioms-v1/rust.json"
+  },
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "sourceApiProbeSha256": "e83d44a3b838fd9efdaf23c08ddc22a7e3f35cca623c51a72573e2726c145643",
+  "sourceApiSha256": "32ea4b52f438f6738962e85a905612ab644e5f40a222e04e32ca82294df1862b",
+  "verifierSha256": "e3701ce0932254c234e82e71f29d7b963d94676c89361234eb41dbe5eb2651d6",
+  "wireProbeSha256": "fe9ddb62d699fc92b15169eb143f82a7a8f7273ddfddd4cd00e148fe3b7245cc"
+}

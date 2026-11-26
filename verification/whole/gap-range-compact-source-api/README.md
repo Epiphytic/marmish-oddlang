@@ -32,3 +32,8 @@ ARM64.
 python3 -B verification/whole/gap-range-compact-source-api/verify.py \
   "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RECEIPT"
 ```
+
+The [Darwin receipt](aarch64-apple-darwin.json) records all 11 shared wire
+observations, six matching generated file hashes, and the diagnostics
+from all three controls. This standalone experiment leaves workspace
+selection and prior packages unchanged.
