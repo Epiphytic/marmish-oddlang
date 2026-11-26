@@ -1,0 +1,257 @@
+{
+  "format": "oddlang-json-wire-schema-v1",
+  "id": "urn:marmish:command:request-shapes",
+  "guards": [],
+  "types": [
+    {
+      "kind": "record",
+      "id": "urn:marmish:command:request-envelope",
+      "fields": [
+        {
+          "id": "urn:marmish:command:request-envelope:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:id",
+          "name": "id",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:protocol",
+          "name": "protocol",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:session",
+          "name": "session",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "invalid_hex"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:type",
+          "name": "type",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-envelope:operation",
+          "name": "operation",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:command:request-operation"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:command:request-operation",
+      "tag": "op",
+      "content": "body",
+      "variants": [
+        {
+          "id": "urn:marmish:command:request-operation:submit",
+          "name": "submit",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:request-operation:submit:invocation",
+                "name": "invocation",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 16,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:submit:argv",
+                "name": "argv",
+                "type": {
+                  "kind": "bounded-base64-list",
+                  "policy": {
+                    "maxItems": 128,
+                    "maxItemBytes": 16384,
+                    "maxTotalBytes": 16384,
+                    "perItemOverhead": 1,
+                    "listLimitMessage": "argv_limit",
+                    "encodedLimitMessage": "bytes_limit",
+                    "decodedLimitMessage": "base64",
+                    "syntaxMessage": "base64"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:submit:stdin",
+                "name": "stdin",
+                "type": {
+                  "kind": "bounded-base64",
+                  "policy": {
+                    "maxBytes": 16384,
+                    "encodedLimitMessage": "bytes_limit",
+                    "decodedLimitMessage": "base64",
+                    "syntaxMessage": "base64"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-operation:status",
+          "name": "status",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:request-operation:status:invocation",
+                "name": "invocation",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 16,
+                  "diagnostic": "invalid_hex"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-operation:poll",
+          "name": "poll",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:request-operation:poll:invocation",
+                "name": "invocation",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 16,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:poll:stdout_cursor",
+                "name": "stdout_cursor",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:poll:stderr_cursor",
+                "name": "stderr_cursor",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:poll:max_bytes",
+                "name": "max_bytes",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-operation:cancel",
+          "name": "cancel",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:request-operation:cancel:invocation",
+                "name": "invocation",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 16,
+                  "diagnostic": "invalid_hex"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:command:request-operation:finish",
+          "name": "finish",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:command:request-operation:finish:invocation",
+                "name": "invocation",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 16,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:finish:stdout_cursor",
+                "name": "stdout_cursor",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:finish:stderr_cursor",
+                "name": "stderr_cursor",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:finish:submit_sha256",
+                "name": "submit_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              },
+              {
+                "id": "urn:marmish:command:request-operation:finish:terminal_sha256",
+                "name": "terminal_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "invalid_hex"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -239,6 +239,10 @@
 {"path":"oddlang/framing/domain.ttl","language":"inventory","mode":"100644","sha256":"cb8a40a22b0de0da0e47d1208306d7c8cc22f69e02357c2ecf395caa43a5d16d","parse_status":"inventory"}
 {"path":"oddlang/framing/import.lock","language":"inventory","mode":"100644","sha256":"e39cf8da02d75442a98c1a338f694931ce5b7b2b5cb70c2759c50f1efea8bdcc","parse_status":"inventory"}
 {"path":"oddlang/framing/source-map.json","language":"inventory","mode":"100644","sha256":"07abceb6db814e75fc07a04fda09825ffcb93486bc039d8bb32d5a2606e66e26","parse_status":"inventory"}
+{"path":"oddlang/portable/command-requests-v1/graph.json","language":"inventory","mode":"100644","sha256":"7ef7b340fa1633a33588e88f5933a568f953fc5fd5343c50a28ad5b3f134f777","parse_status":"inventory"}
+{"path":"oddlang/portable/command-requests-v1/rust.json","language":"inventory","mode":"100644","sha256":"25227dc3f35bab68afd404016acedeb864b2329ebe09661313da1518820c4bf7","parse_status":"inventory"}
+{"path":"oddlang/portable/command-requests-v1/shape.json","language":"inventory","mode":"100644","sha256":"33fdc29a8fdddba6eb76aa518967f538734b2b7b4e6fd16b293f61bfd245e7a9","parse_status":"inventory"}
+{"path":"oddlang/portable/command-requests-v1/shape.rust.json","language":"inventory","mode":"100644","sha256":"93027b7ae7410427159c21f38b5ee0bed90e79c86d80d8dd6a00844b40b19e8c","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/README.md","language":"inventory","mode":"100644","sha256":"2d4e18baccc349a3f3e70211a93977ba9fb250c7c0d403047f9988d7f142a503","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/graph.json","language":"inventory","mode":"100644","sha256":"cf560b07a2086aa66cc146d0f4231b7a3d4f45b8feae0b1f14e65e892f2d6322","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/package.lock","language":"inventory","mode":"100644","sha256":"e8274e8cd35ddf2297c2393ec3ff9dbb5fce51b848333d236d661e28a01fef52","parse_status":"inventory"}
@@ -353,6 +357,7 @@
 {"path":"oddlang/portable/marmish-engine-canonical-range-data-package.json","language":"inventory","mode":"100644","sha256":"740167eb4fb8d243d030baeb61687903b187f63cf40a497fd13eea501c85d878","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-engine-canonical-range-native-idioms-package.json","language":"inventory","mode":"100644","sha256":"8215c0bedcfce7e62c1e45edd8a3865802c138a45c16fa03e8d48b21ec98b8a7","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-engine-canonical-recovered-range-package.json","language":"inventory","mode":"100644","sha256":"9ef9d1c704129baa45173bec7dad25b41c4af1b3c29e4a238356e8ad387138ac","parse_status":"inventory"}
+{"path":"oddlang/portable/marmish-native-basic-commands-package.json","language":"inventory","mode":"100644","sha256":"395c69479766fba8a526174fec2d23577d9db85cfedf9dab110973b9af48fbaa","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-canonical-offline-package.json","language":"inventory","mode":"100644","sha256":"386579d124173fa64c200d97640bb96cfeb2203e283bd9a929800db022f94416","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-converged-diagnostics-cli-package.json","language":"inventory","mode":"100644","sha256":"91ac558b25bd7315a1c8f04015ef8d6eeac5164c0c59f0906addfca0898d9934","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-runtime-status-data-package.json","language":"inventory","mode":"100644","sha256":"f11f574e526cdfec481ad4cb7a87024d1cf2d979e1cf633157e0ae2fc694aaa0","parse_status":"inventory"}
@@ -597,6 +602,8 @@
 {"path":"oddlang/portable/vault-values-v1/provenance.json","language":"inventory","mode":"100644","sha256":"e00d9fe4560fe3f1a8380ebb84639e3bba4fabf1fb70d99c64ba1ebf95959bab","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/rust.json","language":"inventory","mode":"100644","sha256":"b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0","parse_status":"inventory"}
 {"path":"oddlang/portable/vault-values-v1/shapes.json","language":"inventory","mode":"100644","sha256":"ef62915331df0597e13bb0f9e223ce8b286d890fc5437398e56de00356f38bd2","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-basic-commands.json","language":"inventory","mode":"100644","sha256":"e921714128605286da90b0eb7e8dad4988119de0ef59915f24582c8d5133d106","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-basic-commands/workspace.lock","language":"inventory","mode":"100644","sha256":"7e078d8dad898b707ac7341f9caffa038fd5afd9e13ea2464bbb060be988a6f1","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits.json","language":"inventory","mode":"100644","sha256":"babeea9051ebdcd35f743e2621e1673a46b19b40a0c5ada1a8cef36d6ba26e2d","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits/Cargo.lock","language":"inventory","mode":"100644","sha256":"0f3ae7fdf527c2197c4b741a73390ca0653b3c98bbf2bb578704c893d6ecd89b","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits/engine-Cargo.lock","language":"inventory","mode":"100644","sha256":"7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7","parse_status":"inventory"}
@@ -1047,6 +1054,14 @@
 {"path":"verification/whole/cli/project.py","language":"python","mode":"100644","sha256":"30cb4a41671db00b9c8c4898dadbf93d4c84a1643514ef8f71096699612f27bd","parse_status":"parsed"}
 {"path":"verification/whole/cli/replay.py","language":"python","mode":"100644","sha256":"7b52ccebaf48a6aba6b010dace49aba850011d0c160a2273e1732e9dd1afac8c","parse_status":"parsed"}
 {"path":"verification/whole/cli/transcript.json","language":"inventory","mode":"100644","sha256":"e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746","parse_status":"inventory"}
+{"path":"verification/whole/command-requests/Cargo.lock","language":"inventory","mode":"100644","sha256":"b26d6a7df86f89083d2caf83926dfb2588bd3cbcf30d82345d45f779c6eb0f42","parse_status":"inventory"}
+{"path":"verification/whole/command-requests/Cargo.toml","language":"inventory","mode":"100644","sha256":"e234c5287f6fd842bf00826d037e155c04c6b95e16dd4760da06858129a87c88","parse_status":"inventory"}
+{"path":"verification/whole/command-requests/README.md","language":"inventory","mode":"100644","sha256":"b8732b63513ca8fa06fa41f68e532fa9f5be9df5ab7aee7b81ec3f6193b8e80a","parse_status":"inventory"}
+{"path":"verification/whole/command-requests/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"70a4cd25d91f2ad00d74f41714ca5fad4a440f814aa96787ae6e6e83cd26231f","parse_status":"inventory"}
+{"path":"verification/whole/command-requests/generated.rs","language":"rust","mode":"100644","sha256":"8185021ca1f3483b3e1c2dc8a59c2fd23839dc59d74d00f06dfb92b5eaf3cfe1","parse_status":"parsed"}
+{"path":"verification/whole/command-requests/observer.rs","language":"rust","mode":"100644","sha256":"ad33a81925ba9f179ff3225135d10c12e124abbf53258ef79bef3b76531b019f","parse_status":"parsed"}
+{"path":"verification/whole/command-requests/original.rs","language":"rust","mode":"100644","sha256":"3d2a205601a8fea8b1e2397e5c472b87ece4e3af96c234adfaa0ffd304a6b5c9","parse_status":"parsed"}
+{"path":"verification/whole/command-requests/verify.py","language":"python","mode":"100644","sha256":"ed4c5da070d3a37c6936608e06dc12f9db935615fab68dc9e7f1a9bb148c0dc1","parse_status":"parsed"}
 {"path":"verification/whole/converged-diagnostics-cli/README.md","language":"inventory","mode":"100644","sha256":"13401b500a048e70c143ac2e7c6a9bb4afc68d7fcc40d5436ac89b32ed662631","parse_status":"inventory"}
 {"path":"verification/whole/converged-diagnostics-cli/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5baad081be407d8eb2c038498e7c4fa6760beb2f1eb3dd36f1a73de47c281294","parse_status":"inventory"}
 {"path":"verification/whole/converged-diagnostics-cli/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"876ad4d9620a2faffa58b2810183325eacb7c0fccd5bb21c6adda83cc93815b7","parse_status":"inventory"}

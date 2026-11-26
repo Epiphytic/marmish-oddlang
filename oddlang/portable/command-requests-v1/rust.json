@@ -1,0 +1,100 @@
+{
+  "format": "oddlang-json-wire-protocol-rust-v1",
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:command:invalid": "Invalid"
+  },
+  "constants": {
+    "urn:marmish:command:literal:type": "REQUEST_KIND",
+    "urn:marmish:command:literal:protocol": "PROTOCOL"
+  },
+  "fields": {
+    "urn:marmish:command:request:submit:client": "client",
+    "urn:marmish:command:request:submit:id": "id",
+    "urn:marmish:command:request:submit:server": "server",
+    "urn:marmish:command:request:submit:session": "session",
+    "urn:marmish:command:request:submit:invocation": "invocation",
+    "urn:marmish:command:request:submit:argv": "argv",
+    "urn:marmish:command:request:submit:stdin": "stdin",
+    "urn:marmish:command:request:status:client": "client",
+    "urn:marmish:command:request:status:id": "id",
+    "urn:marmish:command:request:status:server": "server",
+    "urn:marmish:command:request:status:session": "session",
+    "urn:marmish:command:request:status:invocation": "invocation",
+    "urn:marmish:command:request:poll:client": "client",
+    "urn:marmish:command:request:poll:id": "id",
+    "urn:marmish:command:request:poll:server": "server",
+    "urn:marmish:command:request:poll:session": "session",
+    "urn:marmish:command:request:poll:invocation": "invocation",
+    "urn:marmish:command:request:poll:stdout_cursor": "stdout_cursor",
+    "urn:marmish:command:request:poll:stderr_cursor": "stderr_cursor",
+    "urn:marmish:command:request:poll:max_bytes": "max_bytes",
+    "urn:marmish:command:request:cancel:client": "client",
+    "urn:marmish:command:request:cancel:id": "id",
+    "urn:marmish:command:request:cancel:server": "server",
+    "urn:marmish:command:request:cancel:session": "session",
+    "urn:marmish:command:request:cancel:invocation": "invocation",
+    "urn:marmish:command:request:finish:client": "client",
+    "urn:marmish:command:request:finish:id": "id",
+    "urn:marmish:command:request:finish:server": "server",
+    "urn:marmish:command:request:finish:session": "session",
+    "urn:marmish:command:request:finish:invocation": "invocation",
+    "urn:marmish:command:request:finish:stdout_cursor": "stdout_cursor",
+    "urn:marmish:command:request:finish:stderr_cursor": "stderr_cursor",
+    "urn:marmish:command:request:finish:submit_sha256": "submit_sha256",
+    "urn:marmish:command:request:finish:terminal_sha256": "terminal_sha256"
+  },
+  "endpoints": {
+    "urn:marmish:command:request:submit": {
+      "type": "SubmitRequest",
+      "encode": "encode_submit",
+      "decode": "decode_submit",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    },
+    "urn:marmish:command:request:status": {
+      "type": "StatusRequest",
+      "encode": "encode_status",
+      "decode": "decode_status",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    },
+    "urn:marmish:command:request:poll": {
+      "type": "PollRequest",
+      "encode": "encode_poll",
+      "decode": "decode_poll",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    },
+    "urn:marmish:command:request:cancel": {
+      "type": "CancelRequest",
+      "encode": "encode_cancel",
+      "decode": "decode_cancel",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    },
+    "urn:marmish:command:request:finish": {
+      "type": "FinishRequest",
+      "encode": "encode_finish",
+      "decode": "decode_finish",
+      "derives": [
+        "Clone",
+        "PartialEq",
+        "Eq"
+      ]
+    }
+  },
+  "internalEnvelope": true
+}
