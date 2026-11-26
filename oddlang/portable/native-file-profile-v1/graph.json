@@ -1,0 +1,119 @@
+{
+  "format": "oddlang-file-profile-v1",
+  "id": "urn:marmish:private-files:credential-preparation",
+  "arguments": {
+    "state": "state_dir",
+    "profile": "identity",
+    "backend": "key_storage",
+    "default_profile": "default",
+    "file_backend": "file"
+  },
+  "layout": {
+    "owner": "owner.lock",
+    "manifest": "profile.json",
+    "keys": "keys",
+    "private_subdirectories": [
+      "arti-state",
+      "arti-cache"
+    ],
+    "signing_prefix": "nostr-",
+    "storage_prefix": "sqlcipher-",
+    "transaction_prefix": ".init-",
+    "name_maximum_bytes": 64,
+    "name_punctuation": "_-",
+    "manifest_maximum_bytes": 8192,
+    "directory_mode": 448,
+    "file_mode": 384
+  },
+  "manifest": {
+    "version": 2,
+    "pending": "initializing",
+    "ready": "ready",
+    "file_backend": "files",
+    "other_backends": [
+      "keychain"
+    ],
+    "fields": {
+      "version": "format",
+      "profile": "profile_id",
+      "name": "name",
+      "transaction": "transaction",
+      "phase": "phase",
+      "backend": "backend",
+      "signer": "nostr_ref",
+      "storage": "sqlcipher_ref",
+      "slot": "device_slot",
+      "public": "public_key"
+    }
+  },
+  "errors": {
+    "binding": {
+      "exit": 1,
+      "stderr": "marmish: command binding unavailable"
+    },
+    "state_required": {
+      "exit": 1,
+      "stderr": "marmish: profile preparation requires an explicit state directory"
+    },
+    "backend_required": {
+      "exit": 1,
+      "stderr": "marmish: profile preparation requires the file key provider"
+    },
+    "unsafe_directory": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path"
+    },
+    "unsafe_file": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file"
+    },
+    "invalid_profile": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_profile_name"
+    },
+    "in_use": {
+      "exit": 1,
+      "stderr": "marmish: identity: profile_in_use"
+    },
+    "invalid_manifest": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest"
+    },
+    "wrong_version": {
+      "exit": 1,
+      "stderr": "marmish: storage: incompatible_state"
+    },
+    "wrong_backend": {
+      "exit": 1,
+      "stderr": "marmish: identity: backend_mismatch"
+    },
+    "random": {
+      "exit": 1,
+      "stderr": "marmish: identity: random_failed"
+    },
+    "missing_secret": {
+      "exit": 1,
+      "stderr": "marmish: identity: missing"
+    },
+    "invalid_secret": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_secret"
+    },
+    "invalid_signing_key": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_nostr_key"
+    },
+    "identity_mismatch": {
+      "exit": 1,
+      "stderr": "marmish: identity: identity_mismatch"
+    },
+    "key_readback": {
+      "exit": 1,
+      "stderr": "marmish: identity: key_readback_mismatch"
+    },
+    "io": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed"
+    }
+  }
+}
