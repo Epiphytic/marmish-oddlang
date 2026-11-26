@@ -1,0 +1,9 @@
+@prefix c: <urn:oddlang:core:> .
+<urn:marmish:core:configuration:retention> a c:OptionalUnsignedRange ; c:bits 64 ; c:minimum 1 ; c:maximum 31536000 ; c:defaultValue 86400 ; c:rangeError <urn:marmish:core:configuration:RetentionOutOfRange> .
+<urn:marmish:core:configuration:DisallowedComponents> a c:NamedError ; c:message "relay URL contains unsupported components" .
+<urn:marmish:core:configuration:DisallowedHost> a c:NamedError ; c:message "relay host is not permitted" .
+<urn:marmish:core:configuration:DisallowedScheme> a c:NamedError ; c:message "relay scheme must be ws or wss" .
+<urn:marmish:core:configuration:EmptyRelaySet> a c:NamedError ; c:message "an explicit nonempty relay set is required" .
+<urn:marmish:core:configuration:InvalidUrl> a c:NamedError ; c:message "invalid relay URL" .
+<urn:marmish:core:configuration:LoopbackDenied> a c:NamedError ; c:message "loopback relays require explicit development opt-in" .
+<urn:marmish:core:configuration:RetentionOutOfRange> a c:NamedError ; c:message "retention must be between one second and 365 days" .
