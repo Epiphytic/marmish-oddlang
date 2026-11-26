@@ -1,0 +1,66 @@
+{
+  "binarySha256": {
+    "marmish-engine-bridge": "b6f15008d09ee068d85b9162add380e5d885ecd3aa4c2f7a0e8ad3c6eb47485f",
+    "marmish-engine-worker": "018b46240184d95301d08845f016182ca0966cb05585648beb292e9839f63443"
+  },
+  "fixtureSha256": "08dd1637bc59b9b17571f269d538b8ef07e1ed931f8a78e558b2c88e60ee7272",
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "target": "x86_64-unknown-linux-gnu",
+  "verifierSha256": "3a0c512e78fcefe0e0c8dc7d5241ad6f85b8c413b078b7376b49a092ecd76f84",
+  "witnesses": [
+    {
+      "bridgeExecSyscallObserved": true,
+      "bridgeExitSyscallObserved": true,
+      "bridgeOfdLockSyscallSucceeded": true,
+      "effectiveCapabilities": 0,
+      "effectiveUid": 1001,
+      "exitStatus": 0,
+      "inheritedNofile": [
+        256,
+        256
+      ],
+      "lock": [
+        "absent",
+        "held",
+        "available"
+      ],
+      "reply": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n",
+      "stateDescriptorTargets": [
+        "$STATE/engine.sqlite3",
+        "$STATE/engine.sqlite3-shm",
+        "$STATE/engine.sqlite3-wal",
+        "$STATE/frontend.lock",
+        "$STATE/jobs"
+      ],
+      "stderr": "",
+      "stdoutAfterEof": ""
+    },
+    {
+      "bridgeExecSyscallObserved": true,
+      "bridgeExitSyscallObserved": true,
+      "bridgeOfdLockSyscallSucceeded": true,
+      "effectiveCapabilities": 0,
+      "effectiveUid": 1001,
+      "exitStatus": 0,
+      "inheritedNofile": [
+        1048576,
+        1048576
+      ],
+      "lock": [
+        "absent",
+        "held",
+        "available"
+      ],
+      "reply": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n",
+      "stateDescriptorTargets": [
+        "$STATE/engine.sqlite3",
+        "$STATE/engine.sqlite3-shm",
+        "$STATE/engine.sqlite3-wal",
+        "$STATE/frontend.lock",
+        "$STATE/jobs"
+      ],
+      "stderr": "",
+      "stdoutAfterEof": ""
+    }
+  ]
+}
