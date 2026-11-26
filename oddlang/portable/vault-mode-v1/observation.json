@@ -1,0 +1,8 @@
+{
+  "format": "oddlang-plain-choice-observation-v1",
+  "gap": "native name resolution, trait capabilities and public module paths require downstream compilation",
+  "graphSha256": "96e2f288f7279b7639d72d460efda9c93b3a0b0ea8cea2b6494baf4785e1de73",
+  "overlaySha256": "36cc7f91481be8a4d7f069aafde5c90d2dd44042a15d871252695493341db835",
+  "selectionSha256": "9bcd8260affa1b198bc1641855a55769c579dc9ba4150817aefa3373f1d9770e",
+  "sourceSha256": "a6c8f7625b1693e90d69648aa485f1f77ad53106dc0e4f3535d929ac1d91b114"
+}
