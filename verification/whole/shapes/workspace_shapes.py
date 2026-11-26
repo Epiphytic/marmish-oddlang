@@ -37,8 +37,6 @@ def sha(path):
 
 def semantic_lock_sha256(lock):
     pin_value = lock["pin"].copy()
-    # The release pins source identity even when an older profile omitted it.
-    pin_value["sourceRevision"] = UPSTREAM
     # Preserve host-specific Cargo config in the raw lock.
     pin_value.pop("cargoConfigSha256")
     value = {**lock, "pin": pin_value}
@@ -118,11 +116,13 @@ def verify_lock(lock, digest, original, framework, cell):
     expected.update(adapterSha256=sha(framework / ADAPTER / "run.sh"),
                     adapterInputsSha256={name: sha(framework / ADAPTER / name) for name in INPUTS})
     actual = lock["pin"].copy()
-    # The compiler lock records host Cargo configuration separately.
-    config = actual.pop("cargoConfigSha256")
+    # The raw lock records Cargo config fingerprints from the recovery host.
+    # Their values are outside the portable pin and cannot be reverified here.
+    config = actual.pop("cargoConfigSha256", None)
     require(isinstance(config, dict) and all(is_sha256(value) for value in config.values()),
             "invalid Cargo configuration")
-    require(actual.pop("sourceRevision") in (None, UPSTREAM), "invalid source revision")
+    require(actual.pop("sourceRevision", None) == UPSTREAM,
+            f"missing or invalid source revision for {key(cell)}")
     require(actual == expected, f"profile pin mismatch for {key(cell)}")
 
 
@@ -131,6 +131,21 @@ def ordered(rows, what):
             f"invalid {what} order")
 
 
+ROOT_GAPS = {"data-layout-and-representation", "visibility-and-export-paths",
+             "workspace-package-identities"}
+UNRESOLVED_REASONS = {"array-length", "constant-argument", "dynamic-type", "function-pointer",
+                      "lifetime-binding", "type-alias-projection", "unsupported-type"}
+GAP_REASONS = ROOT_GAPS | UNRESOLVED_REASONS | {
+    "compiler-disambiguated-identity", "explicit-discriminant", "external-package-instance",
+    "generic-constraints-and-defaults", "raw-pointer-provenance", "union-active-field",
+}
+INTEGER_WIDTHS = {8, 16, 32, 64, 128}
+WIDTHS = {
+    "signed-integer": INTEGER_WIDTHS,
+    "unsigned-integer": INTEGER_WIDTHS,
+    "target-integer": {64},  # Every supported triple has 64-bit pointers.
+    "floating-point": {16, 32, 64, 128},
+}
 TYPE_KEYS = {
     "boolean": "", "unicode-scalar": "", "text": "", "never": "", "signed-integer": "bits",
     "unsigned-integer": "bits", "target-integer": "bits signed", "floating-point": "bits",
@@ -145,26 +160,35 @@ def keys(obj, required, optional=""):
     require(base <= obj.keys() <= base | set(optional.split()), "unexpected graph fields")
 
 
-def type_shape(shape):
+def type_shape(shape, owner, local_references, required_gaps):
     kind = shape["kind"]
     keys(shape, "kind " + TYPE_KEYS[kind], "ownership" if kind == "named" else "")
+    if kind in WIDTHS:
+        bits = shape["bits"]
+        require(type(bits) is int and bits in WIDTHS[kind], f"invalid {kind} width at {owner}")
     if kind == "named":
+        if shape["id"].startswith("local::"):
+            local_references.add(shape["id"])
         ordered(shape["arguments"], "type argument")
         for arg in shape["arguments"]:
             keys(arg, "name parameter position value")
-            type_shape(arg["value"])
+            type_shape(arg["value"], owner, local_references, required_gaps)
     elif kind == "tuple":
         ordered(shape["elements"], "tuple element")
         for element in shape["elements"]:
             keys(element, "position type")
-            type_shape(element["type"])
+            type_shape(element["type"], owner, local_references, required_gaps)
     elif kind == "reference":
-        type_shape(shape["lifetime"])
-        type_shape(shape["target"])
+        type_shape(shape["lifetime"], owner, local_references, required_gaps)
+        type_shape(shape["target"], owner, local_references, required_gaps)
     elif kind == "raw-pointer":
-        type_shape(shape["target"])
+        type_shape(shape["target"], owner, local_references, required_gaps)
     elif kind == "slice":
-        type_shape(shape["element"])
+        type_shape(shape["element"], owner, local_references, required_gaps)
+    elif kind == "unresolved":
+        reason = shape["reason"]
+        require(reason in UNRESOLVED_REASONS, f"unknown unresolved reason {reason}")
+        required_gaps.add((owner, reason))
 
 
 def coverage(graph, target):
@@ -172,6 +196,8 @@ def coverage(graph, target):
     require(graph["vocabulary"] == VOCABULARY, "invalid vocabulary")
     root_id = "local::" + target.replace("-", "_")
     identities = {root_id}
+    local_references = set()
+    required_gaps = {(root_id, reason) for reason in ROOT_GAPS}
 
     def add(row, owner=None):
         identity = row["id"]
@@ -186,7 +212,7 @@ def coverage(graph, target):
         for field in rows:
             keys(field, "id owner name position type")
             add(field, owner)
-            type_shape(field["type"])
+            type_shape(field["type"], field["id"], local_references, required_gaps)
 
     declarations = graph["declarations"]
     declaration_ids = [row["id"] for row in declarations]
@@ -210,12 +236,22 @@ def coverage(graph, target):
         else:
             fields(declaration["fields"], owner)
 
+    missing_declarations = local_references.difference(declaration_ids)
+    require(not missing_declarations, f"unknown local declaration {sorted(missing_declarations)}")
     gaps = []
     for gap in graph["gaps"]:
         keys(gap, "owner reason")
         require(gap["owner"] in identities, f"unknown gap owner {gap['owner']}")
-        gaps.append((gap["owner"], gap["reason"]))
+        reason = gap["reason"]
+        require(reason in GAP_REASONS, f"unknown gap reason {reason}")
+        owner = gap["owner"]
+        require(reason not in ROOT_GAPS or owner == root_id, f"invalid root gap owner {owner}")
+        require(reason not in UNRESOLVED_REASONS or (owner, reason) in required_gaps,
+                f"unmatched unresolved gap at {owner}")
+        gaps.append((owner, reason))
     require(gaps == sorted(set(gaps)), "invalid gap order or duplicate gap")
+    missing_gaps = required_gaps.difference(gaps)
+    require(not missing_gaps, f"missing required gaps {sorted(missing_gaps)}")
     return {"declarations": len(declarations), "gaps": dict(sorted(Counter(r for _, r in gaps).items()))}
 
 
@@ -250,6 +286,10 @@ def seal(original, framework, archive, observed):
 
 def verify(original, framework, archive):
     checkout(framework, FRAMEWORK)
+    required_root = {"graphs", "locks", "release.json"}
+    root_entries = {path.name for path in archive.iterdir()}
+    require(required_root <= root_entries <= required_root | {"README.md"},
+            "invalid archive root inventory")
     manifest = read(archive / "release.json")
     targets, cells = matrix(original)
     require(manifest["targets"] == targets, "target inventory differs from Cargo metadata")
@@ -354,6 +394,8 @@ def recover(original, framework, work, triple, jobs, selected, feature_mode):
                 except (ValueError, OSError) as error:
                     errors.append(str(error))
         require(not errors, "\n".join(sorted(errors)))
+    checkout(original, UPSTREAM)
+    checkout(framework, FRAMEWORK)
 
 
 def main():
