@@ -8,6 +8,7 @@ from pathlib import Path
 import platform
 import shutil
 import subprocess
+import tarfile
 import tempfile
 
 HERE = Path(__file__).resolve().parent
@@ -18,6 +19,7 @@ FRAMEWORK = "d322eca7fdfa2e5e257512ea477a09bb2022e9fa"
 SOURCE = "crates/marmish-native/src/native_manifest.rs"
 VECTORS = "tools/release-version-vectors.json"
 NATIVE_TEST = "native_manifest::tests::strict_vectors"
+SCOPE_TEST = "native_manifest::oddlang_release_version_scope::matches_native_contract"
 
 # These expectations are literal witnesses independent of the extractor and projector.
 # The first boolean is for the pinned original and the second is for the changed source.
@@ -66,10 +68,61 @@ def edit_source(source):
     return source
 
 
-def pure_functions(source):
+def source_span(source):
     start = source.index(b"pub(crate) fn version(")
-    end = source.index(b"pub(crate) fn hex32(", start)
-    return source[start:end]
+    return {"start": start, "end": source.index(b"pub(crate) fn hex32(", start)}
+
+
+def pure_functions(source):
+    span = source_span(source)
+    return source[span["start"]:span["end"]]
+
+
+def source_origin(source):
+    return {
+        "originalCommit": ORIGINAL,
+        "sourcePath": SOURCE,
+        "sourceModuleSha256": sha(source),
+        "sourceSpan": source_span(source),
+        "selectedFunctionsSha256": sha(pure_functions(source)),
+    }
+
+
+def reference_copy(original, target):
+    target.mkdir()
+    with subprocess.Popen(["git", "-C", original, "archive", ORIGINAL],
+                          stdout=subprocess.PIPE) as archive:
+        with tarfile.open(fileobj=archive.stdout, mode="r|") as files:
+            files.extractall(target, filter="data")
+        assert archive.wait() == 0
+
+
+def native_scope_test(reference, reference_target, source, cases):
+    data = ",\n".join(
+        f"(&[{', '.join(str(byte) for byte in value.encode('utf-8'))}], {str(expected).lower()})"
+        for value, expected in cases
+    )
+    witness = f"""
+#[cfg(test)]
+mod oddlang_release_version_scope {{
+    #[test]
+    fn matches_native_contract() {{
+        let cases: &[(&[u8], bool)] = &[{data}];
+        for (input, expected) in cases {{
+            let value = ::std::str::from_utf8(input).unwrap();
+            assert_eq!(super::version(value), *expected, "{{value:?}}");
+        }}
+    }}
+}}
+""".encode()
+    module = reference / SOURCE
+    module.write_bytes(source + witness)
+    native = run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
+                 "--target", "aarch64-apple-darwin", "--target-dir", reference_target,
+                 "--package", "marmish-native", "--lib", "--", "--exact", SCOPE_TEST, cwd=reference)
+    assert f"test {SCOPE_TEST} ... ok".encode() in native
+    assert b"test result: ok. 1 passed; 0 failed; 0 ignored;" in native
+    return {"name": SCOPE_TEST, "matchingCases": len(cases), "witnessSha256": sha(witness)}
 
 
 def observe(work, tag, implementation, entry, cases, prefix=()):
@@ -133,13 +186,18 @@ def check_shape(file, prefixes, width, delimiter, minimum):
     }
 
 
-def qualify(work, original, framework, compiler):
+def qualify(work, original, framework, compiler, reference_target):
     private = work / "private"
     private.mkdir()
     cli = work / "oddlang"
     shutil.copyfile(compiler, cli)
     cli.chmod(0o755)
     source = from_git(original, SOURCE)
+    origin = (DATA / "origin.json").read_bytes()
+    assert json.loads(origin) == source_origin(source)
+    reference = private / "native-scope"
+    reference_copy(original, reference)
+    assert (reference / SOURCE).read_bytes() == source
     native_vectors = from_git(original, VECTORS)
     vectors = json.loads(native_vectors)
     selection = (DATA / "selection.json").read_bytes()
@@ -179,8 +237,11 @@ def qualify(work, original, framework, compiler):
         native = observe(private, f"native-{name}", pure_functions(implementation), "version", cases)
         generated = observe(work, f"generated-{name}", source_file.read_bytes(), "accepts", cases, prefix)
         assert native == generated
+        native_scope = native_scope_test(reference, reference_target, implementation, cases)
         lanes[name] = {
             "sourceSha256": sha(implementation),
+            "sourceSpan": source_span(implementation),
+            "enclosingNativeModule": native_scope,
             "graphSha256": sha(input_file.read_bytes()),
             "projectionLockSha256": sha((projection / "projection.lock").read_bytes()),
             "sourceOfNativeWitnessSha256": sha(pure_functions(implementation)),
@@ -197,6 +258,7 @@ def qualify(work, original, framework, compiler):
         "equivalentGraphEmitsIdenticalArtifacts": True,
         "authoredInputs": ["stable graph IRI", "entry function", "two-function source selection"],
         "sourceSelectionSha256": sha(selection),
+        "sourceOriginSha256": sha(origin),
         "unmodifiedVectorsSha256": sha(native_vectors),
         "unmodifiedVectors": len(vectors["valid"]) + len(vectors["invalid"]),
         "changedBoundaryOutcomes": sum(before != after for _, before, after in BOUNDARIES),
@@ -226,7 +288,7 @@ def main():
     parent = run("/usr/bin/getconf", "DARWIN_USER_TEMP_DIR").decode().strip()
     with tempfile.TemporaryDirectory(prefix="odd-release-version-grammar-", dir=parent) as directory:
         receipt = qualify(Path(directory).resolve(), args.original, args.framework,
-                          args.compiler_target / "debug/oddlang")
+                          args.compiler_target / "debug/oddlang", args.reference_target)
     receipt["nativeUpstreamHarness"] = {"name": NATIVE_TEST, "passed": 1}
     receipt["rustc"] = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
