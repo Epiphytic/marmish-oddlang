@@ -1,0 +1,67 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-status-owner",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {
+    "clap": {
+      "version": "4.6.7"
+    },
+    "libc": {
+      "version": "0.2.189"
+    },
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "tokio": {
+      "version": "1.54.1",
+      "features": [
+        "io-util",
+        "macros",
+        "net",
+        "rt",
+        "signal",
+        "sync",
+        "time"
+      ]
+    }
+  },
+  "cargoLock": {
+    "path": "owner-Cargo.lock",
+    "sha256": "1f389290a3e0406f3d7f92833bfee6979552f2cf534883fd5f35634f33019737"
+  },
+  "components": [
+    {
+      "kind": "local-status-owner",
+      "module": "status",
+      "graph": {
+        "path": "graph.json",
+        "sha256": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d"
+      },
+      "overlay": {
+        "path": "rust.json",
+        "sha256": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2"
+      },
+      "reexports": [
+        "run_owner",
+        "BoundOwner",
+        "SnapshotPublisher",
+        "OwnerError"
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "name": "marmish-status-owner",
+      "entry": [
+        "run_owner"
+      ]
+    }
+  ]
+}

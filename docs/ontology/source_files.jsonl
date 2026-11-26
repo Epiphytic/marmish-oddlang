@@ -276,6 +276,12 @@
 {"path":"oddlang/portable/native-cli-v1/selection.json","language":"inventory","mode":"100644","sha256":"fae9efbe9d94383407a83cee39a34a9b56123ddca97149e6e55046bf01f27bf0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/workspace.json","language":"inventory","mode":"100644","sha256":"af87cab60f4130ecd5b08ae635dd61126e025d55dad60dfedac5a424dc158ae0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/workspace.lock","language":"inventory","mode":"100644","sha256":"a9185b4f7dd3e9b69fdc971f287dcc82e7d289b3e823327f51f625519107feb2","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/README.md","language":"inventory","mode":"100644","sha256":"f963955b13b317b8c2bbedd7d9a8b567dbf2658560ab77259e962110bf85c7ce","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/graph.json","language":"inventory","mode":"100644","sha256":"de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/owner-Cargo.lock","language":"inventory","mode":"100644","sha256":"1f389290a3e0406f3d7f92833bfee6979552f2cf534883fd5f35634f33019737","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/package.json","language":"inventory","mode":"100644","sha256":"7f5b424a389d12b94dc16e343052ead6dd6ef3c422522c7838ba9fffa4c47310","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/package.lock","language":"inventory","mode":"100644","sha256":"7b090513767435de8e06d5ce0500f863cf184d4a0cbc1e9bd0b9959b48c20688","parse_status":"inventory"}
+{"path":"oddlang/portable/native-status-owner-v1/rust.json","language":"inventory","mode":"100644","sha256":"6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2","parse_status":"inventory"}
 {"path":"oddlang/portable/native-status-package.json","language":"inventory","mode":"100644","sha256":"676645eefccf51e186407ca6bddefbce7d0621bbfb5aacc6ca179fa9aa439d73","parse_status":"inventory"}
 {"path":"oddlang/portable/native-status-v1/README.md","language":"inventory","mode":"100644","sha256":"d1f478d213f2b0c2923915c8fb3f8fe437a95a18bce5122b2defc3625a77729f","parse_status":"inventory"}
 {"path":"oddlang/portable/native-status-v1/cli-marmish.json","language":"inventory","mode":"100644","sha256":"20403a093377feffac805c997b1e174c6f3db4b8e6c03a35ab8d22113926f705","parse_status":"inventory"}
@@ -688,6 +694,10 @@
 {"path":"verification/whole/state/corrupt.json","language":"inventory","mode":"100644","sha256":"998757a9541be7344934b5684d8c1ed7efc16e4dabac70615ad916b468af1ceb","parse_status":"inventory"}
 {"path":"verification/whole/state/replay.py","language":"python","mode":"100644","sha256":"28b3f6b7db19e754de06d999740db607738a35611cec150828c0d6730601a164","parse_status":"parsed"}
 {"path":"verification/whole/state/v1.json","language":"inventory","mode":"100644","sha256":"4930d88dadfcb2ba3256d0cb82455828a2288b773c86ad8589b074aa4e868d2d","parse_status":"inventory"}
+{"path":"verification/whole/status-owner/README.md","language":"inventory","mode":"100644","sha256":"50278f525fe2ddff7d0d02023eeffb29a983f7d8015fed663f77493259087565","parse_status":"inventory"}
+{"path":"verification/whole/status-owner/macos.sh","language":"bash","mode":"100755","sha256":"1488ef376b8314f66be5c041901c141cdaa039284647f156c3e622d430de9664","parse_status":"parsed"}
+{"path":"verification/whole/status-owner/project.py","language":"python","mode":"100644","sha256":"e45d77bd67ad74f94f59a7c1b2faf97ae9ffdb73246cc5221e997f3513a720c3","parse_status":"parsed"}
+{"path":"verification/whole/status-owner/qualify.py","language":"python","mode":"100644","sha256":"0ef19228cf8de00ab96ee25a1f9af3110b401a48465525d8b458c02b7bed3e46","parse_status":"parsed"}
 {"path":"verification/whole/status/README.md","language":"inventory","mode":"100644","sha256":"638154b4f3e6e9207615efe06024a493d784511ea8079e1acb8b1d73f381367f","parse_status":"inventory"}
 {"path":"verification/whole/status/client-README.md","language":"inventory","mode":"100644","sha256":"565972f6097b91e84a32b3f8bfecca2e85ee48381dfdf74789c8ea8abacf324b","parse_status":"inventory"}
 {"path":"verification/whole/status/generated-linux-arm64.json","language":"inventory","mode":"100644","sha256":"74492c517da7196320778e3953c8f401280df080b3a24b42ac91242ae73a93a6","parse_status":"inventory"}
