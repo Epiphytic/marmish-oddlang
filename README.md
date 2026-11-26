@@ -1,8 +1,10 @@
-# Marmish
+# Marmish built from Oddlang
 
-Build Oddlang workspace v7 for the native core and stream libraries, configured encrypted file initialization, local foreground lifecycle and status, and `release-info` on both native executables. Provider readiness beyond TLS, remote execution, transfers and installed services remain open for the generated workspace. [Build and qualification](verification/whole/workspace/README.md#workspace-v7) · [Ontology and release pins](oddlang/README.md)
+The [seven-member workspace](oddlang/portable/workspace-v7-converged-public-api.json) generates native Rust libraries and two release executables from pinned graphs. On macOS ARM64, downstream Rust callers resolve 70 of 140 original public type, module and alias names. The generated client and server still have substantial compatibility gaps. [Build from the ontology](oddlang/README.md#build-the-seven-member-workspace) · [Measured public API coverage](verification/whole/converged-public-api/README.md)
 
-The separate [engine process-limit workspace](verification/whole/engine-limits/README.md) adds the scoped engine library and initializes process limits before either native CLI parses arguments.
+## Original Marmish project and releases
+
+The release and installation notes below describe the upstream Marmish project.
 
 Run remote commands over Marmot's MLS-encrypted Nostr transport. Marmish uses
 native Rust clients and daemons, with one named Nostr identity per daemon.

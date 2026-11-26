@@ -1,0 +1,55 @@
+{
+  "format": "oddlang-native-workspace-v1",
+  "cargoLock": {
+    "path": "workspace-v7-recovered-vault-engine-journal-mdk-buffered/Cargo.lock",
+    "sha256": "fe6e73cdd2e6926cea6369c00112cae5e312eb9834b567258ac4e91f90b403aa"
+  },
+  "members": {
+    "marmish-core": {
+      "manifest": {
+        "path": "core-package.json",
+        "sha256": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4"
+      }
+    },
+    "marmish-stream": {
+      "manifest": {
+        "path": "stream-package-v5.json",
+        "sha256": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8"
+      }
+    },
+    "marmish-native": {
+      "manifest": {
+        "path": "native-offline-cli-diagnostics-package.json",
+        "sha256": "fd1e6195d17981d8916e04baa36829915a071ec59f5a17f56d07266662c19806"
+      },
+      "dependencies": [
+        "marmish-engine",
+        "marmish-stream"
+      ]
+    },
+    "marmish-vault": {
+      "manifest": {
+        "path": "vault-fixed-value-package.json",
+        "sha256": "22ac94e18a4f89f4650876c1a2abf173133a0325cad748a0631b88b1ee4fce90"
+      }
+    },
+    "marmish-engine": {
+      "manifest": {
+        "path": "engine-process-limits-package.json",
+        "sha256": "82ea9036fa466629433dcd3384a5305f13e5422a1d3bb96bcb9dc6e88046eb06"
+      }
+    },
+    "marmish-mdk": {
+      "manifest": {
+        "path": "mdk-public-data-package.json",
+        "sha256": "ea61a0423332da07cf5f4aee2f74a037bf4405274f271454d7f3eead314768db"
+      }
+    },
+    "marmish-prototype": {
+      "manifest": {
+        "path": "prototype-buffer-package.json",
+        "sha256": "3dfb71c945ea01eed5962a53bbadee046cb4241e2d5a4f72cac3c0ce488398b6"
+      }
+    }
+  }
+}
