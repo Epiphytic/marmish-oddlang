@@ -75,3 +75,17 @@ The verifier runs all 29 unchanged upstream stream tests, seven upstream core te
 This release covers explicit direct-relay initialization for fresh and pristine file-backed profiles, local status during foreground activation, and the in-process copy codec. Provider readiness, older or nonempty profile migrations, Keychain, Tor, installed services, end-to-end transfers and remote command execution remain open.
 
 The [macOS ARM64 receipt](v5-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v5-aarch64-unknown-linux-gnu.json) agree on the generated locks, profile/foreground observations, database shapes, stream tests and exact frame checks. Native artifact hashes identify each host build. The no-home discovery case retains the original platform-specific result. Linux also records matching original and generated SQLCipher diagnostics for the corrupt-journal test.
+
+### Bootstrap v5 with an empty Cargo cache
+
+Use Oddlang revision `e2ec7338dcf141f95d2f1e24d9bee20cc1cec44b` from [the dependency bootstrap PR](https://github.com/Epiphytic/oddlang/pull/63) and select Rust 1.97.1 for the generated workspace. The first command can contact the registries and Git providers pinned by the release. The second command builds both executables offline. You can copy `oddlang/portable` into a fresh directory to run both commands outside this checkout.
+
+```sh
+export CARGO_HOME="$(mktemp -d)"
+RUSTUP_TOOLCHAIN=1.97.1 oddlang build native-workspace rust oddlang/portable/workspace-v5.json /tmp/marmish-fresh --fetch-locked
+cargo +1.97.1 build --manifest-path /tmp/marmish-fresh/Cargo.toml --workspace --locked --release --offline
+```
+
+The [cold-cache verifier](cold_cache.py) stages only the 55 inputs reachable from the v5 manifest. In a new Cargo home it checks the default offline failure, permits locked fetching in a second empty home, regenerates with Cargo offline and compares both products to the published workspace, package and source hashes. It runs the frozen 34-case parser transcript on each release executable. It accepts a clean pinned Oddlang checkout and a receipt output path. Building the verifier’s compiler uses its own existing toolchain dependency cache.
+
+The [macOS ARM64 receipt](cold-cache-aarch64-apple-darwin.json) and [Linux ARM64 receipt](cold-cache-aarch64-unknown-linux-gnu.json) record identical input digests and workspace lock. Each host compiled both release binaries offline after acquisition and passed 34 parser cases per binary.

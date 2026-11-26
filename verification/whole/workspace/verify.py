@@ -92,6 +92,27 @@ def linux_isolation(work, provider_cache=None):
     return args, dict(os.environ)
 
 
+def stage_workspace(manifest, graph):
+    def stage(base,descriptor):
+        orig=(base/descriptor["path"]).resolve()
+        if not orig.is_relative_to(PORTABLE) or sha(orig.read_bytes())!=descriptor["sha256"]:
+            raise ValueError("invalid closure input")
+        target=graph/orig.relative_to(PORTABLE)
+        target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(orig,target)
+        return orig
+    w=json.loads(manifest.read_bytes())
+    shutil.copyfile(manifest,graph/manifest.name)
+    stage(PORTABLE,w["cargoLock"])
+    for member in w["members"].values():
+        src=stage(PORTABLE,member["manifest"]); m=json.loads(src.read_bytes())
+        for descriptor in [m["cargoLock"]]+[c[k] for c in m["components"] for k in ("graph","overlay")]:
+            stage(src.parent,descriptor)
+        for component in m["components"]:
+            for descriptor in component.get("wireShape", {}).values():
+                stage(src.parent, descriptor)
+    return w
+
+
 def v3_interfaces(work, target, original, binaries, compiler):
     lane = runpy.run_path(str(HERE.parent / "copy-field-relations/verify.py"))
     cases, expected = lane["corpus"]()
@@ -209,24 +230,8 @@ def main():
         pin(ROOT, companion)
     with tempfile.TemporaryDirectory() as tmp:
         work=Path(tmp).resolve(); graph=work/"inputs";graph.mkdir()
-        def stage(base,descriptor):
-            orig=(base/descriptor["path"]).resolve()
-            if not orig.is_relative_to(PORTABLE) or sha(orig.read_bytes())!=descriptor["sha256"]:
-                raise ValueError("invalid closure input")
-            target=graph/orig.relative_to(PORTABLE)
-            target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(orig,target)
-            return orig
         manifest=PORTABLE/(f"workspace-{args.release}.json" if combined else "workspace.json")
-        w=json.loads(manifest.read_bytes())
-        shutil.copyfile(manifest,graph/manifest.name)
-        stage(PORTABLE,w["cargoLock"])
-        for member in w["members"].values():
-            src=stage(PORTABLE,member["manifest"]); m=json.loads(src.read_bytes())
-            for descriptor in [m["cargoLock"]]+[c[k] for c in m["components"] for k in ("graph","overlay")]:
-                stage(src.parent,descriptor)
-            for component in m["components"]:
-                for descriptor in component.get("wireShape", {}).values():
-                    stage(src.parent, descriptor)
+        w=stage_workspace(manifest,graph)
         if args.release in ("v4", "v5"):
             reference_lock = original / "Cargo.lock"
             if sha(reference_lock.read_bytes()) != "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3":
