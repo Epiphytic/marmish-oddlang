@@ -1,0 +1,107 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {
+    "clap": {
+      "version": "4.6.7"
+    },
+    "libc": {
+      "version": "0.2.189"
+    },
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "tokio": {
+      "version": "1.54.1",
+      "features": [
+        "io-util",
+        "net",
+        "rt",
+        "time"
+      ]
+    },
+    "base64": {
+      "version": "0.22.1"
+    }
+  },
+  "cargoLock": {
+    "path": "native-status-typed-v1/client-Cargo.lock",
+    "sha256": "ac0bbdbbb0d206d2ba45c9706a34de5015b2caf6212a7a7418306a6ef0ee3932"
+  },
+  "components": [
+    {
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-v1/graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "native-status-v1/cli-marmish.json",
+        "sha256": "20403a093377feffac805c997b1e174c6f3db4b8e6c03a35ab8d22113926f705"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-v1/graph.json",
+        "sha256": "588e5599a68b007aea109b61b85a3d2130050842f0d08171e24a5253cc188e08"
+      },
+      "overlay": {
+        "path": "native-cli-v1/marmishd.json",
+        "sha256": "b26a47cf3c2127e29800e3282c8509ea32de2ebc7fe36c31f82a580e3bbce923"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-command-client",
+      "module": "local_status",
+      "graph": {
+        "path": "native-status-typed-v1/graph.json",
+        "sha256": "930d6383ea36a6fed84241d4f50b0e96cf5bc68462b8f1b4ecda912db2580284"
+      },
+      "overlay": {
+        "path": "native-status-v1/rust.json",
+        "sha256": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea"
+      },
+      "reexports": [
+        "handle_status"
+      ],
+      "rootReexports": []
+    }
+  ],
+  "binaries": [
+    {
+      "name": "marmish",
+      "entry": [
+        "marmish_parser",
+        "run_cli"
+      ]
+    },
+    {
+      "name": "marmishd",
+      "entry": [
+        "marmishd_parser",
+        "run_cli"
+      ]
+    }
+  ]
+}
