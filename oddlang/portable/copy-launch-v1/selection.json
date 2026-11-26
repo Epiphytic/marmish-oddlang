@@ -1,0 +1,47 @@
+{
+  "id": "urn:marmish:copy:launch-contract",
+  "sourceSha256": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2",
+  "types": {
+    "Launch": "urn:marmish:copy:launch"
+  },
+  "externals": {
+    "AttemptMode": {
+      "id": "urn:marmish:copy:AttemptMode",
+      "rustPath": "crate::copy_protocol::AttemptMode",
+      "derives": [
+        "Debug",
+        "Clone",
+        "Copy",
+        "Eq",
+        "PartialEq"
+      ]
+    },
+    "Direction": {
+      "id": "urn:marmish:copy:Direction",
+      "rustPath": "crate::copy_protocol::Direction",
+      "derives": [
+        "Debug",
+        "Clone",
+        "Copy",
+        "Eq",
+        "PartialEq"
+      ]
+    }
+  },
+  "adapters": {
+    "crate::wire::hex32": {
+      "kind": "lower-hex",
+      "bytes": 32,
+      "diagnostic": "hex"
+    },
+    "path_encoding": {
+      "kind": "bounded-base64",
+      "policy": {
+        "maxBytes": 4096,
+        "encodedLimitMessage": "stream capacity reached",
+        "decodedLimitMessage": "invalid stream input: base64",
+        "syntaxMessage": "invalid stream input: base64"
+      }
+    }
+  }
+}

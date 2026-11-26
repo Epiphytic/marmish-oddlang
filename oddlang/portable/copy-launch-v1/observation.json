@@ -1,0 +1,29 @@
+{
+  "gaps": [
+    {
+      "kind": "structure",
+      "reason": "source item has unverified native derive Default"
+    },
+    {
+      "kind": "structure",
+      "reason": "unexpanded source item macro numbered_enum"
+    },
+    {
+      "kind": "behavior",
+      "reason": "selected adapter policy requires independent witness: crate::wire::hex32"
+    },
+    {
+      "kind": "behavior",
+      "reason": "selected adapter policy requires independent witness: path_encoding"
+    },
+    {
+      "kind": "behavior",
+      "reason": "conditional guards require independent evidence"
+    }
+  ],
+  "graphSha256": "22e64bdcafef321578a8c07028a95f11a30855ead3e0c2da1c17e7a07c2bb414",
+  "qualification": "structural-candidate",
+  "rustBindingSha256": "b9bcdc504196b59531a371c27a423eedde709495ae0689f1f09d12c1db5ef170",
+  "selectionSha256": "c9b8eda975f4a809a410c1f990d306e39c6384ad06c56d5a17b2e43c34b1ef6f",
+  "sourceSha256": "cd25b010838a5f2d29d49550abe7ea99092064c5303d727a05efb1868612cbf2"
+}

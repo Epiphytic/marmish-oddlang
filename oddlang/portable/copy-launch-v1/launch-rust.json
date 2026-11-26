@@ -1,0 +1,60 @@
+{
+  "format": "oddlang-json-wire-schema-rust-v1",
+  "names": {
+    "urn:marmish:copy:launch": "Launch",
+    "urn:marmish:copy:launch:field:client": "client",
+    "urn:marmish:copy:launch:field:destination": "destination",
+    "urn:marmish:copy:launch:field:direction": "direction",
+    "urn:marmish:copy:launch:field:mode": "mode",
+    "urn:marmish:copy:launch:field:overwrite": "overwrite",
+    "urn:marmish:copy:launch:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:launch:field:preserve_mtime": "preserve_mtime",
+    "urn:marmish:copy:launch:field:server": "server",
+    "urn:marmish:copy:launch:field:source": "source",
+    "urn:marmish:copy:launch:field:transfer": "transfer",
+    "urn:marmish:copy:launch:field:version": "version"
+  },
+  "derives": {
+    "urn:marmish:copy:launch": [
+      "Clone",
+      "Eq",
+      "PartialEq"
+    ]
+  },
+  "externals": {
+    "urn:marmish:copy:AttemptMode": "crate::copy_protocol::AttemptMode",
+    "urn:marmish:copy:Direction": "crate::copy_protocol::Direction"
+  },
+  "externalDerives": {
+    "urn:marmish:copy:AttemptMode": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ],
+    "urn:marmish:copy:Direction": [
+      "Clone",
+      "Copy",
+      "Debug",
+      "Eq",
+      "PartialEq"
+    ]
+  },
+  "nativeValidation": {
+    "urn:marmish:copy:launch": {
+      "method": "validate",
+      "typePath": "crate::Error",
+      "errors": {
+        "urn:marmish:copy:copy_version": {
+          "variant": "Invalid",
+          "argument": "copy_version"
+        },
+        "urn:marmish:copy:copy_path": {
+          "variant": "Invalid",
+          "argument": "copy_path"
+        }
+      }
+    }
+  }
+}
