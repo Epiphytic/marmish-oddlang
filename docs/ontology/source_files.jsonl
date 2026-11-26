@@ -314,6 +314,9 @@
 {"path":"oddlang/portable/native-cli-v1/selection.json","language":"inventory","mode":"100644","sha256":"fae9efbe9d94383407a83cee39a34a9b56123ddca97149e6e55046bf01f27bf0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/workspace.json","language":"inventory","mode":"100644","sha256":"af87cab60f4130ecd5b08ae635dd61126e025d55dad60dfedac5a424dc158ae0","parse_status":"inventory"}
 {"path":"oddlang/portable/native-cli-v1/workspace.lock","language":"inventory","mode":"100644","sha256":"a9185b4f7dd3e9b69fdc971f287dcc82e7d289b3e823327f51f625519107feb2","parse_status":"inventory"}
+{"path":"oddlang/portable/native-configured-init-package.json","language":"inventory","mode":"100644","sha256":"c08e88544ca2158ae084db9608958906bf2eef752abac8eff1c58b0405f175ee","parse_status":"inventory"}
+{"path":"oddlang/portable/native-configured-init-v1/graph.json","language":"inventory","mode":"100644","sha256":"a036570a7069c20d278b49c33590117284a32332c162fbab55d850db2509f043","parse_status":"inventory"}
+{"path":"oddlang/portable/native-configured-init-v1/package.lock","language":"inventory","mode":"100644","sha256":"6309559ce24f89fcf43b5cdc32289a9edb88e12c272ff4b864b26cfd207598a7","parse_status":"inventory"}
 {"path":"oddlang/portable/native-encrypted-init-package.json","language":"inventory","mode":"100644","sha256":"57db4e36a1c5f737aa3a3d7012896feb9feed4ded134a883bff713422a93e07d","parse_status":"inventory"}
 {"path":"oddlang/portable/native-encrypted-init-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"59fd0d8fab7fa9784a5d179b63a8750ae3e7cf63a5dd084c8ac1c0de31dbe9fa","parse_status":"inventory"}
 {"path":"oddlang/portable/native-encrypted-init-v1/cli-marmish.json","language":"inventory","mode":"100644","sha256":"e550916b776a9c6ec2c7a953fb5502a95d7fc1e9efedec9e937f50a8eb6808b9","parse_status":"inventory"}
@@ -852,6 +855,11 @@
 {"path":"verification/whole/status-owner/qualify.py","language":"python","mode":"100644","sha256":"d42822bd9376e458b51d2ba3af5cc7e36d060af3d0ab96c41d3074f7bdf8efad","parse_status":"parsed"}
 {"path":"verification/whole/status/README.md","language":"inventory","mode":"100644","sha256":"638154b4f3e6e9207615efe06024a493d784511ea8079e1acb8b1d73f381367f","parse_status":"inventory"}
 {"path":"verification/whole/status/client-README.md","language":"inventory","mode":"100644","sha256":"565972f6097b91e84a32b3f8bfecca2e85ee48381dfdf74789c8ea8abacf324b","parse_status":"inventory"}
+{"path":"verification/whole/status/configured-init-README.md","language":"inventory","mode":"100644","sha256":"2cc9651781feb66c323f0715bdc7e5c9e2890832af094838165b7db814dc21af","parse_status":"inventory"}
+{"path":"verification/whole/status/configured-init-linux-arm64.json","language":"inventory","mode":"100644","sha256":"bb605f178c3603dfcfaa52c6cc18da8192a9523520b0450fbcdb44c3e9249bef","parse_status":"inventory"}
+{"path":"verification/whole/status/configured-init-macos-arm64.json","language":"inventory","mode":"100644","sha256":"dbddfb99206a28370abc8bf78b5a2e475ebe1559451656e8fda080e6aa01332f","parse_status":"inventory"}
+{"path":"verification/whole/status/configured_init_probe.py","language":"python","mode":"100644","sha256":"4ae7bd7c9a9224ac709379e506aa8cbeb8682c5b1311ea54042cfa133c13d80b","parse_status":"parsed"}
+{"path":"verification/whole/status/configured_store_probe.rs","language":"rust","mode":"100644","sha256":"9088c73fa7fefa4fe6f169befc0adee45b96181be022841501281ffb23030463","parse_status":"parsed"}
 {"path":"verification/whole/status/discovery-README.md","language":"inventory","mode":"100644","sha256":"ac44e6c948c73c0be5dd534b34410f0c40b8754c245077558be4766b9dec8eb4","parse_status":"inventory"}
 {"path":"verification/whole/status/discovery-linux-arm64.json","language":"inventory","mode":"100644","sha256":"f987f595c545154c53d6326dcb0d7edde05eb2c328c68fdf0651f22ab193424a","parse_status":"inventory"}
 {"path":"verification/whole/status/discovery-macos-arm64.json","language":"inventory","mode":"100644","sha256":"2806e89dd727a70305fdafc24772049c48073341f27aede6a4551f931f13e458","parse_status":"inventory"}
