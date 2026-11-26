@@ -1,6 +1,7 @@
 import os
 import platform
 import signal
+import shutil
 import subprocess
 import unittest
 
@@ -49,8 +50,13 @@ class WorkspaceTests(unittest.TestCase):
             peer = workspace.instance("server")
             denied = peer.run(["/usr/bin/true"])
             self.assertNotEqual(denied.returncode, 0)
-            peer.allow_executables(("/usr/bin/true",))
-            self.assertEqual(peer.run(["/usr/bin/true"]).returncode, 0)
+            private_binary = peer.root / "private-executable"
+            shutil.copyfile("/usr/bin/true", private_binary)
+            private_binary.chmod(0o700)
+            peer.allow_executables((private_binary, "/usr/bin/touch"))
+            self.assertEqual(peer.run([private_binary]).returncode, 0)
+            self.assertNotEqual(peer.run(["/usr/bin/touch", private_binary]).returncode, 0)
+            self.assertEqual(peer.run(["/usr/bin/touch", peer.root / "writable"]).returncode, 0)
 
     def test_success_cleanup(self):
         with Workspace() as workspace:

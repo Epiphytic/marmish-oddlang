@@ -39,7 +39,8 @@ class Instance:
     def allow_executables(self, paths):
         filters = " ".join(f"(literal {json.dumps(str(Path(path).resolve(strict=True)))})"
                            for path in paths)
-        self.profile.write_text(self.policy + f"(deny process-exec)\n(allow process-exec {filters})\n")
+        self.profile.write_text(self.policy + f"(deny process-exec)\n(allow process-exec {filters})\n"
+                                f"(deny file-write* {filters})\n")
 
     def start(self, arguments, **kwargs):
         process = subprocess.Popen(

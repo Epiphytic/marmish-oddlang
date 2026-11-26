@@ -7,3 +7,7 @@ The two independently selected mixed pairings both reached generated `setup`. Th
 The observer checked write confinement, denied access to the real user home and default Keychain and created disposable file profiles only after those probes. It removed both mixed workspaces. The final recorded attempts include their host metadata comparison and cleanup status. An earlier generated-client attempt recorded a host metadata change during the run and remains outside the clean measurements. No specific host writer was identified.
 
 In the recorded upstream control, both original setup invocations succeeded and the configured authorization was verified. The control then stopped at owner activation before attempting a command. Cleanup and the host metadata check passed. The complete upstream command oracle remains open. See the receipt and replay commands under `verification/whole/basic-command-interop/`.
+
+## Serial owner replay
+
+A later run with the sandbox directory-stat repair and private named daemon logs used the same pinned peers, fresh distinct identities and fresh owned relay. Both owners reported active. The first foreground case expected exit 0 and `done\n`. It returned exit 255 with empty stdout and retained only a digest of its dynamic stderr. The receiver receipt remained unverified, so the corpus stopped before detached execution or warm repetitions. Cleanup passed. The tracked serial replay receipt binds the observed bytes and elapsed time. The cause of the native owner’s command completion failure remains open.
