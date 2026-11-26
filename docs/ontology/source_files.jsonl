@@ -718,7 +718,8 @@
 {"path":"verification/whole/core-value/caller.rs","language":"rust","mode":"100644","sha256":"275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b","parse_status":"parsed"}
 {"path":"verification/whole/core-value/reference.json","language":"inventory","mode":"100644","sha256":"c57a24dae5e69e69e6fe8bdab71e67fafb9c4390a4f06eb63c1e02441f73a40d","parse_status":"inventory"}
 {"path":"verification/whole/core-value/verify.py","language":"python","mode":"100644","sha256":"3f304b2ad6920f7c1d0a85ec1d07b5eed7a0091aa4f76c9311ca4e308b49682d","parse_status":"parsed"}
-{"path":"verification/whole/foreground-owner/README.md","language":"inventory","mode":"100644","sha256":"4e88e3d7f1ec510cfb577c175dac86586949574b8be8e079dad5fd87cf52ce7f","parse_status":"inventory"}
+{"path":"verification/whole/foreground-owner/README.md","language":"inventory","mode":"100644","sha256":"f48232d7bc118a4572c8fe572466071ca17a90158f81cf15be76a804058814ff","parse_status":"inventory"}
+{"path":"verification/whole/foreground-owner/generated-macos-arm64.json","language":"inventory","mode":"100644","sha256":"1c3576609454693ea27afd8ab866b377f9dcb1ae91c0cc288e42e02f1866d8e7","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/macos.sh","language":"bash","mode":"100755","sha256":"7ff9f8e187855270572c85e1273890d2020ad9691b3a0417c48f705c4442ae72","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"60f6d5c9182d8930deefdcea530e24d98b842fbb2cc4da623037f97675dd63c5","parse_status":"parsed"}
