@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "role": "copy Data record and incremental decoder",
+  "upstreamRevision": "49fc705408a230bd0ad896248d08dbdd2faad05a",
+  "graph": "contract.ttl",
+  "graphSha256": "82ddfed871221091be6b42adf6d0b009cb5ce10f864c414bdbaed5e19e4dad56",
+  "hints": "hints.json",
+  "hintsSha256": "df91cb2d7511d98d4c0e100ac2f54596c667a5a49bd91fffaeac75938e620d38",
+  "targets": ["rust", "typescript"]
+}
