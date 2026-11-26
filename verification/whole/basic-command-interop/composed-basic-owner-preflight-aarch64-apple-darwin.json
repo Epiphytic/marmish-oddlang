@@ -1,0 +1,29 @@
+{
+  "format": "marmish-composed-owner-preflight-v1",
+  "buildReceiptSha256": "f096f5ba61841346ba14974a5f507f935f1161ad8fc5f3df418bf9ed1ed0a32b",
+  "preflightSha256": "31b61ca9a032cc7c493876b299bec248aeaa79c809c15bb6a56bf267185e0b05",
+  "cases": {
+    "setupWithoutFileProvider": {
+      "role": "marmish",
+      "argv": [
+        "setup",
+        "--role",
+        "client",
+        "--no-grants"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "marmish: profile preparation requires the file key provider\n"
+    },
+    "foregroundWithoutState": {
+      "role": "marmishd",
+      "argv": [
+        "--foreground"
+      ],
+      "exit": 125,
+      "stdout": "",
+      "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n"
+    }
+  },
+  "workspaceRemoved": true
+}
