@@ -36,17 +36,22 @@ def from_bytes_test(work, original, reference_target, fixed):
     build = run("cargo", "+1.97.1", "build", "--locked", "--offline", "--release",
                 "--target", "aarch64-apple-darwin", "--target-dir", reference_target,
                 "--lib", "--package", "marmish-vault", "--message-format=json", cwd=original)
-    records = map(json.loads, build.splitlines())
+    records = list(map(json.loads, build.splitlines()))
     library, = [
         Path(name) for record in records
         if record["reason"] == "compiler-artifact" and record["target"]["name"] == "marmish_vault"
         for name in record["filenames"] if name.endswith(".rlib")
     ]
+    dependencies = library.parent if library.parent.name == "deps" else library.parent / "deps"
+    assert dependencies.is_dir()
+    native_paths = sorted({path for record in records if record["reason"] == "build-script-executed"
+                           for path in record["linked_paths"]})
+    native_search = [arg for path in native_paths for arg in ("-L", path)]
     original_test = work / "original-from-bytes"
     generated_test = work / "generated-from-bytes"
     run("rustc", "+1.97.1", "--test", "--edition=2021", harness,
-        "-L", f"dependency={library.parent}", "--extern", f"marmish_vault={library}",
-        "-o", original_test)
+        "-L", f"dependency={dependencies}", "--extern", f"marmish_vault={library}",
+        *native_search, "-o", original_test)
     fixed["link_test"](harness, work / "product", generated_test)
     name = "from_bytes_owns_the_input_and_requires_drop"
     for test in (original_test, generated_test):
@@ -106,6 +111,12 @@ def main():
     run("cargo", "+1.97.1", "build", "--package", "marmish-native", "--bins", "--release",
         "--offline", "--locked", "--target", "aarch64-apple-darwin",
         "--target-dir", args.reference_target, cwd=args.original)
+    pinned_lock = MANIFEST.with_suffix("") / "workspace.lock"
+    predecessor_lock = PORTABLE / "workspace-v7-vault-engine/workspace.lock"
+    before = json.loads(predecessor_lock.read_bytes())["members"]
+    selected = json.loads(pinned_lock.read_bytes())["members"]
+    unchanged = ["marmish-core", "marmish-engine", "marmish-stream"]
+    assert all(selected[name] == before[name] for name in unchanged)
     system_temp = run("/usr/bin/getconf", "DARWIN_USER_TEMP_DIR").decode().strip()
     with tempfile.TemporaryDirectory(prefix="odd-unified-recovered-", dir=system_temp) as temp:
         work = Path(temp).resolve()
@@ -113,6 +124,8 @@ def main():
                                           args.compiler_target / "debug/oddlang", args.reference_target)
         receipt["baseVerifierSha256"] = receipt["verifierSha256"]
         receipt["verifierSha256"] = sha(Path(__file__).read_bytes())
+        assert lock == pinned_lock.read_bytes()
+        receipt["unchangedMemberLocks"] = unchanged
         receipt["recoveredBuildReport"] = check_recovered_report(work / "inputs")
         receipt["fixedVaultValue"] = fixed_value_test(work, args.original, args.reference_target)
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
