@@ -1,0 +1,106 @@
+{
+  "cargoLockSha256": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e",
+  "cargoManifestSha256": "413c5d1e4ef6ab244557032ed1ce166df626bfc5fdf756f7d51d85e9b060c0ff",
+  "components": [
+    {
+      "graphSha256": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e",
+      "kind": "shared-declarations",
+      "module": "stream_domain",
+      "overlaySha256": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e",
+      "projection": {
+        "artifact": "shared.rs",
+        "artifactSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+        "bindingSha256": "94a1c2077e8df7d53fecf61d3a002d41ea68f02bba8a85261238dbc5b56dd9f2",
+        "domain": "urn:marmish:stream:declarations",
+        "domainSha256": "ffa4cc6ef821240a95ed8c730724d95b21430d1aa687bac9cd44f63c592cfe6d",
+        "format": "oddlang-shared-projection-v1",
+        "obligationsSha256": "f0a346954c3f667c893ee6272f26a42690b4e65c10a9caf56edd373872d42a66"
+      },
+      "reexports": [
+        "MAX_BLOCK",
+        "MAX_ENCODED",
+        "MAX_CONTENT",
+        "WINDOW_BYTES",
+        "MAX_OFFSET",
+        "MAX_RECORDS",
+        "Error",
+        "Result"
+      ],
+      "sourceSha256": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64"
+    },
+    {
+      "graphSha256": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec",
+      "kind": "integrity-block",
+      "module": "codec",
+      "overlaySha256": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088",
+      "projection": {
+        "artifact": "codec.rs",
+        "artifactSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+        "bindingSha256": "d40040eaa7bd0e575a2562e545acf1f56f600c68daab0a164e96f805f24552ce",
+        "domainSha256": "b22235123e61d7a6c2d55fb7352e56555617880b8f927caed951599bcb6c0162",
+        "format": "oddlang-integrity-block-v1",
+        "obligationsSha256": "185ce497091e96bfcd43f4aa3a2f2d0ee3aae40995f5bfa5973a4e8889e7ea01"
+      },
+      "reexports": [
+        "EncodedBlock",
+        "Codec",
+        "encode",
+        "decode"
+      ],
+      "sourceSha256": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd"
+    },
+    {
+      "graphSha256": "9ea5cc2f6ba85350ec16ba7c24465b5ec066502450fcabd8fcd2551ceee5d11b",
+      "kind": "shared-declarations",
+      "module": "copy_protocol",
+      "overlaySha256": "5ddd8100e68af2391d48ffdfca1ac3470c978f3741042a9acda46151500df512",
+      "projection": {
+        "artifact": "shared.rs",
+        "artifactSha256": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9",
+        "bindingSha256": "a9e8030baccc6e66ec7603a473de37413804fb2bafb3509ef427378b8b8c21db",
+        "domain": "urn:marmish:copy:numeric-constants-and-enums",
+        "domainSha256": "61e05d51d01fbcbc664dd84c1718a2a50098f45616b988dabf32ef25494e9403",
+        "format": "oddlang-shared-projection-v1",
+        "obligationsSha256": "a113bdded113530176acdb5d9bbdb73c9b70210642cc494d46b7a67f8c12cef9"
+      },
+      "reexports": [
+        "VERSION",
+        "AttemptMode",
+        "Direction",
+        "Phase",
+        "Stage",
+        "CopyError"
+      ],
+      "sourceSha256": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9"
+    },
+    {
+      "graphSha256": "3d102d85bb4c76b1d4450cbee5f2e82032aed4b8c73293ffe36cf4c0c5d25561",
+      "kind": "wire-schema",
+      "module": "copy_protocol",
+      "overlaySha256": "6b89437f7b252f9cfc97012502b510b4391eb2fa8bdb8adfeaa9054d018ac1d5",
+      "projection": {
+        "bindingSha256": "604f86fc17ca85a88230e92005748a2bc43f14d929194947eca91a8ea531e6a5",
+        "format": "oddlang-json-wire-schema-v1",
+        "graphSha256": "48d6b7f5edbb830644c98c306fd53776ffa0e9cf1b74212615f347eefdb332f1",
+        "obligationsSha256": "b1610e7f0851031ded283a538b883d4486c1f8fe39ce2010fb84e0e78260f719",
+        "wireSha256": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941"
+      },
+      "reexports": [
+        "Launch"
+      ],
+      "sourceSha256": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "c137d1908cb037e14bbaa5c5ba4ac32b181347e6cd7fcf39a721283c2b08ff64",
+    "src/group_0/mod.rs": "de460ff23105d868f6dcb2730c0d8e3dabe066ce694ed9ece34e8dd7732737e3",
+    "src/group_1/__projection_1.rs": "be2ae0f4f20e27224b501667182d889842038363a3e83d58afc8d76934447abd",
+    "src/group_1/mod.rs": "4aefb52f9fb8cbe0ddf2ac1d84e113c9ee37b03a8c451b755351f751ecec2ac7",
+    "src/group_2/__projection_2.rs": "541747002c41c8cac20d23ec8b7d1cf1c039eb1dd146ebf724582fc241057fa9",
+    "src/group_2/__projection_3.rs": "656fa0737e1d99234aafe82e6432b0fae62aa577955c81dd3438c1bf291c0941",
+    "src/group_2/mod.rs": "7df0935bfebbe229538414678de1f7d398d3fb3dc10c1b19bc4b9a10de3850be",
+    "src/lib.rs": "06f6dd81e1d7d99918b37313f362982500f3ef2460e53456b0fa3e4c08d66f8a"
+  },
+  "manifestSha256": "28d1459043eb4a78fa946f9ec29c6869a17cbe4daa784478ade655537e193fe4"
+}

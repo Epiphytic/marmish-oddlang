@@ -1,0 +1,303 @@
+{
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:copy:numeric-constants-and-enums",
+  "constants": [
+    {
+      "id": "urn:marmish:copy:VERSION",
+      "value": 1
+    }
+  ],
+  "stringEnums": [
+    {
+      "id": "urn:marmish:copy:AttemptMode",
+      "variants": [
+        {
+          "id": "urn:marmish:copy:AttemptMode:Create",
+          "wire": "create"
+        },
+        {
+          "id": "urn:marmish:copy:AttemptMode:Resume",
+          "wire": "resume"
+        }
+      ],
+      "numbers": {
+        "tags": {
+          "urn:marmish:copy:AttemptMode:Create": 1,
+          "urn:marmish:copy:AttemptMode:Resume": 2
+        },
+        "unknown": {
+          "id": "urn:marmish:stream:error:Invalid",
+          "argument": "copy_enum"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:CopyError",
+      "variants": [
+        {
+          "id": "urn:marmish:copy:CopyError:Unsupported",
+          "wire": "unsupported"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:Protocol",
+          "wire": "protocol"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:PermissionDenied",
+          "wire": "permission_denied"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:NotFound",
+          "wire": "not_found"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:UnsafePath",
+          "wire": "unsafe_path"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:Busy",
+          "wire": "busy"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:Conflict",
+          "wire": "conflict"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:SourceChanged",
+          "wire": "source_changed"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:HashMismatch",
+          "wire": "hash_mismatch"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:DiskFull",
+          "wire": "disk_full"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:Quota",
+          "wire": "quota"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:CommitUncertain",
+          "wire": "commit_uncertain"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:LocalIo",
+          "wire": "local_io"
+        },
+        {
+          "id": "urn:marmish:copy:CopyError:IdentityChanged",
+          "wire": "identity_changed"
+        }
+      ],
+      "numbers": {
+        "tags": {
+          "urn:marmish:copy:CopyError:Unsupported": 1,
+          "urn:marmish:copy:CopyError:Protocol": 2,
+          "urn:marmish:copy:CopyError:PermissionDenied": 3,
+          "urn:marmish:copy:CopyError:NotFound": 4,
+          "urn:marmish:copy:CopyError:UnsafePath": 5,
+          "urn:marmish:copy:CopyError:Busy": 6,
+          "urn:marmish:copy:CopyError:Conflict": 7,
+          "urn:marmish:copy:CopyError:SourceChanged": 8,
+          "urn:marmish:copy:CopyError:HashMismatch": 9,
+          "urn:marmish:copy:CopyError:DiskFull": 10,
+          "urn:marmish:copy:CopyError:Quota": 11,
+          "urn:marmish:copy:CopyError:CommitUncertain": 12,
+          "urn:marmish:copy:CopyError:LocalIo": 13,
+          "urn:marmish:copy:CopyError:IdentityChanged": 14
+        },
+        "unknown": {
+          "id": "urn:marmish:stream:error:Invalid",
+          "argument": "copy_enum"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:Direction",
+      "variants": [
+        {
+          "id": "urn:marmish:copy:Direction:Put",
+          "wire": "put"
+        },
+        {
+          "id": "urn:marmish:copy:Direction:Get",
+          "wire": "get"
+        }
+      ],
+      "numbers": {
+        "tags": {
+          "urn:marmish:copy:Direction:Put": 1,
+          "urn:marmish:copy:Direction:Get": 2
+        },
+        "unknown": {
+          "id": "urn:marmish:stream:error:Invalid",
+          "argument": "copy_enum"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:Phase",
+      "variants": [
+        {
+          "id": "urn:marmish:copy:Phase:Created",
+          "wire": "created"
+        },
+        {
+          "id": "urn:marmish:copy:Phase:Receiving",
+          "wire": "receiving"
+        },
+        {
+          "id": "urn:marmish:copy:Phase:Verifying",
+          "wire": "verifying"
+        },
+        {
+          "id": "urn:marmish:copy:Phase:CommitPrepared",
+          "wire": "commit_prepared"
+        },
+        {
+          "id": "urn:marmish:copy:Phase:Committed",
+          "wire": "committed"
+        }
+      ],
+      "numbers": {
+        "tags": {
+          "urn:marmish:copy:Phase:Created": 1,
+          "urn:marmish:copy:Phase:Receiving": 2,
+          "urn:marmish:copy:Phase:Verifying": 3,
+          "urn:marmish:copy:Phase:CommitPrepared": 4,
+          "urn:marmish:copy:Phase:Committed": 5
+        },
+        "unknown": {
+          "id": "urn:marmish:stream:error:Invalid",
+          "argument": "copy_enum"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:Stage",
+      "variants": [
+        {
+          "id": "urn:marmish:copy:Stage:Hashing",
+          "wire": "hashing"
+        },
+        {
+          "id": "urn:marmish:copy:Stage:PrefixHash",
+          "wire": "prefix_hash"
+        },
+        {
+          "id": "urn:marmish:copy:Stage:Verifying",
+          "wire": "verifying"
+        },
+        {
+          "id": "urn:marmish:copy:Stage:Syncing",
+          "wire": "syncing"
+        }
+      ],
+      "numbers": {
+        "tags": {
+          "urn:marmish:copy:Stage:Hashing": 1,
+          "urn:marmish:copy:Stage:PrefixHash": 2,
+          "urn:marmish:copy:Stage:Verifying": 3,
+          "urn:marmish:copy:Stage:Syncing": 4
+        },
+        "unknown": {
+          "id": "urn:marmish:stream:error:Invalid",
+          "argument": "copy_enum"
+        }
+      }
+    }
+  ],
+  "errors": [
+    {
+      "id": "urn:marmish:stream:Error",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:error:Invalid",
+          "message": [
+            {
+              "text": "invalid stream input: "
+            },
+            {
+              "payload": true
+            }
+          ],
+          "payload": "text"
+        },
+        {
+          "id": "urn:marmish:stream:error:Codec",
+          "message": [
+            {
+              "text": "invalid compressed stream block"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Limit",
+          "message": [
+            {
+              "text": "stream capacity reached"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Offset",
+          "message": [
+            {
+              "text": "invalid stream offset"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Conflict",
+          "message": [
+            {
+              "text": "conflicting stream retry"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Gap",
+          "message": [
+            {
+              "text": "stream byte gap"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:OldRetry",
+          "message": [
+            {
+              "text": "stream retry outside retained history"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Eof",
+          "message": [
+            {
+              "text": "stream EOF conflict"
+            }
+          ],
+          "payload": "none"
+        },
+        {
+          "id": "urn:marmish:stream:error:Ack",
+          "message": [
+            {
+              "text": "invalid stream acknowledgement"
+            }
+          ],
+          "payload": "none"
+        }
+      ]
+    }
+  ]
+}

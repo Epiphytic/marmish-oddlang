@@ -1,0 +1,104 @@
+{
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:copy:VERSION": "VERSION",
+    "urn:marmish:stream:Error": "Error",
+    "urn:marmish:stream:error:Invalid": "Invalid",
+    "urn:marmish:stream:error:Codec": "Codec",
+    "urn:marmish:stream:error:Limit": "Limit",
+    "urn:marmish:stream:error:Offset": "Offset",
+    "urn:marmish:stream:error:Conflict": "Conflict",
+    "urn:marmish:stream:error:Gap": "Gap",
+    "urn:marmish:stream:error:OldRetry": "OldRetry",
+    "urn:marmish:stream:error:Eof": "Eof",
+    "urn:marmish:stream:error:Ack": "Ack",
+    "urn:marmish:copy:AttemptMode": "AttemptMode",
+    "urn:marmish:copy:AttemptMode:Create": "Create",
+    "urn:marmish:copy:AttemptMode:Resume": "Resume",
+    "urn:marmish:copy:CopyError": "CopyError",
+    "urn:marmish:copy:CopyError:Unsupported": "Unsupported",
+    "urn:marmish:copy:CopyError:Protocol": "Protocol",
+    "urn:marmish:copy:CopyError:PermissionDenied": "PermissionDenied",
+    "urn:marmish:copy:CopyError:NotFound": "NotFound",
+    "urn:marmish:copy:CopyError:UnsafePath": "UnsafePath",
+    "urn:marmish:copy:CopyError:Busy": "Busy",
+    "urn:marmish:copy:CopyError:Conflict": "Conflict",
+    "urn:marmish:copy:CopyError:SourceChanged": "SourceChanged",
+    "urn:marmish:copy:CopyError:HashMismatch": "HashMismatch",
+    "urn:marmish:copy:CopyError:DiskFull": "DiskFull",
+    "urn:marmish:copy:CopyError:Quota": "Quota",
+    "urn:marmish:copy:CopyError:CommitUncertain": "CommitUncertain",
+    "urn:marmish:copy:CopyError:LocalIo": "LocalIo",
+    "urn:marmish:copy:CopyError:IdentityChanged": "IdentityChanged",
+    "urn:marmish:copy:Direction": "Direction",
+    "urn:marmish:copy:Direction:Put": "Put",
+    "urn:marmish:copy:Direction:Get": "Get",
+    "urn:marmish:copy:Phase": "Phase",
+    "urn:marmish:copy:Phase:Created": "Created",
+    "urn:marmish:copy:Phase:Receiving": "Receiving",
+    "urn:marmish:copy:Phase:Verifying": "Verifying",
+    "urn:marmish:copy:Phase:CommitPrepared": "CommitPrepared",
+    "urn:marmish:copy:Phase:Committed": "Committed",
+    "urn:marmish:copy:Stage": "Stage",
+    "urn:marmish:copy:Stage:Hashing": "Hashing",
+    "urn:marmish:copy:Stage:PrefixHash": "PrefixHash",
+    "urn:marmish:copy:Stage:Verifying": "Verifying",
+    "urn:marmish:copy:Stage:Syncing": "Syncing"
+  },
+  "constantTypes": {
+    "urn:marmish:copy:VERSION": "u32"
+  },
+  "variantOrder": {
+    "urn:marmish:stream:Error": [
+      "urn:marmish:stream:error:Invalid",
+      "urn:marmish:stream:error:Codec",
+      "urn:marmish:stream:error:Limit",
+      "urn:marmish:stream:error:Offset",
+      "urn:marmish:stream:error:Conflict",
+      "urn:marmish:stream:error:Gap",
+      "urn:marmish:stream:error:OldRetry",
+      "urn:marmish:stream:error:Eof",
+      "urn:marmish:stream:error:Ack"
+    ],
+    "urn:marmish:copy:AttemptMode": [
+      "urn:marmish:copy:AttemptMode:Create",
+      "urn:marmish:copy:AttemptMode:Resume"
+    ],
+    "urn:marmish:copy:CopyError": [
+      "urn:marmish:copy:CopyError:Unsupported",
+      "urn:marmish:copy:CopyError:Protocol",
+      "urn:marmish:copy:CopyError:PermissionDenied",
+      "urn:marmish:copy:CopyError:NotFound",
+      "urn:marmish:copy:CopyError:UnsafePath",
+      "urn:marmish:copy:CopyError:Busy",
+      "urn:marmish:copy:CopyError:Conflict",
+      "urn:marmish:copy:CopyError:SourceChanged",
+      "urn:marmish:copy:CopyError:HashMismatch",
+      "urn:marmish:copy:CopyError:DiskFull",
+      "urn:marmish:copy:CopyError:Quota",
+      "urn:marmish:copy:CopyError:CommitUncertain",
+      "urn:marmish:copy:CopyError:LocalIo",
+      "urn:marmish:copy:CopyError:IdentityChanged"
+    ],
+    "urn:marmish:copy:Direction": [
+      "urn:marmish:copy:Direction:Put",
+      "urn:marmish:copy:Direction:Get"
+    ],
+    "urn:marmish:copy:Phase": [
+      "urn:marmish:copy:Phase:Created",
+      "urn:marmish:copy:Phase:Receiving",
+      "urn:marmish:copy:Phase:Verifying",
+      "urn:marmish:copy:Phase:CommitPrepared",
+      "urn:marmish:copy:Phase:Committed"
+    ],
+    "urn:marmish:copy:Stage": [
+      "urn:marmish:copy:Stage:Hashing",
+      "urn:marmish:copy:Stage:PrefixHash",
+      "urn:marmish:copy:Stage:Verifying",
+      "urn:marmish:copy:Stage:Syncing"
+    ]
+  },
+  "externalErrorTypes": {
+    "urn:marmish:stream:Error": "crate::Error"
+  }
+}
