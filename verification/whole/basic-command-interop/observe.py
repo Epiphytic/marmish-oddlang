@@ -9,7 +9,7 @@ import re
 import shutil
 import subprocess
 import tempfile
-from threading import Thread
+from threading import Event, Thread
 import time
 
 from corpus import SHORT_CASES, expected_receipt, finite_case
@@ -45,8 +45,12 @@ def until(check, timeout, stage):
     raise TimeoutError(stage)
 
 
-def account_options(instance, role, relay):
-    return ["--state-dir", instance.root / "state", "--identity", role, "--key-storage", "file", "--tor", "auto", "--relay", relay]
+def account_options(instance, role, relay=None):
+    options = ["--state-dir", instance.root / "state", "--identity", role, "--key-storage", "file",
+               "--tor", "auto"]
+    if relay is not None:
+        options.extend(("--relay", relay))
+    return options
 
 
 def json_command(instance, args, setup_receipt=None):
@@ -90,19 +94,28 @@ def host_preferences_state():
 
 
 
-def drain(stream):
+def drain(stream, stop):
     retained = bytearray()
+    descriptor = os.dup(stream.fileno())
+    os.set_blocking(descriptor, False)
 
     def consume():
         try:
-            while block := stream.read1(4096):
+            while not stop.is_set():
+                try:
+                    block = os.read(descriptor, 4096)
+                except BlockingIOError:
+                    stop.wait(0.05)
+                    continue
+                if not block:
+                    break
                 retained.extend(block[:65536 - len(retained)])
-        except (OSError, ValueError):
-            # Teardown closes descriptors after the owned process group stops.
-            return
+        finally:
+            os.close(descriptor)
 
-    Thread(target=consume, daemon=True).start()
-    return retained
+    reader = Thread(target=consume, daemon=True)
+    reader.start()
+    return retained, reader
 
 
 def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_digest, interpreter,
@@ -157,6 +170,8 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
     observation["setups"] = {}
     host_before = host_preferences_state()
     workspace = Workspace()
+    stop_readers = Event()
+    readers = []
     try:
         with workspace:
             peers = {role: workspace.instance(role) for role in ("client", "server")}
@@ -256,8 +271,9 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         child = instance.start(
                             [instance.root / "marmishd", *options, "--foreground", "daemon"],
                             stdin=subprocess.DEVNULL, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-                        drain(child.stdout)
-                        owner_logs[role] = drain(child.stderr)
+                        _, stdout_reader = drain(child.stdout, stop_readers)
+                        owner_logs[role], stderr_reader = drain(child.stderr, stop_readers)
+                        readers.extend((stdout_reader, stderr_reader))
 
                         def ready():
                             if child.poll() is not None:
@@ -286,29 +302,36 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                         raise ValueError("private daemon socket not verified")
                 observation["stage"] = "command-corpus"
                 client = peers["client"]
-                base = [client.root / "marmish", *account_options(client, "client", address),
+                base = [client.root / "marmish", *account_options(client, "client"),
                         "--no-autostart", "--wait-seconds", "300"]
-                reference_commands(observation["attempts"], client, base, accounts["server"],
+                reference_commands(observation["attempts"], client, base, address, accounts["server"],
                                    account_keys["server"], fixtures)
                 observation["stage"] = "complete"
                 observation["reference_complete"] = generated_role is None
-    except (ValueError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
+    except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
         observation["failure_type"] = type(error).__name__
         outcome = "blocked"
     else:
         outcome = "reference-pass" if generated_role is None else "mixed-pass"
+    finally:
+        stop_readers.set()
+        for reader in readers:
+            reader.join(timeout=1)
+    readers_stopped = not any(reader.is_alive() for reader in readers)
     observation["workspace_removed"] = hasattr(workspace, "root") and not workspace.root.exists()
     observation["host_preferences_metadata_unchanged"] = host_preferences_state() == host_before
-    if not observation["workspace_removed"] or not observation["host_preferences_metadata_unchanged"]:
+    if (not readers_stopped or not workspace.cleanup_verified or not observation["workspace_removed"]
+            or not observation["host_preferences_metadata_unchanged"]):
         observation["cleanup_verification"] = "blocked"
         observation["reference_complete"] = False
         outcome = "blocked"
     observation.setdefault("cleanup_verification", "passed")
+    observation["residual_workers_terminated"] = workspace.residual_workers_terminated
     return dict(observation, outcome=outcome)
 
 
 
-def reference_commands(attempts, client, base, server_npub, server_hex, fixtures):
+def reference_commands(attempts, client, base, relay, server_npub, server_hex, fixtures):
     handles = set()
     expected_files = set()
     for repetition in range(4):
@@ -322,7 +345,7 @@ def reference_commands(attempts, client, base, server_npub, server_hex, fixtures
             exe = fixtures[1] if finite else fixtures[0]
             nonce = hashlib.sha256(f"{case.name}:{repetition}".encode()).hexdigest().encode()
             args = case.args if finite else (case.name.encode(), nonce)
-            command = [*base, "--stdin"]
+            command = [*base, "--relay", relay, "--stdin"]
             if finite:
                 command.append("--detach")
             command.extend((server_npub, "--", exe, *args))

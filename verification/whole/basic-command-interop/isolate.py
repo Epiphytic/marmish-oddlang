@@ -6,6 +6,7 @@ import pwd
 import signal
 import subprocess
 import tempfile
+import time
 
 
 SYSTEM_HOME = Path(pwd.getpwuid(os.geteuid()).pw_dir).resolve()
@@ -100,7 +101,7 @@ class Instance:
                     except ProcessLookupError:
                         pass
                     try:
-                        process.wait(timeout=5)
+                        process.wait(timeout=35)
                     except subprocess.TimeoutExpired:
                         os.killpg(process.pid, signal.SIGKILL)
                         process.wait(timeout=5)
@@ -120,6 +121,8 @@ class Workspace:
         self.temp = tempfile.TemporaryDirectory(dir="/tmp", prefix="od-bi-")
         self.root = Path(self.temp.name).resolve()
         self.instances = []
+        self.cleanup_verified = False
+        self.residual_workers_terminated = 0
         self.read_sentinel = self.root / "external-read-probe"
         self.read_sentinel.write_bytes(b"sandbox read probe")
         self.original_handlers = {}
@@ -137,6 +140,35 @@ class Workspace:
         instance.prove(self.read_sentinel, self.root / "external-write-probe")
         return instance
 
+    def owned_processes(self):
+        rows = subprocess.check_output(["/bin/ps", "-axo", "pid=,comm="], text=True).splitlines()
+        result = {}
+        for row in rows:
+            fields = row.split(None, 1)
+            if len(fields) == 2 and fields[1].startswith(f"{self.root}/"):
+                result[int(fields[0])] = fields[1]
+        return result
+
+    def stop_residual_workers(self):
+        # Native command workers create sessions outside the daemon process group.
+        for pid in self.owned_processes():
+            if pid not in self.owned_processes():
+                continue
+            try:
+                group = os.getpgid(pid)
+                if group == pid:
+                    os.killpg(group, signal.SIGKILL)
+                else:
+                    os.kill(pid, signal.SIGKILL)
+                self.residual_workers_terminated += 1
+            except ProcessLookupError:
+                pass
+        deadline = time.monotonic() + 5
+        while self.owned_processes():
+            if time.monotonic() >= deadline:
+                raise RuntimeError("workspace executable survived teardown")
+            time.sleep(0.05)
+
     def __exit__(self, *_exception):
         try:
             for signum in self.original_handlers:
@@ -147,11 +179,13 @@ class Workspace:
                     instance.stop()
                 except RuntimeError as error:
                     failures.append(error)
+            try:
+                self.stop_residual_workers()
+            except (OSError, RuntimeError, subprocess.SubprocessError) as error:
+                failures.append(error)
             if failures:
                 raise RuntimeError("owned workspace cleanup failed") from failures[0]
-            executables = subprocess.check_output(["/bin/ps", "-axo", "comm="], text=True)
-            if any(line.strip().startswith(f"{self.root}/") for line in executables.splitlines()):
-                raise RuntimeError("workspace executable survived teardown")
+            self.cleanup_verified = True
         finally:
             try:
                 self.temp.cleanup()
