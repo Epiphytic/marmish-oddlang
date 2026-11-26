@@ -181,7 +181,7 @@ def main():
                 "original-backend-choice": args.original / IDENTITY["SOURCE"],
                 "backend-choice-caller": HERE.parent / "backend-choice/probe.rs",
             },
-            extra_oracle=lambda product, build: observe_workspace(args, host, work, scratch, product, build),
+            extra_artifact_oracle=lambda product, build: observe_workspace(args, host, work, scratch, product, build),
             receipt_format="marmish-seven-member-typed-error-identity-v1",
         )
         receipt["unchangedMemberLocks"] = sorted(set(receipt["physicalMembers"]) - CHANGED)
