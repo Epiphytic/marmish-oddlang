@@ -1,0 +1,64 @@
+{
+  "allRequestFramesCompared": true,
+  "fixtureSha256": "218437d9f3510e797ecb70d585dd97c676f6bcbde060a706a642d559228f13c0",
+  "format": "marmish-basic-command-local-delivery-reference-v1",
+  "observations": {
+    "corruptedDigest": {
+      "consumed": false,
+      "exit": 255,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response"
+      ],
+      "stderrFormat": "marmish handle: <exact-handle-json>\nmarmish: command_response\n",
+      "stdoutHex": ""
+    },
+    "detach": {
+      "exit": 0,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume"
+      ],
+      "stderrFormat": "marmish handle: <exact-handle-json>\n",
+      "stdoutHex": ""
+    },
+    "foreground": {
+      "exit": 7,
+      "operations": [
+        "status",
+        "command_prepare",
+        "command_submit",
+        "command_unconsumed",
+        "command_response",
+        "command_consume",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrHex": "6669787475726520737464657272ff0a",
+      "stdoutHex": "66697874757265207374646f7574000a"
+    },
+    "wait": {
+      "exit": 7,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_cursors",
+        "command_poll",
+        "command_consume"
+      ],
+      "stderrHex": "6669787475726520737464657272ff0a",
+      "stdoutHex": "66697874757265207374646f7574000a"
+    }
+  },
+  "upstreamClientSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+  "upstreamRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaceRemoved": true
+}
