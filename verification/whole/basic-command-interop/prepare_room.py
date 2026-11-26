@@ -207,6 +207,9 @@ def observe(args):
                 raise ValueError(f"client owner failed its first stop (exit={owner.returncode}, "
                                  f"output={output[:512]!r}, errors={errors[:512]!r}, "
                                  f"socket_exists={sockets['client'].exists()})")
+            select_rows(peers["client"], "client", manifests["client"], "ack-boundary")
+            if select_rows(peers["client"], "client", manifests["client"], "placement") != [(*rows[0][:-1], "0")]:
+                raise ValueError("fixture did not reproduce the persisted acknowledgement boundary")
             owners["client"] = start("client")
             until(lambda: wait_owner("client"), 190, "reopened client")
             if until(ready, 20, "reopened preparation") != session or not admitted():
@@ -218,7 +221,8 @@ def observe(args):
             "fixtureSha256": file_digest(Path(__file__)), "durablePlacement": True,
             "upstreamAdmissionMatched": True, "wrongPeerAndRouteRejected": True,
             "discoveryRecoversWhenPeerAppears": True,
-            "sameSessionAfterDuplicateAndRestart": True, "cleanup": True}
+            "sameSessionAfterDuplicateAndRestart": True,
+            "recoversAfterSimulatedReadyCommitLoss": True, "cleanup": True}
 
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@
         "marmish-stream"
       ],
       "inputSha256": "3ac6776cd4fee821b2f542ba759c1cb123182f3b9cededae4b29e8df0f7db9db",
-      "standalonePackageLockSha256": "4b58cba4c77cc487f35a3f80cfeadabfbc427ccf860930de538511c351ec5452",
+      "standalonePackageLockSha256": "aef66e84158434ffaaff38aa7c33a80efe44748685ff102c29fbc98c084a0c24",
       "workspaceCargoManifestSha256": "0835fecfc55d50e1ce234dd09bf417cc62cd5884971bb95881f82fbeda2c2e86"
     },
     "marmish-prototype": {
