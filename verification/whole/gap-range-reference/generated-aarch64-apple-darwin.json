@@ -1,8 +1,11 @@
 {
+  "callerLockSha256": "9d9131d0dde46513ed89d3805bbd4e39aa374283e1572e46d4bb0d08a3c9cb0e",
+  "callerManifestSha256": "a098944bbc96bc3ee275b6854143e592d89de400e1426fd1478464047cdb30c2",
   "copyControl": [
     "E0277"
   ],
-  "frameworkBinarySha256": "7b51139378bd9860ce2e09aed390ec0d458e305018d167bf18a8761e53dbf769",
+  "framework": "3c01918dd430afcf3b57a21a5b24191f99333025",
+  "frameworkBinarySha256": "79f4a6c95f5382506939b1e54e31749aa0401cedddb839a7a89debc2ff5cc930",
   "host": "aarch64-apple-darwin",
   "manifestSha256": "9ca6c1281daf3d15b93e4b03ddfe836af748299c395eea837c2cf2b58accd595",
   "observations": [
@@ -126,6 +129,7 @@
     }
   ],
   "packageLockSha256": "dbcd1e3a2e2e73016316212e27def44b0e99826bd54c36230626b196cd3d67e2",
-  "referenceSha256": "230a16164075c435af5831e6888da42a3af6ee5d308240001b5f20225d48e35d",
-  "verifierSha256": "876c4387262580dfd679f49675ecdcdcb50eec7497cd8599ff8dd453c3b07944"
+  "referenceSha256": "431a9eef60aa3ab14968ab9169cdb19a5ad5d825a1872f92bac8d659a944d777",
+  "rustcCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "verifierSha256": "bb3f40ab121fcce442cdea1475db5027d2cbf44bde52145d9196b686e29606a1"
 }

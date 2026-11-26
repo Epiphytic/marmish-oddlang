@@ -20,7 +20,18 @@ def require(condition, message):
         raise ValueError(message)
 
 
-def project(compiler):
+FRAMEWORK = "3c01918dd430afcf3b57a21a5b24191f99333025"
+
+
+def check_framework(root):
+    require(subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=root, text=True).strip() == FRAMEWORK and
+            not subprocess.check_output(["git", "status", "--porcelain", "--untracked-files=all"], cwd=root),
+            "expected clean pinned framework")
+
+
+def project(framework, target):
+    check_framework(framework)
+    require(not target.is_relative_to(framework), "use an external Cargo target directory")
     host_info = subprocess.check_output(["rustc", "+1.97.1", "-vV"], text=True).splitlines()
     require(f"commit-hash: {COMPILER}" in host_info, "unexpected Rust compiler")
     host, = [v[6:] for v in host_info if v.startswith("host: ")]
@@ -34,6 +45,11 @@ def project(compiler):
     env = {k: os.environ[k] for k in ("HOME", "PATH", "CARGO_HOME", "TMPDIR", "RUSTUP_HOME", "SDKROOT") if k in os.environ}
     with tempfile.TemporaryDirectory() as tmp:
         work = Path(tmp)
+        subprocess.run(["cargo", "+1.96.1", "build", "--locked", "--offline", "--bin", "oddlang",
+                        "--target-dir", target], cwd=framework, env=env, check=True)
+        compiler = Path(shutil.copyfile(target / "debug/oddlang", work / "oddlang"))
+        compiler.chmod(0o755)
+        compiler_sha = sha(compiler)
         spec = json.loads(SPEC.read_bytes())
         staged = work / "inputs"
         staged.mkdir()
@@ -66,14 +82,17 @@ def project(compiler):
         errors = [r["message"]["code"]["code"] for r in map(json.loads, reject.stdout.splitlines())
                   if r.get("reason") == "compiler-message" and r["message"]["level"] == "error" and r["message"].get("code")]
         require(reject.returncode and errors == original["copyControl"] == ["E0277"], "wrong Copy diagnostic")
-    return {"host": host, "frameworkBinarySha256": sha(compiler), "manifestSha256": sha(SPEC),
+    check_framework(framework)
+    return {"host": host, "rustcCommit": COMPILER, "framework": FRAMEWORK, "frameworkBinarySha256": compiler_sha,
+            "callerLockSha256": sha(HERE / "caller.lock"), "callerManifestSha256": sha(HERE / "caller.toml"), "manifestSha256": sha(SPEC),
             "packageLockSha256": sha(REFERENCE), "referenceSha256": sha(original_file),
             "verifierSha256": sha(Path(__file__)), "copyControl": errors, "observations": observations}
 
 
 if __name__ == "__main__":
     cli = argparse.ArgumentParser(description=__doc__)
-    cli.add_argument("compiler", type=lambda v: Path(v).resolve())
+    for name in ("framework", "target"):
+        cli.add_argument(name, type=lambda v: Path(v).resolve())
     cli.add_argument("output", type=Path)
     args = cli.parse_args()
-    args.output.write_text(json.dumps(project(args.compiler), indent=2, sort_keys=True) + "\n")
+    args.output.write_text(json.dumps(project(args.framework, args.target), indent=2, sort_keys=True) + "\n")

@@ -15,6 +15,8 @@ fn outcome<T>(decoded: Result<T, serde_json::Error>, encode: impl Fn(T) -> Strin
 
 fn check_public_cases() {
     use MissingReason::*;
+    fn require_eq<T: Eq>() {}
+    require_eq::<MissingReason>();
     let cases = [Limit, StorageFailure, Expired, UncertainTail];
     for (index, reason) in cases.into_iter().enumerate() {
         let expected = match &reason {

@@ -22,9 +22,8 @@ The candidate is standalone; the canonical workspace has its own pins.
 
 To reproduce, use the clean original at
 `af54339d250290490d62d4475a77539b7e739071`, native Rust 1.97.1 and cached
-Cargo inputs. Build Oddlang revision
-`3c01918dd430afcf3b57a21a5b24191f99333025` with
-`cargo +1.96.1 build --locked --offline --bin oddlang`. Use a dedicated target directory
+Cargo inputs. Use a clean checkout of Oddlang revision
+`3c01918dd430afcf3b57a21a5b24191f99333025` with the Rust 1.96.1 framework toolchain installed. Use a dedicated target directory
 outside the original checkout. The first command checks the original and
 archives its observations. The second needs the reference receipt, probes
 and portable inputs and can run with the original checkout absent.
@@ -33,7 +32,7 @@ and portable inputs and can run with the original checkout absent.
 lane=verification/whole/gap-range-reference
 host=$(rustc +1.97.1 -vV | sed -n 's/^host: //p')
 python3 -B "$lane/observe.py" "$ORIGINAL" "$TARGET" "$lane/original-$host.json"
-python3 -B "$lane/project.py" "$ODDLANG" "$lane/generated-$host.json"
+python3 -B "$lane/project.py" "$FRAMEWORK" "$COMPILER_TARGET" "$lane/generated-$host.json"
 ```
 
 A candidate match in this lane covers the tested Serde JSON representations,

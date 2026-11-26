@@ -1,7 +1,10 @@
 {
+  "callerLockSha256": "9d9131d0dde46513ed89d3805bbd4e39aa374283e1572e46d4bb0d08a3c9cb0e",
+  "callerManifestSha256": "a098944bbc96bc3ee275b6854143e592d89de400e1426fd1478464047cdb30c2",
   "copyControl": [
     "E0277"
   ],
+  "framework": "3c01918dd430afcf3b57a21a5b24191f99333025",
   "frameworkBinarySha256": "4aa53e8d49890ee2546bb58d0aab5fa24ac605718b4bf773b30d7029784edf7d",
   "host": "aarch64-unknown-linux-gnu",
   "manifestSha256": "9ca6c1281daf3d15b93e4b03ddfe836af748299c395eea837c2cf2b58accd595",
@@ -126,6 +129,7 @@
     }
   ],
   "packageLockSha256": "dbcd1e3a2e2e73016316212e27def44b0e99826bd54c36230626b196cd3d67e2",
-  "referenceSha256": "92b115ad0fc4fbbff0f9ac082d498a97764abc9ebd1a76571c773613efd37d46",
-  "verifierSha256": "876c4387262580dfd679f49675ecdcdcb50eec7497cd8599ff8dd453c3b07944"
+  "referenceSha256": "add0e669117ab7e5eee9464413b4c65576c09e6553916ac19684c246444311a9",
+  "rustcCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "verifierSha256": "bb3f40ab121fcce442cdea1475db5027d2cbf44bde52145d9196b686e29606a1"
 }
