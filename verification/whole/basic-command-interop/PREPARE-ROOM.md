@@ -1,0 +1,9 @@
+# Bounded owner preparation
+
+The [workspace](../../../oddlang/portable/workspace-bounded-owner-prepare.json) adds the [prepare contract binding](../../../oddlang/portable/bounded-owner-prepare-v1/foreground.json) to the composed owner. The daemon uses the same framed private Unix socket for status and prepare. Prepare applies to the client role and the configured trusted peer on the configured relay. The workspace binds one peer, one onion relay, one room slot and a bounded preparation turn.
+
+Prepare starts with `local_busy`. The owner obtains a signed key package for the authorized peer, fences the selected room before native creation, and records the group and session before publication. A `ready` reply follows local acknowledgement of the persisted Welcome on the selected relay. A cold owner validates the retained group and transport binding before reusing a ready session. An interrupted or inconsistent binding fails closed with a finite category.
+
+The [fixture](prepare_room.py) binds a generated client owner and the pinned upstream server owner to a test-owned relay. It checks trust and relay refusals before production of a room, verifies actual placement in the generated account journal, separately verifies the matching admission in the upstream journal, and checks duplicate requests and a cold restart. The fixture sends no application commands. The [journal probe](prepare_journal_fixture.c) queries only the disposable read-only snapshots and receives the derived fixture key over stdin.
+
+Run the fixture with an artifact directory, the pinned reference binary directory, the pinned Deaddrop binary, the journal probe and an unused receipt path. Supply the three executable digests shown by `prepare_room.py --help`. Build the C probe on macOS with the linked reference build's SQLCipher and OpenSSL static archives, `-lz -framework Security -framework CoreFoundation`, and the pinned toolchain.
