@@ -34,3 +34,29 @@ RUSTUP_TOOLCHAIN=1.97.1 python3 -B verification/whole/native-error/verify.py \
 
 Use a fresh output directory. The target directories may be reused. The
 published v6 manifest and release receipts retain their existing pins.
+
+### Build the v7 executables and native error API together
+
+Use the [combined manifest](../../../oddlang/portable/workspace-v7-native-error.json)
+with Oddlang `da0ea5dedd1adfa8513b7f3f8d536713958bcecb`. The native package
+imports both reviewed components and depends on the generated stream member.
+With the pinned dependencies available in the offline Cargo cache, run:
+
+```sh
+oddlang build native-workspace rust oddlang/portable/workspace-v7-native-error.json /tmp/marmish-combined
+cargo +1.97.1 build --manifest-path /tmp/marmish-combined/Cargo.toml --workspace --release --offline --locked
+```
+
+The replay stages only the manifest's graph, overlay and lock files. It builds
+both release executables, compares their stdout, stderr and exit status with
+the platform's published v7 observations and runs the unchanged native error
+caller against a debug build of the same workspace. The replay uses the stored
+original observations and requires no original Marmish checkout.
+
+```sh
+python3 -B verification/whole/native-error/combined.py /path/to/pinned/oddlang /tmp/marmish-combined-cache /tmp/combined.json
+```
+
+The [Darwin ARM64 combined receipt](darwin-arm64/combined.json) records 32 CLI
+invocations and 32 caller observations. The full v7 regression run and Linux
+ARM64 receipts cited in the workspace guide apply to the original v7 manifest.
