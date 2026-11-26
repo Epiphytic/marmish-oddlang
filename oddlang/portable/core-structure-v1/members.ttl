@@ -1,0 +1,26 @@
+@prefix o: <urn:oddlang:structural-ownership:> .
+@prefix m: <urn:marmish:structure:core:> .
+@prefix r: <urn:marmish:binding:rust:core:> .
+@prefix c: <urn:oddlang:core:> .
+
+m:retention-maximum a o:Constant ; o:owner m:retention-policy ; o:parameterPredicate c:maximum .
+m:validate-retention a o:Operation ; o:owner m:retention-policy ; o:role o:checkedConstruction .
+m:read-retention a o:Operation ; o:owner m:retention-policy ; o:role o:readValue .
+m:parse-relay-set a o:Operation ; o:owner m:relay-set ; o:role o:checkedConstruction .
+m:read-relay-set a o:Operation ; o:owner m:relay-set ; o:role o:readValue .
+m:raw-byte-limit a o:Constant ; o:owner m:frame-limits ; o:parameterPredicate c:rawBytes .
+m:wire-byte-limit a o:Constant ; o:owner m:frame-limits ; o:parameterPredicate c:wireBytes .
+m:record-line-byte-limit a o:Constant ; o:owner m:frame-limits ; o:parameterPredicate c:recordLineBytes .
+m:encode-probe a o:Operation ; o:owner m:probe-envelope ; o:role o:encode .
+m:decode-probe a o:Operation ; o:owner m:probe-envelope ; o:role o:decode .
+
+r:retention-maximum o:member m:retention-maximum ; o:spelling "MAX_SECONDS" .
+r:validate-retention o:member m:validate-retention ; o:spelling "from_seconds" .
+r:read-retention o:member m:read-retention ; o:spelling "seconds" .
+r:parse-relay-set o:member m:parse-relay-set ; o:spelling "parse" .
+r:read-relay-set o:member m:read-relay-set ; o:spelling "as_slice" .
+r:raw-byte-limit o:member m:raw-byte-limit ; o:spelling "RAW_BYTES" .
+r:wire-byte-limit o:member m:wire-byte-limit ; o:spelling "JSON_BYTES" .
+r:record-line-byte-limit o:member m:record-line-byte-limit ; o:spelling "NDJSON_BYTES" .
+r:encode-probe o:member m:encode-probe ; o:spelling "encode" .
+r:decode-probe o:member m:decode-probe ; o:spelling "decode" .

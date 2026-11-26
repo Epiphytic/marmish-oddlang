@@ -1,0 +1,1416 @@
+{
+  "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "cargoProfile": "release",
+  "comparison": {
+    "ambiguous": [
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 30
+          },
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 30
+          }
+        ],
+        "kind": "constant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "_"
+        ],
+        "rustdoc": []
+      }
+    ],
+    "compilerOnly": [],
+    "declaredAccess": {
+      "agreement": [
+        {
+          "compiler": {
+            "within": [
+              "marmish_core"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "config"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "config",
+            "ConfigError"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "RelaySet"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "RelaySet",
+            "0"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "config",
+            "Retention"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "config",
+            "Retention",
+            "0"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "canonical_relay"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "classify_ip"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "public_v4"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          },
+          "kind": "operation",
+          "path": [
+            "marmish_core",
+            "config",
+            "public_v6"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "config"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core"
+            ]
+          },
+          "kind": "module",
+          "path": [
+            "marmish_core",
+            "frame"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          },
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "Envelope"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "frame",
+            "Envelope",
+            "payload"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          }
+        },
+        {
+          "compiler": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          },
+          "kind": "field",
+          "path": [
+            "marmish_core",
+            "frame",
+            "Envelope",
+            "version"
+          ],
+          "rustdoc": {
+            "within": [
+              "marmish_core",
+              "frame"
+            ]
+          }
+        },
+        {
+          "compiler": "public",
+          "kind": "sum",
+          "path": [
+            "marmish_core",
+            "frame",
+            "FrameError"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "Limits"
+          ],
+          "rustdoc": "public"
+        },
+        {
+          "compiler": "public",
+          "kind": "record",
+          "path": [
+            "marmish_core",
+            "frame",
+            "ProbeEnvelope"
+          ],
+          "rustdoc": "public"
+        }
+      ],
+      "different": [],
+      "outsideScopeMatchedByKind": {
+        "package": 1,
+        "variant": 11
+      },
+      "unresolved": []
+    },
+    "matched": [
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/lib.rs",
+            "line": 1
+          }
+        ],
+        "kind": "package",
+        "path": [
+          "marmish_core"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/lib.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/lib.rs",
+            "line": 3
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "config"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 8
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 8
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 16
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "DisallowedComponents"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 16
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 18
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "DisallowedHost"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 18
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 14
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "DisallowedScheme"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 14
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 10
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "EmptyRelaySet"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 10
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 12
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "InvalidUrl"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 12
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 20
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "LoopbackDenied"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 20
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 22
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "config",
+          "ConfigError",
+          "RetentionOutOfRange"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 22
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 30
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "RelaySet"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 30
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 30
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "RelaySet",
+          "0"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 30
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 140
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "config",
+          "Retention"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 140
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 140
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "config",
+          "Retention",
+          "0"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 140
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 52
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "canonical_relay"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 52
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 101
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "classify_ip"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 101
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 116
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "public_v4"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 116
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 128
+          }
+        ],
+        "kind": "operation",
+        "path": [
+          "marmish_core",
+          "config",
+          "public_v6"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/config.rs",
+            "line": 128
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/lib.rs",
+            "line": 4
+          }
+        ],
+        "kind": "module",
+        "path": [
+          "marmish_core",
+          "frame"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 1
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 32
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "Envelope"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 32
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 34
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "frame",
+          "Envelope",
+          "payload"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 34
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 33
+          }
+        ],
+        "kind": "field",
+        "path": [
+          "marmish_core",
+          "frame",
+          "Envelope",
+          "version"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 33
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 16
+          }
+        ],
+        "kind": "sum",
+        "path": [
+          "marmish_core",
+          "frame",
+          "FrameError"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 16
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 24
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "FrameError",
+          "InvalidEncoding"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 24
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 20
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "FrameError",
+          "InvalidJson"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 20
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 22
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "FrameError",
+          "InvalidVersion"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 22
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 18
+          }
+        ],
+        "kind": "variant",
+        "path": [
+          "marmish_core",
+          "frame",
+          "FrameError",
+          "SizeLimit"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 18
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 7
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "Limits"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 7
+          }
+        ]
+      },
+      {
+        "compiler": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 28
+          }
+        ],
+        "kind": "record",
+        "path": [
+          "marmish_core",
+          "frame",
+          "ProbeEnvelope"
+        ],
+        "rustdoc": [
+          {
+            "file": "crates/marmish-core/src/frame.rs",
+            "line": 28
+          }
+        ]
+      }
+    ],
+    "rustdocOnly": [],
+    "unkeyedCompilerByKind": {
+      "associated-constant": 4,
+      "associated-function": 35,
+      "associated-type": 2,
+      "closure": 9,
+      "constant": 1,
+      "constructor": 18,
+      "enum": 1,
+      "extern-crate": 3,
+      "field": 2,
+      "implementation": 38,
+      "import": 24,
+      "lifetime-parameter": 53,
+      "struct": 2,
+      "type-parameter": 8,
+      "variant": 2
+    },
+    "unkeyedRustdocByKind": {
+      "assoc_const": 4,
+      "function": 23,
+      "impl": 140,
+      "use": 6
+    }
+  },
+  "compilerCfg": [
+    "panic=\"unwind\"",
+    "target_abi=\"\"",
+    "target_arch=\"aarch64\"",
+    "target_endian=\"little\"",
+    "target_env=\"\"",
+    "target_family=\"unix\"",
+    "target_feature=\"aes\"",
+    "target_feature=\"crc\"",
+    "target_feature=\"dit\"",
+    "target_feature=\"dotprod\"",
+    "target_feature=\"dpb\"",
+    "target_feature=\"dpb2\"",
+    "target_feature=\"fcma\"",
+    "target_feature=\"fhm\"",
+    "target_feature=\"flagm\"",
+    "target_feature=\"fp16\"",
+    "target_feature=\"frintts\"",
+    "target_feature=\"jsconv\"",
+    "target_feature=\"lor\"",
+    "target_feature=\"lse\"",
+    "target_feature=\"neon\"",
+    "target_feature=\"paca\"",
+    "target_feature=\"pacg\"",
+    "target_feature=\"pan\"",
+    "target_feature=\"pmuv3\"",
+    "target_feature=\"ras\"",
+    "target_feature=\"rcpc\"",
+    "target_feature=\"rcpc2\"",
+    "target_feature=\"rdm\"",
+    "target_feature=\"sb\"",
+    "target_feature=\"sha2\"",
+    "target_feature=\"sha3\"",
+    "target_feature=\"ssbs\"",
+    "target_feature=\"vh\"",
+    "target_has_atomic=\"128\"",
+    "target_has_atomic=\"16\"",
+    "target_has_atomic=\"32\"",
+    "target_has_atomic=\"64\"",
+    "target_has_atomic=\"8\"",
+    "target_has_atomic=\"ptr\"",
+    "target_has_atomic_primitive_alignment=\"128\"",
+    "target_has_atomic_primitive_alignment=\"16\"",
+    "target_has_atomic_primitive_alignment=\"32\"",
+    "target_has_atomic_primitive_alignment=\"64\"",
+    "target_has_atomic_primitive_alignment=\"8\"",
+    "target_has_atomic_primitive_alignment=\"ptr\"",
+    "target_os=\"macos\"",
+    "target_pointer_width=\"64\"",
+    "target_vendor=\"apple\"",
+    "unix"
+  ],
+  "defaultFeatures": true,
+  "formatVersion": 57,
+  "package": "marmish-core",
+  "previousSpanReportSha256": null,
+  "profile": {
+    "checkCfg": [
+      "cfg(docsrs,test)",
+      "cfg(feature, values())"
+    ],
+    "codegen": [
+      "opt-level=3"
+    ],
+    "crateName": [
+      "marmish_core"
+    ],
+    "crateType": [
+      "lib"
+    ],
+    "edition": [
+      "--edition=2021"
+    ],
+    "explicitCfg": [],
+    "externAliases": [
+      "base64",
+      "serde",
+      "serde_json",
+      "thiserror",
+      "url"
+    ],
+    "externBindings": {
+      "base64": {
+        "crate": "base64",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"alloc\"",
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "base64",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "0.22.1"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "serde": {
+        "crate": "serde",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"default\"",
+          "feature=\"derive\"",
+          "feature=\"serde_derive\"",
+          "feature=\"std\"",
+          "if_docsrs_then_no_serde_core"
+        ],
+        "package": {
+          "name": "serde",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "1.0.229"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "serde_json": {
+        "crate": "serde_json",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "fast_arithmetic=\"64\"",
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "serde_json",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "1.0.151"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "thiserror": {
+        "crate": "thiserror",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "thiserror",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "2.0.21"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      },
+      "url": {
+        "crate": "url",
+        "crateTypes": [
+          "lib"
+        ],
+        "explicitCfg": [
+          "feature=\"default\"",
+          "feature=\"std\""
+        ],
+        "package": {
+          "name": "url",
+          "source": "registry+https://github.com/rust-lang/crates.io-index",
+          "version": "2.5.8"
+        },
+        "target": [
+          "aarch64-apple-darwin"
+        ]
+      }
+    },
+    "pathMaps": [
+      "--remap-path-prefix=$WORKSPACE=/oddlang-workspace"
+    ],
+    "target": [
+      "aarch64-apple-darwin"
+    ]
+  },
+  "requestedFeatures": [],
+  "rustdocImplicitCfg": [
+    "doc"
+  ],
+  "schema": 1,
+  "source": {
+    "revision": "af54339d250290490d62d4475a77539b7e739071",
+    "tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481"
+  },
+  "spanEvidence": {
+    "includingExpansions": {
+      "compilerOnly": [
+        [
+          "crates/marmish-core/src/config.rs",
+          7,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          29,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          139,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          15,
+          "assert_fields_are_eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "FIELDS",
+          "constant"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "Value",
+          "assoc_type"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "_",
+          "constant"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "__Field",
+          "enum"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "__FieldVisitor",
+          "struct"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "__Visitor",
+          "struct"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "__field0",
+          "variant"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "__field1",
+          "variant"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "expecting",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "lifetime",
+          "struct_field"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "marker",
+          "struct_field"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "visit_bytes",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "visit_map",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "visit_seq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "visit_str",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "visit_u64",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/lib.rs",
+          3,
+          "config",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/lib.rs",
+          4,
+          "frame",
+          "module"
+        ]
+      ],
+      "matched": 47,
+      "rustdocOnly": [
+        [
+          "crates/marmish-core/src/config.rs",
+          1,
+          "config",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          1,
+          "frame",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/lib.rs",
+          1,
+          "marmish_core",
+          "module"
+        ]
+      ]
+    },
+    "ordinary": {
+      "compilerOnly": [
+        [
+          "crates/marmish-core/src/lib.rs",
+          3,
+          "config",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/lib.rs",
+          4,
+          "frame",
+          "module"
+        ]
+      ],
+      "matched": 33,
+      "rustdocOnly": [
+        [
+          "crates/marmish-core/src/config.rs",
+          1,
+          "config",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          7,
+          "eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          7,
+          "fmt",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          29,
+          "clone",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          29,
+          "eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          139,
+          "clone",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          139,
+          "eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/config.rs",
+          139,
+          "fmt",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          1,
+          "frame",
+          "module"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          6,
+          "clone",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          6,
+          "default",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          6,
+          "fmt",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          15,
+          "eq",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          15,
+          "fmt",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "deserialize",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/frame.rs",
+          30,
+          "serialize",
+          "function"
+        ],
+        [
+          "crates/marmish-core/src/lib.rs",
+          1,
+          "marmish_core",
+          "module"
+        ]
+      ]
+    }
+  },
+  "targetKind": "lib",
+  "tools": {
+    "commit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "host": "aarch64-apple-darwin",
+    "release": "1.97.1",
+    "rustcSha256": "210df6794001b73ec3d453878707fa1e0bdcb63c427024a6e6574bbe5615a4da",
+    "rustdocSha256": "aa94960b6a477441f6d1a797394daf4cafcc889d837550c8fa462b102e3fa5da"
+  },
+  "workspaceManifestSha256": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53"
+}

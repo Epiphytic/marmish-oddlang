@@ -27,6 +27,8 @@ The separate [engine process-limit workspace](../verification/whole/engine-limit
 
 The [public journal record recovery](../verification/whole/journal-records/README.md) preserves three selected native records and their direct re-exports in the combined vault and engine workspace.
 
+The [RuntimeStatus data workspace](../verification/whole/runtime-status-data/README.md) adds the public MDK adapter status record to the canonical workspace and qualifies data-only callers on both ARM64 hosts.
+
 The [combined recovered vault and journal workspace](../verification/whole/unified-vault-journal/README.md) qualifies the recovered release report, fixed-width vault and public journal records together on one build.
 
 The [seven-member prototype constant workspace](../verification/whole/prototype-constant/README.md) adds the recovered crate-root `marmish_prototype::MAX_LINE` and preserves the private reader and six sibling package locks.

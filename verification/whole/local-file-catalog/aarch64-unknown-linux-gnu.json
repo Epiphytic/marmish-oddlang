@@ -1,0 +1,43 @@
+{
+  "case": "native_manifest::tests::versioned_directory_discovery_supports_both_families_and_rejects_ambiguity",
+  "caseSha256": "7daed3cc184642817d58cd5e56d620ce578a8124504d7c112c2f11324c5189f0",
+  "companion": "1e17f5b60afaecd88a8c0ce621574d325368b0e1",
+  "compilerSha256": "bdfff9bc90709276c8e6cfdbb9fc2dabc054ca7967f5abffc936445109a15690",
+  "format": "marmish-local-verified-file-catalog-v1",
+  "framework": "3543b8cb296c24f2b77a6e98ef4f502b92e4e589",
+  "mutation": {
+    "failure": "missed-ambiguity",
+    "namedFailed": 1,
+    "removedPrefix": "marmish-0.3.",
+    "workspaceLockSha256": "9ca1af3576e75b65ac03c9f00d224487f13a9aad3fc3e1930d6ac59ad8d75985"
+  },
+  "namedPassed": 1,
+  "observations": {
+    "ambiguity-before-caller-digest": "candidate",
+    "bad-syntax": "syntax",
+    "bounded-before-caller-digest": "descriptor",
+    "caller-digest-before-syntax": "digest",
+    "complete-fixed": "accepted",
+    "complete-selected": "accepted",
+    "fixed-mode-mismatch": "metadata",
+    "long-asset": "descriptor",
+    "none": "candidate",
+    "same-length-changed-asset": "digest",
+    "short-asset": "metadata",
+    "valid-content-wrong-name": "candidate"
+  },
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "probeSha256": "45e52786a32036181fefe7d83df452cb21cb5cf980434ea8b57683e80ee5fece",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "sampleSha256": "52f7f2f6dc0c0da5451eb11d5219824654b0b19b9204d91d9df40d3f564a25fd",
+  "sourceDenials": 3,
+  "workspaceLockSha256": "6cc00cdb304db004d4fc7ca7433155442dc7c34170123441904ab696a9d9551c"
+}

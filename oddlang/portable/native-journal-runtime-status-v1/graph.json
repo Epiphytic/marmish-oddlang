@@ -1,0 +1,150 @@
+{
+  "format": "oddlang-public-records-v1",
+  "modules": [
+    {
+      "id": "urn:marmish:native:journal",
+      "records": [
+        {
+          "id": "urn:marmish:native:journal:Conversation",
+          "traits": [
+            "clone",
+            "serialize"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:native:journal:Conversation/field/session",
+              "wire": "session",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:Conversation/field/group_id",
+              "wire": "group_id",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:Conversation/field/peer",
+              "wire": "peer",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:Conversation/field/revoked",
+              "wire": "revoked",
+              "type": "bool"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:native:journal:SendStatus",
+          "traits": [
+            "clone",
+            "serialize"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:native:journal:SendStatus/field/application_id",
+              "wire": "application_id",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:SendStatus/field/app_event_id",
+              "wire": "app_event_id",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:SendStatus/field/state",
+              "wire": "state",
+              "type": "text"
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:native:journal:ReceivedMessage",
+          "traits": [
+            "clone",
+            "serialize"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/cursor",
+              "wire": "cursor",
+              "type": "u64"
+            },
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/session",
+              "wire": "session",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/application_id",
+              "wire": "application_id",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/sender",
+              "wire": "sender",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/data",
+              "wire": "data",
+              "type": "octets"
+            },
+            {
+              "id": "urn:marmish:native:journal:ReceivedMessage/field/invalidated",
+              "wire": "invalidated",
+              "type": "bool"
+            }
+          ]
+        }
+      ],
+      "aliases": []
+    },
+    {
+      "id": "urn:marmish:native:mdk-adapter",
+      "records": [
+        {
+          "id": "urn:marmish:native:mdk-adapter:RuntimeStatus",
+          "traits": [
+            "serialize"
+          ],
+          "fields": [
+            {
+              "id": "urn:marmish:native:mdk-adapter:RuntimeStatus/field/identity",
+              "wire": "identity",
+              "type": "text"
+            },
+            {
+              "id": "urn:marmish:native:mdk-adapter:RuntimeStatus/field/conversations",
+              "wire": "conversations",
+              "type": "pointer-unsigned"
+            },
+            {
+              "id": "urn:marmish:native:mdk-adapter:RuntimeStatus/field/received",
+              "wire": "received",
+              "type": "pointer-unsigned"
+            },
+            {
+              "id": "urn:marmish:native:mdk-adapter:RuntimeStatus/field/pending",
+              "wire": "pending",
+              "type": "pointer-unsigned"
+            }
+          ]
+        }
+      ],
+      "aliases": [
+        {
+          "id": "urn:marmish:native:mdk-adapter:Conversation",
+          "target": "urn:marmish:native:journal:Conversation"
+        },
+        {
+          "id": "urn:marmish:native:mdk-adapter:ReceivedMessage",
+          "target": "urn:marmish:native:journal:ReceivedMessage"
+        },
+        {
+          "id": "urn:marmish:native:mdk-adapter:SendStatus",
+          "target": "urn:marmish:native:journal:SendStatus"
+        }
+      ]
+    }
+  ]
+}

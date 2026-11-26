@@ -1,0 +1,10 @@
+PREFIX o: <urn:oddlang:structural-ownership:>
+SELECT ?type ?owner ?component ?source ?digest ?role ?term ?subject WHERE {
+  ?type a o:Type ; o:owner ?owner ; o:semanticComponent ?component .
+  ?component o:graph ?source ; o:graphSha256 ?digest .
+  { ?type o:domain ?term . BIND(o:domain AS ?role) }
+  UNION { ?type o:errorCase ?term . BIND(o:errorCase AS ?role) }
+  UNION { ?type o:parameterSubject ?subject ; o:parameterPredicate ?term .
+          BIND(o:parameterPredicate AS ?role) }
+}
+ORDER BY ?type ?term
