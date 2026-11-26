@@ -1,0 +1,26 @@
+{
+  "adapterBase": "29e848d",
+  "byteIdenticalGraphObservations": {
+    "shapes": "fcdfd0603da0c858d29240c1ed479318e16858a8ed1c10486f4adff6653c9f9e",
+    "structure": "0526431307f9fcc33733679169c138122524aaffe345b0fad5c7ff926828b9aa"
+  },
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "mechanicallyRepinnedAdapterInputs": {
+    "Cargo.toml": {
+      "base": "0d96e4312b536ca466e1b553d3a0a3085f221932cd866531653d1884900ecabc",
+      "current": "2c1059f3570b491a703a4e5a849ae8b8314eca8106b6c11827b44a3454eed7a8"
+    },
+    "driver.rs": {
+      "base": "a9348594760fbc4545d3e52aa04aadf4cf5164507203dfed66fd87c19c21583c",
+      "current": "b13191638dacb10f99f52001436f6fa70867666d5e560ff16e3e39b93a31faf9"
+    },
+    "run.sh": {
+      "base": "96d8f2af2f0964fbbecb6c0b3b06ad76fa42cc0419a9ab02848bb8429b3e5977",
+      "current": "f9b4fb93e90ff516986fbbe2034d6b9c18499f15b480a3529de6765537780a76"
+    }
+  },
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "package": "marmish-stream",
+  "profile": "release/default-features",
+  "target": "aarch64-apple-darwin"
+}

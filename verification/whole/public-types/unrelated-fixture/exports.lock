@@ -1,0 +1,31 @@
+{
+  "exportsSha256": "6d55d79f48ca141a4ed181b02f4100c75358b1eb7633841857c99fd631059a35",
+  "pin": {
+    "adapterInputsSha256": {
+      "Cargo.lock": "2f7f0cf1b3760f5d8523779342d81ae16ac6b904817197179004f513c23ef8a6",
+      "Cargo.toml": "2c1059f3570b491a703a4e5a849ae8b8314eca8106b6c11827b44a3454eed7a8",
+      "driver.rs": "b13191638dacb10f99f52001436f6fa70867666d5e560ff16e3e39b93a31faf9",
+      "export_model.rs": "f46b8aa1ac851cbcf83b373d8749977c464299200180844dbfbd1ae8006b1e1a",
+      "exports.rs": "7c8c5355c3a22350e388bcdc5259269fe940aae10a87c82d4a59a2d0da94a621",
+      "shape_model.rs": "7724a990d6ff14eb23581a66925b4e8a25df2023bad10077549428910b28aa1e",
+      "shapes.rs": "cf280fe64c6b8c3eb23573e8d0f1380dde2191f7320580dcba9baf13457a36a1"
+    },
+    "adapterSha256": "f9b4fb93e90ff516986fbbe2034d6b9c18499f15b480a3529de6765537780a76",
+    "cargoConfigSha256": {
+      "cargo-home/config.toml": "1957efa371330c221a0fb1d33d0422d3374f1182010b64fe0bb5a2dbb1921479"
+    },
+    "cargoLockSha256": "66b268e8c8182c88401e63a62bc80d237066be0e95466045bfbd06b7607ca8ca",
+    "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "defaultFeatures": false,
+    "features": [],
+    "manifestSha256": "098d8578a7994331ecb2e03e0c43dd1d41f5a16c4ee94334a8d10070b8137104",
+    "package": "observations",
+    "packageManifestSha256": "098d8578a7994331ecb2e03e0c43dd1d41f5a16c4ee94334a8d10070b8137104",
+    "sourceRevision": null,
+    "targetKind": "lib",
+    "targetName": "observations",
+    "targetTriple": "aarch64-apple-darwin"
+  },
+  "qualification": "candidate",
+  "vocabulary": "oddlang-public-type-bindings-v1"
+}

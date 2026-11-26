@@ -1,0 +1,125 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_core",
+  "modules": {
+    "local::marmish_core": {
+      "path": [],
+      "bindings": {
+        "ConfigError": {
+          "kind": "data",
+          "target": "local::marmish_core::config::{type}::ConfigError::{type}"
+        },
+        "FrameError": {
+          "kind": "data",
+          "target": "local::marmish_core::frame::{type}::FrameError::{type}"
+        },
+        "Limits": {
+          "kind": "data",
+          "target": "local::marmish_core::frame::{type}::Limits::{type}"
+        },
+        "ProbeEnvelope": {
+          "kind": "data",
+          "target": "local::marmish_core::frame::{type}::ProbeEnvelope::{type}"
+        },
+        "RelaySet": {
+          "kind": "data",
+          "target": "local::marmish_core::config::{type}::RelaySet::{type}"
+        },
+        "Retention": {
+          "kind": "data",
+          "target": "local::marmish_core::config::{type}::Retention::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_core::config::{type}::ConfigError::{type}": {
+      "fields": {},
+      "variants": {
+        "DisallowedComponents": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedComponents::{type}",
+          "fields": {}
+        },
+        "DisallowedHost": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedHost::{type}",
+          "fields": {}
+        },
+        "DisallowedScheme": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedScheme::{type}",
+          "fields": {}
+        },
+        "EmptyRelaySet": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::EmptyRelaySet::{type}",
+          "fields": {}
+        },
+        "InvalidUrl": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::InvalidUrl::{type}",
+          "fields": {}
+        },
+        "LoopbackDenied": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::LoopbackDenied::{type}",
+          "fields": {}
+        },
+        "RetentionOutOfRange": {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::RetentionOutOfRange::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_core::config::{type}::RelaySet::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_core::config::{type}::RelaySet::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_core::config::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_core::config::{type}::Retention::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::marmish_core::config::{type}::Retention::{type}::0",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_core::config::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_core::frame::{type}::FrameError::{type}": {
+      "fields": {},
+      "variants": {
+        "InvalidEncoding": {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidEncoding::{type}",
+          "fields": {}
+        },
+        "InvalidJson": {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidJson::{type}",
+          "fields": {}
+        },
+        "InvalidVersion": {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidVersion::{type}",
+          "fields": {}
+        },
+        "SizeLimit": {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::SizeLimit::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_core::frame::{type}::Limits::{type}": {
+      "fields": {},
+      "variants": {}
+    },
+    "local::marmish_core::frame::{type}::ProbeEnvelope::{type}": {
+      "fields": {},
+      "variants": {}
+    }
+  }
+}

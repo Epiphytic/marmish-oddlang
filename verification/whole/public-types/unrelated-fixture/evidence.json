@@ -1,0 +1,67 @@
+{
+  "ambiguityCount": 1,
+  "compilePositiveCount": 18,
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "defaultFeatures": false,
+  "deterministic": true,
+  "discrepancies": [
+    {
+      "compiler": {
+        "alternatives": [
+          {
+            "audience": {
+              "kind": "public"
+            },
+            "binding": {
+              "kind": "data",
+              "target": "local::observations::right::{type}::Conflict::{type}"
+            }
+          }
+        ],
+        "primary": {
+          "audience": {
+            "kind": "public"
+          },
+          "binding": {
+            "kind": "data",
+            "target": "local::observations::left::{type}::Conflict::{type}"
+          }
+        }
+      },
+      "disposition": "compiler-ambiguity",
+      "rustdoc": [
+        {
+          "kind": "struct",
+          "path": [
+            "observations",
+            "left",
+            "Conflict"
+          ],
+          "target": 125
+        }
+      ],
+      "spelling": [
+        "mixed",
+        "Conflict"
+      ]
+    }
+  ],
+  "exportsSha256": "6d55d79f48ca141a4ed181b02f4100c75358b1eb7633841857c99fd631059a35",
+  "features": [],
+  "fieldProbes": {
+    "gaps": [],
+    "privateRejections": 4,
+    "publicReads": 6
+  },
+  "moduleCount": 5,
+  "package": "observations",
+  "rustdocFormat": 57,
+  "rustdocSpellingCount": 19,
+  "rustdocUnresolvedGlobs": [],
+  "target": "aarch64-apple-darwin",
+  "unresolvedCompilerSpellings": [
+    [
+      "_"
+    ]
+  ]
+}

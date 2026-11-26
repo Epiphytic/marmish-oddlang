@@ -1,0 +1,47 @@
+{
+  "extractorRevision": "180e98b583aa8ee00c7632b07b1c657119106e68",
+  "generated": {
+    "framework": "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36",
+    "members": {
+      "marmish-core": "b30e3ad85232743da965f0ca1d823baea25095d66e883005ceb1f790ee44794c",
+      "marmish-stream": "07ab8cf1998ed855511258246fb595ddf3191715f9038236517532722f7c495b"
+    },
+    "workspaceLockSha256": "12f45ddf99163d5a4ea64361e38289c7cbd00f3717b6e5ae1899e4c87d5470fd"
+  },
+  "legacyRecoverySha256": "5d0928a39fae7c0cebc28c778e8723733bc899944e7550ce7e73668180c9dc39",
+  "original": {
+    "revision": "af54339d250290490d62d4475a77539b7e739071"
+  },
+  "profiles": {
+    "generated-core": {
+      "evidenceSha256": "950195d4719340fecf2b290a5c86f76ac34b51d1f84ef822ee80ec64ba74f20a",
+      "exportsSha256": "6d4fd783c0668826529cc2ec015bef497cc607bbba6aab62d578c4f36feb6196",
+      "lockSha256": "a96e6894bbd6a0b24eb2223f5aa1c2e725c3b29e09db7ffbf1f6e8fa37cf3bbc"
+    },
+    "generated-stream": {
+      "evidenceSha256": "dae14ba678786c35e5b7889f3cf6a2172e34271485124ce551876e5804a69756",
+      "exportsSha256": "96e24ea39ebf276e4003e25a0ace23043650689297851b7c5883f330195f976d",
+      "lockSha256": "5a017596bc4af79dad3f6b042134ff2c2f7aa34777d8187fd2153c76a807f028"
+    },
+    "original-core": {
+      "evidenceSha256": "8febbdc4781c67825e8678bdc350451ae6b44f4adf4d7467c25639729eb468bd",
+      "exportsSha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
+      "lockSha256": "7d1c8ebee95ee490c325b2d776505f031828b55f6f2e5bdf11ca2cbe81690a79"
+    },
+    "original-engine": {
+      "evidenceSha256": "87efafefe871e6356febc4db95e03b701c2b952956f711170e9bb9411f777891",
+      "exportsSha256": "645e066eedb86800db43945333e678def1cacf507c5a935edf6cef6c6620bf46",
+      "lockSha256": "6b14d02d06c16d5a4f877382d64ab4d237bf8879c0ed5763f154fa19efcbc0d0"
+    },
+    "original-stream": {
+      "evidenceSha256": "fb2d69d0f153db6ce13a0f5c91b42da92139ba14d308061dff324be4e2f5550a",
+      "exportsSha256": "037d0559be12bc5e64b5ce48799f5a7132ad43acd82de60ad0127c5228b1313b",
+      "lockSha256": "c61d2a8f351787d9ca35d8e360e866ed3003e94833f0e2bac687cce040afd3c4"
+    }
+  },
+  "unrelatedFixture": {
+    "evidence.json": "bd0116254af72e2a438d863604057de4929685c74ecec2574728bd87f1182dae",
+    "exports.json": "6d55d79f48ca141a4ed181b02f4100c75358b1eb7633841857c99fd631059a35",
+    "exports.lock": "1f11b3fce0121170d16e6059dbedda6db981a9ed99d486d775c63cc87b957440"
+  }
+}
