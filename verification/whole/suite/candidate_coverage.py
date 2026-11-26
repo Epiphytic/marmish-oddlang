@@ -177,15 +177,27 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                 raise ValueError(f"complete harness did not pass: {harness}")
             witnessed[harness] = names
         release = product/"target/release"
+        invocations = {}
         if additional:
             for harness, names in selected_tests.cases(host).items():
                 package = harness.split("/")[0]
-                raw = inside("cargo","test","--locked","--offline","--release","-p",package,
-                             "--test","selected_upstream","--","--format","pretty",cwd=product)
-                observed = sorted(assembly["passing_tests"](raw.decode()))
-                if observed != names:
-                    raise ValueError(f"upstream named tests differ for {package}: {observed}")
-                witnessed[harness] = observed
+                command = ("cargo","test","--locked","--offline","--release","-p",package,
+                           "--test","selected_upstream","--")
+                listing = inside(*command,"--list",cwd=product).decode()
+                if sorted(line.removesuffix(": test") for line in listing.splitlines()
+                          if line.endswith(": test")) != names:
+                    raise ValueError(f"unexpected upstream tests registered for {package}")
+                invocations[harness] = {}
+                for name in names:
+                    raw = inside(*command,"--exact",name,"--format","pretty",cwd=product).decode()
+                    # Engine starts a second test harness process at this exact name.
+                    # Each process must really run the case and report its own success.
+                    runs = 2 if harness == selected_tests.ENGINE else 1
+                    if (assembly["passing_tests"](raw) != [name] * runs or
+                        raw.count("test result: ok. 1 passed; 0 failed; 0 ignored;") != runs):
+                        raise ValueError(f"expected {runs} single-case results for {name}: {raw}")
+                    invocations[harness][name] = runs
+                witnessed[harness] = names
         # Use Cargo's artifact for the harness target. Native and test builds can
         # legitimately leave multiple feature-specific libc archives in release/deps.
         libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]
@@ -205,7 +217,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     manifestSha256=manifest_digest, workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
-                    **({"selectedTestSources": additional} if additional else {}))
+                    **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))
 
 
 if __name__ == "__main__":

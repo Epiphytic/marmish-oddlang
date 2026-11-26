@@ -31,6 +31,10 @@ def inspect(receipt):
     witnesses = {k:v["passed"] for k,v in rows.items() if v["passed"]}
     native = receipt["nativeProcessTest"]
     partial = selected_tests.cases(host) if candidate == "recovered" else {}
+    expected_processes = {k:{name:2 if k == selected_tests.ENGINE else 1 for name in names}
+                          for k,names in partial.items()}
+    if receipt.get("passingProcesses") != (expected_processes if partial else None):
+        raise ValueError("partial test process evidence differs")
     if any(witnesses.get(k) != v for k,v in partial.items()) or receipt.get("selectedTestSources") != (selected_tests.EXPECTED if partial else None):
         raise ValueError("partial harness source or observed cases disagree")
     if set(witnesses) != {CORE, STREAM, NATIVE} | set(partial) or witnesses[NATIVE] != [native["test"]]:
