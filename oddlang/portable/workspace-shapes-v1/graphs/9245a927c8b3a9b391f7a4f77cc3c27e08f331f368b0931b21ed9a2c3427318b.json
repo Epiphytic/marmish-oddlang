@@ -1,0 +1,2508 @@
+{
+  "vocabulary": "oddlang-data-shapes-v1",
+  "declarations": [
+    {
+      "id": "local::marmish_vault::Error::{type}",
+      "name": "Error",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::Error::{type}::Unavailable::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Unavailable",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::Uninitialized::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Uninitialized",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::LockedOrDenied::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "LockedOrDenied",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::Missing::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Missing",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::Exists::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Exists",
+          "position": 4,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::Ambiguous::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Ambiguous",
+          "position": 5,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::Malformed::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "Malformed",
+          "position": 6,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Error::{type}::BackendFailure::{type}",
+          "owner": "local::marmish_vault::Error::{type}",
+          "name": "BackendFailure",
+          "position": 7,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::KeyRef::{type}",
+      "name": "KeyRef",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::KeyRef::{type}::version",
+          "owner": "local::marmish_vault::KeyRef::{type}",
+          "name": "version",
+          "position": 0,
+          "type": {
+            "kind": "unsigned-integer",
+            "bits": 8
+          }
+        },
+        {
+          "id": "local::marmish_vault::KeyRef::{type}::purpose",
+          "owner": "local::marmish_vault::KeyRef::{type}",
+          "name": "purpose",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::Purpose::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::KeyRef::{type}::id",
+          "owner": "local::marmish_vault::KeyRef::{type}",
+          "name": "id",
+          "position": 2,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Label::{type}",
+      "name": "Label",
+      "parameters": [],
+      "kind": "product",
+      "form": "tuple",
+      "fields": [
+        {
+          "id": "local::marmish_vault::Label::{type}::0",
+          "owner": "local::marmish_vault::Label::{type}",
+          "name": null,
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Metadata::{type}",
+      "name": "Metadata",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::Metadata::{type}::key_ref",
+          "owner": "local::marmish_vault::Metadata::{type}",
+          "name": "key_ref",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::KeyRef::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::Metadata::{type}::label",
+          "owner": "local::marmish_vault::Metadata::{type}",
+          "name": "label",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::Label::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Namespace::{type}",
+      "name": "Namespace",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::Namespace::{type}::Legacy::{type}",
+          "owner": "local::marmish_vault::Namespace::{type}",
+          "name": "Legacy",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Namespace::{type}::MarmishV2::{type}",
+          "owner": "local::marmish_vault::Namespace::{type}",
+          "name": "MarmishV2",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Purpose::{type}",
+      "name": "Purpose",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::Purpose::{type}::Nostr::{type}",
+          "owner": "local::marmish_vault::Purpose::{type}",
+          "name": "Nostr",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::Purpose::{type}::Sqlcipher::{type}",
+          "owner": "local::marmish_vault::Purpose::{type}",
+          "name": "Sqlcipher",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Secret::{type}",
+      "name": "Secret",
+      "parameters": [],
+      "kind": "product",
+      "form": "tuple",
+      "fields": [
+        {
+          "id": "local::marmish_vault::Secret::{type}::0",
+          "owner": "local::marmish_vault::Secret::{type}",
+          "name": null,
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::zeroize::Zeroizing::{type}",
+            "arguments": [
+              {
+                "parameter": "external::zeroize::Zeroizing::{type}::Z::{type}",
+                "name": "Z",
+                "position": 0,
+                "value": {
+                  "kind": "unresolved",
+                  "reason": "array-length"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::Vault::{type}",
+      "name": "Vault",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::Vault::{type}::namespace",
+          "owner": "local::marmish_vault::Vault::{type}",
+          "name": "namespace",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::Namespace::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::Vault::{type}::provider",
+          "owner": "local::marmish_vault::Vault::{type}",
+          "name": "provider",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::linux::{type}::Provider::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+      "name": "AuthorizationCategory",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}::Unsupported::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+          "name": "Unsupported",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}::Malformed::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+          "name": "Malformed",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}::BackendFailure::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+          "name": "BackendFailure",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationEmpty::{type}",
+      "name": "AuthorizationEmpty",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationFailure::{type}",
+      "name": "AuthorizationFailure",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationFailure::{type}::category",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationFailure::{type}",
+          "name": "category",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationFailure::{type}::purpose",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationFailure::{type}",
+          "name": "purpose",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::AuthorizationPurpose::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}",
+      "name": "AuthorizationMode",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}::Interactive::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}",
+          "name": "Interactive",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}::Verify::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationMode::{type}",
+          "name": "Verify",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationNamespace::{type}",
+      "name": "AuthorizationNamespace",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationNamespace::{type}::MarmishV2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationNamespace::{type}",
+          "name": "MarmishV2",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationPurpose::{type}",
+      "name": "AuthorizationPurpose",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationPurpose::{type}::Provider::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationPurpose::{type}",
+          "name": "Provider",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+      "name": "AuthorizationRequest",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}::version",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+          "name": "version",
+          "position": 0,
+          "type": {
+            "kind": "unsigned-integer",
+            "bits": 8
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}::namespace",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+          "name": "namespace",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::AuthorizationNamespace::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}::nostr",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+          "name": "nostr",
+          "position": 2,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}::sqlcipher",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+          "name": "sqlcipher",
+          "position": 3,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}",
+      "name": "AuthorizationResponse",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}",
+          "name": "Success",
+          "position": 0,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}::ok",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}",
+              "name": "ok",
+              "position": 1,
+              "type": {
+                "kind": "boolean"
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}::result",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Success::{type}",
+              "name": "result",
+              "position": 2,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::AuthorizationEmpty::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}",
+          "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}",
+          "name": "Failure",
+          "position": 1,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}::ok",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}",
+              "name": "ok",
+              "position": 1,
+              "type": {
+                "kind": "boolean"
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}::error",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}",
+              "name": "error",
+              "position": 2,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::AuthorizationCategory::{type}",
+                "arguments": []
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}::purpose",
+              "owner": "local::marmish_vault::helper::{type}::AuthorizationResponse::{type}::Failure::{type}",
+              "name": "purpose",
+              "position": 3,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::AuthorizationPurpose::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::Output::{type}",
+      "name": "Output",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::Output::{type}::Empty::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Output::{type}",
+          "name": "Empty",
+          "position": 0,
+          "form": "record",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Output::{type}::Derived::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Output::{type}",
+          "name": "Derived",
+          "position": 1,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Output::{type}::Derived::{type}::public_key",
+              "owner": "local::marmish_vault::helper::{type}::Output::{type}::Derived::{type}",
+              "name": "public_key",
+              "position": 0,
+              "type": {
+                "kind": "named",
+                "id": "external::alloc::string::{type}::String::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Output::{type}::Loaded::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Output::{type}",
+          "name": "Loaded",
+          "position": 2,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Output::{type}::Loaded::{type}::secret",
+              "owner": "local::marmish_vault::helper::{type}::Output::{type}::Loaded::{type}",
+              "name": "secret",
+              "position": 0,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireSecret::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Output::{type}::Listed::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Output::{type}",
+          "name": "Listed",
+          "position": 3,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Output::{type}::Listed::{type}::items",
+              "owner": "local::marmish_vault::helper::{type}::Output::{type}::Listed::{type}",
+              "name": "items",
+              "position": 0,
+              "type": {
+                "kind": "named",
+                "id": "external::alloc::vec::{type}::Vec::{type}",
+                "arguments": [
+                  {
+                    "parameter": "external::alloc::vec::{type}::Vec::{type}::T::{type}",
+                    "name": "T",
+                    "position": 0,
+                    "value": {
+                      "kind": "named",
+                      "id": "local::marmish_vault::helper::{type}::PublicMetadata::{type}",
+                      "arguments": []
+                    }
+                  },
+                  {
+                    "parameter": "external::alloc::vec::{type}::Vec::{type}::A::{type}",
+                    "name": "A",
+                    "position": 1,
+                    "value": {
+                      "kind": "named",
+                      "id": "external::alloc::alloc::{type}::Global::{type}",
+                      "arguments": []
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::PublicMetadata::{type}",
+      "name": "PublicMetadata",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::PublicMetadata::{type}::reference",
+          "owner": "local::marmish_vault::helper::{type}::PublicMetadata::{type}",
+          "name": "reference",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::PublicMetadata::{type}::label",
+          "owner": "local::marmish_vault::helper::{type}::PublicMetadata::{type}",
+          "name": "label",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+      "name": "Reference",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::Reference::{type}::version",
+          "owner": "local::marmish_vault::helper::{type}::Reference::{type}",
+          "name": "version",
+          "position": 0,
+          "type": {
+            "kind": "unsigned-integer",
+            "bits": 8
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Reference::{type}::purpose",
+          "owner": "local::marmish_vault::helper::{type}::Reference::{type}",
+          "name": "purpose",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::helper::{type}::WirePurpose::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Reference::{type}::id",
+          "owner": "local::marmish_vault::helper::{type}::Reference::{type}",
+          "name": "id",
+          "position": 2,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::Request::{type}",
+      "name": "Request",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::Request::{type}::Probe::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Request::{type}",
+          "name": "Probe",
+          "position": 0,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Probe::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Probe::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Probe::{type}::namespace",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Probe::{type}",
+              "name": "namespace",
+              "position": 1,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Request::{type}::DeriveNostr::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Request::{type}",
+          "name": "DeriveNostr",
+          "position": 1,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::DeriveNostr::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::DeriveNostr::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::DeriveNostr::{type}::secret",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::DeriveNostr::{type}",
+              "name": "secret",
+              "position": 1,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireSecret::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Request::{type}",
+          "name": "Create",
+          "position": 2,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::namespace",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+              "name": "namespace",
+              "position": 1,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+                "arguments": []
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::reference",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+              "name": "reference",
+              "position": 2,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+                "arguments": []
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::label",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+              "name": "label",
+              "position": 3,
+              "type": {
+                "kind": "named",
+                "id": "external::alloc::string::{type}::String::{type}",
+                "arguments": []
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::secret",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}",
+              "name": "secret",
+              "position": 4,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireSecret::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Request::{type}",
+          "name": "Load",
+          "position": 3,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}::namespace",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}",
+              "name": "namespace",
+              "position": 1,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+                "arguments": []
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}::reference",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::Load::{type}",
+              "name": "reference",
+              "position": 2,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Request::{type}::List::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Request::{type}",
+          "name": "List",
+          "position": 4,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::List::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::List::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Request::{type}::List::{type}::namespace",
+              "owner": "local::marmish_vault::helper::{type}::Request::{type}::List::{type}",
+              "name": "namespace",
+              "position": 1,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::Response::{type}",
+      "name": "Response",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Response::{type}",
+          "name": "Success",
+          "position": 0,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}::ok",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}",
+              "name": "ok",
+              "position": 1,
+              "type": {
+                "kind": "boolean"
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}::result",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Success::{type}",
+              "name": "result",
+              "position": 2,
+              "type": {
+                "kind": "named",
+                "id": "local::marmish_vault::helper::{type}::Output::{type}",
+                "arguments": []
+              }
+            }
+          ]
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}",
+          "owner": "local::marmish_vault::helper::{type}::Response::{type}",
+          "name": "Failure",
+          "position": 1,
+          "form": "record",
+          "fields": [
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}::version",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}",
+              "name": "version",
+              "position": 0,
+              "type": {
+                "kind": "unsigned-integer",
+                "bits": 8
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}::ok",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}",
+              "name": "ok",
+              "position": 1,
+              "type": {
+                "kind": "boolean"
+              }
+            },
+            {
+              "id": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}::error",
+              "owner": "local::marmish_vault::helper::{type}::Response::{type}::Failure::{type}",
+              "name": "error",
+              "position": 2,
+              "type": {
+                "kind": "reference",
+                "ownership": "shared-borrow",
+                "lifetime": {
+                  "kind": "static-lifetime"
+                },
+                "target": {
+                  "kind": "text"
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+      "name": "WireNamespace",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}::Legacy::{type}",
+          "owner": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+          "name": "Legacy",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}::MarmishV2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+          "name": "MarmishV2",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::WirePurpose::{type}",
+      "name": "WirePurpose",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::WirePurpose::{type}::Nostr::{type}",
+          "owner": "local::marmish_vault::helper::{type}::WirePurpose::{type}",
+          "name": "Nostr",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::WirePurpose::{type}::Sqlcipher::{type}",
+          "owner": "local::marmish_vault::helper::{type}::WirePurpose::{type}",
+          "name": "Sqlcipher",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::WireSecret::{type}",
+      "name": "WireSecret",
+      "parameters": [],
+      "kind": "product",
+      "form": "tuple",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::WireSecret::{type}::0",
+          "owner": "local::marmish_vault::helper::{type}::WireSecret::{type}",
+          "name": null,
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::Secret::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::WireNamespace::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}::__field2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+          "name": "__field2",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}::__field3::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+          "name": "__field3",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}::__field4::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+          "name": "__field4",
+          "position": 4,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3::__field2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+          "name": "__field2",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3::__field3::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+          "name": "__field3",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3::__field4::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+          "name": "__field4",
+          "position": 4,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4::__field2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4",
+          "name": "__field2",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#1",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#2",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#3",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#4",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#5",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Request::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Request::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Request::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Request::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Request::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::AuthorizationNamespace::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}::__field2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+          "name": "__field2",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}::__field3::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+          "name": "__field3",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::AuthorizationRequest::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}::__field2::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}",
+          "name": "__field2",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::Reference::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_vault::helper::{type}::WirePurpose::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_vault::linux::{type}::Provider::{type}",
+      "name": "Provider",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_vault::linux::{type}::Provider::{type}::service",
+          "owner": "local::marmish_vault::linux::{type}::Provider::{type}",
+          "name": "service",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::secret_service::blocking::{type}::SecretService::{type}",
+            "arguments": [
+              {
+                "parameter": "external::secret_service::blocking::{type}::SecretService::{type}::'a::{lifetime}",
+                "name": "'a",
+                "position": 0,
+                "value": {
+                  "kind": "static-lifetime"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_vault::linux::{type}::Provider::{type}::namespace",
+          "owner": "local::marmish_vault::linux::{type}::Provider::{type}",
+          "name": "namespace",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_vault::Namespace::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "owner": "local::marmish_vault",
+      "reason": "data-layout-and-representation"
+    },
+    {
+      "owner": "local::marmish_vault",
+      "reason": "visibility-and-export-paths"
+    },
+    {
+      "owner": "local::marmish_vault",
+      "reason": "workspace-package-identities"
+    },
+    {
+      "owner": "local::marmish_vault::KeyRef::{type}::id",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::Label::{type}::0",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::Secret::{type}::0",
+      "reason": "array-length"
+    },
+    {
+      "owner": "local::marmish_vault::Secret::{type}::0",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::Output::{type}::Derived::{type}::public_key",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::Output::{type}::Listed::{type}::items",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::PublicMetadata::{type}::label",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::Reference::{type}::id",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::Request::{type}::Create::{type}::label",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#10::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#1",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#2",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#3",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#4",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Field::{type}#5",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#1",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#2",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#3",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#4",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__FieldVisitor::{type}#5",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#1::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#2::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#3::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}#4::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#11::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#4::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#5::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_#8::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::helper::{type}::_::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_vault::linux::{type}::Provider::{type}::service",
+      "reason": "external-package-instance"
+    }
+  ]
+}

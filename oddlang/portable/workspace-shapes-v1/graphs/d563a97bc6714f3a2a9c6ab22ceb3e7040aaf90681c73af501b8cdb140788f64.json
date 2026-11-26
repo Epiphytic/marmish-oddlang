@@ -1,0 +1,295 @@
+{
+  "vocabulary": "oddlang-data-shapes-v1",
+  "declarations": [
+    {
+      "id": "local::marmish_mdk::AdapterError::{type}",
+      "name": "AdapterError",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::InvalidExecutable::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "InvalidExecutable",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::MissingExecutable::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "MissingExecutable",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::Timeout::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "Timeout",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::OutputLimit::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "OutputLimit",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::InvalidResponse::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "InvalidResponse",
+          "position": 4,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::SubprocessFailure::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "SubprocessFailure",
+          "position": 5,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::AdapterError::{type}::LiveEgressUnverified::{type}",
+          "owner": "local::marmish_mdk::AdapterError::{type}",
+          "name": "LiveEgressUnverified",
+          "position": 6,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_mdk::CommandClass::{type}",
+      "name": "CommandClass",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_mdk::CommandClass::{type}::OfflineVersion::{type}",
+          "owner": "local::marmish_mdk::CommandClass::{type}",
+          "name": "OfflineVersion",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_mdk::CommandClass::{type}::NetworkCapable::{type}",
+          "owner": "local::marmish_mdk::CommandClass::{type}",
+          "name": "NetworkCapable",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_mdk::CommandPlan::{type}",
+      "name": "CommandPlan",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_mdk::CommandPlan::{type}::class",
+          "owner": "local::marmish_mdk::CommandPlan::{type}",
+          "name": "class",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "local::marmish_mdk::CommandClass::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_mdk::CommandPlan::{type}::arguments",
+          "owner": "local::marmish_mdk::CommandPlan::{type}",
+          "name": "arguments",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::vec::{type}::Vec::{type}",
+            "arguments": [
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "external::std::ffi::{type}::os_str::{type}::OsString::{type}",
+                  "arguments": []
+                }
+              },
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::A::{type}",
+                "name": "A",
+                "position": 1,
+                "value": {
+                  "kind": "named",
+                  "id": "external::alloc::alloc::{type}::Global::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_mdk::CommandPlan::{type}::relays",
+          "owner": "local::marmish_mdk::CommandPlan::{type}",
+          "name": "relays",
+          "position": 2,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::vec::{type}::Vec::{type}",
+            "arguments": [
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "external::alloc::string::{type}::String::{type}",
+                  "arguments": []
+                }
+              },
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::A::{type}",
+                "name": "A",
+                "position": 1,
+                "value": {
+                  "kind": "named",
+                  "id": "external::alloc::alloc::{type}::Global::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_mdk::ProbeChild::{type}",
+      "name": "ProbeChild",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_mdk::ProbeChild::{type}::child",
+          "owner": "local::marmish_mdk::ProbeChild::{type}",
+          "name": "child",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::std::process::{type}::Child::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_mdk::ProbeChild::{type}::reaped",
+          "owner": "local::marmish_mdk::ProbeChild::{type}",
+          "name": "reaped",
+          "position": 1,
+          "type": {
+            "kind": "boolean"
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_mdk::RealWn::{type}",
+      "name": "RealWn",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_mdk::RealWn::{type}::executable",
+          "owner": "local::marmish_mdk::RealWn::{type}",
+          "name": "executable",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::std::path::{type}::PathBuf::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_mdk::VersionObservation::{type}",
+      "name": "VersionObservation",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_mdk::VersionObservation::{type}::stdout",
+          "owner": "local::marmish_mdk::VersionObservation::{type}",
+          "name": "stdout",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        },
+        {
+          "id": "local::marmish_mdk::VersionObservation::{type}::stderr",
+          "owner": "local::marmish_mdk::VersionObservation::{type}",
+          "name": "stderr",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "owner": "local::marmish_mdk",
+      "reason": "data-layout-and-representation"
+    },
+    {
+      "owner": "local::marmish_mdk",
+      "reason": "visibility-and-export-paths"
+    },
+    {
+      "owner": "local::marmish_mdk",
+      "reason": "workspace-package-identities"
+    },
+    {
+      "owner": "local::marmish_mdk::CommandPlan::{type}::arguments",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_mdk::CommandPlan::{type}::relays",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_mdk::ProbeChild::{type}::child",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_mdk::RealWn::{type}::executable",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_mdk::VersionObservation::{type}::stderr",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_mdk::VersionObservation::{type}::stdout",
+      "reason": "external-package-instance"
+    }
+  ]
+}

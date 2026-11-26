@@ -1,0 +1,1327 @@
+{
+  "cargoProfile": "release",
+  "cells": [
+    {
+      "coverage": {
+        "declarations": 10,
+        "gaps": {
+          "compiler-disambiguated-identity": 3,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 5,
+          "generic-constraints-and-defaults": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "073814165ae38edb3711da8ce2e79b6b7d492a7b647a7b6d881ff0e8b8349c13",
+      "kind": "lib",
+      "lockSha256": "01d1f28d128a3775c544741490a5f30b25247bda8697ee9ba044873b33985d2a",
+      "package": "marmish-core",
+      "semanticLockSha256": "fefcb7f36c5040c5e00d739a3b219eb62506723aa23b62e2ed03bc9ada1accc6",
+      "status": "candidate",
+      "target": "marmish_core",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 10,
+        "gaps": {
+          "compiler-disambiguated-identity": 3,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 5,
+          "generic-constraints-and-defaults": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "073814165ae38edb3711da8ce2e79b6b7d492a7b647a7b6d881ff0e8b8349c13",
+      "kind": "lib",
+      "lockSha256": "f1fae7ff34ed6034ebc0c4386749865f8ee17e9c9dbf9e7ec067c731b67c16ba",
+      "package": "marmish-core",
+      "semanticLockSha256": "d931e1b50a8415adfdf675a1a20f5a24f2e0b6a6ae211cd39724df73af5e277d",
+      "status": "candidate",
+      "target": "marmish_core",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 10,
+        "gaps": {
+          "compiler-disambiguated-identity": 3,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 5,
+          "generic-constraints-and-defaults": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "073814165ae38edb3711da8ce2e79b6b7d492a7b647a7b6d881ff0e8b8349c13",
+      "kind": "lib",
+      "lockSha256": "ecf6694cc7e6882235448b421b7fffcaa47f9920e51aeafb07c4f0b7cd2111d5",
+      "package": "marmish-core",
+      "semanticLockSha256": "d63842ecba89cd354c6831d89166e92abcfe7596274874ecd86aa5e56c2ef5d7",
+      "status": "candidate",
+      "target": "marmish_core",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "2630535a59af3724117b4093d9ee8777a93892160448d156aa056fde835af8ab",
+      "kind": "bin",
+      "lockSha256": "4f39f621bba16792db7e1b184b3aacec817d9a9b1200a7368f2108c4c0fddf95",
+      "package": "marmish-engine",
+      "semanticLockSha256": "6fe72be7d2d855efbea11f523524947b8c026a5619bb46995f5a24ee177712a4",
+      "status": "candidate",
+      "target": "marmish-engine-worker",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "2630535a59af3724117b4093d9ee8777a93892160448d156aa056fde835af8ab",
+      "kind": "bin",
+      "lockSha256": "4b39d472192dbd81392cdd5fbfbeee9316092d3b7e7b971e588d3851e2c3957f",
+      "package": "marmish-engine",
+      "semanticLockSha256": "c9e0aa00426c3971f7c1fde96b9e909bf553e52fc8cec6b89c552901f2f96581",
+      "status": "candidate",
+      "target": "marmish-engine-worker",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "2630535a59af3724117b4093d9ee8777a93892160448d156aa056fde835af8ab",
+      "kind": "bin",
+      "lockSha256": "f30b262e2c87402257bf7e3aec68e0254cfd637e78587fee63dd712a4407c3d1",
+      "package": "marmish-engine",
+      "semanticLockSha256": "96a1fc0ec68557acf056e8a9e0767d3233c0c89288bc9203aa6db41511ea10bc",
+      "status": "candidate",
+      "target": "marmish-engine-worker",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "2630535a59af3724117b4093d9ee8777a93892160448d156aa056fde835af8ab",
+      "kind": "bin",
+      "lockSha256": "06ef0d14b957ade3da13d4c6bd8be2cafe2c88a80f2d87e868310050f2266bb0",
+      "package": "marmish-engine",
+      "semanticLockSha256": "76108f0f971dd57de03486dcce68d697e64f8850a13704ac1654d05d14c78f92",
+      "status": "candidate",
+      "target": "marmish-engine-worker",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-engine",
+      "status": "unobserved",
+      "target": "marmish-engine-worker",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "kind": "bin",
+      "package": "marmish-engine",
+      "status": "unobserved",
+      "target": "marmish-engine-worker",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "09b9795d7c6f3e402a163bc923332d29a1eda72df530c3b0afd23133d002c418",
+      "kind": "bin",
+      "lockSha256": "56c06a7b1e72a4dac04135470903dad6d3ae003371338bfd59a4238a47e12a07",
+      "package": "marmish-engine",
+      "semanticLockSha256": "4d17aa24460069d76567cd35eca432f643168f24dca6fad09e38eff3af170f07",
+      "status": "candidate",
+      "target": "marmish-test-frontend",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "09b9795d7c6f3e402a163bc923332d29a1eda72df530c3b0afd23133d002c418",
+      "kind": "bin",
+      "lockSha256": "84743fd5d2a7e74f32b9083ff2c1932d5916ab64c3f6db053e5c033db6582000",
+      "package": "marmish-engine",
+      "semanticLockSha256": "29c1faf41a86e0e9857be35aa30ee25b79fd8b051a02f51fe67ffaabc133ac4e",
+      "status": "candidate",
+      "target": "marmish-test-frontend",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "kind": "bin",
+      "package": "marmish-engine",
+      "status": "unobserved",
+      "target": "marmish-test-frontend",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 216,
+        "gaps": {
+          "array-length": 27,
+          "compiler-disambiguated-identity": 99,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 187,
+          "generic-constraints-and-defaults": 39,
+          "raw-pointer-provenance": 3,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "06d9e5e658ee055c17f8efe6ab9066439f6fc3cdf344bbf62acfcc496a1fff4f",
+      "kind": "lib",
+      "lockSha256": "f45129f9703adb75be29251fdb13ad0a369aaa8168d54a392dada4b92a38fa0b",
+      "package": "marmish-engine",
+      "semanticLockSha256": "08b88fecfb186943d0dd83f1309220425df389bcde89ebb544d805bac6db449c",
+      "status": "candidate",
+      "target": "marmish_engine",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 216,
+        "gaps": {
+          "array-length": 27,
+          "compiler-disambiguated-identity": 99,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 187,
+          "generic-constraints-and-defaults": 39,
+          "raw-pointer-provenance": 3,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "06d9e5e658ee055c17f8efe6ab9066439f6fc3cdf344bbf62acfcc496a1fff4f",
+      "kind": "lib",
+      "lockSha256": "08aa16c609197f3339403a963e8f1370695aaac9f77ab59c3132e1b6f1c77c0b",
+      "package": "marmish-engine",
+      "semanticLockSha256": "e118b3322aaacfc6c41de238d6ed8054c95a7d0ece25796e92414460fbb4f0db",
+      "status": "candidate",
+      "target": "marmish_engine",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 209,
+        "gaps": {
+          "array-length": 27,
+          "compiler-disambiguated-identity": 99,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 187,
+          "generic-constraints-and-defaults": 39,
+          "raw-pointer-provenance": 3,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "7de2c98f6dfe0853f7b28a07ed48a5805f761095f88f31157289b44d97da77b6",
+      "kind": "lib",
+      "lockSha256": "368aa2e4066dfc0ead452dfb7bc62c4d74f329062f232711a3d3700259560429",
+      "package": "marmish-engine",
+      "semanticLockSha256": "bb0a1c3a4661cb0e790e5f30c6b41dc3d75e868796ed3c02abe30c13d8cfe2fd",
+      "status": "candidate",
+      "target": "marmish_engine",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 209,
+        "gaps": {
+          "array-length": 27,
+          "compiler-disambiguated-identity": 99,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 187,
+          "generic-constraints-and-defaults": 39,
+          "raw-pointer-provenance": 3,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "graphSha256": "7de2c98f6dfe0853f7b28a07ed48a5805f761095f88f31157289b44d97da77b6",
+      "kind": "lib",
+      "lockSha256": "d1afc15089dcd9051027f404768da65f2afaa470d77fe02d6f06affdb030c646",
+      "package": "marmish-engine",
+      "semanticLockSha256": "97ac91f124784468b1b6932da617326ff5d4fdd7fdca356c99af3c1bed51b30c",
+      "status": "candidate",
+      "target": "marmish_engine",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-engine",
+      "status": "unobserved",
+      "target": "marmish_engine",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "fault-injection"
+      ],
+      "kind": "lib",
+      "package": "marmish-engine",
+      "status": "unobserved",
+      "target": "marmish_engine",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 6,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "external-package-instance": 6,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d563a97bc6714f3a2a9c6ab22ceb3e7040aaf90681c73af501b8cdb140788f64",
+      "kind": "lib",
+      "lockSha256": "ec1ddbf492ad5aa8490993e95e7c309cafb4195084b86dad0a54e240fc67b834",
+      "package": "marmish-mdk",
+      "semanticLockSha256": "df8dc9927f12498dbec80bd21c915256731b5f33970416bd70fcef0941337e71",
+      "status": "candidate",
+      "target": "marmish_mdk",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 6,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "external-package-instance": 6,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d563a97bc6714f3a2a9c6ab22ceb3e7040aaf90681c73af501b8cdb140788f64",
+      "kind": "lib",
+      "lockSha256": "265a9c45a01b76da2255848522af8c18dee03a7eda561ef65d4b71e4d18204b0",
+      "package": "marmish-mdk",
+      "semanticLockSha256": "459d6a330dcb679ffe1217a7969c30d09484ed6a457e56a80a08d6a97a06e2f0",
+      "status": "candidate",
+      "target": "marmish_mdk",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 6,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "external-package-instance": 6,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d563a97bc6714f3a2a9c6ab22ceb3e7040aaf90681c73af501b8cdb140788f64",
+      "kind": "lib",
+      "lockSha256": "e1371b517ddf5700f024152eacd0931b82c0f11c76ca13f0227a3ecf2e7a47bb",
+      "package": "marmish-mdk",
+      "semanticLockSha256": "6aaff3cde142470b628c623ad5d9339a971329676d7ca9e5c03440edaa9f76e7",
+      "status": "candidate",
+      "target": "marmish_mdk",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d19208dd6268b10953dcf817a14f565c2e763f4ae36834d28be96f760b263962",
+      "kind": "bin",
+      "lockSha256": "b9be24d314c3ce9e03bc031a48b464967b64a96f5540b33f88d6cb3ecf04a4cc",
+      "package": "marmish-native",
+      "semanticLockSha256": "248856f2cdbe80bcd9e4725146d511371c6c112a987cdf7f37300805d304662a",
+      "status": "candidate",
+      "target": "marmish",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "d19208dd6268b10953dcf817a14f565c2e763f4ae36834d28be96f760b263962",
+      "kind": "bin",
+      "lockSha256": "668d6975362eb928aafb32ab5cb4e583c92baab4abae9bbbe2b0dd8ade31b29c",
+      "package": "marmish-native",
+      "semanticLockSha256": "41c5fad70b9e929c2e9b1b93c9f81aa9baa217a1e508eae5ad81d0cee9ff6cbd",
+      "status": "candidate",
+      "target": "marmish",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d19208dd6268b10953dcf817a14f565c2e763f4ae36834d28be96f760b263962",
+      "kind": "bin",
+      "lockSha256": "a6502b2eb929c0dca9b684370937396f7be91704b6709c50e5956c9a06205ab3",
+      "package": "marmish-native",
+      "semanticLockSha256": "8d81eba9c2da758a9d275adf0847473e7320fce37c09deea3b31628276282e35",
+      "status": "candidate",
+      "target": "marmish",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "3c7a998ec18d2c7c3ed264af6ca0e91f876e30d05ea29eb57e23407a1186cd73",
+      "kind": "bin",
+      "lockSha256": "2dfec36e4c9cb00b200848e3ea71eca0cb908516f7c8358f93634923b22ea746",
+      "package": "marmish-native",
+      "semanticLockSha256": "0df7d4255310e5e47d07d83aea9115ee6971b4298f69ea54afdae2fe2f774e17",
+      "status": "candidate",
+      "target": "marmish-installed-check",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-installed-check",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-installed-check",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "636d2575f469b94874e47345a453c9d3bd7055fd19d828f15665c9d44c70c725",
+      "kind": "bin",
+      "lockSha256": "09cb17da0989f831782c8710af9cce558fe279093b7973eafe0e24beffe4b3c0",
+      "package": "marmish-native",
+      "semanticLockSha256": "cd5f69bb119f55157c77770eef4050d5b74dab26d596d276670d71ce362626ea",
+      "status": "candidate",
+      "target": "marmish-installed-fixture",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-installed-fixture",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-installed-fixture",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "41899284276e59492d8433867d3381137dfeb9220e31cd0df74712297984126e",
+      "kind": "bin",
+      "lockSha256": "07b94a5a94f3e69bc66af18207f77dceb89d98b77cbd33dbc365041ce0804a7a",
+      "package": "marmish-native",
+      "semanticLockSha256": "da7268aaa31189b58dd7be3b2e074a0cad7e7425b0adb0e245814ddf782c61ac",
+      "status": "candidate",
+      "target": "marmish-release-tool",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "41899284276e59492d8433867d3381137dfeb9220e31cd0df74712297984126e",
+      "kind": "bin",
+      "lockSha256": "b3277b12c82b89fd2770dc50eb7309acbc661dec6f8d8b013ae9ca67ad1cee2d",
+      "package": "marmish-native",
+      "semanticLockSha256": "27402db2800f21c5855a82f51abe065ca71d1d97615f348d5a66de35ee8e6697",
+      "status": "candidate",
+      "target": "marmish-release-tool",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-release-tool",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-release-tool",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-release-tool",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-release-tool",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "b9a2beed12f29524f8116bfaf4cee87136adce9bf2864f1d4414a3ff113db0c2",
+      "kind": "bin",
+      "lockSha256": "8a0c5255356118ad302d0a70f17e02244b345bf89627d9d253bfcd50378e5e48",
+      "package": "marmish-native",
+      "semanticLockSha256": "6b1343ad0b88b7a88137424415988591973fec8da247f87fced0f55b079f890d",
+      "status": "candidate",
+      "target": "marmish-worker",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "b9a2beed12f29524f8116bfaf4cee87136adce9bf2864f1d4414a3ff113db0c2",
+      "kind": "bin",
+      "lockSha256": "f21a42330f0121086c007b5fd83e827540de42d3f8eec50e895804694ae71cf2",
+      "package": "marmish-native",
+      "semanticLockSha256": "b511b30a456d8910f7bd1ccf7305625efdee605f152e9fc3aee443b65bc8deea",
+      "status": "candidate",
+      "target": "marmish-worker",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-worker",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-worker",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-worker",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish-worker",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 910,
+        "gaps": {
+          "array-length": 164,
+          "compiler-disambiguated-identity": 555,
+          "data-layout-and-representation": 1,
+          "dynamic-type": 2,
+          "external-package-instance": 1210,
+          "generic-constraints-and-defaults": 251,
+          "raw-pointer-provenance": 3,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "ec703c1a73d74fd7ef3eb49e48d7a4162e884c442ec2357adf485055769dfd75",
+      "kind": "lib",
+      "lockSha256": "d742792d88a0256639767aa7178d5bbc82126e4d9f5ccbd8888f736b26703ced",
+      "package": "marmish-native",
+      "semanticLockSha256": "fabdedfa2b65b352d1b5389fa0a16534d62a3cec7cd54628129da00543e4b54f",
+      "status": "candidate",
+      "target": "marmish_native",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 1552,
+        "gaps": {
+          "array-length": 174,
+          "compiler-disambiguated-identity": 949,
+          "data-layout-and-representation": 1,
+          "dynamic-type": 4,
+          "external-package-instance": 2490,
+          "generic-constraints-and-defaults": 505,
+          "raw-pointer-provenance": 4,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "9e6a3767c87fc28c3892d6964e6fba5f3134bf08735af3bdbbd01638dce79b41",
+      "kind": "lib",
+      "lockSha256": "a1e76364748e0ed6e1e92343b5ada55dad1595d05f6831c0e3374fbaf2c1a63a",
+      "package": "marmish-native",
+      "semanticLockSha256": "ffc649370ea00c5e5a2da2b085a879aa2f8fd2fc8bc431e98bdbab9bb5831117",
+      "status": "candidate",
+      "target": "marmish_native",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish_native",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "lib",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish_native",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish_native",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "lib",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmish_native",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "fe3684e5cdeb253c2c80b4ac1aeb7db4cdb7f7405d10f11f8ed61de713b51a70",
+      "kind": "bin",
+      "lockSha256": "de2d95d2624a0e8d2fda1c6e7f106c313b50a5bd549f6718c66103a2de4046dd",
+      "package": "marmish-native",
+      "semanticLockSha256": "7ed4a1e867992ab4097a08d19e64a6c2dad39c1ce6cceb02e62643a6b68f12f7",
+      "status": "candidate",
+      "target": "marmishd",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "graphSha256": "fe3684e5cdeb253c2c80b4ac1aeb7db4cdb7f7405d10f11f8ed61de713b51a70",
+      "kind": "bin",
+      "lockSha256": "a6366b89410cc34306325397c5edbeabc78911704bf4f7b8ff3960eee326ece4",
+      "package": "marmish-native",
+      "semanticLockSha256": "9df81628dbb0ddedbc56802032cbab5710eb8fbf22eed770fb91f07c90a6decf",
+      "status": "candidate",
+      "target": "marmishd",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmishd",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmishd",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmishd",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [
+        "installed-checks"
+      ],
+      "kind": "bin",
+      "package": "marmish-native",
+      "status": "unobserved",
+      "target": "marmishd",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "348a83d0c6ea958842c1bb296a2bf0ef0205e0f4f9e9b18ea3fad40cf0198c1c",
+      "kind": "bin",
+      "lockSha256": "ceba6caf20b6d9a895dba74a3ae00d2714167e1d4004aa72f637cc396f3731e3",
+      "package": "marmish-prototype",
+      "semanticLockSha256": "3cce25796fdf29c156d52b16a306e8901eed5b7cb80be0535d51016cd82a4386",
+      "status": "candidate",
+      "target": "marmish-engine-bridge",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-prototype",
+      "status": "unobserved",
+      "target": "marmish-engine-bridge",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "348a83d0c6ea958842c1bb296a2bf0ef0205e0f4f9e9b18ea3fad40cf0198c1c",
+      "kind": "bin",
+      "lockSha256": "023d45fc4ff756eb13b0aaa7c38eadb1fb86b19eab3d5d9ad0dd32d97d130479",
+      "package": "marmish-prototype",
+      "semanticLockSha256": "b9ac99a48e0300008bcf4bccf4edbf7a37630f7b73a8baf80ba414c2c2bd3ee9",
+      "status": "candidate",
+      "target": "marmish-engine-bridge",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 71,
+        "gaps": {
+          "array-length": 2,
+          "compiler-disambiguated-identity": 53,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 99,
+          "generic-constraints-and-defaults": 20,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "174d389643ca854ae7092a7c9d48da862c44c281faeeec6fca3a5678190a83f0",
+      "kind": "lib",
+      "lockSha256": "45e253487e1d995ebef532d4001332c6b0e16d5fcefb79b5ceb3c7e8e71e3331",
+      "package": "marmish-prototype",
+      "semanticLockSha256": "de82fda988e0b69eec1c4ee764d4f46877f48e48ac7b33c73c10e7142518295f",
+      "status": "candidate",
+      "target": "marmish_prototype",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-prototype",
+      "status": "unobserved",
+      "target": "marmish_prototype",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 71,
+        "gaps": {
+          "array-length": 2,
+          "compiler-disambiguated-identity": 53,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 99,
+          "generic-constraints-and-defaults": 20,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "174d389643ca854ae7092a7c9d48da862c44c281faeeec6fca3a5678190a83f0",
+      "kind": "lib",
+      "lockSha256": "8ba904116cfdc35b01604c8bd697d1ba258892e0f7922ec86568d5b2449bf564",
+      "package": "marmish-prototype",
+      "semanticLockSha256": "fbd8450f39f93d1c34aab4ac2590de5f293672f604ccb807d07413e792b18e71",
+      "status": "candidate",
+      "target": "marmish_prototype",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 186,
+        "gaps": {
+          "array-length": 63,
+          "compiler-disambiguated-identity": 153,
+          "data-layout-and-representation": 1,
+          "explicit-discriminant": 27,
+          "external-package-instance": 204,
+          "generic-constraints-and-defaults": 91,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "adece1520849329e0dadc84d07bf3e7dbbc70a27a676f7873b0164fa5baf41b7",
+      "kind": "lib",
+      "lockSha256": "8eed7a920aa0823ea36e00ac724fedc4fa7e7b97b73d1f122e5e0f2cd57dc083",
+      "package": "marmish-stream",
+      "semanticLockSha256": "77fe1082b72578d8de42d389faaa4584ce6500ba4f6dec03eb7b96d7043364db",
+      "status": "candidate",
+      "target": "marmish_stream",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-stream",
+      "status": "unobserved",
+      "target": "marmish_stream",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 186,
+        "gaps": {
+          "array-length": 63,
+          "compiler-disambiguated-identity": 153,
+          "data-layout-and-representation": 1,
+          "explicit-discriminant": 27,
+          "external-package-instance": 204,
+          "generic-constraints-and-defaults": 91,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "adece1520849329e0dadc84d07bf3e7dbbc70a27a676f7873b0164fa5baf41b7",
+      "kind": "lib",
+      "lockSha256": "d5f958aa519534c19f0c792b54c713ad666fd73c90864d3091252d9e76c4ef4f",
+      "package": "marmish-stream",
+      "semanticLockSha256": "2f5c4fe550bc01ad4fc1b9bd2f60fbc5c9cfdfd996176103d0add96f29f5135e",
+      "status": "candidate",
+      "target": "marmish_stream",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "dd6fbe993fd9788d510aa4915e06f7d9723432f8c37d0237d06c973be9a6c9b4",
+      "kind": "bin",
+      "lockSha256": "a72e1f7d77cb4c6b4fdaccd43b3b0177b8fcf946b92b9f2770dd16073e349048",
+      "package": "marmish-vault",
+      "semanticLockSha256": "cd83bdab6dead6a2314925f4d3d4abdbc3f330547e764e0bdbd9e952934136a0",
+      "status": "candidate",
+      "target": "marmish-keychain",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "bin",
+      "package": "marmish-vault",
+      "status": "unobserved",
+      "target": "marmish-keychain",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 0,
+        "gaps": {
+          "data-layout-and-representation": 1,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "dd6fbe993fd9788d510aa4915e06f7d9723432f8c37d0237d06c973be9a6c9b4",
+      "kind": "bin",
+      "lockSha256": "108d411502e77d255f25d475a9d57a70bdb7bccfe1caa5fa76983d19de39f94e",
+      "package": "marmish-vault",
+      "semanticLockSha256": "0d00083494efcf2a83a66daa7b3d547fa269f56f710deffbc600e4d0da85beea",
+      "status": "candidate",
+      "target": "marmish-keychain",
+      "triple": "x86_64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 61,
+        "gaps": {
+          "array-length": 1,
+          "compiler-disambiguated-identity": 29,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 31,
+          "generic-constraints-and-defaults": 10,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "d97133177b2d11631638419eba70bb86c08ead1bf5422b20c51bee093764c0ec",
+      "kind": "lib",
+      "lockSha256": "f1757f20ee7ed7bb1f4e617ff99bc52aabe80d27bd6a959e1cbf174e667f7dbf",
+      "package": "marmish-vault",
+      "semanticLockSha256": "f917a0bca174a774ae4c7d4380996f8e9deeb2de0cff5f0cf64f22cc3f4cdfa0",
+      "status": "candidate",
+      "target": "marmish_vault",
+      "triple": "aarch64-apple-darwin"
+    },
+    {
+      "defaultFeatures": true,
+      "features": [],
+      "kind": "lib",
+      "package": "marmish-vault",
+      "status": "unobserved",
+      "target": "marmish_vault",
+      "triple": "aarch64-unknown-linux-gnu"
+    },
+    {
+      "coverage": {
+        "declarations": 57,
+        "gaps": {
+          "array-length": 1,
+          "compiler-disambiguated-identity": 29,
+          "data-layout-and-representation": 1,
+          "external-package-instance": 29,
+          "generic-constraints-and-defaults": 10,
+          "visibility-and-export-paths": 1,
+          "workspace-package-identities": 1
+        }
+      },
+      "defaultFeatures": true,
+      "features": [],
+      "graphSha256": "9245a927c8b3a9b391f7a4f77cc3c27e08f331f368b0931b21ed9a2c3427318b",
+      "kind": "lib",
+      "lockSha256": "47d10e9cf4cc539c58ffab6ab9c574c622dd157c8371fd4bc329b452a3638098",
+      "package": "marmish-vault",
+      "semanticLockSha256": "56c30c82a3ad5af1b06f4b2bc2373fb140a5d123825c031f0ae91c873d2740a6",
+      "status": "candidate",
+      "target": "marmish_vault",
+      "triple": "x86_64-unknown-linux-gnu"
+    }
+  ],
+  "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "frameworkRevision": "5ec32f8177cf9d7b4ffcce0c192c5553af7f2042",
+  "targets": [
+    {
+      "kind": "lib",
+      "package": "marmish-core",
+      "requiredFeatures": [],
+      "target": "marmish_core"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-engine",
+      "requiredFeatures": [],
+      "target": "marmish-engine-worker"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-engine",
+      "requiredFeatures": [
+        "fault-injection"
+      ],
+      "target": "marmish-test-frontend"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-engine",
+      "requiredFeatures": [],
+      "target": "marmish_engine"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-mdk",
+      "requiredFeatures": [],
+      "target": "marmish_mdk"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [],
+      "target": "marmish"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [
+        "installed-checks"
+      ],
+      "target": "marmish-installed-check"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [
+        "installed-checks"
+      ],
+      "target": "marmish-installed-fixture"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [],
+      "target": "marmish-release-tool"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [],
+      "target": "marmish-worker"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-native",
+      "requiredFeatures": [],
+      "target": "marmish_native"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-native",
+      "requiredFeatures": [],
+      "target": "marmishd"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-prototype",
+      "requiredFeatures": [],
+      "target": "marmish-engine-bridge"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-prototype",
+      "requiredFeatures": [],
+      "target": "marmish_prototype"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-stream",
+      "requiredFeatures": [],
+      "target": "marmish_stream"
+    },
+    {
+      "kind": "bin",
+      "package": "marmish-vault",
+      "requiredFeatures": [],
+      "target": "marmish-keychain"
+    },
+    {
+      "kind": "lib",
+      "package": "marmish-vault",
+      "requiredFeatures": [],
+      "target": "marmish_vault"
+    }
+  ],
+  "upstreamRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "version": 1,
+  "vocabulary": "oddlang-data-shapes-v1"
+}

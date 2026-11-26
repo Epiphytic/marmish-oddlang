@@ -1,0 +1,375 @@
+{
+  "vocabulary": "oddlang-data-shapes-v1",
+  "declarations": [
+    {
+      "id": "local::marmish_core::config::{type}::ConfigError::{type}",
+      "name": "ConfigError",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::EmptyRelaySet::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "EmptyRelaySet",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::InvalidUrl::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "InvalidUrl",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedScheme::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "DisallowedScheme",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedComponents::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "DisallowedComponents",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::DisallowedHost::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "DisallowedHost",
+          "position": 4,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::LoopbackDenied::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "LoopbackDenied",
+          "position": 5,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::config::{type}::ConfigError::{type}::RetentionOutOfRange::{type}",
+          "owner": "local::marmish_core::config::{type}::ConfigError::{type}",
+          "name": "RetentionOutOfRange",
+          "position": 6,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::config::{type}::RelaySet::{type}",
+      "name": "RelaySet",
+      "parameters": [],
+      "kind": "product",
+      "form": "tuple",
+      "fields": [
+        {
+          "id": "local::marmish_core::config::{type}::RelaySet::{type}::0",
+          "owner": "local::marmish_core::config::{type}::RelaySet::{type}",
+          "name": null,
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::vec::{type}::Vec::{type}",
+            "arguments": [
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "external::alloc::string::{type}::String::{type}",
+                  "arguments": []
+                }
+              },
+              {
+                "parameter": "external::alloc::vec::{type}::Vec::{type}::A::{type}",
+                "name": "A",
+                "position": 1,
+                "value": {
+                  "kind": "named",
+                  "id": "external::alloc::alloc::{type}::Global::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::config::{type}::Retention::{type}",
+      "name": "Retention",
+      "parameters": [],
+      "kind": "product",
+      "form": "tuple",
+      "fields": [
+        {
+          "id": "local::marmish_core::config::{type}::Retention::{type}::0",
+          "owner": "local::marmish_core::config::{type}::Retention::{type}",
+          "name": null,
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::option::{type}::Option::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::option::{type}::Option::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "unsigned-integer",
+                  "bits": 64
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::Envelope::{type}",
+      "name": "Envelope",
+      "parameters": [],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_core::frame::{type}::Envelope::{type}::version",
+          "owner": "local::marmish_core::frame::{type}::Envelope::{type}",
+          "name": "version",
+          "position": 0,
+          "type": {
+            "kind": "unsigned-integer",
+            "bits": 32
+          }
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::Envelope::{type}::payload",
+          "owner": "local::marmish_core::frame::{type}::Envelope::{type}",
+          "name": "payload",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::alloc::string::{type}::String::{type}",
+            "arguments": []
+          }
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::FrameError::{type}",
+      "name": "FrameError",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::SizeLimit::{type}",
+          "owner": "local::marmish_core::frame::{type}::FrameError::{type}",
+          "name": "SizeLimit",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidJson::{type}",
+          "owner": "local::marmish_core::frame::{type}::FrameError::{type}",
+          "name": "InvalidJson",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidVersion::{type}",
+          "owner": "local::marmish_core::frame::{type}::FrameError::{type}",
+          "name": "InvalidVersion",
+          "position": 2,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::FrameError::{type}::InvalidEncoding::{type}",
+          "owner": "local::marmish_core::frame::{type}::FrameError::{type}",
+          "name": "InvalidEncoding",
+          "position": 3,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::Limits::{type}",
+      "name": "Limits",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::ProbeEnvelope::{type}",
+      "name": "ProbeEnvelope",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}",
+      "name": "__Field",
+      "parameters": [],
+      "kind": "sum",
+      "variants": [
+        {
+          "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}::__field0::{type}",
+          "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}",
+          "name": "__field0",
+          "position": 0,
+          "form": "unit",
+          "fields": []
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}::__field1::{type}",
+          "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}",
+          "name": "__field1",
+          "position": 1,
+          "form": "unit",
+          "fields": []
+        }
+      ]
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__FieldVisitor::{type}",
+      "name": "__FieldVisitor",
+      "parameters": [],
+      "kind": "product",
+      "form": "unit",
+      "fields": []
+    },
+    {
+      "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}",
+      "name": "__Visitor",
+      "parameters": [
+        {
+          "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}",
+          "name": "'de",
+          "position": 0,
+          "kind": "lifetime"
+        }
+      ],
+      "kind": "product",
+      "form": "record",
+      "fields": [
+        {
+          "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::marker",
+          "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}",
+          "name": "marker",
+          "position": 0,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "named",
+                  "id": "local::marmish_core::frame::{type}::Envelope::{type}",
+                  "arguments": []
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::lifetime",
+          "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}",
+          "name": "lifetime",
+          "position": 1,
+          "type": {
+            "kind": "named",
+            "id": "external::core::marker::{type}::PhantomData::{type}",
+            "arguments": [
+              {
+                "parameter": "external::core::marker::{type}::PhantomData::{type}::T::{type}",
+                "name": "T",
+                "position": 0,
+                "value": {
+                  "kind": "reference",
+                  "ownership": "shared-borrow",
+                  "lifetime": {
+                    "kind": "parameter",
+                    "id": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::'de::{lifetime}"
+                  },
+                  "target": {
+                    "kind": "tuple",
+                    "elements": []
+                  }
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "owner": "local::marmish_core",
+      "reason": "data-layout-and-representation"
+    },
+    {
+      "owner": "local::marmish_core",
+      "reason": "visibility-and-export-paths"
+    },
+    {
+      "owner": "local::marmish_core",
+      "reason": "workspace-package-identities"
+    },
+    {
+      "owner": "local::marmish_core::config::{type}::RelaySet::{type}::0",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_core::config::{type}::Retention::{type}::0",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::Envelope::{type}::payload",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Field::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__FieldVisitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}",
+      "reason": "compiler-disambiguated-identity"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}",
+      "reason": "generic-constraints-and-defaults"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::lifetime",
+      "reason": "external-package-instance"
+    },
+    {
+      "owner": "local::marmish_core::frame::{type}::_#1::{impl}::deserialize::__Visitor::{type}::marker",
+      "reason": "external-package-instance"
+    }
+  ]
+}
