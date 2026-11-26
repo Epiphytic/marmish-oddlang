@@ -1,0 +1,142 @@
+{
+  "packages": [
+    {
+      "comparison": {
+        "changedAtSharedSpelling": 0,
+        "generatedOnly": 0,
+        "originalOnly": 0,
+        "shared": 6
+      },
+      "generated": {
+        "callerSpellings": 6,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "generated-v6-core",
+        "publicReads": 0,
+        "restrictedRejections": 2,
+        "rustdocSpellings": 6
+      },
+      "original": {
+        "callerSpellings": 6,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-core",
+        "publicReads": 0,
+        "restrictedRejections": 2,
+        "rustdocSpellings": 6
+      },
+      "package": "marmish-core"
+    },
+    {
+      "generated": null,
+      "original": {
+        "callerSpellings": 48,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-engine",
+        "publicReads": 84,
+        "restrictedRejections": 33,
+        "rustdocSpellings": 48
+      },
+      "package": "marmish-engine"
+    },
+    {
+      "generated": null,
+      "original": {
+        "callerSpellings": 5,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-mdk",
+        "publicReads": 2,
+        "restrictedRejections": 4,
+        "rustdocSpellings": 5
+      },
+      "package": "marmish-mdk"
+    },
+    {
+      "comparison": {
+        "changedAtSharedSpelling": 0,
+        "generatedOnly": 2,
+        "originalOnly": 36,
+        "shared": 0
+      },
+      "generated": {
+        "callerSpellings": 2,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "generated-v6-native",
+        "publicReads": 0,
+        "restrictedRejections": 0,
+        "rustdocSpellings": 2
+      },
+      "original": {
+        "callerSpellings": 36,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-native",
+        "publicReads": 49,
+        "restrictedRejections": 56,
+        "rustdocSpellings": 36
+      },
+      "package": "marmish-native",
+      "rejectedGeneratedImports": 2,
+      "rejectedOriginalImports": 36
+    },
+    {
+      "generated": null,
+      "original": {
+        "callerSpellings": 0,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-prototype",
+        "publicReads": 0,
+        "restrictedRejections": 0,
+        "rustdocSpellings": 0
+      },
+      "package": "marmish-prototype"
+    },
+    {
+      "comparison": {
+        "changedAtSharedSpelling": 2,
+        "generatedOnly": 0,
+        "originalOnly": 0,
+        "shared": 35
+      },
+      "generated": {
+        "callerSpellings": 35,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "generated-v6-stream",
+        "publicReads": 132,
+        "restrictedRejections": 13,
+        "rustdocSpellings": 35
+      },
+      "original": {
+        "callerSpellings": 35,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-stream",
+        "publicReads": 132,
+        "restrictedRejections": 9,
+        "rustdocSpellings": 35
+      },
+      "package": "marmish-stream"
+    },
+    {
+      "generated": null,
+      "original": {
+        "callerSpellings": 10,
+        "discrepancies": 0,
+        "fieldProbeGaps": 0,
+        "profile": "original-vault",
+        "publicReads": 2,
+        "restrictedRejections": 7,
+        "rustdocSpellings": 10
+      },
+      "package": "marmish-vault"
+    }
+  ],
+  "profile": "default release",
+  "release": "v6",
+  "target": "aarch64-apple-darwin"
+}

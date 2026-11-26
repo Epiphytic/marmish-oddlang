@@ -1,0 +1,430 @@
+{
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "expectedExportsSha256": "0fd3957007adf6b4bbf4dfe35ff80cc0cd940ce30be623ab1eba71fcebc4e74c",
+  "imports": [
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "Error"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "alias",
+      "importCompiles": false,
+      "spelling": [
+        "Result"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "cli"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "daemon"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "daemon",
+        "Config"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "diagnostics"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "error"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "error",
+        "Error"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "alias",
+      "importCompiles": false,
+      "spelling": [
+        "error",
+        "Result"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "foundation"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "foundation",
+        "Body"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "foundation",
+        "Envelope"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "foundation_check"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "identity"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "identity",
+        "BackendChoice"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "identity",
+        "IdentityMaterial"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "identity",
+        "ProfileLease"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "ipc"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "ipc",
+        "Response"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "journal"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "journal",
+        "Conversation"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "journal",
+        "ReceivedMessage"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "journal",
+        "SendStatus"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "Conversation"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "MdkOwner"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "OpenedAccountBinding"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "ReceivedMessage"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "RuntimeStatus"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "mdk_adapter",
+        "SendStatus"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "module",
+      "importCompiles": false,
+      "spelling": [
+        "transport"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "transport",
+        "ArtiDirs"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "transport",
+        "RelayConnector"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "transport",
+        "RelayPolicy"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "transport",
+        "RouteMode"
+      ],
+      "subjectKind": null
+    },
+    {
+      "errorCodes": [
+        "E0432"
+      ],
+      "expectedKind": "data",
+      "importCompiles": false,
+      "spelling": [
+        "transport",
+        "TransportLimits"
+      ],
+      "subjectKind": null
+    }
+  ],
+  "subjectExportsSha256": "515184d7343bd8df131ddf3ffaa10be9adc09c23ee35cb334e95262011727b43",
+  "subjectLockSha256": "bd7406b47e4d521a2dd77013475d0e54a9dd39a2463d6489bffb8d00f1ebec5d",
+  "subjectPackage": "marmish-native",
+  "subjectTargetName": "marmish_native",
+  "target": "aarch64-apple-darwin"
+}

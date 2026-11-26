@@ -1,0 +1,136 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::marmish_mdk",
+  "modules": {
+    "local::marmish_mdk": {
+      "path": [],
+      "bindings": {
+        "AdapterError": {
+          "kind": "data",
+          "target": "local::marmish_mdk::AdapterError::{type}"
+        },
+        "CommandClass": {
+          "kind": "data",
+          "target": "local::marmish_mdk::CommandClass::{type}"
+        },
+        "CommandPlan": {
+          "kind": "data",
+          "target": "local::marmish_mdk::CommandPlan::{type}"
+        },
+        "RealWn": {
+          "kind": "data",
+          "target": "local::marmish_mdk::RealWn::{type}"
+        },
+        "VersionObservation": {
+          "kind": "data",
+          "target": "local::marmish_mdk::VersionObservation::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::marmish_mdk::AdapterError::{type}": {
+      "fields": {},
+      "variants": {
+        "InvalidExecutable": {
+          "id": "local::marmish_mdk::AdapterError::{type}::InvalidExecutable::{type}",
+          "fields": {}
+        },
+        "InvalidResponse": {
+          "id": "local::marmish_mdk::AdapterError::{type}::InvalidResponse::{type}",
+          "fields": {}
+        },
+        "LiveEgressUnverified": {
+          "id": "local::marmish_mdk::AdapterError::{type}::LiveEgressUnverified::{type}",
+          "fields": {}
+        },
+        "MissingExecutable": {
+          "id": "local::marmish_mdk::AdapterError::{type}::MissingExecutable::{type}",
+          "fields": {}
+        },
+        "OutputLimit": {
+          "id": "local::marmish_mdk::AdapterError::{type}::OutputLimit::{type}",
+          "fields": {}
+        },
+        "SubprocessFailure": {
+          "id": "local::marmish_mdk::AdapterError::{type}::SubprocessFailure::{type}",
+          "fields": {}
+        },
+        "Timeout": {
+          "id": "local::marmish_mdk::AdapterError::{type}::Timeout::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_mdk::CommandClass::{type}": {
+      "fields": {},
+      "variants": {
+        "NetworkCapable": {
+          "id": "local::marmish_mdk::CommandClass::{type}::NetworkCapable::{type}",
+          "fields": {}
+        },
+        "OfflineVersion": {
+          "id": "local::marmish_mdk::CommandClass::{type}::OfflineVersion::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::marmish_mdk::CommandPlan::{type}": {
+      "fields": {
+        "arguments": {
+          "id": "local::marmish_mdk::CommandPlan::{type}::arguments",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_mdk"
+          }
+        },
+        "class": {
+          "id": "local::marmish_mdk::CommandPlan::{type}::class",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_mdk"
+          }
+        },
+        "relays": {
+          "id": "local::marmish_mdk::CommandPlan::{type}::relays",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_mdk"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_mdk::RealWn::{type}": {
+      "fields": {
+        "executable": {
+          "id": "local::marmish_mdk::RealWn::{type}::executable",
+          "audience": {
+            "kind": "scope",
+            "id": "local::marmish_mdk"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::marmish_mdk::VersionObservation::{type}": {
+      "fields": {
+        "stderr": {
+          "id": "local::marmish_mdk::VersionObservation::{type}::stderr",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "stdout": {
+          "id": "local::marmish_mdk::VersionObservation::{type}::stdout",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    }
+  }
+}
