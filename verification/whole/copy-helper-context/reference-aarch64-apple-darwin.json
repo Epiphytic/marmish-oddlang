@@ -1,0 +1,13 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "d427d5399a9ce91195eb1eb467dab99d294e45bb",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "40936233b0361cc494f89d513de162c238296a4045fde1eb6a638c5524917a75",
+  "callerSha256": "cbf04617b85215d9dbefcece927579e5b75c976b86be0526cacda51f37232d64",
+  "constructionCases": 108,
+  "decodeCases": 2159,
+  "rejectedDecodeCases": 1991,
+  "observationsSha256": "3c616ccfe696dda81c6a0317ce0c7b7373910290a6650fc44f4cda4138e5065f",
+  "negativeControl": "repinned fixed-field permutation emits independently predicted swapped bytes"
+}

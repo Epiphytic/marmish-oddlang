@@ -12,6 +12,11 @@ bytes, enum tags and codec selection. Copy manifests, checkpoint handling
 and installed transfers remain separate qualification work.
 [Launch hash qualification](../verification/whole/copy-launch-hash/README.md)
 
+The companion also generates the copy helper context's checked binary
+representation, including exact field layouts, bounds and parse diagnostics.
+The macOS ARM64 qualification covers native validation, encoding and decoding.
+[Helper context qualification](../verification/whole/copy-helper-context/README.md)
+
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
 against a real pinned daemon on macOS and Linux ARM64. Typed command and stream

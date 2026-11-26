@@ -1,0 +1,59 @@
+{
+  "format": "oddlang-binary-record-rust-v1",
+  "name": "HelperContext",
+  "names": {
+    "urn:marmish:copy:helper-context:field:context_version": "context_version",
+    "urn:marmish:copy:helper-context:field:helper_protocol": "helper_protocol",
+    "urn:marmish:copy:helper-context:field:client": "client",
+    "urn:marmish:copy:helper-context:field:server": "server",
+    "urn:marmish:copy:helper-context:field:group": "group",
+    "urn:marmish:copy:helper-context:field:session": "session",
+    "urn:marmish:copy:helper-context:field:stream": "stream",
+    "urn:marmish:copy:helper-context:field:transfer": "transfer",
+    "urn:marmish:copy:helper-context:field:direction": "direction",
+    "urn:marmish:copy:helper-context:field:launch_digest": "launch_digest",
+    "urn:marmish:copy:helper-context:field:retention_seconds": "retention_seconds",
+    "urn:marmish:copy:helper-context:field:expected_version": "expected_version",
+    "urn:marmish:copy:helper-context:field:expected_target": "expected_target",
+    "urn:marmish:copy:helper-context:field:expected_commit": "expected_commit"
+  },
+  "externals": {
+    "urn:marmish:copy:Direction": {
+      "path": "crate::copy_protocol::Direction",
+      "variants": {
+        "urn:marmish:copy:Direction:Put": "Put",
+        "urn:marmish:copy:Direction:Get": "Get"
+      }
+    }
+  },
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:copy:copy_context": {
+      "variant": "Invalid",
+      "argument": "copy_context"
+    },
+    "urn:marmish:copy:copy_context_build": {
+      "variant": "Invalid",
+      "argument": "copy_context_build"
+    },
+    "urn:marmish:copy:copy_enum": {
+      "variant": "Invalid",
+      "argument": "copy_enum"
+    },
+    "urn:marmish:copy:copy_context_entrypoint": {
+      "variant": "Invalid",
+      "argument": "copy_context_entrypoint"
+    },
+    "urn:marmish:copy:copy_truncated": {
+      "variant": "Invalid",
+      "argument": "copy_truncated"
+    },
+    "urn:marmish:copy:copy_trailing": {
+      "variant": "Invalid",
+      "argument": "copy_trailing"
+    },
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    }
+  }
+}
