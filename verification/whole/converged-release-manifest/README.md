@@ -44,3 +44,7 @@ python3 -B verification/whole/converged-release-manifest/verify.py \
 
 Add `--raw-results "$NATIVE_ROWS"` to retain the full validated native
 result stream alongside the receipt.
+
+The [native result stream](results.json) records all 224 checked inputs.
+The [ARM64 macOS receipt](aarch64-apple-darwin.json) pins the full parser
+result, both unmodified upstream test names and all 22 denied reads.
