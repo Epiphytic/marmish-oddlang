@@ -1,6 +1,6 @@
 # Marmish native v0.3 agent specification
 
-The v6 workspace keeps the v5 core and stream libraries and assembles configured file initialization and the local provider lifetime with the native status client. The same executables qualify saved-config initialization and the no-config foreground role. Provider readiness beyond TLS, remote execution, installed transfers and services remain open. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v6)
+The v7 workspace adds `release-info` to both native binaries. Each report includes the actual Cargo package version and target, the represented source revision, and the five declared format values. It retains the v6 configured file initialization, direct local foreground lifecycle, status, core and stream scope. [Workspace qualification](../verification/whole/workspace/README.md#workspace-v7)
 
 The Oddlang companion generates parser-only `marmish` and `marmishd`
 executables from a recovered command graph. Both match the pinned release on
