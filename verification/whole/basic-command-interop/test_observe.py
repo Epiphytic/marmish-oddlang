@@ -9,10 +9,40 @@ import unittest
 from unittest.mock import Mock
 
 from corpus import SHORT_CASES, digest, expected_receipt
-from observe import copy_verified, drain, reference_commands
+from observe import HostMetadataAudit, copy_verified, drain, reference_commands
 
 
 class ObserveTests(unittest.TestCase):
+    def test_host_metadata_records_only_changed_categories_and_intervals(self):
+        key = Path("/private/path-not-published")
+        before = {"keychain_directory": {key: (1, 2)}, "config": {}}
+        during = {"keychain_directory": {key: (1, 3)}, "config": {}}
+        audit = HostMetadataAudit(Mock(side_effect=[before, before, during, before]))
+        audit.checkpoint("activated")
+        audit.checkpoint("case-0")
+        audit.checkpoint("teardown")
+        self.assertEqual(audit.changes, [
+            {"after": "activated", "before": "case-0", "categories": ["keychain_directory"]},
+            {"after": "case-0", "before": "teardown", "categories": ["keychain_directory"]},
+        ])
+        self.assertEqual(audit.changed_categories(), ["keychain_directory"])
+        self.assertNotIn(str(key), json.dumps(audit.changes))
+
+    def test_failed_sample_stays_unverified_and_hides_paths(self):
+        audit = HostMetadataAudit(Mock(side_effect=[
+            {"config": {}}, PermissionError("/secret"), {"config": {Path("/private/example"): ()}},
+        ]))
+        with self.assertRaisesRegex(ValueError, "host metadata unavailable"):
+            audit.checkpoint("execution")
+        audit.checkpoint("teardown", required=False)
+        self.assertEqual(audit.errors, [{"checkpoint":"execution", "error":"PermissionError"}])
+        self.assertEqual(audit.changes, [
+            {"after":"start", "before":"teardown", "categories":["config"]},
+        ])
+        missing = HostMetadataAudit(Mock(side_effect=PermissionError("/secret")))
+        missing.checkpoint("teardown", required=False)
+        self.assertEqual([error["checkpoint"] for error in missing.errors], ["start", "teardown"])
+
     def test_rejects_substituted_executable(self):
         with tempfile.TemporaryDirectory() as tmp:
             original = Path(tmp) / "original"
