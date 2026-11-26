@@ -1,0 +1,7 @@
+{
+  "format": "oddlang-local-status-owner-rust-v1",
+  "executable": "marmish-status-owner",
+  "socket_option": "socket",
+  "routed_requests": true,
+  "async_route_deadline_ms": 2000
+}

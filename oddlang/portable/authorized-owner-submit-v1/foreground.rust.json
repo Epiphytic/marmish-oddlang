@@ -1,0 +1,35 @@
+{
+  "format": "oddlang-foreground-profile-owner-rust-v1",
+  "entry": "run_foreground",
+  "status_owner": [
+    "status_owner",
+    "BoundOwner"
+  ],
+  "retained_stores": [
+    "profile_initialize",
+    "open_retained_stores"
+  ],
+  "relay_backend": "arti_nostr_marmot",
+  "room_submit": {
+    "queue": [
+      "submit_queue"
+    ],
+    "request_type": [
+      "command_requests",
+      "SubmitRequest"
+    ],
+    "encode": [
+      "command_requests",
+      "encode_submit"
+    ],
+    "fields": [
+      "client",
+      "server",
+      "session",
+      "id",
+      "invocation",
+      "argv",
+      "stdin"
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "format": "oddlang-local-request-queue-rust-v1",
+  "storage": "sqlite"
+}
