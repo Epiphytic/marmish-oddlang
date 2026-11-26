@@ -1,0 +1,32 @@
+{
+  "bridgeReceiptSha256": "9dbd623321914008353e58e333efa2f6a9a2de8425e489720c9230d0cdfa1810",
+  "listenerClosedAfterFirstHandshake": true,
+  "observedTlsHandshakeRecord": true,
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmish-engine-bridge": "225814a08efca7c3c408816856340f4c8ccc5bf832060956cb8abf8f955f71d4",
+    "marmish-engine-worker": "e2c92b02e0530af38502f67fd0f5221051aebb4010c39ef4d8a7b1be3601c842",
+    "marmish-keychain": "24f948313871451e29acd666d042a1a417d0a74e7e7c930bc1852c401d175a33",
+    "marmish-release-tool": "197604da722f307864dc8118a1f3c5b59ead55cfc2e344b1aa810dbd157f37a0",
+    "marmish-worker": "b95f465c76232d8b93498cb4db5c33017273042ad2263353366bb018e9650501",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "plaintext": {
+    "exit": 1,
+    "stderr": "marmish: invalid input: plaintext_relay\n",
+    "stdout": ""
+  },
+  "privateCertificateRejected": true,
+  "socketRemoved": true,
+  "statusWhileTlsPending": {
+    "exit": 0,
+    "stderr": "",
+    "stdout": "{\"ok\":true,\"result\":{\"state\":\"activating\"},\"error\":null}\n"
+  },
+  "terminal": {
+    "exit": 1,
+    "stderr": "marmish: transport: relay_connect\n",
+    "stdout": "{\"schema\":1,\"engine_quiesced\":false,\"engine_stop_complete\":true,\"mdk_stop_complete\":true,\"runtime_cleanup_complete\":true}\n"
+  }
+}
