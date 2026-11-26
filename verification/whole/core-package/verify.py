@@ -56,13 +56,56 @@ def run(*args, cwd=None, env=None, fail=None):
     return result.stdout
 
 
-def isolated(*extra_paths):
+def isolation_environment(work, triple):
+    toolchain = Path(run("rustc", f"+{RUST}", "--print", "sysroot").strip()).resolve()
+    developer = Path(run("xcode-select", "-p").strip()).resolve()
+    sdk = Path(run("xcrun", "--sdk", "macosx", "--show-sdk-path").strip()).resolve()
+    linker = Path(run("xcrun", "--sdk", "macosx", "--find", "clang").strip()).resolve()
+    default_cargo_home = Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo"))
+    registry = (default_cargo_home / "registry").resolve()
+    cargo_home = work / "candidate-cargo"
+    cargo_home.mkdir()
+    (cargo_home / "registry").symlink_to(registry, target_is_directory=True)
+    temp = work / "tmp"
+    temp.mkdir()
+    env = {
+        "PATH": f"{toolchain / 'bin'}:/usr/bin:/bin",
+        "HOME": str(work),
+        "CARGO_HOME": str(cargo_home),
+        "RUSTC": str(toolchain / "bin/rustc"),
+        "RUSTDOC": str(toolchain / "bin/rustdoc"),
+        "TMPDIR": str(temp),
+        "CARGO_NET_OFFLINE": "true",
+        "LC_ALL": "C",
+        "DEVELOPER_DIR": str(developer),
+        "SDKROOT": str(sdk),
+        f"CARGO_TARGET_{triple.upper().replace('-', '_')}_LINKER": str(linker),
+    }
+    return (toolchain, developer, registry, sdk, linker.parent), env
+
+
+def isolated(work, read_roots, *denied_paths):
     sandbox = Path("/usr/bin/sandbox-exec")
     require(sys.platform == "darwin" and sandbox.is_file(),
             "this release receipt requires a macOS Seatbelt host")
-    blocks = [f"(subpath {json.dumps(str(path))})" for path in (COMPANION, *extra_paths)]
-    profile = '(version 1)(allow default)(deny network*)'
-    return (sandbox, "-p", profile + "(deny file-read* " + " ".join(blocks) + ")")
+    system = [Path(path) for path in ("/System", "/usr", "/bin", "/sbin", "/Library/Developer",
+                                      "/private/etc/ssl")]
+    inputs = system + list(read_roots) + [work]
+    reads = " ".join(f"(subpath {json.dumps(str(path))})" for path in inputs)
+    denied = " ".join(f"(subpath {json.dumps(str(path))})" for path in denied_paths)
+    workspace = json.dumps(str(work))
+    policy = f"""
+(version 1)
+(deny default)
+(allow process* sysctl-read mach-lookup file-read-metadata)
+(allow file-read* {reads}
+  (literal "/") (literal "/dev/null") (literal "/dev/random") (literal "/dev/urandom")
+  (literal "/private/etc/localtime"))
+(allow file-write* (subpath {workspace}) (literal "/dev/null"))
+(deny file-read* {denied})
+(deny network*)
+"""
+    return (sandbox, "-p", policy)
 
 
 def build_framework(framework, work):
@@ -83,17 +126,24 @@ def stage_inputs(root):
     for component in manifest["components"]:
         inputs.extend((component["graph"], component["overlay"]))
     for item in inputs:
-        source = PORTABLE / item["path"]
+        relative = Path(item["path"])
+        require(not relative.is_absolute() and ".." not in relative.parts, f"unsafe input {relative}")
+        source = (PORTABLE / relative).resolve(strict=True)
+        require(source.is_relative_to(PORTABLE), f"input escapes portable directory: {relative}")
         require(sha(source) == item["sha256"], f"input digest mismatch: {item['path']}")
-        out = root / item["path"]
-        out.parent.mkdir(exist_ok=True)
+        out = root / relative
+        out.parent.mkdir(parents=True, exist_ok=True)
         shutil.copyfile(source, out)
     shutil.copyfile(MANIFEST, root / MANIFEST.name)
 
 
 def inventory(root):
-    return {path.relative_to(root).as_posix(): sha(path)
-            for path in sorted(root.rglob("*")) if path.is_file()}
+    result = {}
+    for path in sorted(root.rglob("*")):
+        require(not path.is_symlink(), f"unexpected symbolic link in inventory: {path.name}")
+        if path.is_file():
+            result[path.relative_to(root).as_posix()] = sha(path)
+    return result
 
 
 def verify_lock(package, manifest_path):
@@ -136,11 +186,12 @@ def cargo_environment():
     return env
 
 
-def cargo(prefix, workspace, target, action, *, test=None, transcript=None):
-    env = cargo_environment()
+def cargo(prefix, workspace, target, action, *, test=None, transcript=None, candidate_env=None):
+    env = cargo_environment() if candidate_env is None else candidate_env.copy()
     if transcript is not None:
         env["ODDLANG_CORE_TRANSCRIPT"] = str(transcript)
-    args = [*prefix, "cargo", f"+{RUST}", action, "--release", "--locked", "--offline",
+    command = ["cargo", f"+{RUST}"] if candidate_env is None else ["cargo"]
+    args = [*prefix, *command, action, "--release", "--locked", "--offline",
             "--target-dir", target, "--package", "marmish-core"]
     if test is not None:
         args.extend(("--test", test))
@@ -244,22 +295,41 @@ def qualify(original, framework, work):
             "original checkout has local changes")
 
     oddlang = build_framework(framework, work)
-    sandbox = isolated(original, framework)
+    read_roots, candidate_env = isolation_environment(work, triple)
+    sandbox = isolated(work, read_roots, original, COMPANION, framework)
     for canary in (original / "Cargo.toml", COMPANION / "Cargo.toml", framework / "Cargo.toml"):
         require(canary.is_file(), f"unavailable source-isolation canary {canary}")
-        run(*sandbox, "/bin/cat", canary, cwd=work, fail="Operation not permitted")
-    run(*sandbox, "/bin/cat", "/dev/null", cwd=work)
+        run(*sandbox, "/bin/cat", canary, cwd=work, env=candidate_env,
+            fail="Operation not permitted")
+    with tempfile.TemporaryDirectory(prefix="oddlang-unmounted-core-") as other:
+        canary = Path(other).resolve() / "config.rs"
+        shutil.copyfile(original / "crates/marmish-core/src/config.rs", canary)
+        run(*sandbox, "/bin/cat", canary, cwd=work, env=candidate_env,
+            fail="Operation not permitted")
+    run(*sandbox, "/bin/cat", "/dev/null", cwd=work, env=candidate_env)
+    canary_source = work / "network-canary.rs"
+    canary_source.write_text("""
+fn main() {
+    let port = std::env::args().nth(1).unwrap().parse::<u16>().unwrap();
+    if let Err(error) = std::net::TcpStream::connect(("127.0.0.1", port)) {
+        eprintln!("{error}");
+        std::process::exit(1);
+    }
+}
+""")
+    canary_bin = work / "network-canary"
+    run("rustc", f"+{RUST}", canary_source, "-o", canary_bin, cwd=work)
+    canary_source.unlink()
     with socket.socket() as listener:
         listener.bind(("127.0.0.1", 0))
         listener.listen()
         port = listener.getsockname()[1]
-        run(*sandbox, sys.executable, "-c",
-            f"import socket; socket.create_connection(('127.0.0.1', {port}), timeout=3)",
-            cwd=work, fail="Operation not permitted")
+        run(*sandbox, canary_bin, str(port), cwd=work, env=candidate_env,
+            fail="Operation not permitted")
 
     def generate(inputs, package):
         manifest = inputs / MANIFEST.name
-        run(*sandbox, oddlang, "build", "native-package", "rust", manifest, package, cwd=work)
+        run(*sandbox, oddlang, "build", "native-package", "rust", manifest, package, cwd=work, env=candidate_env)
         return verify_lock(package, manifest)
 
     inputs = work / "inputs"
@@ -272,13 +342,13 @@ def qualify(original, framework, work):
     outputs = inventory(projected)
     require(outputs == inventory(duplicate), "repeated source-free generation differs")
     target = work / "generated-target"
-    cargo(sandbox, projected, target, "build")
+    cargo(sandbox, projected, target, "build", candidate_env=candidate_env)
 
     bad = work / "wrong-digest"
     stage_inputs(bad)
     change_once(bad / "core-frame-v1/domain.ttl", b"c:bits 32 ; c:value 1", b"c:bits 32 ; c:value 2")
     run(*sandbox, oddlang, "build", "native-package", "rust", bad / MANIFEST.name,
-        work / "wrong-digest-output", cwd=work, fail="digest mismatch")
+        work / "wrong-digest-output", cwd=work, env=candidate_env, fail="digest mismatch")
     require(not (work / "wrong-digest-output").exists(), "invalid package was published")
 
     # The original source and unchanged tests enter the scratch tree after the
@@ -294,21 +364,29 @@ def qualify(original, framework, work):
     test = (reference / TEST).read_bytes()
     original_target = work / "reference-target"
     original_rows, emitted_rows = work / "original.jsonl", work / "emitted.jsonl"
-    reference_sandbox = isolated(original, framework, reference, original_target, original_rows)
-    run(*reference_sandbox, "/bin/cat", reference / TEST, cwd=work, fail="Operation not permitted")
+    reference_sandbox = isolated(work, read_roots, original, COMPANION, framework,
+                                 reference, original_target, original_rows)
+    run(*reference_sandbox, "/bin/cat", reference / TEST, cwd=work, env=candidate_env,
+        fail="Operation not permitted")
     (projected / "tests").mkdir()
     (projected / "tests/contracts.rs").write_bytes(test)
     require(sha(reference / TEST) == sha(projected / "tests/contracts.rs"), "changed upstream tests")
 
     original_results = test_results(cargo((), reference, original_target, "test"))
-    emitted_results = test_results(cargo(reference_sandbox, projected, target, "test"))
+    emitted_results = test_results(cargo(reference_sandbox, projected, target, "test",
+                                        candidate_env=candidate_env))
     require(original_results == emitted_results and sum(row[0] for row in original_results) == 7
             and all(failed == ignored == 0 for _, failed, ignored in original_results),
             f"unchanged upstream tests differ: {original_results} versus {emitted_results}")
     install_caller(reference / "crates/marmish-core")
     install_caller(projected)
     cargo((), reference, original_target, "test", test="differential", transcript=original_rows)
-    cargo(reference_sandbox, projected, target, "test", test="differential", transcript=emitted_rows)
+    run(*reference_sandbox, "/bin/cat", original_rows, cwd=work, env=candidate_env,
+        fail="Operation not permitted")
+    run(*reference_sandbox, "/bin/ls", original_target, cwd=work, env=candidate_env,
+        fail="Operation not permitted")
+    cargo(reference_sandbox, projected, target, "test", test="differential",
+          transcript=emitted_rows, candidate_env=candidate_env)
     expected, actual = cases(original_rows), cases(emitted_rows)
     expectations(expected)
     require(expected.keys() == actual.keys(), "different differential observation coverage")
@@ -333,7 +411,8 @@ def qualify(original, framework, work):
         mutant_lock = generate(mutated, out)
         install_caller(out)
         witness = work / f"{name}.jsonl"
-        cargo(reference_sandbox, out, target, "test", test="differential", transcript=witness)
+        cargo(reference_sandbox, out, target, "test", test="differential", transcript=witness,
+              candidate_env=candidate_env)
         changed = cases(witness)
         require(changed[case][property_name] == expected_value and changed[case] != expected[case],
                 f"mutant survived at {case}")
@@ -343,7 +422,7 @@ def qualify(original, framework, work):
     return {
         "originalRevision": ORIGINAL, "frameworkRevision": FRAMEWORK, "compilerCommit": RUST_COMMIT,
         "host": triple, "originalCargoLockSha256": sha(original / "Cargo.lock"),
-        "sourceIsolation": {"provider": "macOS Seatbelt", "deniedReadCanaries": 4,
+        "sourceIsolation": {"provider": "macOS Seatbelt allowlist", "deniedReadCanaries": 7,
                             "networkDenied": True, "deniedConnectCanary": True,
                             "referenceCopiedAfterReleaseBuild": True},
         "originalPublicSource": inventory(reference / "crates/marmish-core/src"),

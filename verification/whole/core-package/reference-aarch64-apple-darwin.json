@@ -120,9 +120,9 @@
   "rejectedGraphDigestDrift": true,
   "sourceIsolation": {
     "deniedConnectCanary": true,
-    "deniedReadCanaries": 4,
+    "deniedReadCanaries": 7,
     "networkDenied": true,
-    "provider": "macOS Seatbelt",
+    "provider": "macOS Seatbelt allowlist",
     "referenceCopiedAfterReleaseBuild": true
   },
   "twoGenerationsEqual": true,

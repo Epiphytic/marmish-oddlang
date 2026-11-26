@@ -4,10 +4,14 @@ The same Rust 2021 caller runs against the pinned original `marmish-core`
 and a fresh library built from the [package manifest](../../../oddlang/portable/core-package.json).
 The verifier assembles two copies and checks byte identity and every generated
 source hash against the [package lock](../../../oddlang/portable/core-package-v1/package.lock).
-It then builds the generated release offline. macOS Seatbelt denies network
-access and reads from the original, companion and framework checkouts. The
-verifier checks the read restrictions and denies a connection to a local
-listener before assembly.
+It then builds the generated release offline. The macOS Seatbelt profile
+allows reads from the scratch work directory, the pinned Rust toolchain,
+the registry cache and the system and Apple SDK needed by the build. The
+candidate uses a scratch Cargo home with only the registry cache linked and
+calls the SDK linker directly. Seatbelt denies network access and reads
+from other checkouts. Read canaries include a byte-for-byte upstream source
+copy outside the allowlist. A local connection canary verifies the network
+restriction before assembly.
 
 After the generated release build, the verifier copies the unchanged
 upstream integration tests and the independent caller into the test crate.
@@ -55,12 +59,15 @@ A native Linux ARM64 run built the same release using Bubblewrap with a
 read-only pinned toolchain and registry, a fresh writable output directory,
 and an isolated network namespace. Where unprivileged namespaces are
 unavailable, the runner starts Bubblewrap through sudo and drops privileges
-with setpriv before running the build. The assembly and release build had no
+with setpriv before running the build. The receipt records the launcher mode,
+zero effective capabilities, a network namespace and loopback check, and a
+pinned source build of Oddlang. The verifier rehashes generated sources and
+both Cargo files against the package lock. The assembly and release build had no
 mount for the reference source. Seven unchanged integration tests passed
 on each implementation, and all 1,735 observations matched the macOS
 transcript digest. [Linux ARM64 qualification](reference-aarch64-unknown-linux-gnu.json)
 
 ```sh
 bash verification/whole/core-package/linux.sh oddlang/portable \
-  /path/to/original /path/to/pinned-oddlang-binary /tmp/core-package-linux-replay.json
+  /path/to/original /path/to/pinned-oddlang /tmp/core-package-linux-replay.json
 ```
