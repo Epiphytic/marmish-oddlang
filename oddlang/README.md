@@ -4,6 +4,8 @@ The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) re
 
 Build the current Rust workspace from the [v5 manifest](portable/workspace-v5.json). It includes the core and stream libraries, the complete copy protocol codec, encrypted initialization for explicit file-backed profiles, and a native client and foreground daemon that interoperate with the original for local status. [Build and qualification](../verification/whole/workspace/README.md#workspace-v5)
 
+To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
+
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
 
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.
