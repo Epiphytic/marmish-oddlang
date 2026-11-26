@@ -1,0 +1,23 @@
+{
+  "boundary": {
+    "agentForwarding": false,
+    "guestHost": "127.0.0.1",
+    "hostClientCapsuleReadProbe": "EPERM",
+    "hostSentinelAbsentInGuest": true,
+    "sharedMounts": []
+  },
+  "comparedOperationsPerRole": 288,
+  "framework": "b653f1ada68791cd2fb70293bf227c5665850d1e",
+  "frozenCapsuleSha256": "afd52185d31bd660ac6a83df554cfeb53e450dfa7ced9a74398994eebbfdb939",
+  "generatedSourceSha256": {
+    "rust": "be03eda8830b276bfca68a3079630cfac776e224233d974002d42ec33a48bf2f",
+    "typescript": "b438efbe30b5e26f0ecf06d3798807f44626cc8f68a83bd24685411700abbece"
+  },
+  "guestReceiptSha256": "49970b41bd5e01c6b6a9b0b69edda0781332c62a42e5692cff35717c20f9cf03",
+  "passedRoles": [
+    "rust",
+    "typescript"
+  ],
+  "sealedCasesPerRole": 112,
+  "upstream": "af54339d250290490d62d4475a77539b7e739071"
+}

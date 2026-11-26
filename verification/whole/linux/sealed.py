@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Build the Linux reference caller, then judge it from a separate macOS host."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import shlex
@@ -34,8 +35,7 @@ def build(args):
     verify_checkout(args.framework)
 
 
-def judge(args):
-    oracle = driver(args.framework.resolve())
+def isolated_guest(args):
     ssh = ["/usr/bin/ssh", "-T", "-F", str(args.ssh_config.resolve()), "-o", "ForwardAgent=no",
            "-o", "ClearAllForwardings=yes", "-o", "ControlPath=none", "-o", "ProxyCommand=none",
            "-o", "ProxyJump=none"]
@@ -52,6 +52,12 @@ def judge(args):
         raise ValueError("guest has shared mounts or mount enumeration failed")
     with tempfile.NamedTemporaryFile(prefix="oddlang-origin-boundary-") as sentinel:
         remote("test", "!", "-e", sentinel.name)
+    return command, remote
+
+
+def judge(args):
+    oracle = driver(args.framework.resolve())
+    command, remote = isolated_guest(args)
     receipt = json.loads(remote("cat", str(args.build)).stdout)
     provenance = receipt["origin"]
     caller = receipt["program"]
@@ -78,6 +84,44 @@ def judge(args):
                      "hostSentinelAbsentInGuest": True, "hostClientCapsuleReadProbe": "EPERM"}})
 
 
+def judge_data(args):
+    oracle = driver(args.framework.resolve())
+    import qualify_tagged as expected
+    command, remote = isolated_guest(args)
+    remote("test", "!", "-e", str(args.guest_receipt))
+    freeze = json.loads(oracle.FREEZE.read_bytes())
+    cases = [case for case in oracle.sealed_cases(args.holdout, freeze) if expected.comparable(case)]
+    requests = [line for case in cases for line in expected.case_inputs(case)]
+    wanted = [line for case in cases for line in expected.expected(case)]
+    argv = [*args.command, "--external-judge", "--receipt", str(args.guest_receipt)]
+    try:
+        result = subprocess.run([*oracle.holdout_boundary(args.holdout), *command, shlex.join(argv)],
+                                input=json.dumps(requests), text=True, capture_output=True, timeout=300, check=True)
+        if json.loads(result.stdout) != {"rust": wanted, "typescript": wanted}:
+            raise ValueError("unexpected observations")
+    except Exception:
+        raise RuntimeError("isolated generated target comparison failed") from None
+    receipt_bytes = remote("cat", str(args.guest_receipt)).stdout
+    receipt = json.loads(receipt_bytes)
+    pinned = json.loads((expected.ROOT / "tagged-qualification.json").read_bytes())
+    for field in ("approvedGraphSha256", "publicCaseIds", "comparedOperationResults", "mixedPeers",
+                  "mutation"):
+        if receipt[field] != pinned[field]:
+            raise ValueError(f"public receipt differs at {field}")
+    if receipt["upstreamRevision"] != PIN or receipt["originalCaller"]["cargoLockSha256"] != LOCK:
+        raise ValueError("unexpected original revision or lock")
+    if receipt["build"]["generatedSourceSha256"] != pinned["build"]["generatedSourceSha256"]:
+        raise ValueError("public receipt has unexpected generated source")
+    oracle.write(args.output, {"framework": REVISION, "upstream": PIN,
+        "frozenCapsuleSha256": freeze["holdout"]["fileSha256"],
+        "guestReceiptSha256": hashlib.sha256(receipt_bytes).hexdigest(),
+        "generatedSourceSha256": receipt["build"]["generatedSourceSha256"],
+        "sealedCasesPerRole": len(cases), "comparedOperationsPerRole": len(wanted),
+        "passedRoles": ["rust", "typescript"], "boundary": {"guestHost": "127.0.0.1",
+        "agentForwarding": False, "sharedMounts": [], "hostSentinelAbsentInGuest": True,
+        "hostClientCapsuleReadProbe": "EPERM"}})
+
+
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     modes = parser.add_subparsers(required=True)
@@ -95,5 +139,14 @@ if __name__ == "__main__":
     host.add_argument("holdout", type=Path)
     host.add_argument("output", type=Path)
     host.set_defaults(action=judge)
+    data = modes.add_parser("judge-data")
+    data.add_argument("framework", type=Path)
+    data.add_argument("ssh_config", type=Path)
+    data.add_argument("guest")
+    data.add_argument("holdout", type=Path)
+    data.add_argument("guest_receipt", type=Path)
+    data.add_argument("output", type=Path)
+    data.add_argument("command", nargs=argparse.REMAINDER)
+    data.set_defaults(action=judge_data)
     args = parser.parse_args()
     args.action(args)
