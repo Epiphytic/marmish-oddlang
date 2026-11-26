@@ -17,6 +17,11 @@ representation, including exact field layouts, bounds and parse diagnostics.
 The macOS ARM64 qualification covers native validation, encoding and decoding.
 [Helper context qualification](../verification/whole/copy-helper-context/README.md)
 
+The generated copy Manifest and Mtime match the pinned library on macOS ARM64.
+The witness covers metadata validation, exact binary encoding and decoding,
+the namespace and SHA-256 of the canonical bytes.
+[Manifest qualification](../verification/whole/copy-manifest/README.md)
+
 The Oddlang companion also generates one live status client operation with an
 explicit state directory and Unix socket. It matches the original client
 against a real pinned daemon on macOS and Linux ARM64. Typed command and stream
