@@ -30,3 +30,9 @@ The macOS process-policy diagnostic runs three pinned binaries against isolated 
 Use `--first-foreground-only` for a fresh mixed attempt with the fixed `success` case. It checks the expected output and exit status and separately records whether the intended receiver published its fixture receipt. This scope measures the first foreground command once per selected pairing.
 
 The observer samples the existing host preferences and credential metadata at stage boundaries, before each command timer and after teardown. If a sample changes, the receipt lists only the interval labels and affected categories. A later restoration still leaves that observation in the receipt. The interval narrows the time of a change. It cannot identify which process made it. File names, contents and timestamps stay out of the receipt.
+
+## Qualified reference run
+
+The [macOS ARM64 reference receipt](upstream-qualified-corpus-macos-arm64.json) records all 24 matched and attributed cases on the pinned mainline pair. Each finite case returned status 7 and delivered 131,072 bytes on each stream. Measured whole-operation goodput was 3,698 bytes/s cold and 3,818, 3,815 and 3,836 bytes/s warm. The observer verified the two distinct identities, private file credentials and authorizations, removed all workspaces, and found no host metadata changes or audit errors. Its source revision is `2e90c7fe3a6e6ed9f559cc70043ecf5586e41fa3`. The candidate directions require their own receipts.
+
+An [earlier attempt](upstream-engine-startup-deadline-macos-arm64.json) stopped at the historical 20-second engine startup check before any command. Teardown passed. The qualifying run shared the same total 190-second upstream-server activation budget between database readiness and daemon readiness, and polled for process exit during database initialization. Earlier blocked runs retain their original results.
