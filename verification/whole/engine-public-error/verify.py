@@ -98,6 +98,34 @@ def observe(rlib, deps, serde, scratch):
     return output, verified
 
 
+def serde_for_native(build, native, deps, scratch):
+    """Select the trait identity that the built native journal actually implements."""
+    candidates = set()
+    for line in build.splitlines():
+        row = json.loads(line)
+        if row["reason"] == "compiler-artifact" and row["target"]["name"] == "serde":
+            candidates.update(Path(path) for path in row["filenames"] if path.endswith(".rlib"))
+    scratch.mkdir()
+    witness = scratch / "trait_identity.rs"
+    witness.write_text(
+        "fn require<T: serde::Serialize>() {}\n"
+        "fn main() { require::<marmish_native::journal::Conversation>(); }\n"
+    )
+    compatible = []
+    for index, serde in enumerate(sorted(candidates)):
+        result = subprocess.run(
+            ["rustc", "+1.97.1", "--edition=2024", "--emit=metadata",
+             "-L", f"dependency={deps}", "-L", f"dependency={serde.parent}",
+             "--extern", f"marmish_native={native}", "--extern", f"serde={serde}",
+             witness, "-o", scratch / f"probe-{index}.rmeta"],
+            capture_output=True,
+        )
+        if result.returncode == 0:
+            compatible.append(serde)
+    if len(compatible) != 1:
+        raise ValueError(f"expected one compatible native Serde trait, found {compatible} among {sorted(candidates)}")
+    return compatible[0]
+
 def recovery(compiler, source, output, *, selection=HERE / "selection.json"):
     run(compiler, "recover", "finite-error-domain", source, selection, output)
     return data(output / "observation.json")
@@ -137,10 +165,11 @@ def observe_types(args, work, scratch, product, build, compiler=None):
     }
     native = SIX["cargo_reference"](args, "marmish-native")
     ref = artifact(native, "marmish_native")
-    serde = artifact(native, "serde")
+    reference_deps = ref.parent / "deps"
+    serde = serde_for_native(native, ref, reference_deps, scratch / "serde-original")
     sealed = artifact(build, "marmish_native")
-    orig_choice = IDENTITY["observe"](ref, ref.parent / "deps", serde, serde.parent, scratch / "choice-original")
-    generated_serde = artifact(build, "serde")
+    orig_choice = IDENTITY["observe"](ref, reference_deps, serde, serde.parent, scratch / "choice-original")
+    generated_serde = serde_for_native(build, sealed, deps, scratch / "serde-generated")
     gen_choice = IDENTITY["observe"](sealed, deps, generated_serde, generated_serde.parent,
                                       scratch / "choice-generated")
     if orig_choice != gen_choice:
