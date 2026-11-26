@@ -1,0 +1,12 @@
+{
+  "format": "oddlang-finite-error-rust-v1",
+  "names": {
+    "urn:marmish:native:error:v1:alias:Result": "Result",
+    "urn:marmish:native:error:v1:type:Error": "Error",
+    "urn:marmish:native:error:v1:variant:Invalid": "Invalid"
+  },
+  "variantOrder": [
+    "urn:marmish:native:error:v1:variant:Invalid"
+  ],
+  "categoryTypes": {}
+}
