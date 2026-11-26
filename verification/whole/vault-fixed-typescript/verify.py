@@ -54,7 +54,8 @@ def qualify(work, framework, compiler, raw_graph):
     assert not any(work.is_relative_to(path) for path in denied)
     profile += "".join("(deny file-read* (subpath " + json.dumps(str(path)) + "))"
                        for path in denied)
-    prefix = ["/usr/bin/sandbox-exec", "-p", profile]
+    prefix = ["/usr/bin/sandbox-exec", "-p", profile, "/usr/bin/env",
+              "-u", "NODE_OPTIONS", "-u", "NODE_COMPILE_CACHE", f"TMPDIR={work}"]
     probes = {
         "rustBinding": DATA / "rust.json",
         "rustWitness": HERE.parent / "unified-recovered-vault/fixed_bytes.rs",
