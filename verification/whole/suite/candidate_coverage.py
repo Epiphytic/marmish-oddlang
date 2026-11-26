@@ -10,6 +10,7 @@ import shutil
 import subprocess
 import sys
 import tomllib
+from typing import NamedTuple
 import tempfile
 
 from inventory import PIN
@@ -25,14 +26,22 @@ NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 
+class Candidate(NamedTuple):
+    manifest: Path
+    compiler: str
+    suite: str
+
+
 CANDIDATES = {
-    "v7": (MANIFEST, FRAMEWORK),
-    "manifest": (MANIFEST.with_name("workspace-v7-converged-release-manifest.json"),
-                 "da1b0033ae9345c2d8288b4164d4fd1dbf5bcade"),
-    "seven": (MANIFEST.with_name("workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"),
-              "59f947dafdb4cf3055e35216857472ada895a76a"),
-    "recovered": (MANIFEST.with_name("workspace-v7-recovered-vault-engine.json"),
-                  "6e2d1ef00f286b6132b84e27a61805c659dfd437"),
+    "v7": Candidate(MANIFEST, FRAMEWORK, "v7"),
+    "canonical": Candidate(MANIFEST.with_name("workspace-v7-canonical-offline.json"),
+                           "8a20ea283d0d43da42f054a7c7774eb9e6a20da7", "manifest"),
+    "manifest": Candidate(MANIFEST.with_name("workspace-v7-converged-release-manifest.json"),
+                          "da1b0033ae9345c2d8288b4164d4fd1dbf5bcade", "manifest"),
+    "seven": Candidate(MANIFEST.with_name("workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"),
+                       "59f947dafdb4cf3055e35216857472ada895a76a", "seven"),
+    "recovered": Candidate(MANIFEST.with_name("workspace-v7-recovered-vault-engine.json"),
+                           "6e2d1ef00f286b6132b84e27a61805c659dfd437", "recovered"),
 }
 
 
@@ -82,7 +91,7 @@ def reconcile(inventory, passed):
 
 
 def qualify(original, framework, compiler_cache, reference_target, candidate="v7"):
-    manifest, framework_pin = CANDIDATES[candidate]
+    manifest, framework_pin, suite_kind = CANDIDATES[candidate]
     pin(original, PIN)
     pin(framework, framework_pin)
     version = run("rustc", "+1.97.1", "-vV").decode()
@@ -138,11 +147,11 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
 
         def snapshot():
             return {path.relative_to(product).as_posix(): path.read_bytes()
-                    for member in seal["members"] for path in (product/member).rglob("*")
+                    for member in [*seal["members"], "tools"] for path in (product/member).rglob("*")
                     if path.is_file()}
 
         pristine = snapshot()
-        include_reader = candidate in {"seven", "manifest"}
+        include_reader = suite_kind in {"seven", "manifest"}
         targets = ["--workspace","--lib","--bins"] if include_reader else ["-p","marmish-native","--bins"]
         built_libraries = {}
         if include_reader:
@@ -181,18 +190,19 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         injected = {"marmish-core/tests/contracts.rs","marmish-stream/src/original_wire_test_module.rs",
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
         additional = {}
-        if candidate != "v7":
+        if suite_kind != "v7":
             paths, additional = selected_tests.stage(original, product)
             injected.update(paths)
         if include_reader:
             additional["prototypeReader"] = selected_tests.stage_reader(original,product)
             appended.add(selected_tests.READER_LEAF)
-        if candidate == "manifest":
-            parser_leaf, parser_prefix = parser_cases.stage(original, product)
+        if suite_kind == "manifest":
+            parser_leaf, parser_prefix, vector_path = parser_cases.stage(original, product)
+            injected.add(vector_path)
             appended.add(parser_leaf)
             additional.update(parser_cases.SOURCES)
         staged = snapshot()
-        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(candidate == "manifest"):
+        if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(suite_kind == "manifest"):
             raise ValueError("unexpected staged file inventory")
         for path, contents in pristine.items():
             if path in appended:
@@ -234,7 +244,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
                     invocations[harness][name] = runs
                 witnessed[harness] = names
-        if candidate == "manifest":
+        if suite_kind == "manifest":
             invocations[parser_cases.HARNESS] = parser_cases.witness(
                 inside, product, parser_prefix, assembly["passing_tests"], selected_tests.check_execution)
             witnessed[parser_cases.HARNESS] = list(parser_cases.NAMES)
