@@ -10,6 +10,12 @@
         "Conversation": "urn:marmish:native:journal:Conversation",
         "ReceivedMessage": "urn:marmish:native:journal:ReceivedMessage",
         "SendStatus": "urn:marmish:native:journal:SendStatus"
+      },
+      "scopeGlobs": {
+        "command_preparation": "26016541e5a92527903f1b1341b1ef49630f18de3d263799dd3c907063d6468d",
+        "command_rooms": "42db947ff87545a67a8144bc97ff6a2c27c9693fcde8319bca17e4c058297536",
+        "command_store": "d7482562e4c3b6b732db6f823920a7648292b8100815a185cb3563f47397cd63",
+        "stream_store": "4e42e7c7f5a170dbfdad75b321bf6f1e2e58e2c301347dec2717af7f014d7423"
       }
     },
     {

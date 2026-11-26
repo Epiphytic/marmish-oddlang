@@ -18,7 +18,7 @@ THIN = "native-journal-records-package.json"
 WORKSPACE = "workspace-v7-vault-engine-records.json"
 SOURCE = Path("crates/marmish-native/src")
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
-FRAMEWORK = "4dc9b16c9d1d29d09e9a240225d7013b8c01f2bb"
+FRAMEWORK = "8db09ef379b6b7650072690689f55cdb2a89bc77"
 EXPECTED = [
     r'{"session":"s\n1","group_id":"group","peer":"北","revoked":true}',
     r'{"application_id":"app","app_event_id":"event","state":"sent"}',
@@ -167,9 +167,11 @@ def qualify(work, scratch, args, assembly):
     mutate(args.original, mutant)
     changed = recover(compiler, args.original, mutant, scratch)
     reference_build = ("cargo", "+1.97.1", "build", "--locked", "--offline", "--release",
-        "-p", "marmish-native", "--lib", "--message-format=json", "--target-dir", args.original_target)
-    original_output = probe(scratch/"native-original", run(*reference_build, cwd=args.original, env=cargo_env()))
-    changed_original = probe(scratch/"native-reordered", run(*reference_build, cwd=mutant, env=cargo_env()))
+        "-p", "marmish-native", "--lib", "--message-format=json", "--target-dir")
+    original_output = probe(scratch/"native-original",
+        run(*reference_build, args.original_target, cwd=args.original, env=cargo_env()))
+    changed_original = probe(scratch/"native-reordered",
+        run(*reference_build, scratch/"mutant-target", cwd=mutant, env=cargo_env()))
 
     ready = work/"inputs"
     if args.standalone:
