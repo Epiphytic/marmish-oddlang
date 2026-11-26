@@ -18,7 +18,7 @@ THIN = "native-journal-records-package.json"
 WORKSPACE = "workspace-v7-vault-engine-records.json"
 SOURCE = Path("crates/marmish-native/src")
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
-FRAMEWORK = "5c84857fe308c61be1eaa597137d31eb53c34146"
+FRAMEWORK = "8176d00c0aba824084078b981f89a39947aee629"
 EXPECTED = [
     r'{"session":"s\n1","group_id":"group","peer":"北","revoked":true}',
     r'{"application_id":"app","app_event_id":"event","state":"sent"}',
