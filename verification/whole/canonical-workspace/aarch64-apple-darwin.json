@@ -1,0 +1,2404 @@
+{
+  "format": "marmish-canonical-offline-workspace-v1",
+  "platform": "aarch64-apple-darwin",
+  "framework": "8a20ea283d0d43da42f054a7c7774eb9e6a20da7",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "companion": "0f9e57396530fa1c11127e3fff7d8d0018514f00",
+  "predecessorWorkspaceLockSha256": "029d2b9df0c098980be3a4f22f4c943cf5d0394b15b696fa188348bd93f1c698",
+  "compilerSha256": "fca183182a8fd64233a13997e715befea4f8c876c88784cbc029081aa68f94b8",
+  "workspaceManifestSha256": "a5a6c95980b9035e7719ac8ace61f97c17a459d632c3c68b33ee030262e89a61",
+  "workspaceLockSha256": "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4",
+  "cargoLockSha256": "fe6e73cdd2e6926cea6369c00112cae5e312eb9834b567258ac4e91f90b403aa",
+  "physicalMembers": [
+    "marmish-core",
+    "marmish-engine",
+    "marmish-mdk",
+    "marmish-native",
+    "marmish-prototype",
+    "marmish-stream",
+    "marmish-vault"
+  ],
+  "unchangedMemberLocks": [
+    "marmish-core",
+    "marmish-mdk",
+    "marmish-prototype",
+    "marmish-stream"
+  ],
+  "stagedInputs": {
+    "copy-checkpoint-v1/graph.json": "cf560b07a2086aa66cc146d0f4231b7a3d4f45b8feae0b1f14e65e892f2d6322",
+    "copy-checkpoint-v1/rust.json": "985f95338f4f09314398e769bde4e9c2a05962f023b53a62691435985cc85a5c",
+    "copy-field-relations-v1/graph.json": "d3a484322807add5874e82880155cb8812fa3f395fa4963164b1e85d962db158",
+    "copy-field-relations-v1/rust.json": "ff276384088a131aa5e5cfcb5dadfc88b4578851217ee3e8cf3506b40c75bf0f",
+    "copy-frame-v1/constants-rust.json": "b4e4ce4c80434a599ef8f85b5d867cab1711661d948e916222874750535ddd5c",
+    "copy-frame-v1/constants.json": "ebc8284d84200480f35122ebe909580a1f5058018ea2938d056492188ac534ea",
+    "copy-frame-v1/graph.json": "909a97e80be036ffffa97e453a35ac3d269df5e044c5f6e919a41664c327da3b",
+    "copy-frame-v1/launch-fragment-rust.json": "c1e49d11ec35dcbb75c3138ecf48a7f2e236aaa24add1d9827271630a1bdb54e",
+    "copy-frame-v1/launch-fragment.json": "a28a0cf76848891ee352d55b6c7af7a8a94ae1e3c8178e1327f3b5317d26ebd2",
+    "copy-frame-v1/manifest-fragment.json": "0d0c304e08267aa6913a65d2fb100a30332c351b0b02a7897e0cf7a652954bac",
+    "copy-frame-v1/rust.json": "5af45802a8275511afe6a515b708b6435b9ea4b97d00e2a34cbfd9c1d8520904",
+    "copy-helper-context-v1/graph.json": "6d7c578287b4b8e92bb8a7e62a40b49f9a73767dab2ac7ff5d7359b4966b2d0e",
+    "copy-helper-context-v1/rust.json": "5533266567625ce4bc5779ce1a95d5df5fa921c0050f78681acf1197e1be0548",
+    "copy-launch-hash-v1/launch-rust.json": "cade9a637d57bb150ca09988e342299e0007387ac888840a24441c015bdfb9cc",
+    "copy-launch-hash-v1/launch.json": "5e02a133153617370d168fb99cba20962d019f74715a4f2cde29bab8ecb64535",
+    "copy-launch-v1/enums-rust.json": "5ddd8100e68af2391d48ffdfca1ac3470c978f3741042a9acda46151500df512",
+    "copy-launch-v1/enums.json": "9ea5cc2f6ba85350ec16ba7c24465b5ec066502450fcabd8fcd2551ceee5d11b",
+    "copy-manifest-v1/rust.json": "a235e87f50c6c70cdbc27ef702f576b3419447497bf43c80a171badcc7d20480",
+    "core-config-v1/domain.ttl": "47a043d5e93b577ed7e59c6ce6e2e04b3988a92af18436cac2e61828d226d1bc",
+    "core-config-v1/rust.json": "e40105ffefb5cb6d62df6705c0b248e1bacf6e1e36d8c9bca6e4756b184155e5",
+    "core-frame-v1/domain.ttl": "a3429c691990835d1ee3ad13e90ce56fbcc15d84f28c6a2eedcf7f7135b9a0e8",
+    "core-frame-v1/rust.json": "325f13b37cb311aefdf0348b26b897785cdc9ebb78bba22965b0c267adb8318d",
+    "core-package-v1/Cargo.lock": "2e8cb5d183d18b85059dc5af723677169e07aff37ef5648fe098ac5b4d3f9d95",
+    "core-package.json": "89292d721acd668379be55e762b963bfac16f0c57fad916c450ca14f0658e1d4",
+    "core-relays-v1/graph.json": "98a204fcc53e7809fc5c79938e651a1df9d30bf7d650b40abee55805b597beff",
+    "core-relays-v1/rust.json": "e81c31da8d756d441600e3012d5217e89531b7c054b3c5172eed1747cd0f260c",
+    "engine-observational-records-package.json": "37034a24ca00fb803c30dfeb1d84f07a0142de5213966d398a1f19f943bcb14f",
+    "engine-public-error-v1/graph.json": "923dd560b5121674ae29a8eece3b7f5b75c2b99c5cfae03317213de2d6b3e32e",
+    "engine-public-error-v1/process-rust.json": "8c13dfb5928d057e2ea7a4a65921bb26f31b823b854e14570de0748daac39cd0",
+    "engine-public-error-v1/rust.json": "3695960cadc4b2576d6260aaa15a8c278c55f251ba8da72af8856a121f61bd23",
+    "engine-scalar-records-v1/graph.json": "2737dec183b717dd15b6738a1d3b60df6bd556d8301298c5c4e3fe4c119a7ed5",
+    "engine-scalar-records-v1/rust.json": "c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5",
+    "marmish-native-canonical-offline-package.json": "386579d124173fa64c200d97640bb96cfeb2203e283bd9a929800db022f94416",
+    "mdk-public-data-package.json": "ea61a0423332da07cf5f4aee2f74a037bf4405274f271454d7f3eead314768db",
+    "mdk-public-data-v1/Cargo.lock": "1c46df7e71e10ac1fa68b0273bb3a573d6d211eb2d2334dc195921aed18f8695",
+    "mdk-public-data-v1/error-rust.json": "84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7",
+    "mdk-public-data-v1/error.json": "c776b9cfc809dfe0aa5643b2c99f0c3b4cbe0ec0140432d67e770067c747cad1",
+    "mdk-public-data-v1/record-rust.json": "2e1ade765b15787e8271ddf79670ca3291cec0c84d3c2b76a4de778ff572783f",
+    "mdk-public-data-v1/record.json": "48f24862839acd1b1b6076b075452f79db54a8a451b5b74e2b92445eeae57ec0",
+    "native-backend-choice-v1/graph.json": "78dbab0729733f0c4e700dfbdabd0175e823864867bd69a0c7bc3e8c71c75926",
+    "native-backend-choice-v1/rust.json": "87037762d967a9bb0bdd24a8b92b651dd7297856c8cfa7eb97ee37af9a6d2809",
+    "native-build-report-recovered-v1/graph.json": "20358d51451b80ffc68f2044a2e32e996373267d3f262a94796b34bfb590d5d7",
+    "native-build-report-v1/rust.json": "4070dd46da9c8db378501b0e9fa3973a184eb42ea34a5e173c548ba55df1b91a",
+    "native-cli-prefix-v1/graph.json": "e42435541ec64e62319e00926bd4880017a0cf26c061c36c8c04868f4f9d0c6a",
+    "native-cli-terminal-v1/marmish-cli.json": "c009ef2646b7bbd839b81cf025e8424d16a0a73ed178821ac0383daa2de712d0",
+    "native-cli-terminal-v1/marmishd-cli.json": "fc89b4c73b663813a1c571ce57ad384e6ce7af52ff73cecfe3a50da56ea16b58",
+    "native-configured-init-v1/graph.json": "a036570a7069c20d278b49c33590117284a32332c162fbab55d850db2509f043",
+    "native-diagnostics-v1/graph.json": "a517354acc5ead6297cff9d8d78fe1e5a4678e6b7f2ea305f7fb6b9eb690a353",
+    "native-diagnostics-v1/rust.json": "f8a06e4910d6bd71cdc8620d36295a5a89b777544f4eb03ba8af11bfc297e6c3",
+    "native-error-v1/graph.json": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34",
+    "native-error-v1/rust.json": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a",
+    "native-foreground-lifecycle-v1/Cargo.lock": "fcc8ad72282f71523b0564500fcbaeac75ad8504d1ffc0dffa2366e69a9a89c4",
+    "native-foreground-lifecycle-v1/encrypted-stores-rust.json": "99feaef62fdccca6f1618d2e44e0d484717fc9ef82cfdd565b55efd15a25f6d0",
+    "native-foreground-lifecycle-v1/rust.json": "9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c",
+    "native-journal-records-v1/graph.json": "466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2",
+    "native-journal-records-v1/rust.json": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5",
+    "native-path-records-v1/graph.json": "23819586cc9d517cc6197c85fc42834b16e62acdc65e6d5f00e78150202977ba",
+    "native-path-records-v1/rust.json": "92e9dd4ba53d9a89ae489c6198bb9d48d9a580aa673579d44220754817a430d4",
+    "native-status-discovery-v1/graph.json": "5516fc8b7ca45648b1744ae7489f8c2e2cbf70057bfa6057fbb5d868eb026700",
+    "native-status-owner-v1/graph.json": "de931c53fdda71fd23065684d6a07081e0792a25b27ff78075247f775625e63d",
+    "native-status-owner-v1/rust.json": "6032fa174be89a54abae5fb1dbb4ca381f903dd6687b7141cfbb3f654c6493f2",
+    "native-status-v1/rust.json": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea",
+    "prototype-buffer-limit-package.json": "4ff7e5eeda9558b0d8fac4ed2c9654d625fe46da51b3cf69b29d25b1ce8eb4b5",
+    "prototype-buffer-v1/Cargo.lock": "37acb50547c011a84c4e729cfb8e46d09d84af994662e7dbf4b8de94e10b97db",
+    "prototype-buffer-v1/graph.json": "8d8d44a3830f47fa0dbd50ffbf2e218aa94178a80201ae7696c6a3c31beb12e3",
+    "prototype-buffer-v1/rust.json": "940a6aa07bdfdfe3f19de80972d534d17d6c2857f816e7001d6b4ffa2de8fe0d",
+    "prototype-constant-v1/graph.json": "aa00b8981325a9431d4401a3ef35be1ba2183103edbd5472c8dd5b94b0aabf79",
+    "prototype-constant-v1/rust.json": "61359e9f33b338be2866e9cd1a2b760e8e307720e7407761b5ae70dfc7ac0ed0",
+    "release-manifest-integrated-v1/rust.json": "38b090c700692b800e1a3348dde736ba9bed3601cabb0f6b535857561638ebaa",
+    "release-manifest-v1/graph.json": "d72b16b4e4e4f0c92e1d0e2743164ef6556a03bb52e9eaec1f9b8a26963a0896",
+    "stream-block-package-v1/Cargo.lock": "3be93c19a2802d43ee707f6b6c61bacc8aceb0882e387b2cef061ae5494ef84e",
+    "stream-integrity-v1/graph.json": "d04f6a13cee52ce3037b718c8dd4a798fb1cfde7b7822e2afaa038ff4b6879ec",
+    "stream-integrity-v1/rust.json": "35cdda2fa76213986656a8fa6fbf576cd3faf15abb21826cebe40d9fb90af088",
+    "stream-package-v5.json": "b2da27a8489518672c2c93adc15adc1ef1649c768abefde3c95770a03aabe9b8",
+    "stream-shared-v1/graph.json": "899ec8d4f6d4bf233c2f3c1ba32e78973bcf24e1a191638928f72acf3b31ac2e",
+    "stream-shared-v1/rust.json": "664dbc2b71f2188491acb7699676b6be3373ac4d653902d9538298d4b2b6449e",
+    "stream-windows-v1/graph.json": "9915405d2ba95ef10cdc18e5c80525053a9479ef963091a60100b633a1dec228",
+    "stream-windows-v1/rust.json": "26e77394884f1f0415e7b57995587aac9bcc6690dc9df5ebd80839597d0b5d9b",
+    "stream-wire-operations-v1/enums.graph.json": "397d6e3a0aa48cf2b01a17247ff0735d1eb631e54861318b70b1bf849dbf0e99",
+    "stream-wire-operations-v1/enums.rust.json": "83b2141977206474d6d38fb0737819b9f9ca57496a94dadee3174df2f3c10a9f",
+    "stream-wire-operations-v1/graph.json": "2cbb1fb931456d727210479cad40e79f236fd7d8ce50bd6fc4a0197e92c8b8d1",
+    "stream-wire-operations-v1/rust.json": "e2a4146ff118815f5f205e5910751f9a059b99d87a1362ab5e62d18042647a28",
+    "stream-wire-schema-v1/graph.json": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+    "stream-wire-schema-v1/rust.json": "c8baf6886e7cff283ea37b5d8ee1f6cb9a31107988ec4c94b091bc46507bc640",
+    "vault-fixed-bytes-v1/Cargo.lock": "1e7f93b188b5894a7bc4af9f2ade14f0bcc48f5a45b3f61fdc474fb1460edddd",
+    "vault-fixed-bytes-v1/graph.json": "f87cf4fad9f37189dd02c5a4179e90017380bfbc8affb867eab5fc23a2d6047b",
+    "vault-fixed-bytes-v1/rust.json": "1d40c1fbca36166021c7138ba6f00c57850c213c3cfd2204b5260944bfeaf736",
+    "vault-fixed-value-mode-package.json": "374439025897f7565021a808f1540d1764ffbd315a760e001a7d1a5fb92005e6",
+    "vault-mode-v1/graph.json": "96e2f288f7279b7639d72d460efda9c93b3a0b0ea8cea2b6494baf4785e1de73",
+    "vault-mode-v1/rust.json": "36cc7f91481be8a4d7f069aafde5c90d2dd44042a15d871252695493341db835",
+    "vault-values-v1/errors-rust.json": "003dd332ac183b81f4e352e47352366e29c22f4d158ef482dfbe8071e1461a64",
+    "vault-values-v1/errors.json": "335d69a5b1c9942c47684ea1429a915d6b392a2c75b39d7abaffdf86df6d1764",
+    "vault-values-v1/graph.json": "e553ac9935a5b21bb73c8353c61ab99b143a9c0aa8c8b70577c45fa6ddf3d9be",
+    "vault-values-v1/rust.json": "b1cb23a31b3c799c2abfa2f6330b8d7b82c8c3988d0fdc499db04d269db31af0",
+    "workspace-engine-limits/engine-Cargo.lock": "7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7",
+    "workspace-engine-limits/graph.json": "2bf28e9c2d4cb9543afb87a525baf33374928748f5a42cf5dd5dbf96e020a6c5",
+    "workspace-v6/foreground-graph.json": "0212b6eaa08f7b650ee13ded76561007c39b6fa143c43192cc7286d93a5151a2",
+    "workspace-v7-canonical-offline.json": "a5a6c95980b9035e7719ac8ace61f97c17a459d632c3c68b33ee030262e89a61",
+    "workspace-v7-recovered-vault-engine-journal-mdk-buffered/Cargo.lock": "fe6e73cdd2e6926cea6369c00112cae5e312eb9834b567258ac4e91f90b403aa"
+  },
+  "deniedSourceProbes": [
+    "choice-caller",
+    "constant-caller",
+    "diagnostic-caller",
+    "engine-error-caller",
+    "engine-record-caller",
+    "framework-source",
+    "journal-caller",
+    "manifest-blind-vectors",
+    "manifest-oracle-caller",
+    "manifest-original-receipt",
+    "mdk-caller",
+    "native-record-caller",
+    "original-engine-error",
+    "original-engine-records",
+    "original-journal",
+    "original-mdk",
+    "original-native-choice",
+    "original-native-diagnostics",
+    "original-native-path-records",
+    "original-prototype",
+    "original-release-manifest",
+    "original-release-versions",
+    "original-report",
+    "original-vault",
+    "original-vault-mode",
+    "reader-caller",
+    "reference-executable",
+    "release-observer",
+    "terminal-original-witness",
+    "vault-holdout",
+    "vault-mode-caller"
+  ],
+  "gitProviders": {
+    "https://github.com/marmot-protocol/mdk": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2",
+    "https://github.com/rusqlite/rusqlite.git": "5ae7fdf83085c595fd54f977b3a56ccacabaf16b",
+    "https://github.com/erskingardner/rust-nostr": "48801bf6f2f1cd55bb1729e94159946c8832a786",
+    "https://github.com/erskingardner/openmls.git": "94f57b829d95840fc5b415b7a86f547f5c1f65ba"
+  },
+  "recoveredReport": {
+    "graphSha256": "20358d51451b80ffc68f2044a2e32e996373267d3f262a94796b34bfb590d5d7",
+    "recoveryReceiptSha256": "99f863e4f34fdc8f3bc92675fa992dc8b3c041eb708f2f2217f47108a06f2065"
+  },
+  "releaseInfo": {
+    "cases": {
+      "marmish": [
+        {
+          "argv": [
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--state-dir",
+            "absent",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "release-info",
+            "--state-dir",
+            "absent"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--key-storage",
+            "file",
+            "--tor",
+            "off",
+            "--relay",
+            "unused",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--foreground",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: foreground_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--new-session"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: new_session_operation\n"
+        },
+        {
+          "argv": [
+            "--max-commands",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-commands",
+            "invalid"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-uptime",
+            "invalid"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--new-session",
+            "--max-uptime",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--new-session",
+            "--max-commands",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--foreground",
+            "--max-commands",
+            "1",
+            "--new-session",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: foreground_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--not-an-option"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: unexpected argument '--not-an-option' found\n\nUsage: marmish release-info [OPTIONS]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-commands"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: a value is required for '--max-commands <MAX_COMMANDS>' but none was supplied\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "extra"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: unexpected argument 'extra' found\n\nUsage: marmish release-info [OPTIONS]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--help"
+          ],
+          "exit": 0,
+          "stdout": "Print this binary's native version, build target and source commit\n\nUsage: marmish release-info [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+          "stderr": ""
+        }
+      ],
+      "marmishd": [
+        {
+          "argv": [
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--state-dir",
+            "absent",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "release-info",
+            "--state-dir",
+            "absent"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--key-storage",
+            "file",
+            "--tor",
+            "off",
+            "--relay",
+            "unused",
+            "release-info"
+          ],
+          "exit": 0,
+          "stdout": "{\"schema\":1,\"version\":\"0.3.1\",\"target\":\"aarch64-apple-darwin\",\"commit\":\"af54339d250290490d62d4475a77539b7e739071\",\"formats\":[2,7,1,1,1]}\n",
+          "stderr": ""
+        },
+        {
+          "argv": [
+            "--foreground",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: foreground_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--new-session"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: new_session_operation\n"
+        },
+        {
+          "argv": [
+            "--max-commands",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-commands",
+            "invalid"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-uptime",
+            "invalid"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--new-session",
+            "--max-uptime",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--new-session",
+            "--max-commands",
+            "1",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: server_limit_operation\n"
+        },
+        {
+          "argv": [
+            "--foreground",
+            "--max-commands",
+            "1",
+            "--new-session",
+            "release-info"
+          ],
+          "exit": 1,
+          "stdout": "",
+          "stderr": "marmish: invalid input: foreground_operation\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--not-an-option"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: unexpected argument '--not-an-option' found\n\nUsage: marmishd release-info [OPTIONS]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--max-commands"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: a value is required for '--max-commands <MAX_COMMANDS>' but none was supplied\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "extra"
+          ],
+          "exit": 255,
+          "stdout": "",
+          "stderr": "error: unexpected argument 'extra' found\n\nUsage: marmishd release-info [OPTIONS]\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+        },
+        {
+          "argv": [
+            "release-info",
+            "--help"
+          ],
+          "exit": 0,
+          "stdout": "Print this binary's native version, build target and source commit\n\nUsage: marmishd release-info [OPTIONS]\n\nOptions:\n      --debug\n          \n      --foreground\n          Keep the daemon attached to the terminal or service supervisor\n      --state-dir <STATE_DIR>\n          \n  -i, --identity <IDENTITY>\n          [default: default]\n      --socket <SOCKET>\n          \n      --relay <RELAY>\n          \n      --tor <TOR>\n          \n      --key-storage <KEY_STORAGE>\n          [default: auto] [possible values: auto, keychain, file]\n      --allow-peer <ALLOW_PEER>\n          \n      --retention-seconds <RETENTION_SECONDS>\n          [default: 86400]\n  -u, --user <USER>\n          \n      --srv <SRV>\n          \n      --stdin\n          \n      --stdin-none\n          \n      --detach\n          \n      --new-session\n          Open a fresh independent command room instead of reusing the default\n      --wait-seconds <WAIT_SECONDS>\n          [default: 180]\n      --no-autostart\n          \n      --max-commands <MAX_COMMANDS>\n          \n      --max-uptime <MAX_UPTIME>\n          \n  -h, --help\n          Print help\n",
+          "stderr": ""
+        }
+      ]
+    },
+    "formats": [
+      {
+        "role": "profile",
+        "source": "crates/marmish-native/src/identity.rs",
+        "sourceSha256": "0f8d1e4bcc9865ada76cc757b8bddcbc3a15397f0075c57d0eb6bd967b2a349d",
+        "identifier": "PROFILE_FORMAT",
+        "declaredType": "u8",
+        "value": 2,
+        "generatedValue": 2
+      },
+      {
+        "role": "journal",
+        "source": "crates/marmish-native/src/journal.rs",
+        "sourceSha256": "e5d3f8734f7a3f7817f44a3b69a391ada84826a211bed487cc5ad0d56a96da3f",
+        "identifier": "JOURNAL_FORMAT",
+        "declaredType": "i64",
+        "value": 7,
+        "generatedValue": 7
+      },
+      {
+        "role": "engine",
+        "source": "crates/marmish-engine/src/store.rs",
+        "sourceSha256": "4e1a8a9787e5db80098e08e5dfc36835cadb1df6161a0a149156ed9d41d954c7",
+        "identifier": "ENGINE_FORMAT",
+        "declaredType": "i64",
+        "value": 1,
+        "generatedValue": null
+      },
+      {
+        "role": "configuration",
+        "source": "crates/marmish-native/src/command_config.rs",
+        "sourceSha256": "f84f4d8d13f5cb1d4912c236a16797f27b946dd11584b1f5b9776590f05cae19",
+        "identifier": "CONFIG_FORMAT",
+        "declaredType": "u32",
+        "value": 1,
+        "generatedValue": 1
+      },
+      {
+        "role": "command",
+        "source": "crates/marmish-native/src/command_wire.rs",
+        "sourceSha256": "01b272575c0dbf9ebf327090d6abf1a63ce4342eb4eec15076210899fe51a4dc",
+        "identifier": "COMMAND_FORMAT",
+        "declaredType": "u32",
+        "value": 1,
+        "generatedValue": null
+      }
+    ],
+    "originalBinaries": {
+      "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+      "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+    },
+    "generatedBinaries": {
+      "marmish": "df44fac96666d7588a2fbb7c9b75271850b879f5f957ab137024a186637b113c",
+      "marmishd": "4c7608e550cc3bc85546bcdc8da3573fd7e84c7df37bd1e181cd7ee1311a2aef"
+    }
+  },
+  "fixedVault": {
+    "name": "tests::strict_public_values",
+    "unchangedModuleSha256": "5389218be38e60288371fe63a79ae71d2e9dbb8408a34bc53e8010f03117359c",
+    "originalAndGeneratedPassed": true,
+    "standaloneReceiptSha256": "5b3667cef31a601c0a9c366400c4a24525582dec5a4b2790c113da0ec8277b4b",
+    "fromBytesHoldout": {
+      "name": "from_bytes_owns_the_input_and_requires_drop",
+      "sourceSha256": "d4d0f17448e0a2aab6199f4ca232f4869739c4e6fe25b660d8851d13fb074e72",
+      "originalAndGeneratedPassed": true
+    },
+    "librarySha256": "8f7da4c5ebded094f61701c6883858da4f56c9b28287bd89ae4a73026a20811e",
+    "publicValueRows": 600
+  },
+  "journal": {
+    "baselineRecoveryLockSha256": "967e7e7b391121c754e2b28b1549d4bdf15fadb4c22c08c8f8b2c69e8c9e02f2",
+    "reorderedRecoveryLockSha256": "1d09d84e39007aa79acf3d460c9d11f62fa77242ebc12b33dc4b16d9e10ea4f1",
+    "original": {
+      "jsonLines": [
+        "{\"session\":\"s\\n1\",\"group_id\":\"group\",\"peer\":\"\u5317\",\"revoked\":true}",
+        "{\"application_id\":\"app\",\"app_event_id\":\"event\",\"state\":\"sent\"}",
+        "{\"cursor\":18446744073709551615,\"session\":\"s\\n1\",\"application_id\":\"app\",\"sender\":\"\u5317\",\"data\":[0,127,255],\"invalidated\":false}"
+      ],
+      "libraries": {
+        "serde_json": "b710cff60dab08951c2400125b64f0ed932c33c2db517be8fa5fb5b2d96e8407",
+        "marmish_native": "972003c0ce012db69b426aad03de9a3d9b64185592eed16fcfe0891066c7670e"
+      }
+    },
+    "generated": {
+      "jsonLines": [
+        "{\"session\":\"s\\n1\",\"group_id\":\"group\",\"peer\":\"\u5317\",\"revoked\":true}",
+        "{\"application_id\":\"app\",\"app_event_id\":\"event\",\"state\":\"sent\"}",
+        "{\"cursor\":18446744073709551615,\"session\":\"s\\n1\",\"application_id\":\"app\",\"sender\":\"\u5317\",\"data\":[0,127,255],\"invalidated\":false}"
+      ],
+      "libraries": {
+        "serde_json": "454f6bc9624c32f7243c8b6107b47a2a78223da35cd93c345ef122f238a8e06c",
+        "marmish_native": "6de9190dd5c9ae7515fe4dfa74d5abfe2a690e996e95e92d1749c8ad88a53784"
+      }
+    }
+  },
+  "mdk": {
+    "scope": [
+      "marmish_mdk::AdapterError",
+      "marmish_mdk::VersionObservation"
+    ],
+    "standaloneCompanion": "27b0e5e7b16629cc4ec2973b729cf45e2d9c114b",
+    "originalLibrarySha256": "b46d990b0e3bf599f1d4009985adedbea0f9ae3e05fa4ead84173526695ae570",
+    "sealedLibrarySha256": "8f90467a76d096f03b728ed46fd4fd9917eebd9a8da67ecc6fc9f77463f58ef1",
+    "recovery": {
+      "error": {
+        "format": "oddlang-finite-error-observation-v1",
+        "gaps": [
+          "thiserror expansion and caller-visible behavior require independent native replay",
+          "external enum exhaustiveness and crate-root reexports require downstream compilation"
+        ],
+        "graphSha256": "c776b9cfc809dfe0aa5643b2c99f0c3b4cbe0ec0140432d67e770067c747cad1",
+        "overlaySha256": "84f0f35c1a87ccd348f46a7e58a74bb2ec1b8cd1264d278b181e1d915ba914f7",
+        "selectionSha256": "70035f48fe0dc176a105d5a95315dc45fdf0f2bddfc4aa1f69f97d8d561dc49e",
+        "sourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794"
+      },
+      "record": {
+        "crateSourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794",
+        "format": "oddlang-root-public-record-recovery-lock-v1",
+        "gap": "Rust derive and type bindings require downstream native compilation",
+        "graphSha256": "48f24862839acd1b1b6076b075452f79db54a8a451b5b74e2b92445eeae57ec0",
+        "overlaySha256": "2e1ade765b15787e8271ddf79670ca3291cec0c84d3c2b76a4de778ff572783f",
+        "selectionSha256": "55521cc505a39cf56adbdd16b40027b0c466b9d44cd05631d7145632aa7cca9a"
+      }
+    },
+    "output": "InvalidExecutable|InvalidExecutable|an explicit absolute executable file is required|0\nMissingExecutable|MissingExecutable|configured executable is unavailable|1\nTimeout|Timeout|subprocess deadline exceeded|2\nOutputLimit|OutputLimit|response exceeds the fixed size limit|3\nInvalidResponse|InvalidResponse|response is malformed or truncated|4\nSubprocessFailure|SubprocessFailure|subprocess failed|5\nLiveEgressUnverified|LiveEgressUnverified|strict configured-relay egress is unverified; operation cannot start|6\nVersionObservation { stdout: \"released \\\"\u00e9\\\"\\n!\", stderr: \"\\tstatus\\r\\n\" }\n",
+    "negativeRustDiagnostics": {
+      "rootResult": "E0432",
+      "VersionObservation:Clone": "E0277",
+      "VersionObservation:Copy": "E0277",
+      "VersionObservation:Eq": "E0277",
+      "VersionObservation:PartialEq": "E0277",
+      "VersionObservation:Default": "E0277",
+      "VersionObservation:Serialize": "E0277",
+      "VersionObservation:Deserialize": "E0277",
+      "VersionObservation:Error": "E0277",
+      "AdapterError:Clone": "E0277",
+      "AdapterError:Copy": "E0277",
+      "AdapterError:Eq": "E0277",
+      "AdapterError:PartialEq": "E0277",
+      "AdapterError:Default": "E0277",
+      "AdapterError:Serialize": "E0277",
+      "AdapterError:Deserialize": "E0277"
+    }
+  },
+  "darwinPublicImports": {
+    "attempted": 140,
+    "importable": 77,
+    "additional": [
+      [
+        "engine",
+        "InputReceipt"
+      ],
+      [
+        "engine",
+        "MaintenanceReport"
+      ],
+      [
+        "native",
+        "transport"
+      ],
+      [
+        "native",
+        "transport::ArtiDirs"
+      ],
+      [
+        "vault",
+        "helper"
+      ],
+      [
+        "vault",
+        "helper::AuthorizationMode"
+      ]
+    ],
+    "libraries": {
+      "core": {
+        "inventorySha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
+        "inventoryLockSha256": "7d1c8ebee95ee490c325b2d776505f031828b55f6f2e5bdf11ca2cbe81690a79",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "8febbdc4781c67825e8678bdc350451ae6b44f4adf4d7467c25639729eb468bd",
+        "metadataSha256": "4ec30580d2af23802170cba4792833f211ae2f478f64eb54f9cde90304838fa4",
+        "librarySha256": "2f14eac28ec5b4af631cdc92a065515072d5a2773cfa3c08ec9ea40ed07a366d",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 6,
+        "missing": 0,
+        "imports": [
+          {
+            "spelling": "ConfigError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "FrameError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Limits",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "ProbeEnvelope",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "RelaySet",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Retention",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "engine": {
+        "inventorySha256": "645e066eedb86800db43945333e678def1cacf507c5a935edf6cef6c6620bf46",
+        "inventoryLockSha256": "6b14d02d06c16d5a4f877382d64ab4d237bf8879c0ed5763f154fa19efcbc0d0",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "87efafefe871e6356febc4db95e03b701c2b952956f711170e9bb9411f777891",
+        "metadataSha256": "d32d533a63da4da49021ad4a4240332fcdcaf6425b5a7c4aa4a222e9ed432405",
+        "librarySha256": "1ae70b6a1f5e4b8c0d30d5ea507a4c61b70eaa5b5452c5b3558ed8c61794e8b6",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 7,
+        "missing": 41,
+        "imports": [
+          {
+            "spelling": "AuthorizedContext",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::AuthorizedContext`",
+                "rendered": "error[E0432]: unresolved import `observed::AuthorizedContext`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#AuthorizedContext as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `AuthorizedContext` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CanonicalExecOutcome",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CanonicalExecOutcome`",
+                "rendered": "error[E0432]: unresolved import `observed::CanonicalExecOutcome`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CanonicalExecOutcome as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CanonicalExecOutcome` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CleanupGuard",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CleanupGuard`",
+                "rendered": "error[E0432]: unresolved import `observed::CleanupGuard`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CleanupGuard as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CleanupGuard` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandPolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandPolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandPolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandPolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandPolicy` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandRequest",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandRequest`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandRequest`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandRequest as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandRequest` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EndpointId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EndpointId`",
+                "rendered": "error[E0432]: unresolved import `observed::EndpointId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EndpointId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EndpointId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Engine",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Engine`",
+                "rendered": "error[E0432]: unresolved import `observed::Engine`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Engine as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Engine` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EngineError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "EngineLimits",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EngineLimits`",
+                "rendered": "error[E0432]: unresolved import `observed::EngineLimits`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EngineLimits as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EngineLimits` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "EnginePolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::EnginePolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::EnginePolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#EnginePolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `EnginePolicy` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ExecuteToken",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ExecuteToken`",
+                "rendered": "error[E0432]: unresolved import `observed::ExecuteToken`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ExecuteToken as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ExecuteToken` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ExitOutcome",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ExitOutcome`",
+                "rendered": "error[E0432]: unresolved import `observed::ExitOutcome`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ExitOutcome as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ExitOutcome` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputGeneration",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputGeneration`",
+                "rendered": "error[E0432]: unresolved import `observed::InputGeneration`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputGeneration as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputGeneration` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputHealth",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputHealth`",
+                "rendered": "error[E0432]: unresolved import `observed::InputHealth`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputHealth as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputHealth` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InputReceipt",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "InputStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InputStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::InputStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InputStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InputStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationId`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationState",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationState`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationState`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationState as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationState` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "InvocationStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::InvocationStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::InvocationStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#InvocationStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `InvocationStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "JobId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::JobId`",
+                "rendered": "error[E0432]: unresolved import `observed::JobId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#JobId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `JobId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "KeyRestrictions",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::KeyRestrictions`",
+                "rendered": "error[E0432]: unresolved import `observed::KeyRestrictions`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#KeyRestrictions as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `KeyRestrictions` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LaunchFailure",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LaunchFailure`",
+                "rendered": "error[E0432]: unresolved import `observed::LaunchFailure`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LaunchFailure as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LaunchFailure` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveChild",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveChild`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveChild`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveChild as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveChild` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveCleanupProgress",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveCleanupProgress`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveCleanupProgress`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveCleanupProgress as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveCleanupProgress` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LivePipes",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LivePipes`",
+                "rendered": "error[E0432]: unresolved import `observed::LivePipes`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LivePipes as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LivePipes` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveProcessRecord",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveProcessRecord`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveProcessRecord`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveProcessRecord as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveProcessRecord` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "LiveSpawnError",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::LiveSpawnError`",
+                "rendered": "error[E0432]: unresolved import `observed::LiveSpawnError`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#LiveSpawnError as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `LiveSpawnError` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "MaintenanceReport",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "MissingRange",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::MissingRange`",
+                "rendered": "error[E0432]: unresolved import `observed::MissingRange`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#MissingRange as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MissingRange` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "MissingReason",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::MissingReason`",
+                "rendered": "error[E0432]: unresolved import `observed::MissingReason`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#MissingReason as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MissingReason` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "NativeBinding",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::NativeBinding`",
+                "rendered": "error[E0432]: unresolved import `observed::NativeBinding`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#NativeBinding as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `NativeBinding` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "NotExecutableReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "NotFoundReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "OutputChunk",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OutputChunk`",
+                "rendered": "error[E0432]: unresolved import `observed::OutputChunk`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OutputChunk as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OutputChunk` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "OutputStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OutputStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::OutputStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OutputStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OutputStatus` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "OwnedWorkerPresence",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::OwnedWorkerPresence`",
+                "rendered": "error[E0432]: unresolved import `observed::OwnedWorkerPresence`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#OwnedWorkerPresence as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OwnedWorkerPresence` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "PreparedLiveExec",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::PreparedLiveExec`",
+                "rendered": "error[E0432]: unresolved import `observed::PreparedLiveExec`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#PreparedLiveExec as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `PreparedLiveExec` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "PrincipalId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::PrincipalId`",
+                "rendered": "error[E0432]: unresolved import `observed::PrincipalId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#PrincipalId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `PrincipalId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ProvidedMaster",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ProvidedMaster`",
+                "rendered": "error[E0432]: unresolved import `observed::ProvidedMaster`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ProvidedMaster as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ProvidedMaster` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RecordedProcessDisposition",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RecordedProcessDisposition`",
+                "rendered": "error[E0432]: unresolved import `observed::RecordedProcessDisposition`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RecordedProcessDisposition as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RecordedProcessDisposition` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RegisteredCopyHelper",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RegisteredCopyHelper`",
+                "rendered": "error[E0432]: unresolved import `observed::RegisteredCopyHelper`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RegisteredCopyHelper as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RegisteredCopyHelper` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ResolutionReason",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Restrictions",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Restrictions`",
+                "rendered": "error[E0432]: unresolved import `observed::Restrictions`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Restrictions as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Restrictions` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "ServerId",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ServerId`",
+                "rendered": "error[E0432]: unresolved import `observed::ServerId`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ServerId as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ServerId` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Stream",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Stream`",
+                "rendered": "error[E0432]: unresolved import `observed::Stream`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Stream as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Stream` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "Submission",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Submission`",
+                "rendered": "error[E0432]: unresolved import `observed::Submission`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Submission as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Submission` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "SubmitDisposition",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::SubmitDisposition`",
+                "rendered": "error[E0432]: unresolved import `observed::SubmitDisposition`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#SubmitDisposition as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `SubmitDisposition` in the root\n\n"
+              }
+            ]
+          }
+        ]
+      },
+      "mdk": {
+        "inventorySha256": "35c61f7b11faf59da5ffadfe9bac34b0177b510e2b037665256f4c4fb772e942",
+        "inventoryLockSha256": "2cb0dad9375cbaede3122663e44d8ba079f48adce9489b502629ca3c57c778c7",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "ae296fe89bc7070ee406d6fb913a87dea1df89663f59c851879e96c534a29924",
+        "metadataSha256": "5210bc9ab1a32d36c9251f827694e5cdea008a4c221cf2138d639b2c527302d2",
+        "librarySha256": "8f90467a76d096f03b728ed46fd4fd9917eebd9a8da67ecc6fc9f77463f58ef1",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 2,
+        "missing": 3,
+        "imports": [
+          {
+            "spelling": "AdapterError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "CommandClass",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandClass`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandClass`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandClass as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandClass` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "CommandPlan",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::CommandPlan`",
+                "rendered": "error[E0432]: unresolved import `observed::CommandPlan`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#CommandPlan as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `CommandPlan` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "RealWn",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::RealWn`",
+                "rendered": "error[E0432]: unresolved import `observed::RealWn`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#RealWn as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RealWn` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "VersionObservation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "native": {
+        "inventorySha256": "0fd3957007adf6b4bbf4dfe35ff80cc0cd940ce30be623ab1eba71fcebc4e74c",
+        "inventoryLockSha256": "e01b01c61111efa42bb120bb73179514fc03ab6be7a662f844a736f98382bab3",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "1a9ce283ab4b4e01654c7a6a637df84fac37ae243dfb15467f96b08898582bc8",
+        "metadataSha256": "cd5a2d79554f8d7c765af8021bda94481c239ed7c3501d269201aa991892e242",
+        "librarySha256": "6de9190dd5c9ae7515fe4dfa74d5abfe2a690e996e95e92d1749c8ad88a53784",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 18,
+        "missing": 18,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "cli",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::cli`",
+                "rendered": "error[E0432]: unresolved import `observed::cli`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#cli as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `cli` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "daemon",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::daemon`",
+                "rendered": "error[E0432]: unresolved import `observed::daemon`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#daemon as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `daemon` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "daemon::Config",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::daemon`",
+                "rendered": "error[E0432]: unresolved import `observed::daemon`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#daemon::r#Config as witness;\n  |                   ^^^^^^^^ could not find `daemon` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "diagnostics",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error::Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "error::Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "foundation",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#foundation as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `foundation` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation::Body",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#foundation::r#Body as witness;\n  |                   ^^^^^^^^^^^^ could not find `foundation` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation::Envelope",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#foundation::r#Envelope as witness;\n  |                   ^^^^^^^^^^^^ could not find `foundation` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "foundation_check",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::foundation_check`",
+                "rendered": "error[E0432]: unresolved import `observed::foundation_check`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#foundation_check as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `foundation_check` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "identity",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "identity::BackendChoice",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "identity::IdentityMaterial",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::identity::IdentityMaterial`",
+                "rendered": "error[E0432]: unresolved import `observed::identity::IdentityMaterial`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#identity::r#IdentityMaterial as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `IdentityMaterial` in `identity`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "identity::ProfileLease",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::identity::ProfileLease`",
+                "rendered": "error[E0432]: unresolved import `observed::identity::ProfileLease`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#identity::r#ProfileLease as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ProfileLease` in `identity`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ipc",
+            "originalInventoryKind": "module",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ipc`",
+                "rendered": "error[E0432]: unresolved import `observed::ipc`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#ipc as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^ no `ipc` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "ipc::Response",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::ipc`",
+                "rendered": "error[E0432]: unresolved import `observed::ipc`\n --> caller.rs:2:19\n  |\n2 | pub use observed::r#ipc::r#Response as witness;\n  |                   ^^^^^ could not find `ipc` in `observed`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "journal",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::Conversation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::ReceivedMessage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "journal::SendStatus",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::Conversation",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::MdkOwner",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::MdkOwner`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::MdkOwner`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#MdkOwner as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `MdkOwner` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::OpenedAccountBinding",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::OpenedAccountBinding`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::OpenedAccountBinding`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#OpenedAccountBinding as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `OpenedAccountBinding` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::ReceivedMessage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "mdk_adapter::RuntimeStatus",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::mdk_adapter::RuntimeStatus`",
+                "rendered": "error[E0432]: unresolved import `observed::mdk_adapter::RuntimeStatus`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#mdk_adapter::r#RuntimeStatus as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RuntimeStatus` in `record_views::__projection_8::mdk_adapter`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "mdk_adapter::SendStatus",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport::ArtiDirs",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "transport::RelayConnector",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RelayConnector`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RelayConnector`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RelayConnector as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RelayConnector` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::RelayPolicy",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RelayPolicy`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RelayPolicy`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RelayPolicy as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RelayPolicy` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::RouteMode",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::RouteMode`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::RouteMode`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#RouteMode as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `RouteMode` in `transport`\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "transport::TransportLimits",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::transport::TransportLimits`",
+                "rendered": "error[E0432]: unresolved import `observed::transport::TransportLimits`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#transport::r#TransportLimits as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `TransportLimits` in `transport`\n\n"
+              }
+            ]
+          }
+        ]
+      },
+      "prototype": {
+        "inventorySha256": "30d4ebefc9fda3853e7db7d25f1897b478ae8560e596ab5ad64c609c407fcca2",
+        "inventoryLockSha256": "45e1c7d1cfd34cd0b83fc7caddf4d463666607eb3e5999a7e66531b5b75a24a9",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "9575088e98f29611ea791de5f6d6cbd56fdebfa0dc157ce9af4e4d03f243403c",
+        "metadataSha256": "9e148ef113e9f5f06e8f0f34897999b85a6a7a6a6d9576829b5895f11df31b74",
+        "librarySha256": "a508d57ce8a71b0046a859008198f0aff1a547791557ab364ae9f44809b1b498",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 0,
+        "missing": 0,
+        "imports": []
+      },
+      "stream": {
+        "inventorySha256": "037d0559be12bc5e64b5ce48799f5a7132ad43acd82de60ad0127c5228b1313b",
+        "inventoryLockSha256": "c61d2a8f351787d9ca35d8e360e866ed3003e94833f0e2bac687cce040afd3c4",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "fb2d69d0f153db6ce13a0f5c91b42da92139ba14d308061dff324be4e2f5550a",
+        "metadataSha256": "072b97a4bd8b4cdffabe4fdcab1782a0bc6fbb87e80b700b390de31748bfda34",
+        "librarySha256": "0d80d9f22fcbd6022e65e1b5598c7b1cc663e26335eb05c0206e6604800516b3",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 35,
+        "missing": 0,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Result",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec::Codec",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "codec::EncodedBlock",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::AttemptMode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Checkpoint",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::CopyError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Direction",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::FileIdentity",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Frame",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::FrameDecoder",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::HelperContext",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Launch",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Manifest",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Mtime",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Phase",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "copy_protocol::Stage",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows::ReceiveWindow",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "windows::SendWindow",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Account",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Binding",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::CopyAdmissionError",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Digest",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Id",
+            "originalInventoryKind": "alias",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::OpenDisposition",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Request",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::RequestBody",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Response",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::ResponseBody",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::Terminal",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "wire::WireErrorCode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      },
+      "vault": {
+        "inventorySha256": "0a51f70724480c47438ebdb42aca8d921160caa94ef2d1d2d187ff8ad92993c5",
+        "inventoryLockSha256": "a4730136837b6420c961d6abe57d14c8dc8a48ff5a2e45bf8c5bba49a29d5f04",
+        "inventoryUnresolved": [],
+        "inventoryEvidenceSha256": "63a7681588f431769bcdf8f3af1f4a1bb7a074bc2ef071d281a5305898b1d120",
+        "metadataSha256": "ae90251c4655180aaa672f3fabe04ec99e492f9a711c988ed1d5f93e4fc5c857",
+        "librarySha256": "8f7da4c5ebded094f61701c6883858da4f56c9b28287bd89ae4a73026a20811e",
+        "features": [],
+        "cargoFresh": false,
+        "importable": 9,
+        "missing": 1,
+        "imports": [
+          {
+            "spelling": "Error",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "KeyRef",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Label",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Metadata",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Namespace",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Purpose",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Secret",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "Vault",
+            "originalInventoryKind": "data",
+            "compiles": false,
+            "diagnostics": [
+              {
+                "code": "E0432",
+                "message": "unresolved import `observed::Vault`",
+                "rendered": "error[E0432]: unresolved import `observed::Vault`\n --> caller.rs:2:9\n  |\n2 | pub use observed::r#Vault as witness;\n  |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ no `Vault` in the root\n\n"
+              }
+            ]
+          },
+          {
+            "spelling": "helper",
+            "originalInventoryKind": "module",
+            "compiles": true,
+            "diagnostics": []
+          },
+          {
+            "spelling": "helper::AuthorizationMode",
+            "originalInventoryKind": "data",
+            "compiles": true,
+            "diagnostics": []
+          }
+        ]
+      }
+    }
+  },
+  "terminalCli": {
+    "roles": {
+      "marmish": {
+        "cases": 82,
+        "generatedSha256": "df44fac96666d7588a2fbb7c9b75271850b879f5f957ab137024a186637b113c",
+        "originalSha256": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+        "outsideTerminalProfile": {
+          "args": [
+            "--debug",
+            "rsh",
+            "--version"
+          ],
+          "original": {
+            "exit": 255,
+            "stdout": "",
+            "stderr": "error: marmish rsh: invalid host identity or relay\nmarmish: invalid_arguments\n"
+          },
+          "candidate": {
+            "exit": 255,
+            "stdout": "",
+            "stderr": "error: unexpected argument '--version' found\n\n  tip: a similar argument exists: '--new-session'\n\nUsage: marmish rsh --new-session\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+          }
+        }
+      },
+      "marmishd": {
+        "cases": 82,
+        "generatedSha256": "4c7608e550cc3bc85546bcdc8da3573fd7e84c7df37bd1e181cd7ee1311a2aef",
+        "originalSha256": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41",
+        "outsideTerminalProfile": {
+          "args": [
+            "--debug",
+            "rsh",
+            "--version"
+          ],
+          "original": {
+            "exit": 255,
+            "stdout": "",
+            "stderr": "error: marmish rsh: invalid host identity or relay\nmarmish: invalid_arguments\n"
+          },
+          "candidate": {
+            "exit": 255,
+            "stdout": "",
+            "stderr": "error: unexpected argument '--version' found\n\n  tip: a similar argument exists: '--new-session'\n\nUsage: marmishd rsh --new-session\n\nFor more information, try '--help'.\nmarmish: invalid_arguments\n"
+          }
+        }
+      }
+    },
+    "witnessSha256": "6feac74e10ebd13ff2305ce3786c0cd4492ddf233f8f6619a5f56e570bf59598"
+  },
+  "diagnostics": {
+    "observations": {
+      "disabled": {
+        "exitCode": 0,
+        "stdout": "before\n",
+        "stderr": "",
+        "sink": "captured"
+      },
+      "sequence": {
+        "exitCode": 0,
+        "stdout": "after\n",
+        "stderr": "{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"unicode \u96ea\\n\\t\\u0001\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"quoted \\\"\\\\\"}\n{\"category\":\"begin\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"after\"}\n{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"\"}\n",
+        "sink": "captured"
+      },
+      "cross-thread": {
+        "exitCode": 0,
+        "stdout": "initial\n",
+        "stderr": "{\"architecture\":\"aarch64\",\"event\":\"context\",\"platform\":\"macos\",\"schema\":1,\"version\":\"0.3.1\"}\n{\"category\":\"visible\",\"event\":\"diagnostic\",\"schema\":1,\"stage\":\"joined\"}\n",
+        "sink": "captured"
+      },
+      "closed-sink": {
+        "exitCode": 0,
+        "stdout": "after-error\n",
+        "stderr": "",
+        "sink": "closed pipe"
+      }
+    },
+    "originalWitnessSha256": "94d47966693c3fcb26ab66da15304bfa4642ab1e0b725fee9830fcf0e9c26169",
+    "sourceGraphSha256": "a517354acc5ead6297cff9d8d78fe1e5a4678e6b7f2ea305f7fb6b9eb690a353",
+    "generatedLibrarySha256": "6de9190dd5c9ae7515fe4dfa74d5abfe2a690e996e95e92d1749c8ad88a53784"
+  },
+  "vaultMode": {
+    "observations": {
+      "values": [
+        "interactive=0",
+        "verify=1"
+      ],
+      "absentTraits": {
+        "PartialEq": "E0277",
+        "Eq": "E0277",
+        "std::fmt::Debug": "E0277",
+        "std::fmt::Display": "E0277",
+        "Default": "E0277",
+        "std::hash::Hash": "E0277",
+        "Ord": "E0277"
+      }
+    },
+    "standaloneWitnessSha256": "6ca92dd2b8d4d830de234caa55c9986991ede3c08d0f3ceab25366d4eb75bee1",
+    "generatedLibrarySha256": "8f7da4c5ebded094f61701c6883858da4f56c9b28287bd89ae4a73026a20811e",
+    "sourceSha256": "a6c8f7625b1693e90d69648aa485f1f77ad53106dc0e4f3535d929ac1d91b114"
+  },
+  "publicRecords": {
+    "engine": {
+      "scope": [
+        "marmish_engine::InputReceipt",
+        "marmish_engine::MaintenanceReport"
+      ],
+      "output": "MaintenanceReport {\n    records_removed: 0,\n    spool_bytes_removed: 0,\n}\nMaintenanceReport { records_removed: 0, spool_bytes_removed: 0 }\nMaintenanceReport { records_removed: 1, spool_bytes_removed: 18446744073709551615 }\nMaintenanceReport { records_removed: 4294967295, spool_bytes_removed: 1 }\nMaintenanceReport { records_removed: 4294967295, spool_bytes_removed: 18446744073709551615 }\nInputReceipt { accepted: 0, available_credit: 0, duplicate: false }\nInputReceipt { accepted: 18446744073709551615, available_credit: 4294967295, duplicate: true }\nInputReceipt { accepted: 1, available_credit: 4294967295, duplicate: false }\nInputReceipt { accepted: 18446744073709551615, available_credit: 1, duplicate: true }\n",
+      "negativeRustDiagnostics": {
+        "marmish_engine::InputReceipt.Copy": "E0277",
+        "marmish_engine::InputReceipt.Default": "E0277",
+        "marmish_engine::InputReceipt.Eq": "E0277",
+        "marmish_engine::InputReceipt.PartialEq": "E0277",
+        "marmish_engine::InputReceipt.Ord": "E0277",
+        "marmish_engine::InputReceipt.PartialOrd": "E0277",
+        "marmish_engine::InputReceipt.Hash": "E0277",
+        "marmish_engine::InputReceipt.Display": "E0277",
+        "marmish_engine::InputReceipt.Serialize": "E0277",
+        "marmish_engine::InputReceipt.Deserialize": "E0277",
+        "marmish_engine::MaintenanceReport.Copy": "E0277",
+        "marmish_engine::MaintenanceReport.Eq": "E0277",
+        "marmish_engine::MaintenanceReport.PartialEq": "E0277",
+        "marmish_engine::MaintenanceReport.Ord": "E0277",
+        "marmish_engine::MaintenanceReport.PartialOrd": "E0277",
+        "marmish_engine::MaintenanceReport.Hash": "E0277",
+        "marmish_engine::MaintenanceReport.Display": "E0277",
+        "marmish_engine::MaintenanceReport.Serialize": "E0277",
+        "marmish_engine::MaintenanceReport.Deserialize": "E0277",
+        "privateModule": "E0603",
+        "creditWidth": "E0308"
+      },
+      "recovery": {
+        "crateSourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+        "format": "oddlang-root-public-record-recovery-lock-v1",
+        "gap": "Sibling item macro expansion, Rust bindings and public export paths require independent native compilation",
+        "graphSha256": "2737dec183b717dd15b6738a1d3b60df6bd556d8301298c5c4e3fe4c119a7ed5",
+        "overlaySha256": "c845ac482362d3356e070518ee747b8474259d1d9eafcdc8b009bf2f679d00e5",
+        "selectionSha256": "a47aa65043e93674a1de24a6fa9e21b110335beacf490977384edcf72f698f33"
+      },
+      "originalLibrarySha256": "39b6c5ce0417b6fa50c1359cffa59ffe0e894a0f8ac52a3d9f0b8e14eceb3d02",
+      "generatedLibrarySha256": "1ae70b6a1f5e4b8c0d30d5ea507a4c61b70eaa5b5452c5b3558ed8c61794e8b6"
+    },
+    "native": {
+      "scope": [
+        "marmish_native::transport::ArtiDirs"
+      ],
+      "output": "ArtiDirs { state: \"../\\xFF\", cache: \"relative/../cache\" }\n",
+      "negativeRustDiagnostics": {
+        "marmish_native::transport::ArtiDirs.Copy": "E0277",
+        "marmish_native::transport::ArtiDirs.Default": "E0277",
+        "marmish_native::transport::ArtiDirs.Eq": "E0277",
+        "marmish_native::transport::ArtiDirs.PartialEq": "E0277",
+        "marmish_native::transport::ArtiDirs.Ord": "E0277",
+        "marmish_native::transport::ArtiDirs.PartialOrd": "E0277",
+        "marmish_native::transport::ArtiDirs.Hash": "E0277",
+        "marmish_native::transport::ArtiDirs.Display": "E0277",
+        "marmish_native::transport::ArtiDirs.Serialize": "E0277",
+        "marmish_native::transport::ArtiDirs.Deserialize": "E0277",
+        "rootExposure": "E0432"
+      },
+      "recovery": {
+        "crateSourceSha256": "5490e5d39761df1fc386249c3e901a920c4343257836908a6f46746a22c06800",
+        "format": "oddlang-root-public-record-recovery-lock-v1",
+        "gap": "Sibling item macro expansion, Rust bindings and public export paths require independent native compilation",
+        "graphSha256": "23819586cc9d517cc6197c85fc42834b16e62acdc65e6d5f00e78150202977ba",
+        "overlaySha256": "92e9dd4ba53d9a89ae489c6198bb9d48d9a580aa673579d44220754817a430d4",
+        "selectionSha256": "0aa8677f670d1d5317d46e1b9c52f37f73bed94bc053101c554ba31f65ab7ff3"
+      },
+      "originalLibrarySha256": "972003c0ce012db69b426aad03de9a3d9b64185592eed16fcfe0891066c7670e",
+      "generatedLibrarySha256": "6de9190dd5c9ae7515fe4dfa74d5abfe2a690e996e95e92d1749c8ad88a53784"
+    }
+  },
+  "enginePublicError": {
+    "scope": [
+      "EngineError",
+      "NotFoundReason",
+      "NotExecutableReason",
+      "ResolutionReason",
+      "Result"
+    ],
+    "originalLibrarySha256": "e6d6004a96227f8e73cd5d1e45619edc6b6c439841d6b288f8740b16dd1d4d31",
+    "sealedLibrarySha256": "1ae70b6a1f5e4b8c0d30d5ea507a4c61b70eaa5b5452c5b3558ed8c61794e8b6",
+    "recovery": {
+      "format": "oddlang-finite-error-observation-v1",
+      "gaps": [
+        "thiserror expansion and caller-visible behavior require independent native replay",
+        "external enum exhaustiveness and crate-root reexports require downstream compilation",
+        "sibling item macro expansion and Rust name resolution require native replay"
+      ],
+      "graphSha256": "923dd560b5121674ae29a8eece3b7f5b75c2b99c5cfae03317213de2d6b3e32e",
+      "overlaySha256": "3695960cadc4b2576d6260aaa15a8c278c55f251ba8da72af8856a121f61bd23",
+      "selectionSha256": "e319b42e7cf50ef3d00b5380f92bfb44820b2add158f491cf3102821d9b9bd8e",
+      "sourceSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53"
+    },
+    "output": "reason|PathSearchExhausted|0\nreason|ExecutableMissing|1\nreason|FilesystemPermission|0\nreason|NotRegularFile|1\nreason|ExecuteBitMissing|2\nreason|SymlinkLoop|0\nreason|FilesystemIo|1\nreason|InvalidSearchPath|2\nerror|Unauthorized|unauthorized|Unauthorized|Unauthorized\nerror|RootForbidden|root execution forbidden|RootForbidden|RootForbidden\nerror|InvalidPolicy|invalid engine policy|InvalidPolicy|InvalidPolicy\nerror|UnsafePath|unsafe state path|UnsafePath|UnsafePath\nerror|AlreadyOpen|engine already open|AlreadyOpen|AlreadyOpen\nerror|InvalidRequest|invalid command request|InvalidRequest|InvalidRequest\nerror|CommandDenied|command denied|CommandDenied|CommandDenied\nerror|CommandNotFound|command not found: PathSearchExhausted|CommandNotFound(PathSearchExhausted)|CommandNotFound(\n    PathSearchExhausted,\n)\nerror|CommandNotFound|command not found: ExecutableMissing|CommandNotFound(ExecutableMissing)|CommandNotFound(\n    ExecutableMissing,\n)\nerror|CommandNotExecutable|command not executable: FilesystemPermission|CommandNotExecutable(FilesystemPermission)|CommandNotExecutable(\n    FilesystemPermission,\n)\nerror|CommandNotExecutable|command not executable: NotRegularFile|CommandNotExecutable(NotRegularFile)|CommandNotExecutable(\n    NotRegularFile,\n)\nerror|CommandNotExecutable|command not executable: ExecuteBitMissing|CommandNotExecutable(ExecuteBitMissing)|CommandNotExecutable(\n    ExecuteBitMissing,\n)\nerror|CommandResolutionFailed|command resolution failed: SymlinkLoop|CommandResolutionFailed(SymlinkLoop)|CommandResolutionFailed(\n    SymlinkLoop,\n)\nerror|CommandResolutionFailed|command resolution failed: FilesystemIo|CommandResolutionFailed(FilesystemIo)|CommandResolutionFailed(\n    FilesystemIo,\n)\nerror|CommandResolutionFailed|command resolution failed: InvalidSearchPath|CommandResolutionFailed(InvalidSearchPath)|CommandResolutionFailed(\n    InvalidSearchPath,\n)\nerror|NotFound|invocation not found|NotFound|NotFound\nerror|InvocationConflict|invocation content conflict|InvocationConflict|InvocationConflict\nerror|InvalidToken|invalid execute token|InvalidToken|InvalidToken\nerror|ExpiredToken|execute token expired|ExpiredToken|ExpiredToken\nerror|QuotaExceeded|engine quota exceeded|QuotaExceeded|QuotaExceeded\nerror|StaleGeneration|stale input generation|StaleGeneration|StaleGeneration\nerror|InputExpired|input expired|InputExpired|InputExpired\nerror|InputConflict|input conflict|InputConflict|InputConflict\nerror|InputClosed|input closed|InputClosed|InputClosed\nerror|InputGap|input gap|InputGap|InputGap\nerror|WorkerUnavailable|worker unavailable|WorkerUnavailable|WorkerUnavailable\nerror|RecoveryUncertain|recovery outcome uncertain|RecoveryUncertain|RecoveryUncertain\nerror|StorageFailure|storage failure|StorageFailure|StorageFailure\nerror|UnsupportedStorage|unsupported storage filesystem or durability primitive|UnsupportedStorage|UnsupportedStorage\nerror|Busy|engine busy|Busy|Busy\nerror|InputBackpressure|input backpressure|InputBackpressure { next_offset: 0, available_credit: 0 }|InputBackpressure {\n    next_offset: 0,\n    available_credit: 0,\n}\nerror|InputBackpressure|input backpressure|InputBackpressure { next_offset: 1, available_credit: 4294967295 }|InputBackpressure {\n    next_offset: 1,\n    available_credit: 4294967295,\n}\nerror|InputBackpressure|input backpressure|InputBackpressure { next_offset: 18446744073709551615, available_credit: 0 }|InputBackpressure {\n    next_offset: 18446744073709551615,\n    available_credit: 0,\n}\nerror|InputBackpressure|input backpressure|InputBackpressure { next_offset: 18446744073709551615, available_credit: 4294967295 }|InputBackpressure {\n    next_offset: 18446744073709551615,\n    available_credit: 4294967295,\n}\n",
+    "negativeRustDiagnostics": {
+      "EngineError.Clone": "E0277",
+      "EngineError.Copy": "E0277",
+      "EngineError.Default": "E0277",
+      "EngineError.Hash": "E0277",
+      "EngineError.PartialOrd": "E0277",
+      "EngineError.Ord": "E0277",
+      "EngineError.Serialize": "E0277",
+      "EngineError.Deserialize": "E0277",
+      "EngineError.FromIo": "E0277",
+      "NotFoundReason.Default": "E0277",
+      "NotFoundReason.Hash": "E0277",
+      "NotFoundReason.PartialOrd": "E0277",
+      "NotFoundReason.Ord": "E0277",
+      "NotFoundReason.Serialize": "E0277",
+      "NotFoundReason.Deserialize": "E0277",
+      "NotFoundReason.Display": "E0277",
+      "NotFoundReason.Error": "E0277",
+      "NotExecutableReason.Default": "E0277",
+      "NotExecutableReason.Hash": "E0277",
+      "NotExecutableReason.PartialOrd": "E0277",
+      "NotExecutableReason.Ord": "E0277",
+      "NotExecutableReason.Serialize": "E0277",
+      "NotExecutableReason.Deserialize": "E0277",
+      "NotExecutableReason.Display": "E0277",
+      "NotExecutableReason.Error": "E0277",
+      "ResolutionReason.Default": "E0277",
+      "ResolutionReason.Hash": "E0277",
+      "ResolutionReason.PartialOrd": "E0277",
+      "ResolutionReason.Ord": "E0277",
+      "ResolutionReason.Serialize": "E0277",
+      "ResolutionReason.Deserialize": "E0277",
+      "ResolutionReason.Display": "E0277",
+      "ResolutionReason.Error": "E0277",
+      "mixedReason": "E0308",
+      "offsetWidth": "E0308",
+      "creditWidth": "E0308",
+      "privateModule": "E0603",
+      "nonExhaustiveMatch": "E0004"
+    },
+    "distinctVariants": 26
+  },
+  "identity": {
+    "scope": "marmish_native::identity::BackendChoice",
+    "output": "Auto|0|0|0\nKeychain|1|1|1\nFile|2|2|2\n",
+    "negativeRustDiagnostics": {
+      "Debug": "E0277",
+      "Display": "E0277",
+      "Default": "E0277",
+      "Hash": "E0277",
+      "Ord": "E0277",
+      "PartialOrd": "E0277",
+      "Serialize": "E0277",
+      "Deserialize": "E0277",
+      "integerConversion": "E0277",
+      "crossTypeEquality": "E0277",
+      "incompleteMatch": "E0004",
+      "rootExposure": "E0432"
+    }
+  },
+  "bufferedInput": {
+    "passed": [
+      "secret_request_tests::private_reader_wipes_consumed_spans",
+      "buffer_contract_observations::retained_span_and_consumed_bytes",
+      "buffer_contract_observations::failed_refill_retains_prior_end",
+      "buffer_contract_observations::zero_output_still_reads_and_eof_can_be_polled_again"
+    ],
+    "privateReaderLeafSha256": "e04583de9468f4b12e1c0a626e68ee42034df5f5f03177f7297f95197fccc690"
+  },
+  "publicConstant": {
+    "original-constant": {
+      "librarySha256": "66b28ad4fcfe372bac5238e5eae7817adc9a6c8d5a98427ea631fa732a7cb8fe",
+      "stdout": "131072\n"
+    },
+    "generated-constant": {
+      "librarySha256": "a508d57ce8a71b0046a859008198f0aff1a547791557ab364ae9f44809b1b498",
+      "stdout": "131072\n"
+    }
+  },
+  "releaseManifest": {
+    "scope": "crate-private Manifest::parse, id and asset_name",
+    "cases": 224,
+    "accepted": 34,
+    "resultsSha256": "602e037a6b3a5c02726fd90d1e3205a4c3b4af2d832ddb6459cf97aa4cfd333f",
+    "originalOracleSha256": "46589df6f10f44a00f51894ad4be7bc2cc9e4807f08d8092dd4c0b40be51bba8",
+    "standaloneReceiptSha256": "4e6baac4fa2ff1ea733effacc21855c45595d721834869598445e095ac28c3db",
+    "nativeRecords": {
+      "Manifest": {
+        "visibility": "crate",
+        "fields": [
+          {
+            "name": "version",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "target",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "commit",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "signing",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "notarized",
+            "type": {
+              "kind": "boolean"
+            }
+          },
+          {
+            "name": "minimum",
+            "type": {
+              "kind": "owned-text"
+            }
+          },
+          {
+            "name": "formats",
+            "type": {
+              "kind": "unsigned-array",
+              "bits": 32,
+              "length": 5
+            }
+          },
+          {
+            "name": "files",
+            "type": {
+              "kind": "record-vector",
+              "record": "Asset"
+            }
+          }
+        ],
+        "derives": [
+          "clone",
+          "debug",
+          "eq",
+          "partial-eq"
+        ],
+        "methods": [
+          {
+            "name": "asset_name",
+            "visibility": "crate"
+          },
+          {
+            "name": "id",
+            "visibility": "crate"
+          },
+          {
+            "name": "parse",
+            "visibility": "crate"
+          }
+        ]
+      },
+      "Asset": {
+        "visibility": "crate",
+        "fields": [
+          {
+            "name": "name",
+            "type": {
+              "kind": "static-text"
+            }
+          },
+          {
+            "name": "sha256",
+            "type": {
+              "kind": "bytes",
+              "length": 32
+            }
+          },
+          {
+            "name": "bytes",
+            "type": {
+              "kind": "unsigned",
+              "bits": 64
+            }
+          },
+          {
+            "name": "mode",
+            "type": {
+              "kind": "unsigned",
+              "bits": 32
+            }
+          }
+        ],
+        "derives": [
+          "clone",
+          "debug",
+          "eq",
+          "partial-eq"
+        ],
+        "methods": []
+      }
+    },
+    "privateDownstreamImport": {
+      "original": "E0603",
+      "generated": "E0603"
+    },
+    "unchangedTestModuleSha256": "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9c9e5073dcfae8",
+    "originalVectorIncludeSha256": "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1",
+    "unchangedPureTests": [
+      "native_manifest::__projection_11::tests::strict_vectors",
+      "native_manifest::__projection_11::tests::shared_release_version_vectors"
+    ]
+  },
+  "predecessors": {
+    "workspace-v7-converged-diagnostics-cli": "029d2b9df0c098980be3a4f22f4c943cf5d0394b15b696fa188348bd93f1c698",
+    "workspace-v7-terminal-prefix": "f40ee72f7367aa1cc0e08894fee2d521ebe89396fcfdabf9bdc4b3570e0119f1",
+    "workspace-v7-observational-records": "f03d75591e97660d43677d6d3c6172d6af48145e90b2a8d60079461bba4176c1",
+    "workspace-v7-converged-public-api": "3ed25cad2b1399e1c63787fedca0abbb465e758c9cfb6c635b17188a40b2dfaa"
+  },
+  "vaultModePackageSha256": "374439025897f7565021a808f1540d1764ffbd315a760e001a7d1a5fb92005e6"
+}
