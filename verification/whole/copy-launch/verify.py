@@ -98,7 +98,7 @@ def linux_project(cli, manifest, dest, original, caller, extra_sources=()):
                                inputs / manifest.name, target, cwd=stage, env=env)
         workspace.envtools.run(*sandbox, "cargo", "build", "--release", "--offline", "--locked",
                                "--manifest-path", target / "Cargo.toml", cwd=stage, env=env)
-        target.rename(dest)
+        shutil.move(str(target), dest)
     return True
 
 
