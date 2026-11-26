@@ -1227,9 +1227,11 @@
 {"path":"verification/whole/gap-range-reference/original-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"add0e669117ab7e5eee9464413b4c65576c09e6553916ac19684c246444311a9","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-reference/probe.rs","language":"rust","mode":"100644","sha256":"fe9ddb62d699fc92b15169eb143f82a7a8f7273ddfddd4cd00e148fe3b7245cc","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-reference/project.py","language":"python","mode":"100644","sha256":"bb3f40ab121fcce442cdea1475db5027d2cbf44bde52145d9196b686e29606a1","parse_status":"parsed"}
-{"path":"verification/whole/gap-range-role-workspace/README.md","language":"inventory","mode":"100644","sha256":"714e07bad144afbb5ece8e3c2c3206287dc0e146260b74051a8ed3914c11ceb0","parse_status":"inventory"}
+{"path":"verification/whole/gap-range-role-workspace/README.md","language":"inventory","mode":"100644","sha256":"19c99e7b6521a95c892b723a8023c478592b032544f330d9f64a25011d067f39","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-role-workspace/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"4743f1867369acf4c8c60438ef1caa694851a6c840b340e99f8a0509673e4241","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-role-workspace/compose.py","language":"python","mode":"100644","sha256":"d404371c13232c7e51eb6669820bee2c9acfa5aa1c0f752a5e8aab144492513c","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-role-workspace/imports-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"31b2b86705229957015cf43cb79267f7415755e8d452f213014bc351a29d6505","parse_status":"inventory"}
+{"path":"verification/whole/gap-range-role-workspace/imports.py","language":"python","mode":"100644","sha256":"0f4c6a31d5645b2500aa2a02452201b856c3432e0d1ddcc251899fb24b203160","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-role-workspace/verify.py","language":"python","mode":"100644","sha256":"032d6d838b9b082f130a56c02e62a68315dbffd724799e941f5ed5b138d572bb","parse_status":"parsed"}
 {"path":"verification/whole/gap-reason-recovery/README.md","language":"inventory","mode":"100644","sha256":"1ec8631f73a3b295a970b0ebce5d47138ce97f45efccb63179008d3343795620","parse_status":"inventory"}
 {"path":"verification/whole/gap-reason-recovery/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"96ccc3f14f3030014babe011e814af432062b14f5cd559a5dec6a9e72c0a1437","parse_status":"inventory"}
