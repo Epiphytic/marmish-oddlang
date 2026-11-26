@@ -43,12 +43,26 @@ def execute(*args, cwd=None, env=None):
     return result.stdout
 
 
-def build(args, scratch, profile):
+def exact_checkout(root, revision):
+    if (execute("git", "-C", root, "rev-parse", "HEAD").decode().strip() != revision
+            or execute("git", "-C", root, "status", "--porcelain", "--untracked-files=all")):
+        raise ValueError(f"requires a clean checkout at {revision}: {root}")
+
+
+def build_compiler(args):
+    if any(args.compiler_target.is_relative_to(root) for root in (ROOT, args.framework, args.original)):
+        raise ValueError("use an external compiler target directory")
+    execute("cargo", "+1.97.1", "build", "--release", "--offline", "--locked",
+            "--bin", "oddlang", "--target-dir", args.compiler_target, cwd=args.framework)
+    return args.compiler_target / "release/oddlang"
+
+
+def build(args, scratch, profile, executable):
     manifest = PORTABLE / f"{OUTPUT}.json"
     inputs = scratch / "inputs"
     inputs.mkdir()
     WORKSPACE["stage_workspace"](manifest, inputs)
-    compiler = shutil.copy2(args.compiler, scratch / "oddlang")
+    compiler = shutil.copy2(executable, scratch / "oddlang")
     denied = (ROOT, args.original, args.framework)
     policy = "(version 1) (allow default) (deny network*)" + "".join(
         f" (deny file-read* (subpath {json.dumps(str(path))}))" for path in denied)
@@ -174,14 +188,14 @@ def imports_and_behavior(args, raw, scratch):
 
 
 def verify(args):
-    for checkout, pin in ((args.original, IMPORTS["ORIGINAL"]), (args.framework, FRAMEWORK)):
-        if execute("git", "-C", checkout, "rev-parse", "HEAD").decode().strip() != pin:
-            raise ValueError(f"invalid source pin at {checkout}")
-        execute("git", "-C", checkout, "diff", "--quiet", "HEAD")
+    exact_checkout(ROOT, args.input_revision)
+    exact_checkout(args.original, IMPORTS["ORIGINAL"])
+    exact_checkout(args.framework, FRAMEWORK)
     if (args.target.is_relative_to(args.product) or args.target.is_relative_to(args.original)
             or args.original_target.is_relative_to(args.original)):
         raise ValueError("use an external target directory")
-    if f"host: {HOST}" not in execute("rustc", "+1.97.1", "-vV").decode().splitlines():
+    rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
+    if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
         raise ValueError("requires a native Darwin ARM64 toolchain")
     compose(PORTABLE, check=True)
     lock = PORTABLE / OUTPUT / "workspace.lock"
@@ -194,15 +208,17 @@ def verify(args):
     for parent in parent_locks.values():
         if any(parent[key] != current[key] for key in ("cargoLockSha256", "workspaceCargoManifestSha256")):
             raise ValueError("shared Cargo lock or root manifest changed")
+    compiler = build_compiler(args)
     with tempfile.TemporaryDirectory(prefix="odd-converged-diagnostics-") as temporary:
         scratch = Path(temporary).resolve()
-        raw = build(args, scratch, profile)
+        raw = build(args, scratch, profile, compiler)
         cli = cli_observations(args, binaries(raw, args.product, args.target), scratch)
         public_api = imports_and_behavior(args, raw, scratch)
         IMPORTS["verify_product"](args.product, ROOT, profile)
     return {"platform": HOST, "frameworkRevision": FRAMEWORK, "originalRevision": IMPORTS["ORIGINAL"],
             "workspaceInputRevision": args.input_revision, "workspaceLockSha256": profile.lock_sha256,
-            "compilerSha256": sha(args.compiler.read_bytes()), "cargoArtifactLogSha256": sha(raw),
+            "compilerSha256": sha(compiler.read_bytes()), "cargoArtifactLogSha256": sha(raw),
+            "rustc": rustc, "verifierSha256": sha(Path(__file__).read_bytes()),
             "parents": {name: sha((PORTABLE / name / "workspace.lock").read_bytes()) for name in parent_locks},
             "cli": cli, "publicApi": public_api}
 
@@ -210,7 +226,7 @@ def verify(args):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input_revision")
-    for name in ("compiler", "framework", "original", "original_bin_dir", "original_target", "product", "target", "receipt"):
+    for name in ("compiler_target", "framework", "original", "original_bin_dir", "original_target", "product", "target", "receipt"):
         parser.add_argument(name, type=lambda path: Path(path).resolve())
     parsed = parser.parse_args()
     result = verify(parsed)

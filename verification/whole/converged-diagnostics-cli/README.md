@@ -30,17 +30,16 @@ uncovered leading-option cases retain the same observed differences.
 
 ## Reproduce
 
-Build Oddlang at the receipt's framework revision with Rust 1.97.1 and
-`cargo build --release --locked --offline`. Use the receipt's workspace
-input revision, the pinned original checkout and matching Darwin ARM64
-original binary directory. Keep the compiler target and product target
-outside the original and generated checkouts.
+Use clean checkouts at the receipt's workspace input, framework and
+original revisions, and the matching original binary directory. The
+verifier builds the compiler with Rust 1.97.1 in an external target
+directory and records the executable and verifier hashes.
 
 ```sh
 lane=verification/whole/converged-diagnostics-cli
 python3 -B "$lane/test_compose.py"
 python3 -B "$lane/compose.py" --check
-python3 -B "$lane/verify.py" "$INPUT_REVISION" "$ODDLANG" "$FRAMEWORK" \
+python3 -B "$lane/verify.py" "$INPUT_REVISION" "$COMPILER_TARGET" "$FRAMEWORK" \
   "$ORIGINAL" "$ORIGINAL_BIN" "$ORIGINAL_TARGET" "$PRODUCT" "$TARGET" "$RECEIPT"
 ```
 
@@ -48,3 +47,14 @@ The generated product directory must be absent. Library and binary hashes
 identify the artifacts used by each individual run. Independent builds can
 produce different artifact hashes while reproducing the same sealed
 workspace, diagnostic bytes, CLI rows and import outcomes.
+
+On native Linux ARM64, the same workspace lock gates a separate help and
+version replay with a read-only program sandbox and network namespace.
+The case catalog selects only explicit help and version invocations from
+the existing lists. The verifier obtains expected output from the pinned
+Linux original executables. The Linux receipt records both sides and
+keeps the host-specific artifact hashes.
+
+```sh
+python3 -B "$lane/linux_cli.py" "$INPUT_REVISION" "$COMPILER_TARGET" "$FRAMEWORK"   "$ORIGINAL" "$ORIGINAL_BIN" "$LINUX_RECEIPT"
+```

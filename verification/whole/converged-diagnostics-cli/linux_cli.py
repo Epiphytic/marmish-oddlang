@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 
 from compose import HERE, OUTPUT, PORTABLE, compose, load, sha
-from verify import FRAMEWORK, IMPORTS, PARSER, ROOT, WORKSPACE, binaries, execute
+from verify import FRAMEWORK, IMPORTS, PARSER, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
 
 HOST = "aarch64-unknown-linux-gnu"
 
@@ -56,10 +56,9 @@ def verify(args):
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
         raise ValueError("requires the selected native Rust toolchain")
-    for checkout, revision in ((args.framework, FRAMEWORK), (args.original, IMPORTS["ORIGINAL"])):
-        if execute("git", "-C", checkout, "rev-parse", "HEAD").decode().strip() != revision:
-            raise ValueError(f"unexpected checkout at {checkout}")
-        execute("git", "-C", checkout, "diff", "--quiet", "HEAD")
+    exact_checkout(ROOT, args.input_revision)
+    exact_checkout(args.original, IMPORTS["ORIGINAL"])
+    exact_checkout(args.framework, FRAMEWORK)
     compose(PORTABLE, check=True)
     manifest = PORTABLE / f"{OUTPUT}.json"
     lock = (PORTABLE / OUTPUT / "workspace.lock").read_bytes()
@@ -71,6 +70,7 @@ def verify(args):
         if sha(executable.read_bytes()) != sealed["releaseInfo"]["originalBinaries"][role]:
             raise ValueError(f"original native Linux binary hash differs: {role}")
 
+    source_compiler = build_compiler(args)
     with tempfile.TemporaryDirectory(prefix="odd-linux-cli-") as temporary:
         work = Path(temporary).resolve()
         inputs = work / "inputs"
@@ -82,7 +82,7 @@ def verify(args):
         for source in (manifest, args.original / "Cargo.toml", args.framework / "Cargo.toml"):
             if subprocess.run([*sandbox, "/bin/cat", source], env=env, capture_output=True).returncode == 0:
                 raise ValueError(f"source isolation unexpectedly read {source}")
-        compiler = Path(shutil.copy2(args.compiler, work / "oddlang"))
+        compiler = Path(shutil.copy2(source_compiler, work / "oddlang"))
         product = work / "product"
         target = work / "target"
         execute(*sandbox, compiler, "build", "native-workspace", "rust", inputs / manifest.name,
@@ -111,14 +111,15 @@ def verify(args):
         IMPORTS["verify_product"](product, ROOT, profile)
     return {"platform": HOST, "rustc": rustc, "originalRevision": IMPORTS["ORIGINAL"],
             "originalReleaseReceiptSha256": sha(host_release.read_bytes()), "frameworkRevision": FRAMEWORK,
-            "compilerSha256": sha(args.compiler.read_bytes()), "workspaceInputRevision": args.input_revision,
-            "workspaceLockSha256": profile.lock_sha256, "observations": emitted}
+            "compilerSha256": sha(source_compiler.read_bytes()), "workspaceInputRevision": args.input_revision,
+            "workspaceLockSha256": profile.lock_sha256, "verifierSha256": sha(Path(__file__).read_bytes()),
+            "observations": emitted}
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("input_revision")
-    for name in ("compiler", "framework", "original", "original_bin_dir", "receipt"):
+    for name in ("compiler_target", "framework", "original", "original_bin_dir", "receipt"):
         parser.add_argument(name, type=lambda p: Path(p).resolve())
     arguments = parser.parse_args()
     receipt = verify(arguments)
