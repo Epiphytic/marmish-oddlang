@@ -1,0 +1,78 @@
+{
+  "format": "oddlang-field-relation-rust-v1",
+  "types": {
+    "urn:marmish:copy:launch": "crate::copy_protocol::Launch",
+    "urn:marmish:copy:manifest": "crate::copy_protocol::Manifest",
+    "urn:marmish:copy:helper-context": "crate::copy_protocol::HelperContext",
+    "urn:marmish:copy:Direction": "crate::copy_protocol::Direction",
+    "urn:marmish:stream:codec": "crate::codec::Codec"
+  },
+  "fields": {
+    "urn:marmish:copy:launch:field:version": "version",
+    "urn:marmish:copy:launch:field:transfer": "transfer",
+    "urn:marmish:copy:launch:field:client": "client",
+    "urn:marmish:copy:launch:field:server": "server",
+    "urn:marmish:copy:launch:field:direction": "direction",
+    "urn:marmish:copy:launch:field:source": "source",
+    "urn:marmish:copy:launch:field:destination": "destination",
+    "urn:marmish:copy:launch:field:overwrite": "overwrite",
+    "urn:marmish:copy:launch:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:launch:field:preserve_mtime": "preserve_mtime",
+    "urn:marmish:copy:manifest:field:version": "version",
+    "urn:marmish:copy:manifest:field:transfer": "transfer",
+    "urn:marmish:copy:manifest:field:client": "client",
+    "urn:marmish:copy:manifest:field:server": "server",
+    "urn:marmish:copy:manifest:field:direction": "direction",
+    "urn:marmish:copy:manifest:field:source": "source",
+    "urn:marmish:copy:manifest:field:destination": "destination",
+    "urn:marmish:copy:manifest:field:overwrite": "overwrite",
+    "urn:marmish:copy:manifest:field:preserve_mode": "preserve_mode",
+    "urn:marmish:copy:manifest:field:preserve_mtime": "preserve_mtime",
+    "urn:marmish:copy:helper-context:field:client": "client",
+    "urn:marmish:copy:helper-context:field:server": "server",
+    "urn:marmish:copy:helper-context:field:transfer": "transfer",
+    "urn:marmish:copy:helper-context:field:direction": "direction",
+    "urn:marmish:copy:helper-context:field:launch_digest": "launch_digest",
+    "urn:marmish:copy:helper-context:field:expected_version": "expected_version",
+    "urn:marmish:copy:helper-context:field:expected_target": "expected_target",
+    "urn:marmish:copy:helper-context:field:expected_commit": "expected_commit"
+  },
+  "calls": {
+    "urn:marmish:copy:helper-context:validate": "validate",
+    "urn:marmish:copy:launch:digest": "digest"
+  },
+  "relations": {
+    "urn:marmish:copy:launch:matches-manifest": {
+      "name": "matches_manifest",
+      "arguments": {
+        "urn:marmish:copy:launch:matches-manifest:argument:manifest": "manifest"
+      }
+    },
+    "urn:marmish:copy:helper-context:validate-start": {
+      "name": "validate_start",
+      "arguments": {
+        "urn:marmish:copy:helper-context:validate-start:argument:launch": "launch",
+        "urn:marmish:copy:helper-context:validate-start:argument:codec": "codec"
+      }
+    },
+    "urn:marmish:copy:helper-context:validate-build": {
+      "name": "validate_build",
+      "arguments": {
+        "urn:marmish:copy:helper-context:validate-build:argument:version": "version",
+        "urn:marmish:copy:helper-context:validate-build:argument:target": "target",
+        "urn:marmish:copy:helper-context:validate-build:argument:commit": "commit"
+      }
+    }
+  },
+  "errorType": "crate::Error",
+  "errors": {
+    "urn:marmish:copy:copy_context_launch": {
+      "variant": "Invalid",
+      "argument": "copy_context_launch"
+    },
+    "urn:marmish:copy:copy_context_build": {
+      "variant": "Invalid",
+      "argument": "copy_context_build"
+    }
+  }
+}
