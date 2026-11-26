@@ -160,9 +160,15 @@ def observe(args):
                 owner.processes.remove(server)
                 report = json.loads(stdout)
                 expected_error = b"marmish: transport: relay_connect\n" if restart else b""
+                expected_report = {
+                    "schema": 1,
+                    "engine_quiesced": False,
+                    "engine_stop_complete": True,
+                    "mdk_stop_complete": True,
+                    "runtime_cleanup_complete": True,
+                }
                 if (server.returncode != int(restart) or stderr != expected_error
-                        or not report["mdk_stop_complete"] or not report["runtime_cleanup_complete"]
-                        or socket_dir.exists()):
+                        or report != expected_report or socket_dir.exists()):
                     trial = "relay loss" if restart else "signal"
                     raise ValueError(f"provider cleanup after {trial} failed: "
                                      f"exit={server.returncode}, report={report}, "
@@ -183,7 +189,7 @@ def observe(args):
         "relayStoredSignedKeyPackageForIdentity": True,
         "providerPhase": "provider_active",
         "samePublicationAfterRestart": True,
-        "disconnectRevokesReadiness": True,
+        "exitedAfterRelayLoss": True,
         "providerStopped": True,
         "ownedRuntimeRemoved": True,
         "isolatedWorkspaceRemoved": True,
