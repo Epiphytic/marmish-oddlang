@@ -1,0 +1,10 @@
+{
+  "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "recovery": "reviewed state_dir and socket_path_for declarations from the pinned status path",
+  "sourceSha256": {
+    "crates/marmish-native/src/cli.rs": "a4122418f4f777a53e839487b3b162951ac2b1447ea26b968245322390c866d4",
+    "crates/marmish-native/src/error.rs": "54eb8a335f91cb09de6ecd8d598acdec3476ee7067968333f85c824a5fee2254",
+    "crates/marmish-native/src/identity.rs": "0f8d1e4bcc9865ada76cc757b8bddcbc3a15397f0075c57d0eb6bd967b2a349d",
+    "crates/marmish-native/src/ipc.rs": "ffeeba6b2d0b8fef1d44bea311e5548e8b7ac520d4b7d04286077547273b8a4a"
+  }
+}
