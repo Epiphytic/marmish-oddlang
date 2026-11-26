@@ -23,7 +23,7 @@ the two supporting pure declarations. Installer operations, asset I/O,
 and CLI dispatch are separate qualifications.
 
 Build the [workspace manifest](../../../oddlang/portable/workspace-v7-converged-release-manifest.json)
-using the compiler pinned in the native receipts.
+using the tested [Oddlang compiler](https://github.com/Epiphytic/oddlang/tree/da1b0033ae9345c2d8288b4164d4fd1dbf5bcade).
 
 ```sh
 oddlang build native-workspace rust \
@@ -37,7 +37,19 @@ offline dependencies and the pinned original release binaries.
 ```sh
 python3 -B verification/whole/converged-release-manifest/verify.py \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
-  --framework-revision "$ODDLANG_REVISION" \
+  --framework-revision da1b0033ae9345c2d8288b4164d4fd1dbf5bcade \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
+
+Add `--raw-results "$NATIVE_ROWS"` to retain the full validated native
+result stream alongside the receipt.
+
+The [native result stream](results.json) records all 224 checked inputs.
+The [ARM64 macOS receipt](aarch64-apple-darwin.json) pins the full parser
+result, both unmodified upstream test names and all 22 denied reads.
+
+The [ARM64 Linux receipt](aarch64-unknown-linux-gnu.json) has the same
+result bytes and package pins. Its input revision additionally carries
+the predecessor's native Serde trait selection in the inherited observer.
+Both receipts identify the exact trees from which they were measured.
