@@ -2,13 +2,15 @@
 
 The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.
 
-Build the current Rust workspace from the [v5 manifest](portable/workspace-v5.json). It includes the core and stream libraries, the complete copy protocol codec, encrypted initialization for explicit file-backed profiles, and a native client and foreground daemon that interoperate with the original for local status. [Build and qualification](../verification/whole/workspace/README.md#workspace-v5)
+Build the current Rust workspace from the [v6 manifest](portable/workspace-v6.json). It includes the same core and stream libraries as v5, configured encrypted file initialization, and the native foreground owner and status client for direct TLS activation of prepared no-config profiles. [Build and qualification](../verification/whole/workspace/README.md#workspace-v6)
 
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 
 The [copy correspondence verifier](../verification/whole/copy-source-correspondence/README.md) derives `Launch::matches_manifest` from pinned Rust compiler evidence and checks a source mutation against independently compiled native callers.
 
 The [source-derived copy frame profile](../verification/whole/source-copy-frame/README.md) recovers all eleven frame tags and the ordered top-level payload writes from the pinned Rust encoder.
+
+The [source-derived preflight release](../verification/whole/source-copy-frame-guards/README.md) recovers the ordering and error identities of nine encoder guards.
 
 Oddlang recovered two modules from Marmish commit `49fc705408a230bd0ad896248d08dbdd2faad05a`. The semantic source is in Turtle.
 

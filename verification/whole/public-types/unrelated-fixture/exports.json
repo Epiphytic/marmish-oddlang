@@ -1,0 +1,250 @@
+{
+  "vocabulary": "oddlang-public-type-bindings-v1",
+  "root": "local::observations",
+  "modules": {
+    "local::observations": {
+      "path": [],
+      "bindings": {
+        "Bits": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Bits::{type}"
+        },
+        "External": {
+          "kind": "external",
+          "target": "external::core::num::{type}::nonzero::{type}::NonZeroU8::{type}"
+        },
+        "Incomplete": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Incomplete::{type}"
+        },
+        "Named": {
+          "kind": "variant",
+          "target": "local::observations::hidden::{type}::Payload::{type}::Named::{type}"
+        },
+        "Payload": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Payload::{type}"
+        },
+        "ReadingAlias": {
+          "kind": "alias",
+          "target": "local::observations::ReadingAlias::{type}"
+        },
+        "Report": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Reading::{type}"
+        },
+        "Tuple": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Tuple::{type}"
+        },
+        "glob": {
+          "kind": "module",
+          "target": "local::observations::glob::{type}"
+        },
+        "mirror": {
+          "kind": "module",
+          "target": "local::observations::routes::{type}"
+        },
+        "mixed": {
+          "kind": "module",
+          "target": "local::observations::mixed::{type}"
+        },
+        "outward": {
+          "kind": "module",
+          "target": "local::observations::outward::{type}"
+        },
+        "routes": {
+          "kind": "module",
+          "target": "local::observations::routes::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": [
+        "_"
+      ]
+    },
+    "local::observations::glob::{type}": {
+      "path": [
+        "glob"
+      ],
+      "bindings": {
+        "Alias": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Reading::{type}"
+        },
+        "again": {
+          "kind": "module",
+          "target": "local::observations"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::observations::mixed::{type}": {
+      "path": [
+        "mixed"
+      ],
+      "bindings": {},
+      "ambiguous": {
+        "Conflict": {
+          "primary": {
+            "binding": {
+              "kind": "data",
+              "target": "local::observations::left::{type}::Conflict::{type}"
+            },
+            "audience": {
+              "kind": "public"
+            }
+          },
+          "alternatives": [
+            {
+              "binding": {
+                "kind": "data",
+                "target": "local::observations::right::{type}::Conflict::{type}"
+              },
+              "audience": {
+                "kind": "public"
+              }
+            }
+          ]
+        }
+      },
+      "unresolved": []
+    },
+    "local::observations::outward::{type}": {
+      "path": [
+        "outward"
+      ],
+      "bindings": {
+        "nested": {
+          "kind": "module",
+          "target": "local::observations::routes::{type}"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    },
+    "local::observations::routes::{type}": {
+      "path": [
+        "mirror"
+      ],
+      "bindings": {
+        "Alias": {
+          "kind": "data",
+          "target": "local::observations::hidden::{type}::Reading::{type}"
+        },
+        "again": {
+          "kind": "module",
+          "target": "local::observations"
+        }
+      },
+      "ambiguous": {},
+      "unresolved": []
+    }
+  },
+  "data": {
+    "local::observations::hidden::{type}::Bits::{type}": {
+      "fields": {
+        "first": {
+          "id": "local::observations::hidden::{type}::Bits::{type}::first",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "hidden": {
+          "id": "local::observations::hidden::{type}::Bits::{type}::hidden",
+          "audience": {
+            "kind": "scope",
+            "id": "local::observations::hidden::{type}"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::observations::hidden::{type}::Incomplete::{type}": {
+      "fields": {
+        "public_field": {
+          "id": "local::observations::hidden::{type}::Incomplete::{type}::public_field",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::observations::hidden::{type}::Payload::{type}": {
+      "fields": {},
+      "variants": {
+        "Named": {
+          "id": "local::observations::hidden::{type}::Payload::{type}::Named::{type}",
+          "fields": {
+            "item": {
+              "id": "local::observations::hidden::{type}::Payload::{type}::Named::{type}::item",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Tuple": {
+          "id": "local::observations::hidden::{type}::Payload::{type}::Tuple::{type}",
+          "fields": {
+            "0": {
+              "id": "local::observations::hidden::{type}::Payload::{type}::Tuple::{type}::0",
+              "audience": {
+                "kind": "public"
+              }
+            }
+          }
+        },
+        "Unit": {
+          "id": "local::observations::hidden::{type}::Payload::{type}::Unit::{type}",
+          "fields": {}
+        }
+      }
+    },
+    "local::observations::hidden::{type}::Reading::{type}": {
+      "fields": {
+        "calibration": {
+          "id": "local::observations::hidden::{type}::Reading::{type}::calibration",
+          "audience": {
+            "kind": "scope",
+            "id": "local::observations"
+          }
+        },
+        "internal": {
+          "id": "local::observations::hidden::{type}::Reading::{type}::internal",
+          "audience": {
+            "kind": "scope",
+            "id": "local::observations::hidden::{type}"
+          }
+        },
+        "units": {
+          "id": "local::observations::hidden::{type}::Reading::{type}::units",
+          "audience": {
+            "kind": "public"
+          }
+        }
+      },
+      "variants": {}
+    },
+    "local::observations::hidden::{type}::Tuple::{type}": {
+      "fields": {
+        "0": {
+          "id": "local::observations::hidden::{type}::Tuple::{type}::0",
+          "audience": {
+            "kind": "public"
+          }
+        },
+        "1": {
+          "id": "local::observations::hidden::{type}::Tuple::{type}::1",
+          "audience": {
+            "kind": "scope",
+            "id": "local::observations::hidden::{type}"
+          }
+        }
+      },
+      "variants": {}
+    }
+  }
+}

@@ -1,6 +1,6 @@
 # Marmish
 
-Build Oddlang workspace v5 to get the native core and stream libraries, file-backed encrypted profile initialization, and local status during foreground TLS activation. Remote execution, transfers, and installed services remain open for the generated workspace. [Build and qualification](verification/whole/workspace/README.md#workspace-v5) · [Ontology and release pins](oddlang/README.md)
+Build Oddlang workspace v6 for the native core and stream libraries, configured encrypted file initialization, and the local foreground provider and status client. Provider readiness beyond TLS, remote execution, transfers and installed services remain open for the generated workspace. [Build and qualification](verification/whole/workspace/README.md#workspace-v6) · [Ontology and release pins](oddlang/README.md)
 
 Run remote commands over Marmot's MLS-encrypted Nostr transport. Marmish uses
 native Rust clients and daemons, with one named Nostr identity per daemon.

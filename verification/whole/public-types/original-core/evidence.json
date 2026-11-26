@@ -1,0 +1,22 @@
+{
+  "ambiguityCount": 0,
+  "compilePositiveCount": 6,
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "defaultFeatures": true,
+  "deterministic": true,
+  "discrepancies": [],
+  "exportsSha256": "8597feb0fd1ba56f16005f11597749a0a2979a24c8d751895dde24e34b9d37ab",
+  "features": [],
+  "fieldProbes": {
+    "gaps": [],
+    "privateRejections": 2,
+    "publicReads": 0
+  },
+  "moduleCount": 1,
+  "package": "marmish-core",
+  "rustdocFormat": 57,
+  "rustdocSpellingCount": 6,
+  "rustdocUnresolvedGlobs": [],
+  "target": "aarch64-apple-darwin",
+  "unresolvedCompilerSpellings": []
+}
