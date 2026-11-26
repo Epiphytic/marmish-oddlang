@@ -1,0 +1,155 @@
+{
+  "format": "oddlang-field-relation-v1",
+  "id": "urn:marmish:command:wire-binding:relations",
+  "types": {
+    "urn:marmish:command:wire-binding": {
+      "fields": {
+        "urn:marmish:command:wire-binding:session": {
+          "kind": "fixed-bytes",
+          "size": 16
+        },
+        "urn:marmish:command:wire-binding:client": {
+          "kind": "fixed-bytes",
+          "size": 32
+        },
+        "urn:marmish:command:wire-binding:server": {
+          "kind": "fixed-bytes",
+          "size": 32
+        }
+      }
+    }
+  },
+  "calls": {},
+  "relations": {
+    "urn:marmish:command:wire-binding:client-room": {
+      "receiver": "urn:marmish:command:wire-binding",
+      "arguments": [
+        {
+          "id": "urn:marmish:command:wire-binding:client-room:expected_session",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 16
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:client-room:local_account",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 32
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:client-room:peer_account",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 32
+          }
+        }
+      ],
+      "steps": [
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:session"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:client-room:expected_session"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:client"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:client-room:local_account"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:server"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:client-room:peer_account"
+          }
+        }
+      ],
+      "failure": "urn:marmish:command:wire-binding:mismatch"
+    },
+    "urn:marmish:command:wire-binding:server-room": {
+      "receiver": "urn:marmish:command:wire-binding",
+      "arguments": [
+        {
+          "id": "urn:marmish:command:wire-binding:server-room:expected_session",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 16
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:server-room:local_account",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 32
+          }
+        },
+        {
+          "id": "urn:marmish:command:wire-binding:server-room:peer_account",
+          "value": {
+            "kind": "fixed-bytes",
+            "size": 32
+          }
+        }
+      ],
+      "steps": [
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:session"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:server-room:expected_session"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:client"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:server-room:peer_account"
+          }
+        },
+        {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "object": "receiver",
+            "field": "urn:marmish:command:wire-binding:server"
+          },
+          "right": {
+            "kind": "argument",
+            "id": "urn:marmish:command:wire-binding:server-room:local_account"
+          }
+        }
+      ],
+      "failure": "urn:marmish:command:wire-binding:mismatch"
+    }
+  }
+}

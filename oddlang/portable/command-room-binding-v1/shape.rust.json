@@ -1,0 +1,11 @@
+{
+  "format": "oddlang-json-wire-schema-rust-v1",
+  "names": {
+    "urn:marmish:command:wire-binding": "WireBinding",
+    "urn:marmish:command:wire-binding:session": "session",
+    "urn:marmish:command:wire-binding:client": "client",
+    "urn:marmish:command:wire-binding:server": "server"
+  },
+  "derives": {},
+  "externals": {}
+}
