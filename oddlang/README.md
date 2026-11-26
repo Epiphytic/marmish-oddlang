@@ -4,7 +4,7 @@ The [workspace public API comparison](../verification/whole/public-types/README.
 
 The [recovered stream data shapes](portable/stream-array-shapes-v2/README.md) resolve 63 field extents previously unknown. Rustdoc independently corroborates 33 of them.
 
-Build the current Rust workspace from the [v6 manifest](portable/workspace-v6.json). It includes the same core and stream libraries as v5, configured encrypted file initialization, and the native foreground owner and status client for direct TLS activation of prepared no-config profiles. [Build and qualification](../verification/whole/workspace/README.md#workspace-v6)
+Build the current Rust workspace from the [v7 manifest](portable/workspace-v7.json). It adds `release-info` to both native binaries and preserves the v6 initialization, lifecycle, status, core and stream scope. [Build and qualification](../verification/whole/workspace/README.md#workspace-v7)
 
 To build v5 from the 55 pinned graph, overlay and lock inputs with an empty Cargo cache, follow the [fresh-build instructions](../verification/whole/workspace/README.md#bootstrap-v5-with-an-empty-cargo-cache).
 

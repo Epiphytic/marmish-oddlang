@@ -107,3 +107,19 @@ Generation and the release build run with application source, original executabl
 Configured foreground execution, readiness beyond TLS, older or nonempty migrations beyond the configured initializer's named cases, Keychain, Tor, installed services and end-to-end transfers remain open.
 
 The [macOS ARM64 receipt](v6-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v6-aarch64-unknown-linux-gnu.json) agree on the workspace seals, common configured-init observations, core and stream tests, and direct lifecycle outcomes. Linux also exercises absolute XDG state selection and records the matching original SQLCipher trace on corrupt stores.
+
+## Workspace v7
+
+The [v7 manifest](../../../oddlang/portable/workspace-v7.json) adds `release-info` to both native executables. It preserves the published v6 manifest and locks, reuses its root Cargo lock, and keeps its core and stream member lock records. Build with Oddlang `799a2467b0eccd9e5d902c5b6a81b1e289536b50` and Rust 1.97.1 with the locked offline cache.
+
+```sh
+oddlang build native-workspace rust oddlang/portable/workspace-v7.json /tmp/marmish-v7
+cargo +1.97.1 build --manifest-path /tmp/marmish-v7/Cargo.toml --workspace --locked --release --offline
+python3 -B verification/whole/workspace/verify.py FRAMEWORK ORIGINAL RECEIPT --release v7 --original-bin-dir ORIGINAL_BINS
+```
+
+The release report prints the actual Cargo package version and target, the pinned original revision represented by the release, and the five format values. The build receipt links those values to the companion and compiler revisions and executable hashes. The native verifier checks the format widths and values against the pinned originals and checks the generated profile, journal, and configuration declarations. Engine and command formats describe the represented contract. Compiler recovery of the original report's references remains separate.
+
+Both ordinary native entrypoints are measured with accepted global flags, guard failures and precedence, parser errors, help, and runtime environment overrides. Worker and installed tools, descriptor-based startup reporting, output failure semantics, and additional targets remain open.
+
+The [macOS ARM64 receipt](v7-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v7-aarch64-unknown-linux-gnu.json) cover 16 `release-info` invocations per binary, with each report showing its own compiled Cargo target. Common report values, CLI diagnostics, and retained v6 observations agree.
