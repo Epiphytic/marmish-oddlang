@@ -1,0 +1,30 @@
+{
+  "cargoLockSha256": "1c3b09b44bde3801449d7aeab09067fd1df73b7b0a86ff2f49ded3693556a9bd",
+  "cargoManifestSha256": "a5b55f9e4a64472bdf5656c7218ad231c693a0de7ae8e3c0d35f18cff7b700c1",
+  "components": [
+    {
+      "graphSha256": "466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2",
+      "kind": "public-records",
+      "module": "record_views",
+      "overlaySha256": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5",
+      "projection": {
+        "format": "oddlang-public-record-projection-lock-v1",
+        "graphSha256": "466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2",
+        "overlaySha256": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5",
+        "sourceSha256": "c9b6e0cd3c4c3cd7237ebe9a0a5dc759502a2dde0fa1a76e4521d58d0c63f637"
+      },
+      "reexports": [
+        "journal",
+        "mdk_adapter"
+      ],
+      "sourceSha256": "c9b6e0cd3c4c3cd7237ebe9a0a5dc759502a2dde0fa1a76e4521d58d0c63f637"
+    }
+  ],
+  "format": "oddlang-native-package-lock-v1",
+  "generatedFiles": {
+    "src/group_0/__projection_0.rs": "c9b6e0cd3c4c3cd7237ebe9a0a5dc759502a2dde0fa1a76e4521d58d0c63f637",
+    "src/group_0/mod.rs": "3b8e11d181543ca4e37604f3468ecc533c57aa117c7b2f26f719884a314ff8c9",
+    "src/lib.rs": "9ed8abf766424d9592a13c286e230b566427065975afb4b0948d516cc9ca8319"
+  },
+  "manifestSha256": "02d9387ee11cc5501d955fdad162b973cd2b583a1f092b987c41d43bc04fad4b"
+}
