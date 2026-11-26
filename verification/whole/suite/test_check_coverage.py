@@ -55,5 +55,24 @@ class CoverageControls(unittest.TestCase):
                         inspect(changed)
 
 
+    def test_seven_member_receipts(self):
+        for host, expected in (("aarch64-apple-darwin",40), ("aarch64-unknown-linux-gnu",41)):
+            data = json.loads((HERE/f"seven-{host}.json").read_bytes())
+            self.assertEqual(inspect(data)["passed"],expected)
+            for label, alter in {
+                "missing reader": lambda d: d["harnesses"][selected_tests.PROTOTYPE]["passed"].clear(),
+                "promote untested prototype case": lambda d: d["harnesses"][selected_tests.PROTOTYPE]["passed"].extend(d["harnesses"][selected_tests.PROTOTYPE]["unverified"]),
+                "wrong upstream reader": lambda d: d["selectedTestSources"].update(prototypeReader="0"*64),
+                "missing physical MDK library": lambda d: d["builtLibraries"].pop("marmish-mdk"),
+                "extra external library": lambda d: d["builtLibraries"].update(zeroize="1"*64),
+                "incomplete library digest": lambda d: d["builtLibraries"].update({"marmish-prototype":"1234"}),
+            }.items():
+                with self.subTest(host=host,change=label):
+                    changed = deepcopy(data)
+                    alter(changed)
+                    with self.assertRaises(ValueError):
+                        inspect(changed)
+
+
 if __name__ == "__main__":
     unittest.main()

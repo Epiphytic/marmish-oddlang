@@ -1,5 +1,7 @@
 """Stage pinned upstream library tests as consumers of generated crates."""
 import hashlib
+from pathlib import Path
+import runpy
 import subprocess
 
 from inventory import PIN
@@ -12,9 +14,25 @@ LINUX = "process_limits_tests::linux_process_limits_are_unchanged"
 VAULT_SOURCE = "crates/marmish-vault/src/lib.rs"
 ENGINE_SOURCE = "crates/marmish-engine/src/process_limits_tests.rs"
 
+PROTOTYPE = "marmish-prototype/lib/marmish_prototype"
+READER = "secret_request_tests::private_reader_wipes_consumed_spans"
+READER_PREFIX = "buffer::__projection_0::"
+READER_LEAF = "marmish-prototype/src/group_0/__projection_0.rs"
+READER_CASE = runpy.run_path(str(Path(__file__).resolve().parents[1]/"private-buffer/upstream_case.py"))
 
-def cases(host):
-    return {VAULT: [VAULT_CASE], ENGINE: sorted([LOW, LINUX] if host.endswith("linux-gnu") else [LOW])}
+
+def cases(host, include_reader=False):
+    partial = {VAULT: [VAULT_CASE], ENGINE: sorted([LOW, LINUX] if host.endswith("linux-gnu") else [LOW])}
+    if include_reader:
+        partial[PROTOTYPE] = [READER]
+    return partial
+
+
+def stage_reader(original, product):
+    with (product/READER_LEAF).open("ab") as leaf:
+        leaf.write(READER_CASE["original_test"](original,PIN,"crates/marmish-prototype/src/lib.rs"))
+    return READER_CASE["TEST_HASH"]
+
 
 
 def check_execution(name, runs, raw, passing_names):
