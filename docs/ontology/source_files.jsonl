@@ -292,6 +292,12 @@
 {"path":"oddlang/portable/stream-windows-v1/graph.json","language":"inventory","mode":"100644","sha256":"9915405d2ba95ef10cdc18e5c80525053a9479ef963091a60100b633a1dec228","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-windows-v1/package.lock","language":"inventory","mode":"100644","sha256":"49b84b10f869f886aef48895ce4244103a3383d3119388f8bd56a8fd6f885a8d","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-windows-v1/rust.json","language":"inventory","mode":"100644","sha256":"26e77394884f1f0415e7b57995587aac9bcc6690dc9df5ebd80839597d0b5d9b","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-operations-v1/README.md","language":"inventory","mode":"100644","sha256":"ebb8a8462dfca0c5bae59d3daf9b6d53f64cb9856d9e1ecefdc0f21c0f475fe5","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-operations-v1/enums.graph.json","language":"inventory","mode":"100644","sha256":"397d6e3a0aa48cf2b01a17247ff0735d1eb631e54861318b70b1bf849dbf0e99","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-operations-v1/enums.rust.json","language":"inventory","mode":"100644","sha256":"83b2141977206474d6d38fb0737819b9f9ca57496a94dadee3174df2f3c10a9f","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-operations-v1/graph.json","language":"inventory","mode":"100644","sha256":"2cbb1fb931456d727210479cad40e79f236fd7d8ce50bd6fc4a0197e92c8b8d1","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-operations-v1/rust.json","language":"inventory","mode":"100644","sha256":"e2a4146ff118815f5f205e5910751f9a059b99d87a1362ab5e62d18042647a28","parse_status":"inventory"}
+{"path":"oddlang/portable/stream-wire-package.json","language":"inventory","mode":"100644","sha256":"4f351e4a15d8eb4918e6fb0734bb52707cbc7b8b144a2d1198c69a91061df6a4","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/README.md","language":"inventory","mode":"100644","sha256":"008436303c3f664ad9cf26a200975f51194e82c83bf26fcd7695ae2e7c27193a","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/graph.json","language":"inventory","mode":"100644","sha256":"a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd","parse_status":"inventory"}
 {"path":"oddlang/portable/stream-wire-schema-v1/obligations.json","language":"inventory","mode":"100644","sha256":"f8b34b2e309ac230ef955574699501625719c56550940bd82dda6ea651b8074b","parse_status":"inventory"}
@@ -684,6 +690,10 @@
 {"path":"verification/whole/stream-windows/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"79ea1bd7de283355e9164906f3dd778194c7697bd77ebf8e264c76adf862f2de","parse_status":"inventory"}
 {"path":"verification/whole/stream-windows/release.py","language":"python","mode":"100644","sha256":"3f080a1c579665483ae753833b64c08ae00ce539d446b64847bd93dce5c59c6d","parse_status":"parsed"}
 {"path":"verification/whole/stream-windows/verify.py","language":"python","mode":"100644","sha256":"a4abe6983cf6012e4299ee9d1b800cf991c967415703397928c86d97b32ea8ed","parse_status":"parsed"}
+{"path":"verification/whole/stream-wire-operations/README.md","language":"inventory","mode":"100644","sha256":"602ab2a2d1b50f7fea0e83b91a912718cbcb1dea08d92a9ac0f6c320db00c562","parse_status":"inventory"}
+{"path":"verification/whole/stream-wire-operations/caller.rs","language":"rust","mode":"100644","sha256":"27b6daddc18f398ab192fb6acf1e811c3e6813ea7c3f01c8a9cb3a51b2a8f02a","parse_status":"parsed"}
+{"path":"verification/whole/stream-wire-operations/reference.json","language":"inventory","mode":"100644","sha256":"9455318fa9f2c7f0dffef8180a0962b05709f1dd499fe2a0b44ef1d0eb9a765a","parse_status":"inventory"}
+{"path":"verification/whole/stream-wire-operations/verify.py","language":"python","mode":"100644","sha256":"b840c5ea295809d05949f23e51ee3a6b0dfe4c2c05d7a6e2a86e663e4674da99","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/README.md","language":"inventory","mode":"100644","sha256":"2906e3c361f112fd6eb4311d32b22fbf5a26b021869ef63c6c8c6121550a6e0a","parse_status":"inventory"}
 {"path":"verification/whole/stream-wire/caller.rs","language":"rust","mode":"100644","sha256":"929fa54af9e8545a3d34a75b45c6bdb4ae357803122392fc6d5d24b47af68c08","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/reference.json","language":"inventory","mode":"100644","sha256":"289c44af3445e6d3cdf0895b0bef3306bf570c0aaf94c329580c0ad8fc3e4d11","parse_status":"inventory"}

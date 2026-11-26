@@ -1,0 +1,93 @@
+{
+  "format": "oddlang-shared-declarations-v1",
+  "stringEnums": [
+    {
+      "id": "urn:marmish:stream:wire:CopyAdmissionError",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:Unsupported",
+          "wire": "unsupported"
+        },
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:Denied",
+          "wire": "denied"
+        },
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy",
+          "wire": "busy"
+        },
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:Conflict",
+          "wire": "conflict"
+        },
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:Capacity",
+          "wire": "capacity"
+        },
+        {
+          "id": "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired",
+          "wire": "recovery_required"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:wire:OpenDisposition",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:OpenDisposition:variant:Created",
+          "wire": "created"
+        },
+        {
+          "id": "urn:marmish:stream:wire:OpenDisposition:variant:Existing",
+          "wire": "existing"
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:wire:WireErrorCode",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Unsupported",
+          "wire": "unsupported"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Invalid",
+          "wire": "invalid"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Denied",
+          "wire": "denied"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Conflict",
+          "wire": "conflict"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Gap",
+          "wire": "gap"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Expired",
+          "wire": "expired"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Capacity",
+          "wire": "capacity"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Uncertain",
+          "wire": "uncertain"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:NotFound",
+          "wire": "not_found"
+        },
+        {
+          "id": "urn:marmish:stream:wire:WireErrorCode:variant:Closed",
+          "wire": "closed"
+        }
+      ]
+    }
+  ],
+  "id": "urn:marmish:stream:wire:string-cases"
+}

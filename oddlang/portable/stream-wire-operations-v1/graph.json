@@ -1,0 +1,1777 @@
+{
+  "format": "oddlang-json-wire-protocol-v1",
+  "id": "urn:marmish:stream:wire:operations:contract",
+  "envelope": "urn:marmish:stream:wire:Envelope",
+  "selector": "urn:marmish:stream:wire:Envelope:field:message",
+  "maximumWireBytes": 32768,
+  "sizeError": "urn:marmish:stream:wire:operations:error:limit",
+  "admissionError": "urn:marmish:stream:wire:operations:error:invalid",
+  "constants": [
+    {
+      "id": "urn:marmish:stream:wire:operations:constant:protocol",
+      "value": "marmish-stream/1",
+      "type": {
+        "kind": "text"
+      }
+    },
+    {
+      "id": "urn:marmish:stream:wire:operations:constant:version",
+      "value": 1,
+      "type": {
+        "kind": "unsigned",
+        "bits": 32
+      }
+    }
+  ],
+  "literals": {
+    "urn:marmish:stream:wire:Envelope:field:protocol": "urn:marmish:stream:wire:operations:constant:protocol",
+    "urn:marmish:stream:wire:Envelope:field:version": "urn:marmish:stream:wire:operations:constant:version"
+  },
+  "endpoints": [
+    {
+      "id": "urn:marmish:stream:wire:operations:request",
+      "variant": "urn:marmish:stream:wire:Message:variant:Request",
+      "fields": [
+        {
+          "id": "urn:marmish:stream:wire:operations:request:field:binding",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:stream:wire:Envelope:field:binding"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:request:field:sequence",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:stream:wire:Envelope:field:sequence"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:request:field:body",
+          "from": {
+            "kind": "case-value"
+          }
+        }
+      ],
+      "guards": [],
+      "steps": [
+        {
+          "kind": "cases",
+          "id": "urn:marmish:stream:wire:operations:guard:request",
+          "value": {
+            "scope": "value",
+            "fields": [
+              "urn:marmish:stream:wire:operations:request:field:body"
+            ]
+          },
+          "arms": [
+            {
+              "variant": "urn:marmish:stream:wire:RequestBody:variant:Hello",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:hello-request:codecs",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:Hello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:Hello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "kind": "unique",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:Hello:field:codecs"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:RequestBody:variant:CopyHello",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:hello-copy-request:versions",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 4
+                        }
+                      },
+                      {
+                        "kind": "element-absent",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions"
+                          ]
+                        },
+                        "element": 0
+                      },
+                      {
+                        "kind": "unique",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:hello-copy-request:codecs",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "kind": "unique",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:codecs"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "call",
+                  "id": "urn:marmish:stream:wire:operations:guard:open-copy:launch",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:launch"
+                    ]
+                  },
+                  "method": "urn:marmish:copy:launch:validate"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:open-copy:accounts",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "equal",
+                        "left": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:launch",
+                            "urn:marmish:copy:launch:field:client"
+                          ]
+                        },
+                        "right": {
+                          "scope": "value",
+                          "fields": [
+                            "urn:marmish:stream:wire:operations:request:field:binding",
+                            "urn:marmish:stream:wire:Binding:field:client"
+                          ]
+                        }
+                      },
+                      {
+                        "kind": "equal",
+                        "left": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:launch",
+                            "urn:marmish:copy:launch:field:server"
+                          ]
+                        },
+                        "right": {
+                          "scope": "value",
+                          "fields": [
+                            "urn:marmish:stream:wire:operations:request:field:binding",
+                            "urn:marmish:stream:wire:Binding:field:server"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:RequestBody:variant:Open",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:open:argv:size",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 128
+                        }
+                      },
+                      {
+                        "kind": "total-bytes",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv"
+                          ]
+                        },
+                        "overhead": 1,
+                        "maximum": 16384
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:limit"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:open:argv:contents",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "first-bytes-nonempty",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv"
+                          ]
+                        }
+                      },
+                      {
+                        "kind": "bytes-exclude",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv"
+                          ]
+                        },
+                        "byte": 0
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:RequestBody:variant:Exchange",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:request:stdout-ack",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdout_ack"
+                        ]
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "constant",
+                      "value": 9223372036854775807
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:offset"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:request:stderr-ack",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stderr_ack"
+                        ]
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "constant",
+                      "value": 9223372036854775807
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:offset"
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:request:stdin-eof",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin_eof"
+                    ]
+                  },
+                  "bind": "eof",
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:request:stdin-eof-offset",
+                      "predicate": {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "eof",
+                            "fields": []
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 9223372036854775807
+                        }
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:offset"
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:request:stdin-block",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin"
+                    ]
+                  },
+                  "bind": "block",
+                  "steps": [
+                    {
+                      "kind": "call",
+                      "id": "urn:marmish:stream:wire:operations:guard:request:stdin-block:validate",
+                      "value": {
+                        "scope": "block",
+                        "fields": []
+                      },
+                      "method": "urn:marmish:stream:integrity-block:validate"
+                    },
+                    {
+                      "kind": "some",
+                      "id": "urn:marmish:stream:wire:operations:guard:request:stdin-block:eof-present",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin_eof"
+                        ]
+                      },
+                      "bind": "eof",
+                      "steps": [
+                        {
+                          "kind": "on-success",
+                          "id": "urn:marmish:stream:wire:operations:guard:request:stdin-block:end",
+                          "value": {
+                            "scope": "block",
+                            "fields": []
+                          },
+                          "method": "urn:marmish:stream:integrity-block:end",
+                          "bind": "block_end",
+                          "steps": [
+                            {
+                              "kind": "require",
+                              "id": "urn:marmish:stream:wire:operations:guard:request:stdin-block:end-check",
+                              "predicate": {
+                                "kind": "compare",
+                                "left": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "block_end",
+                                    "fields": []
+                                  }
+                                },
+                                "operator": "equal",
+                                "right": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "eof",
+                                    "fields": []
+                                  }
+                                }
+                              },
+                              "error": "urn:marmish:stream:wire:operations:error:eof"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "timed": [
+        {
+          "kind": "if",
+          "id": "urn:marmish:stream:wire:operations:guard:request:age-applies",
+          "predicate": {
+            "kind": "any",
+            "items": [
+              {
+                "kind": "variant",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:stream:wire:operations:request:field:body"
+                  ]
+                },
+                "variant": "urn:marmish:stream:wire:RequestBody:variant:Open"
+              },
+              {
+                "kind": "variant",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:stream:wire:operations:request:field:body"
+                  ]
+                },
+                "variant": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy"
+              }
+            ]
+          },
+          "steps": [
+            {
+              "kind": "require",
+              "id": "urn:marmish:stream:wire:operations:guard:request:age",
+              "predicate": {
+                "kind": "all",
+                "items": [
+                  {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "big-endian-prefix",
+                      "value": {
+                        "scope": "value",
+                        "fields": [
+                          "urn:marmish:stream:wire:operations:request:field:binding",
+                          "urn:marmish:stream:wire:Binding:field:stream"
+                        ]
+                      },
+                      "bytes": 8
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "saturating-add",
+                      "left": {
+                        "kind": "field",
+                        "value": {
+                          "scope": "clock",
+                          "fields": []
+                        }
+                      },
+                      "right": {
+                        "kind": "constant",
+                        "value": 60
+                      }
+                    }
+                  },
+                  {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "saturating-subtract",
+                      "left": {
+                        "kind": "field",
+                        "value": {
+                          "scope": "clock",
+                          "fields": []
+                        }
+                      },
+                      "right": {
+                        "kind": "big-endian-prefix",
+                        "value": {
+                          "scope": "value",
+                          "fields": [
+                            "urn:marmish:stream:wire:operations:request:field:binding",
+                            "urn:marmish:stream:wire:Binding:field:stream"
+                          ]
+                        },
+                        "bytes": 8
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "constant",
+                      "value": 604800
+                    }
+                  }
+                ]
+              },
+              "error": "urn:marmish:stream:wire:operations:error:age"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:wire:operations:response",
+      "variant": "urn:marmish:stream:wire:Message:variant:Response",
+      "fields": [
+        {
+          "id": "urn:marmish:stream:wire:operations:response:field:binding",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:stream:wire:Envelope:field:binding"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:response:field:sequence",
+          "from": {
+            "kind": "envelope-field",
+            "field": "urn:marmish:stream:wire:Envelope:field:sequence"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:response:field:request_sha256",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:stream:wire:Message:variant:Response:field:request_sha256"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:response:field:body",
+          "from": {
+            "kind": "case-field",
+            "field": "urn:marmish:stream:wire:Message:variant:Response:field:body"
+          }
+        }
+      ],
+      "guards": [],
+      "steps": [
+        {
+          "kind": "cases",
+          "id": "urn:marmish:stream:wire:operations:guard:response",
+          "value": {
+            "scope": "value",
+            "fields": [
+              "urn:marmish:stream:wire:operations:response:field:body"
+            ]
+          },
+          "arms": [
+            {
+              "variant": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:hello-copy-response:version",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:version"
+                        ]
+                      }
+                    },
+                    "operator": "equal",
+                    "right": {
+                      "kind": "constant",
+                      "value": 1
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:CopyHello:response-codecs",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "kind": "unique",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:codecs"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:CopyHello:response-sizes",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:frame_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:frame_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 8192
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 262144
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:frame_bytes"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:limit"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:ResponseBody:variant:Hello",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:Hello:response-codecs",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "length",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:codecs"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 2
+                        }
+                      },
+                      {
+                        "kind": "unique",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:codecs"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:invalid"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:Hello:response-sizes",
+                  "predicate": {
+                    "kind": "all",
+                    "items": [
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:frame_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:frame_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 8192
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "constant",
+                          "value": 1
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 262144
+                        }
+                      },
+                      {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:window_bytes"
+                            ]
+                          }
+                        },
+                        "operator": "at-least",
+                        "right": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "case",
+                            "fields": [
+                              "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:frame_bytes"
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:limit"
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:ResponseBody:variant:Exchange",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdin-accepted",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_accepted"
+                        ]
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "constant",
+                      "value": 9223372036854775807
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:offset"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdin-delivered",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_delivered"
+                        ]
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "constant",
+                      "value": 9223372036854775807
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:offset"
+                },
+                {
+                  "kind": "require",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdin-ack",
+                  "predicate": {
+                    "kind": "compare",
+                    "left": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_delivered"
+                        ]
+                      }
+                    },
+                    "operator": "at-most",
+                    "right": {
+                      "kind": "field",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_accepted"
+                        ]
+                      }
+                    }
+                  },
+                  "error": "urn:marmish:stream:wire:operations:error:ack"
+                },
+                {
+                  "kind": "if",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdin-closed-applies",
+                  "predicate": {
+                    "kind": "any",
+                    "items": [
+                      {
+                        "kind": "present",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:terminal"
+                          ]
+                        }
+                      },
+                      {
+                        "kind": "bool",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:cancel_requested"
+                          ]
+                        }
+                      }
+                    ]
+                  },
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stdin-closed",
+                      "predicate": {
+                        "kind": "bool",
+                        "value": {
+                          "scope": "case",
+                          "fields": [
+                            "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_closed"
+                          ]
+                        }
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:invalid"
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdout-eof",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout_eof"
+                    ]
+                  },
+                  "bind": "eof",
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stdout-eof-offset",
+                      "predicate": {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "eof",
+                            "fields": []
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 9223372036854775807
+                        }
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:offset"
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stdout-block",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout"
+                    ]
+                  },
+                  "bind": "block",
+                  "steps": [
+                    {
+                      "kind": "call",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stdout-block:validate",
+                      "value": {
+                        "scope": "block",
+                        "fields": []
+                      },
+                      "method": "urn:marmish:stream:integrity-block:validate"
+                    },
+                    {
+                      "kind": "some",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stdout-block:eof-present",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout_eof"
+                        ]
+                      },
+                      "bind": "eof",
+                      "steps": [
+                        {
+                          "kind": "on-success",
+                          "id": "urn:marmish:stream:wire:operations:guard:response:stdout-block:end",
+                          "value": {
+                            "scope": "block",
+                            "fields": []
+                          },
+                          "method": "urn:marmish:stream:integrity-block:end",
+                          "bind": "block_end",
+                          "steps": [
+                            {
+                              "kind": "require",
+                              "id": "urn:marmish:stream:wire:operations:guard:response:stdout-block:end-check",
+                              "predicate": {
+                                "kind": "compare",
+                                "left": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "block_end",
+                                    "fields": []
+                                  }
+                                },
+                                "operator": "at-most",
+                                "right": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "eof",
+                                    "fields": []
+                                  }
+                                }
+                              },
+                              "error": "urn:marmish:stream:wire:operations:error:eof"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stderr-eof",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr_eof"
+                    ]
+                  },
+                  "bind": "eof",
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stderr-eof-offset",
+                      "predicate": {
+                        "kind": "compare",
+                        "left": {
+                          "kind": "field",
+                          "value": {
+                            "scope": "eof",
+                            "fields": []
+                          }
+                        },
+                        "operator": "at-most",
+                        "right": {
+                          "kind": "constant",
+                          "value": 9223372036854775807
+                        }
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:offset"
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:stderr-block",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr"
+                    ]
+                  },
+                  "bind": "block",
+                  "steps": [
+                    {
+                      "kind": "call",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stderr-block:validate",
+                      "value": {
+                        "scope": "block",
+                        "fields": []
+                      },
+                      "method": "urn:marmish:stream:integrity-block:validate"
+                    },
+                    {
+                      "kind": "some",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:stderr-block:eof-present",
+                      "value": {
+                        "scope": "case",
+                        "fields": [
+                          "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr_eof"
+                        ]
+                      },
+                      "bind": "eof",
+                      "steps": [
+                        {
+                          "kind": "on-success",
+                          "id": "urn:marmish:stream:wire:operations:guard:response:stderr-block:end",
+                          "value": {
+                            "scope": "block",
+                            "fields": []
+                          },
+                          "method": "urn:marmish:stream:integrity-block:end",
+                          "bind": "block_end",
+                          "steps": [
+                            {
+                              "kind": "require",
+                              "id": "urn:marmish:stream:wire:operations:guard:response:stderr-block:end-check",
+                              "predicate": {
+                                "kind": "compare",
+                                "left": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "block_end",
+                                    "fields": []
+                                  }
+                                },
+                                "operator": "at-most",
+                                "right": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "eof",
+                                    "fields": []
+                                  }
+                                }
+                              },
+                              "error": "urn:marmish:stream:wire:operations:error:eof"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:response:terminal",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:terminal"
+                    ]
+                  },
+                  "bind": "terminal",
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:terminal-eof",
+                      "predicate": {
+                        "kind": "all",
+                        "items": [
+                          {
+                            "kind": "present",
+                            "value": {
+                              "scope": "case",
+                              "fields": [
+                                "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout_eof"
+                              ]
+                            }
+                          },
+                          {
+                            "kind": "present",
+                            "value": {
+                              "scope": "case",
+                              "fields": [
+                                "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr_eof"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:eof"
+                    },
+                    {
+                      "kind": "cases",
+                      "id": "urn:marmish:stream:wire:operations:guard:response:terminal-kind",
+                      "value": {
+                        "scope": "terminal",
+                        "fields": []
+                      },
+                      "arms": [
+                        {
+                          "variant": "urn:marmish:stream:wire:Terminal:variant:Signaled",
+                          "bind": "signal",
+                          "steps": [
+                            {
+                              "kind": "require",
+                              "id": "urn:marmish:stream:wire:operations:guard:response:positive-signal",
+                              "predicate": {
+                                "kind": "compare",
+                                "left": {
+                                  "kind": "field",
+                                  "value": {
+                                    "scope": "signal",
+                                    "fields": [
+                                      "urn:marmish:stream:wire:Terminal:variant:Signaled:field:signal"
+                                    ]
+                                  }
+                                },
+                                "operator": "at-least",
+                                "right": {
+                                  "kind": "constant",
+                                  "value": 1
+                                }
+                              },
+                              "error": "urn:marmish:stream:wire:operations:error:invalid"
+                            }
+                          ]
+                        },
+                        {
+                          "variant": "urn:marmish:stream:wire:Terminal:variant:Cancelled",
+                          "bind": "cancel",
+                          "steps": [
+                            {
+                              "kind": "require",
+                              "id": "urn:marmish:stream:wire:operations:guard:response:cancel-requested",
+                              "predicate": {
+                                "kind": "bool",
+                                "value": {
+                                  "scope": "case",
+                                  "fields": [
+                                    "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:cancel_requested"
+                                  ]
+                                }
+                              },
+                              "error": "urn:marmish:stream:wire:operations:error:invalid"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "variant": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused",
+              "bind": "case",
+              "steps": [
+                {
+                  "kind": "some",
+                  "id": "urn:marmish:stream:wire:operations:guard:copy-refused:prior",
+                  "value": {
+                    "scope": "case",
+                    "fields": [
+                      "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:prior_binding"
+                    ]
+                  },
+                  "bind": "prior",
+                  "steps": [
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:copy-refused:code",
+                      "predicate": {
+                        "kind": "any",
+                        "items": [
+                          {
+                            "kind": "variant",
+                            "value": {
+                              "scope": "case",
+                              "fields": [
+                                "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:code"
+                              ]
+                            },
+                            "variant": "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy"
+                          },
+                          {
+                            "kind": "variant",
+                            "value": {
+                              "scope": "case",
+                              "fields": [
+                                "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:code"
+                              ]
+                            },
+                            "variant": "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired"
+                          }
+                        ]
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:invalid"
+                    },
+                    {
+                      "kind": "require",
+                      "id": "urn:marmish:stream:wire:operations:guard:copy-refused:accounts",
+                      "predicate": {
+                        "kind": "all",
+                        "items": [
+                          {
+                            "kind": "equal",
+                            "left": {
+                              "scope": "prior",
+                              "fields": [
+                                "urn:marmish:stream:wire:Binding:field:client"
+                              ]
+                            },
+                            "right": {
+                              "scope": "value",
+                              "fields": [
+                                "urn:marmish:stream:wire:operations:response:field:binding",
+                                "urn:marmish:stream:wire:Binding:field:client"
+                              ]
+                            }
+                          },
+                          {
+                            "kind": "equal",
+                            "left": {
+                              "scope": "prior",
+                              "fields": [
+                                "urn:marmish:stream:wire:Binding:field:server"
+                              ]
+                            },
+                            "right": {
+                              "scope": "value",
+                              "fields": [
+                                "urn:marmish:stream:wire:operations:response:field:binding",
+                                "urn:marmish:stream:wire:Binding:field:server"
+                              ]
+                            }
+                          }
+                        ]
+                      },
+                      "error": "urn:marmish:stream:wire:operations:error:invalid"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "foreign": [
+    {
+      "id": "urn:marmish:copy:launch",
+      "fields": [
+        {
+          "id": "urn:marmish:copy:launch:field:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:copy:launch:field:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        }
+      ],
+      "methods": [
+        {
+          "id": "urn:marmish:copy:launch:validate",
+          "returns": "unit"
+        }
+      ],
+      "variants": []
+    },
+    {
+      "id": "urn:marmish:stream:integrity-block",
+      "fields": [],
+      "methods": [
+        {
+          "id": "urn:marmish:stream:integrity-block:validate",
+          "returns": "unit"
+        },
+        {
+          "id": "urn:marmish:stream:integrity-block:end",
+          "returns": "unsigned"
+        }
+      ],
+      "variants": []
+    },
+    {
+      "id": "urn:marmish:stream:wire:CopyAdmissionError",
+      "fields": [],
+      "methods": [],
+      "variants": [
+        "urn:marmish:stream:wire:CopyAdmissionError:variant:Busy",
+        "urn:marmish:stream:wire:CopyAdmissionError:variant:RecoveryRequired"
+      ]
+    }
+  ],
+  "aliases": [
+    {
+      "id": "urn:marmish:stream:wire:operations:alias:Id",
+      "bytes": 16
+    },
+    {
+      "id": "urn:marmish:stream:wire:operations:alias:Account",
+      "bytes": 32
+    },
+    {
+      "id": "urn:marmish:stream:wire:operations:alias:Digest",
+      "bytes": 32
+    }
+  ],
+  "hexExports": [
+    {
+      "id": "urn:marmish:stream:wire:operations:operation:hex32",
+      "bytes": 32,
+      "diagnostic": "hex"
+    }
+  ],
+  "digests": [
+    {
+      "kind": "bytes",
+      "id": "urn:marmish:stream:wire:operations:operation:request-digest"
+    },
+    {
+      "kind": "case",
+      "id": "urn:marmish:stream:wire:operations:operation:open-digest",
+      "union": "urn:marmish:stream:wire:RequestBody",
+      "variant": "urn:marmish:stream:wire:RequestBody:variant:Open",
+      "parameters": [
+        {
+          "id": "urn:marmish:stream:wire:operations:operation:open-digest:argv",
+          "field": "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv",
+          "passing": "borrowed-list"
+        },
+        {
+          "id": "urn:marmish:stream:wire:operations:operation:open-digest:codec",
+          "field": "urn:marmish:stream:wire:RequestBody:variant:Open:field:codec",
+          "passing": "owned"
+        }
+      ],
+      "steps": [
+        {
+          "kind": "require",
+          "id": "urn:marmish:stream:wire:operations:guard:open-digest:argv:size",
+          "predicate": {
+            "kind": "all",
+            "items": [
+              {
+                "kind": "compare",
+                "left": {
+                  "kind": "length",
+                  "value": {
+                    "scope": "value",
+                    "fields": [
+                      "urn:marmish:stream:wire:operations:operation:open-digest:argv"
+                    ]
+                  }
+                },
+                "operator": "at-least",
+                "right": {
+                  "kind": "constant",
+                  "value": 1
+                }
+              },
+              {
+                "kind": "compare",
+                "left": {
+                  "kind": "length",
+                  "value": {
+                    "scope": "value",
+                    "fields": [
+                      "urn:marmish:stream:wire:operations:operation:open-digest:argv"
+                    ]
+                  }
+                },
+                "operator": "at-most",
+                "right": {
+                  "kind": "constant",
+                  "value": 128
+                }
+              },
+              {
+                "kind": "total-bytes",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:stream:wire:operations:operation:open-digest:argv"
+                  ]
+                },
+                "overhead": 1,
+                "maximum": 16384
+              }
+            ]
+          },
+          "error": "urn:marmish:stream:wire:operations:error:limit"
+        },
+        {
+          "kind": "require",
+          "id": "urn:marmish:stream:wire:operations:guard:open-digest:argv:contents",
+          "predicate": {
+            "kind": "all",
+            "items": [
+              {
+                "kind": "first-bytes-nonempty",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:stream:wire:operations:operation:open-digest:argv"
+                  ]
+                }
+              },
+              {
+                "kind": "bytes-exclude",
+                "value": {
+                  "scope": "value",
+                  "fields": [
+                    "urn:marmish:stream:wire:operations:operation:open-digest:argv"
+                  ]
+                },
+                "byte": 0
+              }
+            ]
+          },
+          "error": "urn:marmish:stream:wire:operations:error:invalid"
+        }
+      ]
+    }
+  ],
+  "errors": {
+    "urn:marmish:stream:wire:operations:error:limit": {
+      "variant": "urn:marmish:stream:error:Limit",
+      "argument": null
+    },
+    "urn:marmish:stream:wire:operations:error:invalid": {
+      "variant": "urn:marmish:stream:error:Invalid",
+      "argument": "stream_wire"
+    },
+    "urn:marmish:stream:wire:operations:error:offset": {
+      "variant": "urn:marmish:stream:error:Offset",
+      "argument": null
+    },
+    "urn:marmish:stream:wire:operations:error:eof": {
+      "variant": "urn:marmish:stream:error:Eof",
+      "argument": null
+    },
+    "urn:marmish:stream:wire:operations:error:age": {
+      "variant": "urn:marmish:stream:error:Invalid",
+      "argument": "stream_age"
+    },
+    "urn:marmish:stream:wire:operations:error:ack": {
+      "variant": "urn:marmish:stream:error:Ack",
+      "argument": null
+    }
+  }
+}
