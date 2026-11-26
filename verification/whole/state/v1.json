@@ -1,0 +1,5 @@
+{
+  "exit": 0,
+  "stderr": "",
+  "stdout": "{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"version\":1}}\n{\"error\":{\"code\":\"invalid_request\"},\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":false}\n{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"records_removed\":0,\"spool_bytes_removed\":0}}\n{\"id\":\"1234567890abcdef1234567890abcdef\",\"ok\":true,\"result\":{\"ready\":true}}\n"
+}
