@@ -1,0 +1,17 @@
+{
+  "format": "marmish-native-representation-hints-v1",
+  "hints": [
+    {
+      "id": "urn:marmish:engine:output-gap:range:end",
+      "language": "rust",
+      "representation": "Option<u64>",
+      "role": "json-wire"
+    },
+    {
+      "id": "urn:marmish:engine:output-gap:range:end",
+      "language": "typescript",
+      "representation": "bigint | null",
+      "role": "json-wire"
+    }
+  ]
+}

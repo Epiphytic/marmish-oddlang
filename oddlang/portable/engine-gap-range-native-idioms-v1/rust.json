@@ -1,0 +1,26 @@
+{
+  "externalTypes": {
+    "urn:marmish:engine:output-gap:reason": [
+      "crate",
+      "MissingReason"
+    ]
+  },
+  "flattenModule": true,
+  "format": "oddlang-public-records-rust-v1",
+  "identifiers": {
+    "urn:marmish:engine:output-gap:range": "MissingRange",
+    "urn:marmish:engine:output-gap:range-module": "model"
+  },
+  "sourceApi": {
+    "fields": {
+      "urn:marmish:engine:output-gap:range:end": {
+        "name": "end",
+        "type": {
+          "optional": "u64"
+        },
+        "visibility": "public"
+      }
+    },
+    "role": "rust-drop-in-source-api"
+  }
+}

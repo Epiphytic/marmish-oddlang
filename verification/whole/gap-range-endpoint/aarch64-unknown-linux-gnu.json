@@ -1,0 +1,186 @@
+{
+  "casesSha256": "899ad8e122eba0f7f7ec257cd3586235b1b6aed70aac180e2e1a61cfd16e5858",
+  "contract": "urn:marmish:engine:output-gap:range:end",
+  "generated": {
+    "librarySha256": {
+      "marmish_engine": "a690114af86ba2d618233beaa5e0b8541322584cd9327552ea7b132f7c3cf6bf",
+      "serde_json": "ea36f0edbd669ff7eb7cdb935329f5272d40e9227d677d36d0426008ad58bb64"
+    },
+    "results": [
+      {
+        "id": "omitted",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "null",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "zero",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":0,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "safe-integer-max",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740991,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "two-to-53",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740992,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "two-to-53-plus-one",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740993,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "u64-max",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "u64-overflow",
+        "result": {
+          "column": 37,
+          "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 37",
+          "line": 1
+        }
+      },
+      {
+        "id": "negative",
+        "result": {
+          "column": 19,
+          "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 19",
+          "line": 1
+        }
+      },
+      {
+        "id": "quoted-integer",
+        "result": {
+          "column": 35,
+          "diagnostic": "invalid type: string \"9007199254740993\", expected u64 at line 1 column 35",
+          "line": 1
+        }
+      },
+      {
+        "id": "fraction",
+        "result": {
+          "column": 20,
+          "diagnostic": "invalid type: floating point `1.5`, expected u64 at line 1 column 20",
+          "line": 1
+        }
+      }
+    ]
+  },
+  "generatedBuildReceiptSha256": "2b110da6015e490d937fa88b18bfc0f6eacb8d8a19af8f482411b657909bcec9",
+  "generatedWorkspaceLockSha256": "b3534d6003e1ca3d46484e5119e9f43aad95ed8aa90faad1b60b7a060edb68c0",
+  "host": "aarch64-unknown-linux-gnu",
+  "observerSha256": "af46bc8ddf360cff5c2e9c8195b228ec10c1ab7dd1315d8a9072cd2c3b8e0b34",
+  "original": {
+    "librarySha256": {
+      "marmish_engine": "63ae265f56e1ec9b88b86a0422bba6b9cead5ceafa2045567b8ddf2484226dce",
+      "serde_json": "03213ba3ed30862047125149d6d503072fc257f3e13c741ec4ab7c70daa3f576"
+    },
+    "results": [
+      {
+        "id": "omitted",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "null",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "zero",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":0,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "safe-integer-max",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740991,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "two-to-53",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740992,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "two-to-53-plus-one",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":9007199254740993,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "u64-max",
+        "result": {
+          "encoded": "{\"start\":0,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+        }
+      },
+      {
+        "id": "u64-overflow",
+        "result": {
+          "column": 37,
+          "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 37",
+          "line": 1
+        }
+      },
+      {
+        "id": "negative",
+        "result": {
+          "column": 19,
+          "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 19",
+          "line": 1
+        }
+      },
+      {
+        "id": "quoted-integer",
+        "result": {
+          "column": 35,
+          "diagnostic": "invalid type: string \"9007199254740993\", expected u64 at line 1 column 35",
+          "line": 1
+        }
+      },
+      {
+        "id": "fraction",
+        "result": {
+          "column": 20,
+          "diagnostic": "invalid type: floating point `1.5`, expected u64 at line 1 column 20",
+          "line": 1
+        }
+      }
+    ]
+  },
+  "originalCargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "originalModelSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+  "originalSource": "af54339d250290490d62d4475a77539b7e739071",
+  "probeSha256": "fe9ddb62d699fc92b15169eb143f82a7a8f7273ddfddd4cd00e148fe3b7245cc",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-unknown-linux-gnu",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ],
+  "sourceEquivalenceReceiptSha256": "afc095e8a623306840a215cb03193761ac244f0a568fb698b4281c2dda1f7ea7"
+}
