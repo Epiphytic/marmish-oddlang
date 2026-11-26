@@ -13,3 +13,5 @@ Both original and generated foreground daemons make a real TLS ClientHello. The 
 Qualified controls cover credential mismatch and mode, runtime collision, the parser transcript, and the actual ordinary binary and CLI flags in this lane. The [foreground contract](../../../oddlang/portable/native-foreground-owner-v1/) lists the remaining obligations. Candidate hashes identify tested instances. The contract evidence compares graph and lock bytes and process observations.
 
 The [macOS ARM64 receipt](generated-macos-arm64.json) records the exact clean generation inputs and original/native mixed results.
+
+The [Linux ARM64 receipt](generated-linux-arm64.json) uses the same sealed source package and locks with an independent native `cargo +1.97.1 build --release --locked --offline` build. Run `qualify.py ORIGINAL_BINS GENERATED_PACKAGE RECEIPT --framework-revision PIN --build-receipt ORIGINAL_LINUX_BRIDGE` on a native host and clean companion checkout. The observed results agree on both platforms.
