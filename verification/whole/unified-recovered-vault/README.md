@@ -2,7 +2,7 @@
 
 The [workspace manifest](../../../oddlang/portable/workspace-v7-recovered-vault-engine.json) selects the five previously qualified members, the structurally recovered release metadata graph and the extended vault value package. Both native launchers retain the engine startup binding and native error API. The root Cargo lock adds the existing zeroize provider to the vault member's dependencies.
 
-The macOS ARM64 verifier rebuilds the five members and both binaries from pinned inputs with network and source access denied. It reuses the earlier workspace observations and compiles the pinned original `strict_public_values` test against the generated vault member. It checks the release-report graph against the standalone source recovery receipt and compares both binaries' release-report output against the pinned original and the v7 cases.
+The macOS ARM64 verifier rebuilds the five members and both binaries from pinned inputs with network and source access denied. It reuses the earlier workspace observations and compiles the pinned original `strict_public_values` test against the generated vault member. A separate holdout calls `Secret::from_bytes` directly in both libraries, checks that the returned borrow is independent of the caller array, and verifies the value requires drop. It checks the release-report graph against the standalone source recovery receipt and compares both binaries' release-report output against the pinned original and the v7 cases.
 
 The fixed vault test uses local byte literals. Credential storage, platform key access and vault helper behavior are separate obligations.
 

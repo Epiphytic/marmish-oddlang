@@ -23,10 +23,37 @@ def check_recovered_report(inputs):
     native = json.loads((inputs / native_path).read_bytes())
     report, = [component for component in native["components"] if component["kind"] == "build-report"]
     prior = HERE.parent / "release-info-structure/darwin-arm64/receipt.json"
-    evidence = json.loads(prior.read_bytes())["lanes"]["baseline"]
+    recovery = json.loads(prior.read_bytes())
+    evidence = recovery["lanes"]["baseline"]
+    assert recovery["representedRevision"] == evidence["sourceRevision"] == UNIFIED["ORIGINAL"]
     digest = sha((inputs / report["graph"]["path"]).read_bytes())
     assert digest == report["graph"]["sha256"] == evidence["composedGraphSha256"]
     return {"graphSha256": digest, "recoveryReceiptSha256": sha(prior.read_bytes())}
+
+
+def from_bytes_test(work, original, reference_target, fixed):
+    harness = HERE / "fixed_bytes.rs"
+    build = run("cargo", "+1.97.1", "build", "--locked", "--offline", "--release",
+                "--target", "aarch64-apple-darwin", "--target-dir", reference_target,
+                "--lib", "--package", "marmish-vault", "--message-format=json", cwd=original)
+    records = map(json.loads, build.splitlines())
+    library, = [
+        Path(name) for record in records
+        if record["reason"] == "compiler-artifact" and record["target"]["name"] == "marmish_vault"
+        for name in record["filenames"] if name.endswith(".rlib")
+    ]
+    original_test = work / "original-from-bytes"
+    generated_test = work / "generated-from-bytes"
+    run("rustc", "+1.97.1", "--test", "--edition=2021", harness,
+        "-L", f"dependency={library.parent}", "--extern", f"marmish_vault={library}",
+        "-o", original_test)
+    fixed["link_test"](harness, work / "product", generated_test)
+    name = "from_bytes_owns_the_input_and_requires_drop"
+    for test in (original_test, generated_test):
+        lines = run(test, "--exact", name).decode().splitlines()
+        assert lines.count(f"test {name} ... ok") == 1
+        assert any(line.startswith("test result: ok. 1 passed; 0 failed; 0 ignored;") for line in lines)
+    return {"name": name, "sourceSha256": sha(harness.read_bytes()), "originalAndGeneratedPassed": True}
 
 
 def fixed_value_test(work, original, reference_target):
@@ -48,9 +75,20 @@ def fixed_value_test(work, original, reference_target):
     executable = work / "probe-strict-vault-values"
     fixed["link_test"](harness, work / "product", executable)
     fixed["passed"](run(executable, "--exact", name))
-    standalone_receipt = HERE.parent / "vault-fixed-bytes/aarch64-apple-darwin.json"
+    standalone_receipt = (HERE.parent / "vault-fixed-bytes/aarch64-apple-darwin.json").read_bytes()
+    expected = json.loads(standalone_receipt)
+    staged = work / "inputs"
+    workspace = json.loads((staged / MANIFEST.name).read_bytes())
+    reference = workspace["members"]["marmish-vault"]["manifest"]
+    vault = json.loads((staged / reference["path"]).read_bytes())
+    value, = [component for component in vault["components"] if "Secret" in component["reexports"]]
+    assert expected["original"] == UNIFIED["ORIGINAL"] and expected["framework"] == FRAMEWORK
+    assert expected["unchangedModuleSha256"] == digest
+    assert expected["graphSha256"] == value["graph"]["sha256"]
+    assert expected["packageManifestSha256"] == reference["sha256"]
     return {"name": name, "unchangedModuleSha256": digest, "originalAndGeneratedPassed": True,
-            "standaloneReceiptSha256": sha(standalone_receipt.read_bytes())}
+            "standaloneReceiptSha256": sha(standalone_receipt),
+            "fromBytesHoldout": from_bytes_test(work, original, reference_target, fixed)}
 
 
 def main():
