@@ -1,0 +1,15 @@
+{
+  "accepted": 36,
+  "cases": 117,
+  "compilerSha256": "f434a782e8d3217d0a1fd8a8d9cd7aadd42608cb0bfb46d381ef348b8391f2e4",
+  "observationsSha256": "a1caa92f9c994f8219c957cfaf69eb84c4bfd58c656c7e06b438fe87f71229d4",
+  "projectionLockSha256": "1cdb37f6ad9e03658b86b7ba450f79e876906e2f7545efe8d69d14265b75cdf0",
+  "referenceReceiptSha256": "2e7d244faef0bd660e5e7c36a7872bdea7d23b0743fdc6b22b7159a3747ea583",
+  "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "workspace": {
+    "nativePackageLockSha256": "630d1d54524dae4f62f35294f4aa69ce3875a115954ee882147c8f988425ab3a",
+    "sourcePath": "src/group_16/__projection_16.rs",
+    "workspaceLockSha256": "331c07905a81f1604781ea53b1a8903642a73b0c1d6168d411883f4dc98c402d"
+  },
+  "wrongDecoderRejections": 20
+}
