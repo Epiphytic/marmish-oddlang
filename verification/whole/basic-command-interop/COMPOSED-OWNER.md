@@ -1,0 +1,7 @@
+# Composed setup, provider and local client candidate
+
+The [composed workspace](../../../oddlang/portable/workspace-composed-basic-owner.json) selects the leased file-profile setup graph, the foreground relay provider, and the bounded local client workflow. The [native package](../../../oddlang/portable/marmish-native-composed-basic-owner-package.json) binds these roles through a combined CLI mapping and its own Cargo locks. Earlier candidate descriptors and qualification receipts remain available by their recorded pins.
+
+The local handoff ends at the owner's IPC boundary. The provider scope covers authenticated relay activation and owned shutdown. The composed activation fixture performs setup, grant and trust for two fresh test identities, then starts the foreground provider on the granted server profile. It compares the selected relay and authorization configuration before and after startup. The test uses one owned relay and does not issue a command.
+
+Build with the [source-denied driver](BUILD.md) and pass `--workspace workspace-composed-basic-owner.json` together with the immutable companion and framework input revisions. Pass the exported receipt digest to `composed_preflight.py` before selecting the candidate for live runs. For `composed_owner.py`, also supply the pinned Deaddrop executable and isolation helper. Keep the original and generated actors in distinct private workspaces.

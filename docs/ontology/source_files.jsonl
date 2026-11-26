@@ -248,6 +248,9 @@
 {"path":"oddlang/portable/command-requests-v1/rust.json","language":"inventory","mode":"100644","sha256":"25227dc3f35bab68afd404016acedeb864b2329ebe09661313da1518820c4bf7","parse_status":"inventory"}
 {"path":"oddlang/portable/command-requests-v1/shape.json","language":"inventory","mode":"100644","sha256":"33fdc29a8fdddba6eb76aa518967f538734b2b7b4e6fd16b293f61bfd245e7a9","parse_status":"inventory"}
 {"path":"oddlang/portable/command-requests-v1/shape.rust.json","language":"inventory","mode":"100644","sha256":"93027b7ae7410427159c21f38b5ee0bed90e79c86d80d8dd6a00844b40b19e8c","parse_status":"inventory"}
+{"path":"oddlang/portable/composed-basic-owner-v1/marmish-cli.json","language":"inventory","mode":"100644","sha256":"48860d95c6cec98dee83a629391c3a2fe2cf93a8cb8387102dea415bcba4befe","parse_status":"inventory"}
+{"path":"oddlang/portable/composed-basic-owner-v1/member.Cargo.lock","language":"inventory","mode":"100644","sha256":"6079b2886f681a437623b599cd5b1b632460af88b09b118aa12251bbb1eb4f67","parse_status":"inventory"}
+{"path":"oddlang/portable/composed-basic-owner-v1/workspace.Cargo.lock","language":"inventory","mode":"100644","sha256":"c17bbc8ddb6ba4576fe10cd2aa6cb178006f55d22c8f322fc32e151a01faeaf0","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/README.md","language":"inventory","mode":"100644","sha256":"2d4e18baccc349a3f3e70211a93977ba9fb250c7c0d403047f9988d7f142a503","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/graph.json","language":"inventory","mode":"100644","sha256":"cf560b07a2086aa66cc146d0f4231b7a3d4f45b8feae0b1f14e65e892f2d6322","parse_status":"inventory"}
 {"path":"oddlang/portable/copy-checkpoint-v1/package.lock","language":"inventory","mode":"100644","sha256":"e8274e8cd35ddf2297c2393ec3ff9dbb5fce51b848333d236d661e28a01fef52","parse_status":"inventory"}
@@ -369,6 +372,7 @@
 {"path":"oddlang/portable/marmish-native-basic-client-owner-package.json","language":"inventory","mode":"100644","sha256":"78ca39e28a821c53725f8fd02715bb412f592ab3d88327202e01590ebd1d9115","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-basic-commands-package.json","language":"inventory","mode":"100644","sha256":"395c69479766fba8a526174fec2d23577d9db85cfedf9dab110973b9af48fbaa","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-canonical-offline-package.json","language":"inventory","mode":"100644","sha256":"386579d124173fa64c200d97640bb96cfeb2203e283bd9a929800db022f94416","parse_status":"inventory"}
+{"path":"oddlang/portable/marmish-native-composed-basic-owner-package.json","language":"inventory","mode":"100644","sha256":"f339464c45280483f19842866b853ec4edb5465b4761fd14517e9ea4ab5e0087","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-converged-diagnostics-cli-package.json","language":"inventory","mode":"100644","sha256":"91ac558b25bd7315a1c8f04015ef8d6eeac5164c0c59f0906addfca0898d9934","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-profile-setup-package.json","language":"inventory","mode":"100644","sha256":"99967c21470064a7e5b70b618755361612760d22bbf98fbdce64ed592fd3d535","parse_status":"inventory"}
 {"path":"oddlang/portable/marmish-native-relay-activation-package.json","language":"inventory","mode":"100644","sha256":"8fb00c710a0209ce5f75dcf6320c48acda3bd03c7d099cd02fd577c7edca050f","parse_status":"inventory"}
@@ -623,6 +627,8 @@
 {"path":"oddlang/portable/workspace-basic-client-owner/workspace.lock","language":"inventory","mode":"100644","sha256":"e6fe27b145ee72483314daa042f8197cb138fe391ea05cb84d0a8ec3538d84db","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands.json","language":"inventory","mode":"100644","sha256":"e921714128605286da90b0eb7e8dad4988119de0ef59915f24582c8d5133d106","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-basic-commands/workspace.lock","language":"inventory","mode":"100644","sha256":"7e078d8dad898b707ac7341f9caffa038fd5afd9e13ea2464bbb060be988a6f1","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-composed-basic-owner.json","language":"inventory","mode":"100644","sha256":"d633d36a72dfaa36241aefd4d43a3dd6c00d05eef15fb97a4056f22bce4d0b0b","parse_status":"inventory"}
+{"path":"oddlang/portable/workspace-composed-basic-owner/workspace.lock","language":"inventory","mode":"100644","sha256":"926d4ffcf10d684d2d3e323d629831b0e77382f0cd1b9f0f68c58465c40cd1e2","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits.json","language":"inventory","mode":"100644","sha256":"babeea9051ebdcd35f743e2621e1673a46b19b40a0c5ada1a8cef36d6ba26e2d","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits/Cargo.lock","language":"inventory","mode":"100644","sha256":"0f3ae7fdf527c2197c4b741a73390ca0653b3c98bbf2bb578704c893d6ecd89b","parse_status":"inventory"}
 {"path":"oddlang/portable/workspace-engine-limits/engine-Cargo.lock","language":"inventory","mode":"100644","sha256":"7d2d4dea13b4ae00ad0f22a8c39078a6222319fc4edc4bdd3dda4cf454a1bac7","parse_status":"inventory"}
@@ -1027,12 +1033,15 @@
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"9f6d409755e7280b83de6b0b910c2cbf07dfe17f0ec173dd4766d69d87352b03","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/CLIENT-OWNER.md","language":"inventory","mode":"100644","sha256":"c5083582fac94e40f1c86eac0042dfe2d00ab61a9ac6b4b0b65c8593bd45567c","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/COMPOSED-OWNER.md","language":"inventory","mode":"100644","sha256":"21168ff17a7651659a4c2cce76f88547658f317b35f91cebf5fd4e5f0a1b5cbb","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"274b6c5aca0342bad8a366eddfc858a0ca3d2582fdb74c38b917a44d6688b7d9","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"e4fbc37a17cce687c9ef1b5c1af6cad0614303d4f5d10cf02b18f0f5c2f1ccbd","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/build.py","language":"python","mode":"100644","sha256":"b0dc320068ee65ec2a79a9daea7b940235a681b8de73e0d37824fd2d4c60ac21","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/candidate_preflight.py","language":"python","mode":"100644","sha256":"bf0c7ded099447d19680655209153977e68fee1841c9c7880d2a847dd37fdcde","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/client_owner_preflight.py","language":"python","mode":"100644","sha256":"1aa94c4da15fe79c0ab88e951013ce2aacb60636a665414b59e2267db6846e32","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/composed_owner.py","language":"python","mode":"100644","sha256":"21f1f838b1e4523c08960125255e69ed9fd0b9fd10ca82691a324d2bb805b117","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/composed_preflight.py","language":"python","mode":"100644","sha256":"57014531d86cb530889d1d0aa6e39ec611a7514dede9637f84a36016f70b96b8","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/corpus.py","language":"python","mode":"100755","sha256":"802c0951ef65517d624c87ddbc9fc3b7575d563a9cce93f9e1823b02628a893f","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/direct-corpus-macos-arm64.json","language":"inventory","mode":"100644","sha256":"704b175b96d5372f031ed2b8f210d6329a7cc1955c399431180e1e98e7aec2af","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d4c7c74cc03b3b3b18682188a8439ffc0e3485bc508760cfcd49fbae86447ddd","parse_status":"inventory"}
