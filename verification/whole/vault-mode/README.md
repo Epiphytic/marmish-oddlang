@@ -16,3 +16,5 @@ The verification script compiles the pinned Oddlang source, recovers the pure ty
 Run `python3 -B verify.py ORIGINAL ODDLANG COMPILER_CACHE REFERENCE_CACHE RECEIPT.json` from this directory. Use the pinned upstream Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Keep the reference cache separate from other qualifiers.
 
 The [macOS ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) record identical baseline and mutated graph and package lock hashes. Both hosts observed the same values and all seven rejected trait bounds. These measurements cover the vault package independently.
+
+Both host runs were repeated after tightening provenance. The verifier checks clean Git revisions before and after compilation and again before publishing the receipt. Binary digests identify artifacts from that individual build. Source, graph, overlay and lock digests remained identical in both replays. Run `python3 -B -m unittest test_verify` here to exercise the moving-revision and untracked Cargo configuration controls.
