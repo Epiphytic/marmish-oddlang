@@ -1,5 +1,5 @@
 {
-  "candidateSha256": "4bf0aa693195fbd3af8f451adfecbb072dff4fa769c28fd6c6745b44c383abb3",
+  "candidateSha256": "0df07c8ce8654e40c6a14dbf0be1ad020a18b09fa5ec535af84bfd54998beace",
   "controlledCases": {
     "actor-failure": {
       "exit": 1,
@@ -89,7 +89,7 @@
   },
   "expectedRequestHex": "000000167b226f7065726174696f6e223a22737461747573227d",
   "extendedReplies": {
-    "binarySha256": "4bf0aa693195fbd3af8f451adfecbb072dff4fa769c28fd6c6745b44c383abb3",
+    "binarySha256": "0df07c8ce8654e40c6a14dbf0be1ad020a18b09fa5ec535af84bfd54998beace",
     "caseSha256": "f3f28234d9c2b0068e1ca17f91dd59e45783056cad4ef7199b7af8add5f6765f",
     "mismatches": [],
     "mode": "candidate",
@@ -177,11 +177,11 @@
       }
     }
   },
-  "frameworkRevision": "7fde562f4b4e027e6e35fbbf183750d04451e7d6",
+  "frameworkRevision": "ee4ba72af452aecb0d50c193c6b642552f8f0a79",
   "graphSha256": "930d6383ea36a6fed84241d4f50b0e96cf5bc68462b8f1b4ecda912db2580284",
   "mode": "original-and-candidate",
   "nestedReplies": {
-    "binarySha256": "4bf0aa693195fbd3af8f451adfecbb072dff4fa769c28fd6c6745b44c383abb3",
+    "binarySha256": "0df07c8ce8654e40c6a14dbf0be1ad020a18b09fa5ec535af84bfd54998beace",
     "caseSha256": "b03ef7aa8d26e3f47647e4f0b8f8fa89cd3d7ed3442b6063765a92641681d3a2",
     "mismatches": [],
     "mode": "candidate",
