@@ -29,8 +29,11 @@ All five Rust sources for `marmish-stream` live in the pinned
 and output hashes. Its Cargo manifest and the workspace lock remain at their
 original paths. Other workspace crates are available as native Rust sources.
 
-Build the Oddlang CLI with Rust 1.97.1. Then run these commands from this
-repository. Point `ODDLANG` to that binary if it is outside your PATH.
+Build the Oddlang CLI from the
+[pinned compiler](https://github.com/Epiphytic/oddlang/tree/f5f6ea6571821ce49f0622d9550d50ce7c8de8e7)
+using `cargo +1.97.1 build --locked --bin oddlang`. Then run these commands
+from the Marmish repository. Point `ODDLANG` to the resulting binary when
+it is outside your PATH.
 
 ```sh
 ODDLANG=/path/to/oddlang ./oddlang/regenerate-stream.sh
