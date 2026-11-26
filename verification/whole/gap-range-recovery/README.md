@@ -46,3 +46,21 @@ host-specific runner-attested evidence and selectors, rechecks the JSON
 profile, and compares the portable and
 native observations. It also rejects a baseline selector paired with
 the mutant source and Rustdoc input before any output appears.
+
+## Verified outputs
+
+Both ARM64 hosts matched all 35 original baseline observations and all
+35 mutation observations, plus the unchanged public-field and trait
+witness. On both, only the `unknown-field` row changed. Each build also
+rejected all eight source and witness reads. The recovered baseline
+generated the same Rust source files as the authored package.
+
+The [standalone recovered package](../../../oddlang/portable/engine-gap-range-recovered-package.json)
+uses the [baseline graph, overlay, and lock](../../../oddlang/portable/engine-gap-range-recovered-v1/).
+Both hosts produced those same bytes and the same [mutant graph](mutation-graph.json).
+The [Darwin receipt](aarch64-apple-darwin/receipt.json) and
+[Linux receipt](aarch64-unknown-linux-gnu/receipt.json) link the respective
+selectors and recovery locks by digest. They record verifier input
+`f3bbe1c50150ce2c2458e747f6c1efbd50dbf8b8` and runtime
+`9923e6664899de66915ed3a94e417f261ffed401`. The canonical workspace keeps
+its existing package selection.

@@ -1,0 +1,14 @@
+{
+  "format": "oddlang-public-records-rust-v1",
+  "flattenModule": true,
+  "identifiers": {
+    "urn:marmish:engine:output-gap:range": "MissingRange",
+    "urn:marmish:engine:output-gap:range-module": "model"
+  },
+  "externalTypes": {
+    "urn:marmish:engine:output-gap:reason": [
+      "crate",
+      "MissingReason"
+    ]
+  }
+}
