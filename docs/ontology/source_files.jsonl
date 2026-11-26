@@ -311,10 +311,12 @@
 {"path":"oddlang/portable/engine-fieldless-choices-v1/graph.json","language":"inventory","mode":"100644","sha256":"6deb21fc373f950b47665ecea7b5a85d59e551f500ffc77d127ae560c2c72077","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/package.lock","language":"inventory","mode":"100644","sha256":"3a3ee8eee0991e685c491bcfdc9a4bd66b2296b2593b47fc9d15f779e48a603d","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-fieldless-choices-v1/rust.json","language":"inventory","mode":"100644","sha256":"e877b08426227fa656b21320d751e8da09dbb67b8bcd21f2d3d3c2c275b20581","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-derived-package.json","language":"inventory","mode":"100644","sha256":"bd136b7603e2b7c436e2d2eac204f2b41f47bb15f74001d4fa38152023152c51","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-package.json","language":"inventory","mode":"100644","sha256":"70bcbb576312651572b665055295efb5aef6cb96a9cba9c67307e35eca81ff95","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-recovered-package.json","language":"inventory","mode":"100644","sha256":"6bc0d0d324398a4c981417cf3023d29969a9710c5c695b52fbb8b994be58251f","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-recovered-v1/graph.json","language":"inventory","mode":"100644","sha256":"f7557c397e44feb996ebf1c1ec4aa09e7ab09fdc3e46902dfc16eaa097b6fad5","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-recovered-v1/package.lock","language":"inventory","mode":"100644","sha256":"281d010eca4e1a7b18514af49e2a9fb866069f5613145a2faf93556e07357528","parse_status":"inventory"}
+{"path":"oddlang/portable/engine-gap-range-recovered-v1/recovery.lock","language":"inventory","mode":"100644","sha256":"72e239a6e6a4c561c747df792146d49061f0b0e65a75d2e8d9a0ef1aee7db8ed","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-recovered-v1/rust.json","language":"inventory","mode":"100644","sha256":"0eb5931fd8c063888dc32a9f8be19435b0f8ff1822c31634ef8e47a3190b74f8","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-v1/graph.json","language":"inventory","mode":"100644","sha256":"d010928f57b83418fa093d12db61e6e2cd7638962c4069ff672cdaed25d500f0","parse_status":"inventory"}
 {"path":"oddlang/portable/engine-gap-range-v1/package.lock","language":"inventory","mode":"100644","sha256":"884180d21d079c49a7ca0d045b2f56d67700d1666012a92d7b8310f1bb2fe109","parse_status":"inventory"}
@@ -1173,6 +1175,8 @@
 {"path":"verification/whole/foreground-owner/project.py","language":"python","mode":"100644","sha256":"875206da6c425d8d5267586f1aa844eb3343706d69303f1080a5498218ef3470","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"9ff00fc3389e19bcd4765f4ed71d0d9f8fc7c91ed22f8cc8ff1782e7e39f9c66","parse_status":"parsed"}
 {"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"662c2ae77a665eefb17c4c0b58837ac6537da886d456447504534b5deecfb8e9","parse_status":"parsed"}
+{"path":"verification/whole/gap-range-assembly/README.md","language":"inventory","mode":"100644","sha256":"8d5118fc4ea4df9425842855190a18f8c5f9c6d86585499756bf268b7779e6bd","parse_status":"inventory"}
+{"path":"verification/whole/gap-range-assembly/verify.py","language":"python","mode":"100644","sha256":"f3c20f7bb2a0d01114b1719c3d04fa0b6df0a40dee0a92882734a4f264ae4e30","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-record/README.md","language":"inventory","mode":"100644","sha256":"2d581434d46f60166de514919ab517536aa83666169f75406eee645d07b4e90e","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-record/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"2cd26a75c254fe565a325c3215cc3feaaa4b9b558e1e0a39526b92cc90e2c6dd","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-record/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"cb43d1ca685ee945f1d3a2e8e47b0b652b3ef6c4233ab9429cc237a6546bcf2e","parse_status":"inventory"}
