@@ -26,3 +26,16 @@ The initial candidate has these role boundaries.
 | Worker and credential helper | The package generates no worker or keychain helper executable. |
 
 These boundaries derive from the [native package manifest](../../../oddlang/portable/marmish-native-canonical-offline-package.json), [client binding](../../../oddlang/portable/native-cli-terminal-v1/marmish-cli.json), [daemon binding](../../../oddlang/portable/native-cli-terminal-v1/marmishd-cli.json) and [foreground owner graph](../../../oddlang/portable/workspace-v6/foreground-graph.json). The inventory identifies prerequisites for both mixed directions. The interoperability gate requires independently observed command completion, byte streams and exit status.
+
+## macOS ARM64 evidence
+
+The [build receipt](generated-build-aarch64-apple-darwin.json) records the seven compiled members, 362 verified registry archives, four pinned Git providers, and eight read-denial probes. The [candidate preflight](generated-preflight-aarch64-apple-darwin.json) records exact status and streams for six network-denied invocations. Foreground submission, detached submission, `wait`, `setup`, and `keychain-authorize` exit 125 with empty stdout and `command operation unavailable` on stderr. The daemon reports a required prepared profile. Its test state and all five client directories stayed empty and were removed. Replacing either executable or the build receipt was rejected before the preflight produced an observation.
+
+Use the expected receipt digest from the original build handoff to replay the preflight.
+
+```sh
+python3 -B verification/whole/basic-command-interop/candidate_preflight.py \
+  "$EXPORT" "$PREFLIGHT_RECEIPT" --build-receipt-sha256 "$EXPECTED_BUILD_RECEIPT_SHA256"
+```
+
+See the [Claude review](../../../docs/reviews/basic-command-generated-build.md) for the provenance checks and remaining scope.
