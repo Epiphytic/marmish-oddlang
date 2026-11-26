@@ -18,6 +18,16 @@ actual upstream public integer type to the checked expression, and a native
 compiler run after the isolated `128 → 129` source mutation recovers
 `132096` with the same overlay.
 
+Build a fresh output directory with the pinned compiler from
+[Oddlang](https://github.com/Epiphytic/oddlang/tree/c70bc9b3b39f6c4a23641679185dea5d0e5bc32b).
+
+```sh
+oddlang build native-workspace rust \
+  oddlang/portable/workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json \
+  "$OUTPUT"
+cargo +1.97.1 build --manifest-path "$OUTPUT/Cargo.toml" --workspace --release --locked --offline
+```
+
 Run from a clean checkout with Rust 1.97.1, offline dependencies, and the
 pinned upstream release binaries available.
 
@@ -28,3 +38,5 @@ python3 -B verification/whole/prototype-constant/verify.py \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
+
+[ARM64 macOS sealed receipt](aarch64-apple-darwin.json).
