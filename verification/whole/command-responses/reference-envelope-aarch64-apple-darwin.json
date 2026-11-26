@@ -1,0 +1,311 @@
+{
+  "cases": {
+    "cancel/bad-error": {
+      "accepted": false,
+      "wireBytes": 473,
+      "wireSha256": "329eec89d53aed79acca860f5c7eef71b9e390cb1830e407ce606f4186509b20"
+    },
+    "cancel/duplicate-id": {
+      "accepted": false,
+      "wireBytes": 859,
+      "wireSha256": "af5e6b0880c515ed9b346e00aec06c20be7999235b0b7ca96b4a06f026b278e9"
+    },
+    "cancel/error": {
+      "accepted": true,
+      "wireBytes": 470,
+      "wireSha256": "ff4623011cfcdd23b0726f66e0c772bae2a16d0bd53d2daa9d0b873d116c006a"
+    },
+    "cancel/missing-result": {
+      "accepted": false,
+      "wireBytes": 431,
+      "wireSha256": "196ed032fa7a707fe9eb6b93ca8c1a7a5ef79fa8c89ac831d14de931793f021e"
+    },
+    "cancel/same-peer": {
+      "accepted": false,
+      "wireBytes": 848,
+      "wireSha256": "2cc672e7aaeafca06403ccb90d9359a1f7c4602ed226a944a2862041dc4f539c"
+    },
+    "cancel/success": {
+      "accepted": true,
+      "wireBytes": 848,
+      "wireSha256": "5b78ecc1e9ed0e7ee3818a0b43ea19a0555e00ee28bbffe306ecd2e54b0e04e3"
+    },
+    "cancel/trailing-newline": {
+      "accepted": false,
+      "wireBytes": 849,
+      "wireSha256": "7511c03a6fd55fb92b2fc6bc85b7f57062061cb41093cacb0cb1a94a7ced5b2b"
+    },
+    "cancel/two-results": {
+      "accepted": false,
+      "wireBytes": 873,
+      "wireSha256": "31b7e357c8148e585669aefc77a58877f9fb393c8bd6577f1cc993169d9b7840"
+    },
+    "cancel/unknown-result-field": {
+      "accepted": false,
+      "wireBytes": 861,
+      "wireSha256": "3b001b8a0db72c7612a4d937f0f49dd178c4d6ad19b17b52e971ddc030bd88c5"
+    },
+    "cancel/wrong-message-type": {
+      "accepted": false,
+      "wireBytes": 847,
+      "wireSha256": "07ccab0806ffeddf370112c46976ddd526a2b09e056f0157f8b2811dc3cbc148"
+    },
+    "finish/bad-error": {
+      "accepted": false,
+      "wireBytes": 473,
+      "wireSha256": "7049a2a09107ebb98552060c2f1998f9fea82c18833f1f6f598075fbe0d27fbd"
+    },
+    "finish/duplicate-id": {
+      "accepted": false,
+      "wireBytes": 455,
+      "wireSha256": "4ecb526b5bcd8769e120e60bf0e97a5ed803d6a9853461a289dcb02b0eb16966"
+    },
+    "finish/error": {
+      "accepted": true,
+      "wireBytes": 470,
+      "wireSha256": "cfffb4b4e1c9bb5e395123639e4e87ea4f69972620aea43bfa3bcc6a783d133c"
+    },
+    "finish/false": {
+      "accepted": false,
+      "wireBytes": 445,
+      "wireSha256": "1d29894ffb2a16d7db628a3dcee80d1418ead4992b8baf6b3c16fc5994a8f41d"
+    },
+    "finish/missing-result": {
+      "accepted": false,
+      "wireBytes": 431,
+      "wireSha256": "4f0aeab0077bf4e46777db10ca3980507dca69de8c0bf0f2e3c617dd349257d7"
+    },
+    "finish/same-peer": {
+      "accepted": false,
+      "wireBytes": 444,
+      "wireSha256": "606f7f35e816739414cfe743420dde7112af07d637ed7d8e0b99391d52d19d38"
+    },
+    "finish/success": {
+      "accepted": true,
+      "wireBytes": 444,
+      "wireSha256": "212bdf1555011ed6df6a4e470c56436190967349533fa0015be818487406bde1"
+    },
+    "finish/trailing-newline": {
+      "accepted": false,
+      "wireBytes": 445,
+      "wireSha256": "9951efe0723a77d348882c51f9cca623a165e335669d1e204004499fb3778299"
+    },
+    "finish/two-results": {
+      "accepted": false,
+      "wireBytes": 469,
+      "wireSha256": "187804e18765f763087b1e23de266d91104c01bfca0399e7bc18160af2a63ae6"
+    },
+    "finish/unknown-result-field": {
+      "accepted": false,
+      "wireBytes": 457,
+      "wireSha256": "b92fe07bb018b4d3830875e7aca765ddc923defa8d2bcc5af94213ddff559c2f"
+    },
+    "finish/wrong-message-type": {
+      "accepted": false,
+      "wireBytes": 443,
+      "wireSha256": "466e233092c39a7f39a094db4080303d89eaa347c0ee4e7b375d07e02a4b6e79"
+    },
+    "poll/bad-error": {
+      "accepted": false,
+      "wireBytes": 471,
+      "wireSha256": "c100ba9b0144d5e1b5f72a17f04c432e86b1a7ceed50e3be04eec63145b69486"
+    },
+    "poll/combined-16384": {
+      "accepted": true,
+      "wireBytes": 22776,
+      "wireSha256": "863b63231faccc79f70b90c0aa676e048c6d973acd2856f6df96690313a5d7b4"
+    },
+    "poll/combined-16385": {
+      "accepted": false,
+      "wireBytes": 22776,
+      "wireSha256": "7fdf2316891c78bd400e05d37f77e961f3dd846b3e1018bce431ea2a16493dc6"
+    },
+    "poll/cursor-18446744073709551615": {
+      "accepted": false,
+      "wireBytes": 949,
+      "wireSha256": "a0c6da7fbe812adc4396cbe8f32f964c26e1970ca43a339269483c28d74346fe"
+    },
+    "poll/cursor-9007199254740993": {
+      "accepted": true,
+      "wireBytes": 945,
+      "wireSha256": "59d1c08e99b2b436d7f018fb2c56c9222f5c00f555d3c2fee341da508ffe55b1"
+    },
+    "poll/cursor-9223372036854775807": {
+      "accepted": true,
+      "wireBytes": 948,
+      "wireSha256": "1e277bdf05fca5065c8161557a7c0cfeab95dd4af1337ec0eaed2710cd17c223"
+    },
+    "poll/cursor-9223372036854775808": {
+      "accepted": false,
+      "wireBytes": 948,
+      "wireSha256": "5fb6cf7a16628f2c1f88fc98d8bf00ea3e328071adbeeb5b3d1efe6519725ffd"
+    },
+    "poll/duplicate-id": {
+      "accepted": false,
+      "wireBytes": 941,
+      "wireSha256": "1451292080e8c52f50c7327a0afae0569363f4e60751168072d933064b61b1d5"
+    },
+    "poll/error": {
+      "accepted": true,
+      "wireBytes": 468,
+      "wireSha256": "f8d60561ce288f6bf36796e92e4d1ba656f4d086e1cf022bccfb17a5d1488b06"
+    },
+    "poll/missing-result": {
+      "accepted": false,
+      "wireBytes": 429,
+      "wireSha256": "19ddb4f38f8e7ac71951172c2879cdc26620453be2c735274f861433583f6b4f"
+    },
+    "poll/same-peer": {
+      "accepted": false,
+      "wireBytes": 930,
+      "wireSha256": "a53d778cfa0c5b42823b30aae90e394db2a2b5b2d63a1b5fdbc0d82ea23daa22"
+    },
+    "poll/signal-0": {
+      "accepted": false,
+      "wireBytes": 932,
+      "wireSha256": "d8fcfcb11a3f83b421a8edeaf6e842cc2ea670467f03fa476cb6707f5aedf722"
+    },
+    "poll/signal-1": {
+      "accepted": true,
+      "wireBytes": 932,
+      "wireSha256": "581d2ddff1213c74637c2b972fae8f5ec28a10824d0e67fc9a7209c057280a67"
+    },
+    "poll/signal-127": {
+      "accepted": true,
+      "wireBytes": 934,
+      "wireSha256": "5a8ab489a21149e4ab1ab9704ea8ad8fcd6153033b7d032371b5c9e3166768d4"
+    },
+    "poll/signal-128": {
+      "accepted": false,
+      "wireBytes": 934,
+      "wireSha256": "53b2310fa43b7a97439cb5b6def640c4e3afbaa599ecd3f9d827c7a5f86cc5b2"
+    },
+    "poll/success": {
+      "accepted": true,
+      "wireBytes": 930,
+      "wireSha256": "1fe4ab91aa1602e07f774afe5ec01b018cc068d8f5ef06d16628350d00838ca1"
+    },
+    "poll/trailing-newline": {
+      "accepted": false,
+      "wireBytes": 931,
+      "wireSha256": "1640d37c4a2e6249bfcf7bf429ece9795197e5a14f41f229ca5f15dce50e0be8"
+    },
+    "poll/two-results": {
+      "accepted": false,
+      "wireBytes": 955,
+      "wireSha256": "a36219f5a1280d9a49613cd58371e2b7af2bff0fc1f025b06f2aa8cc5f3f4bfa"
+    },
+    "poll/unknown-result-field": {
+      "accepted": false,
+      "wireBytes": 943,
+      "wireSha256": "f8eb1c74fce59cf8c485df03f1ea89ae19bb3619f815c818ec85bbfa28a99fce"
+    },
+    "poll/wrong-message-type": {
+      "accepted": false,
+      "wireBytes": 929,
+      "wireSha256": "edd539d4a6108bf4c4292d2b6056f3c03de11aec35991ab26fde7690abea4ce4"
+    },
+    "status/bad-error": {
+      "accepted": false,
+      "wireBytes": 473,
+      "wireSha256": "3d052034b15b6036757a4b5fc9c5f99fcf38d1e624f0f6de736e5392617cb6c9"
+    },
+    "status/duplicate-id": {
+      "accepted": false,
+      "wireBytes": 859,
+      "wireSha256": "3fccae0733084ab0f14a1a63f88d135e8f3ea8eb133219d64043ad9eda6f9c23"
+    },
+    "status/error": {
+      "accepted": true,
+      "wireBytes": 470,
+      "wireSha256": "2a051f303c3dfffa2fc6484783907638c8a8ad9b46ec3886df183c66d5ab1467"
+    },
+    "status/missing-result": {
+      "accepted": false,
+      "wireBytes": 431,
+      "wireSha256": "ddc9ed7f83380a523c54d81bf9e7777ffce3d3d11e4d86626becf0c352962cda"
+    },
+    "status/same-peer": {
+      "accepted": false,
+      "wireBytes": 848,
+      "wireSha256": "55a3767174737c3724faf88a869f2d4e9d924588e2575cd5e86e68f788a899cc"
+    },
+    "status/success": {
+      "accepted": true,
+      "wireBytes": 848,
+      "wireSha256": "6b2e00ab695277984f177a28fc316889c9af9112ba2b995d4ef2aa74df50dc0a"
+    },
+    "status/trailing-newline": {
+      "accepted": false,
+      "wireBytes": 849,
+      "wireSha256": "f855162a306f38c460cef19193415152db699378ac150974082e1edad1d0e93d"
+    },
+    "status/two-results": {
+      "accepted": false,
+      "wireBytes": 873,
+      "wireSha256": "d2eeb370a44025cbe90487f1854fde8d7846629e0d42a115353f682776e2d39a"
+    },
+    "status/unknown-result-field": {
+      "accepted": false,
+      "wireBytes": 861,
+      "wireSha256": "d5d7a40d23d4005b08e4771fb29b7cdab02c20dd7ec6712ae82a39fc9f8e5241"
+    },
+    "status/wrong-message-type": {
+      "accepted": false,
+      "wireBytes": 847,
+      "wireSha256": "870232c846fc7de76a9c4bce2184a5eb76c977b9a0e434c237dd47f5df0f0d97"
+    },
+    "submit/bad-error": {
+      "accepted": false,
+      "wireBytes": 473,
+      "wireSha256": "6cf20ba2990bc859ca9ea95cc9fa15f3a492ffa722090f750a1790bd24dcd3c9"
+    },
+    "submit/duplicate-id": {
+      "accepted": false,
+      "wireBytes": 884,
+      "wireSha256": "cf296bec86178a86020c94880cda7dbd0ec05d7cc35f3652c9f6bccd2aafc3b5"
+    },
+    "submit/error": {
+      "accepted": true,
+      "wireBytes": 470,
+      "wireSha256": "1c597bdcc1de1712aba302ae66efca17bbc02c064f8456ecfcdfa0d9ab9380f1"
+    },
+    "submit/missing-result": {
+      "accepted": false,
+      "wireBytes": 431,
+      "wireSha256": "fefbce1ee4074d300d5b0764db3f44f402b3acc4d1546be64cc1519d30bff98b"
+    },
+    "submit/same-peer": {
+      "accepted": false,
+      "wireBytes": 873,
+      "wireSha256": "c8035a61627d9775e18355debeb2702c4c0b5b13815d7486da715975f8cdb80f"
+    },
+    "submit/success": {
+      "accepted": true,
+      "wireBytes": 873,
+      "wireSha256": "d42a23177c57b051f695c3e5d0ead817c5ef8edf6969b028eeb06d7131f0dbdb"
+    },
+    "submit/trailing-newline": {
+      "accepted": false,
+      "wireBytes": 874,
+      "wireSha256": "feb7ab962a60f2ec3a39c2563780d63a7324b62c5a17ea91011cfb361c936dd8"
+    },
+    "submit/two-results": {
+      "accepted": false,
+      "wireBytes": 898,
+      "wireSha256": "0483bf3b3b852253acc2c42b9ac000d790fa787a57a051c8f87d560cf126cbd7"
+    },
+    "submit/unknown-result-field": {
+      "accepted": false,
+      "wireBytes": 886,
+      "wireSha256": "5bb8519ea1c27a629abf8d2e5b68628fbf62931fdf6b0d48889792252244ce23"
+    },
+    "submit/wrong-message-type": {
+      "accepted": false,
+      "wireBytes": 872,
+      "wireSha256": "4f86c09eb08885e63b039ff828415a0d603f4ec23af75566149da7d2ec9463c7"
+    }
+  },
+  "referenceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "referenceSourceSha256": "01b272575c0dbf9ebf327090d6abf1a63ce4342eb4eec15076210899fe51a4dc"
+}

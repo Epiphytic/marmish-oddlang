@@ -108,12 +108,12 @@ def cases():
     yield "error", b'{"code":"busy","detail":null,"detail":null}', None
 
 
-def observe(folder, source, raw, reference):
+def observe(folder, source, raw, reference, adapter=HERE / "adapter.rs"):
     folder.mkdir()
     (folder / "codec.rs").write_bytes(source)
     for filename in ("Cargo.toml", "Cargo.lock", "observer.rs"):
         shutil.copyfile(REQUESTS / filename, folder / filename)
-    shutil.copyfile(HERE / "adapter.rs", folder / "peer.rs")
+    shutil.copyfile(adapter, folder / "peer.rs")
     flags = "-Adead_code --check-cfg=cfg(reference)"
     if reference:
         prefix = f"{ORIGINAL}:crates/marmish-native/src/foundation.rs"
