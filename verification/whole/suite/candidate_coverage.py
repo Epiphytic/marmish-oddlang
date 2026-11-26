@@ -25,6 +25,11 @@ STREAM = "marmish-stream/lib/marmish_stream"
 NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
+PUBLIC_DATA = "canonical-public-data"
+DEFAULT_SUITE_PINS = {
+    "aarch64-apple-darwin": "7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306",
+    "aarch64-unknown-linux-gnu": "4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941",
+}
 
 class Candidate(NamedTuple):
     manifest: Path
@@ -34,6 +39,8 @@ class Candidate(NamedTuple):
 
 CANDIDATES = {
     "v7": Candidate(MANIFEST, FRAMEWORK, "v7"),
+    PUBLIC_DATA: Candidate(MANIFEST.with_name("workspace-v7-canonical-public-data.json"),
+                           "900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab", "manifest"),
     "canonical-mdk": Candidate(MANIFEST.with_name("workspace-v7-canonical-mdk-test-seam.json"),
                                "48bc6754dcbe12cfa953b94ca8771001a1ce72ec", "manifest-mdk"),
     "canonical": Candidate(MANIFEST.with_name("workspace-v7-canonical-offline.json"),
@@ -73,6 +80,28 @@ def stream_name(compiled):
     return f"{native}::tests::{tail}"
 
 
+def default_baseline(host):
+    data = (HERE / f"canonical-{host}.json").read_bytes()
+    if sha(data) != DEFAULT_SUITE_PINS[host]:
+        raise ValueError("pinned canonical named baseline changed")
+    return json.loads(data)
+
+
+def check_default_baseline(host, harnesses):
+    if harnesses != default_baseline(host)["harnesses"]:
+        raise ValueError("candidate named baseline differs from the canonical selection")
+    return DEFAULT_SUITE_PINS[host]
+
+
+def check_registered_names(harness, listing, expected):
+    normalize = stream_name if harness == STREAM else lambda name: name
+    names = [normalize(line.removesuffix(": test")) for line in listing.splitlines()
+             if line.endswith(": test")]
+    if sorted(names) != sorted(expected):
+        raise ValueError(f"unsafe or incomplete test registration for {harness}")
+    return sorted(names)
+
+
 def reconcile(inventory, passed):
     harnesses = inventory["harnesses"]
     if set(passed) - set(harnesses):
@@ -98,6 +127,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
     pin(framework, framework_pin)
     version = run("rustc", "+1.97.1", "-vV").decode()
     host, = [line[6:] for line in version.splitlines() if line.startswith("host: ")]
+    baseline = default_baseline(host) if candidate == PUBLIC_DATA else None
     suite = HERE / f"named-release-{host}.json"
     inventory = json.loads(suite.read_bytes())
     if inventory["upstream"] != PIN or inventory["rustc"] != version.strip() or inventory["selection"] != "native release workspace, default features":
@@ -239,8 +269,13 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             elif staged[path] != contents:
                 raise ValueError(f"staging altered {path}")
         witnessed = {}
+        registrations = {}
         for harness, target in [(CORE, ["-p","marmish-core","--test","contracts"]),
                                 (STREAM, ["-p","marmish-stream","--lib"])]:
+            if baseline is not None:
+                listing = inside("cargo", "test", "--locked", "--offline", "--release",
+                                 *target, "--", "--list", cwd=product).decode()
+                registrations[harness] = check_registered_names(harness, listing, baseline["harnesses"][harness]["passed"])
             raw = inside("cargo","test","--locked","--offline","--release", *target, "--","--format","pretty", cwd=product)
             names = assembly["passing_tests"](raw.decode())
             if harness == STREAM:
@@ -296,12 +331,17 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             raise ValueError("harness received different release binaries")
         witnessed[NATIVE] = [processes["test"]]
         rows, totals = reconcile(inventory, witnessed)
+        named_baseline = {} if baseline is None else {
+            "canonicalNamedBaselineSha256": check_default_baseline(host, rows),
+            "preRunRegisteredNames": registrations,
+        }
         return dict(original=PIN, framework=framework_pin, target=host, profile=inventory["selection"],
                     manifestSha256=manifest_digest, workspaceLockSha256=sha(lock),
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
                     **({"mdkZeroTestControl": mdk_control, "mdkNormalDependencies": [],
                         "mdkDeniedSourcePaths": list(selected_tests.MDK_DENIED_SOURCES)} if include_mdk else {}),
+                    **named_baseline,
                     **({"builtLibraries":built_libraries} if include_reader else {}),
                     **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))
 

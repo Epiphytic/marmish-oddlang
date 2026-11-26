@@ -5,11 +5,16 @@ import re
 from pathlib import Path
 import sys
 
-from candidate_coverage import CORE, STREAM, NATIVE, CANDIDATES, HERE, PIN, reconcile, sha
+from candidate_coverage import (
+    CORE, STREAM, NATIVE, CANDIDATES, HERE, PIN, PUBLIC_DATA, check_default_baseline, reconcile, sha,
+)
 
 
 import selected_tests
 import parser_cases
+
+PUBLIC_DATA_MANIFEST_SHA = "b0cebc91d550db8daba623333d09db2917eb2cd55874957912cd97a3f9eb5fc4"
+PUBLIC_DATA_LOCK_SHA = "b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab"
 
 
 def inspect(receipt):
@@ -86,6 +91,15 @@ def inspect(receipt):
     canonical, totals = reconcile(catalog, witnesses)
     if rows != canonical or receipt["totals"] != totals:
         raise ValueError("case dispositions or totals disagree with the catalog")
+    if matches[0] == CANDIDATES[PUBLIC_DATA]:
+        if (receipt["manifestSha256"], receipt["workspaceLockSha256"]) != (PUBLIC_DATA_MANIFEST_SHA, PUBLIC_DATA_LOCK_SHA):
+            raise ValueError("unexpected combined public-data candidate input")
+        if receipt.get("canonicalNamedBaselineSha256") != check_default_baseline(host, rows):
+            raise ValueError("candidate canonical baseline pin differs")
+        if receipt.get("preRunRegisteredNames") != {name: witnesses[name] for name in (CORE, STREAM)}:
+            raise ValueError("missing exact pre-execution registration evidence")
+    elif {"canonicalNamedBaselineSha256", "preRunRegisteredNames"} & receipt.keys():
+        raise ValueError("unexpected canonical baseline evidence")
     return totals
 
 
