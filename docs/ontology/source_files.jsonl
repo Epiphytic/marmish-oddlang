@@ -1010,11 +1010,11 @@
 {"path":"verification/whole/backend-choice/selection.json","language":"inventory","mode":"100644","sha256":"e3c3cbb13255a33abfd76ef8eb16b73d21fa758f77bd3571e55be722ec334207","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"809c989193aacafa6d503c2b3aa3634fdb3a224c69f77b4ed612001fbe0fb8b0","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"4ee59f1cd44ac8657f3f0b7350d271b063c23c6889f2259066fe02950ed66209","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/LOCAL-OWNER.md","language":"inventory","mode":"100644","sha256":"274b6c5aca0342bad8a366eddfc858a0ca3d2582fdb74c38b917a44d6688b7d9","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"e4fbc37a17cce687c9ef1b5c1af6cad0614303d4f5d10cf02b18f0f5c2f1ccbd","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/build.py","language":"python","mode":"100644","sha256":"12a46ab631532c12d9c24d0f484be34008eb30b6a4bc030723e3f5a7a4652de5","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/candidate_preflight.py","language":"python","mode":"100644","sha256":"c15798083ccf7812a92ddce511ed7e0c0db5f7f95072ad5fe74a7d9f915e8c5c","parse_status":"parsed"}
-{"path":"verification/whole/basic-command-interop/client_owner_preflight.py","language":"python","mode":"100644","sha256":"d29c7313bb5f78768342f8792aca18262bcab6e2d6f0a2dde591429f386be10c","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/candidate_preflight.py","language":"python","mode":"100644","sha256":"bf0c7ded099447d19680655209153977e68fee1841c9c7880d2a847dd37fdcde","parse_status":"parsed"}
+{"path":"verification/whole/basic-command-interop/client_owner_preflight.py","language":"python","mode":"100644","sha256":"1aa94c4da15fe79c0ab88e951013ce2aacb60636a665414b59e2267db6846e32","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/corpus.py","language":"python","mode":"100755","sha256":"802c0951ef65517d624c87ddbc9fc3b7575d563a9cce93f9e1823b02628a893f","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/direct-corpus-macos-arm64.json","language":"inventory","mode":"100644","sha256":"704b175b96d5372f031ed2b8f210d6329a7cc1955c399431180e1e98e7aec2af","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/generated-build-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d4c7c74cc03b3b3b18682188a8439ffc0e3485bc508760cfcd49fbae86447ddd","parse_status":"inventory"}
@@ -1032,7 +1032,7 @@
 {"path":"verification/whole/basic-command-interop/test_observe.py","language":"python","mode":"100644","sha256":"ca61927f43e8cff570c0ffea5c8a300cdd1a902b890f3f00f872cc6a6d1a93c1","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/test_qualify.py","language":"python","mode":"100644","sha256":"8119c4c538b6d151939cc69c0ef54fc6c06c3248af41d62fc4310f9162925236","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/upstream-client-generated-server-macos-arm64.json","language":"inventory","mode":"100644","sha256":"6de0ad97954673271569167ef2bdec16960075992ffbcfc8f3aa0a871eca867a","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/upstream-local-owner-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"8dd58ffa423ef9b88df5c247e346b0a09c25d271177e2d9889bdf2bbd9281a41","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/upstream-local-owner-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"3377921d1f27920acc6731b62b33e52751b0d64f3600199dbac6bdd0fe7b54bb","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/upstream-owner-activation-blocked-macos-arm64.json","language":"inventory","mode":"100644","sha256":"c246b8b6583753a166cf19a4682c98e9a9cd2b7576bd504b5402b97d70f35ba5","parse_status":"inventory"}
 {"path":"verification/whole/bridge/README.md","language":"inventory","mode":"100644","sha256":"ffa0773c5e8fa0d04b6707dc3f8c4b620289d828c081033863ef94f74885fe39","parse_status":"inventory"}
 {"path":"verification/whole/bridge/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"9dbd623321914008353e58e333efa2f6a9a2de8425e489720c9230d0cdfa1810","parse_status":"inventory"}
