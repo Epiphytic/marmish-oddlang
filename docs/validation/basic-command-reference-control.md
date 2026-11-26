@@ -1,0 +1,9 @@
+# Basic-command reference control on macOS ARM64
+
+The independent fixture replay passed all five short cases and four finite vectors. It checked exact process exit status, both binary streams and every field in the fixture's independent server-side receipt. The pinned native fixture was rebuilt from `af54339d250290490d62d4475a77539b7e739071` with Cargo 1.97.1, `--offline`, `--locked` and the `installed-checks` feature. The original release set came from the existing macOS ARM64 bridge build. The loopback plaintext and private-certificate rejection replay matched its tracked receipt byte for byte.
+
+The two independently selected mixed pairings both reached generated `setup`. The generated executable returned 125 with empty stdout and the exact stderr bytes for `command operation unavailable` followed by LF. The upstream client setup succeeded in the upstream-client direction. Neither mixed pairing attempted a command. The candidate export lacked bridge, engine worker, worker, credential helper and release-tool executables. The observer used the supplied candidate with no upstream executable on its generated side.
+
+The observer checked write confinement, denied access to the real user home and default Keychain and created disposable file profiles only after those probes. It removed both mixed workspaces. The final recorded attempts include their host metadata comparison and cleanup status. An earlier generated-client attempt recorded a host metadata change during the run and remains outside the clean measurements. No specific host writer was identified.
+
+In the recorded upstream control, both original setup invocations succeeded and the configured authorization was verified. The control then stopped at owner activation before attempting a command. Cleanup and the host metadata check passed. The complete upstream command oracle remains open. See the receipt and replay commands under `verification/whole/basic-command-interop/`.

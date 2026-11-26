@@ -1,0 +1,9 @@
+# Basic-command reference control review
+
+Claude Code 2.1.332 ran in auto mode. The initial design reviews checked the pinned Rust fixture, the exact byte-valued argv and the transport constraints. They required distinguishing the native installed fixture from its historical counterpart, specifying private receipt creation and accounting for Tor transit and onion descriptor reachability. The implementation uses the pinned native fixture and the embedded production Deaddrop onion endpoint. It treats active owners as transport evidence and requires authenticated command output and a receiver receipt for an execution claim.
+
+The second implementation review inspected commits `a306113` and `97c6074` and ran the 12 tests. It found three blockers to publishing the incomplete measurement. It required regeneration of the code ontology, independent binding of the generated artifact manifest and checked-in sanitized observations. The follow-up independently checks the exported receipt and artifacts against the committed build evidence, publishes scoped blocked attempts and regenerates the staged ontology.
+
+The review does not approve this evidence as a command oracle. The direct fixture replay establishes the corpus bytes. An upstream activation result or generated setup rejection establishes only that observed stage. A frozen oracle requires a full live upstream cohort.
+
+The final blocking re-review used Claude Opus 5.5. It confirmed the regenerated ontology, independent candidate receipt binding and both exact mixed results. It required a new tracked-code activation receipt and removal of an unrecorded admission claim. The tracked-code observer rerun supplied the replacement receipt with the reference build record digest and clean teardown. The validation note now limits its claim to that recorded activation attempt.

@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "platform": "aarch64-apple-darwin",
+  "macos": "26.6 (25G72)",
+  "rustc": "1.97.1 (8bab26f4f68e0e26f0bb7960be334d5b520ea452)",
+  "cargo": "1.97.1 (c980f4866 2026-06-30)",
+  "fixture": {
+    "commit": "af54339d250290490d62d4475a77539b7e739071",
+    "tree": "9be3104dd1d55194ae6e442c0d3eb1c0b223a481",
+    "manifest_sha256": "bf726da78321c6f465902f679bbd05557374091458208fe5531be8b3cc2e4f53",
+    "lock_sha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+    "source_sha256": "50cf2a2e6acd5e0470351dbda93c4e76583efef8622d1d0d9e9cef5e010e19a2",
+    "sha256": "d9230b3ab14404a5f8abc95958e364070747fa610716217a309f2f29bc82854a",
+    "command": "cargo +1.97.1 build --offline --locked --release --features marmish-native/installed-checks --bin marmish --bin marmishd --bin marmish-worker --bin marmish-engine-bridge --bin marmish-engine-worker --bin marmish-keychain --bin marmish-installed-fixture"
+  },
+  "relay": {
+    "commit": "b38b2841b081952dc7728da391fe0e26fc7c6181",
+    "tree": "61a1dfaf7028361af2801f77e061e9d9934fbf23",
+    "manifest_sha256": "29722e713869e635872e48ae0816b1b6bd660fae2bd1bbb5be36c30494057eba",
+    "lock_sha256": "6f1a5b34660f36b0a456c9045c41e19fa3e38eddedadbe43c9a38f2785dcf362",
+    "sha256": "7c5cbfee478f225bdfe8d5b83bf17612772adf8ead13e36d7d47a02ba24e14e3"
+  },
+  "corpus_source_sha256": "802c0951ef65517d624c87ddbc9fc3b7575d563a9cce93f9e1823b02628a893f",
+  "short_interpreter_sha256": "0bd93edaf7552f46edeb6bda6ad5388982d9b45e85c2b5c84e730a5eaadac76d"
+}
