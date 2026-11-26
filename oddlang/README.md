@@ -46,3 +46,9 @@ The script verifies the graph and every emitted source against
 Cargo uses the existing crate name, path, version, API and locked dependencies.
 For offline builds, prepare the dependencies in the local Cargo cache first.
 The input to regeneration is this repository's Oddlang graph bundle.
+
+## Portable Data contract
+
+The [copy Data role](portable/copy-data-v1/) supplies a contract graph and
+pin for standalone Rust and TypeScript modules. It covers the Data record
+and bounded incremental decoding observed at the pinned upstream revision.
