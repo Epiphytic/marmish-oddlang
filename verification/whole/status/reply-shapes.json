@@ -1,0 +1,113 @@
+{
+  "tuple-minimal": [
+    true,
+    null,
+    null
+  ],
+  "tuple-empty": [],
+  "tuple-full": [
+    true,
+    {
+      "state": "activating"
+    },
+    null,
+    null,
+    null
+  ],
+  "tuple-extra": [
+    true,
+    null,
+    null,
+    null,
+    null,
+    null
+  ],
+  "command-unit": {
+    "ok": true,
+    "command": {
+      "state": "local_busy"
+    }
+  },
+  "command-unit-extra-field": {
+    "ok": true,
+    "command": {
+      "state": "local_busy",
+      "extra": 1
+    }
+  },
+  "command-struct": {
+    "ok": true,
+    "command": {
+      "state": "ready",
+      "local_account": "example",
+      "session": "one"
+    }
+  },
+  "command-struct-missing": {
+    "ok": true,
+    "command": {
+      "state": "ready",
+      "local_account": "example"
+    }
+  },
+  "command-struct-extra": {
+    "ok": true,
+    "command": {
+      "state": "ready",
+      "local_account": "example",
+      "session": "one",
+      "extra": 1
+    }
+  },
+  "command-unknown-tag": {
+    "ok": true,
+    "command": {
+      "state": "example"
+    }
+  },
+  "stream-unit": {
+    "ok": true,
+    "stream": {
+      "state": "pending"
+    }
+  },
+  "stream-struct": {
+    "ok": false,
+    "stream": {
+      "state": "failure",
+      "category": "example"
+    }
+  },
+  "stream-records-empty": {
+    "ok": true,
+    "stream": {
+      "state": "entries",
+      "entries": []
+    }
+  },
+  "stream-invalid-field": {
+    "ok": true,
+    "stream": {
+      "state": "frame",
+      "frame_base64": 123
+    }
+  },
+  "both-present": {
+    "ok": true,
+    "stream": {
+      "state": "pending"
+    },
+    "command": {
+      "state": "local_busy"
+    }
+  },
+  "tuple-with-extension": [
+    true,
+    null,
+    null,
+    {
+      "state": "local_busy"
+    },
+    null
+  ]
+}

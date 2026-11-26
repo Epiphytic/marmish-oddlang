@@ -15560,6 +15560,8 @@
 {"id":"verification/whole/status/qualify.py/function_definition:unsupported_reply_checks#1","path":"verification/whole/status/qualify.py","parent_id":null,"kind":"function_definition","name":"unsupported_reply_checks","start_line":61,"end_line":89}
 {"id":"verification/whole/status/qualify.py/function_definition:parser_counts#1","path":"verification/whole/status/qualify.py","parent_id":null,"kind":"function_definition","name":"parser_counts","start_line":92,"end_line":99}
 {"id":"verification/whole/status/qualify.py/function_definition:main#1","path":"verification/whole/status/qualify.py","parent_id":null,"kind":"function_definition","name":"main","start_line":102,"end_line":146}
+{"id":"verification/whole/status/reply_shapes.py/function_definition:replay#1","path":"verification/whole/status/reply_shapes.py","parent_id":null,"kind":"function_definition","name":"replay","start_line":16,"end_line":31}
+{"id":"verification/whole/status/reply_shapes.py/function_definition:main#1","path":"verification/whole/status/reply_shapes.py","parent_id":null,"kind":"function_definition","name":"main","start_line":34,"end_line":70}
 {"id":"verification/whole/stream-block/caller.rs/function_item:codec#1","path":"verification/whole/stream-block/caller.rs","parent_id":null,"kind":"function_item","name":"codec","start_line":6,"end_line":8}
 {"id":"verification/whole/stream-block/caller.rs/function_item:answer#1","path":"verification/whole/stream-block/caller.rs","parent_id":null,"kind":"function_item","name":"answer","start_line":10,"end_line":81}
 {"id":"verification/whole/stream-block/caller.rs/function_item:main#1","path":"verification/whole/stream-block/caller.rs","parent_id":null,"kind":"function_item","name":"main","start_line":83,"end_line":88}
