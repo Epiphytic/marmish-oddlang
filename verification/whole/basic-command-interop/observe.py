@@ -85,20 +85,25 @@ def verify_profile(instance, role):
 
 
 def host_preferences_state():
-    paths = [SYSTEM_HOME / "Library/Preferences/com.apple.security.plist",
-             SYSTEM_HOME / "Library/Keychains", SYSTEM_HOME / ".marmish",
-             SYSTEM_HOME / ".local/share/marmish-native", SYSTEM_HOME / ".config/marmish"]
+    paths = {
+        "keychain_preferences": SYSTEM_HOME / "Library/Preferences/com.apple.security.plist",
+        "keychain_directory": SYSTEM_HOME / "Library/Keychains",
+        "legacy_marmish_profile": SYSTEM_HOME / ".marmish",
+        "marmish_installation": SYSTEM_HOME / ".local/share/marmish-native",
+        "marmish_configuration": SYSTEM_HOME / ".config/marmish",
+    }
     result = {}
-    for path in paths:
+    for category, path in paths.items():
         entries = [path, *sorted(path.iterdir())] if path.is_dir() else [path]
+        snapshot = {}
         for entry in entries:
             try:
                 value = entry.lstat()
-                result[entry] = (value.st_mode, value.st_ino, value.st_size, value.st_mtime_ns)
+                snapshot[entry] = (value.st_mode, value.st_ino, value.st_size, value.st_mtime_ns)
             except FileNotFoundError:
-                result[entry] = None
+                snapshot[entry] = None
+        result[category] = snapshot
     return result
-
 
 
 def drain(stream, stop):
@@ -371,7 +376,10 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
             reader.join(timeout=1)
     readers_stopped = not any(reader.is_alive() for reader in readers)
     observation["workspace_removed"] = hasattr(workspace, "root") and not workspace.root.exists()
-    observation["host_preferences_metadata_unchanged"] = host_preferences_state() == host_before
+    host_after = host_preferences_state()
+    changed = sorted(category for category in host_before if host_after[category] != host_before[category])
+    observation["host_metadata_changed_categories"] = changed
+    observation["host_preferences_metadata_unchanged"] = not changed
     if (not readers_stopped or not workspace.cleanup_verified or not observation["workspace_removed"]
             or not observation["host_preferences_metadata_unchanged"]):
         observation["cleanup_verification"] = "blocked"
