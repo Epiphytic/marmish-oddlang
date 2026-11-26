@@ -29,9 +29,10 @@ The independent [canonical Darwin audit](../canonical-workspace/aarch64-apple-da
 compiled all six downstream crate-root import spellings. That audit used
 the full workspace. The lexical observations used its stand-alone core
 member and its separate Cargo lock. The Linux replay confirms the
-declaration comparisons and provenance. Only the Darwin audit establishes
-the compiled import spellings in this evidence. These observations cover
-specific declaration keys, declared visibility and downstream imports.
+declaration comparisons and provenance. The later [native Linux compile-only audit](../canonical-linux-imports/)
+independently established all six frozen core import spellings in both
+the original and generated libraries. These observations cover specific
+declaration keys, declared visibility and downstream imports.
 Type compatibility, effective visibility beyond those import spellings,
 behavior, and the completeness of the portable ontology require their
 own evidence.
