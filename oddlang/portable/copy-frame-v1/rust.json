@@ -1,0 +1,145 @@
+{
+  "format": "oddlang-binary-frame-rust-v1",
+  "name": "Frame",
+  "decoder": "FrameDecoder",
+  "errorType": "crate::Error",
+  "cases": {
+    "urn:marmish:copy:frame:Start": "Start",
+    "urn:marmish:copy:frame:Manifest": "Manifest",
+    "urn:marmish:copy:frame:Resume": "Resume",
+    "urn:marmish:copy:frame:Prefix": "Prefix",
+    "urn:marmish:copy:frame:Data": "Data",
+    "urn:marmish:copy:frame:Checkpoint": "Checkpoint",
+    "urn:marmish:copy:frame:Done": "Done",
+    "urn:marmish:copy:frame:Commit": "Commit",
+    "urn:marmish:copy:frame:Finish": "Finish",
+    "urn:marmish:copy:frame:Progress": "Progress",
+    "urn:marmish:copy:frame:Error": "Error"
+  },
+  "fields": {
+    "urn:marmish:copy:frame:Start:field:launch": "launch",
+    "urn:marmish:copy:frame:Start:field:codec": "codec",
+    "urn:marmish:copy:frame:Manifest:field:manifest": "manifest",
+    "urn:marmish:copy:frame:Resume:field:phase": "phase",
+    "urn:marmish:copy:frame:Resume:field:offset": "offset",
+    "urn:marmish:copy:frame:Resume:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Prefix:field:offset": "offset",
+    "urn:marmish:copy:frame:Prefix:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Data:field:offset": "offset",
+    "urn:marmish:copy:frame:Data:field:bytes": "bytes",
+    "urn:marmish:copy:frame:Checkpoint:field:offset": "offset",
+    "urn:marmish:copy:frame:Checkpoint:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Done:field:size": "size",
+    "urn:marmish:copy:frame:Done:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Commit:field:transfer": "transfer",
+    "urn:marmish:copy:frame:Commit:field:size": "size",
+    "urn:marmish:copy:frame:Commit:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Finish:field:transfer": "transfer",
+    "urn:marmish:copy:frame:Finish:field:sha256": "sha256",
+    "urn:marmish:copy:frame:Progress:field:stage": "stage",
+    "urn:marmish:copy:frame:Progress:field:examined": "examined",
+    "urn:marmish:copy:frame:Progress:field:total": "total",
+    "urn:marmish:copy:frame:Error:field:code": "code"
+  },
+  "errors": {
+    "urn:marmish:copy:copy_frame": {
+      "variant": "Invalid",
+      "argument": "copy_frame"
+    },
+    "urn:marmish:copy:copy_frame_length": {
+      "variant": "Invalid",
+      "argument": "copy_frame_length"
+    },
+    "urn:marmish:copy:copy_frame_tag": {
+      "variant": "Invalid",
+      "argument": "copy_frame_tag"
+    },
+    "urn:marmish:copy:copy_truncated": {
+      "variant": "Invalid",
+      "argument": "copy_truncated"
+    },
+    "urn:marmish:copy:copy_trailing": {
+      "variant": "Invalid",
+      "argument": "copy_trailing"
+    },
+    "urn:marmish:copy:copy_decoder_failed": {
+      "variant": "Invalid",
+      "argument": "copy_decoder_failed"
+    },
+    "urn:marmish:copy:copy_enum": {
+      "variant": "Invalid",
+      "argument": "copy_enum"
+    },
+    "urn:marmish:copy:copy_codec": {
+      "variant": "Invalid",
+      "argument": "copy_codec"
+    },
+    "urn:marmish:copy:copy_disposition": {
+      "variant": "Invalid",
+      "argument": "copy_disposition"
+    },
+    "urn:marmish:copy:copy_error_owner": {
+      "variant": "Invalid",
+      "argument": "copy_error_owner"
+    },
+    "urn:marmish:stream:error:Limit": {
+      "variant": "Limit"
+    },
+    "urn:marmish:stream:error:Offset": {
+      "variant": "Offset"
+    }
+  },
+  "types": {
+    "urn:marmish:copy:Codec": {
+      "path": "crate::codec::Codec",
+      "variants": {
+        "urn:marmish:copy:Codec:None": "None",
+        "urn:marmish:copy:Codec:Zlib": "Zlib"
+      }
+    },
+    "urn:marmish:copy:Phase": {
+      "path": "crate::copy_protocol::Phase",
+      "variants": {
+        "urn:marmish:copy:Phase:Created": "Created",
+        "urn:marmish:copy:Phase:Receiving": "Receiving",
+        "urn:marmish:copy:Phase:Verifying": "Verifying",
+        "urn:marmish:copy:Phase:CommitPrepared": "CommitPrepared",
+        "urn:marmish:copy:Phase:Committed": "Committed"
+      }
+    },
+    "urn:marmish:copy:Stage": {
+      "path": "crate::copy_protocol::Stage",
+      "variants": {
+        "urn:marmish:copy:Stage:Hashing": "Hashing",
+        "urn:marmish:copy:Stage:PrefixHash": "PrefixHash",
+        "urn:marmish:copy:Stage:Verifying": "Verifying",
+        "urn:marmish:copy:Stage:Syncing": "Syncing"
+      }
+    },
+    "urn:marmish:copy:CopyError": {
+      "path": "crate::copy_protocol::CopyError",
+      "variants": {
+        "urn:marmish:copy:CopyError:Unsupported": "Unsupported",
+        "urn:marmish:copy:CopyError:Protocol": "Protocol",
+        "urn:marmish:copy:CopyError:PermissionDenied": "PermissionDenied",
+        "urn:marmish:copy:CopyError:NotFound": "NotFound",
+        "urn:marmish:copy:CopyError:UnsafePath": "UnsafePath",
+        "urn:marmish:copy:CopyError:Busy": "Busy",
+        "urn:marmish:copy:CopyError:Conflict": "Conflict",
+        "urn:marmish:copy:CopyError:SourceChanged": "SourceChanged",
+        "urn:marmish:copy:CopyError:HashMismatch": "HashMismatch",
+        "urn:marmish:copy:CopyError:DiskFull": "DiskFull",
+        "urn:marmish:copy:CopyError:Quota": "Quota",
+        "urn:marmish:copy:CopyError:CommitUncertain": "CommitUncertain",
+        "urn:marmish:copy:CopyError:LocalIo": "LocalIo",
+        "urn:marmish:copy:CopyError:IdentityChanged": "IdentityChanged"
+      }
+    },
+    "urn:marmish:copy:launch": {
+      "path": "crate::copy_protocol::Launch"
+    },
+    "urn:marmish:copy:manifest": {
+      "path": "crate::copy_protocol::Manifest"
+    }
+  }
+}

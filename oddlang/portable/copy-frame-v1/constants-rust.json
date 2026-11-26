@@ -1,0 +1,24 @@
+{
+  "format": "oddlang-shared-rust-v1",
+  "names": {
+    "urn:marmish:copy:constant:MAX_PATH": "MAX_PATH",
+    "urn:marmish:copy:constant:MAX_CONTROL": "MAX_CONTROL",
+    "urn:marmish:copy:constant:DURABLE_WINDOW": "DURABLE_WINDOW",
+    "urn:marmish:copy:constant:CHECKPOINT_INTERVAL": "CHECKPOINT_INTERVAL",
+    "urn:marmish:copy:constant:MIN_RETENTION_SECS": "MIN_RETENTION_SECS",
+    "urn:marmish:copy:constant:MAX_RETENTION_SECS": "MAX_RETENTION_SECS",
+    "urn:marmish:copy:constant:CONTEXT_VERSION": "CONTEXT_VERSION",
+    "urn:marmish:copy:constant:MAX_CONTEXT": "MAX_CONTEXT",
+    "urn:marmish:copy:constant:HELPER_ENTRYPOINT": "HELPER_ENTRYPOINT"
+  },
+  "constantTypes": {
+    "urn:marmish:copy:constant:MAX_PATH": "usize",
+    "urn:marmish:copy:constant:MAX_CONTROL": "usize",
+    "urn:marmish:copy:constant:DURABLE_WINDOW": "u64",
+    "urn:marmish:copy:constant:CHECKPOINT_INTERVAL": "u64",
+    "urn:marmish:copy:constant:MIN_RETENTION_SECS": "i64",
+    "urn:marmish:copy:constant:MAX_RETENTION_SECS": "u64",
+    "urn:marmish:copy:constant:CONTEXT_VERSION": "u32",
+    "urn:marmish:copy:constant:MAX_CONTEXT": "usize"
+  }
+}
