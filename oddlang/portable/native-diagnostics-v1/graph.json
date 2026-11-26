@@ -1,0 +1,131 @@
+{
+  "format": "oddlang-structured-diagnostics-v1",
+  "flag": {
+    "name": "ENABLED",
+    "initial": false
+  },
+  "functions": [
+    {
+      "name": "enable",
+      "parameters": [],
+      "actions": [
+        {
+          "kind": "set",
+          "value": true
+        },
+        {
+          "kind": "emit",
+          "fields": {
+            "architecture": {
+              "kind": "host-architecture"
+            },
+            "event": {
+              "kind": "text",
+              "source": {
+                "kind": "literal",
+                "value": "context"
+              }
+            },
+            "platform": {
+              "kind": "host-os"
+            },
+            "schema": {
+              "kind": "unsigned",
+              "value": 1
+            },
+            "version": {
+              "kind": "package-version"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "event",
+      "parameters": [
+        {
+          "name": "stage",
+          "writable": false
+        },
+        {
+          "name": "category",
+          "writable": false
+        }
+      ],
+      "actions": [
+        {
+          "kind": "when",
+          "actions": [
+            {
+              "kind": "emit",
+              "fields": {
+                "category": {
+                  "kind": "text",
+                  "source": {
+                    "kind": "parameter",
+                    "name": "category"
+                  }
+                },
+                "event": {
+                  "kind": "text",
+                  "source": {
+                    "kind": "literal",
+                    "value": "diagnostic"
+                  }
+                },
+                "schema": {
+                  "kind": "unsigned",
+                  "value": 1
+                },
+                "stage": {
+                  "kind": "text",
+                  "source": {
+                    "kind": "parameter",
+                    "name": "stage"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "stage",
+      "parameters": [
+        {
+          "name": "current",
+          "writable": true
+        },
+        {
+          "name": "value",
+          "writable": false
+        }
+      ],
+      "actions": [
+        {
+          "kind": "assign",
+          "target": "current",
+          "value": {
+            "kind": "parameter",
+            "name": "value"
+          }
+        },
+        {
+          "kind": "call",
+          "function": "event",
+          "arguments": [
+            {
+              "kind": "parameter",
+              "name": "value"
+            },
+            {
+              "kind": "literal",
+              "value": "begin"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
