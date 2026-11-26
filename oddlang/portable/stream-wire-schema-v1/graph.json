@@ -1,0 +1,669 @@
+{
+  "format": "oddlang-json-wire-schema-v1",
+  "id": "urn:marmish:stream:wire:records",
+  "types": [
+    {
+      "kind": "external",
+      "id": "urn:marmish:copy:launch"
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:integrity-block"
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:integrity-block:representation"
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:stream:wire:Binding",
+      "fields": [
+        {
+          "id": "urn:marmish:stream:wire:Binding:field:stream",
+          "name": "stream",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Binding:field:session",
+          "name": "session",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 16,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Binding:field:client",
+          "name": "client",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Binding:field:server",
+          "name": "server",
+          "type": {
+            "kind": "lower-hex",
+            "bytes": 32,
+            "diagnostic": "hex"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:wire:CopyAdmissionError"
+    },
+    {
+      "kind": "record",
+      "id": "urn:marmish:stream:wire:Envelope",
+      "fields": [
+        {
+          "id": "urn:marmish:stream:wire:Envelope:field:protocol",
+          "name": "protocol",
+          "type": {
+            "kind": "text"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Envelope:field:version",
+          "name": "version",
+          "type": {
+            "kind": "unsigned",
+            "bits": 32
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Envelope:field:binding",
+          "name": "binding",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:stream:wire:Binding"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Envelope:field:sequence",
+          "name": "sequence",
+          "type": {
+            "kind": "unsigned",
+            "bits": 64
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Envelope:field:message",
+          "name": "message",
+          "type": {
+            "kind": "ref",
+            "id": "urn:marmish:stream:wire:Message"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:stream:wire:Message",
+      "tag": "direction",
+      "content": "data",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:Message:variant:Request",
+          "name": "request",
+          "payload": {
+            "kind": "newtype",
+            "type": {
+              "kind": "ref",
+              "id": "urn:marmish:stream:wire:RequestBody"
+            }
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Message:variant:Response",
+          "name": "response",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:Message:variant:Response:field:request_sha256",
+                "name": "request_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "hex"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:Message:variant:Response:field:body",
+                "name": "body",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:wire:ResponseBody"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:wire:OpenDisposition"
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:stream:wire:RequestBody",
+      "tag": "op",
+      "content": "data",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:Hello",
+          "name": "hello",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Hello:field:codecs",
+                "name": "codecs",
+                "type": {
+                  "kind": "list",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block:representation"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:CopyHello",
+          "name": "copy_hello",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:versions",
+                "name": "versions",
+                "type": {
+                  "kind": "list",
+                  "item": {
+                    "kind": "unsigned",
+                    "bits": 32
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:CopyHello:field:codecs",
+                "name": "codecs",
+                "type": {
+                  "kind": "list",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block:representation"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy",
+          "name": "open_copy",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:launch",
+                "name": "launch",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:copy:launch"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:OpenCopy:field:codec",
+                "name": "codec",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:integrity-block:representation"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:Open",
+          "name": "open",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Open:field:argv",
+                "name": "argv",
+                "type": {
+                  "kind": "bounded-base64-list",
+                  "policy": {
+                    "maxItems": 128,
+                    "maxItemBytes": 16384,
+                    "maxTotalBytes": 16384,
+                    "perItemOverhead": 1,
+                    "listLimitMessage": "argv_limit",
+                    "encodedLimitMessage": "stream capacity reached",
+                    "decodedLimitMessage": "invalid stream input: base64",
+                    "syntaxMessage": "invalid stream input: base64"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Open:field:codec",
+                "name": "codec",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:integrity-block:representation"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:Exchange",
+          "name": "exchange",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin",
+                "name": "stdin",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdin_eof",
+                "name": "stdin_eof",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "unsigned",
+                    "bits": 64
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stdout_ack",
+                "name": "stdout_ack",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:RequestBody:variant:Exchange:field:stderr_ack",
+                "name": "stderr_ack",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:Cancel",
+          "name": "cancel",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:RequestBody:variant:Status",
+          "name": "status",
+          "payload": {
+            "kind": "unit"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:stream:wire:ResponseBody",
+      "tag": "op",
+      "content": "data",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello",
+          "name": "copy_hello",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:version",
+                "name": "version",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:codecs",
+                "name": "codecs",
+                "type": {
+                  "kind": "list",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block:representation"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:frame_bytes",
+                "name": "frame_bytes",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyHello:field:window_bytes",
+                "name": "window_bytes",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused",
+          "name": "copy_refused",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:code",
+                "name": "code",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:wire:CopyAdmissionError"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:CopyRefused:field:prior_binding",
+                "name": "prior_binding",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:wire:Binding"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:Hello",
+          "name": "hello",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:codecs",
+                "name": "codecs",
+                "type": {
+                  "kind": "list",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block:representation"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:frame_bytes",
+                "name": "frame_bytes",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Hello:field:window_bytes",
+                "name": "window_bytes",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 32
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:Opened",
+          "name": "opened",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:codec",
+                "name": "codec",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:integrity-block:representation"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:open_sha256",
+                "name": "open_sha256",
+                "type": {
+                  "kind": "lower-hex",
+                  "bytes": 32,
+                  "diagnostic": "hex"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Opened:field:disposition",
+                "name": "disposition",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:wire:OpenDisposition"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange",
+          "name": "exchange",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_accepted",
+                "name": "stdin_accepted",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_delivered",
+                "name": "stdin_delivered",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 64
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdin_closed",
+                "name": "stdin_closed",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout",
+                "name": "stdout",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr",
+                "name": "stderr",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:integrity-block"
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stdout_eof",
+                "name": "stdout_eof",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "unsigned",
+                    "bits": 64
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:stderr_eof",
+                "name": "stderr_eof",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "unsigned",
+                    "bits": 64
+                  }
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:cancel_requested",
+                "name": "cancel_requested",
+                "type": {
+                  "kind": "bool"
+                }
+              },
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Exchange:field:terminal",
+                "name": "terminal",
+                "type": {
+                  "kind": "optional",
+                  "item": {
+                    "kind": "ref",
+                    "id": "urn:marmish:stream:wire:Terminal"
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:ResponseBody:variant:Error",
+          "name": "error",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:ResponseBody:variant:Error:field:code",
+                "name": "code",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:wire:WireErrorCode"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "adjacent",
+      "id": "urn:marmish:stream:wire:Terminal",
+      "tag": "kind",
+      "content": "data",
+      "variants": [
+        {
+          "id": "urn:marmish:stream:wire:Terminal:variant:Exited",
+          "name": "exited",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:Terminal:variant:Exited:field:code",
+                "name": "code",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 8
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Terminal:variant:Signaled",
+          "name": "signaled",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:Terminal:variant:Signaled:field:signal",
+                "name": "signal",
+                "type": {
+                  "kind": "unsigned",
+                  "bits": 8
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Terminal:variant:Cancelled",
+          "name": "cancelled",
+          "payload": {
+            "kind": "unit"
+          }
+        },
+        {
+          "id": "urn:marmish:stream:wire:Terminal:variant:Failed",
+          "name": "failed",
+          "payload": {
+            "kind": "record",
+            "fields": [
+              {
+                "id": "urn:marmish:stream:wire:Terminal:variant:Failed:field:code",
+                "name": "code",
+                "type": {
+                  "kind": "ref",
+                  "id": "urn:marmish:stream:wire:WireErrorCode"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "kind": "external",
+      "id": "urn:marmish:stream:wire:WireErrorCode"
+    }
+  ],
+  "guards": []
+}

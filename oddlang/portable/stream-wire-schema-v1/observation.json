@@ -1,0 +1,13 @@
+{
+  "gaps": [
+    {
+      "kind": "behavior",
+      "reason": "conditional guards require independent evidence"
+    }
+  ],
+  "graphSha256": "a11e74fb48304341bc9bf9665cdabe2f7756fff12848700d0ac19f0f1abec0fd",
+  "qualification": "structural-candidate",
+  "rustBindingSha256": "0af69669ec5c2bd44211472c42fe8fabfd70be5190fd90bf51a55808c9df0eec",
+  "selectionSha256": "75e6781cab82e5922c67ee00208414c1e1b65f597e92294938d1156230cfca0d",
+  "sourceSha256": "54254ed91540dd6eef2237b174a6834d200b933b9061ff255f61305248fbecf8"
+}
