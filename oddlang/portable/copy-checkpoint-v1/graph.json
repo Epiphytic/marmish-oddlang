@@ -1,0 +1,428 @@
+{
+  "format": "oddlang-binary-record-v1",
+  "id": "urn:marmish:copy:checkpoint",
+  "maximum": 16384,
+  "layout": [
+    {
+      "id": "urn:marmish:copy:checkpoint:field:version",
+      "encoding": {
+        "kind": "literal",
+        "bytes": [
+          0,
+          0,
+          0,
+          1
+        ],
+        "requireFull": true,
+        "error": "urn:marmish:copy:copy_checkpoint_version"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:manifest",
+      "encoding": {
+        "kind": "nested",
+        "record": "urn:marmish:copy:manifest",
+        "maximum": 16384,
+        "overflow": "urn:marmish:stream:error:Limit"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:phase",
+      "encoding": {
+        "kind": "enum-u8",
+        "external": "urn:marmish:copy:Phase",
+        "tags": {
+          "urn:marmish:copy:Phase:Created": 1,
+          "urn:marmish:copy:Phase:Receiving": 2,
+          "urn:marmish:copy:Phase:Verifying": 3,
+          "urn:marmish:copy:Phase:CommitPrepared": 4,
+          "urn:marmish:copy:Phase:Committed": 5
+        },
+        "error": "urn:marmish:copy:copy_enum"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:normalized_path",
+      "encoding": {
+        "kind": "bytes",
+        "minimum": 1,
+        "maximum": 4104,
+        "overflow": "urn:marmish:stream:error:Limit",
+        "excludes": [
+          0
+        ],
+        "valueError": "urn:marmish:copy:copy_local_path"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:parent",
+      "encoding": {
+        "kind": "inline",
+        "id": "urn:marmish:copy:file-identity"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:private",
+      "encoding": {
+        "kind": "inline",
+        "id": "urn:marmish:copy:file-identity"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:data",
+      "encoding": {
+        "kind": "inline",
+        "id": "urn:marmish:copy:file-identity"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:durable_offset",
+      "encoding": {
+        "kind": "unsigned-be",
+        "bits": 64,
+        "minimum": 0,
+        "maximum": 9223372036854775807,
+        "readError": "urn:marmish:stream:error:Offset",
+        "valueError": "urn:marmish:copy:copy_checkpoint"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:prefix_sha256",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 32
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:last_stream",
+      "encoding": {
+        "kind": "fixed-bytes",
+        "size": 16
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:created",
+      "encoding": {
+        "kind": "signed-be",
+        "bits": 64
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:updated",
+      "encoding": {
+        "kind": "signed-be",
+        "bits": 64
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:expires",
+      "encoding": {
+        "kind": "signed-be",
+        "bits": 64
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:field:committed_final",
+      "encoding": {
+        "kind": "optional",
+        "payload": {
+          "kind": "record",
+          "id": "urn:marmish:copy:file-identity"
+        },
+        "error": "urn:marmish:copy:copy_option"
+      }
+    }
+  ],
+  "errors": {
+    "value": "urn:marmish:copy:copy_checkpoint",
+    "decodeSize": "urn:marmish:stream:error:Limit",
+    "encodeSize": "urn:marmish:stream:error:Limit",
+    "truncated": "urn:marmish:copy:copy_truncated",
+    "trailing": "urn:marmish:copy:copy_trailing"
+  },
+  "records": {
+    "urn:marmish:copy:file-identity": {
+      "fields": [
+        {
+          "id": "urn:marmish:copy:file-identity:field:device",
+          "bits": 64
+        },
+        {
+          "id": "urn:marmish:copy:file-identity:field:inode",
+          "bits": 64
+        }
+      ]
+    }
+  },
+  "externalRecords": {
+    "urn:marmish:copy:manifest": {
+      "fields": {
+        "urn:marmish:copy:manifest:field:size": {
+          "kind": "unsigned",
+          "bits": 64
+        },
+        "urn:marmish:copy:manifest:field:sha256": {
+          "kind": "fixed-bytes",
+          "size": 32
+        }
+      }
+    }
+  },
+  "constraints": [
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:offset",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "at-most",
+        "left": {
+          "kind": "field",
+          "id": "urn:marmish:copy:checkpoint:field:durable_offset"
+        },
+        "right": {
+          "kind": "member",
+          "field": "urn:marmish:copy:checkpoint:field:manifest",
+          "id": "urn:marmish:copy:manifest:field:size"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:chronology",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "at-most",
+        "left": {
+          "kind": "field",
+          "id": "urn:marmish:copy:checkpoint:field:created"
+        },
+        "right": {
+          "kind": "field",
+          "id": "urn:marmish:copy:checkpoint:field:updated"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:retention",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "elapsed",
+        "end": {
+          "kind": "field",
+          "id": "urn:marmish:copy:checkpoint:field:expires"
+        },
+        "start": {
+          "kind": "field",
+          "id": "urn:marmish:copy:checkpoint:field:updated"
+        },
+        "minimum": 604860
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:created-empty",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "implies",
+        "condition": {
+          "kind": "variant-in",
+          "field": "urn:marmish:copy:checkpoint:field:phase",
+          "variants": [
+            "urn:marmish:copy:Phase:Created"
+          ]
+        },
+        "then": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:durable_offset"
+          },
+          "right": {
+            "kind": "unsigned",
+            "bits": 64,
+            "value": 0
+          }
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:complete-offset",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "implies",
+        "condition": {
+          "kind": "variant-in",
+          "field": "urn:marmish:copy:checkpoint:field:phase",
+          "variants": [
+            "urn:marmish:copy:Phase:Verifying",
+            "urn:marmish:copy:Phase:CommitPrepared",
+            "urn:marmish:copy:Phase:Committed"
+          ]
+        },
+        "then": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:durable_offset"
+          },
+          "right": {
+            "kind": "member",
+            "field": "urn:marmish:copy:checkpoint:field:manifest",
+            "id": "urn:marmish:copy:manifest:field:size"
+          }
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:committed-presence",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "equivalent",
+        "left": {
+          "kind": "variant-in",
+          "field": "urn:marmish:copy:checkpoint:field:phase",
+          "variants": [
+            "urn:marmish:copy:Phase:Committed"
+          ]
+        },
+        "right": {
+          "kind": "present",
+          "field": "urn:marmish:copy:checkpoint:field:committed_final"
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:committed-identity",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "optional-equals",
+        "field": "urn:marmish:copy:checkpoint:field:committed_final",
+        "other": "urn:marmish:copy:checkpoint:field:data"
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:empty-prefix",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "implies",
+        "condition": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:durable_offset"
+          },
+          "right": {
+            "kind": "unsigned",
+            "bits": 64,
+            "value": 0
+          }
+        },
+        "then": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:prefix_sha256"
+          },
+          "right": {
+            "kind": "fixed-bytes",
+            "value": [
+              227,
+              176,
+              196,
+              66,
+              152,
+              252,
+              28,
+              20,
+              154,
+              251,
+              244,
+              200,
+              153,
+              111,
+              185,
+              36,
+              39,
+              174,
+              65,
+              228,
+              100,
+              155,
+              147,
+              76,
+              164,
+              149,
+              153,
+              27,
+              120,
+              82,
+              184,
+              85
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "urn:marmish:copy:checkpoint:constraint:complete-prefix",
+      "error": "urn:marmish:copy:copy_checkpoint",
+      "predicate": {
+        "kind": "implies",
+        "condition": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:durable_offset"
+          },
+          "right": {
+            "kind": "member",
+            "field": "urn:marmish:copy:checkpoint:field:manifest",
+            "id": "urn:marmish:copy:manifest:field:size"
+          }
+        },
+        "then": {
+          "kind": "equal",
+          "left": {
+            "kind": "field",
+            "id": "urn:marmish:copy:checkpoint:field:prefix_sha256"
+          },
+          "right": {
+            "kind": "member",
+            "field": "urn:marmish:copy:checkpoint:field:manifest",
+            "id": "urn:marmish:copy:manifest:field:sha256"
+          }
+        }
+      }
+    }
+  ],
+  "integrity": {
+    "domain": [
+      109,
+      97,
+      114,
+      109,
+      105,
+      115,
+      104,
+      45,
+      99,
+      111,
+      112,
+      121,
+      45,
+      99,
+      104,
+      101,
+      99,
+      107,
+      112,
+      111,
+      105,
+      110,
+      116,
+      47,
+      49,
+      0
+    ],
+    "algorithm": "sha256",
+    "short": "urn:marmish:stream:error:Limit",
+    "mismatch": "urn:marmish:copy:copy_checkpoint_checksum"
+  }
+}

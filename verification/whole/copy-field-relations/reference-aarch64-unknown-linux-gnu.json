@@ -1,0 +1,15 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "7588c8288b89e4a4abc7cfbd110c9b71305377f7",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-unknown-linux-gnu\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "33a3ea71cb85065229d745b1723725ff733d5b9b95d4836747490156049b8b62",
+  "callerSha256": "b930543875806ffedf7b1d15aa01a49511d297d3f091d2bf3079b3dfe95fc00f",
+  "cases": {
+    "match": 14,
+    "start": 56,
+    "build": 24
+  },
+  "observationsSha256": "2fdc49c664670af630a0deb4661321bd158922d3fef3dac4861e439d7f09bf87",
+  "negativeControl": "advancing the fallible digest before identity checks converts copy_context_launch into copy_path"
+}

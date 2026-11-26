@@ -1,0 +1,6 @@
+{
+  "format": "oddlang-file-profile-rust-v1",
+  "entry": "prepare_credentials",
+  "random": "getrandom",
+  "signing": "secp256k1_x_only"
+}
