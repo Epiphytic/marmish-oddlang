@@ -1,0 +1,13 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "3b3a1ef0e560041474cf6cddedcd52ab66defde2",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "originalAndCompanionReadDenied": true,
+  "packageLockSha256": "e8274e8cd35ddf2297c2393ec3ff9dbb5fce51b848333d236d661e28a01fef52",
+  "callerSha256": "7698dc7bccb0bdcdbd0444faca09682df73f94389aae68ae64d76fedf45209e5",
+  "constructions": 290,
+  "decodes": 1827,
+  "rejectedDecodes": 1809,
+  "observationsSha256": "178d969df523b4c9d9fd1e01872d65e518966fa741c8903f24213f43ee631184",
+  "negativeControl": "repinning the integrity domain changes the encoded footer and rejects the original digest"
+}
