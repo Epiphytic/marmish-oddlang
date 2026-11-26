@@ -1,0 +1,34 @@
+{
+  "api": {
+    "domain": "urn:marmish:core:configuration:retention",
+    "typeName": "Retention",
+    "constructor": "from_seconds",
+    "accessor": "seconds",
+    "maximumConstant": "MAX_SECONDS",
+    "errorType": "ConfigError",
+    "variants": {
+      "urn:marmish:core:configuration:EmptyRelaySet": "EmptyRelaySet",
+      "urn:marmish:core:configuration:InvalidUrl": "InvalidUrl",
+      "urn:marmish:core:configuration:DisallowedScheme": "DisallowedScheme",
+      "urn:marmish:core:configuration:DisallowedComponents": "DisallowedComponents",
+      "urn:marmish:core:configuration:DisallowedHost": "DisallowedHost",
+      "urn:marmish:core:configuration:LoopbackDenied": "LoopbackDenied",
+      "urn:marmish:core:configuration:RetentionOutOfRange": "RetentionOutOfRange"
+    },
+    "variantOrder": [
+      "urn:marmish:core:configuration:EmptyRelaySet",
+      "urn:marmish:core:configuration:InvalidUrl",
+      "urn:marmish:core:configuration:DisallowedScheme",
+      "urn:marmish:core:configuration:DisallowedComponents",
+      "urn:marmish:core:configuration:DisallowedHost",
+      "urn:marmish:core:configuration:LoopbackDenied",
+      "urn:marmish:core:configuration:RetentionOutOfRange"
+    ]
+  },
+  "bits": 64,
+  "rangeError": "urn:marmish:core:configuration:RetentionOutOfRange",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "compilerCommit": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "package": "marmish-core"
+}
