@@ -1,0 +1,1054 @@
+{
+  "format": "oddlang-sequence-journal-v1",
+  "errors": [
+    "urn:marmish:stream:error:Ack",
+    "urn:marmish:stream:error:Limit",
+    "urn:marmish:stream:error:Offset",
+    "urn:marmish:stream:error:Eof",
+    "urn:marmish:stream:error:Conflict",
+    "urn:marmish:stream:error:OldRetry",
+    "urn:marmish:stream:error:Gap"
+  ],
+  "limits": {
+    "bytes": {
+      "size": 262144
+    },
+    "records": {
+      "size": 256
+    },
+    "block": {
+      "size": 8192
+    },
+    "no-receipts": {
+      "size": 0
+    },
+    "end": {
+      "cursor": 9223372036854775807
+    }
+  },
+  "states": [
+    {
+      "id": "urn:marmish:stream:journal:outbound",
+      "byteCapacity": "bytes",
+      "recordCapacity": "records",
+      "cursorLimit": "end",
+      "appendLimit": "block",
+      "receiptCapacity": "no-receipts",
+      "initialCursor": 0
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound",
+      "byteCapacity": "bytes",
+      "recordCapacity": "records",
+      "cursorLimit": "end",
+      "appendLimit": "block",
+      "receiptCapacity": "records",
+      "initialCursor": 0
+    }
+  ],
+  "expressions": {
+    "has-final": {
+      "op": "exists",
+      "args": [
+        {
+          "fact": "final"
+        }
+      ]
+    },
+    "size": {
+      "op": "size-of",
+      "args": [
+        {
+          "arg": "bytes"
+        }
+      ]
+    },
+    "invalid-size": {
+      "op": "or",
+      "args": [
+        {
+          "op": "equal",
+          "args": [
+            {
+              "expr": "size"
+            },
+            {
+              "size": 0
+            }
+          ]
+        },
+        {
+          "op": "greater",
+          "args": [
+            {
+              "expr": "size"
+            },
+            {
+              "limit": "block"
+            }
+          ]
+        }
+      ]
+    },
+    "credit": {
+      "op": "choose",
+      "args": [
+        {
+          "op": "or",
+          "args": [
+            {
+              "expr": "has-final"
+            },
+            {
+              "op": "equal",
+              "args": [
+                {
+                  "fact": "record-count"
+                },
+                {
+                  "limit": "records"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "size": 0
+        },
+        {
+          "fact": "byte-credit"
+        }
+      ]
+    },
+    "outside-buffer": {
+      "op": "or",
+      "args": [
+        {
+          "op": "less",
+          "args": [
+            {
+              "arg": "cursor"
+            },
+            {
+              "fact": "start"
+            }
+          ]
+        },
+        {
+          "op": "greater",
+          "args": [
+            {
+              "arg": "cursor"
+            },
+            {
+              "fact": "end"
+            }
+          ]
+        }
+      ]
+    },
+    "bad-read-limit": {
+      "op": "or",
+      "args": [
+        {
+          "op": "equal",
+          "args": [
+            {
+              "arg": "limit"
+            },
+            {
+              "size": 0
+            }
+          ]
+        },
+        {
+          "op": "greater",
+          "args": [
+            {
+              "arg": "limit"
+            },
+            {
+              "limit": "block"
+            }
+          ]
+        }
+      ]
+    },
+    "exceeds-credit": {
+      "op": "greater",
+      "args": [
+        {
+          "expr": "size"
+        },
+        {
+          "expr": "credit"
+        }
+      ]
+    },
+    "receipt-full": {
+      "op": "equal",
+      "args": [
+        {
+          "fact": "receipt-count"
+        },
+        {
+          "limit": "records"
+        }
+      ]
+    },
+    "retry": {
+      "op": "less",
+      "args": [
+        {
+          "arg": "cursor"
+        },
+        {
+          "fact": "end"
+        }
+      ]
+    },
+    "next-cursor": {
+      "op": "advance",
+      "args": [
+        {
+          "arg": "cursor"
+        },
+        {
+          "expr": "size"
+        }
+      ]
+    }
+  },
+  "operations": [
+    {
+      "id": "urn:marmish:stream:journal:outbound:upper",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:upper:observe",
+          "when": [],
+          "value": {
+            "fact": "end"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:lower",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:lower:observe",
+          "when": [],
+          "value": {
+            "fact": "start"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:bytes-held",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "size",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:bytes-held:observe",
+          "when": [],
+          "value": {
+            "fact": "buffered"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:admissible",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "size",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:admissible:observe",
+          "when": [],
+          "value": {
+            "expr": "credit"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:final",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "optional-cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:final:observe",
+          "when": [],
+          "value": {
+            "fact": "final"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:complete",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [],
+      "result": "flag",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:complete:observe",
+          "when": [],
+          "value": {
+            "op": "equal",
+            "args": [
+              {
+                "fact": "final"
+              },
+              {
+                "op": "some",
+                "args": [
+                  {
+                    "fact": "start"
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:release",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        }
+      ],
+      "result": "unit",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:release:range",
+          "when": [
+            {
+              "expr": "outside-buffer"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Ack"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:release:release-prefix",
+          "when": [],
+          "value": {
+            "unit": true
+          },
+          "effects": [
+            {
+              "kind": "trim",
+              "error": "urn:marmish:stream:error:Ack",
+              "cursor": {
+                "arg": "cursor"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:seal",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        }
+      ],
+      "result": "unit",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:seal:end-mismatch",
+          "when": [
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "equal",
+                  "args": [
+                    {
+                      "arg": "cursor"
+                    },
+                    {
+                      "fact": "end"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Eof"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:seal:set-final",
+          "when": [],
+          "value": {
+            "unit": true
+          },
+          "effects": [
+            {
+              "kind": "finish",
+              "error": "urn:marmish:stream:error:Eof",
+              "cursor": {
+                "arg": "cursor"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:slice",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "read",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        },
+        {
+          "name": "limit",
+          "type": "size"
+        }
+      ],
+      "result": "bytes",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:slice:outside",
+          "when": [
+            {
+              "expr": "outside-buffer"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Offset"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:slice:size",
+          "when": [
+            {
+              "expr": "bad-read-limit"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:slice:read",
+          "when": [],
+          "value": {
+            "op": "slice",
+            "args": [
+              {
+                "arg": "cursor"
+              },
+              {
+                "arg": "limit"
+              }
+            ]
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:outbound:append",
+      "state": "urn:marmish:stream:journal:outbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "bytes",
+          "type": "bytes"
+        }
+      ],
+      "result": "cursor",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:outbound:append:closed",
+          "when": [
+            {
+              "expr": "has-final"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Eof"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:append:size",
+          "when": [
+            {
+              "expr": "invalid-size"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:append:end",
+          "when": [
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "exists",
+                  "args": [
+                    {
+                      "op": "advance",
+                      "args": [
+                        {
+                          "fact": "end"
+                        },
+                        {
+                          "expr": "size"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Offset"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:append:full",
+          "when": [
+            {
+              "expr": "exceeds-credit"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:outbound:append:admit",
+          "when": [],
+          "value": {
+            "fact": "end"
+          },
+          "effects": [
+            {
+              "kind": "append",
+              "error": "urn:marmish:stream:error:Limit",
+              "bytes": {
+                "arg": "bytes"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:upper",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:upper:observe",
+          "when": [],
+          "value": {
+            "fact": "end"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:lower",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:lower:observe",
+          "when": [],
+          "value": {
+            "fact": "start"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:bytes-held",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "size",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:bytes-held:observe",
+          "when": [],
+          "value": {
+            "fact": "buffered"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:admissible",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "size",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:admissible:observe",
+          "when": [],
+          "value": {
+            "expr": "credit"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:final",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "optional-cursor",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:final:observe",
+          "when": [],
+          "value": {
+            "fact": "final"
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:complete",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [],
+      "result": "flag",
+      "fallible": false,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:complete:observe",
+          "when": [],
+          "value": {
+            "op": "equal",
+            "args": [
+              {
+                "fact": "final"
+              },
+              {
+                "op": "some",
+                "args": [
+                  {
+                    "fact": "start"
+                  }
+                ]
+              }
+            ]
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:release",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        }
+      ],
+      "result": "unit",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:release:range",
+          "when": [
+            {
+              "expr": "outside-buffer"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Ack"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:release:release-prefix",
+          "when": [],
+          "value": {
+            "unit": true
+          },
+          "effects": [
+            {
+              "kind": "trim",
+              "error": "urn:marmish:stream:error:Ack",
+              "cursor": {
+                "arg": "cursor"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:seal",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        }
+      ],
+      "result": "unit",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:seal:end-mismatch",
+          "when": [
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "equal",
+                  "args": [
+                    {
+                      "arg": "cursor"
+                    },
+                    {
+                      "fact": "end"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Eof"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:seal:set-final",
+          "when": [],
+          "value": {
+            "unit": true
+          },
+          "effects": [
+            {
+              "kind": "finish",
+              "error": "urn:marmish:stream:error:Eof",
+              "cursor": {
+                "arg": "cursor"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:slice",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "read",
+      "params": [
+        {
+          "name": "limit",
+          "type": "size"
+        }
+      ],
+      "result": "bytes",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:slice:size",
+          "when": [
+            {
+              "expr": "bad-read-limit"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:slice:pending",
+          "when": [],
+          "value": {
+            "op": "slice",
+            "args": [
+              {
+                "fact": "start"
+              },
+              {
+                "arg": "limit"
+              }
+            ]
+          },
+          "effects": []
+        }
+      ]
+    },
+    {
+      "id": "urn:marmish:stream:journal:inbound:admit",
+      "state": "urn:marmish:stream:journal:inbound",
+      "access": "write",
+      "params": [
+        {
+          "name": "cursor",
+          "type": "cursor"
+        },
+        {
+          "name": "bytes",
+          "type": "bytes"
+        }
+      ],
+      "result": "flag",
+      "fallible": true,
+      "cases": [
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:size",
+          "when": [
+            {
+              "expr": "invalid-size"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:end",
+          "when": [
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "exists",
+                  "args": [
+                    {
+                      "expr": "next-cursor"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Offset"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:exact-retry",
+          "when": [
+            {
+              "expr": "retry"
+            },
+            {
+              "op": "same-receipt",
+              "args": [
+                {
+                  "arg": "cursor"
+                },
+                {
+                  "expr": "next-cursor"
+                },
+                {
+                  "arg": "bytes"
+                }
+              ]
+            }
+          ],
+          "value": {
+            "flag": false
+          },
+          "effects": []
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:conflict",
+          "when": [
+            {
+              "expr": "retry"
+            },
+            {
+              "op": "has-receipt",
+              "args": [
+                {
+                  "arg": "cursor"
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Conflict"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:old",
+          "when": [
+            {
+              "expr": "retry"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:OldRetry"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:gap",
+          "when": [
+            {
+              "op": "greater",
+              "args": [
+                {
+                  "arg": "cursor"
+                },
+                {
+                  "fact": "end"
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Gap"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:unsafe-eviction",
+          "when": [
+            {
+              "expr": "receipt-full"
+            },
+            {
+              "op": "not",
+              "args": [
+                {
+                  "op": "front-receipt-evictable",
+                  "args": []
+                }
+              ]
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:eviction-without-credit",
+          "when": [
+            {
+              "expr": "receipt-full"
+            },
+            {
+              "expr": "exceeds-credit"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:closed",
+          "when": [
+            {
+              "expr": "has-final"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Eof"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:full",
+          "when": [
+            {
+              "expr": "exceeds-credit"
+            }
+          ],
+          "reject": "urn:marmish:stream:error:Limit"
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:replace-receipt",
+          "when": [
+            {
+              "expr": "receipt-full"
+            }
+          ],
+          "value": {
+            "flag": true
+          },
+          "effects": [
+            {
+              "kind": "append",
+              "error": "urn:marmish:stream:error:Limit",
+              "bytes": {
+                "arg": "bytes"
+              }
+            },
+            {
+              "kind": "evict-receipt",
+              "error": "urn:marmish:stream:error:Limit"
+            },
+            {
+              "kind": "remember",
+              "error": "urn:marmish:stream:error:Limit",
+              "cursor": {
+                "arg": "cursor"
+              },
+              "bytes": {
+                "arg": "bytes"
+              }
+            }
+          ]
+        },
+        {
+          "id": "urn:marmish:stream:journal:inbound:admit:append",
+          "when": [],
+          "value": {
+            "flag": true
+          },
+          "effects": [
+            {
+              "kind": "append",
+              "error": "urn:marmish:stream:error:Limit",
+              "bytes": {
+                "arg": "bytes"
+              }
+            },
+            {
+              "kind": "remember",
+              "error": "urn:marmish:stream:error:Limit",
+              "cursor": {
+                "arg": "cursor"
+              },
+              "bytes": {
+                "arg": "bytes"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
