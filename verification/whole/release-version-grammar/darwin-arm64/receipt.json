@@ -1,0 +1,52 @@
+{
+  "frameworkCommit": "d322eca7fdfa2e5e257512ea477a09bb2022e9fa",
+  "originalCommit": "af54339d250290490d62d4475a77539b7e739071",
+  "companionRevision": "ed436fc644d046ff6bf79be8d8571e891dc72180",
+  "platform": "aarch64-apple-darwin",
+  "deniedReadProbes": [
+    "originalModule",
+    "sourceControl"
+  ],
+  "equivalentGraphEmitsIdenticalArtifacts": true,
+  "authoredInputs": [
+    "stable graph IRI",
+    "entry function",
+    "two-function source selection"
+  ],
+  "sourceSelectionSha256": "65a1a808e0a4c26b977818a2494b8dab4a0f493600eb58bf31702d1f313c39eb",
+  "unmodifiedVectorsSha256": "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1",
+  "unmodifiedVectors": 33,
+  "changedBoundaryOutcomes": 8,
+  "verifierSha256": "ff5f80a9e01983931db52551ee5b156a35c4dc24394272acdb35bfdc6598ef45",
+  "lanes": {
+    "baseline": {
+      "sourceSha256": "e11224fa0dd59f656beb94ee29b07baff9be0698896f450ebf45a40847a2ba70",
+      "graphSha256": "a5eadd49587ffe3dea7af64e32625f6324b946c63cf0f2083056d5b018474669",
+      "projectionLockSha256": "c34ed487724b38642b2a9ebdf46870bf07041ab62cff9f6086df1ecbfecc9b80",
+      "sourceOfNativeWitnessSha256": "e59af559a23c33849df83dc1b238fe00a183758c4e3550bd7768613830b253cf",
+      "matchingCases": 48,
+      "outcomesSha256": "89cf941a2b1b5ba925a7a54a380d6f22f707ce9c956dfb6fb310b844b09e1059"
+    },
+    "mutation": {
+      "sourceSha256": "31a2971bfae8575b07b11eef1576ab019a33a72b5d555f0784c2fd57d0ccf6a8",
+      "graphSha256": "1533a4ebe90edfb0d1ed33c31f0f8a6e3317348b7cc534742c2d44275fcf3cdb",
+      "projectionLockSha256": "a6775e5e370fa32c89b7e88a60a3d129bd878267b7d8a99c3223370f130f68a3",
+      "sourceOfNativeWitnessSha256": "ae799395fdd32340dc81103c3b783f10b012c8cdbe07d491665544ab32959596",
+      "matchingCases": 15,
+      "outcomesSha256": "f03817cb4842cda616dd9fa371b360999611dc8506d61672f42744158b5e5988"
+    }
+  },
+  "nativeUpstreamHarness": {
+    "name": "native_manifest::tests::strict_vectors",
+    "passed": 1
+  },
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ]
+}
