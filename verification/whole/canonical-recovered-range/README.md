@@ -19,3 +19,5 @@ Use a clean companion checkout, the exact reviewed framework checkout and same-h
 python3 -B verification/whole/canonical-recovered-range/verify.py INPUT_REVISION \
   FRAMEWORK COMPILER ORIGINAL RETAINED_123_BUILD NEW_WORK_DIRECTORY RECEIPT
 ```
+
+The [workspace manifest](../../../oddlang/portable/workspace-v7-canonical-recovered-range.json) emits lock `67615fada2203cadc9bd9373e864df7999585849ca57570fa6fda9655c5bd5e3` using recovered-input compiler [9923e666](https://github.com/Epiphytic/oddlang/tree/9923e6664899de66915ed3a94e417f261ffed401). Both hosts staged 105 portable inputs and confirmed eight denied files. Each emitted tree had 45 directories and 101 files. All 84 generated Rust files matched #123 byte for byte. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
