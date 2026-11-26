@@ -39,3 +39,17 @@ python3 -B verification/whole/basic-command-interop/candidate_preflight.py \
 ```
 
 See the [Claude review](../../../docs/reviews/basic-command-generated-build.md) for the provenance checks and remaining scope.
+
+## Profile setup candidate
+
+Select `workspace-profile-setup.json` using `--workspace`, with the full Git IDs of the compiler and companion inputs supplied through `--framework-pin` and `--companion-pin`. The driver inventories CLI roles from the selected manifest closure. This workspace binds setup in addition to initialization, status and release reporting.
+
+The local profile comparison invokes both builds with fresh file credentials and network access denied. It compares exact bytes after replacing only the freshly generated public identities, checks configuration permissions, and verifies workspace removal. Each relay spelling has fifteen cases, including explicit grant, trust, rejection, revocation reopening the granted server with init, and deactivating and reactivating a retained grant across role changes. The onion URL in this comparison is an offline fixture. [Local comparison receipt](local-profile-setup-aarch64-apple-darwin.json)
+
+To replay the role-change comparison, supply the original installation recorded by the reference run, the sealed candidate installation, and its published build receipt. The comparator checks the SHA-256 of each copied executable, verifies that a connection to a listening loopback socket is denied, and deletes both peer roots after the run.
+
+```sh
+python3 -B verification/whole/basic-command-interop/profile_setup.py \
+  "$MARMISH_BIN_DIR" "$EXPORT" \
+  --candidate-build verification/whole/basic-command-interop/profile-setup-build-macos-arm64.json
+```

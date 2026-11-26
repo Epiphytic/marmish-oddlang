@@ -1,0 +1,9 @@
+{
+  "format": "oddlang-file-profile-rust-v1",
+  "entry": "initialize_profile",
+  "random": "getrandom",
+  "signing": "secp256k1_x_only",
+  "storage": "sqlcipher_account_device",
+  "retained_stores": true,
+  "provisioning_entry": "configure_profile"
+}

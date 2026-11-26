@@ -134,27 +134,31 @@ def verify_product(product, workspace):
     return lock
 
 
-def candidate_roles(binaries, workspace):
-    member = read(workspace)["members"]["marmish-native"]["manifest"]
-    native = read(PORTABLE / member["path"])
-    declared = {item["name"] for item in native["binaries"]}
-    if binaries.keys() != declared:
-        raise ValueError("first-party executable artifact inventory differs from package")
+def candidate_roles(binaries, descriptor, inputs):
+    declared = set()
     roles = {}
-    for component in native["components"]:
-        if component["kind"] != "cli-surface":
-            continue
-        binding = read(PORTABLE / component["overlay"]["path"])
-        executable = binding["executable"]
-        if executable not in declared or executable in roles:
-            raise ValueError(f"unexpected CLI binding executable: {executable}")
-        roles[executable] = {
-            "boundOperations": sorted(operation for operation, iri in binding["operations"].items()
-                                      if iri in binding["handlers"] and operation),
-            "unboundOperations": sorted(operation for operation, iri in binding["operations"].items()
-                                        if iri not in binding["handlers"]),
-            "uncoveredExit": binding["uncovered_exit"],
-        }
+    for member in descriptor["members"].values():
+        manifest = inputs / member["manifest"]["path"]
+        package = read(manifest)
+        for binary in package.get("binaries", []):
+            if binary["name"] in declared:
+                raise ValueError("duplicate executable in workspace")
+            declared.add(binary["name"])
+        for component in package.get("components", []):
+            if component["kind"] != "cli-surface":
+                continue
+            binding = read(manifest.parent / component["overlay"]["path"])
+            executable = binding["executable"]
+            if executable in roles:
+                raise ValueError(f"duplicate CLI binding: {executable}")
+            handlers = binding.get("handlers", {})
+            roles[executable] = {
+                "boundOperations": sorted(op for op, iri in binding["operations"].items() if iri in handlers and op),
+                "unboundOperations": sorted(op for op, iri in binding["operations"].items() if iri not in handlers),
+                "uncoveredExit": binding["uncovered_exit"],
+            }
+    if binaries.keys() != declared or not roles.keys() <= declared:
+        raise ValueError("first-party executable inventory differs from workspace")
     return roles
 
 
@@ -219,7 +223,7 @@ def qualify(work, compiler, export, probes, checkout, pins):
                  "--message-format=json", cwd=product, env=env)
     verify_product(product, pins.workspace)
     binaries = verified_binaries(output, product)
-    roles = candidate_roles(binaries, pins.workspace)
+    roles = candidate_roles(binaries, descriptor, inputs)
     receipt = {
         "format": "marmish-basic-command-generated-build-v1",
         "companionInputRevision": pins.companion_revision,
@@ -278,8 +282,8 @@ def main():
     parser.add_argument("export", type=lambda value: Path(value).resolve())
     parser.add_argument("--deny", nargs=2, action="append", metavar=("LABEL", "FILE"), required=True)
     parser.add_argument("--workspace", help="Portable workspace descriptor basename")
-    parser.add_argument("--companion-revision", help="Companion commit containing the portable closure")
-    parser.add_argument("--framework-revision", help="Framework compiler commit")
+    parser.add_argument("--companion-revision", "--companion-pin", help="Companion commit containing the portable closure")
+    parser.add_argument("--framework-revision", "--framework-pin", help="Framework compiler commit")
     args = parser.parse_args()
     supplied = (args.workspace, args.companion_revision, args.framework_revision)
     pins = BuildInputs(WORKSPACE, COMPANION, FRAMEWORK)
