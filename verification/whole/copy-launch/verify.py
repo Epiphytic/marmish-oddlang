@@ -11,7 +11,7 @@ import tempfile
 
 from inputs import DATA, HERE, PIN, ROOT, consumer, derive, observe, read, run, sha, write
 
-FRAMEWORK = "47958722555a16892e47985eef85de55a9c057f5"
+FRAMEWORK = "5f4cf958b7b4f8da8f8309f87734c14a8309c7d7"
 MANIFEST = DATA.parent / "stream-launch-package.json"
 
 

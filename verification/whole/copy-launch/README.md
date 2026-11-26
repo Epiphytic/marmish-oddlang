@@ -1,6 +1,6 @@
 # Verify launch data and validation
 
-Check out the original at `af54339d250290490d62d4475a77539b7e739071` and the framework at `47958722555a16892e47985eef85de55a9c057f5`. From the companion root, with Rust 1.97.1 and registry dependencies cached, run
+Check out the original at `af54339d250290490d62d4475a77539b7e739071` and the framework at `5f4cf958b7b4f8da8f8309f87734c14a8309c7d7`. From the companion root, with Rust 1.97.1 and registry dependencies cached, run
 
 ```sh
 python3 -B verification/whole/copy-launch/verify.py /path/to/original /path/to/oddlang /tmp/launch-receipt.json
