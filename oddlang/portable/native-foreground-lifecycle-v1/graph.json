@@ -91,7 +91,7 @@
       "commands"
     ],
     "shutdown_ms": 2000,
-    "dial_ms": 10000,
+    "dial_ms": 15000,
     "dial_attempts": 3,
     "report_version": 1,
     "report_fields": {

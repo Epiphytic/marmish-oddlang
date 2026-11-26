@@ -330,11 +330,11 @@
 {"path":"oddlang/portable/native-file-profile-v1/graph.json","language":"inventory","mode":"100644","sha256":"060013e6e3be64fd080e710212c5e905a849420c64d486953006d7343e2b5249","parse_status":"inventory"}
 {"path":"oddlang/portable/native-file-profile-v1/package.lock","language":"inventory","mode":"100644","sha256":"59c74ae97992d31333d89d0a131e104eb6fea4b47385fd83fb0567a441272fb2","parse_status":"inventory"}
 {"path":"oddlang/portable/native-file-profile-v1/rust.json","language":"inventory","mode":"100644","sha256":"037058837a24da95a8a4dbe412bc326b861883ca47abd6bdf2923f9bdd5bc546","parse_status":"inventory"}
-{"path":"oddlang/portable/native-foreground-lifecycle-package.json","language":"inventory","mode":"100644","sha256":"e8e1627394f5bc2d6665b9d8b0d1142fcdd2261f1db66d8c6d4452d3c3538fcb","parse_status":"inventory"}
+{"path":"oddlang/portable/native-foreground-lifecycle-package.json","language":"inventory","mode":"100644","sha256":"83c4593e2e9a5e46967d6ca1c3aa83dec90dc4d5d8adddbc16a22afb1698aece","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/Cargo.lock","language":"inventory","mode":"100644","sha256":"fcc8ad72282f71523b0564500fcbaeac75ad8504d1ffc0dffa2366e69a9a89c4","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/encrypted-stores-rust.json","language":"inventory","mode":"100644","sha256":"99feaef62fdccca6f1618d2e44e0d484717fc9ef82cfdd565b55efd15a25f6d0","parse_status":"inventory"}
-{"path":"oddlang/portable/native-foreground-lifecycle-v1/graph.json","language":"inventory","mode":"100644","sha256":"2306858cec84cdeecd1ac40efa0c33850f76a619e3799ef8a65c80b5437396cd","parse_status":"inventory"}
-{"path":"oddlang/portable/native-foreground-lifecycle-v1/package.lock","language":"inventory","mode":"100644","sha256":"964d4d631e70c775e39ffef8409456a0cb2c4e01f83ae929fd859ef820636c6b","parse_status":"inventory"}
+{"path":"oddlang/portable/native-foreground-lifecycle-v1/graph.json","language":"inventory","mode":"100644","sha256":"94e4493495c3062ac88ff96a584fc53382c27388ee6db88efd9bf69f4f1108be","parse_status":"inventory"}
+{"path":"oddlang/portable/native-foreground-lifecycle-v1/package.lock","language":"inventory","mode":"100644","sha256":"fb03fb1dfcbb2bb6a55cae04e54ec075ad9330c72215e01884b65441ad0fc906","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-lifecycle-v1/rust.json","language":"inventory","mode":"100644","sha256":"9c95a74b50d528d9c5a8e35b0b70058cd4f91d265e581a5b73b5ed9138de539c","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-owner-v1/README.md","language":"inventory","mode":"100644","sha256":"7e7dcab22cbc6117daf96a685d9a3ed103d0f84d47f24300b3c4ef2f47434629","parse_status":"inventory"}
 {"path":"oddlang/portable/native-foreground-owner-v1/cli-marmishd.json","language":"inventory","mode":"100644","sha256":"a703fe69e8fdf5e5989cbf6bcbb717738bf9619533def862cf39a771940f4ae3","parse_status":"inventory"}
@@ -796,7 +796,7 @@
 {"path":"verification/whole/core-value/verify.py","language":"python","mode":"100644","sha256":"3f304b2ad6920f7c1d0a85ec1d07b5eed7a0091aa4f76c9311ca4e308b49682d","parse_status":"parsed"}
 {"path":"verification/whole/foreground-lifecycle/README.md","language":"inventory","mode":"100644","sha256":"a78342f90b45ad24f64d24186dae627fae5b5b6ef4b834e21e41b76fefbe333a","parse_status":"inventory"}
 {"path":"verification/whole/foreground-lifecycle/observe.py","language":"python","mode":"100644","sha256":"fbf8388247a1feb59fa7c9b932d78440842e3333a913a9c5108d0343d28863d3","parse_status":"parsed"}
-{"path":"verification/whole/foreground-lifecycle/verify.py","language":"python","mode":"100644","sha256":"2c5804076324cd22daa81a6445fd0fe50542a667ef02c131a876b2a732c63f64","parse_status":"parsed"}
+{"path":"verification/whole/foreground-lifecycle/verify.py","language":"python","mode":"100644","sha256":"6cac02cc82ebc67033d4244845b0847ddc77cd48b86167138e0452abd6e3e024","parse_status":"parsed"}
 {"path":"verification/whole/foreground-owner/README.md","language":"inventory","mode":"100644","sha256":"bd2e7841ebd8ca227998a889a0b7999ab59e8c56a708ab519e0043a7371cd2d2","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/generated-linux-arm64.json","language":"inventory","mode":"100644","sha256":"f2cf4820a7fbf1d864ecca11822f8c4c222305fe4ea8092d52303bb614631ef1","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/generated-macos-arm64.json","language":"inventory","mode":"100644","sha256":"1c3576609454693ea27afd8ab866b377f9dcb1ae91c0cc288e42e02f1866d8e7","parse_status":"inventory"}

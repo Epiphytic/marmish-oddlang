@@ -236,7 +236,7 @@
       "module": "foreground",
       "graph": {
         "path": "native-foreground-lifecycle-v1/graph.json",
-        "sha256": "2306858cec84cdeecd1ac40efa0c33850f76a619e3799ef8a65c80b5437396cd"
+        "sha256": "94e4493495c3062ac88ff96a584fc53382c27388ee6db88efd9bf69f4f1108be"
       },
       "overlay": {
         "path": "native-foreground-lifecycle-v1/rust.json",
