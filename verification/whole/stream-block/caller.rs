@@ -43,7 +43,21 @@ fn answer(request: &Value) -> Value {
                 MAX_OFFSET,
                 MAX_RECORDS
             ]);
-            json!({"errors":rendered,"limits":limits})
+            let formatted: Vec<_> = ["", "sentinel", "naïve{input}"]
+                .into_iter()
+                .map(|payload| {
+                    let error = Error::Invalid(payload);
+                    json!({
+                        "payload": payload,
+                        "default": format!("{error}"),
+                        "rightWidth": format!("{error:>32}"),
+                        "precision": format!("{error:.1}"),
+                        "centerFill": format!("{error:*^40}"),
+                        "leftWidthAndPrecision": format!("{error:<32.2}")
+                    })
+                })
+                .collect();
+            json!({"errors":rendered,"limits":limits,"formattedInvalid":formatted})
         }
         "encode" => {
             let input: Vec<u8> = serde_json::from_value(request["bytes"].clone()).unwrap();

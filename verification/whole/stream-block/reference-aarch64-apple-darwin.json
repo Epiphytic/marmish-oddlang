@@ -2,6 +2,33 @@
   "crossReadsOnEachPeer": 160,
   "decodeCases": 82,
   "encodeCases": 192,
+  "formattedInvalidCases": 15,
+  "formattedInvalidObservations": [
+    {
+      "centerFill": "invalid stream input: ",
+      "default": "invalid stream input: ",
+      "leftWidthAndPrecision": "invalid stream input: ",
+      "payload": "",
+      "precision": "invalid stream input: ",
+      "rightWidth": "invalid stream input: "
+    },
+    {
+      "centerFill": "invalid stream input: sentinel",
+      "default": "invalid stream input: sentinel",
+      "leftWidthAndPrecision": "invalid stream input: sentinel",
+      "payload": "sentinel",
+      "precision": "invalid stream input: sentinel",
+      "rightWidth": "invalid stream input: sentinel"
+    },
+    {
+      "centerFill": "invalid stream input: na\u00efve{input}",
+      "default": "invalid stream input: na\u00efve{input}",
+      "leftWidthAndPrecision": "invalid stream input: na\u00efve{input}",
+      "payload": "na\u00efve{input}",
+      "precision": "invalid stream input: na\u00efve{input}",
+      "rightWidth": "invalid stream input: na\u00efve{input}"
+    }
+  ],
   "manifestSha256": "a22560e618d78d220c72986a3db19873aa13f518b4dd32832ce930bdb058d36f",
   "mutation": {
     "error": {
@@ -19,8 +46,8 @@
     "release: 1.97.1",
     "LLVM version: 22.1.6"
   ],
-  "packageLockSha256": "accc8660c99354a72cc594e1915da38dac005f775ae2c12236586193a8d238a7",
-  "publicCallerSha256": "262945d2b7235e53a687642ec90fe99d7f0286f95a50bed164bfeb2768ad21ae",
+  "packageLockSha256": "3fd70d717547ff2a0baa9a4c405b8278bca5a345d83d8a97a6e140df11d84508",
+  "publicCallerSha256": "5dbd553771ab381aca0860564f5b6adc394f63c4afb925be243ad8b865fc6c8f",
   "publicConstants": 6,
   "publicErrorVariants": 9,
   "reference": "af54339d250290490d62d4475a77539b7e739071",
