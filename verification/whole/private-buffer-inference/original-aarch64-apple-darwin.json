@@ -1,0 +1,279 @@
+{
+  "revision": "af54339d250290490d62d4475a77539b7e739071",
+  "target": "aarch64-apple-darwin",
+  "observerSha256": "35347889ae1920a86c16dcd237c10ed336526e09f199d020a9e88bf09d6faf4f",
+  "lanes": {
+    "original": {
+      "sourceSha256": "3e64bd266a515813a3023859948fb57baea45c82f51f4c234186d7e40019dd1f",
+      "trace": {
+        "format": "oddlang-buffered-input-trace-v1",
+        "emptyRead": {
+          "payload": [
+            3,
+            5,
+            7
+          ],
+          "returned": 0,
+          "callsAfterEmpty": 1,
+          "afterFill": [
+            3,
+            5,
+            7
+          ],
+          "callsAfterFill": 1
+        },
+        "consume": {
+          "payload": [
+            11,
+            13,
+            17
+          ],
+          "requested": 1,
+          "afterPartial": [
+            13,
+            17
+          ],
+          "callsAfterPartial": 1,
+          "nextReadPrefix": [
+            0,
+            0,
+            0
+          ],
+          "afterRefill": [],
+          "callsAfterRefill": 2
+        },
+        "refillError": {
+          "payload": [
+            19,
+            23,
+            29
+          ],
+          "returnedError": true,
+          "callsAfterError": 2,
+          "afterRetry": [
+            0,
+            0,
+            0
+          ],
+          "callsAfterRetry": 2
+        }
+      }
+    },
+    "empty": {
+      "sourceSha256": "276f9441a989dfa8244401cb5f8dc10fd5d17d47d3d46547921b7e03046e79f4",
+      "trace": {
+        "format": "oddlang-buffered-input-trace-v1",
+        "emptyRead": {
+          "payload": [
+            3,
+            5,
+            7
+          ],
+          "returned": 0,
+          "callsAfterEmpty": 0,
+          "afterFill": [
+            3,
+            5,
+            7
+          ],
+          "callsAfterFill": 1
+        },
+        "consume": {
+          "payload": [
+            11,
+            13,
+            17
+          ],
+          "requested": 1,
+          "afterPartial": [
+            13,
+            17
+          ],
+          "callsAfterPartial": 1,
+          "nextReadPrefix": [
+            0,
+            0,
+            0
+          ],
+          "afterRefill": [],
+          "callsAfterRefill": 2
+        },
+        "refillError": {
+          "payload": [
+            19,
+            23,
+            29
+          ],
+          "returnedError": true,
+          "callsAfterError": 2,
+          "afterRetry": [
+            0,
+            0,
+            0
+          ],
+          "callsAfterRetry": 2
+        }
+      }
+    },
+    "consume": {
+      "sourceSha256": "4663d259f390c5625a70d9c9742e6999170e66f2d5280d4faf3ee1dc99e750b8",
+      "trace": {
+        "format": "oddlang-buffered-input-trace-v1",
+        "emptyRead": {
+          "payload": [
+            3,
+            5,
+            7
+          ],
+          "returned": 0,
+          "callsAfterEmpty": 1,
+          "afterFill": [
+            3,
+            5,
+            7
+          ],
+          "callsAfterFill": 1
+        },
+        "consume": {
+          "payload": [
+            11,
+            13,
+            17
+          ],
+          "requested": 1,
+          "afterPartial": [
+            13,
+            17
+          ],
+          "callsAfterPartial": 1,
+          "nextReadPrefix": [
+            11,
+            13,
+            17
+          ],
+          "afterRefill": [],
+          "callsAfterRefill": 2
+        },
+        "refillError": {
+          "payload": [
+            19,
+            23,
+            29
+          ],
+          "returnedError": true,
+          "callsAfterError": 2,
+          "afterRetry": [
+            19,
+            23,
+            29
+          ],
+          "callsAfterRetry": 2
+        }
+      }
+    },
+    "error": {
+      "sourceSha256": "c128d0263bde93c39b9437bf632050d0051a8d8e8c135deeeb4133fa461fc091",
+      "trace": {
+        "format": "oddlang-buffered-input-trace-v1",
+        "emptyRead": {
+          "payload": [
+            3,
+            5,
+            7
+          ],
+          "returned": 0,
+          "callsAfterEmpty": 1,
+          "afterFill": [
+            3,
+            5,
+            7
+          ],
+          "callsAfterFill": 1
+        },
+        "consume": {
+          "payload": [
+            11,
+            13,
+            17
+          ],
+          "requested": 1,
+          "afterPartial": [
+            13,
+            17
+          ],
+          "callsAfterPartial": 1,
+          "nextReadPrefix": [
+            0,
+            0,
+            0
+          ],
+          "afterRefill": [],
+          "callsAfterRefill": 2
+        },
+        "refillError": {
+          "payload": [
+            19,
+            23,
+            29
+          ],
+          "returnedError": true,
+          "callsAfterError": 2,
+          "afterRetry": [],
+          "callsAfterRetry": 3
+        }
+      }
+    },
+    "combined": {
+      "sourceSha256": "8a0cc6ec48617d5a4593ce7023c1fc73d1ad89c4a280102e715e3ecf8a7e3b24",
+      "trace": {
+        "format": "oddlang-buffered-input-trace-v1",
+        "emptyRead": {
+          "payload": [
+            3,
+            5,
+            7
+          ],
+          "returned": 0,
+          "callsAfterEmpty": 0,
+          "afterFill": [
+            3,
+            5,
+            7
+          ],
+          "callsAfterFill": 1
+        },
+        "consume": {
+          "payload": [
+            11,
+            13,
+            17
+          ],
+          "requested": 1,
+          "afterPartial": [
+            13,
+            17
+          ],
+          "callsAfterPartial": 1,
+          "nextReadPrefix": [
+            11,
+            13,
+            17
+          ],
+          "afterRefill": [],
+          "callsAfterRefill": 2
+        },
+        "refillError": {
+          "payload": [
+            19,
+            23,
+            29
+          ],
+          "returnedError": true,
+          "callsAfterError": 2,
+          "afterRetry": [],
+          "callsAfterRetry": 3
+        }
+      }
+    }
+  }
+}

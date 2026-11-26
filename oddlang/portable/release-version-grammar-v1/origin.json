@@ -1,0 +1,10 @@
+{
+  "originalCommit": "af54339d250290490d62d4475a77539b7e739071",
+  "sourcePath": "crates/marmish-native/src/native_manifest.rs",
+  "sourceModuleSha256": "e11224fa0dd59f656beb94ee29b07baff9be0698896f450ebf45a40847a2ba70",
+  "sourceSpan": {
+    "start": 1818,
+    "end": 2496
+  },
+  "selectedFunctionsSha256": "e59af559a23c33849df83dc1b238fe00a183758c4e3550bd7768613830b253cf"
+}
