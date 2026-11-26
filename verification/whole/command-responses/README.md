@@ -26,6 +26,8 @@ The five response endpoints share one set of stream, status and error checks by 
 python3 verification/whole/command-responses/generated_envelope.py "$ODDLANG"
 ```
 
-For each case the verifier checks its input length and digest against the frozen mainline receipt, compiles the generated codec, and compares its acceptance and canonical output bytes. This observation covers wire admission and formatting. The verifier records a rejected packet as one outcome and does not distinguish diagnostic text for rejection. Live peer authorization, receiver execution, and CLI presentation have separate interoperability tests.
+For each case the verifier checks its input length and digest against the frozen mainline receipt, compiles the generated codec, and compares its acceptance and canonical output bytes. This observation covers wire admission and formatting. Each of the five operation-specific decoders also rejects valid packets addressed to each of the four other operations. [Generated receipt](generated-envelope-aarch64-apple-darwin.json)
+
+The verifier records a rejected packet as one outcome and does not distinguish diagnostic text for rejection. Live peer authorization, receiver execution, and CLI presentation have separate interoperability tests.
 
 To identify the component in a generated workspace, supply `--workspace PATH --workspace-lock PINNED_LOCK`. The verifier checks the workspace lock, native package lock, and exact bytes of the generated component against the standalone projection. The candidate build and live test runner separately establish executable provenance.

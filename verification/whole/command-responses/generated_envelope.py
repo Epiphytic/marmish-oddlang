@@ -50,6 +50,13 @@ def verify(compiler, workspace=None, expected_lock=None):
         inputs.append(compact([json.loads(raw)["op"], raw.hex()]) + b"\n")
         expected.append(raw.hex() if case["accepted"] else None)
 
+    operations = ("submit", "status", "cancel", "poll", "finish")
+    wrong_decoder = []
+    for op in operations:
+        raw = next(raw for name, raw, _ in rows if name.startswith(op + "/") and
+                   reference["cases"][name]["accepted"])
+        wrong_decoder.extend(compact([other, raw.hex()]) + b"\n" for other in operations if other != op)
+
     with tempfile.TemporaryDirectory(prefix="generated-response-envelopes-") as tmp:
         root = Path(tmp)
         projection = root / "projection"
@@ -57,14 +64,19 @@ def verify(compiler, workspace=None, expected_lock=None):
                         SHAPE/"rust.json", MODEL/"graph.json", MODEL/"rust.json",
                         projection], check=True)
         source = (projection/"wire.rs").read_bytes()
-        output = observe(root/"candidate", source, b"".join(inputs), None, REQUESTS/"generated.rs")
-        for name, want, line in zip(names, expected, output.splitlines(), strict=True):
+        output = observe(root/"candidate", source, b"".join(inputs + wrong_decoder), None, REQUESTS/"generated.rs")
+        lines = output.splitlines(keepends=True)
+        reference_lines, cross_lines = lines[:len(rows)], lines[len(rows):]
+        if len(cross_lines) != len(wrong_decoder) or any(json.loads(line) is not None for line in cross_lines):
+            raise ValueError("a response passed the wrong operation decoder")
+        for name, want, line in zip(names, expected, reference_lines, strict=True):
             if json.loads(line) != want:
                 raise ValueError(f"generated response differs from the frozen reference for {name}")
         receipt = {"referenceRevision": ORIGINAL, "referenceReceiptSha256": sha(REFERENCE.read_bytes()),
                 "cases": len(rows), "accepted": sum(x is not None for x in expected),
                 "projectionLockSha256": sha((projection/"projection.lock").read_bytes()),
-                "observationsSha256": sha(output), "compilerSha256": sha(compiler.read_bytes())}
+                "wrongDecoderRejections": len(cross_lines),
+                "observationsSha256": sha(b"".join(reference_lines)), "compilerSha256": sha(compiler.read_bytes())}
         if workspace is not None:
             receipt["workspace"] = workspace_evidence(workspace, expected_lock, source)
         return receipt

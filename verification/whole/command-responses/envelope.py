@@ -97,7 +97,7 @@ def cases():
     for cursor in (2**63-1, 2**63):
         res = dict(status=status, stdout=chunk, stderr=dict(chunk,next_cursor=cursor))
         yield f"poll/stderr-cursor-{cursor}", frame("poll",dict(body,result=res)), cursor<2**63
-    # Exercise the metadata limit with every stream gap populated and wide cursors.
+    # Exercise maximum gaps, cursors and combined payload in one poll.
     maximum = 2**63 - 1
     large_stream = dict(closed=False, produced=maximum, retained=maximum, gaps=[
         dict(start=maximum-1, end=maximum, reason="storage_failure") for _ in range(4)])
