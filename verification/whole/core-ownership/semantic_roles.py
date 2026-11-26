@@ -61,7 +61,10 @@ def resolve(graph):
     require({row.type for row in rows} == {M[k] for k in TYPES}, "missing semantic roles")
     for slug, (kind, role) in TYPES.items():
         selected = [row for row in rows if row.type == M[slug]]
-        component, = graph.objects(M[slug], O.semanticComponent)
+        components = set(graph.objects(M[slug], O.semanticComponent))
+        require(len(components) == 1, f"expected one semantic component for {slug}")
+        component = components.pop()
+        require((component, RDF.type, O.Component) in graph, "undeclared semantic component")
         spec = inputs[kind]
         raw = (PORTABLE / spec["path"]).read_bytes()
         digest = hashlib.sha256(raw).hexdigest()
@@ -72,7 +75,7 @@ def resolve(graph):
         for predicate in (O.domain, O.errorCase, O.parameterSubject, O.parameterPredicate):
             allowed = {O.parameterSubject, O.parameterPredicate} if role == O.parameterPredicate else {role}
             require(predicate in allowed or not list(graph.objects(M[slug], predicate)), "unexpected semantic role")
-        require(all(row.role == role and str(row.digest) == digest and
+        require(all(row.role == role and row.digest == Literal(digest) and
                     row.source == URIRef(PIN + spec["path"]) for row in selected),
                 "wrong component pin or semantic role")
         expected = expectations(kind, raw)[role]
@@ -103,6 +106,15 @@ def main():
     else:
         raise ValueError("accepted a different aggregate error component")
     print("rejected substituted aggregate error component")
+    graph.set((wrong, O.semanticComponent, M["retention-domain"]))
+    graph.set((M["retention-domain"], O.graphSha256, Literal("0" * 64)))
+    try:
+        resolve(graph)
+    except ValueError as failure:
+        require(str(failure) == "wrong component pin or semantic role", str(failure))
+    else:
+        raise ValueError("accepted a substituted digest of the correct component kind")
+    print("rejected substituted graph digest")
 
 
 if __name__ == "__main__":
