@@ -18,7 +18,10 @@ ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 FRAMEWORK = "d322eca7fdfa2e5e257512ea477a09bb2022e9fa"
 SOURCE = "crates/marmish-native/src/native_manifest.rs"
 VECTORS = "tools/release-version-vectors.json"
-NATIVE_TEST = "native_manifest::tests::strict_vectors"
+NATIVE_TESTS = [
+    "native_manifest::tests::strict_vectors",
+    "native_manifest::tests::shared_release_version_vectors",
+]
 SCOPE_TEST = "native_manifest::oddlang_release_version_scope::matches_native_contract"
 
 # These expectations are literal witnesses independent of the extractor and projector.
@@ -279,17 +282,18 @@ def main():
                    "oddlang/portable", "verification/whole", cwd=ROOT)
     run("cargo", "+1.96.1", "build", "--bin", "oddlang", "--locked", "--offline",
         "--target-dir", args.compiler_target, cwd=args.framework)
-    native_test = run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
-                      "--target", "aarch64-apple-darwin", "--target-dir", args.reference_target,
-                      "--package", "marmish-native", "--lib", "--", "--exact", NATIVE_TEST,
-                      cwd=args.original)
-    assert f"test {NATIVE_TEST} ... ok".encode() in native_test
-    assert b"test result: ok. 1 passed; 0 failed; 0 ignored;" in native_test
+    for test in NATIVE_TESTS:
+        native = run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
+                     "--target", "aarch64-apple-darwin", "--target-dir", args.reference_target,
+                     "--package", "marmish-native", "--lib", "--", "--exact", test,
+                     cwd=args.original)
+        assert f"test {test} ... ok".encode() in native
+        assert b"test result: ok. 1 passed; 0 failed; 0 ignored;" in native
     parent = run("/usr/bin/getconf", "DARWIN_USER_TEMP_DIR").decode().strip()
     with tempfile.TemporaryDirectory(prefix="odd-release-version-grammar-", dir=parent) as directory:
         receipt = qualify(Path(directory).resolve(), args.original, args.framework,
                           args.compiler_target / "debug/oddlang", args.reference_target)
-    receipt["nativeUpstreamHarness"] = {"name": NATIVE_TEST, "passed": 1}
+    receipt["nativeUpstreamHarnesses"] = [{"name": name, "passed": 1} for name in NATIVE_TESTS]
     receipt["rustc"] = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
