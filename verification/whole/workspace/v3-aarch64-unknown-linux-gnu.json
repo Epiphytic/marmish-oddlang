@@ -291,5 +291,41 @@
     },
     "originalRevision": "af54339d250290490d62d4475a77539b7e739071",
     "platform": "Linux-aarch64"
+  },
+  "cliParser": {
+    "fixtureSha256": "e3de629983416f1c2823d526916b0426ab98e7e2f5b69f6e24bf396f51fc2746",
+    "casesPerRole": {
+      "marmish": 34,
+      "marmishd": 34
+    },
+    "generatedBinaries": {
+      "marmish": "1a40fa2857d93943ebf00075a5eb20e0fd751d8fd5a9799916de489ad71d6483",
+      "marmishd": "4b7af77ed02337659aa814a6a40cabe1ea568b2e94b0e3f6c3548fef012546f5"
+    }
+  },
+  "nativeProcessLimits": {
+    "upstream_commit": "af54339d250290490d62d4475a77539b7e739071",
+    "source": "crates/marmish-native/tests/process_limits.rs",
+    "test": "actual_native_entrypoints_accept_inherited_limits",
+    "source_sha256": "47a5d6d6fc37526a3a0d6ec825d99c1c5a13aa8cdc93479db673d88f6e727057",
+    "compiler": "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "libc_sha256": "113e8be5f643fd15f9a660a8b73a6b4de1a54c201b09f2e49d9d5c166b69c821",
+    "executables": {
+      "marmish": "1a40fa2857d93943ebf00075a5eb20e0fd751d8fd5a9799916de489ad71d6483",
+      "marmishd": "4b7af77ed02337659aa814a6a40cabe1ea568b2e94b0e3f6c3548fef012546f5"
+    },
+    "staged_pair_exit": 0,
+    "mutants": {
+      "marmish": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      },
+      "marmishd": {
+        "sha256": "306c6ca7407560340797866e077e053627ad409277d1b9da58106fce4cf717cb",
+        "exit": 101,
+        "failed_assertion": "!result.stdout.is_empty()"
+      }
+    }
   }
 }
