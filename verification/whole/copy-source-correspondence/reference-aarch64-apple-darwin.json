@@ -1,0 +1,18 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "4258cf67bd9153de7da86a6f4e1b03a9fbb66f35",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "comparisons": 10,
+  "casesPerImplementation": 15,
+  "changedCases": 5,
+  "readDenied": true,
+  "callerSha256": "b930543875806ffedf7b1d15aa01a49511d297d3f091d2bf3079b3dfe95fc00f",
+  "originalGraphSha256": "1d8ba019e1f255410bfc2adcadc28e86f956c42161bbdc8f27f944b8c5c3798e",
+  "mutatedGraphSha256": "e80b1ebcc62b901e2db25b623403e82df77ea6f4575d054182e163a0bd81ea1f",
+  "originalEvidenceSha256": "e4c7618f2393571a35d1c0d799a92daa8cc075b95833efc6fd08e6e0c11e0362",
+  "mutatedEvidenceSha256": "50a47b63eb1d540066f2817386861d59dcf8f1051ae51dcffb1cced60a36c1aa",
+  "originalGeneratedRelationSha256": "5d69092e402fb88585d30d0921b5ca0dbd1b02dd313a9bcef7538c342a7f300d",
+  "mutantGeneratedRelationSha256": "986697d5b5262ede930d294a221b61ec114e76aa5d65684e487be70d502331a9",
+  "originalPackageLockSha256": "33fe604e1f8fc8740e8ff24bbbb115ebf1a5c3b830c781a8aa4d6d5e218ce737",
+  "mutantPackageLockSha256": "d2d753cd35a232ae060375458f5bf049807da915bc0885698dc48251b91f5729"
+}
