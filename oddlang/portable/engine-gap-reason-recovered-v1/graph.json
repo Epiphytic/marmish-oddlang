@@ -1,0 +1,28 @@
+{
+  "format": "oddlang-shared-declarations-v1",
+  "id": "urn:marmish:engine:output-gap:domain",
+  "stringEnums": [
+    {
+      "copy": false,
+      "id": "urn:marmish:engine:output-gap:reason",
+      "variants": [
+        {
+          "id": "urn:marmish:engine:output-gap:reason:limit",
+          "wire": "Limit"
+        },
+        {
+          "id": "urn:marmish:engine:output-gap:reason:storage-failure",
+          "wire": "StorageFailure"
+        },
+        {
+          "id": "urn:marmish:engine:output-gap:reason:expired",
+          "wire": "Expired"
+        },
+        {
+          "id": "urn:marmish:engine:output-gap:reason:uncertain-tail",
+          "wire": "UncertainTail"
+        }
+      ]
+    }
+  ]
+}
