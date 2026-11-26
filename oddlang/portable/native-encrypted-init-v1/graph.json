@@ -1,0 +1,1966 @@
+{
+  "format": "oddlang-file-profile-v1",
+  "id": "urn:marmish:private-files:encrypted-initialization",
+  "arguments": {
+    "state": "state_dir",
+    "profile": "identity",
+    "backend": "key_storage",
+    "default_profile": "default",
+    "file_backend": "file"
+  },
+  "layout": {
+    "owner": "owner.lock",
+    "manifest": "profile.json",
+    "keys": "keys",
+    "private_subdirectories": [
+      "arti-state",
+      "arti-cache"
+    ],
+    "signing_prefix": "nostr-",
+    "storage_prefix": "sqlcipher-",
+    "transaction_prefix": ".init-",
+    "name_maximum_bytes": 64,
+    "name_punctuation": "_-",
+    "manifest_maximum_bytes": 8192,
+    "directory_mode": 448,
+    "file_mode": 384
+  },
+  "manifest": {
+    "version": 2,
+    "pending": "initializing",
+    "ready": "ready",
+    "file_backend": "files",
+    "other_backends": [
+      "keychain"
+    ],
+    "fields": {
+      "version": "format",
+      "profile": "profile_id",
+      "name": "name",
+      "transaction": "transaction",
+      "phase": "phase",
+      "backend": "backend",
+      "signer": "nostr_ref",
+      "storage": "sqlcipher_ref",
+      "slot": "device_slot",
+      "public": "public_key"
+    }
+  },
+  "errors": {
+    "binding": {
+      "exit": 1,
+      "stderr": "marmish: command binding unavailable"
+    },
+    "state_required": {
+      "exit": 1,
+      "stderr": "marmish: profile preparation requires an explicit state directory"
+    },
+    "backend_required": {
+      "exit": 1,
+      "stderr": "marmish: profile preparation requires the file key provider"
+    },
+    "unsafe_directory": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_path"
+    },
+    "unsafe_file": {
+      "exit": 1,
+      "stderr": "marmish: identity: unsafe_profile_file"
+    },
+    "invalid_profile": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_profile_name"
+    },
+    "in_use": {
+      "exit": 1,
+      "stderr": "marmish: identity: profile_in_use"
+    },
+    "invalid_manifest": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_manifest"
+    },
+    "wrong_version": {
+      "exit": 1,
+      "stderr": "marmish: storage: incompatible_state"
+    },
+    "wrong_backend": {
+      "exit": 1,
+      "stderr": "marmish: identity: backend_mismatch"
+    },
+    "random": {
+      "exit": 1,
+      "stderr": "marmish: identity: random_failed"
+    },
+    "missing_secret": {
+      "exit": 1,
+      "stderr": "marmish: identity: missing"
+    },
+    "invalid_secret": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_secret"
+    },
+    "invalid_signing_key": {
+      "exit": 1,
+      "stderr": "marmish: identity: invalid_nostr_key"
+    },
+    "identity_mismatch": {
+      "exit": 1,
+      "stderr": "marmish: identity: identity_mismatch"
+    },
+    "key_readback": {
+      "exit": 1,
+      "stderr": "marmish: identity: key_readback_mismatch"
+    },
+    "io": {
+      "exit": 1,
+      "stderr": "marmish: local I/O failed"
+    }
+  },
+  "initialize": {
+    "relay_argument": "relay",
+    "route_argument": "tor",
+    "local_route": "off",
+    "relay_scheme": "wss",
+    "runtime_prefix": "mr2-",
+    "socket_leaf": "s",
+    "runtime_bound": 104,
+    "runtime_suffix_allocation": 10,
+    "binding_leaf": "binding.json",
+    "binding_fields": [
+      "format",
+      "profile_id",
+      "root"
+    ],
+    "journal_leaf": "journal.db",
+    "account_leaf": "mdk.db",
+    "account_version": 0,
+    "existing_state_exclusions": [
+      "commands"
+    ],
+    "storage_salt": "marmish/v2/storage",
+    "journal_role": "journal",
+    "account_role": "mdk",
+    "identity_key": "identity",
+    "route_choices": [
+      "auto",
+      "always",
+      "off"
+    ],
+    "unsupported_peers_argument": "allow_peer",
+    "retention_argument": "retention_seconds",
+    "retention_default": 86400,
+    "guards": [
+      {
+        "kind": "false",
+        "argument": "foreground",
+        "rejected": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: foreground_operation"
+        }
+      },
+      {
+        "kind": "absent",
+        "argument": "max_commands",
+        "rejected": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: server_limit_operation"
+        }
+      },
+      {
+        "kind": "absent",
+        "argument": "max_uptime",
+        "rejected": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: server_limit_operation"
+        }
+      },
+      {
+        "kind": "false",
+        "argument": "new_session",
+        "rejected": {
+          "exit": 1,
+          "stderr": "marmish: invalid input: new_session_operation"
+        }
+      }
+    ],
+    "invalid_route": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: route_mode"
+    },
+    "configuration": {
+      "exit": 125,
+      "stderr": "marmish: configuration outside qualified initialization scope"
+    },
+    "invalid_relay": {
+      "exit": 1,
+      "stderr": "marmish: invalid input: relay_url"
+    },
+    "runtime_path": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_path_too_long"
+    },
+    "runtime_collision": {
+      "exit": 1,
+      "stderr": "marmish: identity: runtime_collision"
+    },
+    "journal_error": {
+      "exit": 1,
+      "stderr": "marmish: storage: journal"
+    },
+    "preflight_error": {
+      "exit": 1,
+      "stderr": "marmish: storage: state_preflight"
+    },
+    "account_error": {
+      "exit": 1,
+      "stderr": "marmish: storage: mdk_db"
+    },
+    "reload_unsupported": {
+      "exit": 125,
+      "stderr": "marmish: stored profile outside qualified initialization scope"
+    },
+    "journal": {
+      "version": 7,
+      "tables": [
+        {
+          "name": "binding",
+          "columns": [
+            {
+              "name": "account",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "conversations",
+          "columns": [
+            {
+              "name": "session",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "peer",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "revoked",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "rejected_at",
+              "affinity": "integer"
+            },
+            {
+              "name": "cleanup_complete",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "outgoing",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "application_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "envelope",
+              "affinity": "blob"
+            },
+            {
+              "name": "encoded",
+              "affinity": "blob"
+            },
+            {
+              "name": "digest",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob"
+            },
+            {
+              "name": "state",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "application_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "incoming",
+          "columns": [
+            {
+              "name": "cursor",
+              "affinity": "integer",
+              "primary": true,
+              "autoincrement": true
+            },
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "sender",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "application_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "envelope",
+              "affinity": "blob"
+            },
+            {
+              "name": "digest",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "body_type",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "authority",
+              "affinity": "blob"
+            },
+            {
+              "name": "receipt_for",
+              "affinity": "text"
+            },
+            {
+              "name": "invalidated",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "unique",
+              "columns": [
+                "group_id",
+                "sender",
+                "application_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "trust",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "primary": true
+            },
+            {
+              "name": "digest",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "queued_bindings",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "intent_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "intent_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "rejected_groups",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "primary": true
+            },
+            {
+              "name": "session_timestamp",
+              "affinity": "integer"
+            },
+            {
+              "name": "rejected_at",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "cleanup_complete",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "replay_state",
+          "columns": [
+            {
+              "name": "singleton",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "singleton"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "floor",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "admission_reject_through",
+              "affinity": "integer"
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "incoming_sources",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "sender",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "application_id",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "native_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "outgoing_sources",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "native_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_replay_state",
+          "columns": [
+            {
+              "name": "id",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "id"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "floor",
+              "affinity": "integer",
+              "required": true,
+              "check": {
+                "kind": "at_least",
+                "value": {
+                  "kind": "column",
+                  "column": "floor"
+                },
+                "minimum": 0
+              }
+            },
+            {
+              "name": "sequence",
+              "affinity": "integer",
+              "required": true,
+              "check": {
+                "kind": "at_least",
+                "value": {
+                  "kind": "column",
+                  "column": "sequence"
+                },
+                "minimum": 0
+              }
+            },
+            {
+              "name": "admitted",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "finished",
+              "affinity": "integer",
+              "required": true,
+              "default": 0,
+              "check": {
+                "kind": "at_least",
+                "value": {
+                  "kind": "column",
+                  "column": "finished"
+                },
+                "minimum": 0
+              }
+            },
+            {
+              "name": "payload_cursor",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "command_settings",
+          "columns": [
+            {
+              "name": "id",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "id"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "settings",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "command_invocations",
+          "columns": [
+            {
+              "name": "cursor",
+              "affinity": "integer",
+              "primary": true,
+              "autoincrement": true
+            },
+            {
+              "name": "k",
+              "affinity": "blob",
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "server",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "invocation",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "owner",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "submit",
+              "affinity": "blob"
+            },
+            {
+              "name": "stdin_length",
+              "affinity": "integer",
+              "required": true,
+              "check": {
+                "kind": "between",
+                "value": {
+                  "kind": "column",
+                  "column": "stdin_length"
+                },
+                "minimum": 0,
+                "maximum": 16384
+              }
+            },
+            {
+              "name": "stdout_delivered",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "stderr_delivered",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "facts",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "active",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "operation",
+              "affinity": "blob"
+            },
+            {
+              "name": "operation_revision",
+              "affinity": "integer"
+            },
+            {
+              "name": "operation_kind",
+              "affinity": "text"
+            },
+            {
+              "name": "operation_request",
+              "affinity": "blob"
+            },
+            {
+              "name": "server_side",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "submit_request_id",
+              "affinity": "blob"
+            },
+            {
+              "name": "submit_request_digest",
+              "affinity": "blob"
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "check",
+              "predicate": {
+                "kind": "any",
+                "predicates": [
+                  {
+                    "kind": "equal",
+                    "value": {
+                      "kind": "column",
+                      "column": "server_side"
+                    },
+                    "expected": 1
+                  },
+                  {
+                    "kind": "all",
+                    "predicates": [
+                      {
+                        "kind": "present",
+                        "column": "submit_request_id"
+                      },
+                      {
+                        "kind": "equal",
+                        "value": {
+                          "kind": "byte_length",
+                          "column": "submit_request_id"
+                        },
+                        "expected": 16
+                      },
+                      {
+                        "kind": "present",
+                        "column": "submit_request_digest"
+                      },
+                      {
+                        "kind": "equal",
+                        "value": {
+                          "kind": "byte_length",
+                          "column": "submit_request_digest"
+                        },
+                        "expected": 32
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "command_requests",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "request_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "k",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "owner",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "authority_valid",
+              "affinity": "integer",
+              "required": true,
+              "default": 1
+            },
+            {
+              "name": "request",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "op",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "response_id",
+              "affinity": "text"
+            },
+            {
+              "name": "client",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "projected",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "received_response",
+              "affinity": "blob"
+            },
+            {
+              "name": "response_digest",
+              "affinity": "blob"
+            },
+            {
+              "name": "local_consumed",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "slot_state",
+              "affinity": "text",
+              "required": true,
+              "default": "pending"
+            },
+            {
+              "name": "failed_attempts",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "slot_operation",
+              "affinity": "blob"
+            },
+            {
+              "name": "slot_revision",
+              "affinity": "integer"
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "request_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_publications",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "request_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "request_digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "session",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "client",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "server",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "wire",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "state",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "event_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_incoming_sources",
+          "columns": [
+            {
+              "name": "row_id",
+              "affinity": "integer",
+              "primary": true,
+              "autoincrement": true
+            },
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "request_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "author",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "authority",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "acked",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "unique",
+              "columns": [
+                "group_id",
+                "native_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_outgoing_sources",
+          "columns": [
+            {
+              "name": "row_id",
+              "affinity": "integer",
+              "primary": true,
+              "autoincrement": true
+            },
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "acked",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "invalidated",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "quarantined",
+              "affinity": "integer",
+              "required": true,
+              "default": 0
+            },
+            {
+              "name": "evidence",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "unique",
+              "columns": [
+                "group_id",
+                "native_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_early_invalidations",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "native_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "command_queued_bindings",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "intent",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "intent"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stream_attempts",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "last_ms",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "attempt",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "k",
+                "digest"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "live_streams",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "server_side",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "active",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "record",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "stream_slots",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "sequence",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "request",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "response",
+              "affinity": "blob"
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "k",
+                "digest"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stream_publications",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "event_id",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "k",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "payload",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "state",
+              "affinity": "text",
+              "required": true
+            },
+            {
+              "name": "native_id",
+              "affinity": "blob"
+            },
+            {
+              "name": "evidence",
+              "affinity": "blob"
+            },
+            {
+              "name": "intent",
+              "affinity": "blob"
+            }
+          ],
+          "constraints": [
+            {
+              "kind": "primary",
+              "columns": [
+                "group_id",
+                "event_id"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "copy_attempts",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "record",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "expires",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "cleanup_confirmed",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "stream_key",
+              "affinity": "text",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_open_receipts",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "request",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "response",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "expires",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_gc_claims",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "revision",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_refusals",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "principal",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "request",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "response",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "expires",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_replay_state",
+          "columns": [
+            {
+              "name": "id",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "id"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "floor",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_gc_schedule",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "turn",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "retry_after",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_local_receivers",
+          "columns": [
+            {
+              "name": "k",
+              "affinity": "text",
+              "primary": true
+            },
+            {
+              "name": "record",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_local_replays",
+          "columns": [
+            {
+              "name": "id",
+              "affinity": "blob",
+              "primary": true
+            },
+            {
+              "name": "created",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "digest",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "response",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "copy_local_floor",
+          "columns": [
+            {
+              "name": "singleton",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "singleton"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "floor",
+              "affinity": "integer",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "command_rooms",
+          "columns": [
+            {
+              "name": "group_id",
+              "affinity": "blob",
+              "primary": true
+            },
+            {
+              "name": "transport",
+              "affinity": "blob",
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "session",
+              "affinity": "blob",
+              "required": true,
+              "unique": true
+            },
+            {
+              "name": "peer",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "direction",
+              "affinity": "integer",
+              "required": true,
+              "check": {
+                "kind": "in",
+                "value": {
+                  "kind": "column",
+                  "column": "direction"
+                },
+                "choices": [
+                  0,
+                  1
+                ]
+              }
+            },
+            {
+              "name": "authority",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "revoked",
+              "affinity": "integer",
+              "required": true,
+              "default": 0,
+              "check": {
+                "kind": "in",
+                "value": {
+                  "kind": "column",
+                  "column": "revoked"
+                },
+                "choices": [
+                  0,
+                  1
+                ]
+              }
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "command_engine_binding",
+          "columns": [
+            {
+              "name": "singleton",
+              "affinity": "integer",
+              "primary": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "singleton"
+                },
+                "expected": 1
+              }
+            },
+            {
+              "name": "version",
+              "affinity": "integer",
+              "required": true
+            },
+            {
+              "name": "root",
+              "affinity": "blob",
+              "required": true
+            },
+            {
+              "name": "key_id",
+              "affinity": "blob",
+              "required": true
+            }
+          ],
+          "constraints": []
+        },
+        {
+          "name": "command_preparations",
+          "columns": [
+            {
+              "name": "token",
+              "affinity": "blob",
+              "primary": true,
+              "required": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "byte_length",
+                  "column": "token"
+                },
+                "expected": 16
+              }
+            },
+            {
+              "name": "peer",
+              "affinity": "blob",
+              "required": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "byte_length",
+                  "column": "peer"
+                },
+                "expected": 32
+              }
+            },
+            {
+              "name": "relays_sha256",
+              "affinity": "blob",
+              "required": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "byte_length",
+                  "column": "relays_sha256"
+                },
+                "expected": 32
+              }
+            },
+            {
+              "name": "session",
+              "affinity": "blob",
+              "required": true,
+              "unique": true,
+              "check": {
+                "kind": "equal",
+                "value": {
+                  "kind": "byte_length",
+                  "column": "session"
+                },
+                "expected": 16
+              }
+            }
+          ],
+          "constraints": []
+        }
+      ],
+      "indexes": [
+        {
+          "name": "command_active",
+          "table": "command_invocations",
+          "columns": [
+            "server_side",
+            "active",
+            "principal"
+          ]
+        },
+        {
+          "name": "copy_attempt_gc",
+          "table": "copy_attempts",
+          "columns": [
+            "cleanup_confirmed",
+            "expires",
+            "k"
+          ]
+        },
+        {
+          "name": "copy_attempt_principal",
+          "table": "copy_attempts",
+          "columns": [
+            "principal"
+          ]
+        },
+        {
+          "name": "copy_receipt_expiry",
+          "table": "copy_open_receipts",
+          "columns": [
+            "expires"
+          ]
+        },
+        {
+          "name": "copy_refusal_expiry",
+          "table": "copy_refusals",
+          "columns": [
+            "expires"
+          ]
+        },
+        {
+          "name": "copy_refusal_principal",
+          "table": "copy_refusals",
+          "columns": [
+            "principal"
+          ]
+        },
+        {
+          "name": "copy_gc_turn",
+          "table": "copy_gc_schedule",
+          "columns": [
+            "turn"
+          ]
+        }
+      ],
+      "seeds": [
+        {
+          "table": "binding",
+          "columns": [
+            "account"
+          ],
+          "values": [
+            {
+              "kind": "public_identity"
+            }
+          ]
+        },
+        {
+          "table": "replay_state",
+          "columns": [
+            "singleton",
+            "floor",
+            "admission_reject_through"
+          ],
+          "values": [
+            1,
+            0,
+            null
+          ]
+        },
+        {
+          "table": "command_replay_state",
+          "columns": [
+            "id",
+            "floor",
+            "sequence"
+          ],
+          "values": [
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "table": "command_settings",
+          "columns": [
+            "id",
+            "settings"
+          ],
+          "values": [
+            1,
+            {
+              "kind": "json_blob",
+              "fields": [
+                [
+                  "active_per_principal",
+                  4
+                ],
+                [
+                  "active_global",
+                  32
+                ],
+                [
+                  "retained_per_principal",
+                  1024
+                ],
+                [
+                  "retained_global",
+                  10000
+                ],
+                [
+                  "max_commands",
+                  null
+                ],
+                [
+                  "payload_retention",
+                  86400
+                ]
+              ]
+            }
+          ]
+        },
+        {
+          "table": "copy_replay_state",
+          "columns": [
+            "id",
+            "floor"
+          ],
+          "values": [
+            1,
+            0
+          ]
+        },
+        {
+          "table": "copy_local_floor",
+          "columns": [
+            "singleton",
+            "floor"
+          ],
+          "values": [
+            1,
+            0
+          ]
+        }
+      ],
+      "metrics": [
+        {
+          "key": "conversations",
+          "table": "conversations"
+        },
+        {
+          "key": "received",
+          "table": "incoming",
+          "predicate": {
+            "kind": "all",
+            "predicates": [
+              {
+                "kind": "equal",
+                "value": {
+                  "kind": "column",
+                  "column": "body_type"
+                },
+                "expected": "message"
+              },
+              {
+                "kind": "present",
+                "column": "envelope"
+              }
+            ]
+          }
+        },
+        {
+          "key": "pending",
+          "table": "outgoing",
+          "predicate": {
+            "kind": "all",
+            "predicates": [
+              {
+                "kind": "in",
+                "value": {
+                  "kind": "column",
+                  "column": "state"
+                },
+                "choices": [
+                  "unsubmitted",
+                  "prepared",
+                  "uncertain"
+                ]
+              },
+              {
+                "kind": "present",
+                "column": "envelope"
+              }
+            ]
+          }
+        }
+      ],
+      "empty_before_reload": [
+        "conversations",
+        "outgoing",
+        "incoming",
+        "trust",
+        "queued_bindings",
+        "rejected_groups",
+        "incoming_sources",
+        "outgoing_sources",
+        "command_invocations",
+        "command_requests",
+        "command_publications",
+        "command_incoming_sources",
+        "command_outgoing_sources",
+        "command_early_invalidations",
+        "command_queued_bindings",
+        "stream_attempts",
+        "live_streams",
+        "stream_slots",
+        "stream_publications",
+        "copy_attempts",
+        "copy_open_receipts",
+        "copy_gc_claims",
+        "copy_refusals",
+        "copy_gc_schedule",
+        "copy_local_receivers",
+        "copy_local_replays",
+        "command_rooms",
+        "command_engine_binding",
+        "command_preparations"
+      ],
+      "binding_table": "binding",
+      "binding_column": "account"
+    }
+  }
+}
