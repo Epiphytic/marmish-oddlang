@@ -1,0 +1,10 @@
+{
+  "declaration": "local::marmish_prototype::PrivateReader::{type}",
+  "id": "urn:marmish:prototype:private-buffer",
+  "fields": {
+    "input": "inner",
+    "storage": "bytes",
+    "begin": "start",
+    "end": "end"
+  }
+}
