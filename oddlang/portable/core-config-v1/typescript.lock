@@ -1,0 +1,8 @@
+{
+  "artifact": "value.mts",
+  "artifactSha256": "4ce4f8e6356ecaf743929a0655221d05e346d2417fa6f929b432544a8cb7986a",
+  "bindingSha256": null,
+  "domainSha256": "220c5dbc8381f20271dca61bec439a563d1ca2d9c1908f853eba3c76f71ff61d",
+  "format": "oddlang-value-domain-v1",
+  "obligationsSha256": "769d945af40cc2a0c76855b98b84cab48e5c3c117f91d73b49d5f31c686cc364"
+}
