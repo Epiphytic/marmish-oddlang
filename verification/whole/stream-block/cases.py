@@ -65,6 +65,12 @@ def qualify(reference, candidate):
     public=send(reference,declarations)
     assert public==send(candidate,declarations)
     assert public["public"]["limits"]==[8192,8192,32768,262144,MAX_OFFSET,256]
+    formats=("default","rightWidth","precision","centerFill","leftWidthAndPrecision")
+    samples=public["public"]["formattedInvalid"]
+    assert [row["payload"] for row in samples] == ["","sentinel","naïve{input}"]
+    for row in samples:
+        expected="invalid stream input: "+row["payload"]
+        assert all(row[fmt] == expected for fmt in formats), row
     enc=encode_cases()
     ref=send(reference,enc)
     got=send(candidate,enc)
@@ -99,5 +105,6 @@ def qualify(reference, candidate):
     refs=send(reference,bad)
     comparison=send(candidate,bad)
     assert refs==comparison, [key for key in refs if refs[key]!=comparison.get(key)]
-    return dict(publicErrorVariants=9,publicConstants=6,encodeCases=len(enc),decodeCases=len(bad),crossReadsOnEachPeer=len(mixed),
+    return dict(publicErrorVariants=9,publicConstants=6,formattedInvalidCases=len(samples)*len(formats),
+                formattedInvalidObservations=samples,encodeCases=len(enc),decodeCases=len(bad),crossReadsOnEachPeer=len(mixed),
                 validSeedDigest=hashlib.sha256(b'blue'*173).hexdigest())

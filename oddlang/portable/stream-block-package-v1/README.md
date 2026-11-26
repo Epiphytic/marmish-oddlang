@@ -1,6 +1,6 @@
 # Build the stream block codec
 
-From the companion root, with Oddlang framework revision `274d8e2b43d4ef97e58eac0cdd7cd39ea8274cbe`:
+From the companion root, with Oddlang framework revision `828fc258b77e9d3936f9bf09302ae93022aac3dd`:
 
 ```sh
 oddlang build native-package rust oddlang/portable/stream-block-package.json /tmp/stream-codec
