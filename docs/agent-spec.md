@@ -1,6 +1,6 @@
 # Marmish native v0.3 agent specification
 
-The v3 workspace builds the native CLI with automatic local status discovery. With an original daemon running, the generated client matches the original on both ARM64 platforms. The generated daemon in this workspace exposes its CLI parser. See the [workspace qualification](../verification/whole/workspace/README.md#workspace-v3) for release scope and receipts.
+The v3 workspace builds the native CLI with automatic local status discovery. The generated client matches the original on automatic local status discovery on both ARM64 platforms. Each workspace executable matches the frozen 34-case CLI transcript and passes the upstream inherited-limit help test. See the [workspace qualification](../verification/whole/workspace/README.md#workspace-v3) for release scope and receipts.
 
 The Oddlang companion generates parser-only `marmish` and `marmishd`
 executables from a recovered command graph. Both match the pinned release on

@@ -33,9 +33,9 @@ oddlang build native-workspace rust oddlang/portable/workspace-v3.json /tmp/marm
 cargo +1.97.1 build --manifest-path /tmp/marmish-v3/Cargo.toml --workspace --locked --release --offline
 ```
 
-The product inputs are the release manifest, component graphs, target overlays and locks. The native client supports automatic local status discovery. The stream member adds copy Manifest, Mtime, HelperContext and cross-record validation to the v2 interfaces. The generated daemon in this workspace handles the parser surface. Running a remote command or transfer still requires further implementation.
+The product inputs are the release manifest, component graphs, target overlays and locks. The native client supports automatic local status discovery. The stream member adds copy Manifest, Mtime, HelperContext and cross-record validation to the v2 interfaces. Both generated executables match the frozen CLI parser transcript on both ARM64 hosts. Running a remote command or transfer still requires further implementation.
 
-For differential qualification, provide clean compiler and upstream checkouts and the seven original executables for the host. Generation and the release build run with upstream source and network access excluded. The verifier then runs 25 unchanged upstream tests, compares 94 copy relation cases and exercises 43 status discovery controls plus two live discovery routes against an original daemon.
+For differential qualification, provide clean compiler and upstream checkouts and the seven original executables for the host. Generation and the release build run with upstream source and network access excluded. The verifier runs 25 unchanged upstream library tests and the unchanged native process-limits integration test. The latter stages the two workspace executables and detects replacing either one. It also replays all 34 frozen parser cases against each role in both the original release and the generated workspace, compares 94 copy relation cases, and exercises 43 status discovery controls plus two live discovery routes against an original daemon.
 
 ```sh
 python3 -B verification/whole/workspace/verify.py /path/to/pinned/oddlang /path/to/pinned/marmish /tmp/v3.json --release v3 --original-bin-dir /path/to/original/release
