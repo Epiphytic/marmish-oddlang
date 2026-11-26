@@ -163,7 +163,7 @@ def qualified_oracles(args, host, work, scratch, compiler, product, build, manif
 
 
 def qualify(args, host, work, scratch, *, manifest=MANIFEST, base=BASE, member=MEMBER,
-            check=check_product, extra_denied=None, extra_oracle=None,
+            check=check_product, extra_denied=None, extra_oracle=None, extra_artifact_oracle=None,
             receipt_format="marmish-six-member-mdk-public-data-v1"):
     assembly = lane("workspace")
     run("cargo", "+1.97.1", "build", "--offline", "--locked", "--bin", "oddlang",
@@ -218,7 +218,9 @@ def qualify(args, host, work, scratch, *, manifest=MANIFEST, base=BASE, member=M
                    "--message-format=json", cwd=product)
     observations = qualified_oracles(args, host, work, scratch, compiler, product, build, manifest)
     if extra_oracle is not None:
-        observations.update(extra_oracle(product, build))
+        observations.update(extra_oracle(product))
+    if extra_artifact_oracle is not None:
+        observations.update(extra_artifact_oracle(product, build))
     return {
         "format": receipt_format, "platform": host,
         "framework": args.framework_revision, "original": ORIGINAL,

@@ -105,8 +105,12 @@ def recovery(compiler, source, output, *, selection=HERE / "selection.json"):
 
 def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     # This runs only after the sandboxed workspace build and the inherited oracles.
-    compiler = compiler or work / "oddlang"
     prior = BUFFERED["buffer_oracle"](product, args.original, host)
+    return prior | observe_types(args, work, scratch, product, build, compiler)
+
+
+def observe_types(args, work, scratch, product, build, compiler=None):
+    compiler = compiler or work / "oddlang"
     recovered = scratch / "engine-recovered"
     observation = recovery(compiler, args.original / SOURCE, recovered)
     for name in ("graph.json", "rust.json"):
@@ -136,13 +140,15 @@ def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     serde = artifact(native, "serde")
     sealed = artifact(build, "marmish_native")
     orig_choice = IDENTITY["observe"](ref, ref.parent / "deps", serde, serde.parent, scratch / "choice-original")
-    gen_choice = IDENTITY["observe"](sealed, deps, serde, serde.parent, scratch / "choice-generated")
+    generated_serde = artifact(build, "serde")
+    gen_choice = IDENTITY["observe"](sealed, deps, generated_serde, generated_serde.parent,
+                                      scratch / "choice-generated")
     if orig_choice != gen_choice:
         raise ValueError("sealed identity choice differs from original")
     values, negatives = gen_choice
     identity = {"scope": "marmish_native::identity::BackendChoice",
                 "output": values.decode(), "negativeRustDiagnostics": negatives}
-    return prior | {"enginePublicError": oracle, "identity": identity}
+    return {"enginePublicError": oracle, "identity": identity}
 
 
 def main():
@@ -179,7 +185,7 @@ def main():
                 "original-backend-choice": args.original / IDENTITY["SOURCE"],
                 "backend-choice-caller": HERE.parent / "backend-choice/probe.rs",
             },
-            extra_oracle=lambda product, build: observe_workspace(args, host, work, scratch, product, build),
+            extra_artifact_oracle=lambda product, build: observe_workspace(args, host, work, scratch, product, build),
             receipt_format="marmish-seven-member-typed-error-identity-v1",
         )
         receipt["unchangedMemberLocks"] = sorted(set(receipt["physicalMembers"]) - CHANGED)
