@@ -1,0 +1,50 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "4c986ccdcf46564e5ecc6ca1eca8edeec1ce62e7",
+  "rust": "rustc 1.97.1 (8bab26f4f 2026-07-14)\nbinary: rustc\ncommit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452\ncommit-date: 2026-07-14\nhost: aarch64-apple-darwin\nrelease: 1.97.1\nLLVM version: 22.1.6",
+  "cases": 11,
+  "writes": 25,
+  "unresolved": {
+    "Start": [
+      "checked guard: copy_protocol::Launch::validate",
+      "fragment writer: copy_protocol::encode_launch"
+    ],
+    "Manifest": [
+      "fragment encoder: copy_protocol::Manifest::encode"
+    ],
+    "Resume": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "Prefix": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "Data": [
+      "conditional guard at line 392",
+      "checked guard: end"
+    ],
+    "Checkpoint": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "Done": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "Commit": [
+      "checked guard: copy_protocol::offset"
+    ],
+    "Progress": [
+      "checked guard: copy_protocol::offset",
+      "conditional guard at line 432"
+    ]
+  },
+  "checks": 44,
+  "mutatedFrames": 1,
+  "originalGraphSha256": "30d985c70e3e2834877396c3aa0a8906b4ac6ce119deab9b445bb017b71b1f05",
+  "mutatedGraphSha256": "8124ef12cab271ee195468fbd97c7fffd25580ba3864bfc1c636f4df339ac8e8",
+  "originalEvidenceSha256": "eb67843b2e8210187e8d15fd37d0957b2505706e06eabee182470ab5fc2198a0",
+  "mutatedEvidenceSha256": "adfad61b27f7088bc2afce3e2615c0c68cfc25b5d553a8e54f7b2bf27d2a2e39",
+  "originalNativeArtifactSha256": "52cd4314bcd47c3f349e00353a2c453cd693ebb4764d4ec83a49408d86d468a6",
+  "mutatedNativeArtifactSha256": "537f1f1714c4f8daa700f7a56d587ba9d5aeb40810024fe8ef6b1d6376ae9a3b",
+  "packageLockSha256": "6804c2001904ce19466a37dd5d4f49603fa65650093c00d8f7359a1c0ab50ded",
+  "callerSha256": "d3b6a7a1ab074bed3f7902c0c12966da73888da8f22d3f7ee1860bb4f1460f45",
+  "sourceReadDenied": true
+}

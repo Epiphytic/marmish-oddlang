@@ -13,3 +13,5 @@ python3 -B verification/whole/foreground-lifecycle/verify.py FRAMEWORK ORIGINAL 
 ```
 
 The verifier builds with upstream source, original binaries, the oracle, and network access excluded. Afterward the original and generated daemons each hold real encrypted database file descriptors during a live TLS ClientHello. Both real clients use automatic discovery. The contender is refused while the owner holds its lease. The observer checks that the dial is still held before the signal, observes EOF after the signal, and checks for a queued retry. It compares exact signal and trust-failure reports, lease release, and independent encrypted readback and credential preservation. Corrupt and unsafe stores fail before listening and preserve their originally bound runtime for retry.
+
+The [macOS ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) pin the same package, generated Cargo manifest and observer. Both match the pinned original for the IPv4 loopback cases. Linux also records identical original and generated SQLCipher diagnostics before the named corruption error.
