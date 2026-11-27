@@ -1204,7 +1204,7 @@
 {"path":"verification/whole/canonical-public-data/src/assembly.rs","language":"rust","mode":"100644","sha256":"c44454fb0a4364b222898e32a258d800ed7635c6fd6cc54e0b62c9fdc60c4e46","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/baseline_framework.rs","language":"rust","mode":"100644","sha256":"7e54d1ca312ee91696f2ac801f2acea67b0a2635f3310b552c6128b8d71ab11c","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/authorized-submit-offline.rs","language":"rust","mode":"100644","sha256":"373e906fbfd2b8c933ebe027583e66193a0790b3fa3c7a9f552a17d98df313a0","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/baseline-framework.rs","language":"rust","mode":"100644","sha256":"1bd36ee03a90146187df626b61bd7febf325cc5e9cf187ebe7d1d47f134e7fe7","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/baseline-framework.rs","language":"rust","mode":"100644","sha256":"1bec1d026d7b7888d410b40f02364e932f658ae7b5c85860ca8ef312f8c048e5","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/buffer-baseline.rs","language":"rust","mode":"100644","sha256":"6855a16d7df34fa9bafb995e6c5c9d53abc3d6c33a20029523d7e964e77baafa","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/check-command-output.rs","language":"rust","mode":"100644","sha256":"0ac12e6abfe496a9f0443268c752712f8431b5d3a319a80b2d8db927c6850fe0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/cli-project.rs","language":"rust","mode":"100644","sha256":"737afc18410282fd92bda16f56a2b7135b4886bd50527ded32be81648e449579","parse_status":"parsed"}
@@ -1505,7 +1505,6 @@
 {"path":"verification/whole/foreground-owner/generated-linux-arm64.json","language":"inventory","mode":"100644","sha256":"f2cf4820a7fbf1d864ecca11822f8c4c222305fe4ea8092d52303bb614631ef1","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/generated-macos-arm64.json","language":"inventory","mode":"100644","sha256":"1c3576609454693ea27afd8ab866b377f9dcb1ae91c0cc288e42e02f1866d8e7","parse_status":"inventory"}
 {"path":"verification/whole/foreground-owner/qualify.py","language":"python","mode":"100644","sha256":"de3274f23de161e4a6524ad0d033230d98cb3116b5c76daccc9e507fa70c37f8","parse_status":"parsed"}
-{"path":"verification/whole/framework_pin.py","language":"python","mode":"100644","sha256":"bc7a22de77e9843d02210389d04b5b4d1beab82722523c20865238268cc5a726","parse_status":"parsed"}
 {"path":"verification/whole/gap-range-assembly/README.md","language":"inventory","mode":"100644","sha256":"484276d6d92c04934444dd15c28a6b999c05c9a43da8f10b695cec6eb4c2b344","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-assembly/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"48daf19f89ed5beca1d9383bd6c3f748832952d2aee5627608a47db5d8ab36cd","parse_status":"inventory"}
 {"path":"verification/whole/gap-range-assembly/package.lock","language":"inventory","mode":"100644","sha256":"6026aabe42e5df097473733f3003356e7e9b350be8d3e349d94f7d956c296e9b","parse_status":"inventory"}
@@ -1582,7 +1581,7 @@
 {"path":"verification/whole/legacy/README.md","language":"inventory","mode":"100644","sha256":"13d16b2320ae06eae7a0a45d7d9c860a0f3e6e8273fa741c2b91f41504b79789","parse_status":"inventory"}
 {"path":"verification/whole/legacy/macos-arm64.json","language":"inventory","mode":"100644","sha256":"a4802b629f2e65cfe96d8727018bb3567df645a24f4557af92fb63a5a961f1ce","parse_status":"inventory"}
 {"path":"verification/whole/legacy/observe.rs","language":"rust","mode":"100644","sha256":"07994b0d5d16dca29e5272b382e6093f4ab6ea411fb155b67e70cf62885aa842","parse_status":"parsed"}
-{"path":"verification/whole/linux/README.md","language":"inventory","mode":"100644","sha256":"a4361840ca5ecbbe9eb1de2a96b5be43e3ee3cf0a2dca062fa2ac76244b72db7","parse_status":"inventory"}
+{"path":"verification/whole/linux/README.md","language":"inventory","mode":"100644","sha256":"ba4471b119f548434cbb47ac6e39bd16ab044f897e74598486de288f0c39244a","parse_status":"inventory"}
 {"path":"verification/whole/linux/aarch64-unknown-linux-gnu/bridge.json","language":"inventory","mode":"100644","sha256":"0104b6c0fbf2ac040ed7282385576a0f1122d97fa58034d04432ec2198b0700a","parse_status":"inventory"}
 {"path":"verification/whole/linux/aarch64-unknown-linux-gnu/data-release.json","language":"inventory","mode":"100644","sha256":"49970b41bd5e01c6b6a9b0b69edda0781332c62a42e5692cff35717c20f9cf03","parse_status":"inventory"}
 {"path":"verification/whole/linux/aarch64-unknown-linux-gnu/dev.json","language":"inventory","mode":"100644","sha256":"07e55db079bd0746fe2cd9bd85e692724c5fdc151acedd677098967210188f74","parse_status":"inventory"}
@@ -1594,7 +1593,8 @@
 {"path":"verification/whole/linux/aarch64-unknown-linux-gnu/sealed-release.json","language":"inventory","mode":"100644","sha256":"dfb021b890fde72b583945f4276c81fa0ed6428f7c0fdb15b473f39cf2cff899","parse_status":"inventory"}
 {"path":"verification/whole/linux/aarch64-unknown-linux-gnu/stream-tests.log","language":"inventory","mode":"100644","sha256":"1ae287e29ee0175ab8b56e9257b0a1c68b31a66a173dd30cb8cf8310b06bf165","parse_status":"inventory"}
 {"path":"verification/whole/linux/effects.py","language":"python","mode":"100644","sha256":"602665351356c4d3d3e0065bf6cad4a4ae4fb96ebc919a9f71adb3584a33c140","parse_status":"parsed"}
-{"path":"verification/whole/linux/sealed.py","language":"python","mode":"100644","sha256":"fde6728d24510205ed63f1020d26d497025b744a0d52a74537043874d0689587","parse_status":"parsed"}
+{"path":"verification/whole/linux/sealed.py","language":"python","mode":"100644","sha256":"0b28547c7c42dfaf8d34a70b54de54b5453503b6e2f0cb6da5839d23e50110a3","parse_status":"parsed"}
+{"path":"verification/whole/linux/tagged_receipt.rs","language":"rust","mode":"100644","sha256":"c95e6f725cfa9b440befa52a6b145c7b5d4ce121a1be224d180efc6d455f2363","parse_status":"recovered"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/bridge-1.json","language":"inventory","mode":"100644","sha256":"cbecd6988b42ad11aa3bfecae3a2633ac6e9b311992dc6a941ab181009ac3513","parse_status":"inventory"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/bridge-2.json","language":"inventory","mode":"100644","sha256":"cbecd6988b42ad11aa3bfecae3a2633ac6e9b311992dc6a941ab181009ac3513","parse_status":"inventory"}
 {"path":"verification/whole/linux/x86_64-unknown-linux-gnu/build-and-test.txt","language":"inventory","mode":"100644","sha256":"7789da1e2784bf908ccd2a1b4a9a06165ec54a24c2139abfb9a4d6a3230bf142","parse_status":"inventory"}
