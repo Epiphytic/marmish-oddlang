@@ -18,3 +18,11 @@ tempfile="3"
 [[bin]]
 name = "check-copy-frame-guards"
 path = "../source-copy-frame-guards/verify.rs"
+
+[[bin]]
+name = "check-source-copy-frame"
+path = "../source-copy-frame/verify.rs"
+
+[[bin]]
+name = "check-copy-frame-fragments"
+path = "../source-copy-frame-fragments/verify.rs"

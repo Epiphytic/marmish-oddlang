@@ -1,10 +1,7 @@
 //! Recover the order of copy Data encode guards and compare four separately compiled libraries.
 use clap::Parser;
-use copy_checkpoint_replay::{build_compiler, stage};
-use public_data_qualification::{
-    assembly::{ORIGINAL, Sandbox, archive, checkout, root},
-    *,
-};
+use copy_checkpoint_replay::frame_pair::FrameReplay;
+use public_data_qualification::{assembly::ORIGINAL, *};
 use serde_json::{Value, json};
 use std::{
     fs,
@@ -113,52 +110,21 @@ fn oracle(mutated: bool) -> Vec<String> {
     rows
 }
 
-fn project(
-    sandbox: &Sandbox,
-    work: &Path,
-    cli: &Path,
-    plan: &Path,
-    out: &Path,
-    denied: &[PathBuf],
-) -> Result {
-    sandbox.deny(denied)?;
-    run(sandbox
-        .command(work)?
-        .arg(cli)
-        .args(["build", "native-package", "rust"])
-        .arg(plan)
-        .arg(out))?;
-    run(sandbox
-        .command(out)?
-        .args(["cargo", "build", "--locked", "--offline", "--release"]))?;
-    Ok(())
-}
 fn main() -> Result {
     let args = Args::parse();
-    let original = args.original.canonicalize()?;
-    let framework = args.framework.canonicalize()?;
-    let lane = whole().join("source-copy-frame-guards");
-    let pin = load(&lane.join("reference-aarch64-apple-darwin.json"))?;
-    let fw = text(&pin["framework"])?;
-    checkout(&original, ORIGINAL, false)?;
-    let framework_head = stdout(
-        Command::new("git")
-            .current_dir(&framework)
-            .args(["rev-parse", "HEAD"]),
-    )?;
-    require(framework_head.trim() == fw, "framework revision differs")?;
-    let rust = stdout(Command::new("rustc").args(["+1.97.1", "-vV"]))?;
-    let host = rust
-        .lines()
-        .find_map(|s| s.strip_prefix("host: "))
-        .ok_or("missing host")?;
-    let private = tempfile::tempdir()?;
-    let scratch = private.path().canonicalize()?;
-    let framework_source = scratch.join("framework");
-    archive(&framework, fw, &framework_source)?;
-    let cli = build_compiler(&framework_source, &scratch.join("tools"), "+1.97.1")?;
-    let mutant = scratch.join("mutant");
-    archive(&original, ORIGINAL, &mutant)?;
+    let experiment = FrameReplay::new(&args.original, &args.framework, "source-copy-frame-guards")?;
+    let FrameReplay {
+        original,
+        cli,
+        mutant,
+        base,
+        changed,
+        host,
+        lane,
+        rust,
+        framework_pin: fw,
+        ..
+    } = &experiment;
     let file = mutant.join(SOURCE);
     let src = fs::read_to_string(&file)?;
     let pair = format!("{BEFORE}{END}");
@@ -167,10 +133,8 @@ fn main() -> Result {
         "ambiguous Data guard mutation",
     )?;
     fs::write(file, src.replacen(&pair, &format!("{END}{BEFORE}"), 1))?;
-    let base = scratch.join("baseline-recovery");
-    let changed = scratch.join("mutant-recovery");
-    let mut expected_graph = derive(&args.rust_capture, &cli, &original, host, &base)?;
-    let actual_graph = derive(&args.rust_capture, &cli, &mutant, host, &changed)?;
+    let mut expected_graph = derive(&args.rust_capture, cli, original, host, base)?;
+    let actual_graph = derive(&args.rust_capture, cli, mutant, host, changed)?;
     let data = portable().join(DOMAIN);
     let predecessor = portable().join("source-copy-frame-v1");
     for name in ["graph.json", "evidence.json", "selection.json"] {
@@ -208,99 +172,17 @@ fn main() -> Result {
         remaining == load(&data.join("remaining-obligations.json"))?,
         "remaining obligations differ",
     )?;
-    let temp = tempfile::tempdir()?;
-    let work = temp.path().canonicalize()?;
-    let tools = work.join("oddlang");
-    fs::copy(cli, &tools)?;
-    let providers = work.join("provider-cache");
-    fs::create_dir(&providers)?;
-    let sandbox = Sandbox::new(
-        host,
-        &work,
-        &[&root().canonicalize()?, &original, &framework, &scratch],
-        &providers,
-    )?;
-    let denied = [
-        original.join(SOURCE),
-        mutant.join(SOURCE),
-        lane.join("caller.rs"),
-        data.join("evidence.json"),
-        base.join("evidence.json"),
-        changed.join("evidence.json"),
-        framework.join("Cargo.toml"),
-        framework_source.join("Cargo.toml"),
-    ];
-    let inputs = work.join("inputs");
-    let (manifest, mut plan) = stage(&inputs, PACKAGE, false)?;
-    require(
-        !product::file_digests(&inputs)?.keys().any(|p| {
-            p.ends_with(".rs")
-                || Path::new(p)
-                    .file_name()
-                    .is_some_and(|n| n == "evidence.json")
-        }),
-        "source or evidence in projection inputs",
-    )?;
-    let generated = work.join("generated");
-    let altered = work.join("altered");
-    project(&sandbox, &work, &tools, &manifest, &generated, &denied)?;
-    require(
-        fs::read(generated.join("package.lock"))? == fs::read(data.join("package.lock"))?,
-        "baseline package lock differs",
-    )?;
-    let frames = plan["components"]
-        .as_array_mut()
-        .ok_or("missing components")?;
-    let mut frames = frames.iter_mut().filter(|v| v["kind"] == "binary-frame");
-    let frame = frames.next().ok_or("missing binary frame")?;
-    require(frames.next().is_none(), "multiple binary frames")?;
     let graph = changed.join("graph.json");
-    fs::copy(&graph, inputs.join(text(&frame["graph"]["path"])?))?;
-    frame["graph"]["sha256"] = json!(sha(&graph)?);
-    fs::write(&manifest, json_bytes(&plan)?)?;
-    project(&sandbox, &work, &tools, &manifest, &altered, &denied)?;
     let baseline = oracle(false);
     let mutation = oracle(true);
-    for (label, package, lock, expected) in [
-        (
-            "original",
-            original.join(CRATE),
-            original.join("Cargo.lock"),
-            &baseline,
-        ),
-        (
-            "original-mutated",
-            mutant.join(CRATE),
-            mutant.join("Cargo.lock"),
-            &mutation,
-        ),
-        (
-            "generated",
-            generated.clone(),
-            generated.join("Cargo.lock"),
-            &baseline,
-        ),
-        (
-            "generated-mutated",
-            altered.clone(),
-            altered.join("Cargo.lock"),
-            &mutation,
-        ),
-    ] {
-        let exe = stream_caller::build(
-            &scratch.join(label),
-            &package,
-            &lock,
-            include_bytes!("caller.rs"),
-            "observe-copy-guards",
-            "2021",
-        )?;
-        let raw = stdout(&mut Command::new(exe))?;
-        require(
-            raw.lines().eq(expected.iter().map(String::as_str)),
-            format!("{label} guard observations differ"),
-        )?;
-    }
+    let (generated, _) = experiment.qualify(
+        PACKAGE,
+        &data,
+        &[("source-copy-frame-guards-v1/graph.json", &graph)],
+        "observe-copy-guards",
+        &baseline,
+        &mutation,
+    )?;
     let proof = load(&base.join("evidence.json"))?;
     let cases = proof["cases"].as_object().ok_or("missing evidence cases")?;
     let mut rules = 0;
