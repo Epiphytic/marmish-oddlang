@@ -70,12 +70,19 @@ def observe_original(original, target, scratch):
     clone = scratch / "pinned"
     run("git", "clone", "--quiet", "--local", "--no-hardlinks", "--no-checkout", original, clone)
     run("git", "-C", clone, "checkout", "--quiet", "--detach", PIN)
-    cargo_test(clone, target, "tests::" + CASE, original=True)
     source = clone / SOURCE
     old = source.read_bytes()
+    # Cargo freshness timestamps can coincide for different edits to the same file.
+    cache = target / "mdk-json-input" / PIN
+    cargo_test(clone, cache / sha(old), "tests::" + CASE, original=True)
     probe = (HERE / "observe.rs").read_bytes()
-    source.write_bytes(old + b"\n" + probe)
-    baseline = observe(clone, target, PROBE, original=True)
+
+    def observe_source(model):
+        instrumented = model + b"\n" + probe
+        source.write_bytes(instrumented)
+        return observe(clone, cache / sha(instrumented), PROBE, original=True)
+
+    baseline = observe_source(old)
     edits = [(b"= Limits::NDJSON_BYTES;", b"= Limits::NDJSON_BYTES / 2;"),
              (b"records.len() >= 200", b"records.len() >= 181")]
     changed = old
@@ -83,8 +90,7 @@ def observe_original(original, target, scratch):
         if changed.count(old_text) != 1:
             raise ValueError("source mutation does not identify one policy site")
         changed = changed.replace(old_text, new_text)
-    source.write_bytes(changed + b"\n" + probe)
-    mutant = observe(clone, target, PROBE, original=True)
+    mutant = observe_source(changed)
     if (mutant["acceptedValueBytes"] * 2 != baseline["acceptedValueBytes"]
             or mutant["acceptedRecords"] != 181 or baseline["acceptedRecords"] == 181
             or baseline["cases"] != mutant["cases"]):
