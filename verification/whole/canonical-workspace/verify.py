@@ -1,10 +1,8 @@
 """Exercise all selected contracts on the same sealed native workspace."""
 import argparse
 import concurrent.futures
-import hashlib
 import json
 from pathlib import Path
-import re
 import runpy
 import sys
 import tempfile
@@ -40,68 +38,16 @@ def lane(name, program="verify.py"):
         sys.modules.update(saved)
 
 
-PARSER = lane("converged-release-manifest", "workspace_compat.py")
+CONVERGED = lane("converged-public-api")
 RECORD_API = lane("engine-native-records")
 CLI = lane("terminal-prefix")
 VAULT_API = lane("vault-mode")
-CONVERGED = PARSER["CONVERGENCE"]
-ENGINE_API, LIMIT, SIX = (PARSER[name] for name in ("ENGINE", "LIMIT", "SIX"))
+ENGINE_API, LIMIT, SIX = (CONVERGED[name] for name in ("ENGINE", "LIMIT", "SIX"))
 run, data, sha = (SIX[name] for name in ("run", "data", "sha"))
 
 
-def predecessor(name):
-    path = PORTABLE / name / "workspace.lock"
-    return data(path)
-
-
-def check_native_inheritance(product, prefix):
-    package = product / NATIVE
-    native_lock = data(package / "package.lock")
-    if [(c["kind"], c["module"]) for c in native_lock["components"][-2:]] != [
-        ("line-grammar", "native_manifest"), ("public-records", "transport"),
-    ]:
-        raise ValueError("incorrect appended native components")
-    native_lock["components"] = native_lock["components"][:-2]
-    original = (package / "src/lib.rs").read_text()
-    retained = dict(native_lock["generatedFiles"])
-    for module, visibility in (("native_manifest", ""), ("transport", "pub ")):
-        declaration, = re.findall(rf'^#\[path = "(group_\d+)/mod\.rs"\]\n{visibility}mod {module};\n',
-                                  original, re.M)
-        stanza = f'#[path = "{declaration}/mod.rs"]\n{visibility}mod {module};\n'
-        original = original.replace(stanza, "")
-        retained = {k: v for k, v in retained.items() if not k.startswith(f"src/{declaration}/")}
-    retained["src/lib.rs"] = hashlib.sha256(original.encode()).hexdigest()
-    native_lock["generatedFiles"] = retained
-    native_lock["manifestSha256"] = prefix["inputSha256"]
-    serialized = json.dumps(native_lock, indent=2, sort_keys=True, ensure_ascii=False).encode()
-    if hashlib.sha256(serialized).hexdigest() != prefix["standalonePackageLockSha256"]:
-        raise ValueError("expected terminal prefix native outputs to be conserved before parser/record extensions")
-
-
 def check(product):
-    lock = product / "workspace.lock"
-    if lock.read_bytes() != (PORTABLE / OUTPUT / "workspace.lock").read_bytes():
-        raise ValueError("canonical emitted workspace lock differs")
-    current, before = data(lock), predecessor(BASE)
-    prior_records = predecessor(RECORDS)
-    prior_cli = predecessor(PREFIX)
-    if any(current[key] != before[key] for key in ("format", "cargoLockSha256", "workspaceCargoManifestSha256")):
-        raise ValueError("canonical root dependencies or physical Cargo manifest changed")
-    if current["members"].keys() != before["members"].keys():
-        raise ValueError("canonical workspace must contain the same seven members")
-    for member, row in current["members"].items():
-        old = before["members"][member]
-        if any(row[key] != old[key] for key in ("dependencies", "workspaceCargoManifestSha256")):
-            raise ValueError(f"member dependencies changed: {member}")
-        if member not in {NATIVE, ENGINE, VAULT} and row != old:
-            raise ValueError(f"qualified unchanged member changed: {member}")
-    if current["members"][ENGINE] != prior_records["members"][ENGINE]:
-        raise ValueError("independently qualified engine record lock differs")
-    if sha(product / VAULT / "package.lock") != sha(PORTABLE / "vault-mode-v1/package.lock"):
-        raise ValueError("independently qualified vault mode lock differs")
-    check_native_inheritance(product, prior_cli["members"][NATIVE])
-    SIX["check_member_files"](product, current)
-    return current
+    return SIX["product_witness"]("canonical-offline-product", product)
 
 
 def terminal(args, host, work, scratch, product, build):
@@ -219,8 +165,8 @@ def denied(args, host):
         "engine-error-caller": ENGINE_API["HERE"] / "probe.rs",
         "original-native-choice": args.original / ENGINE_API["IDENTITY"]["SOURCE"],
         "choice-caller": WHOLE / "backend-choice/probe.rs",
-        "original-release-manifest": args.original / PARSER["SOURCE"],
-        "original-release-versions": args.original / PARSER["VECTOR_SOURCE"],
+        "original-release-manifest": args.original / "crates/marmish-native/src/native_manifest.rs",
+        "original-release-versions": args.original / "tools/release-version-vectors.json",
         "manifest-oracle-caller": WHOLE / "release-manifest/probe.rs",
         "manifest-blind-vectors": WHOLE / "release-manifest/vectors.json",
         "manifest-original-receipt": WHOLE / "release-manifest" / f"{host}.json",
@@ -269,7 +215,9 @@ def main():
             result.update(vault_mode(args, host, work, scratch, product, build))
             result.update(RECORD_API["observe_records"](args, product, build, work, scratch))
             result.update(CONVERGED["observe"](args, host, work, scratch, product, build))
-            result["releaseManifest"] = PARSER["manifest_oracle"](args, host, scratch, product, build)
+            result["releaseManifest"] = SIX["product_witness"](
+                "manifest-oracle", product, args.original, args.original_target, scratch, host,
+                scratch / "workspace-cargo-artifacts.jsonl")
             check(product)
             return result
 

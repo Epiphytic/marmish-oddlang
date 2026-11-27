@@ -144,6 +144,9 @@ enum Action {
         #[arg(long)]
         check: bool,
     },
+    CanonicalOfflineProduct {
+        product: PathBuf,
+    },
     ManifestProduct {
         product: PathBuf,
     },
@@ -321,6 +324,7 @@ fn main() -> Result {
             }
             return Ok(());
         }
+        Action::CanonicalOfflineProduct { product } => public_data_qualification::check_canonical_offline(&product)?,
         Action::ManifestProduct { product } => {
             public_data_qualification::manifest_product::check(&product)?
         }

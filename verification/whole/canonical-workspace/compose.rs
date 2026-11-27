@@ -254,6 +254,64 @@ pub(crate) fn canonical(root: &Path) -> Result<Vec<Descriptor>> {
     ])
 }
 
+/// Compare the terminal CLI, public record and vault predecessors against the combined workspace.
+pub fn check_product(product: &Path) -> Result<Value> {
+    use crate::{manifest_product::check_inherited_native, portable, product::check_members, sha};
+    let root = portable();
+    let reference = |release: &str| root.join(release).join("workspace.lock");
+    let emitted = fs::read(product.join("workspace.lock"))?;
+    require(
+        emitted == fs::read(reference("workspace-v7-canonical-offline"))?,
+        "canonical emitted workspace lock differs",
+    )?;
+    let current: Value = serde_json::from_slice(&emitted)?;
+    let previous = load(&reference("workspace-v7-converged-diagnostics-cli"))?;
+    for key in ["format", "cargoLockSha256", "workspaceCargoManifestSha256"] {
+        require(
+            current[key] == previous[key],
+            format!("canonical workspace changed {key}"),
+        )?;
+    }
+    let before = object(&previous["members"])?;
+    let after = object(&current["members"])?;
+    require(
+        before.len() == 7 && after.len() == before.len(),
+        "canonical workspace member count changed",
+    )?;
+    for (name, member) in after {
+        let old = before.get(name).ok_or("unexpected workspace member")?;
+        require(
+            member["dependencies"] == old["dependencies"]
+                && member["workspaceCargoManifestSha256"] == old["workspaceCargoManifestSha256"],
+            format!("member dependencies or Cargo manifest changed: {name}"),
+        )?;
+        if ![NATIVE, ENGINE, VAULT].contains(&name.as_str()) {
+            require(member == old, format!("unchanged member differs: {name}"))?;
+        }
+    }
+    let records = load(&reference("workspace-v7-observational-records"))?;
+    require(
+        current["members"][ENGINE] == records["members"][ENGINE],
+        "engine record lock differs",
+    )?;
+    require(
+        sha(&product.join(VAULT).join("package.lock"))?
+            == sha(&root.join("vault-mode-v1/package.lock"))?,
+        "vault mode package lock differs",
+    )?;
+    let prefix = load(&reference("workspace-v7-terminal-prefix"))?;
+    check_inherited_native(
+        &product.join(NATIVE),
+        &prefix["members"][NATIVE],
+        &[
+            ("line-grammar", "native_manifest", ""),
+            ("public-records", "transport", "pub "),
+        ],
+    )?;
+    check_members(product, &current, false)?;
+    Ok(current)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -122,45 +122,46 @@ pub fn check(product: &Path) -> Result<Value> {
     )?;
     product::check_members(product, &current, false)?;
     let native = product.join(MEMBER);
-    let (leaf, _) = leaf(&native)?;
-    let group = leaf
-        .parent()
-        .and_then(|p| p.file_name())
-        .and_then(|n| n.to_str())
-        .ok_or("invalid wrapper path")?;
+    leaf(&native)?;
+    check_inherited_native(&native, old, &[("line-grammar", "native_manifest", "")])?;
+    Ok(current)
+}
+
+/// Strip only the appended modules and reconstruct the sealed predecessor package lock.
+pub(crate) fn check_inherited_native(
+    native: &Path,
+    previous: &Value,
+    extensions: &[(&str, &str, &str)],
+) -> Result {
     let mut package = load(&native.join("package.lock"))?;
-    let appended = package
-        .get_mut("components")
-        .and_then(Value::as_array_mut)
-        .and_then(Vec::pop)
-        .ok_or("missing appended parser")?;
-    require(
-        appended["module"] == "native_manifest" && appended["kind"] == "line-grammar",
-        "expected an appended parser component",
-    )?;
-    let declaration = format!("#[path = \"{group}/mod.rs\"]\nmod native_manifest;\n");
-    let source = fs::read_to_string(native.join("src/lib.rs"))?;
-    require(
-        source.matches(&declaration).count() == 1,
-        "expected one private parser wrapper declaration",
-    )?;
-    let files = package
-        .get_mut("generatedFiles")
-        .and_then(Value::as_object_mut)
-        .ok_or("missing generated files")?;
-    let prefix = format!("src/{group}/");
-    files.retain(|k, _| !k.starts_with(&prefix));
-    files.insert(
-        "src/lib.rs".into(),
-        bytes_sha(source.replace(&declaration, "").as_bytes()).into(),
-    );
-    package["manifestSha256"] = old["inputSha256"].clone();
+    let mut source = fs::read_to_string(native.join("src/lib.rs"))?;
+    for &(kind, module, visibility) in extensions.iter().rev() {
+        let component = package["components"]
+            .as_array_mut()
+            .and_then(Vec::pop)
+            .ok_or("missing appended native component")?;
+        require(
+            component["kind"] == kind && component["module"] == module,
+            format!("unexpected appended native component: expected {kind}/{module}"),
+        )?;
+        let pattern =
+            format!(r#"(?m)^#\[path = "(group_\d+)/mod\.rs"\]\n{visibility}mod {module};\n"#);
+        let group = capture_one(&pattern, &source)?;
+        let prefix = format!("src/{group}/");
+        let declaration = format!("#[path = \"{group}/mod.rs\"]\n{visibility}mod {module};\n");
+        source = source.replacen(&declaration, "", 1);
+        package["generatedFiles"]
+            .as_object_mut()
+            .ok_or("missing native file inventory")?
+            .retain(|name, _| !name.starts_with(&prefix));
+    }
+    package["generatedFiles"]["src/lib.rs"] = bytes_sha(source.as_bytes()).into();
+    package["manifestSha256"] = previous["inputSha256"].clone();
     package.sort_all_objects();
     require(
-        bytes_sha(&serde_json::to_vec_pretty(&package)?) == old["standalonePackageLockSha256"],
+        bytes_sha(&serde_json::to_vec_pretty(&package)?) == previous["standalonePackageLockSha256"],
         "restored native wrapper or inherited files differ from predecessor",
-    )?;
-    Ok(current)
+    )
 }
 pub fn tests(original: &Path) -> Result<Vec<u8>> {
     let raw = stdout(

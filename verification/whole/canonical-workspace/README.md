@@ -38,6 +38,15 @@ python3 -B verification/whole/canonical-workspace/verify.py \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
 
+To verify an existing generated product against the canonical lock and its
+CLI, record and vault predecessors, run this command from the companion root.
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product -- canonical-offline-product "$PRODUCT"
+```
+
 The [native macOS receipt](aarch64-apple-darwin.json) records 77 of 140
 original import spellings, including six additions to the preceding
 diagnostics and CLI workspace. It also records the terminal argument

@@ -15,6 +15,7 @@ mod observational_records;
 mod range_binding;
 #[path = "../../canonical-workspace/compose.rs"]
 mod offline_composition;
+pub use offline_composition::check_product as check_canonical_offline;
 pub mod assembly;
 pub mod engine_caller;
 pub mod baseline_framework;
