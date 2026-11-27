@@ -13,7 +13,7 @@ The verifier changes each policy independently in a disposable copy of the origi
 The native test observes the behavior of a known private type. Its adapter names, scripted stimuli and semantic field roles are supplied by the project. Inference distinguishes the supported alternatives for that profile. Inputs outside those observations still need their own compatibility evidence.
 
 ```sh
-python3 -B verification/whole/private-buffer-inference/qualify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-buffer-inference -- \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_CARGO_TARGET" /tmp/observed-reader.json
 ```
 
