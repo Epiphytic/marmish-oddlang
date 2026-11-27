@@ -40,9 +40,11 @@ def stage(destination):
 
 
 def recover(oddlang, original):
-    from typed_project import recover as verify_reference
-
-    verify_reference(oddlang, original)
+    subprocess.run(
+        ["cargo", "+1.96.1", "run", "--quiet", "--offline", "--locked",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "typed-status-project", "--", "recover", oddlang, original], check=True,
+    )
     provenance = json.loads((POLICY / "provenance.json").read_bytes())
     revision = provenance["originalRevision"]
     for path, expected in provenance["sourceSha256"].items():

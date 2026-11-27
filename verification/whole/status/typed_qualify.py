@@ -2,6 +2,7 @@
 """Compare a generated typed status program with native original IPC observations."""
 
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import subprocess
@@ -9,7 +10,15 @@ import sys
 import tempfile
 
 from qualify import guard_checks, parser_counts
-from typed_project import HERE, PACKAGE, SHAPE, digest
+
+HERE = Path(__file__).resolve().parent
+PORTABLE = HERE.parents[2] / "oddlang/portable"
+SHAPE = PORTABLE / "native-status-typed-v1"
+PACKAGE = PORTABLE / "native-status-typed-package.json"
+
+
+def digest(path):
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 def main():
