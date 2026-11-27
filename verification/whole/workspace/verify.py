@@ -29,8 +29,10 @@ spec.loader.exec_module(envtools)
 def sha(data):return hashlib.sha256(data).hexdigest()
 
 
-def workspace_inputs(action, *paths):
-    return json.loads(envtools.run(envtools.qualification_tool("workspace-inputs")[1], action, *paths))
+def workspace_inputs(action, *paths, document=None):
+    tool = envtools.qualification_tool("workspace-inputs")[1]
+    payload = None if document is None else json.dumps(document)
+    return json.loads(envtools.run(tool, action, *paths, input_text=payload))
 
 
 def external_packages(lock):
@@ -115,24 +117,8 @@ def v3_interfaces(work, target, original, binaries, compiler):
 
 
 def verify_generated_tree(target, receipt, report, unified):
-    for name,r in receipt["members"].items():
-        pkg=target/name; lock=(pkg/"package.lock").read_bytes()
-        if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
-        generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
-                     for p in (pkg / "src").rglob("*") if p.is_file()}
-        if report:
-            allowed = {"Cargo.toml", "package.lock", "src"}
-            if name == "marmish-native":
-                allowed.add("build.rs")
-                generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
-            if {p.name for p in pkg.iterdir()} != allowed:
-                raise ValueError(f"unexpected generated package paths: {name}")
-        if generated != json.loads(lock)["generatedFiles"]:
-            raise ValueError("member source inventory mismatch")
-    if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
-    if unified:
-        if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
-            raise ValueError("workspace generated Cargo manifest mismatch")
+    flags = (["--report"] if report else []) + (["--unified"] if unified else [])
+    workspace_inputs("verify-product", target, *flags, document=receipt)
 
 
 def passing_tests(output):

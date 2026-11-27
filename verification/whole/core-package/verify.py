@@ -11,8 +11,8 @@ RUST = "1.97.1"
 RUST_COMMIT = "8bab26f4f68e0e26f0bb7960be334d5b520ea452"
 
 
-def run(*args, cwd=None, env=None, fail=None):
-    result = subprocess.run(args, cwd=cwd, env=env, capture_output=True, text=True)
+def run(*args, cwd=None, env=None, fail=None, input_text=None):
+    result = subprocess.run(args, cwd=cwd, env=env, capture_output=True, text=True, input=input_text)
     if fail is not None:
         if result.returncode == 0 or fail not in result.stderr:
             raise ValueError(f"negative control did not report {fail!r}: {args}\n{result.stdout}{result.stderr}")

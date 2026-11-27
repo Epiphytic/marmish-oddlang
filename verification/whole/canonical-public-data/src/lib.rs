@@ -27,6 +27,7 @@ pub mod command_output;
 pub mod engine_caller;
 pub mod baseline_framework;
 pub mod cli_projection;
+pub mod cli_transcript;
 #[path = "../../offline-cli/compose.rs"]
 pub mod cli_composition;
 pub mod status_package;

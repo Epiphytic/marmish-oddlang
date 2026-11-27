@@ -57,13 +57,17 @@ fn checked(p: &Path, hash: &Value) -> Result {
         format!("sealed generated input changed: {}", p.display()),
     )
 }
-pub fn check_members(product: &Path, lock: &Value, full: bool) -> Result {
-    checked(
-        &product.join("Cargo.toml"),
-        &lock["workspaceCargoManifestSha256"],
-    )?;
+fn check_member_files(
+    product: &Path,
+    lock: &Value,
+    inventory: impl Fn(&str, &Path) -> Result<BTreeMap<String, String>>,
+) -> Result {
     checked(&product.join("Cargo.lock"), &lock["cargoLockSha256"])?;
     for (name, row) in props(&lock["members"])? {
+        require(
+            Path::new(name).file_name().and_then(|n| n.to_str()) == Some(name),
+            "invalid member name",
+        )?;
         let member = product.join(name);
         let p = member.join("package.lock");
         checked(
@@ -71,23 +75,67 @@ pub fn check_members(product: &Path, lock: &Value, full: bool) -> Result {
             &row["workspaceCargoManifestSha256"],
         )?;
         checked(&p, &row["standalonePackageLockSha256"])?;
-        let mut inventory = BTreeMap::new();
-        if full {
-            files(&member, &member, &mut inventory)?;
-            inventory.remove("Cargo.toml");
-            inventory.remove("package.lock");
-        } else {
-            files(&member, &member.join("src"), &mut inventory)?;
-            if member.join("build.rs").exists() {
-                files(&member, &member.join("build.rs"), &mut inventory)?;
-            }
-        }
         require(
-            json!(inventory) == load(&p)?["generatedFiles"],
+            json!(inventory(name, &member)?) == load(&p)?["generatedFiles"],
             format!("sealed generated source differs: {name}"),
         )?;
     }
     Ok(())
+}
+
+fn source_inventory(member: &Path, build_script: bool) -> Result<BTreeMap<String, String>> {
+    let mut inventory = BTreeMap::new();
+    files(member, &member.join("src"), &mut inventory)?;
+    if build_script {
+        files(member, &member.join("build.rs"), &mut inventory)?;
+    }
+    Ok(inventory)
+}
+
+pub fn check_members(product: &Path, lock: &Value, full: bool) -> Result {
+    checked(
+        &product.join("Cargo.toml"),
+        &lock["workspaceCargoManifestSha256"],
+    )?;
+    check_member_files(product, lock, |_, member| {
+        if !full {
+            return source_inventory(member, member.join("build.rs").exists());
+        }
+        let mut all = file_digests(member)?;
+        all.remove("Cargo.toml");
+        all.remove("package.lock");
+        Ok(all)
+    })
+}
+
+/// Older qualification releases checked sources only. Unified releases added a root
+/// manifest pin, then report-bearing releases specified the exact member layout.
+pub fn verify_release_tree(product: &Path, lock: &Value, report: bool, unified: bool) -> Result {
+    if unified {
+        checked(
+            &product.join("Cargo.toml"),
+            &lock["workspaceCargoManifestSha256"],
+        )?;
+    }
+    check_member_files(product, lock, |name, member| {
+        let build_script = report && name == NATIVE;
+        if report {
+            let mut allowed = BTreeSet::from_iter(
+                ["Cargo.toml", "package.lock", "src"].map(std::ffi::OsString::from),
+            );
+            if build_script {
+                allowed.insert("build.rs".into());
+            }
+            let actual: BTreeSet<_> = fs::read_dir(member)?
+                .map(|e| e.map(|entry| entry.file_name()))
+                .collect::<std::io::Result<_>>()?;
+            require(
+                actual == allowed,
+                format!("unexpected generated package paths: {name}"),
+            )?;
+        }
+        source_inventory(member, build_script)
+    })
 }
 pub fn six(product: &Path) -> Result<Value> {
     let p = product.join("workspace.lock");

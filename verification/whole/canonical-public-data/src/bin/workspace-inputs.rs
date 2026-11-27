@@ -20,6 +20,14 @@ enum Action {
     WorkspaceProviders { lock: PathBuf, destination: PathBuf },
     /// List external package identities used to compare workspace and original locks.
     ExternalPackages { lock: PathBuf },
+    /// Compare a generated workspace to the release receipt supplied on stdin.
+    VerifyProduct {
+        product: PathBuf,
+        #[arg(long)]
+        report: bool,
+        #[arg(long)]
+        unified: bool,
+    },
     /// Attach original tests after checking the generated workspace.
     LibraryTests {
         product: PathBuf,
@@ -42,6 +50,17 @@ fn main() -> Result {
         }
         Action::ExternalPackages { lock } => {
             serde_json::to_value(assembly::external_packages(&lock)?)?
+        }
+        Action::VerifyProduct {
+            product,
+            report,
+            unified,
+        } => {
+            let lock = serde_json::from_reader(std::io::stdin().lock())?;
+            public_data_qualification::product::verify_release_tree(
+                &product, &lock, report, unified,
+            )?;
+            serde_json::Value::Null
         }
         Action::LibraryTests {
             product,
