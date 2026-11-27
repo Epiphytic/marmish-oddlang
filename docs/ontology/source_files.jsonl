@@ -1073,7 +1073,7 @@
 {"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/baseline-framework.json","language":"inventory","mode":"100644","sha256":"91d31c592e02ece0a6eccbf0bf502c1537647aa95979035235fd7bcadb9d0636","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/AUTHORIZED-SUBMIT-OFFLINE.md","language":"inventory","mode":"100644","sha256":"de35c7a6b8b01b4d6e611b2b44cc36b3f2a6ce20f422bd67d13fab990fea4d1f","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"da82d4ad7fa99d840fba81a848f5949d74e9b0322e26a4a7a9183b08fbcd551d","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"f9907234739d99a079d300f5001358bcdb977854acc6a668d5323a73ac54b10f","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/CLIENT-OWNER.md","language":"inventory","mode":"100644","sha256":"bc1466a0652027ebed44d1995148b4aeaff7be88dec56a8bf6e22834d37509f8","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/COMPOSED-OWNER.md","language":"inventory","mode":"100644","sha256":"220c9c476484d11cf4a75919bf0373f9253772a1eb1bf0600a22b6a6b7fa63f7","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/LOCAL-DELIVERY.md","language":"inventory","mode":"100644","sha256":"3a70a09829c9819a99640cd2cb5f9998518b23fb0587bb27c7f4acdf9f821dab","parse_status":"inventory"}
@@ -1134,7 +1134,6 @@
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"5b14a6f48156cb0f8f6e59a33e7a8111ec131f5bb01cf65135a342935971b222","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-initial-preflight-macos-arm64.json","language":"inventory","mode":"100644","sha256":"a1c2cf2ee37c015d24b1cfdddf4e13133fa27636458d7c8c61a4cffc058abec1","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/profile-setup-preflight-macos-arm64.json","language":"inventory","mode":"100644","sha256":"d9c044ad2d607a1352dfd71546b8517b446c71fdd65736f8ff541ee0f9190516","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/profile_setup.py","language":"python","mode":"100644","sha256":"82a8eba3792a555c17dd52fc2de84b9de70c5c16dbeca83931237e2907c38353","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/provider_activation.py","language":"python","mode":"100644","sha256":"861cacd16cfb6ef2afa49f9cc3d2e17f32bbe3531d0cfa2da60b2b76f76965a3","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/qualify.py","language":"python","mode":"100644","sha256":"d1740774dff7ac9962c2b51a952b43858ce9c4aecca53b444007f37afdb45204","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/reference-build-macos-arm64.json","language":"inventory","mode":"100644","sha256":"20626333b5d35f320306303df40f6a4a28953a5a0a8f9b9d6750f4b2442361f3","parse_status":"inventory"}
@@ -1212,6 +1211,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/gap-range-reference.rs","language":"rust","mode":"100644","sha256":"168a662a98869d7638e0488934e6cb7783016ef2ec676fb536c3f59768cb6d90","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/journal-record-inputs.rs","language":"rust","mode":"100644","sha256":"cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/native-build-macos.rs","language":"rust","mode":"100644","sha256":"a8b348b240c95f6ed40c3cee44695b4d9909cb7c2b04abb03f72c729c4a5412e","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/profile-setup.rs","language":"rust","mode":"100644","sha256":"738ec8c00c1015787752006ef8b7bf79fda3dd7129c8d8d8da63220ab059179f","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/qualify-buffer-inference.rs","language":"rust","mode":"100644","sha256":"6d64466c74e50995a2214ce150b46bb14a242546336fecb1ad82dc6d619c2999","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/src/bin/qualify-five-member.rs","language":"rust","mode":"100644","sha256":"f1c79afd467c7ad3cb528f265b89da257c4597559307c5842bb1d95089be0ee7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/qualify-macos.rs","language":"rust","mode":"100644","sha256":"8eb821bf4a957d61dc92aa2320000c4fa21521f4012fa812f506a69e2b50df76","parse_status":"parsed"}

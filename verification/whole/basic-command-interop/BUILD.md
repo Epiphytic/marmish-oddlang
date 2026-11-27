@@ -51,7 +51,7 @@ The local profile comparison invokes both builds with fresh file credentials and
 To replay the role-change comparison, supply the original installation recorded by the reference run, the sealed candidate installation, and its published build receipt. The comparator checks the SHA-256 of each copied executable, verifies that a connection to a listening loopback socket is denied, and deletes both peer roots after the run.
 
 ```sh
-python3 -B verification/whole/basic-command-interop/profile_setup.py \
+cargo run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin profile-setup -- \
   "$MARMISH_BIN_DIR" "$EXPORT" \
   --candidate-build verification/whole/basic-command-interop/profile-setup-build-macos-arm64.json
 ```
