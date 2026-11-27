@@ -15,7 +15,7 @@ const BEFORE: &str = "workspace-v7-canonical-offline";
 const AFTER: &str = "workspace-v7-canonical-public-data";
 const BASE_REV: &str = "0f9e57396530fa1c11127e3fff7d8d0018514f00";
 const BASE_LOCK: &str = "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4";
-const PACKAGES: [&str; 7] = [
+pub(crate) const PACKAGES: [&str; 7] = [
     "marmish-core",
     "marmish-engine",
     "marmish-mdk",

@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use public_data_qualification::{Result, domains, imports, product};
+use public_data_qualification::{Result, buffered, domains, imports, product};
 use serde_json::Value;
 use std::{io, path::PathBuf};
 
@@ -26,6 +26,16 @@ enum Action {
         original: PathBuf,
         work: PathBuf,
     },
+    BufferedProduct {
+        product: PathBuf,
+    },
+    BufferedOracle {
+        product: PathBuf,
+        original: PathBuf,
+        host: String,
+        #[arg(long)]
+        prior: Option<PathBuf>,
+    },
     Domains,
 }
 fn main() -> Result {
@@ -46,6 +56,13 @@ fn main() -> Result {
             original,
             work,
         } => imports::observe(&host, &original, &work, &input()?)?,
+        Action::BufferedProduct { product } => buffered::check(&product)?,
+        Action::BufferedOracle {
+            product,
+            original,
+            host,
+            prior,
+        } => buffered::observe(&product, &original, &host, prior.as_deref())?,
         Action::Domains => domains::observe(&input()?)?,
     };
     println!("{}", serde_json::to_string(&report)?);

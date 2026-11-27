@@ -18,21 +18,7 @@ PREVIOUS = PORTABLE / BASE
 PRIVATE_LEAF = "src/group_0/__projection_0.rs"
 
 
-def previous_lane():
-    import sys
-
-    last = sys.modules.pop("compose", None)
-    sys.path.insert(0, str(HERE.parent / "unified-buffered"))
-    try:
-        return runpy.run_path(str(HERE.parent / "unified-buffered/verify.py"))
-    finally:
-        sys.path.pop(0)
-        sys.modules.pop("compose", None)
-        if last is not None:
-            sys.modules["compose"] = last
-
-
-BUFFERED = previous_lane()
+BUFFERED = runpy.run_path(str(HERE.parent / "unified-buffered/workspace_compat.py"))
 SIX = BUFFERED["SIX"]
 run, data, sha = (SIX[k] for k in ("run", "data", "sha"))
 
@@ -129,28 +115,7 @@ def caller(path, scratch, label):
 
 
 def reader_oracle(product, args, host, prior):
-    # The old reader oracle expects the historical member lock. The enclosing
-    # comparison has already checked that every private generated file is equal.
-    leaf = product / MEMBER / PRIVATE_LEAF
-    original = leaf.read_bytes()
-    tester = BUFFERED["BUFFER"]
-    cases = [tester["ORIGINAL_CASE"]] + [tester["PREFIX"] + name for name in tester["CASES"]]
-    witness = data(BUFFERED["PRIVATE"] / f"original-{host}.json")
-    if witness["revision"] != SIX["ORIGINAL"] or witness["passed"] != cases:
-        raise ValueError("private reader case baseline changed")
-    try:
-        leaf.write_bytes(original + tester["original_test"](args.original)
-                         + (BUFFERED["PRIVATE"] / "observations.rs").read_bytes())
-        for case in cases:
-            exact = tester["NATIVE_TEST_PREFIX"] + case
-            result = run("cargo", "+1.97.1", "test", "--release", "--locked", "--offline", "--lib",
-                         "-p", MEMBER, "--", "--exact", exact, cwd=product,
-                         env=SIX["JOURNAL"]["cargo_env"]()).decode()
-            if result.splitlines().count(f"test {exact} ... ok") != 1:
-                raise ValueError(f"missing unchanged reader case {exact}")
-    finally:
-        leaf.write_bytes(original)
-    return {"passed": cases, "privateReaderLeafSha256": sha(prior / PRIVATE_LEAF)}
+    return BUFFERED["successor_reader"](product, args.original, host, prior)
 
 
 def main():
@@ -177,7 +142,7 @@ def main():
         prefix="odd-line-oracles-"
     ) as tmp:
         scratch = Path(tmp).resolve()
-        compiler = args.compiler_target / "debug/oddlang"
+        compiler = Path(work) / "oddlang"
         prior = None
 
         def check(product):

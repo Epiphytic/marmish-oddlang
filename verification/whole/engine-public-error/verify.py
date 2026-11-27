@@ -4,7 +4,6 @@ import json
 from pathlib import Path
 import runpy
 import subprocess
-import sys
 import tempfile
 
 from compose import DOMAIN, WORKSPACE, compose
@@ -16,14 +15,7 @@ MANIFEST = PORTABLE / WORKSPACE
 SOURCE = Path("crates/marmish-engine/src/model.rs")
 CHANGED = {"marmish-engine", "marmish-native"}
 
-# Load the existing seven-member lane with its own compose module.
-sys.path.insert(0, str(HERE.parent / "unified-buffered"))
-current_compose = sys.modules.pop("compose")
-try:
-    BUFFERED = runpy.run_path(str(HERE.parent / "unified-buffered/verify.py"))
-finally:
-    sys.path.pop(0)
-    sys.modules["compose"] = current_compose
+BUFFERED = runpy.run_path(str(HERE.parent / "unified-buffered/workspace_compat.py"))
 SIX = BUFFERED["SIX"]
 IDENTITY = SIX["lane"]("backend-choice")
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
@@ -207,7 +199,7 @@ def main():
             args, host, work, scratch,
             manifest=MANIFEST, base=BASE, member="marmish-engine", check=check_product,
             extra_denied={
-                "original-prototype": args.original / BUFFERED["BUFFER"]["SOURCE"],
+                "original-prototype": args.original / BUFFERED["SOURCE"],
                 "buffer-caller": BUFFERED["PRIVATE"] / "observations.rs",
                 "original-engine-error": args.original / SOURCE,
                 "engine-error-caller": HERE / "probe.rs",

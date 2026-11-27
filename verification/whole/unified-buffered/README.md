@@ -34,7 +34,9 @@ From a clean companion checkout, with the offline dependencies and the
 original's native release binaries available, run:
 
 ```sh
-python3 -B verification/whole/unified-buffered/verify.py \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --buffered \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision 59f947dafdb4cf3055e35216857472ada895a76a \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
@@ -47,3 +49,5 @@ product. Both receipts pin original
 `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df`.
 
 The [macOS ARM64 replay](rust-aarch64-apple-darwin.json) ran the buffered verifier through the Rust workspace qualifier. The downstream verifier checked the projected seven-member lock before the isolated release build, then ran its four buffered-reader tests. Its recorded provider, checksums, cases and outcomes match the original macOS receipt.
+
+Check the two composed portable files with `cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin compose-buffered -- oddlang/portable --check`. The full workspace gate builds the pinned compiler and runs all four private-reader cases on the generated native member.

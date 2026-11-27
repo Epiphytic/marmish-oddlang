@@ -1,4 +1,6 @@
 pub mod assembly;
+#[path = "../../unified-buffered/buffer.rs"]
+pub mod buffered;
 #[path = "../compose.rs"]
 pub mod composition;
 #[path = "../domains.rs"]

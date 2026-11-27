@@ -30,6 +30,9 @@ struct Args {
     /// Request from a workspace verifier with additional checks on the projected tree.
     #[arg(long)]
     extension: Option<PathBuf>,
+    /// Build the seven-member release and run the private buffered-reader oracle.
+    #[arg(long, conflicts_with = "extension")]
+    buffered: bool,
 }
 fn library(rows: &[Value], name: &str) -> Result<PathBuf> {
     let mut found = Vec::new();
@@ -176,7 +179,9 @@ fn execute(a: Args) -> Result {
         [DARWIN, LINUX].contains(&host),
         "unsupported native qualification host",
     )?;
-    if extension.is_none() {
+    if a.buffered {
+        buffered::compose(&portable(), true)?;
+    } else if extension.is_none() {
         six_composition::compose(&portable(), true)?;
     }
     let tmp = tempfile::tempdir()?;
@@ -225,18 +230,22 @@ fn execute(a: Args) -> Result {
     fs::copy(build_target.join("debug/oddlang"), &cli)?;
     let manifest = match &extension {
         Some(e) => PathBuf::from(text(&e["manifest"])?),
+        None if a.buffered => portable().join(format!("{}.json", buffered::RELEASE)),
         None => portable().join(format!("{SIX}.json")),
     };
     let base = match &extension {
         Some(e) => portable().join(text(&e["base"])?).with_extension(""),
+        None if a.buffered => portable().join(SIX),
         None => portable().join(FIVE),
     };
     let member = match &extension {
         Some(e) => text(&e["member"])?,
+        None if a.buffered => buffered::MEMBER,
         None => "marmish-mdk",
     };
     let format = match &extension {
         Some(e) => text(&e["format"])?,
+        None if a.buffered => "marmish-seven-member-private-buffer-v1",
         None => "marmish-six-member-mdk-public-data-v1",
     };
     let inputs = work.join("inputs");
@@ -295,6 +304,13 @@ fn execute(a: Args) -> Result {
             denied.insert(k.clone(), PathBuf::from(text(p)?));
         }
     }
+    if a.buffered {
+        denied.insert("original-prototype".into(), original.join(buffered::SOURCE));
+        denied.insert(
+            "buffer-caller".into(),
+            whole().join("private-buffer/observations.rs"),
+        );
+    }
     sandbox.deny(&denied.values().cloned().collect::<Vec<_>>())?;
     sandbox.deny(&[whole().join("build-report/observe.py")])?;
     let product = work.join("product");
@@ -317,6 +333,8 @@ fn execute(a: Args) -> Result {
         )?;
         product::check_members(&product, &checked, false)?;
         checked
+    } else if a.buffered {
+        buffered::check(&product)?
     } else {
         product::six(&product)?
     };
@@ -420,6 +438,9 @@ fn execute(a: Args) -> Result {
         "journal": journal,
         "mdk": mdk,
     });
+    if a.buffered {
+        result["bufferedInput"] = buffered::observe(&product, &original, host, None)?;
+    }
     if extension.is_some() {
         result["format"] = "marmish-extended-workspace-intermediate-v1".into();
         result["requestedFormat"] = format.into();

@@ -10,7 +10,7 @@ const RELEASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk";
 const MDK: &str = "mdk-public-data-package.json";
 const MEMBER: &str = "marmish-mdk";
 
-fn packages(raw: &str) -> Result<Vec<toml::Value>> {
+pub(crate) fn packages(raw: &str) -> Result<Vec<toml::Value>> {
     let document: toml::Table = toml::from_str(raw)?;
     Ok(document
         .get("package")
@@ -39,7 +39,18 @@ fn combined_lock(old: &str, mdk: &str) -> Result<String> {
     ))
 }
 pub fn compose(root: &Path, check: bool) -> Result<PathBuf> {
-    let mut manifest = load(&root.join(BASE))?;
+    compose_member(root, check, BASE, RELEASE, MDK, MEMBER, combined_lock)
+}
+pub(crate) fn compose_member(
+    root: &Path,
+    check: bool,
+    base: &str,
+    release: &str,
+    descriptor: &str,
+    member: &str,
+    combine: fn(&str, &str) -> Result<String>,
+) -> Result<PathBuf> {
+    let mut manifest = load(&root.join(base))?;
     let load_lock = |p: &serde_json::Value, msg: &str| -> Result<String> {
         let rel = text(&p["path"])?;
         require(pin(root, rel)? == *p, msg)?;
@@ -49,30 +60,30 @@ pub fn compose(root: &Path, check: bool) -> Result<PathBuf> {
         &manifest["cargoLock"],
         "predecessor Cargo lock does not match its pin",
     )?;
-    let mdk = load_lock(
-        &load(&root.join(MDK))?["cargoLock"],
-        "MDK package Cargo lock does not match its pin",
+    let standalone = load_lock(
+        &load(&root.join(descriptor))?["cargoLock"],
+        "standalone package Cargo lock does not match its pin",
     )?;
-    let lock = combined_lock(&original, &mdk)?;
-    let lock_rel = format!("{RELEASE}/Cargo.lock");
+    let lock = combine(&original, &standalone)?;
+    let lock_rel = format!("{release}/Cargo.lock");
     let lock_path = root.join(&lock_rel);
-    let manifest_path = root.join(format!("{RELEASE}.json"));
+    let manifest_path = root.join(format!("{release}.json"));
     if check {
         require(
             fs::read(&lock_path)? == lock.as_bytes(),
-            "six-member Cargo lock differs beyond the MDK addition",
+            "workspace Cargo lock differs beyond the added member",
         )?;
     } else {
-        fs::create_dir_all(root.join(RELEASE))?;
+        fs::create_dir_all(root.join(release))?;
         fs::write(&lock_path, lock)?;
     }
     manifest["cargoLock"] = pin(root, &lock_rel)?;
-    manifest["members"][MEMBER] = json!({"manifest":pin(root,MDK)?});
+    manifest["members"][member] = json!({"manifest":pin(root,descriptor)?});
     let bytes = json_bytes(&manifest)?;
     if check {
         require(
             fs::read(&manifest_path)? == bytes,
-            "six-member workspace differs beyond the MDK addition",
+            "workspace manifest differs beyond the added member",
         )?;
     } else {
         fs::write(&manifest_path, bytes)?;

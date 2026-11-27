@@ -42,3 +42,7 @@ path = "qualify.rs"
 [[bin]]
 name = "qualify-six-member"
 path = "../unified-mdk/qualify.rs"
+
+[[bin]]
+name = "compose-buffered"
+path = "../unified-buffered/compose_cli.rs"
