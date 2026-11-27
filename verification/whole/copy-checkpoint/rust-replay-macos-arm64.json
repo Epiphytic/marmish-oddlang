@@ -1,0 +1,27 @@
+{
+  "nativeHost": "aarch64-apple-darwin",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "projectionCompilerRevision": "3b3a1ef0e560041474cf6cddedcd52ab66defde2",
+  "linkageCompilerRevision": "70821c898cabe15a5d0483dc9425e51aae883932",
+  "byteIdenticalPriorReceipts": {
+    "reference-aarch64-apple-darwin.json": "14d11418d4ddc78c3400243c8bda14c39b0dd162c419fad4a00d1f02eeeb3405",
+    "linkage-aarch64-apple-darwin.json": "1ef02d031eed919d2cf474ce4b1108451524f58848e114194a858a5c4b064f51"
+  },
+  "completeRequestStreamSha256": "91f711a30909d0b0bd3ec5d4379deb808c984887ecaa81291bb515faad4d1c84",
+  "completeExpectedObservationArraySha256": "178d969df523b4c9d9fd1e01872d65e518966fa741c8903f24213f43ee631184",
+  "cases": {
+    "constructions": 290,
+    "decodes": 1827,
+    "rejectedDecodes": 1809
+  },
+  "checksumDomainMutation": "repinning the integrity domain changes the encoded footer and rejects the original digest",
+  "linkageControls": {
+    "impossible-slot": "nested codec minimum exceeds slot: urn:marmish:copy:checkpoint:field:manifest",
+    "pinned-inner-limit": "8e5d0b262179714b4d5d0750716a913ddc34f152f7b3dc91a3bee2c66853aae5",
+    "released": "07ab8cf1998ed855511258246fb595ddf3191715f9038236517532722f7c495b",
+    "wrong-inner-limit": "nested codec maximum mismatch: urn:marmish:copy:manifest",
+    "wrong-record": "nested codec identity mismatch: urn:marmish:copy:manifest",
+    "wrong-sha256-binding": "nested codec member mismatch: urn:marmish:copy:manifest / urn:marmish:copy:manifest:field:sha256",
+    "wrong-size-binding": "nested codec member mismatch: urn:marmish:copy:manifest / urn:marmish:copy:manifest:field:size"
+  }
+}
