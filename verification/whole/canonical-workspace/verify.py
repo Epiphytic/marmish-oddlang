@@ -32,7 +32,7 @@ def lane(name, program="verify.py"):
         sys.modules.update(saved)
 
 
-PARSER = lane("converged-release-manifest")
+PARSER = lane("converged-release-manifest", "workspace_compat.py")
 RECORD_API = lane("engine-native-records")
 CLI = lane("terminal-prefix")
 DIAG = lane("public-diagnostics")

@@ -50,7 +50,7 @@ def workspace_tool():
 def product_witness(*argv, current=None):
     _, tool = workspace_tool()
     stdin = json.dumps(current, default=str).encode() if current is not None else None
-    timeout = 4200 if argv[0] == "buffered-oracle" else 600
+    timeout = 4200 if argv[0] in ("buffered-oracle", "manifest-oracle") else 600
     with subprocess.Popen([tool, *argv], stdin=subprocess.PIPE, stdout=subprocess.PIPE,
                           start_new_session=True, env={**os.environ, "MARMISH_WORKSPACE_CALLBACK_SESSION": "1"}) as process:
         try:

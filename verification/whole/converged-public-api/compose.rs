@@ -9,6 +9,7 @@ pub enum Release {
     PrototypeConstant,
     EnginePublicError,
     Converged,
+    ReleaseManifest,
     CanonicalEngineChoices,
     CanonicalRangeData,
     CanonicalRecoveredRange,
@@ -29,7 +30,7 @@ impl Descriptor {
             bytes: json_bytes(value)?,
         })
     }
-    fn pin(&self) -> Value {
+    pub(crate) fn pin(&self) -> Value {
         json!({"path":self.name,"sha256":bytes_sha(&self.bytes)})
     }
 }
@@ -134,6 +135,7 @@ fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
 pub fn compose(release: Release, root: &Path, check: bool) -> Result {
     let base = || load(&root.join(BASE));
     let outputs = match release {
+        Release::ReleaseManifest => manifest_product::descriptors(root)?,
         Release::PrototypeConstant => constant(root, base()?)?,
         Release::EnginePublicError => errors(root, base()?)?,
         Release::Converged => converge(root, base()?)?,
@@ -149,6 +151,7 @@ pub fn compose(release: Release, root: &Path, check: bool) -> Result {
                 format!("stale composed descriptor {}", path.display()),
             )?;
         } else {
+            fs::create_dir_all(path.parent().ok_or("missing descriptor directory")?)?;
             fs::write(path, descriptor.bytes)?;
         }
     }

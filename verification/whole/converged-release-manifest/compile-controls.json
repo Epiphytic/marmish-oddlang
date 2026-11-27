@@ -1,0 +1,206 @@
+{
+  "engine-public-error": {
+    "EngineError.Clone": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Clone>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Copy": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Copy>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Default": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Default>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Hash": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::hash::Hash>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.PartialOrd": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: PartialOrd>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Ord": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Ord>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Serialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: serde::Serialize>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.Deserialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: for<'de> serde::Deserialize<'de>>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "EngineError.FromIo": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: From<std::io::Error>>() {}\nfn main() { require::<EngineError>(); }\n"
+    },
+    "NotFoundReason.Default": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Default>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Hash": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::hash::Hash>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.PartialOrd": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: PartialOrd>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Ord": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Ord>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Serialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: serde::Serialize>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Deserialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: for<'de> serde::Deserialize<'de>>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Display": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::fmt::Display>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotFoundReason.Error": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::error::Error>() {}\nfn main() { require::<NotFoundReason>(); }\n"
+    },
+    "NotExecutableReason.Default": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Default>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Hash": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::hash::Hash>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.PartialOrd": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: PartialOrd>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Ord": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Ord>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Serialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: serde::Serialize>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Deserialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: for<'de> serde::Deserialize<'de>>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Display": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::fmt::Display>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "NotExecutableReason.Error": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::error::Error>() {}\nfn main() { require::<NotExecutableReason>(); }\n"
+    },
+    "ResolutionReason.Default": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Default>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Hash": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::hash::Hash>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.PartialOrd": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: PartialOrd>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Ord": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Ord>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Serialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: serde::Serialize>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Deserialize": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: for<'de> serde::Deserialize<'de>>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Display": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::fmt::Display>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "ResolutionReason.Error": {
+      "code": "E0277",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: std::error::Error>() {}\nfn main() { require::<ResolutionReason>(); }\n"
+    },
+    "mixedReason": {
+      "code": "E0308",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Sized>() {}\nfn main() { let _ = EngineError::CommandNotFound(NotExecutableReason::NotRegularFile); }\n"
+    },
+    "offsetWidth": {
+      "code": "E0308",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Sized>() {}\nfn main() { let x = u128::MAX; let _ = EngineError::InputBackpressure { next_offset: x, available_credit: 0 }; }\n"
+    },
+    "creditWidth": {
+      "code": "E0308",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Sized>() {}\nfn main() { let x = u64::MAX; let _ = EngineError::InputBackpressure { next_offset: 0, available_credit: x }; }\n"
+    },
+    "privateModule": {
+      "code": "E0603",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Sized>() {}\nfn main() { use marmish_engine::model::EngineError as Hidden; }\n"
+    },
+    "nonExhaustiveMatch": {
+      "code": "E0004",
+      "source": "use marmish_engine::{EngineError, NotFoundReason, NotExecutableReason, ResolutionReason};\nfn require<T: Sized>() {}\nfn main() { match EngineError::Unauthorized { EngineError::Unauthorized => () } }\n"
+    }
+  },
+  "backend-choice": {
+    "Debug": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: std::fmt::Debug>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Display": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: std::fmt::Display>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Default": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: Default>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Hash": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: std::hash::Hash>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Ord": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: Ord>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "PartialOrd": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: PartialOrd>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Serialize": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: serde::Serialize>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "Deserialize": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: for<'de> serde::Deserialize<'de>>() {}\nfn main() { require::<BackendChoice>(); }\n"
+    },
+    "integerConversion": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: From<BackendChoice>>() {}\nfn main() { require::<u8>(); }\n"
+    },
+    "crossTypeEquality": {
+      "code": "E0277",
+      "source": "use marmish_native::identity::BackendChoice;\nfn require<T: PartialEq<BackendChoice>>() {}\nfn main() { require::<u8>(); }\n"
+    },
+    "incompleteMatch": {
+      "code": "E0004",
+      "source": "use marmish_native::identity::BackendChoice;\nfn main() { match BackendChoice::File { BackendChoice::Auto => (), BackendChoice::Keychain => () } }\n"
+    },
+    "rootExposure": {
+      "code": "E0432",
+      "source": "use marmish_native::BackendChoice;\nfn main() {}\n"
+    }
+  }
+}

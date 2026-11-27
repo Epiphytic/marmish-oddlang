@@ -2,7 +2,7 @@
 from pathlib import Path
 import hashlib
 import runpy
-import sys
+
 
 HARNESS = "marmish-native/lib/marmish_native"
 NAMES = ["native_manifest::tests::shared_release_version_vectors", "native_manifest::tests::strict_vectors"]
@@ -11,24 +11,17 @@ SOURCES = {"manifestTests": "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9
 
 
 def stage(original, product):
-    directory = Path(__file__).resolve().parents[1] / "converged-release-manifest"
-    previous = sys.modules.pop("compose", None)
-    sys.path.insert(0, str(directory))
-    try:
-        parser = runpy.run_path(str(directory / "verify.py"))
-    finally:
-        sys.path.pop(0)
-        sys.modules.pop("compose", None)
-        if previous is not None:
-            sys.modules["compose"] = previous
-    tests = parser["unchanged_tests"](original)
-    vector_path = Path(parser["VECTOR_SOURCE"])
+    whole = Path(__file__).resolve().parents[1]
+    tool = runpy.run_path(str(whole / "unified-mdk/workspace_compat.py"))["product_witness"]
+    selected = tool("manifest-selection", original, product / "marmish-native")
+    tests = selected["tests"].encode()
+    vector_path = Path(selected["vector"])
     vectors = (original / vector_path).read_bytes()
     actual = {"manifestTests": hashlib.sha256(tests).hexdigest(),
               "releaseVersionVectors": hashlib.sha256(vectors).hexdigest()}
     if actual != SOURCES:
         raise ValueError("original parser test bytes or included vectors changed")
-    leaf, prefix = parser["parser_leaf"](product / "marmish-native")
+    leaf, prefix = Path(selected["leaf"]), selected["prefix"]
     target = product / vector_path
     target.parent.mkdir(exist_ok=True)
     with target.open("xb") as stream:

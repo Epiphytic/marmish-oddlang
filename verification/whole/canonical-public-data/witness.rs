@@ -43,6 +43,21 @@ enum Action {
         #[arg(long)]
         check: bool,
     },
+    ManifestProduct {
+        product: PathBuf,
+    },
+    ManifestSelection {
+        original: PathBuf,
+        native: PathBuf,
+    },
+    ManifestOracle {
+        product: PathBuf,
+        original: PathBuf,
+        original_target: PathBuf,
+        scratch: PathBuf,
+        host: String,
+        artifacts: PathBuf,
+    },
     Domains,
 }
 fn main() -> Result {
@@ -80,6 +95,34 @@ fn main() -> Result {
                 println!("{}", portable.join(api_composition::ERRORS).display());
             }
             return Ok(());
+        }
+        Action::ManifestProduct { product } => {
+            public_data_qualification::manifest_product::check(&product)?
+        }
+        Action::ManifestSelection { original, native } => {
+            use public_data_qualification::manifest_product::*;
+            let (leaf, prefix) = leaf(&native)?;
+            serde_json::json!({"tests":String::from_utf8(tests(&original)?)?,"leaf":leaf,"prefix":prefix,"vector":VECTOR})
+        }
+        Action::ManifestOracle {
+            product,
+            original,
+            original_target,
+            scratch,
+            host,
+            artifacts,
+        } => {
+            use public_data_qualification::manifest_native::{ParserRun, rows};
+            let build = rows(&std::fs::read(artifacts)?)?;
+            ParserRun {
+                product: &product,
+                original: &original,
+                original_target: &original_target,
+                scratch: &scratch,
+                host: &host,
+                build: &build,
+            }
+            .observe(None)?
         }
         Action::Domains => domains::observe(&input()?)?,
     };

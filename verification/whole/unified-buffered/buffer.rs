@@ -222,7 +222,7 @@ fn copy_tree(src: &Path, dst: &Path) -> Result {
     Ok(())
 }
 /// Instrument a private copy so a failed or interrupted test cannot modify the sealed product.
-fn test_workspace(product: &Path) -> Result<tempfile::TempDir> {
+pub(crate) fn test_workspace(product: &Path) -> Result<tempfile::TempDir> {
     let tmp = tempfile::tempdir()?;
     for file in ["Cargo.toml", "Cargo.lock"] {
         copy_tree(&product.join(file), &tmp.path().join(file))?;

@@ -35,7 +35,9 @@ Run the sealed native qualifier from a clean checkout with available
 offline dependencies and the pinned original release binaries.
 
 ```sh
-python3 -B verification/whole/converged-release-manifest/verify.py \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --release-manifest \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision da1b0033ae9345c2d8288b4164d4fd1dbf5bcade \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \

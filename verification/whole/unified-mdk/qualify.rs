@@ -33,6 +33,10 @@ struct Args {
     /// Build the seven-member release and run the private buffered-reader oracle.
     #[arg(long, conflicts_with = "extension")]
     buffered: bool,
+    #[arg(long, conflicts_with_all = ["extension","buffered"])]
+    release_manifest: bool,
+    #[arg(long, requires = "release_manifest")]
+    raw_results: Option<PathBuf>,
 }
 fn library(rows: &[Value], name: &str) -> Result<PathBuf> {
     let mut found = Vec::new();
@@ -179,7 +183,9 @@ fn execute(a: Args) -> Result {
         [DARWIN, LINUX].contains(&host),
         "unsupported native qualification host",
     )?;
-    if a.buffered {
+    if a.release_manifest {
+        api_composition::compose(api_composition::Release::ReleaseManifest, &portable(), true)?;
+    } else if a.buffered {
         buffered::compose(&portable(), true)?;
     } else if extension.is_none() {
         six_composition::compose(&portable(), true)?;
@@ -230,21 +236,25 @@ fn execute(a: Args) -> Result {
     fs::copy(build_target.join("debug/oddlang"), &cli)?;
     let manifest = match &extension {
         Some(e) => PathBuf::from(text(&e["manifest"])?),
+        None if a.release_manifest => portable().join(format!("{}.json", manifest_product::OUTPUT)),
         None if a.buffered => portable().join(format!("{}.json", buffered::RELEASE)),
         None => portable().join(format!("{SIX}.json")),
     };
     let base = match &extension {
         Some(e) => portable().join(text(&e["base"])?).with_extension(""),
+        None if a.release_manifest => portable().join(manifest_product::BASE),
         None if a.buffered => portable().join(SIX),
         None => portable().join(FIVE),
     };
     let member = match &extension {
         Some(e) => text(&e["member"])?,
+        None if a.release_manifest => manifest_product::MEMBER,
         None if a.buffered => buffered::MEMBER,
         None => "marmish-mdk",
     };
     let format = match &extension {
         Some(e) => text(&e["format"])?,
+        None if a.release_manifest => "marmish-converged-pure-release-manifest-v1",
         None if a.buffered => "marmish-seven-member-private-buffer-v1",
         None => "marmish-six-member-mdk-public-data-v1",
     };
@@ -311,6 +321,59 @@ fn execute(a: Args) -> Result {
             whole().join("private-buffer/observations.rs"),
         );
     }
+    if a.release_manifest {
+        for (label, path) in [
+            (
+                "original-prototype",
+                original.join("crates/marmish-prototype/src/lib.rs"),
+            ),
+            (
+                "constant-caller",
+                whole().join("prototype-constant/caller.rs"),
+            ),
+            (
+                "reader-caller",
+                whole().join("private-buffer/observations.rs"),
+            ),
+            (
+                "original-engine-error",
+                original.join("crates/marmish-engine/src/model.rs"),
+            ),
+            (
+                "engine-error-caller",
+                whole().join("engine-public-error/probe.rs"),
+            ),
+            (
+                "original-native-choice",
+                original.join("crates/marmish-native/src/identity.rs"),
+            ),
+            ("choice-caller", whole().join("backend-choice/probe.rs")),
+            (
+                "original-release-manifest",
+                original.join(manifest_product::SOURCE),
+            ),
+            (
+                "original-release-versions",
+                original.join(manifest_product::VECTOR),
+            ),
+            (
+                "manifest-oracle-caller",
+                whole().join("release-manifest/probe.rs"),
+            ),
+            (
+                "manifest-blind-vectors",
+                whole().join("release-manifest/vectors.json"),
+            ),
+            (
+                "manifest-original-receipt",
+                whole()
+                    .join("release-manifest")
+                    .join(format!("{host}.json")),
+            ),
+        ] {
+            denied.insert(label.to_owned(), path);
+        }
+    }
     sandbox.deny(&denied.values().cloned().collect::<Vec<_>>())?;
     sandbox.deny(&[whole().join("build-report/observe.py")])?;
     let product = work.join("product");
@@ -333,6 +396,8 @@ fn execute(a: Args) -> Result {
         )?;
         product::check_members(&product, &checked, false)?;
         checked
+    } else if a.release_manifest {
+        manifest_product::check(&product)?
     } else if a.buffered {
         buffered::check(&product)?
     } else {
@@ -440,6 +505,24 @@ fn execute(a: Args) -> Result {
     });
     if a.buffered {
         result["bufferedInput"] = buffered::observe(&product, &original, host, None)?;
+    }
+    if a.release_manifest {
+        let parser = manifest_native::ParserRun {
+            product: &product,
+            original: &original,
+            original_target: &ot,
+            scratch: &scratch,
+            host,
+            build: &build,
+        };
+        for (key, value) in parser
+            .inherited(&work, &cli)?
+            .as_object()
+            .ok_or("invalid inherited observations")?
+        {
+            result[key] = value.clone();
+        }
+        result["releaseManifest"] = parser.observe(a.raw_results.as_deref())?;
     }
     if extension.is_some() {
         result["format"] = "marmish-extended-workspace-intermediate-v1".into();

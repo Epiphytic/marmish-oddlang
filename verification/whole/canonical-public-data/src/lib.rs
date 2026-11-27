@@ -11,6 +11,10 @@ pub mod composition;
 pub mod domains;
 #[path = "../imports.rs"]
 pub mod imports;
+#[path = "../../converged-release-manifest/native.rs"]
+pub mod manifest_native;
+#[path = "../../converged-release-manifest/product.rs"]
+pub mod manifest_product;
 #[path = "../../mdk-public-data/member.rs"]
 pub mod mdk;
 #[path = "../product.rs"]
@@ -154,3 +158,6 @@ mod tests {
         Ok(())
     }
 }
+
+#[path = "../../converged-release-manifest/inherited.rs"]
+mod manifest_inherited;
