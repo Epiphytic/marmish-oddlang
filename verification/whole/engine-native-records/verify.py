@@ -89,6 +89,10 @@ def observe_public_api(args, host, work, scratch, product):
                                   "--inherited-work", work)
 
 
+PROTOTYPE_SOURCE = "crates/marmish-prototype/src/lib.rs"
+CONSTANT_CALLER = HERE.parent / "prototype-constant/caller.rs"
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("framework", "original", "receipt"):
@@ -120,7 +124,7 @@ def main():
             args, host, work, scratch, manifest=MANIFEST, base=BASE,
             check=check_product, extra_artifact_oracle=witness,
             extra_denied={
-                "original-prototype": args.original / "crates/marmish-prototype/src/lib.rs", "constant-caller": HERE.parent / "prototype-constant/caller.rs",
+                "original-prototype": args.original / PROTOTYPE_SOURCE, "constant-caller": CONSTANT_CALLER,
                 "reader-caller": HERE.parent / "private-buffer/observations.rs",
                 "original-engine-error": args.original / ENGINE["SOURCE"],
                 "engine-error-caller": ENGINE["HERE"] / "probe.rs",

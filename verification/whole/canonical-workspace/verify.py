@@ -40,7 +40,7 @@ def lane(name, program="verify.py"):
 RECORD_API = lane("engine-native-records")
 CLI = lane("terminal-prefix")
 VAULT_API = lane("vault-mode")
-ENGINE_API, LIMIT, SIX = (RECORD_API[name] for name in ("ENGINE", "LIMIT", "SIX"))
+ENGINE_API, SIX = (RECORD_API[name] for name in ("ENGINE", "SIX"))
 run, data, sha = (SIX[name] for name in ("run", "data", "sha"))
 
 
@@ -153,8 +153,8 @@ def imports(args, product, build):
 
 def denied(args, host):
     return {
-        "original-prototype": args.original / LIMIT["SOURCE"],
-        "constant-caller": LIMIT["FILE"],
+        "original-prototype": args.original / RECORD_API["PROTOTYPE_SOURCE"],
+        "constant-caller": RECORD_API["CONSTANT_CALLER"],
         "reader-caller": HERE.parent / "private-buffer/observations.rs",
         "original-engine-error": args.original / ENGINE_API["SOURCE"],
         "engine-error-caller": ENGINE_API["HERE"] / "probe.rs",
