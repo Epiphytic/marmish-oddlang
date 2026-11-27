@@ -342,7 +342,9 @@ def main():
         binary = args.package / "target/release"
         report = observe(args.original, binary, Path(path).resolve(), trust_failure=True)
     parser_output = subprocess.check_output(
-        [sys.executable, HERE.parent / "cli/replay.py", "verify", binary], text=True, timeout=60,
+        ["cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "cli-transcript", "--", "verify", binary], text=True, timeout=60,
     )
     report.update(
         platform=target, referenceRevision=REFERENCE, companionRevision=revision,

@@ -75,7 +75,9 @@ def qualify(framework):
                     raise ValueError("generated member differs from release")
         run("cargo", "build", "--workspace", "--release", "--locked", "--offline", cwd=product, env=env)
         release = product / "target/release"
-        run(sys.executable, "-B", HERE.parent / "cli/replay.py", "verify", release, cwd=root, env=env)
+        run("cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--bin", "cli-transcript", "--", "verify", release, cwd=root)
         fixture = json.loads((HERE.parent / "cli/transcript.json").read_bytes())
         return {"framework":FRAMEWORK, "compilerSha256":sha(cli.read_bytes()),
                 "rustc":run("rustc", "-vV", cwd=root, env=env).stdout.strip(),

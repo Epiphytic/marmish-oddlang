@@ -127,10 +127,13 @@ def v3_interfaces(work, target, original, binaries, compiler):
     for name, digest in original_status["originalBinaries"].items():
         if sha((binaries / name).read_bytes()) != digest:
             raise ValueError(f"original executable digest mismatch: {name}")
-    replay = HERE.parent / "cli/replay.py"
-    fixture = replay.with_name("transcript.json")
+    fixture = HERE.parent / "cli/transcript.json"
     for bindir in (binaries, target / "target/release"):
-        envtools.run(sys.executable, "-B", replay, "verify", bindir, "--fixture", fixture)
+        envtools.run(
+            "cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--bin", "cli-transcript", "--", "verify", bindir, "--fixture", fixture,
+        )
     parser_evidence = {
         "fixtureSha256": sha(fixture.read_bytes()),
         "casesPerRole": {role: len(rows) for role, rows in json.loads(fixture.read_bytes()).items()},

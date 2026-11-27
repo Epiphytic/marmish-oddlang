@@ -91,7 +91,9 @@ def unsupported_reply_checks(original, candidate):
 
 def parser_counts(bins):
     output = subprocess.check_output(
-        [sys.executable, HERE.parent / "cli/replay.py", "verify", bins], text=True, timeout=60,
+        ["cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "cli-transcript", "--", "verify", bins], text=True, timeout=60,
     )
     counts = ast.literal_eval(output)
     if set(counts) != {"marmish", "marmishd"} or any(not isinstance(count, int) for count in counts.values()):
