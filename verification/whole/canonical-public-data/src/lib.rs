@@ -63,9 +63,9 @@ pub fn text(v: &Value) -> Result<&str> {
 pub fn list(v: &Value) -> Result<&Vec<Value>> {
     Ok(v.as_array().ok_or("expected array")?)
 }
-pub fn json_bytes(v: &Value) -> Result<Vec<u8>> {
-    let mut bytes = Vec::new();
-    for ch in serde_json::to_string_pretty(v)?.chars() {
+pub fn ascii_json(encoded: &str) -> Vec<u8> {
+    let mut bytes = Vec::with_capacity(encoded.len());
+    for ch in encoded.chars() {
         if ch < '\u{7f}' {
             bytes.push(ch as u8);
         } else {
@@ -74,6 +74,10 @@ pub fn json_bytes(v: &Value) -> Result<Vec<u8>> {
             }
         }
     }
+    bytes
+}
+pub fn json_bytes(v: &Value) -> Result<Vec<u8>> {
+    let mut bytes = ascii_json(&serde_json::to_string_pretty(v)?);
     bytes.push(b'\n');
     Ok(bytes)
 }

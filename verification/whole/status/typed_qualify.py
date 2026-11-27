@@ -39,12 +39,20 @@ def main():
     with tempfile.TemporaryDirectory(prefix="typed-status-evidence-") as directory:
         work = Path(directory)
         mixed, extended, nested = (work / name for name in ("mixed.json", "extended.json", "nested.json"))
-        for script, command in (
-            ("observe.py", [args.original_bins, mixed, "--candidate", candidate]),
-            ("reply_shapes.py", [candidate, extended, "--compare", HERE / "reply-shapes-macos-arm64.json"]),
-            ("typed_reply_variants.py", [candidate, nested, "--compare", HERE / "typed-reply-variants-macos-arm64.json"]),
+        subprocess.run(
+            [sys.executable, "-B", HERE / "observe.py", args.original_bins, mixed, "--candidate", candidate],
+            check=True, timeout=90,
+        )
+        for corpus, output, reference in (
+            ("extended", extended, "reply-shapes-macos-arm64.json"),
+            ("nested", nested, "typed-reply-variants-macos-arm64.json"),
         ):
-            subprocess.run([sys.executable, "-B", HERE / script, *command], check=True, timeout=90)
+            subprocess.run(
+                ["cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+                 "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+                 "--bin", "status-replies", "--", corpus, candidate, output, "--compare", HERE / reference],
+                check=True, timeout=90,
+            )
         evidence = json.loads(mixed.read_bytes())
         extended_rows = json.loads(extended.read_bytes())
         nested_rows = json.loads(nested.read_bytes())
