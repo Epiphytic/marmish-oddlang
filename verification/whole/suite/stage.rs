@@ -119,3 +119,49 @@ pub fn parser(original: &Path, product: &Path) -> Result<Value> {
         "digests":{"manifestTests":test_digest,"releaseVersionVectors":vector_digest}
     }))
 }
+
+fn append_module(crate_root: &Path, leaf: &str, module: &str) -> Result<()> {
+    let path = crate_root.join(leaf);
+    require(
+        !fs::read_to_string(&path)?.contains(module),
+        "selected test is already staged",
+    )?;
+    fs::OpenOptions::new()
+        .append(true)
+        .open(path)?
+        .write_all(module.as_bytes())?;
+    Ok(())
+}
+
+pub fn reader(original: &Path, prototype: &Path) -> Result<Value> {
+    use public_data_qualification::buffered;
+    let leaf = "src/group_0/__projection_0.rs";
+    let module = buffered::original_test(&buffered::reader_source(original)?)?;
+    append_module(prototype, leaf, &module)?;
+    Ok(json!({"leaf":leaf,"bodySha256":buffered::READER_TEST_SHA}))
+}
+
+pub fn mdk(original: &Path, product: Option<&Path>) -> Result<Value> {
+    let text = source(original, "crates/marmish-mdk/src/tests.rs")?;
+    let head = "#[test]\nfn synthetic_json_and_ndjson_are_bounded_and_structural_only()";
+    let start = offset(&text, head)?;
+    let end = text[start + head.len()..]
+        .find("\n#[test]")
+        .ok_or("missing end of MDK case")?
+        + start
+        + head.len();
+    let body = &text[start..end];
+    let digest = bytes_sha(body.as_bytes());
+    require(
+        digest == "04916e33e73f6e8856688823f8af5af965677a7403e195477de9f4a19d1a6ad7",
+        "unchanged MDK test digest differs",
+    )?;
+    let leaf = "src/group_2/__projection_2.rs";
+    if let Some(product) = product {
+        let module = format!(
+            "\n#[cfg(test)] mod tests {{\nuse super::{{parse_json, parse_ndjson, OUTPUT_LIMIT}};\nuse crate::AdapterError;\n{body}\n}}\n"
+        );
+        append_module(product, leaf, &module)?;
+    }
+    Ok(json!({"leaf":leaf,"bodySha256":digest}))
+}

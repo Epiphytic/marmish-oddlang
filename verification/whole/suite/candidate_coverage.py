@@ -14,7 +14,6 @@ import tomllib
 from typing import NamedTuple
 import tempfile
 
-import selected_tests
 
 HERE = Path(__file__).resolve().parent
 PIN = "af54339d250290490d62d4475a77539b7e739071"
@@ -25,6 +24,7 @@ NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 PUBLIC_DATA = "canonical-public-data"
+MDK_DENIED_SOURCES = ("lib.rs", "tests.rs")
 
 
 class Candidate(NamedTuple):
@@ -153,7 +153,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             return run(*args, *cmd, cwd=cwd, env=env)
 
         if suite_kind == "manifest-mdk":
-            for name in selected_tests.MDK_DENIED_SOURCES:
+            for name in MDK_DENIED_SOURCES:
                 forbidden = original / "crates/marmish-mdk/src" / name
                 denied = subprocess.run([*prefix, "/bin/cat", forbidden], env=env, capture_output=True)
                 if (not forbidden.is_file() or denied.returncode != 1 or denied.stdout
@@ -227,22 +227,24 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
         additional = {}
         if suite_kind != "v7":
-            paths, additional = selected_tests.stage(original, product)
-            injected.update(paths)
+            helpers = runpy.run_path(str(WHOLE / "unified-mdk/workspace_compat.py"))
+            witness = helpers["product_witness"]
+            staged_tests = witness("suite-vault-engine", original, product)
+            injected.update(staged_tests["paths"])
+            additional = staged_tests["digests"]
         if include_reader:
-            additional["prototypeReader"] = selected_tests.stage_reader(original,product)
-            appended.add(selected_tests.READER_LEAF)
+            reader = witness("suite-reader-stage", original, product / "marmish-prototype")
+            additional["prototypeReader"] = reader["bodySha256"]
+            appended.add("marmish-prototype/" + reader["leaf"])
         if include_manifest:
-            parser_stage = selected_tests.PRODUCT_WITNESS("suite-parser", original, product)
+            parser_stage = witness("suite-parser", original, product)
             injected.add(parser_stage["vector"])
             appended.add(parser_stage["leaf"])
             additional.update(parser_stage["digests"])
-            parser_runner = work / "workspace-product"
-            shutil.copy2(selected_tests.workspace_tool()[1], parser_runner)
         if include_mdk:
-            leaf, digest = selected_tests.stage_mdk(original, product)
-            appended.add(leaf)
-            additional["mdkSyntheticJson"] = digest
+            mdk = witness("suite-mdk-case", original, product / "marmish-mdk")
+            appended.add("marmish-mdk/" + mdk["leaf"])
+            additional["mdkSyntheticJson"] = mdk["bodySha256"]
         staged = snapshot()
         if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(include_manifest) + int(include_mdk):
             raise ValueError("unexpected staged file inventory")
@@ -271,33 +273,14 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         invocations = {}
         mdk_control = {}
         if additional:
-            for harness, names in selected_tests.cases(host, include_reader, include_mdk).items():
-                package = harness.split("/")[0]
-                private_prefixes = {selected_tests.PROTOTYPE: selected_tests.READER_PREFIX,
-                                    selected_tests.MDK: selected_tests.MDK_PREFIX}
-                target = ["--lib"] if harness in private_prefixes else ["--test", "selected_upstream"]
-                test_prefix = private_prefixes.get(harness, "")
-                command = ("cargo","test","--locked","--offline","--release","-p",package,
-                           *target,"--")
-                listing = inside(*command,"--list",cwd=product).decode()
-                if sorted(line.removesuffix(": test") for line in listing.splitlines()
-                          if line.endswith(": test")) != [test_prefix+n for n in names]:
-                    raise ValueError(f"unexpected upstream tests registered for {package}")
-                invocations[harness] = {}
-                for name in names:
-                    registered = test_prefix+name
-                    raw = inside(*command,"--exact",registered,"--format","pretty",cwd=product).decode()
-                    # Engine starts a second test harness process at this exact name.
-                    # Each process must really run the case and report its own success.
-                    runs = 2 if harness == selected_tests.ENGINE else 1
-                    selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
-                    invocations[harness][name] = runs
-                if harness == selected_tests.MDK:
-                    mdk_control = selected_tests.zero_mdk_control(
-                        inside, product, command, assembly["passing_tests"])
-                witnessed[harness] = names
+            runner = work / "workspace-product"
+            shutil.copy2(helpers["workspace_tool"]()[1], runner)
+            selected = json.loads(inside(runner, "suite-selected-cases", product, host, suite_kind, cwd=product))
+            invocations.update(selected["passingProcesses"])
+            witnessed.update(selected["witnessed"])
+            mdk_control = selected["mdkZeroTestControl"]
         if include_manifest:
-            parsed = json.loads(inside(parser_runner, "suite-parser-cases", product, cwd=product))
+            parsed = json.loads(inside(runner, "suite-parser-cases", product, cwd=product))
             invocations[parsed["harness"]] = parsed["cases"]
             witnessed[parsed["harness"]] = sorted(parsed["cases"])
         # Use Cargo's artifact for the harness target. Native and test builds can
@@ -330,7 +313,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
                     **({"mdkZeroTestControl": mdk_control, "mdkNormalDependencies": [],
-                        "mdkDeniedSourcePaths": list(selected_tests.MDK_DENIED_SOURCES)} if include_mdk else {}),
+                        "mdkDeniedSourcePaths": list(MDK_DENIED_SOURCES)} if include_mdk else {}),
                     **named_baseline,
                     **({"builtLibraries":built_libraries} if include_reader else {}),
                     **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))

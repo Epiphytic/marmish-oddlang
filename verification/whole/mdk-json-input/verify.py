@@ -1,5 +1,6 @@
 """Qualify only supplied-byte JSON parsing and a private unchanged MDK case."""
 import argparse
+from functools import lru_cache
 import hashlib
 import json
 from pathlib import Path
@@ -40,24 +41,10 @@ def pin(base, path):
     return {"path": path.relative_to(base).as_posix(), "sha256": sha(path.read_bytes())}
 
 
-def case_bytes(original):
-    data = run("git", "-C", original, "show", f"{PIN}:{TESTS}")
-    head = f"#[test]\nfn {CASE}()".encode()
-    if data.count(head) != 1:
-        raise ValueError("pinned MDK test is ambiguous")
-    start = data.index(head)
-    test = data[start:data.index(b"\n#[test]", start + len(head))]
-    if sha(test) != "04916e33e73f6e8856688823f8af5af965677a7403e195477de9f4a19d1a6ad7":
-        raise ValueError("unchanged MDK test digest differs")
-    return test
-
-
-def stage_case(product, original):
-    test = case_bytes(original)
-    with (product / LEAF).open("ab") as code:
-        code.write(b"\n#[cfg(test)] mod tests {\nuse super::{parse_json, parse_ndjson, OUTPUT_LIMIT};\n"
-                   b"use crate::AdapterError;\n" + test + b"\n}\n")
-    return sha(test)
+@lru_cache(maxsize=1)
+def workspace_witness():
+    helpers = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
+    return helpers["product_witness"]
 
 
 def cargo_test(crate, target, name, *, original):
@@ -182,7 +169,7 @@ def sealed(work, scratch, args, recovered, mutated):
         with (product / LEAF).open("ab") as code:
             code.write(b"\n" + (HERE / "observe.rs").read_bytes())
         if label == "baseline":
-            stage_case(product, args.original)
+            workspace_witness()("suite-mdk-case", args.original, product)
         target = product / "target"
         if label == "baseline":
             cargo_test(product, target, f"metadata::__projection_2::tests::{CASE}", original=False)
@@ -212,7 +199,7 @@ def main():
     run("cargo", "+1.97.1", "build", "--offline", "--locked", "--bin", "oddlang",
         "--target-dir", args.compiler_target, cwd=args.framework, env=JOURNAL["cargo_env"]())
     args.compiler = args.compiler_target / "debug/oddlang"
-    test = case_bytes(args.original)
+    case_digest = workspace_witness()("suite-mdk-case", args.original)["bodySha256"]
     with tempfile.TemporaryDirectory(prefix="odd-mdk-oracle-") as s:
         scratch = Path(s).resolve()
         baseline, changed, original_sha, changed_sha = observe_original(args.original, args.original_target, scratch)
@@ -234,7 +221,7 @@ def main():
             "framework": args.framework_revision, "compilerSha256": sha(args.compiler.read_bytes()),
             "companion": run("git", "rev-parse", "HEAD", cwd=ROOT).decode().strip(),
             "rustc": run("rustc", "+1.97.1", "-vV").decode().splitlines(),
-            "case": f"tests::{CASE}", "caseSha256": sha(test), "caseCount": 1,
+            "case": f"tests::{CASE}", "caseSha256": case_digest, "caseCount": 1,
             "probeSha256": sha((HERE / "observe.rs").read_bytes()),
             "originalSourceSha256": original_sha, "changedSourceSha256": changed_sha,
             "baseline": results[0], "mutation": results[1], "deniedSourcePaths": 4,

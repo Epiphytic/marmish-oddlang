@@ -4,6 +4,8 @@ mod buffer_trace;
 mod endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
+#[path = "../suite/selected.rs"]
+mod suite_selected;
 #[path = "../suite/stage.rs"]
 mod suite_stage;
 use clap::{Parser, Subcommand};
@@ -113,6 +115,19 @@ enum Action {
     SuiteVaultEngine {
         original: PathBuf,
         product: PathBuf,
+    },
+    SuiteReaderStage {
+        original: PathBuf,
+        prototype: PathBuf,
+    },
+    SuiteMdkCase {
+        original: PathBuf,
+        product: Option<PathBuf>,
+    },
+    SuiteSelectedCases {
+        product: PathBuf,
+        host: String,
+        suite: String,
     },
     SuiteParserCases {
         product: PathBuf,
@@ -264,6 +279,18 @@ fn main() -> Result {
         Action::SuiteVaultEngine { original, product } => {
             suite_stage::vault_engine(&original, &product)?
         }
+        Action::SuiteReaderStage {
+            original,
+            prototype,
+        } => suite_stage::reader(&original, &prototype)?,
+        Action::SuiteMdkCase { original, product } => {
+            suite_stage::mdk(&original, product.as_deref())?
+        }
+        Action::SuiteSelectedCases {
+            product,
+            host,
+            suite,
+        } => suite_selected::exercise(&product, &host, &suite)?,
         Action::SuiteParserCases { product } => suite_controls::parser_cases(&product)?,
         Action::SuiteParser { original, product } => suite_stage::parser(&original, &product)?,
         Action::ManifestSelection { original, native } => {
