@@ -24,3 +24,9 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 Omit `--check` to regenerate the descriptors.
 
 The [composition comparison](rust-composition-macos-arm64.json) records five byte-identical output descriptors across the three canonical releases and fourteen independent rejection cases. The [macOS ARM64 native replay](rust-aarch64-apple-darwin.json) exercised the 18 range cases, all 35 paired observations, the public import, private-module control and inherited public-data callers. It also recorded the fresh 587-entry library closure.
+
+The [native Rust qualifier receipt](native-qualifier-aarch64-apple-darwin.json)
+records the authored build. A [fresh original observation](original-replay-aarch64-apple-darwin.json)
+from an empty target matched the published range and reason fixtures. The
+[comparison](qualification-comparison-aarch64-apple-darwin.json) identifies the
+receipt fields that changed with this build and the unchanged native behaviors.

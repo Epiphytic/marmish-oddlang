@@ -33,3 +33,9 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 Omit `--check` to regenerate the descriptors.
 
 The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) compared the complete generated tree to the retained authored-range product. It reproduced all 84 Rust files, the eight source denials and the archived native evidence. Only the companion revision differs in the two macOS receipt documents.
+
+The [native Rust qualifier receipt](native-qualifier-aarch64-apple-darwin.json)
+matched every field of the earlier macOS receipt except the companion revision.
+The endpoint and role callers reuse its Rust tree comparison, lock delta and
+retained-library digest commands. The [paired qualification comparison](../canonical-range-data/qualification-comparison-aarch64-apple-darwin.json)
+also identifies the fresh authored build and native original observations.

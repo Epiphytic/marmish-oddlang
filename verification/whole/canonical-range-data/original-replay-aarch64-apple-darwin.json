@@ -1,0 +1,263 @@
+{
+  "cargoLockSha256": "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3",
+  "casesSha256": "b1365d899a3a71fc4437da0bfcbcdb21f824dc6d20cf255b5c91770aa7c9ac28",
+  "compiler": "8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+  "copyControl": [
+    "E0277"
+  ],
+  "host": "aarch64-apple-darwin",
+  "librarySha256": {
+    "marmish_engine": "d837fd06f62208001c82041f8ea33cddb409bcf7d9e038d0cef17fc57b946149",
+    "serde_json": "5f9698dd3dc28c51981e64690a2e4ae4233c20083e4ae326b05b35bed9a1bff2"
+  },
+  "modelSha256": "f147e2d08551d7d758a89b46857805820567a78f70571a663f33ea91672c9d53",
+  "observerSha256": "168a662a98869d7638e0488934e6cb7783016ef2ec676fb536c3f59768cb6d90",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "probeSha256": "fe9ddb62d699fc92b15169eb143f82a7a8f7273ddfddd4cd00e148fe3b7245cc",
+  "results": [
+    {
+      "id": "Limit-string",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "Limit-object",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "StorageFailure-string",
+      "result": {
+        "encoded": "\"StorageFailure\""
+      }
+    },
+    {
+      "id": "StorageFailure-object",
+      "result": {
+        "encoded": "\"StorageFailure\""
+      }
+    },
+    {
+      "id": "Expired-string",
+      "result": {
+        "encoded": "\"Expired\""
+      }
+    },
+    {
+      "id": "Expired-object",
+      "result": {
+        "encoded": "\"Expired\""
+      }
+    },
+    {
+      "id": "UncertainTail-string",
+      "result": {
+        "encoded": "\"UncertainTail\""
+      }
+    },
+    {
+      "id": "UncertainTail-object",
+      "result": {
+        "encoded": "\"UncertainTail\""
+      }
+    },
+    {
+      "id": "case-sensitive",
+      "result": {
+        "column": 7,
+        "diagnostic": "unknown variant `limit`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+        "line": 1
+      }
+    },
+    {
+      "id": "unknown",
+      "result": {
+        "column": 7,
+        "diagnostic": "unknown variant `Other`, expected one of `Limit`, `StorageFailure`, `Expired`, `UncertainTail` at line 1 column 7",
+        "line": 1
+      }
+    },
+    {
+      "id": "wrong-value",
+      "result": {
+        "column": 10,
+        "diagnostic": "invalid type: integer `1`, expected unit at line 1 column 10",
+        "line": 1
+      }
+    },
+    {
+      "id": "multiple",
+      "result": {
+        "column": 13,
+        "diagnostic": "expected value at line 1 column 13",
+        "line": 1
+      }
+    },
+    {
+      "id": "empty-object",
+      "result": {
+        "column": 2,
+        "diagnostic": "expected value at line 1 column 2",
+        "line": 1
+      }
+    },
+    {
+      "id": "numeric",
+      "result": {
+        "column": 1,
+        "diagnostic": "expected value at line 1 column 1",
+        "line": 1
+      }
+    },
+    {
+      "id": "array",
+      "result": {
+        "column": 1,
+        "diagnostic": "expected value at line 1 column 1",
+        "line": 1
+      }
+    },
+    {
+      "id": "unicode-escape",
+      "result": {
+        "encoded": "\"Limit\""
+      }
+    },
+    {
+      "id": "extra-input",
+      "result": {
+        "column": 9,
+        "diagnostic": "trailing characters at line 1 column 9",
+        "line": 1
+      }
+    },
+    {
+      "id": "all-fields",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":8,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "null-end",
+      "result": {
+        "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+      }
+    },
+    {
+      "id": "missing-end",
+      "result": {
+        "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Expired\"}"
+      }
+    },
+    {
+      "id": "out-of-order",
+      "result": {
+        "encoded": "{\"start\":3,\"end\":4,\"reason\":\"Expired\"}"
+      }
+    },
+    {
+      "id": "unknown-field",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":null,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "duplicate",
+      "result": {
+        "column": 18,
+        "diagnostic": "duplicate field `start` at line 1 column 18",
+        "line": 1
+      }
+    },
+    {
+      "id": "duplicate-end",
+      "result": {
+        "column": 27,
+        "diagnostic": "duplicate field `end` at line 1 column 27",
+        "line": 1
+      }
+    },
+    {
+      "id": "missing-start",
+      "result": {
+        "column": 18,
+        "diagnostic": "missing field `start` at line 1 column 18",
+        "line": 1
+      }
+    },
+    {
+      "id": "missing-reason",
+      "result": {
+        "column": 11,
+        "diagnostic": "missing field `reason` at line 1 column 11",
+        "line": 1
+      }
+    },
+    {
+      "id": "inverted",
+      "result": {
+        "encoded": "{\"start\":9,\"end\":2,\"reason\":\"UncertainTail\"}"
+      }
+    },
+    {
+      "id": "max-u64",
+      "result": {
+        "encoded": "{\"start\":18446744073709551615,\"end\":18446744073709551615,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "overflow",
+      "result": {
+        "column": 29,
+        "diagnostic": "invalid type: floating point `1.8446744073709552e+19`, expected u64 at line 1 column 29",
+        "line": 1
+      }
+    },
+    {
+      "id": "negative",
+      "result": {
+        "column": 11,
+        "diagnostic": "invalid value: integer `-1`, expected u64 at line 1 column 11",
+        "line": 1
+      }
+    },
+    {
+      "id": "three-item-array",
+      "result": {
+        "encoded": "{\"start\":0,\"end\":null,\"reason\":\"StorageFailure\"}"
+      }
+    },
+    {
+      "id": "two-item-array",
+      "result": {
+        "column": 12,
+        "diagnostic": "invalid type: string \"Expired\", expected u64 at line 1 column 12",
+        "line": 1
+      }
+    },
+    {
+      "id": "extra-array-item",
+      "result": {
+        "column": 14,
+        "diagnostic": "trailing characters at line 1 column 14",
+        "line": 1
+      }
+    },
+    {
+      "id": "reason-object",
+      "result": {
+        "encoded": "{\"start\":3,\"end\":null,\"reason\":\"Limit\"}"
+      }
+    },
+    {
+      "id": "trailing",
+      "result": {
+        "column": 31,
+        "diagnostic": "trailing characters at line 1 column 31",
+        "line": 1
+      }
+    }
+  ]
+}
