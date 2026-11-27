@@ -96,6 +96,9 @@ enum Action {
         original: PathBuf,
         product: PathBuf,
     },
+    SuiteParserCases {
+        product: PathBuf,
+    },
     SuiteParser {
         original: PathBuf,
         product: PathBuf,
@@ -219,6 +222,7 @@ fn main() -> Result {
         Action::SuiteVaultEngine { original, product } => {
             suite_stage::vault_engine(&original, &product)?
         }
+        Action::SuiteParserCases { product } => suite_controls::parser_cases(&product)?,
         Action::SuiteParser { original, product } => suite_stage::parser(&original, &product)?,
         Action::ManifestSelection { original, native } => {
             use public_data_qualification::manifest_product::*;

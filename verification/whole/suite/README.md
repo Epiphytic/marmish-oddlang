@@ -289,6 +289,17 @@ targets, installation and live operation have separate evidence and
 receive no coverage credit here. The published default remains pinned
 to the previous canonical workspace.
 
+### Release-manifest parser tests
+
+The live producer stages the two pinned upstream parser tests and their version vectors with `workspace-product suite-parser`. It then runs `workspace-product suite-parser-cases` inside the candidate sandbox. The runner discovers the generated module path and asks Cargo to run each exact name. A case receives credit only when the transcript names that test and reports one pass.
+
+Run the parser execution controls from the companion root:
+
+```sh
+cargo +1.96.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product suite_controls::parser_controls
+```
+
 ### Archived receipt verifier
 
 Run both Rust receipt checkers and their controls offline from the companion root:

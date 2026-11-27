@@ -15,7 +15,6 @@ from typing import NamedTuple
 import tempfile
 
 import selected_tests
-import parser_cases
 
 HERE = Path(__file__).resolve().parent
 PIN = "af54339d250290490d62d4475a77539b7e739071"
@@ -234,10 +233,12 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             additional["prototypeReader"] = selected_tests.stage_reader(original,product)
             appended.add(selected_tests.READER_LEAF)
         if include_manifest:
-            parser_leaf, parser_prefix, vector_path = parser_cases.stage(original, product)
-            injected.add(vector_path)
-            appended.add(parser_leaf)
-            additional.update(parser_cases.SOURCES)
+            parser_stage = selected_tests.PRODUCT_WITNESS("suite-parser", original, product)
+            injected.add(parser_stage["vector"])
+            appended.add(parser_stage["leaf"])
+            additional.update(parser_stage["digests"])
+            parser_runner = work / "workspace-product"
+            shutil.copy2(selected_tests.workspace_tool()[1], parser_runner)
         if include_mdk:
             leaf, digest = selected_tests.stage_mdk(original, product)
             appended.add(leaf)
@@ -296,9 +297,9 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                         inside, product, command, assembly["passing_tests"])
                 witnessed[harness] = names
         if include_manifest:
-            invocations[parser_cases.HARNESS] = parser_cases.witness(
-                inside, product, parser_prefix, assembly["passing_tests"], selected_tests.check_execution)
-            witnessed[parser_cases.HARNESS] = list(parser_cases.NAMES)
+            parsed = json.loads(inside(parser_runner, "suite-parser-cases", product, cwd=product))
+            invocations[parsed["harness"]] = parsed["cases"]
+            witnessed[parsed["harness"]] = sorted(parsed["cases"])
         # Use Cargo's artifact for the harness target. Native and test builds can
         # legitimately leave multiple feature-specific libc archives in release/deps.
         libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]

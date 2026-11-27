@@ -13,7 +13,9 @@ PROTOTYPE = "marmish-prototype/lib/marmish_prototype"
 READER = "secret_request_tests::private_reader_wipes_consumed_spans"
 READER_PREFIX = "buffer::__projection_0::"
 READER_LEAF = "marmish-prototype/src/group_0/__projection_0.rs"
-PRODUCT_WITNESS = runpy.run_path(str(Path(__file__).resolve().parents[1] / "unified-mdk/workspace_compat.py"))["product_witness"]
+workspace_helpers = runpy.run_path(str(Path(__file__).resolve().parents[1] / "unified-mdk/workspace_compat.py"))
+PRODUCT_WITNESS = workspace_helpers["product_witness"]
+workspace_tool = workspace_helpers["workspace_tool"]
 
 
 MDK = "marmish-mdk/lib/marmish_mdk"

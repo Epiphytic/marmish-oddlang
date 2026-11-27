@@ -101,10 +101,11 @@ pub fn parser(original: &Path, product: &Path) -> Result<Value> {
     let tests = manifest_product::tests(original)?;
     let vector = manifest_product::VECTOR;
     let bytes = fs::read(original.join(vector))?;
+    let test_digest = bytes_sha(&tests);
+    let vector_digest = bytes_sha(&bytes);
     require(
-        bytes_sha(&tests) == "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9c9e5073dcfae8"
-            && bytes_sha(&bytes)
-                == "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1",
+        test_digest == "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9c9e5073dcfae8"
+            && vector_digest == "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1",
         "original parser test bytes or vectors changed",
     )?;
     let target = product.join(vector);
@@ -113,5 +114,8 @@ pub fn parser(original: &Path, product: &Path) -> Result<Value> {
     fs::File::create_new(target)?.write_all(&bytes)?;
     code.write_all(b"\n")?;
     code.write_all(&tests)?;
-    Ok(json!({"leaf":leaf.strip_prefix(product)?,"prefix":prefix,"vector":vector}))
+    Ok(json!({
+        "leaf":leaf.strip_prefix(product)?, "prefix":prefix, "vector":vector,
+        "digests":{"manifestTests":test_digest,"releaseVersionVectors":vector_digest}
+    }))
 }

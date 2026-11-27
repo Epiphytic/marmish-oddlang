@@ -48,6 +48,60 @@ pub fn counted(name: &str, runs: usize, raw: &str, passing: &[&str]) -> bool {
             == runs
 }
 
+fn parser_result(name: &str, raw: &str) -> Result<()> {
+    let names = raw
+        .lines()
+        .filter_map(|line| line.strip_prefix("test ")?.strip_suffix(" ... ok"))
+        .collect::<Vec<_>>();
+    require(
+        counted(name, 1, raw, &names),
+        format!("expected one actual execution of {name}"),
+    )
+}
+
+pub fn parser_cases(product: &Path) -> Result<Value> {
+    let (_, prefix) =
+        public_data_qualification::manifest_product::leaf(&product.join("marmish-native"))?;
+    let mut counts = std::collections::BTreeMap::new();
+    for case in public_data_qualification::manifest_product::CASES {
+        let registered = format!("{prefix}::tests::{case}");
+        let raw = stdout(Command::new("cargo").current_dir(product).args([
+            "test",
+            "--locked",
+            "--offline",
+            "--release",
+            "-p",
+            "marmish-native",
+            "--lib",
+            "--",
+            "--exact",
+            &registered,
+        ]))?;
+        parser_result(&registered, &raw)?;
+        counts.insert(format!("native_manifest::tests::{case}"), 1);
+    }
+    Ok(json!({"harness":"marmish-native/lib/marmish_native","cases":counts}))
+}
+
+#[cfg(test)]
+mod parser_controls {
+    use super::*;
+    #[test]
+    fn requires_one_passing_execution_of_the_selected_case() {
+        let name = "native_manifest::__projection_10::tests::strict_vectors";
+        let success =
+            format!("test {name} ... ok\ntest result: ok. 1 passed; 0 failed; 0 ignored;");
+        assert!(parser_result(name, &success).is_ok());
+        for raw in [
+            "test result: ok. 0 passed; 0 failed; 0 ignored;".to_owned(),
+            success.replace(name, "other"),
+            format!("{success}\n{success}"),
+        ] {
+            assert!(parser_result(name, &raw).is_err());
+        }
+    }
+}
+
 pub fn child(original: &Path, compiler: &Path) -> Result<Value> {
     const LOW: &str = "process_limits_tests::lower_soft_hard_and_descriptor_flags_are_unchanged";
     let manifest = portable().join("engine-process-limits-package.json");
