@@ -50,12 +50,13 @@ fn main() -> Result<()> {
             println!("{}",replay::policy(&native.canonicalize()?, &generated.canonicalize()?)?);
             println!("{} room file cases", replay::room(&room.canonicalize()?)?);
         }
+        Some(("profile",[compiler, dest])) => recover::profile_workspace(&compiler.canonicalize()?, &std::path::absolute(dest)?)?,
         Some(("recover",[compiler, original, dest])) => recover::workspace(&compiler.canonicalize()?, &original.canonicalize()?, &std::path::absolute(dest)?)?,
         Some(("qualify",[original, cache, workspace, receipt])) => {
             fs::create_dir_all(cache)?;
             observers::qualify(&original.canonicalize()?, &cache.canonicalize()?, &workspace.canonicalize()?, receipt)?;
         }
-        _ => return Err("usage: command-policy-validation recover COMPILER ORIGINAL NEW_WORKSPACE | qualify ORIGINAL CACHE WORKSPACE RECEIPT | replay NATIVE GENERATED ROOM".into()),
+        _ => return Err("usage: command-policy-validation profile COMPILER NEW_WORKSPACE | recover COMPILER ORIGINAL NEW_WORKSPACE | qualify ORIGINAL CACHE WORKSPACE RECEIPT | replay NATIVE GENERATED ROOM".into()),
     }
     Ok(())
 }

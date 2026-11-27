@@ -130,7 +130,12 @@ fn main() -> Result {
     let generated = args.generated.canonicalize()?;
     checkout(&original, ORIGINAL, false)?;
     let lock = generated.join("workspace.lock");
-    require(sha(&lock)? == LOCK, "wrong generated workspace lock")?;
+    let workspace_sha = sha(&lock)?;
+    let profile_lock = "889017343f0fdb092dee203264aa4f6d6d194bad8ef396e336f2dd2cf6ec9b76";
+    require(
+        [LOCK, profile_lock].contains(&workspace_sha.as_str()),
+        "wrong generated workspace lock",
+    )?;
     check_members(&generated, &load(&lock)?, false)?;
     let temp = tempfile::tempdir()?;
     let work = temp.path().canonicalize()?;
@@ -159,7 +164,7 @@ fn main() -> Result {
     println!(
         "{}",
         serde_json::to_string_pretty(
-            &json!({"original":ORIGINAL,"generatedWorkspaceLockSha256":LOCK,"driverSha256":bytes_sha(include_bytes!("pipe.rs")),"framesPerDirection":frames,"payloadSha256":bytes_sha(&payload),"wireSha256":bytes_sha(&wire),"originalToGenerated":forward,"generatedToOriginal":reverse,"truncationAndOffsetControlsPassed":4})
+            &json!({"original":ORIGINAL,"generatedWorkspaceLockSha256":workspace_sha,"driverSha256":bytes_sha(include_bytes!("pipe.rs")),"framesPerDirection":frames,"payloadSha256":bytes_sha(&payload),"wireSha256":bytes_sha(&wire),"originalToGenerated":forward,"generatedToOriginal":reverse,"truncationAndOffsetControlsPassed":4})
         )?
     );
     Ok(())

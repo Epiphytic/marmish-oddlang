@@ -2,11 +2,13 @@ use clap::Parser;
 use public_data_qualification::{
     Result,
     assembly::{bytes_sha, seatbelt_policy},
-    capture, load, require, sha, text, whole,
+    capture, load, portable,
+    product::check_members,
+    require, run, sha, text, whole,
 };
 use serde_json::{Value, json};
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     fs,
     net::TcpListener,
     os::unix::{fs::PermissionsExt, process::CommandExt},
@@ -18,8 +20,18 @@ use std::{
 struct Args {
     original: PathBuf,
     candidate: PathBuf,
+    #[arg(
+        long,
+        required_unless_present = "command_policy_workspace",
+        conflicts_with = "command_policy_workspace"
+    )]
+    candidate_build: Option<PathBuf>,
+    /// Build the candidate from the published command-policy workspace lock.
     #[arg(long)]
-    candidate_build: PathBuf,
+    command_policy_workspace: bool,
+    /// Also exercise the two mixed client/server pairings.
+    #[arg(long)]
+    mixed: bool,
 }
 
 struct Peer {
@@ -199,7 +211,11 @@ impl Cases {
         let output = peer.run(&peer.root.join("marmish"), &args)?;
         require(
             output.status.code() == Some(status),
-            format!("{case}: expected {status}, got {}", output.status),
+            format!(
+                "{case}: expected {status}, got {}, stderr {}",
+                output.status,
+                String::from_utf8_lossy(&output.stderr)
+            ),
         )?;
         let mut stdout = String::from_utf8(output.stdout)?;
         let profile = state.join(role);
@@ -245,13 +261,69 @@ impl Cases {
     }
 }
 
-fn observe(installation: &Path, pins: &BTreeMap<String, String>, relay: &str) -> Result<Value> {
+struct Installation {
+    directory: PathBuf,
+    pins: BTreeMap<String, String>,
+}
+
+fn file_keystore(peer: &Peer) -> Result {
+    let profile = peer.root.join("state").join(peer.role);
+    let manifest = load(&profile.join("profile.json"))?;
+    require(
+        manifest["backend"] == "files" && manifest["phase"] == "ready",
+        "file-backed profile is not ready",
+    )?;
+    let keys = profile.join("keys");
+    let meta = fs::symlink_metadata(&keys)?;
+    require(
+        meta.is_dir() && meta.permissions().mode() & 0o777 == 0o700,
+        "unexpected key directory mode",
+    )?;
+    let mut count = 0;
+    for entry in fs::read_dir(keys)? {
+        let meta = fs::symlink_metadata(entry?.path())?;
+        require(
+            meta.is_file() && meta.permissions().mode() & 0o777 == 0o600,
+            "unexpected credential file",
+        )?;
+        count += 1;
+    }
+    require(count == 2, "expected two private credential files")
+}
+
+fn clean_daemon_census() -> Result {
+    let out = Command::new("/usr/bin/pgrep")
+        .args(["-x", "marmishd"])
+        .output()?;
+    require(
+        out.status.code() == Some(1) && out.stdout.is_empty() && out.stderr.is_empty(),
+        "expected zero active marmishd processes",
+    )
+}
+
+fn observe(
+    client_install: &Installation,
+    server_install: &Installation,
+    relay: &str,
+    identities: &mut BTreeSet<String>,
+    check_allowlist: bool,
+) -> Result<Value> {
     let work = tempfile::tempdir()?;
     fs::set_permissions(work.path(), fs::Permissions::from_mode(0o700))?;
     let parent = work.path().canonicalize()?;
     fs::write(parent.join("sentinel"), b"external read probe")?;
-    let client = Peer::new(&parent, "client", installation, pins)?;
-    let server = Peer::new(&parent, "server", installation, pins)?;
+    let client = Peer::new(
+        &parent,
+        "client",
+        &client_install.directory,
+        &client_install.pins,
+    )?;
+    let server = Peer::new(
+        &parent,
+        "server",
+        &server_install.directory,
+        &server_install.pins,
+    )?;
     let mut cases = Cases::default();
     for peer in [&client, &server] {
         cases.invoke(
@@ -261,6 +333,13 @@ fn observe(installation: &Path, pins: &BTreeMap<String, String>, relay: &str) ->
             "setup",
             &["--role", peer.role, "--no-grants"],
             0,
+        )?;
+    }
+    for peer in [&client, &server] {
+        file_keystore(peer)?;
+        require(
+            identities.insert(cases.keys[peer.role].clone()),
+            "reused disposable identity",
         )?;
     }
     let client_id = cases.ids["client"].clone();
@@ -283,6 +362,18 @@ fn observe(installation: &Path, pins: &BTreeMap<String, String>, relay: &str) ->
                 status,
             )?;
         }
+        let config = load(&peer.root.join("state").join(peer.role).join("config.json"))?;
+        let (clients, remotes) = if peer.role == "server" {
+            (json!([cases.keys["client"]]), json!([]))
+        } else {
+            (json!([]), json!([cases.keys["server"]]))
+        };
+        require(
+            config["execution_clients"] == clients
+                && config["trusted_remotes"] == remotes
+                && config["relays"] == json!([relay]),
+            "peer authorization differs",
+        )?;
         require(
             cases.rows[&format!("{}-invalid", peer.role)]["config"]
                 == cases.rows[&format!("{}-update", peer.role)]["config"],
@@ -290,6 +381,47 @@ fn observe(installation: &Path, pins: &BTreeMap<String, String>, relay: &str) ->
         )?;
     }
     cases.invoke(&server, relay, "init-with-grant", "init", &[], 0)?;
+    if check_allowlist {
+        let path = server.root.join("state/server/config.json");
+        let mut config = load(&path)?;
+        for (case, policy, diagnostic) in [
+            (
+                "init-null-allowlist",
+                json!({"version":1,"defaults":{"allow_exec":null}}),
+                "config_schema",
+            ),
+            (
+                "init-unsupported-version",
+                json!({"version":2}),
+                "config_policy_bounds",
+            ),
+            (
+                "init-invalid-principal",
+                json!({"version":1,"keys":[{"principal":"invalid","restrictions":{}}]}),
+                "config_account",
+            ),
+        ] {
+            let mut invalid = config.clone();
+            invalid["command_policy"] = policy;
+            let bytes = serde_json::to_vec(&invalid)?;
+            fs::write(&path, &bytes)?;
+            cases.invoke(&server, relay, case, "init", &[], 1)?;
+            require(
+                fs::read(&path)? == bytes
+                    && cases.rows[case]["stdout"] == bytes_sha(b"")
+                    && cases.rows[case]["stderr"]
+                        == bytes_sha(format!("marmish: invalid input: {diagnostic}\n").as_bytes()),
+                format!("{case}: rejection differs"),
+            )?;
+        }
+        config["command_policy"]["defaults"] = json!({"allow_exec":["/usr/bin/true"]});
+        fs::write(&path, serde_json::to_vec(&config)?)?;
+        cases.invoke(&server, relay, "init-with-allowlist", "init", &[], 0)?;
+        require(
+            load(&path)? == config,
+            "reopening changed the authorized server configuration",
+        )?;
+    }
     for (case, options, status) in [
         (
             "retain-grant-while-client",
@@ -325,24 +457,78 @@ fn main() -> Result {
     let record =
         whole().join("basic-command-interop/upstream-owner-activation-blocked-macos-arm64.json");
     let reference = load(&record)?;
-    let build = load(&args.candidate_build)?;
-    require(
-        build["format"] == "marmish-basic-command-generated-build-v1"
-            && text(&reference["upstream"])? == text(&build["referenceTargetRevision"])?,
-        "reference revision mismatch",
-    )?;
-    let originals = serde_json::from_value(reference["reference_binary_sha256"].clone())?;
-    let mut candidates = BTreeMap::new();
-    for (name, row) in build["artifacts"]
-        .as_object()
-        .ok_or("missing build artifacts")?
-    {
-        candidates.insert(name.clone(), text(&row["sha256"])?.to_owned());
-    }
-    require(
-        candidates.contains_key("marmish"),
-        "missing pinned candidate CLI",
-    )?;
+    let originals = Installation {
+        directory: args.original,
+        pins: serde_json::from_value(reference["reference_binary_sha256"].clone())?,
+    };
+    let build_target = tempfile::tempdir()?;
+    let (candidate, provenance) = if let Some(path) = args.candidate_build {
+        let build = load(&path)?;
+        require(
+            build["format"] == "marmish-basic-command-generated-build-v1"
+                && text(&reference["upstream"])? == text(&build["referenceTargetRevision"])?,
+            "reference revision mismatch",
+        )?;
+        let mut pins = BTreeMap::new();
+        for (name, row) in build["artifacts"]
+            .as_object()
+            .ok_or("missing build artifacts")?
+        {
+            pins.insert(name.clone(), text(&row["sha256"])?.to_owned());
+        }
+        require(pins.contains_key("marmish"), "missing pinned candidate CLI")?;
+        (
+            Installation {
+                directory: args.candidate,
+                pins,
+            },
+            ("candidateBuildSha256", sha(&path)?),
+        )
+    } else {
+        let workspace = args.candidate.canonicalize()?;
+        let lock = workspace.join("workspace.lock");
+        require(
+            fs::read(&lock)?
+                == fs::read(portable().join("workspace-profile-command-policy/workspace.lock"))?,
+            "command-policy workspace lock differs",
+        )?;
+        check_members(&workspace, &load(&lock)?, true)?;
+        run(Command::new("cargo")
+            .current_dir(&workspace)
+            .args([
+                "+1.97.1",
+                "build",
+                "--workspace",
+                "--bins",
+                "--release",
+                "--offline",
+                "--locked",
+                "--target-dir",
+            ])
+            .arg(build_target.path())
+            .env_remove("CARGO_BUILD_TARGET"))?;
+        let directory = build_target.path().join("release");
+        let pins = ["marmish", "marmishd"]
+            .into_iter()
+            .map(|n| Ok((n.to_string(), sha(&directory.join(n))?)))
+            .collect::<Result<_>>()?;
+        (
+            Installation { directory, pins },
+            ("candidateWorkspaceLockSha256", sha(&lock)?),
+        )
+    };
+    let mut identities = BTreeSet::new();
+    let mut pair = |client: &Installation, server: &Installation, relay: &str| -> Result<Value> {
+        if args.mixed {
+            clean_daemon_census()?;
+        }
+        let result = observe(client, server, relay, &mut identities, args.mixed)?;
+        if args.mixed {
+            clean_daemon_census()?;
+        }
+        Ok(result)
+    };
+    let mut mixed = json!({});
     let mut cases = json!({});
     for (route, relay) in [
         ("wss", "wss://127.0.0.1:9443"),
@@ -351,19 +537,38 @@ fn main() -> Result {
             "ws://aaaqeayeaudaocajbifqydiob4ibceqtcqkrmfyydenbwha5dyp3kead.onion/",
         ),
     ] {
-        let expected = observe(&args.original, &originals, relay)?;
-        let actual = observe(&args.candidate, &candidates, relay)?;
+        let expected = pair(&originals, &originals, relay)?;
+        let actual = pair(&candidate, &candidate, relay)?;
         require(
             actual == expected,
             format!("{route} profile results differ"),
         )?;
+        if args.mixed {
+            for (label, client, server) in [
+                ("generatedClient", &candidate, &originals),
+                ("generatedServer", &originals, &candidate),
+            ] {
+                let observed = pair(client, server, relay)?;
+                require(
+                    observed == expected,
+                    format!("{route} {label} setup differs"),
+                )?;
+                mixed[route][label] = observed;
+            }
+        }
         cases[route] = actual;
     }
-    println!(
-        "{}",
-        serde_json::to_string_pretty(
-            &json!({"cases":cases,"workspacesRemoved":true,"networkDenied":true,"candidateBuildSha256":sha(&args.candidate_build)?,"referenceRecordSha256":sha(&record)?,"originalSha256":originals["marmish"],"candidateSha256":candidates["marmish"]})
-        )?
-    );
+    let mut report = json!({"cases":cases});
+    report["workspacesRemoved"] = true.into();
+    report["networkDenied"] = true.into();
+    report[provenance.0] = provenance.1.into();
+    report["referenceRecordSha256"] = sha(&record)?.into();
+    report["originalSha256"] = originals.pins["marmish"].clone().into();
+    report["candidateSha256"] = candidate.pins["marmish"].clone().into();
+    if args.mixed {
+        report["mixed"] = mixed;
+        report["distinctDisposableIdentities"] = identities.len().into();
+    }
+    println!("{}", serde_json::to_string_pretty(&report)?);
     Ok(())
 }

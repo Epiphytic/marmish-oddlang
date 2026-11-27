@@ -74,3 +74,45 @@ pub fn workspace(compiler: &Path, original: &Path, destination: &Path) -> Result
     )?;
     Ok(())
 }
+
+/// Reuse the recovered policy schema for initialization of existing profiles.
+pub fn profile_workspace(compiler: &Path, destination: &Path) -> Result<()> {
+    if destination.try_exists()? {
+        return Err("choose a new destination".into());
+    }
+    let portable = Path::new("oddlang/portable").canonicalize()?;
+    let here = portable.join("recovered-command-policy-v1");
+    let mut graph = read(&portable.join("leased-profile-setup-v1/graph.json"))?;
+    graph["provisioning"]["restriction_lists"] = json!({
+        "model": {"schema":read(&here.join("schema.json"))?, "decision":read(&here.join("decision.json"))?},
+        "invalid_principal":{"exit":1,"stderr":"marmish: invalid input: config_account"},
+        "invalid_bounds":{"exit":1,"stderr":"marmish: invalid input: config_policy_bounds"}
+    });
+    let graph_path = here.join("provisioning.json");
+    write_json(&graph_path, &graph)?;
+    let mut package = read(&portable.join("marmish-native-command-policy-package.json"))?;
+    let component = package["components"]
+        .as_array_mut()
+        .ok_or("missing components")?
+        .iter_mut()
+        .find(|c| c["module"] == "profile_initialize")
+        .ok_or("missing initializer")?;
+    component["graph"] = reference(&portable, &graph_path)?;
+    let manifest = portable.join("marmish-native-profile-command-policy-package.json");
+    write_json(&manifest, &package)?;
+    let mut workspace = read(&portable.join("workspace-command-policy.json"))?;
+    workspace["members"]["marmish-native"]["manifest"] = reference(&portable, &manifest)?;
+    let release = portable.join("workspace-profile-command-policy.json");
+    write_json(&release, &workspace)?;
+    run(Command::new(compiler)
+        .args(["build", "native-workspace", "rust"])
+        .arg(release)
+        .arg(destination))?;
+    let published = portable.join("workspace-profile-command-policy");
+    fs::create_dir_all(&published)?;
+    fs::copy(
+        destination.join("workspace.lock"),
+        published.join("workspace.lock"),
+    )?;
+    Ok(())
+}
