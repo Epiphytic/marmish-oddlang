@@ -1,5 +1,7 @@
 #[path = "../private-buffer-inference/source.rs"]
 mod buffer_trace;
+#[path = "../gap-range-endpoint/contract.rs"]
+mod endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
 #[path = "../suite/stage.rs"]
@@ -16,6 +18,11 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    EndpointContract,
+    EndpointInputs {
+        work: PathBuf,
+        profile: String,
+    },
     MdkHost {
         binary: PathBuf,
     },
@@ -200,6 +207,8 @@ fn main() -> Result {
         Action::ManifestProduct { product } => {
             public_data_qualification::manifest_product::check(&product)?
         }
+        Action::EndpointContract => endpoint_contract::validate()?,
+        Action::EndpointInputs { work, profile } => endpoint_contract::stage(&work, &profile)?,
         Action::ReaderTest { original } => {
             serde_json::json!({"module":buffered::original_test(&buffered::reader_source(&original)?)?,"bodySha256":buffered::READER_TEST_SHA})
         }

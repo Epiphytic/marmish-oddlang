@@ -110,7 +110,7 @@ pub fn six(product: &Path) -> Result<Value> {
     )?;
     Ok(lock)
 }
-fn pinned(path: &Path, rev: &str) -> Result {
+pub fn pinned(path: &Path, rev: &str) -> Result {
     let root = whole().ancestors().nth(2).unwrap();
     let name = path.strip_prefix(root)?.to_str().ok_or("non-UTF-8 path")?;
     require(

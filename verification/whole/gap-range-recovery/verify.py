@@ -1,6 +1,7 @@
 """Recover the native gap record and replay the archived original data witnesses."""
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -35,7 +36,8 @@ def pinned(path, commit):
 
 
 prior_helper = HERE.parent / "gap-range-record/verify.py"
-pinned(prior_helper, LEGACY)
+# The current helper retrieves the original observer from its pinned Git revision.
+pinned(prior_helper, "393a561aca0103148bcc443c54c989309ac65bee")
 PRIOR = runpy.run_path(str(prior_helper))
 run, sha, dump, clean = (PRIOR[key] for key in ("run", "sha", "dump", "clean"))
 PIN, MODEL, ENV, BASELINE = (PRIOR[key] for key in ("PIN", "MODEL", "ENV", "BASELINE"))
@@ -87,7 +89,7 @@ def rustdoc_inputs(directory, original, sources, host):
         "cargoLockSha256": sha(original / "Cargo.lock"),
         "runnerSha256": sha(HERE / "rustdoc.py"),
         "crateRootSha256": sha((original / MODEL).with_name("lib.rs")),
-        "helperSha256": sha(prior_helper),
+
         "cargoArgs": [
             "cargo",
             "+1.97.1",
@@ -114,6 +116,10 @@ def rustdoc_inputs(directory, original, sources, host):
             "CARGO_INCREMENTAL": "0",
         },
     }
+    archived_helper = run("git", "show", f"{LEGACY}:{prior_helper.relative_to(ROOT)}", cwd=ROOT)
+    helper_hashes = {sha(prior_helper), hashlib.sha256(archived_helper).hexdigest()}
+    if evidence["helperSha256"] not in helper_hashes:
+        raise ValueError("unrecognized rustdoc helper")
     if any(evidence[key] != value for key, value in profile.items()):
         raise ValueError("rustdoc runner, original source or profile differs")
     if (
