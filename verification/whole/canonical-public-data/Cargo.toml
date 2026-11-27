@@ -131,3 +131,7 @@ path = "../vault-fixed-typescript/verify.rs"
 [[bin]]
 name = "check-command-room-binding"
 path = "../command-room-binding/verify.rs"
+
+[[bin]]
+name = "check-response-envelopes"
+path = "../command-responses/envelopes.rs"
