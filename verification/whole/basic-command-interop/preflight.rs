@@ -32,6 +32,7 @@ enum Release {
     Composed,
     Prepare,
     PrepareFixed,
+    ProfilePolicy,
 }
 
 fn regular(path: &Path) -> Result {
@@ -109,6 +110,22 @@ fn verify(export: &Path, digest: &str, release: Release) -> Result<(Value, Value
                     "marmish-native-bounded-owner-prepare-package.json",
                     "bounded-owner-prepare-v1/foreground.json",
                     "bounded-owner-prepare-v1/status.rust.json",
+                ]
+            }
+            Release::ProfilePolicy => {
+                let lock = portable().join("workspace-profile-command-policy/workspace.lock");
+                let exported = export.join("workspace.lock");
+                regular(&exported)?;
+                let pinned = sha(&lock)?;
+                require(
+                    build["workspaceLockSha256"] == pinned && sha(&exported)? == pinned,
+                    "profile policy workspace lock differs",
+                )?;
+                &[
+                    "workspace-profile-command-policy.json",
+                    "marmish-native-profile-command-policy-package.json",
+                    "recovered-command-policy-v1/foreground.json",
+                    "basic-command-delivery-v1/cli.rust.json",
                 ]
             }
             Release::Candidate => unreachable!(),
@@ -241,6 +258,8 @@ fn main() -> Result {
         "marmish-basic-command-generated-preflight-v1"
     } else if matches!(args.release, Release::Composed) {
         "marmish-composed-owner-preflight-v1"
+    } else if matches!(args.release, Release::ProfilePolicy) {
+        "marmish-profile-policy-preflight-v1"
     } else {
         "marmish-bounded-room-prepare-preflight-v1"
     };
