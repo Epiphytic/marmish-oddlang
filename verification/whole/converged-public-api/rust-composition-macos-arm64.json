@@ -1,0 +1,42 @@
+{
+  "format": "marmish-public-api-composition-rust-parity-v1",
+  "host": "aarch64-apple-darwin",
+  "companionPredecessor": "48bd4ddbbadc2d3837b4f785042f56aa77e2f602",
+  "pythonProducerFiles": {
+    "prototype-constant/compose.py": "cad0348a6eeea3a65cd701c155e150e38070c945bd6084df3155e14cf9d52b50",
+    "engine-public-error/compose.py": "e1bc8bf2e19ddd9f63d987af26bdfe2944b9257367d5854bb36297c08c47952a",
+    "converged-public-api/compose.py": "9a4d4130f7425b0c0c0883cb1dad5b444a61e814f7a5f2e55d932423df94d0d0"
+  },
+  "descriptors": {
+    "prototype-buffer-limit-package.json": "4ff7e5eeda9558b0d8fac4ed2c9654d625fe46da51b3cf69b29d25b1ce8eb4b5",
+    "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json": "c54b38bd2da8060b170ad3264c48214aef2050cfcec1897f78683d9ec56182c1",
+    "engine-public-error-package.json": "da380d3eb5d0730688a05ffc4c907130dd9ae1bb9e9a33b6dfd6198ec6da8ba1",
+    "native-engine-error-identity-package.json": "161719d6f735910aa66cfff63c5a759c5900aff6c0261ed694fa2170bfb1431a",
+    "workspace-v7-engine-public-error-identity.json": "f29e906cd02ec8f35d71940616ce55dc377710d1051c454ea202eabb81d14c70",
+    "workspace-v7-converged-public-api.json": "f1b3a6ee1fe5d0917dccbe3397b3d576d99f51d24b53574e99f07e2699a3eb87"
+  },
+  "negativeControls": [
+    "stale prototype-buffer-limit-package.json",
+    "stale workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json",
+    "stale engine-public-error-package.json",
+    "stale native-engine-error-identity-package.json",
+    "stale workspace-v7-engine-public-error-identity.json",
+    "stale workspace-v7-converged-public-api.json",
+    "wrong changed member",
+    "new parent metadata key",
+    "changed shared Cargo lock",
+    "missing parent member",
+    "expected change absent",
+    "ambiguous native identity",
+    "missing prototype in base",
+    "malformed engine startup descriptor"
+  ],
+  "implementation": "a784c67a0cb7fa22bec3d174de33fa973718c887",
+  "nativeGateFramework": "225c32d49be4ac7f96a9ff7874220b5307753a90",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "referenceReceipts": {
+    "verification/whole/converged-public-api/aarch64-apple-darwin.json": "f15b3d225a557944c7dafcfdb2df5a247d81f7ded07e62764de1b8c0f4d19103",
+    "verification/whole/engine-public-error/aarch64-apple-darwin.json": "0a50fa7ef635b1ddee15f8ab4397fcc299daea47bc1b1c90aa0bd5d76013f427",
+    "verification/whole/prototype-constant/aarch64-apple-darwin.json": "f60df7d3df17bb6bca804405936c3355580a1525f0b053d762b5d4bbf830742d"
+  }
+}

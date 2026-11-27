@@ -13,3 +13,7 @@ The macOS ARM64 runs used the committed implementation at `8df69cebb1960ca51d95f
 ## Buffered workspace and successor callbacks
 
 The read-only review compared the buffered composer, Rust qualifier and downstream callback adapters to companion commit `7e015a3`. The initial review identified an outer timeout that could interrupt restoration of the generated file and diagnostics that omitted native test stdout. The final reader oracle copies the generated workspace into private scratch before adding tests, captures both output streams, and cleans up the callback's process group on timeout. The follow-up source review found no blocking issues. The [controls](../../verification/whole/unified-buffered/rust-callback-controls.json) include a deliberately failing native build, conflicting provider pins and differing predecessor bytes.
+
+## Public API composition
+
+A read-only review compared the three Rust composition paths and their verifier entry points to the previous Python producers. It identified a malformed base manifest that could add a missing prototype member, plus the engine command's path output. The corrected implementation requires the existing member, reports invalid startup descriptors and prints the engine workspace path. Independent Rust and Python replays reproduced six published files byte for byte and rejected fourteen cases, including both malformed structures. [Composition evidence](../../verification/whole/converged-public-api/rust-composition-macos-arm64.json)
