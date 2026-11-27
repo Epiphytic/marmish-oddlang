@@ -139,3 +139,7 @@ path = "../command-responses/envelopes.rs"
 [[bin]]
 name = "candidate-preflight"
 path = "../basic-command-interop/preflight.rs"
+
+[[bin]]
+name = "native-error-replay"
+path = "../native-error/replay.rs"

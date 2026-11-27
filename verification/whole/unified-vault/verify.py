@@ -85,6 +85,19 @@ def copy_tests(work, original, product):
     return generated
 
 
+def native_error_observations(work, original, product, reference_target):
+    error_tool = work / "copy-test-tools/debug/native-error-replay"
+    run("cargo", "+1.97.1", "build", "--quiet", "--offline", "--locked",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--bin", "native-error-replay", "--target-dir", work / "copy-test-tools")
+    old_errors = run(error_tool, "probe", original, reference_target, work / "original-errors")
+    new_errors = run(error_tool, "probe", product, product / "target", work / "generated-errors")
+    baseline = (HERE.parent / "native-error/darwin-arm64/baseline.txt").read_bytes()
+    assert old_errors == new_errors == baseline
+    assert len(baseline.splitlines()) == 32
+    return {"nativeErrorRows": len(new_errors.splitlines()), "nativeErrorStdoutSha256": sha(new_errors)}
+
+
 def qualify(work, manifest, original, framework, compiler, reference_target):
     assembly = lane("workspace")
     inputs, product = work / "inputs", work / "product"
@@ -116,12 +129,7 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
 
     vault = vault_check(work, "check-vault-values", original, product, work)
 
-    errors = lane("native-error")
-    old_errors = errors["native_probe"](original, reference_target, work / "original-errors")
-    new_errors = errors["native_probe"](product, product / "target", work / "generated-errors")
-    baseline = (HERE.parent / "native-error/darwin-arm64/baseline.txt").read_bytes()
-    assert old_errors == new_errors == baseline
-    assert len(baseline.splitlines()) == 32
+    errors = native_error_observations(work, original, product, reference_target)
     reference_path = HERE.parent / "workspace/v7-aarch64-apple-darwin.json"
     reference = json.loads(reference_path.read_bytes())["releaseInfo"]["cases"]
     assert set(reference) == {"marmish", "marmishd"}
@@ -165,8 +173,7 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
         "vaultRows": vault["vaultRows"],
         "vaultStdoutSha256": vault["vaultStdoutSha256"],
         "vaultPrivateConstructorRejections": 2,
-        "nativeErrorRows": len(new_errors.splitlines()),
-        "nativeErrorStdoutSha256": sha(new_errors),
+        **errors,
         "binaries": binaries,
     }
     observe = lane("engine-limits", "observe.py")
