@@ -10,7 +10,7 @@ The original workspace was checked out at `af54339d250290490d62d4475a77539b7e739
 
 The graph recovered from the new pin has the published Data semantic digest `82ddfed871221091be6b42adf6d0b009cb5ce10f864c414bdbaed5e19e4dad56`. Only the Data role is generated in this qualification. The broader corpus runs against the original stream library. Each result row links to its full measurements in [original-dev.json](original-dev.json), [original-release.json](original-release.json) or [data-release.json](data-release.json). The gzip contains [public observations](public.json.gz).
 
-Use a clean Oddlang checkout at `b653f1ada68791cd2fb70293bf227c5665850d1e`. The replay builds its CLI offline in a fresh target directory. Supply a clean upstream checkout at the required commit and Cargo’s offline dependency cache. The isolated Data qualification additionally requires the macOS Xcode SDK and Node. Replay into a fresh directory with the framework checkout that contains the original revision and profile options.
+Use a clean Oddlang checkout at `b653f1ada68791cd2fb70293bf227c5665850d1e`. The shared Rust baseline checker verifies the checkout before and after an offline CLI build in a fresh target directory. The replay uses the resulting executable for graph recovery and qualification. Supply a clean upstream checkout at the required commit and Cargo’s offline dependency cache. The isolated Data qualification additionally requires the macOS Xcode SDK and Node. Replay into a fresh directory with the framework checkout that contains the original revision and profile options.
 
 ```sh
 python3 verification/whole/stream/replay.py /path/to/oddlang /path/to/marmish \

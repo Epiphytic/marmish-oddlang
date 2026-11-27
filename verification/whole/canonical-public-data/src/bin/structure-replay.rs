@@ -1,10 +1,11 @@
 //! Collect the original compiler observations for each archived structural role.
 use clap::Parser;
-use public_data_qualification::{Result, assembly, load, require, run, sha, whole};
+use public_data_qualification::{
+    Result, assembly, baseline_framework, load, require, run, sha, whole,
+};
 use rustix::fs::{CWD, RenameFlags, renameat_with};
 use std::{fs, path::PathBuf, process::Command};
 
-const FRAMEWORK: &str = "b653f1ada68791cd2fb70293bf227c5665850d1e";
 const SOURCE: &str = "af54339d250290490d62d4475a77539b7e739071";
 
 #[derive(Parser)]
@@ -36,31 +37,10 @@ fn main() -> Result<()> {
     require(!output.try_exists()?, "output already exists")?;
     let framework = args.framework.canonicalize()?;
     let upstream = args.upstream.canonicalize()?;
-    assembly::checkout(&framework, FRAMEWORK, false)?;
     assembly::checkout(&upstream, SOURCE, false)?;
     let temp = tempfile::tempdir()?;
-    let mut build = Command::new("cargo");
-    for key in [
-        "RUSTC",
-        "RUSTFLAGS",
-        "CARGO_ENCODED_RUSTFLAGS",
-        "RUSTC_WRAPPER",
-        "RUSTC_WORKSPACE_WRAPPER",
-    ] {
-        build.env_remove(key);
-    }
-    run(build
-        .current_dir(&framework)
-        .args([
-            "+1.97.1",
-            "build",
-            "--locked",
-            "--offline",
-            "--bin",
-            "oddlang",
-            "--target-dir",
-        ])
-        .arg(temp.path()))?;
+    let compiler = temp.path().join("oddlang");
+    baseline_framework::build(&framework, &compiler)?;
     let base: toml::Table =
         fs::read_to_string(framework.join("examples/marmish/portable-contract/structure.toml"))?
             .parse()?;
@@ -87,7 +67,7 @@ fn main() -> Result<()> {
         let path = temp.path().join("profile.toml");
         fs::write(&path, toml::to_string(&profile)?)?;
         let actual = stage.path().join(target);
-        run(Command::new(temp.path().join("debug/oddlang"))
+        run(Command::new(&compiler)
             .args(["recover", "rust"])
             .arg(upstream.join("Cargo.toml"))
             .arg("--profile")

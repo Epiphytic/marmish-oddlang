@@ -9,6 +9,7 @@ mod observational_records;
 #[path = "../../gap-range-role-workspace/compose.rs"]
 mod range_binding;
 pub mod assembly;
+pub mod baseline_framework;
 pub mod cli_projection;
 pub mod status_package;
 pub mod status_peer;

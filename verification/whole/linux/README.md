@@ -7,7 +7,7 @@ python3 -B verification/whole/linux/replay.py /path/to/pinned-oddlang /path/to/o
 cargo +1.97.1 test --manifest-path /path/to/original/Cargo.toml --release --locked --offline -p marmish-stream
 ```
 
-The stream runner checks the framework revision from `verification/whole/framework_pin.py` and the source revision and lock of the original. Use the updated driver required by `verification/whole/bridge/baseline.py` for the separate bridge run. Supply a writable target directory under a trusted parent. The VM's default 0002 build umask produced a group-writable worker and the original rejected Init with `invalid_policy`. The builder sets 0077 for new artifacts.
+The stream runner checks the framework revision from [the reviewed baseline pin](../baseline-framework.json) using the shared Rust checker and the source revision and lock of the original. Use the updated driver required by `verification/whole/bridge/baseline.py` for the separate bridge run. Supply a writable target directory under a trusted parent. The VM's default 0002 build umask produced a group-writable worker and the original rejected Init with `invalid_policy`. The builder sets 0077 for new artifacts.
 
 ```sh
 python3 -B verification/whole/bridge/baseline.py --upstream /path/to/original \
