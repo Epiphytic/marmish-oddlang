@@ -3,7 +3,7 @@
 Run the native generation, original comparison and mutation control from this checkout on macOS ARM64 with Rust 1.97.1 and locked registry dependencies cached.
 
 ```sh
-python3 -B verification/whole/stream-windows/release.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/stream-wire/Cargo.toml --bin release-stream-windows -- \
   /path/to/pinned/marmish /path/to/pinned/oddlang /tmp/window-replay.json
 cmp verification/whole/stream-windows/reference-aarch64-apple-darwin.json /tmp/window-replay.json
 ```

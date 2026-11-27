@@ -1,0 +1,45 @@
+{
+  "host": "aarch64-apple-darwin",
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "compilers": {
+    "blockPackage": "2a4f8dca8a8e0483194bb1dbba28f713ae4c56a945eaa711143e57c12b364e05",
+    "blockRecovery": "b8235c4624dd35f2532ae09b038ca45fcf60a3a69506765eccca266edf521fe1",
+    "windowPackage": "90c730609549553221a0cb6d32b383acf611c8c390bf48b4837a0dc262393a64"
+  },
+  "matchedArchivedReceipts": {
+    "stream-block/reference-aarch64-apple-darwin.json": "cb75e20611f31742d6d65b50e19a3cf32953cdad33507fa6f0984716b39467d7",
+    "stream-windows/reference-aarch64-apple-darwin.json": "79ea1bd7de283355e9164906f3dd778194c7697bd77ebf8e264c76adf862f2de"
+  },
+  "block": {
+    "encodeCases": 192,
+    "decodeCases": 82,
+    "crossReadsOnEachPeer": 160,
+    "mutation": {
+      "error": {
+        "display": "invalid stream offset",
+        "error": "Offset"
+      },
+      "offsetMaximum": 9223372036854775806
+    },
+    "upstreamTests": [
+      "roundtrips_and_fallback",
+      "incompressible_maximum_block_uses_none",
+      "rejects_corruption_truncation_frames_and_dictionary",
+      "rejects_nonbeneficial_zlib_representation",
+      "rejects_bounds_and_length"
+    ]
+  },
+  "window": {
+    "seededTraces": 96,
+    "frozenTraces": 33,
+    "operationResults": 13031,
+    "transcriptSha256": "7657f49b6a3fbc98157b82153829fc6b8e61ae7ab51c1b0673f95685144dc26a",
+    "mutation": "changing the retained conflict to OldRetry fails the unchanged upstream public test",
+    "isolation": "Seatbelt read allowlist and network deny during generation and release build"
+  },
+  "preservedPythonCorpusDigests": {
+    "blockEncode": "79246de712b4034cba5df547f0eef444949b56a259ed8651b87ad19b83d79b68",
+    "blockDecode": "2ca21d1842ad0b68cb4a3de7ab795c61b80077286a5253c9537c23b6fc66c8dd",
+    "windows": "92629376b73004630c524cf2c609bbb3d0e2a6c644b83defa6ad167b02098539"
+  }
+}
