@@ -64,6 +64,21 @@ def sandbox(work, original, compiler, framework, reference_target, *, reference_
     return [*prefix, "/usr/bin/env", f"TMPDIR={work}"], cli, sorted(probes)
 
 
+def copy_tests(work, original, product):
+    manifest = HERE.parent / "copy-manifest/Cargo.toml"
+    target = work / "copy-test-tools"
+    run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+        "--manifest-path", manifest, "--bin", "check-copy-frame", "--target-dir", target)
+    check = target / "debug/check-copy-frame"
+    reference = json.loads(run(check, "test-package", original, original / "crates/marmish-stream",
+                               original / "Cargo.lock", work / "original-copy"))
+    generated = json.loads(run(check, "test-package", original, product / "marmish-stream",
+                               product / "Cargo.lock", work / "generated-copy"))
+    if reference != generated:
+        raise ValueError("original and generated copy test suites differ")
+    return generated
+
+
 def qualify(work, manifest, original, framework, compiler, reference_target):
     assembly = lane("workspace")
     inputs, product = work / "inputs", work / "product"
@@ -91,17 +106,7 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
     if pinned_workspace_lock.is_file():
         assert manifest_lock == pinned_workspace_lock.read_bytes()
 
-    copy = lane("copy-frame")
-    source = run("git", "-C", original, "show",
-                 ORIGINAL + ":crates/marmish-stream/src/copy_protocol.rs")
-    start = source.index(b"#[cfg(test)]\nmod tests {")
-    upstream = source[start:source.index(b"\nmod path_encoding {", start)]
-    assert upstream.count(b"#[test]") == 11
-    original_copy = copy["tests"](original / "crates/marmish-stream", original / "Cargo.lock",
-                                 work / "original-copy", upstream)
-    generated_copy = copy["tests"](product / "marmish-stream", product / "Cargo.lock",
-                                  work / "generated-copy", upstream)
-    assert original_copy == generated_copy
+    generated_copy = copy_tests(work, original, product)
 
     vault = lane("vault-values")
     original_vault = vault["consumer"](original / "crates/marmish-vault", work / "original-vault",

@@ -1,4 +1,6 @@
+pub mod corpus;
 pub mod frame_pair;
+pub mod oracle;
 use public_data_qualification::{Result, assembly, capture, load, portable, require, run};
 use serde::Serialize;
 use serde_json::{Value, json, ser::Formatter};

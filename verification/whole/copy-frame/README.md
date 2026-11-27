@@ -3,7 +3,8 @@
 Check out the original and framework at the revisions in the [macOS ARM64 receipt](reference-aarch64-apple-darwin.json). From the companion root with Rust 1.97.1 and cached dependencies, run
 
 ```sh
-python3 -B verification/whole/copy-frame/verify.py /path/to/original /path/to/oddlang /tmp/copy-frame-receipt.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/copy-manifest/Cargo.toml \
+  --bin check-copy-frame -- qualify /path/to/original /path/to/oddlang /tmp/copy-frame-receipt.json
 ```
 
 The verifier stages only pinned graph, binding and Cargo lock inputs for the generator and offline build. macOS checks that reads from both repositories are denied. After the generated library is compiled, a separate native consumer receives the exact unchanged upstream test module and the additional witness.

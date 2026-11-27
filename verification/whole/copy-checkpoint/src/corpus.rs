@@ -152,3 +152,33 @@ pub fn cases() -> (Vec<Record>, Vec<Vec<u8>>) {
     wires.retain(|b| seen.insert(b.clone()));
     (values, wires)
 }
+
+pub fn expectations(
+    records: &[Record],
+    wires: &[Vec<u8>],
+) -> (Vec<serde_json::Value>, Vec<serde_json::Value>, usize) {
+    use crate::oracle::{decode, fault};
+    use serde_json::json;
+    let mut requests = Vec::new();
+    let mut expected = Vec::new();
+    for r in records {
+        requests.push(json!({"operation":"construct","record":r}));
+        let result = match r.validate() {
+            Ok(()) => json!({"validation":{"ok":null},"encoding":{"ok":r.encode(DOMAIN)}}),
+            Err(e) => json!({"validation":fault(e),"encoding":fault(e)}),
+        };
+        expected.push(result);
+    }
+    let mut rejected = 0;
+    for w in wires {
+        requests.push(json!({"operation":"decode","bytes":w}));
+        expected.push(match decode(w) {
+            Ok(record) => json!({"ok":record}),
+            Err(e) => {
+                rejected += 1;
+                fault(e)
+            }
+        });
+    }
+    (requests, expected, rejected)
+}

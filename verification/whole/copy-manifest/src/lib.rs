@@ -1,3 +1,5 @@
+mod cases;
+pub use cases::cases;
 pub mod corpus;
 pub mod manifest;
 use copy_checkpoint_replay::{build_compiler, compare, consumer, stage};

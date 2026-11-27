@@ -21,3 +21,7 @@ tempfile = "3"
 [[bin]]
 name = "copy-field-relations"
 path = "../copy-field-relations/replay.rs"
+
+[[bin]]
+name = "check-copy-frame"
+path = "../copy-frame/verify.rs"

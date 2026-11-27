@@ -1,16 +1,15 @@
-#[cfg(test)]
-use std::io::Write;
-mod corpus;
-mod oracle;
 use clap::Parser;
 use copy_checkpoint_replay::{build_compiler, compare, consumer, stage};
-use oracle::{DOMAIN, decode, fault};
+use copy_checkpoint_replay::{corpus, oracle};
+use oracle::{DOMAIN, fault};
 use public_data_qualification::{
     Result,
     assembly::{self, ORIGINAL, Sandbox, bytes_sha},
     json_bytes, load, portable, require, run, sha, stdout, text, whole,
 };
 use serde_json::json;
+#[cfg(test)]
+use std::io::Write;
 use std::{fs, path::PathBuf, process::Command};
 const FRAMEWORK: &str = "3b3a1ef0e560041474cf6cddedcd52ab66defde2";
 const PACKAGE: &str = "stream-copy-checkpoint-package.json";
@@ -81,27 +80,7 @@ fn main() -> Result {
         &caller,
     )?;
     let (records, wires) = corpus::cases();
-    let mut requests = Vec::new();
-    let mut expected = Vec::new();
-    for r in &records {
-        requests.push(json!({"operation":"construct","record":r}));
-        let result = match r.validate() {
-            Ok(()) => json!({"validation":{"ok":null},"encoding":{"ok":r.encode(DOMAIN)}}),
-            Err(e) => json!({"validation":fault(e),"encoding":fault(e)}),
-        };
-        expected.push(result);
-    }
-    let mut rejected = 0;
-    for w in &wires {
-        requests.push(json!({"operation":"decode","bytes":w}));
-        expected.push(match decode(w) {
-            Ok(record) => json!({"ok":record}),
-            Err(e) => {
-                rejected += 1;
-                fault(e)
-            }
-        });
-    }
+    let (requests, expected, rejected) = corpus::expectations(&records, &wires);
     compare("original", &old, &requests, &expected)?;
     compare("generated", &new, &requests, &expected)?;
     let pin = &mut manifest["components"]
