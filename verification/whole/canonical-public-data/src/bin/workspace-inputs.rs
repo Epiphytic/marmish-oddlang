@@ -1,4 +1,6 @@
 //! Prepare the pinned inputs and independent tests used by workspace qualification.
+#[path = "../../../basic-command-interop/candidate_roles.rs"]
+mod candidate_roles;
 #[path = "../../../workspace/library_tests.rs"]
 mod library_tests;
 use clap::{Parser, Subcommand};
@@ -15,6 +17,11 @@ enum Action {
     Workspace {
         manifest: PathBuf,
         destination: PathBuf,
+    },
+    /// Check compiled executable names and report the CLI operations covered by each binding.
+    CandidateRoles {
+        inputs: PathBuf,
+        binaries: Vec<String>,
     },
     /// Populate the offline Cargo Git cache from its locked local providers.
     WorkspaceProviders { lock: PathBuf, destination: PathBuf },
@@ -45,6 +52,9 @@ fn main() -> Result {
             manifest,
             destination,
         } => assembly::stage(&manifest, &destination)?,
+        Action::CandidateRoles { inputs, binaries } => {
+            candidate_roles::inspect(&inputs, std::io::stdin().lock(), binaries)?
+        }
         Action::WorkspaceProviders { lock, destination } => {
             assembly::providers(&lock, &destination)?
         }
