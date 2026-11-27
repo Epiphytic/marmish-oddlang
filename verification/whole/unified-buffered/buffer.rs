@@ -185,6 +185,16 @@ fn provider(original: &Path, host: &str) -> Result<Value> {
 pub const READER_TEST_SHA: &str =
     "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc";
 
+pub fn reader_checkout(original: &Path, work: &Path) -> Result<()> {
+    run(Command::new("git")
+        .args(["clone", "-q", "--no-checkout", "--local", "--shared"])
+        .arg(original)
+        .arg(work))?;
+    run(Command::new("git")
+        .current_dir(work)
+        .args(["checkout", "-q", "--detach", ORIGINAL]))?;
+    Ok(())
+}
 pub fn reader_source(original: &Path) -> Result<String> {
     stdout(
         Command::new("git")

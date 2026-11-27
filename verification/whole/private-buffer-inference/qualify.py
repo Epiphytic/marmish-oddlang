@@ -4,15 +4,23 @@ from hashlib import sha256
 import json
 import os
 from pathlib import Path
+import runpy
 import shutil
 import subprocess
 import sys
 import tempfile
 
-from observe import CASE, CHANGES, HERE, LANES, PIN, SOURCE, capture, observe
+HERE = Path(__file__).resolve().parent
+CASE = "portable_buffer_behavior::collect"
+LANES = {"original": [], "empty": ["emptyRead"], "consume": ["consumedBytes"],
+         "error": ["refillError"], "combined": ["emptyRead", "consumedBytes", "refillError"]}
+
 
 sys.path.insert(0,str(HERE.parent/"private-buffer"))
 import verify as buffer
+from verify import PIN, SOURCE
+
+product_witness = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))["product_witness"]
 
 SELECTION = HERE/"shape-selection.json"
 EXPECTED_CHANGES = {"emptyRead":"return-zero", "consumedBytes":"retain", "refillError":"discard-window"}
@@ -35,22 +43,15 @@ def selected(raw):
 
 
 def qualify(original,framework,cli,target,original_cargo_target):
-    native = observe(original,original_cargo_target)
+    native = product_witness("buffer-traces", original, original_cargo_target)
     if native != json.loads((HERE/f"original-{target}.json").read_bytes()):
         raise ValueError("live source behavior differs from the pinned observations")
     with tempfile.TemporaryDirectory() as directory:
         work = Path(directory).resolve()
         changed = work/"reference-mutant"
-        subprocess.run(["git","clone","-q","--local","--no-checkout",original,changed],check=True)
-        subprocess.run(["git","-C",changed,"checkout","-q","--detach",PIN],check=True)
-        src = changed/SOURCE
-        data = src.read_bytes()
-        for old,new in CHANGES.values():
-            if data.count(old)!=1:raise ValueError("ambiguous source mutation")
-            data = data.replace(old,new)
-        if digest(data)!=native["lanes"]["combined"]["sourceSha256"]:
+        mutated = product_witness("buffer-trace-mutation", original, changed)
+        if mutated != native["lanes"]["combined"]["sourceSha256"]:
             raise ValueError("mutated shape and execution source disagree")
-        src.write_bytes(data)
         raw = shape(original,framework,target)
         altered = shape(changed,framework,target)
         if selected(raw) != selected(altered):
@@ -100,7 +101,7 @@ def qualify(original,framework,cli,target,original_cargo_target):
                 shutil.move(str(built),product)
             with (product/"src/group_0/__projection_0.rs").open("ab") as leaf:
                 leaf.write(b"\n"+(HERE/"trace.rs").read_bytes())
-            emitted = capture(product,lane/"test-target",target,buffer.NATIVE_TEST_PREFIX+CASE)
+            emitted = product_witness("buffer-trace-case", product, lane/"test-target", target, buffer.NATIVE_TEST_PREFIX+CASE)
             if emitted!=trace:raise ValueError(f"{name}: generated native behavior differs")
             receipts[name] = dict(graphSha256=digest(graph),packageLockSha256=lock,
                                   recoveryLockSha256=digest((out/"recovery.lock").read_bytes()),

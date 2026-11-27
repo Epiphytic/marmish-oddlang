@@ -1,3 +1,5 @@
+#[path = "../private-buffer-inference/source.rs"]
+mod buffer_trace;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
 #[path = "../suite/stage.rs"]
@@ -16,6 +18,22 @@ struct Args {
 enum Action {
     MdkHost {
         binary: PathBuf,
+    },
+    BufferTraces {
+        original: PathBuf,
+        target: PathBuf,
+        #[arg(long)]
+        receipt: Option<PathBuf>,
+    },
+    BufferTraceCase {
+        checkout: PathBuf,
+        target: PathBuf,
+        host: String,
+        name: String,
+    },
+    BufferTraceMutation {
+        original: PathBuf,
+        checkout: PathBuf,
     },
     ChildControl {
         original: PathBuf,
@@ -101,6 +119,28 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::BufferTraces {
+            original,
+            target,
+            receipt,
+        } => {
+            let report =
+                buffer_trace::observe(&original.canonicalize()?, &std::path::absolute(target)?)?;
+            if let Some(receipt) = receipt {
+                std::fs::write(receipt, public_data_qualification::json_bytes(&report)?)?;
+                return Ok(());
+            }
+            report
+        }
+        Action::BufferTraceCase {
+            checkout,
+            target,
+            host,
+            name,
+        } => buffer_trace::capture(&checkout, &std::path::absolute(target)?, &host, &name)?,
+        Action::BufferTraceMutation { original, checkout } => {
+            buffer_trace::prepare(&original.canonicalize()?, &checkout)?
+        }
         Action::MdkHost { binary } => {
             println!(
                 "{}",

@@ -4,7 +4,7 @@ use public_data_qualification::{
     Result,
     assembly::{ORIGINAL, bytes_sha},
     buffered::{CASES, SOURCE, reader_source},
-    capture, require, run, stdout, whole,
+    capture, require, stdout, whole,
 };
 use serde_json::{Value, json};
 use std::{
@@ -74,13 +74,7 @@ fn observe(original: &Path, target: &Path) -> Result<Value> {
     require(hosts.next().is_none(), "ambiguous native host")?;
     let tmp = tempfile::tempdir()?;
     let work = tmp.path().join("reference");
-    run(Command::new("git")
-        .args(["clone", "-q", "--no-checkout", "--local", "--shared"])
-        .arg(original)
-        .arg(&work))?;
-    run(Command::new("git")
-        .current_dir(&work)
-        .args(["checkout", "-q", "--detach", ORIGINAL]))?;
+    public_data_qualification::buffered::reader_checkout(original, &work)?;
     let stage = |text: &str| fs::write(work.join(SOURCE), format!("{text}\n{suite}"));
     stage(&source)?;
     for name in CASES {
