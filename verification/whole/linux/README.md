@@ -23,6 +23,8 @@ python3 -B verification/whole/linux/effects.py \
 
 The bridge receipt covers 11 executable builds and two runs of five original CLI cases. Init succeeds at both 256 and 1,048,576 descriptors on this guest. The traced Init uses an existing empty state directory and a read-only root. The tracer requires sudo, strace and bubblewrap inside the disposable guest. It verifies that the bridge runs as the original user with zero effective capabilities, checks the live descriptor limits via procfs, and observes exact Init reply, held lock, durable files and EOF. An outside create fails with EROFS. The independent POSIX byte-range probe conflicts with the original Linux OFD lock. A BSD flock probe succeeds on the same file while the bridge holds that lock. The corrected verifier also passed both repeats on macOS, where the lock uses flock. The public corpus runs inside the guest. The generated Copy Data peer results appear below.
 
+The Linux effects runner delegates procfs and strace observations to the Rust `bridge-observations` verifier. It follows the selected bridge PID from its successful exec through exit, verifies an acquired OFD lock, and checks effective credentials, descriptor limits and open state files. Run its fixture tests on either host with `cargo +1.97.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin bridge-observations`.
+
 
 ## Sealed original stream runs
 

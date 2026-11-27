@@ -7,7 +7,7 @@ import sys
 import json
 import os
 from pathlib import Path
-import re
+import runpy
 import subprocess
 import tempfile
 
@@ -48,6 +48,8 @@ def main():
                 for name in ("marmish-engine-bridge", "marmish-engine-worker")}
     for name, digest in binaries.items():
         baseline.check(digest, original["builds"]["default"]["sha256"][name], name)
+    core = runpy.run_path(str(Path(__file__).resolve().parents[1] / "core-package/verify.py"))
+    _target, observations = core["qualification_tool"]("bridge-observations")
     fixture = json.loads(oracle.FIXTURE.read_bytes())
     uid, gid = os.getuid(), os.getgid()
     if uid == 0:
@@ -69,7 +71,7 @@ def main():
             raise RuntimeError("outside write probe did not fail with EROFS")
         before, _ = oracle.inspect_state(run)
         oracle.compare("lock before Init", "absent", before["frontend_lock"])
-        flags = ["-f", "-qq", "-s", "0", "-e", "trace=%process,flock,fcntl", "-o", log]
+        flags = ["-f", "-qq", "-xx", "-s", "0", "-e", "trace=%process,flock,fcntl", "-o", log]
         bridge = bins / "marmish-engine-bridge"
         cmd = ["sudo", "-n", "/usr/bin/strace", *flags, *sandbox, bridge]
         request = fixture["request"].replace("@VERSION@", "1")
@@ -87,21 +89,11 @@ def main():
                 if not pid:
                     raise RuntimeError("tracer tree does not contain the bridge")
                 proc = Path(f"/proc/{pid}")
-                status = dict(line.split(":\t", 1) for line in (proc / "status").read_text().splitlines() if ":\t" in line)
-                if int(status["Uid"].split()[1]) != uid or int(status["CapEff"], 16):
-                    raise RuntimeError("reference process did not drop privileges")
-                limits = next(l for l in (proc / "limits").read_text().splitlines() if l.startswith("Max open files")).split()
-                if limits[3:5] != ["256", "256"]:
-                    raise RuntimeError(f"unexpected bridge resource limits {limits}")
                 # Yama prevents the observer from inspecting a process launched through sudo.
                 output = subprocess.check_output(["sudo", "-n", "/usr/bin/find", proc / "fd",
                                                   "-maxdepth", "1", "-type", "l", "-printf", "%l\\0"])
-                names = sorted({os.fsdecode(n).replace(str(state), "$STATE") for n in output.split(b"\0")
-                                if n.startswith(os.fsencode(state) + b"/")})
-                needed = {"$STATE/frontend.lock", "$STATE/engine.sqlite3", "$STATE/engine.sqlite3-wal",
-                          "$STATE/engine.sqlite3-shm"}
-                if not needed.issubset(names):
-                    raise RuntimeError(f"incomplete live state descriptors {names}")
+                process = json.loads(subprocess.check_output(
+                    [observations, "process", str(pid), str(uid), state], input=output))
                 live, _ = oracle.inspect_state(run)
                 oracle.compare_state("live", fixture["states"]["live"], live)
                 # A BSD probe can succeed while the actual Linux OFD lock is held.
@@ -119,19 +111,11 @@ def main():
         oracle.compare_state("closed", fixture["states"]["closed"], closed)
         # Root's tracer writes only this temporary log. Keep syscall names and normalized exec paths.
         trace = subprocess.check_output(["sudo", "-n", "/bin/cat", log], text=True)
-        entries = [line.split(maxsplit=1) for line in trace.splitlines() if line.strip()]
-        events = [call for process, call in entries if process == str(pid)]
-        if not any(call.startswith("execve(") and str(bridge) in call for call in events):
-            raise RuntimeError("kernel did not trace the original binary exec")
-        if not any(call.startswith("exit_group(0)") for call in events):
-            raise RuntimeError("kernel did not trace successful bridge exit")
-        calls = sorted({m.group(1) for call in events if (m := re.match(r"(\w+)\(", call))})
-        if not any("F_OFD_SETLK" in call and "= 0" in call for call in events):
-            raise RuntimeError("missing successful Linux OFD lock syscall")
+        calls = json.loads(subprocess.check_output(
+            [observations, "trace", str(pid), bridge], input=trace, text=True))
         measured = {"host": host, "upstreamRevision": baseline.PIN, "buildReceiptSha256": baseline.sha(receipt),
                     "binariesSha256": binaries, "verifierSha256": baseline.DRIVER,
-                    "fixtureSha256": baseline.FIXTURE, "successfulOfdLockObserved": True, "process": bridge.name, "effectiveUid": uid, "effectiveCapabilities": status["CapEff"],
-                    "descriptorLimits": [256, 256], "stateDescriptorsAfterReply": names,
+                    "fixtureSha256": baseline.FIXTURE, "successfulOfdLockObserved": True, "process": bridge.name, **process,
                     "lockBeforeInit": before["frontend_lock"], "bsdProbeWhileOfdHeld": "available",
                     "lockDuringInit": live["frontend_lock"], "lockAfterExit": closed["frontend_lock"],
                     "bridgeProcessAndLockSyscalls": calls, "outsideCreateControl": "EROFS",
