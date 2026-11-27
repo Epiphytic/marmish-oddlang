@@ -479,7 +479,8 @@ impl Sandbox {
             require(
                 r.status.code() == Some(1)
                     && r.stdout.is_empty()
-                    && (err.contains("Operation not permitted") || err.contains("No such file")),
+                    && (err.contains("Operation not permitted")
+                        || (self.linux && err.contains("No such file"))),
                 format!("source isolation failed to deny {}", p.display()),
             )?;
         }

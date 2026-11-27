@@ -1200,9 +1200,10 @@
 {"path":"verification/whole/canonical-public-data/rust-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a5b5102ed6e65a90d364856b8750775dd31ff78a57fbbc088e0e3f03f36a7f73","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/rust-qualification-macos-arm64.json","language":"inventory","mode":"100644","sha256":"6b94d04941aa0ebb35e4a0388f4bedff40069b753e3045aa80c363af3c858b5a","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/src/artifacts.rs","language":"rust","mode":"100644","sha256":"bd5b041d6c7ec896f07e50e8399502515d3769d2dac5efb75869b07677b62007","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/assembly.rs","language":"rust","mode":"100644","sha256":"b0349bdd1d8f3d46c7d4b3c28785b61b39601aa357c9dca4b114811ac4d57603","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/assembly.rs","language":"rust","mode":"100644","sha256":"2c2144bb6b1f5f57c6982d1c1ceb8d483eb43f4444c20568b5cc0022538e89f9","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/gap-range-reference.rs","language":"rust","mode":"100644","sha256":"168a662a98869d7638e0488934e6cb7783016ef2ec676fb536c3f59768cb6d90","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/journal-record-inputs.rs","language":"rust","mode":"100644","sha256":"cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/qualify-five-member.rs","language":"rust","mode":"100644","sha256":"f1c79afd467c7ad3cb528f265b89da257c4597559307c5842bb1d95089be0ee7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/recover-release-info.rs","language":"rust","mode":"100644","sha256":"855e421fd85f9f8f349682e9db182f707620a4a62bb1f1ce086f6c5bdc01b5cd","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-info-observer.rs","language":"rust","mode":"100644","sha256":"75c5f41cef7fabe06d4d917ad65fa78488da2a0fbb58a0aed5fdf92cb80019f8","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-info-structure.rs","language":"rust","mode":"100644","sha256":"8c889b7055ecde3a33fd13207f742123696fd4582fcfeb28427b9c9d9bcafe7c","parse_status":"parsed"}
@@ -1940,9 +1941,8 @@
 {"path":"verification/whole/unified-recovered-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"76913cf9637bbea6c06d2072dabcd2b19e5810105703769fa9991b21f87d8542","parse_status":"inventory"}
 {"path":"verification/whole/unified-recovered-vault/fixed_bytes.rs","language":"rust","mode":"100644","sha256":"d4d0f17448e0a2aab6199f4ca232f4869739c4e6fe25b660d8851d13fb074e72","parse_status":"parsed"}
 {"path":"verification/whole/unified-recovered-vault/verify.py","language":"python","mode":"100644","sha256":"0ab0e5b253b87d1183257aa21d3f82f435025f0747c37886157b7ed8ee244c80","parse_status":"parsed"}
-{"path":"verification/whole/unified-vault-journal/README.md","language":"inventory","mode":"100644","sha256":"f26350afa12f8943602db73d53dea17215135420690a698f86fcd3fa46558f41","parse_status":"inventory"}
+{"path":"verification/whole/unified-vault-journal/README.md","language":"inventory","mode":"100644","sha256":"94fe200c2ab46aeb784c836187665a5e0649ad5d0f51a5c5fdb63e6152223127","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault-journal/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"b558bb8c6cd06e67940678d387ade76386247cb8f65ccce4df0790513f54c83e","parse_status":"inventory"}
-{"path":"verification/whole/unified-vault-journal/verify.py","language":"python","mode":"100644","sha256":"fc9ad138a611dd20c09e0cf1aac8eb989f4a298b05aa322a3b0f25147023e6aa","parse_status":"parsed"}
 {"path":"verification/whole/unified-vault/README.md","language":"inventory","mode":"100644","sha256":"eb972dc0904b4d274b95c54181a6fb860ed55d3169f62d589a67119ed32107f7","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"43f939ec8750b7438917ffb268744eb0e858a15db5b4dd076bd8cd551f2459aa","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/verify.py","language":"python","mode":"100644","sha256":"d17edca1817c5d0ac4fb5582efc75ab9f70306ec43817a66628b156d7328dd42","parse_status":"parsed"}

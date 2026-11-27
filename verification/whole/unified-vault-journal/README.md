@@ -18,7 +18,7 @@ Source recovery separately reproduces the source-derived report and the
 baseline and reordered journal graphs.
 
 ```sh
-python3 -B verification/whole/unified-vault-journal/verify.py \
+cargo +1.97.1 run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-five-member -- \
   PATH_TO_ODDLANG PATH_TO_ORIGINAL /tmp/recovered-vault-journal.json \
   --original-target PATH_TO_ORIGINAL_CARGO_TARGET \
   --original-bin-dir PATH_TO_ORIGINAL_RELEASE_BINS
