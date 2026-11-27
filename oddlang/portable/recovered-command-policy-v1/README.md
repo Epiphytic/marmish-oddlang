@@ -3,11 +3,11 @@
 The command-policy workspace extends the retained-poll workspace with the required policy field. The older workspace keeps its published lock. Run the following from the companion root with a new destination.
 
 ```sh
-python3 oddlang/portable/recovered-command-policy-v1/replay.py \
-    /path/to/oddlang /path/to/pinned-marmish /tmp/marmish-command-policy
+cargo run --locked --offline --manifest-path verification/whole/command-policy/Cargo.toml -- \
+    recover /path/to/oddlang /path/to/pinned-marmish /tmp/marmish-command-policy
 ```
 
-The selection names the Rust records and fields to inspect. Oddlang checks the source digest, containing field types, Serde attributes, defaults and explicit-null adapter before emitting the portable schema. The replay embeds that schema and the reviewed decision binding in the foreground graph and rebuilds the workspace. The decision binding was transcribed from the native normalizer and engine at commit `af54339d250290490d62d4475a77539b7e739071`. The script verifies both source files. [Native configuration](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/crates/marmish-native/src/command_config.rs) · [Engine policy](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/crates/marmish-engine/src/policy.rs)
+The selection names the Rust records and fields to inspect. Oddlang checks the source digest, containing field types, Serde attributes, defaults and explicit-null adapter before emitting the portable schema. The replay embeds that schema and the reviewed decision binding in the foreground graph and rebuilds the workspace. The decision binding was transcribed from the native normalizer and engine at commit `af54339d250290490d62d4475a77539b7e739071`. The Rust validator checks the engine source digest and runs Oddlang recovery with the pinned native configuration source selection. [Native configuration](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/crates/marmish-native/src/command_config.rs) · [Engine policy](https://github.com/Epiphytic/marmish/blob/af54339d250290490d62d4475a77539b7e739071/crates/marmish-engine/src/policy.rs)
 
 The policy, principal entry and restrictions each accept either a JSON object or an array in declaration order. The recovered schema records the positional order for each. Missing trailing values use the same declared defaults.
 
