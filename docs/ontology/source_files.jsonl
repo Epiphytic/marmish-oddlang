@@ -1203,7 +1203,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/buffer-baseline.rs","language":"rust","mode":"100644","sha256":"6855a16d7df34fa9bafb995e6c5c9d53abc3d6c33a20029523d7e964e77baafa","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/cli-project.rs","language":"rust","mode":"100644","sha256":"737afc18410282fd92bda16f56a2b7135b4886bd50527ded32be81648e449579","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/cli-transcript.rs","language":"rust","mode":"100644","sha256":"5d715586fc2f4def800a1ac47f66bf1876ccc47b160e7e3777ca9884fc18693e","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/core-package-inputs.rs","language":"rust","mode":"100644","sha256":"2cca4983a57624bdb3cf98ebeff3cd8527afcba03940550eba54952d35a60b03","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/core-package-inputs.rs","language":"rust","mode":"100644","sha256":"d0fb5c2029c818a1d73ea3f69e0c069e008035b127795d2be2e99416e200fde5","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/discovery-status-project.rs","language":"rust","mode":"100644","sha256":"1f1704e71ad4e7805f9a57c92d6c7a77be8bbbb90041ec1293d3b17ead869193","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/gap-range-reference.rs","language":"rust","mode":"100644","sha256":"168a662a98869d7638e0488934e6cb7783016ef2ec676fb536c3f59768cb6d90","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/journal-record-inputs.rs","language":"rust","mode":"100644","sha256":"cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce","parse_status":"parsed"}
@@ -1422,10 +1422,11 @@
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
 {"path":"verification/whole/core-package/expected-observations.json","language":"inventory","mode":"100644","sha256":"ab5910faed74b3dcfc35f13bc385fee1ac6b2c81c631095cac169847b9eab1e0","parse_status":"inventory"}
 {"path":"verification/whole/core-package/linux.sh","language":"bash","mode":"100755","sha256":"fc0eb6b0514d261283b1c31e3ba07338482b25650fc34b0e45af23f7a05bcd0d","parse_status":"parsed"}
+{"path":"verification/whole/core-package/mutations.rs","language":"rust","mode":"100644","sha256":"47edba1a85eb73c932d2d84509fca66e330bc09564577dfc195f79ccbbb8710f","parse_status":"parsed"}
 {"path":"verification/whole/core-package/public-api-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"4ce9a0c5153a3f78c2e6adc1163b4b6235e28970dc41c887acf5827b24e6ae5f","parse_status":"inventory"}
 {"path":"verification/whole/core-package/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"51f8b24becb49c9e84daf8d651e3a659506a242a9aafe74828655b4fbc2379c8","parse_status":"inventory"}
 {"path":"verification/whole/core-package/reference-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"99436676d1ccf8095cb07aca29484a206abd8038be413815144a412648d1d2af","parse_status":"inventory"}
-{"path":"verification/whole/core-package/verify.py","language":"python","mode":"100644","sha256":"bb034be8d47e2c8ccfe13ae7213f665f10b4f8a9733f8988478481ef78a6948c","parse_status":"parsed"}
+{"path":"verification/whole/core-package/verify.py","language":"python","mode":"100644","sha256":"06d5e516781820dde09941ee019a4c67d2d5ee97593ce29e05de454d6d0af43e","parse_status":"parsed"}
 {"path":"verification/whole/core-value/README.md","language":"inventory","mode":"100644","sha256":"93de04d04cb2f8281e6e15e04e755117c2e33f23848bb5ec605019108b720a0b","parse_status":"inventory"}
 {"path":"verification/whole/core-value/caller.rs","language":"rust","mode":"100644","sha256":"275ed7066cb07672d0f712d877b47f8bdec5d5ea61aadcd0d9e680800ee2ae1b","parse_status":"parsed"}
 {"path":"verification/whole/core-value/reference.json","language":"inventory","mode":"100644","sha256":"c57a24dae5e69e69e6fe8bdab71e67fafb9c4390a4f06eb63c1e02441f73a40d","parse_status":"inventory"}

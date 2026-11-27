@@ -127,8 +127,9 @@ def qualification_tool():
     return target, Path(target.name) / "debug/core-package-inputs"
 
 
-def stage_inputs(root):
-    run(qualification_tool()[1], "stage", PORTABLE, root)
+def stage_inputs(root, mutation=None):
+    args = [] if mutation is None else ["--mutation", mutation]
+    run(qualification_tool()[1], "stage", PORTABLE, root, *args)
 
 
 def inventory(root):
@@ -164,40 +165,6 @@ def cargo(prefix, workspace, target, action, *, test=None, transcript=None, cand
     if test is not None:
         args.extend(("--test", test))
     return run(*args, cwd=workspace, env=env)
-
-
-def change_once(path, old, new):
-    data = path.read_bytes()
-    require(data.count(old) == 1, f"mutation should change exactly one occurrence in {path.name}")
-    path.write_bytes(data.replace(old, new, 1))
-
-
-def mutate(root, name):
-    path = root / MANIFEST.name
-    manifest = read(path)
-    if name == "retention-bound":
-        pinned = manifest["components"][0]["graph"]
-        change_once(root / pinned["path"], b"c:maximum 31536000", b"c:maximum 31535999")
-    elif name == "relay-rule-order":
-        pinned = manifest["components"][1]["graph"]
-        graph_path = root / pinned["path"]
-        graph = read(graph_path)
-        graph["rules"][0], graph["rules"][1] = graph["rules"][1], graph["rules"][0]
-        write(graph_path, graph)
-    elif name == "frame-version":
-        pinned = manifest["components"][2]["graph"]
-        change_once(root / pinned["path"], b"c:bits 32 ; c:value 1", b"c:bits 32 ; c:value 2")
-    elif name == "frame-error-order":
-        pinned = manifest["components"][2]["overlay"]
-        overlay_path = root / pinned["path"]
-        overlay = read(overlay_path)
-        overlay["variantOrder"][0], overlay["variantOrder"][1] = (
-            overlay["variantOrder"][1], overlay["variantOrder"][0])
-        write(overlay_path, overlay)
-    else:
-        raise ValueError(f"unknown mutation {name}")
-    pinned["sha256"] = sha(root / pinned["path"])
-    write(path, manifest)
 
 
 def install_caller(root):
@@ -271,8 +238,7 @@ fn main() {
     cargo(sandbox, projected, target, "build", candidate_env=candidate_env)
 
     bad = work / "wrong-digest"
-    stage_inputs(bad)
-    change_once(bad / "core-frame-v1/domain.ttl", b"c:bits 32 ; c:value 1", b"c:bits 32 ; c:value 2")
+    stage_inputs(bad, "stale-frame-digest")
     run(*sandbox, oddlang, "build", "native-package", "rust", bad / MANIFEST.name,
         work / "wrong-digest-output", cwd=work, env=candidate_env, fail="digest mismatch")
     require(not (work / "wrong-digest-output").exists(), "invalid package was published")
@@ -324,8 +290,7 @@ fn main() {
     mutants = {}
     for name, (case, property_name, expected_value) in witnesses.items():
         mutated = work / f"{name}-inputs"
-        stage_inputs(mutated)
-        mutate(mutated, name)
+        stage_inputs(mutated, name)
         out = work / f"{name}-crate"
         mutant_lock = generate(mutated, out)
         install_caller(out)

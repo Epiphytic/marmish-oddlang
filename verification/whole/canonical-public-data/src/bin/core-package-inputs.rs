@@ -1,7 +1,10 @@
 //! Stage the core package graph and verify its generated Rust source inventory.
+#[path = "../../../core-package/mutations.rs"]
+mod mutations;
 use clap::{Parser, Subcommand};
+use mutations::Mutation;
 use public_data_qualification::{
-    cli_projection::input_bytes, list, load, product::file_digests, require, sha, text, Result,
+    Result, cli_projection::input_bytes, list, load, product::file_digests, require, sha, text,
 };
 use serde_json::json;
 use std::{
@@ -29,6 +32,8 @@ enum Action {
     Stage {
         portable: PathBuf,
         destination: PathBuf,
+        #[arg(long, value_enum)]
+        mutation: Option<Mutation>,
     },
     Verify {
         package: PathBuf,
@@ -36,12 +41,24 @@ enum Action {
     },
 }
 
-fn stage(portable: &Path, destination: &Path) -> Result<()> {
+fn stage(portable: &Path, destination: &Path, mutation: Option<Mutation>) -> Result<()> {
+    use rustix::fs::{CWD, RenameFlags, renameat_with};
+    let parent = destination
+        .parent()
+        .filter(|p| !p.as_os_str().is_empty())
+        .unwrap_or(Path::new("."));
+    let scratch = tempfile::tempdir_in(parent)?;
+    let staged = scratch.path().join("inputs");
     let root = portable.canonicalize()?;
-    fs::create_dir(destination)?;
-    let manifest = destination.join("core-package.json");
-    fs::copy(root.join("core-package.json"), &manifest)?;
-    let spec = load(&manifest)?;
+    fs::create_dir(&staged)?;
+    let manifest = staged.join("core-package.json");
+    let source_manifest = root.join("core-package.json").canonicalize()?;
+    require(
+        source_manifest.starts_with(&root),
+        "manifest escapes portable directory",
+    )?;
+    let manifest_bytes = fs::read(source_manifest)?;
+    let spec: serde_json::Value = serde_json::from_slice(&manifest_bytes)?;
     let copy = |pin: &serde_json::Value| -> Result<()> {
         let relative = Path::new(text(&pin["path"])?);
         require(
@@ -51,7 +68,7 @@ fn stage(portable: &Path, destination: &Path) -> Result<()> {
             "unsafe input path",
         )?;
         let (_, bytes) = input_bytes(&root, pin)?;
-        let out = destination.join(relative);
+        let out = staged.join(relative);
         fs::create_dir_all(out.parent().ok_or("missing parent")?)?;
         fs::write(out, bytes)?;
         Ok(())
@@ -62,6 +79,12 @@ fn stage(portable: &Path, destination: &Path) -> Result<()> {
             copy(&component[field])?;
         }
     }
+    use std::io::Write;
+    fs::File::create_new(&manifest)?.write_all(&manifest_bytes)?;
+    if let Some(mutation) = mutation {
+        mutations::apply(&staged, mutation)?;
+    }
+    renameat_with(CWD, &staged, CWD, destination, RenameFlags::NOREPLACE)?;
     Ok(())
 }
 
@@ -248,7 +271,8 @@ fn main() -> Result<()> {
         Action::Stage {
             portable,
             destination,
-        } => stage(&portable, &destination),
+            mutation,
+        } => stage(&portable, &destination, mutation),
         Action::Verify { package, manifest } => verify(&package, &manifest),
     }
 }
