@@ -38,3 +38,11 @@ ownership probe, and three journal record outputs. The reference binary
 digests match the earlier sealed #70 observation. The receipt binds both
 generated binaries and the generated journal and vault libraries to the
 same sealed workspace build.
+
+The [Rust verifier replay](rust-aarch64-apple-darwin.json) at companion
+`645740776d2cab426419c58be7e071bfb87d46a6` reproduced the 73 staged input
+hashes, eight denied reads, workspace lock and all observations. Comparison
+with the historical receipt and a fresh run of the preceding Python verifier
+found differences in nine identity fields covering the companion revision,
+compiler digest, two generated executable digests and five library digests. Both
+reference executable digests matched.

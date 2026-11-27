@@ -1941,8 +1941,9 @@
 {"path":"verification/whole/unified-recovered-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"76913cf9637bbea6c06d2072dabcd2b19e5810105703769fa9991b21f87d8542","parse_status":"inventory"}
 {"path":"verification/whole/unified-recovered-vault/fixed_bytes.rs","language":"rust","mode":"100644","sha256":"d4d0f17448e0a2aab6199f4ca232f4869739c4e6fe25b660d8851d13fb074e72","parse_status":"parsed"}
 {"path":"verification/whole/unified-recovered-vault/verify.py","language":"python","mode":"100644","sha256":"0ab0e5b253b87d1183257aa21d3f82f435025f0747c37886157b7ed8ee244c80","parse_status":"parsed"}
-{"path":"verification/whole/unified-vault-journal/README.md","language":"inventory","mode":"100644","sha256":"94fe200c2ab46aeb784c836187665a5e0649ad5d0f51a5c5fdb63e6152223127","parse_status":"inventory"}
+{"path":"verification/whole/unified-vault-journal/README.md","language":"inventory","mode":"100644","sha256":"1e8bd923ee1e581ab94589f04cb64b7df74f60d2587fe5cf2bf7b3f78c62e2c3","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault-journal/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"b558bb8c6cd06e67940678d387ade76386247cb8f65ccce4df0790513f54c83e","parse_status":"inventory"}
+{"path":"verification/whole/unified-vault-journal/rust-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"bd4efd9173a69110a2df7f2dd9f44ee2b61027dbddc8ea74ce9b9a1aa8db65cd","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/README.md","language":"inventory","mode":"100644","sha256":"eb972dc0904b4d274b95c54181a6fb860ed55d3169f62d589a67119ed32107f7","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"43f939ec8750b7438917ffb268744eb0e858a15db5b4dd076bd8cd551f2459aa","parse_status":"inventory"}
 {"path":"verification/whole/unified-vault/verify.py","language":"python","mode":"100644","sha256":"d17edca1817c5d0ac4fb5582efc75ab9f70306ec43817a66628b156d7328dd42","parse_status":"parsed"}
