@@ -79,3 +79,7 @@ path = "../gap-range-recovery/rustdoc.rs"
 [[bin]]
 name = "compose-local-file-catalog"
 path = "../local-file-catalog/compose.rs"
+
+[[bin]]
+name = "qualify-array-shapes"
+path = "../shapes/arrays/replay.rs"
