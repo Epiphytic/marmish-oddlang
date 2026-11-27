@@ -26,3 +26,5 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 Omit `--check` to regenerate the files. Pass `--portable PATH` to use a scratch copy of the portable inputs. The [macOS ARM64 replay](rust-qualification-macos-arm64.json) records their SHA-256 digests and the three drift controls.
 
 The qualification command uses Rust to stage the pinned inputs, isolate the native build and run the external callers. The compiler cache is keyed by framework revision. The gate records the compiler, Cargo artifacts and input revision for each replay.
+
+The [Rust workspace replay on macOS ARM64](rust-aarch64-apple-darwin.json) used the archived Darwin compiler executable with SHA-256 `fb24837fcaafe06c4083a66a08b8fa22b951e539b3e848cbf88fc749f54635f3` and the pinned framework and original checkouts. The gate constructed the sealed predecessor and candidate workspaces, compiled the seven candidate crates offline, and probed all 140 imports. It reproduced the 77 predecessor and 81 candidate imports, all recorded errors and all four new public-data witnesses. The receipt includes the fresh Cargo artifact log and the 587-entry library closure digest.

@@ -45,3 +45,5 @@ The composition verifier uses Rust 1.97.1 for both compiler and
 product. Both receipts pin original
 `af54339d250290490d62d4475a77539b7e739071` and companion input
 `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df`.
+
+The [macOS ARM64 replay](rust-aarch64-apple-darwin.json) ran the buffered verifier through the Rust workspace qualifier. The downstream verifier checked the projected seven-member lock before the isolated release build, then ran its four buffered-reader tests. Its recorded provider, checksums, cases and outcomes match the original macOS receipt.
