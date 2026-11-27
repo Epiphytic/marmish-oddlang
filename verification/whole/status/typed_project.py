@@ -39,9 +39,11 @@ def stage(destination):
 
 
 def recover(oddlang, original):
-    from project import verify_reference
-
-    verify_reference(oddlang, original)
+    subprocess.run(
+        ["cargo", "+1.96.1", "run", "--quiet", "--offline", "--locked",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "status-project", "--", "recover", oddlang, original], check=True,
+    )
     provenance = json.loads((SHAPE / "provenance.json").read_bytes())
 
     def registry(raw):

@@ -9,6 +9,7 @@ mod observational_records;
 #[path = "../../gap-range-role-workspace/compose.rs"]
 mod range_binding;
 pub mod assembly;
+pub mod cli_projection;
 #[path = "../../unified-buffered/buffer.rs"]
 pub mod buffered;
 #[path = "../../canonical-range-data/compose.rs"]
