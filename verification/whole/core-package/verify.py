@@ -2,7 +2,6 @@
 """Qualify a source-isolated core projection against a pinned Rust workspace."""
 
 import argparse
-from collections import Counter
 import hashlib
 import json
 import os
@@ -167,48 +166,6 @@ def cargo(prefix, workspace, target, action, *, test=None, transcript=None, cand
     return run(*args, cwd=workspace, env=env)
 
 
-def cases(path):
-    result = {}
-    for line in path.read_text(encoding="utf-8").splitlines():
-        family, name, observation = json.loads(line)
-        key = (family, name)
-        require(key not in result, f"duplicate observation {key}")
-        result[key] = observation
-    return result
-
-
-def expectations(reference):
-    expected = {
-        ("relay", "empty"): {"error": "EmptyRelaySet"},
-        ("relay", "raw-at-before-scheme"): {"error": "DisallowedComponents"},
-        ("relay", "raw-whitespace-before-at"): {"error": "InvalidUrl"},
-        ("relay", "loopback-label"): {"error": "LoopbackDenied"},
-        ("relay", "ipv4-private-with-opt-in-opt-in"): {"error": "DisallowedHost"},
-        ("relay", "ipv6-deny-within-allow-opt-in"): {"error": "DisallowedHost"},
-        ("relay", "stable-dedup"): {"urls": ["wss://first.example/", "wss://xn--bcher-kva.example/",
-                                            "ws://third.example/"]},
-        ("decode", "tuple-good"): {"bytes": [0, 1, 255]},
-        ("decode", "tuple-escaped"): {"bytes": [102]},
-        ("decode", "tuple-long"): {"error": "InvalidJson"},
-        ("decode", "json-before-version"): {"error": "InvalidJson"},
-        ("decode", "tuple-version-before-encoding"): {"error": "InvalidVersion"},
-        ("decode", "payload-nonzero-tail"): {"error": "InvalidEncoding"},
-        ("decode", "wire-32768"): {"bytes": []},
-        ("decode", "wire-32769"): {"error": "SizeLimit"},
-        ("decode", "encoded-1-21848"): {"error": "SizeLimit"},
-        ("decode", "malformed-encoded-1-21848"): {"error": "InvalidEncoding"},
-        ("decode", "malformed-encoded-2-21849"): {"error": "InvalidVersion"},
-        ("encode", "raw-16385"): {"error": "SizeLimit"},
-        ("retention", "Some(31536000)"): {"seconds": 31536000},
-    }
-    for ordinal, name in enumerate(("SizeLimit", "InvalidJson", "InvalidVersion", "InvalidEncoding")):
-        expected[("frame-error", name)] = {"ordinal": ordinal, "error": name, "hasSource": False}
-    for key, values in expected.items():
-        observed = reference[key]
-        require(all(observed[name] == value for name, value in values.items()),
-                f"original outcome differs from independent expectation: {key}")
-
-
 def change_once(path, old, new):
     data = path.read_bytes()
     require(data.count(old) == 1, f"mutation should change exactly one occurrence in {path.name}")
@@ -356,14 +313,7 @@ fn main() {
         fail="Operation not permitted")
     cargo(reference_sandbox, projected, target, "test", test="differential",
           transcript=emitted_rows, candidate_env=candidate_env)
-    expected, actual = cases(original_rows), cases(emitted_rows)
-    expectations(expected)
-    require(expected.keys() == actual.keys(), "different differential observation coverage")
-    for key, row in expected.items():
-        if actual[key] != row:
-            raise ValueError(f"native differential mismatch at {key!r}: {str(row)[:300]} "
-                             f"!= {str(actual[key])[:300]}")
-    require(sha(original_rows) == sha(emitted_rows), "native transcripts differ in bytes")
+    counts = json.loads(run(qualification_tool()[1], "compare", original_rows, emitted_rows))
 
     witnesses = {
         "retention-bound": (("retention", "Some(31536000)"), "error", "RetentionOutOfRange"),
@@ -382,10 +332,13 @@ fn main() {
         witness = work / f"{name}.jsonl"
         cargo(reference_sandbox, out, work / f"{name}-target", "test", test="differential", transcript=witness,
               candidate_env=candidate_env)
-        changed = cases(witness)
-        require(changed[case].get(property_name) == expected_value and changed[case] != expected[case],
+        def observe(path):
+            return json.loads(run(qualification_tool()[1], "observe", path, *case))
+
+        baseline, changed = observe(original_rows), observe(witness)
+        require(changed.get(property_name) == expected_value and changed != baseline,
                 f"mutant survived at {case}")
-        mutants[name] = {"case": list(case), "original": expected[case], "mutated": changed[case],
+        mutants[name] = {"case": list(case), "original": baseline, "mutated": changed,
                          "packageLockSha256": sha(mutant_lock), "transcriptSha256": sha(witness)}
 
     return {
@@ -399,7 +352,7 @@ fn main() {
         "unchangedTestGroupCounts": original_results,
         "callerSha256": sha(CALLER), "packageManifestSha256": sha(MANIFEST),
         "generatedRelease": outputs, "twoGenerationsEqual": True,
-        "differentialCounts": dict(sorted(Counter(family for family, _ in expected).items())),
+        "differentialCounts": counts,
         "differentialTranscriptSha256": sha(original_rows),
         "mutations": mutants, "rejectedGraphDigestDrift": True,
     }

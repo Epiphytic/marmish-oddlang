@@ -1,0 +1,198 @@
+{
+  "counts": {
+    "decode": 1074,
+    "encode": 516,
+    "frame-error": 4,
+    "limits": 1,
+    "relay": 132,
+    "retention": 8
+  },
+  "observations": [
+    [
+      "relay",
+      "empty",
+      {
+        "error": "EmptyRelaySet"
+      }
+    ],
+    [
+      "relay",
+      "raw-at-before-scheme",
+      {
+        "error": "DisallowedComponents"
+      }
+    ],
+    [
+      "relay",
+      "raw-whitespace-before-at",
+      {
+        "error": "InvalidUrl"
+      }
+    ],
+    [
+      "relay",
+      "loopback-label",
+      {
+        "error": "LoopbackDenied"
+      }
+    ],
+    [
+      "relay",
+      "ipv4-private-with-opt-in-opt-in",
+      {
+        "error": "DisallowedHost"
+      }
+    ],
+    [
+      "relay",
+      "ipv6-deny-within-allow-opt-in",
+      {
+        "error": "DisallowedHost"
+      }
+    ],
+    [
+      "relay",
+      "stable-dedup",
+      {
+        "urls": [
+          "wss://first.example/",
+          "wss://xn--bcher-kva.example/",
+          "ws://third.example/"
+        ]
+      }
+    ],
+    [
+      "decode",
+      "tuple-good",
+      {
+        "bytes": [
+          0,
+          1,
+          255
+        ]
+      }
+    ],
+    [
+      "decode",
+      "tuple-escaped",
+      {
+        "bytes": [
+          102
+        ]
+      }
+    ],
+    [
+      "decode",
+      "tuple-long",
+      {
+        "error": "InvalidJson"
+      }
+    ],
+    [
+      "decode",
+      "json-before-version",
+      {
+        "error": "InvalidJson"
+      }
+    ],
+    [
+      "decode",
+      "tuple-version-before-encoding",
+      {
+        "error": "InvalidVersion"
+      }
+    ],
+    [
+      "decode",
+      "payload-nonzero-tail",
+      {
+        "error": "InvalidEncoding"
+      }
+    ],
+    [
+      "decode",
+      "wire-32768",
+      {
+        "bytes": []
+      }
+    ],
+    [
+      "decode",
+      "wire-32769",
+      {
+        "error": "SizeLimit"
+      }
+    ],
+    [
+      "decode",
+      "encoded-1-21848",
+      {
+        "error": "SizeLimit"
+      }
+    ],
+    [
+      "decode",
+      "malformed-encoded-1-21848",
+      {
+        "error": "InvalidEncoding"
+      }
+    ],
+    [
+      "decode",
+      "malformed-encoded-2-21849",
+      {
+        "error": "InvalidVersion"
+      }
+    ],
+    [
+      "encode",
+      "raw-16385",
+      {
+        "error": "SizeLimit"
+      }
+    ],
+    [
+      "retention",
+      "Some(31536000)",
+      {
+        "seconds": 31536000
+      }
+    ],
+    [
+      "frame-error",
+      "SizeLimit",
+      {
+        "ordinal": 0,
+        "error": "SizeLimit",
+        "hasSource": false
+      }
+    ],
+    [
+      "frame-error",
+      "InvalidJson",
+      {
+        "ordinal": 1,
+        "error": "InvalidJson",
+        "hasSource": false
+      }
+    ],
+    [
+      "frame-error",
+      "InvalidVersion",
+      {
+        "ordinal": 2,
+        "error": "InvalidVersion",
+        "hasSource": false
+      }
+    ],
+    [
+      "frame-error",
+      "InvalidEncoding",
+      {
+        "ordinal": 3,
+        "error": "InvalidEncoding",
+        "hasSource": false
+      }
+    ]
+  ]
+}

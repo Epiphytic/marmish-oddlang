@@ -101,20 +101,18 @@ for impl in generated original; do
   grep -F '7 passed; 0 failed; 0 ignored' "$work/$impl.log" >/dev/null
   grep -F '1 passed; 0 failed; 0 ignored' "$work/$impl.log" >/dev/null
 done
-cmp "$work/out/original.jsonl" "$work/out/generated.jsonl"
+"$qualifier" compare "$work/out/original.jsonl" "$work/out/generated.jsonl" > "$work/counts.json"
 python3 - "$work" "$receipt" "$pin" "$compiler" "$framework_pin" "$privilege_mode" <<'PY'
 import hashlib,json,platform,subprocess,sys
 from pathlib import Path
 work,receipt=map(Path,sys.argv[1:3])
 def sha(p): return hashlib.sha256(p.read_bytes()).hexdigest()
-lines=(work/"out/original.jsonl").read_text().splitlines()
-assert len(lines)==len({tuple(json.loads(line)[:2]) for line in lines})==1735
 receipt.write_text(json.dumps(dict(reference=sys.argv[3],frameworkRevision=sys.argv[5],
     native=platform.machine(),system=platform.system(),privilegeMode=sys.argv[6],effectiveCapabilities=0,
     isolatedHostLoopback=True,verifiedGeneratedFileHashes=True,
     rustc=subprocess.check_output(["rustc","+1.97.1","-vV"],text=True).splitlines(),
     oddlangSha256=sha(Path(sys.argv[4])),packageLockSha256=sha(work/"out/generated/package.lock"),
     graphManifestSha256=sha(work/"in/core-package.json"),callerSha256=sha(work/"tests/differential.rs"),
-    contractsSha256=sha(work/"tests/contracts.rs"),publicCases=len(lines),upstreamTestsPerBuild=7,
+    contractsSha256=sha(work/"tests/contracts.rs"),publicCases=sum(json.loads((work/"counts.json").read_bytes()).values()),upstreamTestsPerBuild=7,
     transcriptSha256=sha(work/"out/original.jsonl"),nativeGeneration="bubblewrap; network and original source unavailable"),indent=2)+"\n")
 PY

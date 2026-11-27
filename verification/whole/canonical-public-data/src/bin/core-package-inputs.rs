@@ -1,7 +1,7 @@
 //! Stage the core package graph and verify its generated Rust source inventory.
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
-    Result, cli_projection::input_bytes, list, load, product::file_digests, require, sha, text,
+    cli_projection::input_bytes, list, load, product::file_digests, require, sha, text, Result,
 };
 use serde_json::json;
 use std::{
@@ -17,6 +17,15 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    Compare {
+        original: PathBuf,
+        generated: PathBuf,
+    },
+    Observe {
+        transcript: PathBuf,
+        family: String,
+        name: String,
+    },
     Stage {
         portable: PathBuf,
         destination: PathBuf,
@@ -159,8 +168,83 @@ fn verify(package: &Path, manifest: &Path) -> Result<()> {
     Ok(())
 }
 
+type Observations = BTreeMap<(String, String), serde_json::Value>;
+
+fn observations(bytes: &[u8]) -> Result<Observations> {
+    let mut rows = Observations::new();
+    for line in std::str::from_utf8(bytes)?.lines() {
+        let (family, name, value): (String, String, serde_json::Value) =
+            serde_json::from_str(line)?;
+        if rows.insert((family.clone(), name.clone()), value).is_some() {
+            return Err(format!("duplicate observation {family}/{name}").into());
+        }
+    }
+    Ok(rows)
+}
+
+fn compare(original: &Path, generated: &Path) -> Result<()> {
+    let reference = fs::read(original)?;
+    let candidate = fs::read(generated)?;
+    let rows = observations(&reference)?;
+    let contract: serde_json::Value = serde_json::from_str(include_str!(
+        "../../../core-package/expected-observations.json"
+    ))?;
+    let mut counts = BTreeMap::<&str, usize>::new();
+    for (family, _) in rows.keys() {
+        *counts.entry(family).or_default() += 1;
+    }
+    require(
+        json!(counts) == contract["counts"],
+        "different differential observation coverage",
+    )?;
+    for check in list(&contract["observations"])? {
+        let (family, name, fields): (String, String, serde_json::Map<String, serde_json::Value>) =
+            serde_json::from_value(check.clone())?;
+        let key = (family, name);
+        let observed = rows
+            .get(&key)
+            .ok_or_else(|| format!("missing expected observation {key:?}"))?;
+        require(
+            fields.iter().all(|(k, v)| observed.get(k) == Some(v)),
+            format!("original outcome differs from independent expectation: {key:?}"),
+        )?;
+    }
+    if candidate != reference {
+        let actual = observations(&candidate)?;
+        require(
+            rows.keys().eq(actual.keys()),
+            "different differential observation coverage",
+        )?;
+        for (key, value) in &rows {
+            require(
+                value == &actual[key],
+                format!("native differential mismatch at {key:?}"),
+            )?;
+        }
+        return Err("native transcripts differ in bytes".into());
+    }
+    println!("{}", serde_json::to_string(&counts)?);
+    Ok(())
+}
+
 fn main() -> Result<()> {
     match Args::parse().action {
+        Action::Compare {
+            original,
+            generated,
+        } => compare(&original, &generated),
+        Action::Observe {
+            transcript,
+            family,
+            name,
+        } => {
+            let rows = observations(&fs::read(transcript)?)?;
+            println!(
+                "{}",
+                rows.get(&(family, name)).ok_or("missing observation")?
+            );
+            Ok(())
+        }
         Action::Stage {
             portable,
             destination,
