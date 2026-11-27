@@ -12,7 +12,7 @@ pub enum Release {
 }
 const BASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json";
 const LIMIT: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json";
-const ERRORS: &str = "workspace-v7-engine-public-error-identity.json";
+pub const ERRORS: &str = "workspace-v7-engine-public-error-identity.json";
 const MERGED: &str = "workspace-v7-converged-public-api.json";
 
 struct Descriptor {
@@ -31,9 +31,19 @@ impl Descriptor {
     }
 }
 fn components(package: &mut Value) -> Result<&mut Vec<Value>> {
-    Ok(package["components"]
-        .as_array_mut()
+    Ok(package
+        .get_mut("components")
+        .and_then(Value::as_array_mut)
         .ok_or("expected package components")?)
+}
+fn set_member(workspace: &mut Value, member: &str, descriptor: &Descriptor) -> Result {
+    let row = workspace
+        .get_mut("members")
+        .and_then(|rows| rows.get_mut(member))
+        .and_then(Value::as_object_mut)
+        .ok_or_else(|| format!("missing workspace member {member}"))?;
+    row.insert("manifest".into(), descriptor.pin());
+    Ok(())
 }
 fn constant(root: &Path, mut workspace: Value) -> Result<Vec<Descriptor>> {
     let mut prototype = load(&root.join("prototype-buffer-package.json"))?;
@@ -43,7 +53,7 @@ fn constant(root: &Path, mut workspace: Value) -> Result<Vec<Descriptor>> {
         "overlay":pin(root,"prototype-constant-v1/rust.json")?
     }));
     let prototype = Descriptor::new("prototype-buffer-limit-package.json", &prototype)?;
-    workspace["members"]["marmish-prototype"]["manifest"] = prototype.pin();
+    set_member(&mut workspace, "marmish-prototype", &prototype)?;
     Ok(vec![prototype, Descriptor::new(LIMIT, &workspace)?])
 }
 fn errors(root: &Path, mut workspace: Value) -> Result<Vec<Descriptor>> {
@@ -54,8 +64,14 @@ fn errors(root: &Path, mut workspace: Value) -> Result<Vec<Descriptor>> {
     let [startup] = components(&mut engine)?.as_mut_slice() else {
         return Err("expected one engine startup component".into());
     };
-    startup["reexports"] = json!(["initialize_process_limits"]);
-    startup["overlay"] = pin(root, "engine-public-error-v1/process-rust.json")?;
+    let startup = startup
+        .as_object_mut()
+        .ok_or("expected engine startup descriptor")?;
+    startup.insert("reexports".into(), json!(["initialize_process_limits"]));
+    startup.insert(
+        "overlay".into(),
+        pin(root, "engine-public-error-v1/process-rust.json")?,
+    );
     components(&mut engine)?.push(json!({
         "kind":"finite-error-domain","module":"model",
         "reexports":["EngineError","NotFoundReason","NotExecutableReason","ResolutionReason","Result"],
@@ -69,8 +85,8 @@ fn errors(root: &Path, mut workspace: Value) -> Result<Vec<Descriptor>> {
     components(&mut native)?.push(choice.clone());
     let engine = Descriptor::new("engine-public-error-package.json", &engine)?;
     let native = Descriptor::new("native-engine-error-identity-package.json", &native)?;
-    workspace["members"]["marmish-engine"]["manifest"] = engine.pin();
-    workspace["members"]["marmish-native"]["manifest"] = native.pin();
+    set_member(&mut workspace, "marmish-engine", &engine)?;
+    set_member(&mut workspace, "marmish-native", &native)?;
     Ok(vec![engine, native, Descriptor::new(ERRORS, &workspace)?])
 }
 fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
@@ -83,8 +99,10 @@ fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
         (LIMIT, &["marmish-prototype"][..]),
     ] {
         let mut parent = load(&root.join(release))?;
-        let rows = parent["members"].take();
-        parent["members"] = base["members"].clone();
+        let slot = parent
+            .get_mut("members")
+            .ok_or("missing parent workspace members")?;
+        let rows = std::mem::replace(slot, base["members"].clone());
         require(
             parent == base,
             format!("changed shared workspace fields in {release}"),

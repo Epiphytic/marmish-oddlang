@@ -76,6 +76,9 @@ fn main() -> Result {
             check,
         } => {
             api_composition::compose(release, &portable, check)?;
+            if matches!(release, api_composition::Release::EnginePublicError) {
+                println!("{}", portable.join(api_composition::ERRORS).display());
+            }
             return Ok(());
         }
         Action::Domains => domains::observe(&input()?)?,
