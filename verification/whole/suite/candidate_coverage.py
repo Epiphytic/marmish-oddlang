@@ -178,16 +178,10 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         include_reader = suite_kind == "seven" or include_manifest
         if include_mdk:
             prior_lock = CANDIDATES["canonical"].manifest.with_suffix("") / "workspace.lock"
-            baseline = json.loads(prior_lock.read_bytes())
-            if (set(baseline["members"]) != set(seal["members"]) or any(
-                    old != seal["members"][name] for name, old in baseline["members"].items()
-                    if name != "marmish-mdk")
-                    or baseline["workspaceCargoManifestSha256"] != seal["workspaceCargoManifestSha256"]):
-                raise ValueError("the MDK test seam changed another member or the workspace root")
             checked = inside("cargo", "tree", "--locked", "--offline", "-p", "marmish-mdk",
                              "-e", "normal", "--prefix", "none", "--format", "{p}", cwd=product).decode()
-            if checked.strip().splitlines() != [f"marmish-mdk v0.1.0 ({product / 'marmish-mdk'})"]:
-                raise ValueError(f"MDK acquired an ordinary dependency: {checked}")
+            suite_check("suite-selection", "check-mdk-seam", prior_lock, product / "workspace.lock",
+                       product, data=checked)
         targets = ["--workspace","--lib","--bins"] if include_reader else ["-p","marmish-native","--bins"]
         built_libraries = {}
         if include_reader:

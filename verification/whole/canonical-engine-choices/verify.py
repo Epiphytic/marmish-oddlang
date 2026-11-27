@@ -39,16 +39,21 @@ def pin_bytes(path, revision):
 
 
 IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
+VAULT_OBSERVER_PIN = "50b38f6113b553797e6e51871af4d2f4e5b13ba3"
+WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 HELPER_PINS = {
     ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
     WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
-    WHOLE / "vault-mode/verify.py": STANDALONE_PIN,
-    WHOLE / "workspace/verify.py": "a5b32e8fa246aa93df730a66943fdf3c4707254c",
+    WHOLE / "vault-mode/verify.py": VAULT_OBSERVER_PIN,
+    WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_OBSERVER_PIN,
+    WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
+    WHOLE / "core-package/verify.py": VAULT_OBSERVER_PIN,
+    WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
-    WHOLE / "canonical-public-data/product.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/product.rs": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": IMPORT_TOOLING_PIN,
 }
 HELPER_HASHES = {
