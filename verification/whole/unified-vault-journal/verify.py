@@ -162,8 +162,10 @@ def qualify(work, scratch, args):
                 "--offline", "--message-format=json", cwd=product, env=env)
 
     release_source, journal_source = source_oracles(compiler, args.original, scratch, prior, work)
-    release = lane("build-report", "observe.py")["observe"](
-        args.original, PORTABLE, args.original_bin_dir, product / "target/release", HOST)
+    release = json.loads(run(
+        "cargo", "+1.97.1", "run", "--locked", "--offline", "--quiet", "--manifest-path",
+        HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "release-info-observer", "--",
+        args.original, PORTABLE, args.original_bin_dir, product / "target/release", HOST))
     with patch.dict(prior["fixed_value_test"].__globals__, {"MANIFEST": MANIFEST}):
         fixed = prior["fixed_value_test"](work, args.original, args.original_target)
 
