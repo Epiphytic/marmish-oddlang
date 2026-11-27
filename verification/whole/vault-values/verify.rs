@@ -355,6 +355,8 @@ fn main() -> Result {
             product,
             work,
         } => {
+            let original = original.canonicalize()?;
+            let product = product.canonicalize()?;
             assembly::checkout(&original, ORIGINAL, false)?;
             let baseline = witness::expected(128);
             for (label, member, lock) in [

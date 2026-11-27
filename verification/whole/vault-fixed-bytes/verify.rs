@@ -244,6 +244,9 @@ fn main() -> Result {
             host,
             work,
         } => {
+            let original = original.canonicalize()?;
+            let product = product.canonicalize()?;
+            let reference_target = std::env::current_dir()?.join(reference_target);
             assembly::checkout(&original, ORIGINAL, false)?;
             let lib = library(&product)?;
             let deps = lib.parent().unwrap();
