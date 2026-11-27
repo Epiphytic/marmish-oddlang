@@ -1230,6 +1230,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/retention-structure.rs","language":"rust","mode":"100644","sha256":"9664490c680ea2de7dbd663c1eb066e054f37d8d6d96b6bdd70542bdac70ddee","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/status-project.rs","language":"rust","mode":"100644","sha256":"167e15e2edd008c59e0b461f298b37a5c9575df6479ad711c484a9fa27846301","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/status-replies.rs","language":"rust","mode":"100644","sha256":"aa78c4828fe524fcc11a2a6cde700afdc8f8cbc26dbc05a90d6113ecd8506d0d","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/stream-replay.rs","language":"rust","mode":"100644","sha256":"68305a8664eff542f0833365d5cc0e292358356c7035f2313199b3a17e4c43bf","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/structure-replay.rs","language":"rust","mode":"100644","sha256":"bc4118b481d2e292a6a4e621dea9eb3597f464bc1f98a669161afae64ce5ed1e","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/typed-status-project.rs","language":"rust","mode":"100644","sha256":"cf006e98ac862254a7084c14b9907746b0657e7dd7db965a2087797af4749340","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/cli_projection.rs","language":"rust","mode":"100644","sha256":"838fc5d97eef929baa6e7d9893eb6a55e97adea81ae12ae733d36836fabf49fd","parse_status":"parsed"}
@@ -1864,12 +1865,12 @@
 {"path":"verification/whole/stream-wire/src/main.rs","language":"rust","mode":"100644","sha256":"54f90b664c96c1d32f68f14caa04d32c596dbb24949eceeae3ba82360f488a89","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/src/native.rs","language":"rust","mode":"100644","sha256":"651024c4076b0286530d66891829f1c4bc5f830a34ba4bcff668aaaee5b2c6ee","parse_status":"parsed"}
 {"path":"verification/whole/stream-wire/src/window.rs","language":"rust","mode":"100644","sha256":"7e3cc29bcd40b72c5a6ac23e27b50a1a8b7b03bc1ec87dc0c35c7e8836539ae9","parse_status":"parsed"}
-{"path":"verification/whole/stream/README.md","language":"inventory","mode":"100644","sha256":"d657321dd59fb61f03da4b9aa8ca7d1545fb95d19385a16f39ed29b038957006","parse_status":"inventory"}
+{"path":"verification/whole/stream/README.md","language":"inventory","mode":"100644","sha256":"505ad1effffed19c9ce275ec3e9c86b0b26e050a8402ca77cf38cdf690d7e0b0","parse_status":"inventory"}
 {"path":"verification/whole/stream/data-release.json","language":"inventory","mode":"100644","sha256":"cc5b3e8413901d759ea7afa0a2fc66c42954e90fb1bf080923323c9b26d779a5","parse_status":"inventory"}
+{"path":"verification/whole/stream/native-driver.json","language":"inventory","mode":"100644","sha256":"3b8c7554d5010a747ac97c9df8f1dca43c57f9795e57b15b943adb2e16bb35f7","parse_status":"inventory"}
 {"path":"verification/whole/stream/original-dev.json","language":"inventory","mode":"100644","sha256":"fc0413fb0ede8fec9ad009b131188b85f82f64a3473fbc7359a295164c420165","parse_status":"inventory"}
 {"path":"verification/whole/stream/original-release.json","language":"inventory","mode":"100644","sha256":"5c6414a82fc967b7472add1a0239c225ab3e6b22a3d0b3736b604f2d2f2c85d6","parse_status":"inventory"}
 {"path":"verification/whole/stream/public.json.gz","language":"inventory","mode":"100644","sha256":"68aa67d0e97b880f2b123253884165f19c75138787ef9d1c792b5bbbab0e9637","parse_status":"inventory"}
-{"path":"verification/whole/stream/replay.py","language":"python","mode":"100644","sha256":"b8ce548babf3a97630fd80a180cba806eaecf64413f63a21119a37cfe6aed43b","parse_status":"parsed"}
 {"path":"verification/whole/stream/structure/README.md","language":"inventory","mode":"100644","sha256":"c29930bf5e28a7004fa20579a9f2b144af77ba4d4e2b100ac9554d8fe3a6f95c","parse_status":"inventory"}
 {"path":"verification/whole/stream/structure/historical-spans.json.gz","language":"inventory","mode":"100644","sha256":"906e1e1a068025658fe3a5e55d8cda64fd672164d5bcaf6fa1850f80b9534b7e","parse_status":"inventory"}
 {"path":"verification/whole/stream/structure/release-comparison.json.gz","language":"inventory","mode":"100644","sha256":"203612c1a0e468834eb2b271a5b33f72c49d2c312e4b48ad2a5bc78d108aaa6e","parse_status":"inventory"}
