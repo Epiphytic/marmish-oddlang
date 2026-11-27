@@ -1,3 +1,5 @@
+#[path = "../suite/stage.rs"]
+mod suite_stage;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{Result, api_composition, buffered, domains, imports, product};
 use serde_json::Value;
@@ -44,6 +46,17 @@ enum Action {
         check: bool,
     },
     ManifestProduct {
+        product: PathBuf,
+    },
+    ReaderTest {
+        original: PathBuf,
+    },
+    SuiteVaultEngine {
+        original: PathBuf,
+        product: PathBuf,
+    },
+    SuiteParser {
+        original: PathBuf,
         product: PathBuf,
     },
     ManifestSelection {
@@ -99,6 +112,13 @@ fn main() -> Result {
         Action::ManifestProduct { product } => {
             public_data_qualification::manifest_product::check(&product)?
         }
+        Action::ReaderTest { original } => {
+            serde_json::json!({"module":buffered::original_test(&buffered::reader_source(&original)?)?,"bodySha256":buffered::READER_TEST_SHA})
+        }
+        Action::SuiteVaultEngine { original, product } => {
+            suite_stage::vault_engine(&original, &product)?
+        }
+        Action::SuiteParser { original, product } => suite_stage::parser(&original, &product)?,
         Action::ManifestSelection { original, native } => {
             use public_data_qualification::manifest_product::*;
             let (leaf, prefix) = leaf(&native)?;

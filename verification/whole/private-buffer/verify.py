@@ -1,5 +1,6 @@
 """Recover buffer storage, seal a generated Rust library, then stage reference tests."""
 import argparse
+from functools import lru_cache
 import hashlib
 import json
 import os
@@ -17,11 +18,13 @@ ROOT = HERE.parents[2]
 MANIFEST = ROOT/"oddlang/portable/prototype-buffer-package.json"
 GRAPH = MANIFEST.parent/"prototype-buffer-v1/graph.json"
 OVERLAY = GRAPH.with_name("rust.json")
-from upstream_case import TEST_HASH, original_test as extract_original_test
 NATIVE_TEST_PREFIX = "buffer::__projection_0::"
-def original_test(original):
-    return extract_original_test(original, PIN, SOURCE)
 
+
+@lru_cache
+def reader_test(original):
+    tool = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))["product_witness"]
+    return tool("reader-test", original)
 
 CORE = runpy.run_path(str(HERE.parent/"core-package/verify.py"))
 WORKSPACE = runpy.run_path(str(HERE.parent/"workspace/verify.py"))
@@ -132,7 +135,7 @@ def stage_and_test(work,cli,original,framework,host,graph,mode):
         shutil.move(str(built),product)
     leaf = product/"src/group_0/__projection_0.rs"
     with leaf.open("ab") as output:
-        output.write(original_test(original))
+        output.write(reader_test(original)["module"].encode())
         if mode != "extent":
             output.write((HERE/"observations.rs").read_bytes())
     if mode == "extent":
@@ -202,7 +205,7 @@ def verify(original, framework, cli, host):
             changed_policy["transitions"][setting] = value
             controls[setting] = stage_and_test(work/mode,cli,original,framework,host,json.dumps(changed_policy).encode(),mode)
         return dict(target=host,original=PIN,additionalPolicyControls=controls,erasureProvider=provider,graphSha256=sha(graph),overlaySha256=sha(OVERLAY.read_bytes()),
-                    originalCaseSha256=TEST_HASH,observationsSha256=sha((HERE/"observations.rs").read_bytes()),
+                    originalCaseSha256=reader_test(original)["bodySha256"],observationsSha256=sha((HERE/"observations.rs").read_bytes()),
                     baseline=normal,sourceWidthMutation=extent,refillPolicyMutation=failure,
                     recovery=json.loads((baseline/"recovery.lock").read_bytes()))
 

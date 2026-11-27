@@ -182,7 +182,18 @@ fn provider(original: &Path, host: &str) -> Result<Value> {
     )?;
     Ok(selected)
 }
-fn original_test(source: &str) -> Result<String> {
+pub const READER_TEST_SHA: &str =
+    "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc";
+
+pub fn reader_source(original: &Path) -> Result<String> {
+    stdout(
+        Command::new("git")
+            .current_dir(original)
+            .args(["show", &format!("{ORIGINAL}:{SOURCE}")]),
+    )
+}
+
+pub fn original_test(source: &str) -> Result<String> {
     let marker = "    #[test]\n    fn private_reader_wipes_consumed_spans";
     require(
         source.matches(marker).count() == 1,
@@ -196,8 +207,7 @@ fn original_test(source: &str) -> Result<String> {
         .ok_or("missing end of upstream test")?;
     let body = format!("{marker}{body}");
     require(
-        bytes_sha(body.as_bytes())
-            == "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc",
+        bytes_sha(body.as_bytes()) == READER_TEST_SHA,
         "upstream test digest differs",
     )?;
     Ok(format!(
@@ -250,11 +260,7 @@ pub fn observe(product: &Path, original: &Path, host: &str, prior: Option<&Path>
     let standalone = private.join(format!("candidate-{host}.json"));
     let witness = load(&reference)?;
     let observations = private.join("observations.rs");
-    let source = stdout(
-        Command::new("git")
-            .current_dir(original)
-            .args(["show", &format!("{ORIGINAL}:{SOURCE}")]),
-    )?;
+    let source = reader_source(original)?;
     require(
         witness["revision"] == ORIGINAL
             && witness["target"] == host
