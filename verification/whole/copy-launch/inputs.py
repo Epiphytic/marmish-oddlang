@@ -21,6 +21,11 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 def run(*args,cwd=None):
     return subprocess.run(args,cwd=cwd,capture_output=True,text=True,check=True).stdout.strip()
+def archive_at(checkout, revision, destination):
+    run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "copy-manifest/Cargo.toml", "--bin", "copy-field-relations", "--",
+        "archive", checkout, revision, destination)
+
 def observe(exe,requests):
     p=subprocess.run([exe],capture_output=True,input="".join(json.dumps(r)+"\n" for r in requests),text=True,check=True)
     rows=[json.loads(line) for line in p.stdout.splitlines()]

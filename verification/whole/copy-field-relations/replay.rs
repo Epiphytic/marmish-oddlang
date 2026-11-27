@@ -10,7 +10,9 @@ use public_data_qualification::assembly::bytes_sha;
 use public_data_qualification::{Result, whole};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
+#[path = "../copy-source-correspondence/replay.rs"]
+mod source;
 const PIN: &str = "7588c8288b89e4a4abc7cfbd110c9b71305377f7";
 const VERSION: &str = "v1_.a";
 const TARGET: &str = "aarch64-apple-darwin";
@@ -320,6 +322,48 @@ fn correspondence_rows() -> (Vec<Value>, Vec<Value>, Vec<Value>) {
     changed.push(json!(true));
     (requests, original, changed)
 }
+fn compare_correspondence(
+    original: &Path,
+    generated: &Path,
+    mutant_original: &Path,
+    mutant_generated: &Path,
+    work: &Path,
+) -> Result<Value> {
+    let (requests, normal, changed) = correspondence_rows();
+    let caller = whole().join("copy-field-relations/caller.rs");
+    for (label, root, lock, expected) in [
+        (
+            "reference",
+            original.join("crates/marmish-stream"),
+            original.join("Cargo.lock"),
+            &normal,
+        ),
+        (
+            "recovered",
+            generated.to_owned(),
+            generated.join("Cargo.lock"),
+            &normal,
+        ),
+        (
+            "mutant-reference",
+            mutant_original.join("crates/marmish-stream"),
+            mutant_original.join("Cargo.lock"),
+            &changed,
+        ),
+        (
+            "mutant-recovered",
+            mutant_generated.to_owned(),
+            mutant_generated.join("Cargo.lock"),
+            &changed,
+        ),
+    ] {
+        let exe = copy_checkpoint_replay::consumer(&root, &work.join(label), &lock, &caller)?;
+        copy_checkpoint_replay::compare(label, &exe, &requests, expected)?;
+    }
+    Ok(
+        json!({"casesPerImplementation":requests.len(),"changedCases":normal.iter().zip(changed).filter(|(a,b)|**a!=*b).count()}),
+    )
+}
 #[derive(Parser)]
 struct Args {
     #[command(subcommand)]
@@ -327,6 +371,16 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Mode {
+    Archive {
+        checkout: PathBuf,
+        revision: String,
+        destination: PathBuf,
+    },
+    Recover {
+        original: PathBuf,
+        framework: PathBuf,
+        receipt: PathBuf,
+    },
     Correspondence {
         original: PathBuf,
         generated: PathBuf,
@@ -347,6 +401,16 @@ enum Mode {
 }
 fn main() -> Result {
     match Args::parse().mode {
+        Mode::Archive {
+            checkout,
+            revision,
+            destination,
+        } => source::archive(&checkout, &revision, &destination),
+        Mode::Recover {
+            original,
+            framework,
+            receipt,
+        } => source::verify(&original, &framework, &receipt),
         Mode::Correspondence {
             original,
             generated,
@@ -354,42 +418,14 @@ fn main() -> Result {
             mutant_generated,
             work,
         } => {
-            let (requests, normal, changed) = correspondence_rows();
-            let caller = whole().join("copy-field-relations/caller.rs");
-            for (label, root, lock, expected) in [
-                (
-                    "reference",
-                    original.join("crates/marmish-stream"),
-                    original.join("Cargo.lock"),
-                    &normal,
-                ),
-                (
-                    "recovered",
-                    generated.clone(),
-                    generated.join("Cargo.lock"),
-                    &normal,
-                ),
-                (
-                    "mutant-reference",
-                    mutant_original.join("crates/marmish-stream"),
-                    mutant_original.join("Cargo.lock"),
-                    &changed,
-                ),
-                (
-                    "mutant-recovered",
-                    mutant_generated.clone(),
-                    mutant_generated.join("Cargo.lock"),
-                    &changed,
-                ),
-            ] {
-                let exe =
-                    copy_checkpoint_replay::consumer(&root, &work.join(label), &lock, &caller)?;
-                copy_checkpoint_replay::compare(label, &exe, &requests, expected)?;
-            }
-            println!(
-                "{}",
-                json!({"casesPerImplementation":requests.len(),"changedCases":normal.iter().zip(changed).filter(|(a,b)|**a!=*b).count()})
-            );
+            let result = compare_correspondence(
+                &original,
+                &generated,
+                &mutant_original,
+                &mutant_generated,
+                &work,
+            )?;
+            println!("{result}");
             Ok(())
         }
         Mode::Verify {

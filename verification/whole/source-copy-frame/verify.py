@@ -4,7 +4,6 @@ import json
 import os
 from pathlib import Path
 import platform
-import runpy
 import shutil
 import subprocess
 import sys
@@ -12,7 +11,7 @@ import tempfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "copy-launch"))
-from inputs import PIN, ROOT, read, run, sha, write
+from inputs import archive_at, PIN, ROOT, read, run, sha, write
 from verify import linux_project, staged
 
 PORTABLE = ROOT / "oddlang/portable"
@@ -23,8 +22,6 @@ CALLER = HERE / "caller.rs"
 SOURCE = Path("crates/marmish-stream/src/copy_protocol.rs")
 METHOD = "crate::copy_protocol::Frame::encode"
 CASE = "urn:marmish:copy:frame:Finish"
-SHARED = runpy.run_path(str(HERE.parent / "copy-source-correspondence/verify.py"))
-archive_at = SHARED["archive_at"]
 
 
 def checked(*command, cwd=None, env=None):

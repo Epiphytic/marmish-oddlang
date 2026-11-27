@@ -4,7 +4,6 @@ import json
 import os
 from pathlib import Path
 import platform
-import runpy
 import shutil
 import subprocess
 import sys
@@ -12,10 +11,9 @@ import tempfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/"copy-launch"))
-from inputs import PIN,ROOT,read,run,sha,write
+from inputs import archive_at, PIN,ROOT,read,run,sha,write
 from verify import linux_project,staged
 
-archive_at=runpy.run_path(str(HERE.parent/"copy-source-correspondence/verify.py"))["archive_at"]
 PORTABLE=ROOT/"oddlang/portable"
 DATA=PORTABLE/"vault-values-v1"
 PACKAGE=PORTABLE/"vault-value-domain-package.json"

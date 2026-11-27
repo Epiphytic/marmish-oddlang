@@ -7,8 +7,10 @@ The verifier builds the CLI from an archive of the pinned framework revision, re
 Run from the repository root with the upstream revision `af54339d250290490d62d4475a77539b7e739071` and the [recorded framework revision](reference-aarch64-apple-darwin.json). The pinned Rust toolchain is 1.97.1 with the host's `rustc-dev` component installed.
 
 ```sh
-python3 verification/whole/copy-source-correspondence/verify.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/copy-manifest/Cargo.toml --bin copy-field-relations -- recover \
   /path/to/upstream /path/to/oddlang /tmp/copy-source-receipt.json
 ```
 
 The current receipt qualifies the native macOS ARM64 profile. It covers the direct correspondence operation. Existing helper-context relations supply the package's ordered preflight checks.
+
+The [Rust replay](rust-replay-macos-arm64.json) reproduced the complete archived receipt byte for byte. The pinned historical framework supplies its original capture driver. Rust performs graph recovery checks, source-denied projection, and the four native caller comparisons. Five of the 15 inputs changed results, covering both directions of disagreement.
