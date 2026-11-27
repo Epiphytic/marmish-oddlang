@@ -4,6 +4,8 @@ pub mod api_composition;
 mod mdk_seam;
 #[path = "../../runtime-status-data/compose.rs"]
 mod runtime_status_composition;
+#[path = "../../runtime-status-data/recovery.rs"]
+pub mod runtime_status_recovery;
 #[path = "../../engine-native-records/compose.rs"]
 mod observational_records;
 #[path = "../../gap-range-role-workspace/compose.rs"]

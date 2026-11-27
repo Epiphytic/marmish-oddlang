@@ -5,6 +5,7 @@ use std::{
     collections::BTreeSet,
     ffi::OsString,
     fs,
+    io::BufRead,
     path::{Path, PathBuf},
     process::Command,
 };
@@ -135,6 +136,112 @@ fn runtime(caller: &Caller) -> Result<Value> {
         )?
         .into();
     Ok(json!({"jsonLines":out.lines().collect::<Vec<_>>(),"diagnostics":diagnostics}))
+}
+/// Link the external RuntimeStatus caller against the Serde pair selected by this Cargo build.
+pub fn runtime_from_cargo(
+    build: impl BufRead,
+    work: &Path,
+    projected: Option<&Path>,
+) -> Result<Value> {
+    let mut libraries = std::collections::BTreeMap::<String, BTreeSet<PathBuf>>::new();
+    let mut links = BTreeSet::new();
+    let mut finished = false;
+    for line in build.lines() {
+        require(!finished, "data after final Cargo record")?;
+        let row: Value = serde_json::from_str(&line?)?;
+        match row["reason"].as_str() {
+            Some("compiler-artifact") => {
+                let name = text(&row["target"]["name"])?;
+                if ["serde", "serde_json", "marmish_native"].contains(&name) {
+                    for file in list(&row["filenames"])? {
+                        let path = Path::new(text(file)?);
+                        if path.extension().is_some_and(|ext| ext == "rlib") {
+                            libraries
+                                .entry(name.into())
+                                .or_default()
+                                .insert(path.to_owned());
+                        }
+                    }
+                }
+            }
+            Some("build-script-executed") => {
+                for link in list(&row["linked_paths"])? {
+                    links.insert(text(link)?.to_owned());
+                }
+            }
+            Some("build-finished") => {
+                require(row["success"] == true, "Cargo build failed")?;
+                finished = true;
+            }
+            _ => {}
+        }
+    }
+    require(finished, "incomplete Cargo transcript")?;
+    let native = match projected {
+        Some(path) => path,
+        None => {
+            let native = libraries
+                .get("marmish_native")
+                .ok_or("missing native library")?;
+            require(native.len() == 1, "ambiguous native library")?;
+            native.first().unwrap().as_path()
+        }
+    };
+    let serdes = libraries.get("serde").ok_or("missing Serde candidates")?;
+    let json_libs = libraries
+        .get("serde_json")
+        .ok_or("missing serde_json candidates")?;
+    let version = stdout(Command::new("rustc").args(["+1.97.1", "-vV"]))?;
+    let host = version
+        .lines()
+        .find_map(|l| l.strip_prefix("host: "))
+        .ok_or("missing rustc host")?;
+    fs::create_dir(work)?;
+    let links = links.into_iter().collect::<Vec<_>>();
+    let mut matched = None;
+    let mut failures = Vec::new();
+    for (i, serde) in serdes.iter().enumerate() {
+        for (j, json_lib) in json_libs.iter().enumerate() {
+            let dirs = [serde, json_lib].map(|p| {
+                p.parent()
+                    .map(Path::to_owned)
+                    .ok_or("invalid dependency path")
+            });
+            let search = dirs
+                .into_iter()
+                .collect::<std::result::Result<Vec<_>, _>>()?;
+            let candidate = Caller::new(
+                host,
+                work.join(format!("identity-{i}-{j}")),
+                &[
+                    ("marmish_native", native),
+                    ("serde", serde),
+                    ("serde_json", json_lib),
+                ],
+                search,
+                &links,
+            )?;
+            let result = capture(
+                Command::new("rustc")
+                    .args(&candidate.flags)
+                    .arg("--emit=metadata")
+                    .arg(whole().join("runtime-status-data/probe.rs"))
+                    .arg("-o")
+                    .arg(candidate.dir.join("identity.rmeta")),
+                60,
+                None,
+            )?;
+            if result.status.success() {
+                require(matched.is_none(), "multiple compatible Serde pairs")?;
+                matched = Some((candidate, serde));
+            } else {
+                failures.push(String::from_utf8_lossy(&result.stderr).into_owned());
+            }
+        }
+    }
+    let (caller, serde) =
+        matched.ok_or_else(|| format!("no compatible Serde pair: {}", failures.join("\n")))?;
+    Ok(json!([runtime(&caller)?, sha(native)?, serde]))
 }
 fn reason(caller: &Caller) -> Result<Value> {
     let program = caller.observer("gap-reason-recovery/probe.rs")?;

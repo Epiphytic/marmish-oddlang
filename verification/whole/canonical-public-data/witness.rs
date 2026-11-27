@@ -26,6 +26,16 @@ enum Action {
         serde: PathBuf,
         work: PathBuf,
     },
+    RuntimeStatusCaller {
+        work: PathBuf,
+        #[arg(long)]
+        native: Option<PathBuf>,
+    },
+    RuntimeStatusInputs {
+        compiler: PathBuf,
+        original: PathBuf,
+        destination: PathBuf,
+    },
     EndpointContract,
     EndpointProfiles {
         work: PathBuf,
@@ -140,6 +150,21 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::RuntimeStatusCaller { work, native } => {
+            domains::runtime_from_cargo(io::stdin().lock(), &work, native.as_deref())?
+        }
+        Action::RuntimeStatusInputs {
+            compiler,
+            original,
+            destination,
+        } => {
+            public_data_qualification::runtime_status_recovery::prepare(
+                &compiler,
+                &original,
+                &destination,
+            )?;
+            Value::Null
+        }
         Action::EngineCaller {
             role,
             library,
