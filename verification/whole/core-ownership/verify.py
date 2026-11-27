@@ -4,15 +4,12 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
-import sys
 
 from rdflib import Graph, Literal, Namespace, RDF, URIRef
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 LEXICAL = ROOT / "verification/whole/core-lexical"
-sys.path.insert(0, str(LEXICAL))
-from compare import compare  # noqa: E402
 
 O = Namespace("urn:oddlang:structural-ownership:")
 M = Namespace("urn:marmish:structure:core:")
@@ -107,7 +104,10 @@ def verify(graph):
             "wrong original module mapping",
         )
 
-    evidence = compare()
+    evidence = json.loads(subprocess.check_output([
+        "cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+        "--manifest-path", LEXICAL / "Cargo.toml", "--bin", "core-lexical-compare",
+    ], cwd=ROOT))
     require(
         json.dumps(evidence, indent=2, sort_keys=True) + "\n"
         == (LEXICAL / "comparison.json").read_text(),

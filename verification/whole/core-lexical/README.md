@@ -45,13 +45,13 @@ and the Rust observer at `b832a8cd9414f15a2c698761029cb76044da9a8f`. The replay 
 Build Oddlang at `8a20ea283d0d43da42f054a7c7774eb9e6a20da7` with
 `cargo +1.96.1 build --locked --offline --bin oddlang`. Install the native
 Rust 1.97.1 toolchain and its rustc development component for the observer.
-Run with cached Cargo inputs on the native host identified by the triple.
+Run with cached Cargo inputs on the native host identified by the triple. The tools use the companion checkout containing their Cargo manifest for the archived evidence and portable graph inputs. Rebuild them after moving that checkout.
 
 ```sh
 "$ODDLANG" build native-package rust oddlang/portable/core-package.json "$CANDIDATE"
-python3 -B verification/whole/core-lexical/replay.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-lexical-replay -- \
   "$OBSERVER_CHECKOUT" "$ORIGINAL_CHECKOUT" "$CANDIDATE" "$HOST_TRIPLE" "$OUTPUT"
-python3 -B verification/whole/core-lexical/compare.py
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-lexical-compare
 ```
 
 The replay checks the canonical workspace and member manifest hashes,
@@ -63,3 +63,7 @@ reports and both provenance snapshots are archived for
 The grouped cross-host comparison recomputes from those archived reports.
 
 The pinned Rust observer reproduced both macOS ARM64 reports byte-for-byte. The generated package had 89 matched lexical keys and the original had 29. Each had one ambiguous key. Replaying the historical observer also reproduced its full archived receipt, including the original producer revision.
+
+The Rust replay and archive comparison replaced the earlier Python qualification callers. On macOS ARM64 the Rust replay reproduced the complete receipts obtained with each observer revision. The archive comparison recomputed the published two-host summary byte-for-byte. The member replay records the independent caller diagnostics and the swapped codec-role rejection for the same sealed input. [Rust caller qualification](rust-qualification-macos-arm64.json)
+
+Claude Code 2.1.332 independently compared the Rust callers with the three earlier Python programs. The review identified archive-field and digest checks and ASCII receipt encoding for follow-up. The second review confirmed their resolution.

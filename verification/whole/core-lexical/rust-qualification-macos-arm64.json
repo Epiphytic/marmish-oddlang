@@ -1,0 +1,68 @@
+{
+  "comparisonSha256": "78bb3ad858f58f5f064eacdc89b06825e774ba3fbd11c0bc55aa898e2857565a",
+  "historicalObservers": {
+    "downstreamDiagnostics": {
+      "generated": {
+        "absent": [
+          "E0599"
+        ],
+        "complete": [],
+        "wrong-type": [
+          "E0308"
+        ]
+      },
+      "original": {
+        "absent": [
+          "E0599"
+        ],
+        "complete": [],
+        "wrong-type": [
+          "E0308"
+        ]
+      }
+    },
+    "generatedLexicalReportSha256": "c5870700d3862d7108b67aaf5af8633f22c26339618f9ccb566e9e675c5034d0",
+    "inherentObserver": "ff480c701e02f1d11530303193990d643c1c7da9",
+    "inherentReceiptSha256": "d42902802bd19aac6f347d5aaf1389ad183b69b081a6c50bda0971a65afc6dd8",
+    "lexicalObserver": "d32e179075a660fffa0d3f0905bbe8ae8957c570",
+    "lexicalReceiptSha256": "4414a1b61fac60c2f31c3d01028162c9ef680e11db8643e08286b11129d04445",
+    "originalLexicalReportSha256": "161f2359be4b29005f2139fdc25a11cf055abb612832515a3bdd2b994e5879fc",
+    "rejectedSourceMutation": "generated file changed: src/lib.rs",
+    "swappedEncodeRoleRejected": true
+  },
+  "host": "aarch64-apple-darwin",
+  "observedToolchain": "1.97.1",
+  "qualificationToolchain": "1.96.1",
+  "rustObserver": {
+    "downstreamDiagnostics": {
+      "generated": {
+        "absent": [
+          "E0599"
+        ],
+        "complete": [],
+        "wrong-type": [
+          "E0308"
+        ]
+      },
+      "original": {
+        "absent": [
+          "E0599"
+        ],
+        "complete": [],
+        "wrong-type": [
+          "E0308"
+        ]
+      }
+    },
+    "generatedLexicalReportSha256": "c5870700d3862d7108b67aaf5af8633f22c26339618f9ccb566e9e675c5034d0",
+    "inherentObserver": "b832a8cd9414f15a2c698761029cb76044da9a8f",
+    "inherentReceiptSha256": "ca2d92a45e124c66028bb49b3d746a1d1b627f2d5e8adfe00a8c0a01f5ddbf5e",
+    "lexicalObserver": "b832a8cd9414f15a2c698761029cb76044da9a8f",
+    "lexicalReceiptSha256": "5fb5d2eb4179e0508df24a9f1ee7abb44c2aad04a4a18665e1acfbd83682c45b",
+    "originalLexicalReportSha256": "161f2359be4b29005f2139fdc25a11cf055abb612832515a3bdd2b994e5879fc",
+    "rejectedSourceMutation": "generated file changed: src/lib.rs",
+    "swappedEncodeRoleRejected": true
+  },
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "workspaceLockSha256": "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4"
+}

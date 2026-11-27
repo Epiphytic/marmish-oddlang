@@ -1,0 +1,26 @@
+[package]
+name = "core-qualification"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+oxrdf = "=0.3.5"
+oxttl = "=0.2.5"
+serde_json = "1"
+sha2 = "0.10"
+tempfile = "3"
+
+[[bin]]
+name = "core-lexical-replay"
+path = "replay.rs"
+
+[[bin]]
+name = "core-lexical-compare"
+path = "compare.rs"
+
+[[bin]]
+name = "core-inherent"
+path = "../core-inherent/verify.rs"
