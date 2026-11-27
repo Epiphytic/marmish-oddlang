@@ -1,6 +1,7 @@
 """Reconcile same-profile core declaration observations and verify their input bytes."""
 
 import argparse
+from contextlib import contextmanager
 import hashlib
 import json
 from pathlib import Path
@@ -8,6 +9,7 @@ import subprocess
 import tempfile
 
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
+RUST_OBSERVER = "b832a8cd9414f15a2c698761029cb76044da9a8f"
 OBSERVER = "d32e179075a660fffa0d3f0905bbe8ae8957c570"
 PROJECTION = "8a20ea283d0d43da42f054a7c7774eb9e6a20da7"
 ROOT = Path(__file__).resolve().parents[3]
@@ -45,6 +47,21 @@ def pinned_git(path, revision):
         ["git", "status", "--porcelain", "--untracked-files=all"], cwd=path
     )
     require(not status, f"expected a clean checkout at {path}")
+
+
+@contextmanager
+def observer_command(checkout, historical_revision):
+    revision = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=checkout, text=True).strip()
+    require(revision in (RUST_OBSERVER, historical_revision), f"unexpected observer revision in {checkout}")
+    pinned_git(checkout, revision)
+    if revision == historical_revision:
+        yield revision, ["python3", "-B", checkout / "verification/rust-recovery/release_rustdoc.py"]
+    else:
+        manifest = checkout / "verification/provider-validation/Cargo.toml"
+        with tempfile.TemporaryDirectory(prefix="rustdoc-observer-build-") as target:
+            yield revision, ["cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+                             "--target-dir", target, "--manifest-path", manifest, "--bin", "release-rustdoc", "--"]
+    pinned_git(checkout, revision)
 
 
 def snapshot(candidate):
@@ -105,28 +122,25 @@ def snapshot(candidate):
 
 
 def collect(observer, original, candidate, triple, output):
-    pinned_git(observer, OBSERVER)
     pinned_git(original, ORIGINAL)
     before = snapshot(candidate)
-    for name, source in (("original", original), ("generated", candidate)):
-        command = [
-            "python3",
-            "-B",
-            observer / "verification/rust-recovery/release_rustdoc.py",
-            source,
-            CORE,
-            "lib",
-            "marmish_core",
-            triple,
-            "--out",
-            output / f"{name}.json",
-        ]
-        if name == "original":
-            command += ["--revision", ORIGINAL]
-        subprocess.run(command, check=True)
+    with observer_command(observer, OBSERVER) as (revision, command):
+        for name, source in (("original", original), ("generated", candidate)):
+            argv = [
+                *command,
+                source,
+                CORE,
+                "lib",
+                "marmish_core",
+                triple,
+                "--out",
+                output / f"{name}.json",
+            ]
+            if name == "original":
+                argv += ["--revision", ORIGINAL]
+            subprocess.run(argv, check=True)
     after = snapshot(candidate)
     require(before == after, "candidate changed while observing")
-    pinned_git(observer, OBSERVER)
     pinned_git(original, ORIGINAL)
     # Mutate a disposable copy only. The package lock stays fixed.
     with tempfile.TemporaryDirectory(prefix="core-provenance-") as scratch:
@@ -149,7 +163,7 @@ def collect(observer, original, candidate, triple, output):
         {
             "host": triple,
             "originalRevision": ORIGINAL,
-            "observerRevision": OBSERVER,
+            "observerRevision": revision,
             "projectionRevision": PROJECTION,
             "before": before,
             "after": after,

@@ -41,7 +41,7 @@ own evidence.
 
 Use the companion core input from `036349fc69ab5b850df2006c16ec2518be95a254`.
 Check out the original at `af54339d250290490d62d4475a77539b7e739071`
-and the observer at `d32e179075a660fffa0d3f0905bbe8ae8957c570`.
+and the Rust observer at `b832a8cd9414f15a2c698761029cb76044da9a8f`. The replay also accepts the original Python observer at `d32e179075a660fffa0d3f0905bbe8ae8957c570`, the revision used by the archived receipts.
 Build Oddlang at `8a20ea283d0d43da42f054a7c7774eb9e6a20da7` with
 `cargo +1.96.1 build --locked --offline --bin oddlang`. Install the native
 Rust 1.97.1 toolchain and its rustc development component for the observer.
@@ -61,3 +61,5 @@ in a disposable copy to fail verification under the retained lock. The raw
 reports and both provenance snapshots are archived for
 [Darwin](aarch64-apple-darwin/) and [Linux](aarch64-unknown-linux-gnu/).
 The grouped cross-host comparison recomputes from those archived reports.
+
+The pinned Rust observer reproduced both macOS ARM64 reports byte-for-byte. The generated package had 89 matched lexical keys and the original had 29. Each had one ambiguous key. Replaying the historical observer also reproduced its full archived receipt, including the original producer revision.

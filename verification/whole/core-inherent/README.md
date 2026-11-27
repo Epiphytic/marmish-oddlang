@@ -22,7 +22,7 @@ Rustdoc indexes under `cfg(doc)`. Trait members, generic or specialized
 receivers, and items excluded from Rustdoc are outside this measurement.
 
 To replay the observation on either qualified ARM64 host, check out the
-[observer](https://github.com/Epiphytic/oddlang/commit/ff480c701e02f1d11530303193990d643c1c7da9)
+[Rust observer](https://github.com/Epiphytic/oddlang/commit/b832a8cd9414f15a2c698761029cb76044da9a8f)
 and original revision `af54339d250290490d62d4475a77539b7e739071` into
 clean worktrees. Generate the standalone candidate from the pinned
 [core package](../../../oddlang/portable/core-package.json) with Oddlang
@@ -40,3 +40,7 @@ report with the earlier [lexical audit](../core-lexical/), including its
 toolchain, profile, manifest and dependency identities. The receipts include
 the complete optional report digest, measured member inventory, independent
 caller results and input pins for each host.
+
+The historical Python observer at `ff480c701e02f1d11530303193990d643c1c7da9` remains accepted for replay of its original receipt. The verifier pins the actual observer revision before and after capture.
+
+On macOS ARM64 the pinned Rust observer reproduced the original and generated inherent reports, caller diagnostics and provenance fields. The new receipt records the Rust producer revision. Each Rust observer build uses Cargo 1.96.1 in a temporary directory outside the pinned checkout.

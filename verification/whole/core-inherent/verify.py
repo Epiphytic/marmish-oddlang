@@ -103,7 +103,6 @@ def main():
         parser.add_argument(name, type=lambda path: Path(path).resolve())
     args = parser.parse_args()
     BASE["pinned_git"](args.original, BASE["ORIGINAL"])
-    BASE["pinned_git"](args.framework, FRAMEWORK)
     seal = BASE["snapshot"](args.candidate)
     host = next(line.removeprefix("host: ") for line in subprocess.check_output(
         ["rustc", "+1.97.1", "-vV"], text=True).splitlines() if line.startswith("host: "))
@@ -119,28 +118,29 @@ def main():
     else:
         raise ValueError("accepted swapped encode/decode roles")
     receipts = {}
-    for n, (label, root) in enumerate((("original", args.original), ("generated", args.candidate))):
-        with tempfile.TemporaryDirectory() as tmp:
-            work = Path(tmp)
-            report = work / "report.json"
-            argv = ["python3", "-B", args.framework / "verification/rust-recovery/release_rustdoc.py",
-                    root, "marmish-core", "lib", "marmish_core", host, "--public-inherent", "--out", report]
-            if label == "original":
-                argv.extend(["--revision", BASE["ORIGINAL"]])
-            subprocess.run(argv, check=True)
-            data = BASE["load"](report)
-            observed = data["rustdocPublicInherent"]
-            previous = BASE["load"](WHOLE / "core-lexical" / host / f"{label}.json")
-            require({k: v for k, v in data.items() if k != "rustdocPublicInherent"} == previous,
-                    "profile or underlying core declarations changed")
-            for owner, pair in paths.items():
-                fields = [{"kind": r["kind"], "name": r["name"]} for r in observed["items"] if r["owner"] == pair[n]]
-                require(fields == documented[owner], f"member declarations differ for {owner}")
-            receipts[label] = {"completeReportSha256": BASE["sha"](report), "publicInherent": observed,
-                               "caller": callers(root, work, host)}
+    with BASE["observer_command"](args.framework, FRAMEWORK) as (revision, command):
+        for n, (label, root) in enumerate((("original", args.original), ("generated", args.candidate))):
+            with tempfile.TemporaryDirectory() as tmp:
+                work = Path(tmp)
+                report = work / "report.json"
+                argv = [*command,
+                        root, "marmish-core", "lib", "marmish_core", host, "--public-inherent", "--out", report]
+                if label == "original":
+                    argv.extend(["--revision", BASE["ORIGINAL"]])
+                subprocess.run(argv, check=True)
+                data = BASE["load"](report)
+                observed = data["rustdocPublicInherent"]
+                previous = BASE["load"](WHOLE / "core-lexical" / host / f"{label}.json")
+                require({k: v for k, v in data.items() if k != "rustdocPublicInherent"} == previous,
+                        "profile or underlying core declarations changed")
+                for owner, pair in paths.items():
+                    fields = [{"kind": r["kind"], "name": r["name"]} for r in observed["items"] if r["owner"] == pair[n]]
+                    require(fields == documented[owner], f"member declarations differ for {owner}")
+                receipts[label] = {"completeReportSha256": BASE["sha"](report), "publicInherent": observed,
+                                   "caller": callers(root, work, host)}
     require(seal == BASE["snapshot"](args.candidate), "generated input changed")
     BASE["pinned_git"](args.original, BASE["ORIGINAL"])
-    BASE["save"](args.output, {"originalRevision": BASE["ORIGINAL"], "observerRevision": FRAMEWORK,
+    BASE["save"](args.output, {"originalRevision": BASE["ORIGINAL"], "observerRevision": revision,
                  "host": host, "inputSeal": seal, "members": documented, "results": receipts,
                  "callerSha256": BASE["sha"](HERE / "caller.rs"),
                  "memberGraphSha256": BASE["sha"](BASE["PORTABLE"] / "core-structure-v1/members.ttl"),
