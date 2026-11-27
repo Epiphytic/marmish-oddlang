@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use public_data_qualification::{Result, buffered, domains, imports, product};
+use public_data_qualification::{Result, api_composition, buffered, domains, imports, product};
 use serde_json::Value;
 use std::{io, path::PathBuf};
 
@@ -36,6 +36,13 @@ enum Action {
         #[arg(long)]
         prior: Option<PathBuf>,
     },
+    ComposeApi {
+        #[arg(value_enum)]
+        release: api_composition::Release,
+        portable: PathBuf,
+        #[arg(long)]
+        check: bool,
+    },
     Domains,
 }
 fn main() -> Result {
@@ -63,6 +70,14 @@ fn main() -> Result {
             host,
             prior,
         } => buffered::observe(&product, &original, &host, prior.as_deref())?,
+        Action::ComposeApi {
+            release,
+            portable,
+            check,
+        } => {
+            api_composition::compose(release, &portable, check)?;
+            return Ok(());
+        }
         Action::Domains => domains::observe(&input()?)?,
     };
     println!("{}", serde_json::to_string(&report)?);

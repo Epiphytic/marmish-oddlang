@@ -67,6 +67,11 @@ def product_witness(*argv, current=None):
     return json.loads(output)
 
 
+def check_api_release(release, portable):
+    _, tool = workspace_tool()
+    run(tool, "compose-api", release, portable, "--check")
+
+
 def check_product(product):
     return product_witness("six", product)
 

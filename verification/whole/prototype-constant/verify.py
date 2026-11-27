@@ -6,7 +6,11 @@ import runpy
 import subprocess
 import tempfile
 
-from compose import BASE, CONTRACT, MEMBER, PREVIOUS_PACKAGE, WORKSPACE, compose
+BASE = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"
+WORKSPACE = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json"
+PREVIOUS_PACKAGE = "prototype-buffer-package.json"
+MEMBER = "marmish-prototype"
+CONTRACT = "prototype-constant-v1"
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -136,7 +140,7 @@ def main():
              if line.startswith("host: "))
     if host not in SIX["PLATFORMS"]:
         raise ValueError(f"unsupported native qualification host {host}")
-    compose(PORTABLE, check=True)
+    SIX["check_api_release"]("prototype-constant", PORTABLE)
     env = SIX["JOURNAL"]["cargo_env"]()
     with tempfile.TemporaryDirectory(prefix="odd-line-input-") as work, tempfile.TemporaryDirectory(
         prefix="odd-line-oracles-"

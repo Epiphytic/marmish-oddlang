@@ -6,7 +6,8 @@ import runpy
 import subprocess
 import tempfile
 
-from compose import DOMAIN, WORKSPACE, compose
+WORKSPACE = "workspace-v7-engine-public-error-identity.json"
+DOMAIN = "engine-public-error-v1"
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -190,7 +191,7 @@ def main():
              if line.startswith("host: "))
     if host not in SIX["PLATFORMS"]:
         raise ValueError(f"unsupported native qualification host {host}")
-    compose(PORTABLE, check=True)
+    SIX["check_api_release"]("engine-public-error", PORTABLE)
     with tempfile.TemporaryDirectory(prefix="odd-engine-types-") as work, tempfile.TemporaryDirectory(
         prefix="odd-engine-oracle-"
     ) as scratch:

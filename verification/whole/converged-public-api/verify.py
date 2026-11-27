@@ -3,10 +3,11 @@ import argparse
 import json
 from pathlib import Path
 import runpy
-import sys
 import tempfile
 
-from compose import CONSTANT, ERRORS, OUTPUT
+CONSTANT = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit"
+ERRORS = "workspace-v7-engine-public-error-identity"
+OUTPUT = "workspace-v7-converged-public-api"
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -14,14 +15,7 @@ PORTABLE = ROOT / "oddlang/portable"
 
 
 def load(name):
-    directory = HERE.parent / name
-    previous = sys.modules.pop("compose")
-    sys.path.insert(0, str(directory))
-    try:
-        return runpy.run_path(str(directory / "verify.py"))
-    finally:
-        sys.path.pop(0)
-        sys.modules["compose"] = previous
+    return runpy.run_path(str(HERE.parent / name / "verify.py"))
 
 
 ENGINE = load("engine-public-error")
@@ -75,7 +69,7 @@ def main():
             raise ValueError(f"dirty checkout: {checkout}")
         if rev and run("git", "rev-parse", "HEAD", cwd=checkout).decode().strip() != rev:
             raise ValueError(f"wrong checkout: {checkout}")
-    run(sys.executable, "-B", HERE / "compose.py", PORTABLE, "--check")
+    SIX["check_api_release"]("converged", PORTABLE)
     host, = (line[6:] for line in run("rustc", "+1.97.1", "-vV").decode().splitlines() if line.startswith("host: "))
     if host not in SIX["PLATFORMS"]:
         raise ValueError(f"unsupported host: {host}")

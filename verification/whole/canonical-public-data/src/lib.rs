@@ -1,3 +1,5 @@
+#[path = "../../converged-public-api/compose.rs"]
+pub mod api_composition;
 pub mod assembly;
 #[path = "../../unified-buffered/buffer.rs"]
 pub mod buffered;
