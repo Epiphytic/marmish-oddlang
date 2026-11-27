@@ -6,31 +6,22 @@ from pathlib import Path
 import runpy
 import shutil
 import subprocess
-import sys
 import tempfile
 
-from compose import AUTHORED, BASE, ENGINE, OUTPUT, PORTABLE, RANGE, REASON, compose
 
 HERE = Path(__file__).resolve().parent
 ROOT, WHOLE = HERE.parents[2], HERE.parent
+PORTABLE = ROOT / "oddlang/portable"
+BASE, OUTPUT = "workspace-v7-canonical-range-data", "workspace-v7-canonical-recovered-range"
+ENGINE = "marmish-engine"
+REASON, RANGE = "engine-gap-reason-recovered-v1", "engine-gap-range-recovered-v1"
+AUTHORED = {"engine-gap-reason-v1", "engine-gap-range-v1", "engine-gap-reason-package.json", "engine-gap-range-package.json"}
 MANIFEST = PORTABLE / f"{OUTPUT}.json"
 LOCK = PORTABLE / OUTPUT / "workspace.lock"
 FRAMEWORK = "9923e6664899de66915ed3a94e417f261ffed401"
 
 
-def inherit():
-    paths = list(sys.path)
-    prior = sys.modules.pop("compose")
-    directory = WHOLE / "canonical-range-data"
-    sys.path.insert(0, str(directory))
-    try:
-        return runpy.run_path(str(directory / "verify.py"))
-    finally:
-        sys.path[:] = paths
-        sys.modules["compose"] = prior
-
-
-PRIOR = inherit()
+PRIOR = runpy.run_path(str(WHOLE / "canonical-range-data/verify.py"))
 COMBINED, AUDIT, JOURNAL, ASSEMBLY, run, data, sha = (
     PRIOR[name] for name in ("COMBINED", "AUDIT", "JOURNAL", "ASSEMBLY", "run", "data", "sha")
 )
@@ -109,7 +100,7 @@ def verify(args, scratch):
         COMBINED["ENGINE_DATA"]["checkout"](path, pin)
     if any(args.work.is_relative_to(path) for path in (ROOT, args.framework, args.original, args.prior_work)):
         raise ValueError("choose an independent assembly area")
-    compose(check=True)
+    COMBINED["SIX"]["check_api_release"]("canonical-recovered-range", PORTABLE)
     version = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in (DARWIN, LINUX) or f"commit-hash: {AUDIT.COMPILER}" not in version:

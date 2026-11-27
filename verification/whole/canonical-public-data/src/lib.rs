@@ -3,6 +3,8 @@ pub mod api_composition;
 pub mod assembly;
 #[path = "../../unified-buffered/buffer.rs"]
 pub mod buffered;
+#[path = "../../canonical-range-data/compose.rs"]
+pub mod canonical_composition;
 #[path = "../compose.rs"]
 pub mod composition;
 #[path = "../domains.rs"]

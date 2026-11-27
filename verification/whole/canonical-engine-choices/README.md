@@ -58,3 +58,11 @@ named suite verified 42 of 909 tests on Darwin ARM64 and 43 of 887
 on Linux ARM64, with five ignored cases on each host. This candidate
 phase runs compile-only import probes and the local enum data caller.
 The promotion evidence remains open.
+
+Check the workspace descriptors from the companion repository root:
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-engine-choices oddlang/portable --check
+```
+
+Omit `--check` to regenerate the descriptors.

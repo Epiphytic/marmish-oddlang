@@ -9,18 +9,21 @@ pub enum Release {
     PrototypeConstant,
     EnginePublicError,
     Converged,
+    CanonicalEngineChoices,
+    CanonicalRangeData,
+    CanonicalRecoveredRange,
 }
 const BASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json";
 const LIMIT: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json";
 pub const ERRORS: &str = "workspace-v7-engine-public-error-identity.json";
 const MERGED: &str = "workspace-v7-converged-public-api.json";
 
-struct Descriptor {
+pub(crate) struct Descriptor {
     name: &'static str,
     bytes: Vec<u8>,
 }
 impl Descriptor {
-    fn new(name: &'static str, value: &Value) -> Result<Self> {
+    pub(crate) fn new(name: &'static str, value: &Value) -> Result<Self> {
         Ok(Self {
             name,
             bytes: json_bytes(value)?,
@@ -36,7 +39,7 @@ fn components(package: &mut Value) -> Result<&mut Vec<Value>> {
         .and_then(Value::as_array_mut)
         .ok_or("expected package components")?)
 }
-fn set_member(workspace: &mut Value, member: &str, descriptor: &Descriptor) -> Result {
+pub(crate) fn set_member(workspace: &mut Value, member: &str, descriptor: &Descriptor) -> Result {
     let row = workspace
         .get_mut("members")
         .and_then(|rows| rows.get_mut(member))
@@ -129,11 +132,14 @@ fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
     Ok(vec![Descriptor::new(MERGED, &base)?])
 }
 pub fn compose(release: Release, root: &Path, check: bool) -> Result {
-    let base = load(&root.join(BASE))?;
+    let base = || load(&root.join(BASE));
     let outputs = match release {
-        Release::PrototypeConstant => constant(root, base)?,
-        Release::EnginePublicError => errors(root, base)?,
-        Release::Converged => converge(root, base)?,
+        Release::PrototypeConstant => constant(root, base()?)?,
+        Release::EnginePublicError => errors(root, base()?)?,
+        Release::Converged => converge(root, base()?)?,
+        Release::CanonicalEngineChoices => canonical_composition::choices(root)?,
+        Release::CanonicalRangeData => canonical_composition::range(root)?,
+        Release::CanonicalRecoveredRange => canonical_composition::recovered(root)?,
     };
     for descriptor in outputs {
         let path = root.join(descriptor.name);

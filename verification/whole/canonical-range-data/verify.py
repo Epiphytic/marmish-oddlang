@@ -6,31 +6,21 @@ from pathlib import Path
 import runpy
 import shutil
 import subprocess
-import sys
 import tempfile
 
-from compose import AFTER, BEFORE, ENGINE, PORTABLE, compose
 
 HERE = Path(__file__).resolve().parent
 ROOT, WHOLE = HERE.parents[2], HERE.parent
+PORTABLE = ROOT / "oddlang/portable"
+BEFORE, AFTER = "workspace-v7-canonical-public-data", "workspace-v7-canonical-range-data"
+ENGINE = "marmish-engine"
 FRAMEWORK = "7855c055dc1e72b49d3654f6e6c500a0ffdb57ec"
 DARWIN_BINARY = "5701bea86331ac273a213f9af52a64f5d8bf900b1b8cf7687e700bf2329a91ae"
 MANIFEST = PORTABLE / f"{AFTER}.json"
 LOCK = PORTABLE / AFTER / "workspace.lock"
 
 
-def inherited():
-    path = list(sys.path)
-    prior = sys.modules.pop("compose")
-    sys.path.insert(0, str(WHOLE / "canonical-public-data"))
-    try:
-        return runpy.run_path(str(WHOLE / "canonical-public-data/workspace_compat.py"))
-    finally:
-        sys.path[:] = path
-        sys.modules["compose"] = prior
-
-
-COMBINED = inherited()
+COMBINED = runpy.run_path(str(WHOLE / "canonical-public-data/workspace_compat.py"))
 AUDIT, JOURNAL, run, data, sha = (COMBINED[x] for x in ("AUDIT", "JOURNAL", "run", "data", "digest"))
 ASSEMBLY = COMBINED["lane"]("workspace")
 RANGE = runpy.run_path(str(WHOLE / "gap-range-record/verify.py"))
@@ -133,7 +123,7 @@ def library_closure(raw, target, host):
 def qualify(args, scratch):
     for path, revision in ((args.framework, FRAMEWORK), (args.original, AUDIT.ORIGINAL), (ROOT, args.input_revision)):
         COMBINED["ENGINE_DATA"]["checkout"](path, revision)
-    compose(check=True)
+    COMBINED["SIX"]["check_api_release"]("canonical-range-data", PORTABLE)
     rustc = run("rustc", "+1.97.1", "-vV").decode().splitlines()
     host, = [line[6:] for line in rustc if line.startswith("host: ")]
     if host not in {DARWIN, LINUX} or f"commit-hash: {AUDIT.COMPILER}" not in rustc:

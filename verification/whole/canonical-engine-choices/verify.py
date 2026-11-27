@@ -11,11 +11,15 @@ import subprocess
 import sys
 import tempfile
 
-from compose import CANDIDATE, ENGINE, PORTABLE, compose, digest
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 WHOLE = HERE.parent
+PORTABLE = ROOT / "oddlang/portable"
+CANDIDATE = PORTABLE / "workspace-v7-canonical-engine-choices.json"
+ENGINE = "marmish-engine"
+NATIVE = runpy.run_path(str(WHOLE / "unified-mdk/workspace_compat.py"))
+digest = NATIVE["sha"]
 FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
@@ -36,7 +40,6 @@ def pin_bytes(path, revision):
 
 
 HELPER_PINS = {
-    HERE / "compose.py": INPUT_REVISION,
     ENGINE_STANDALONE / "verify.py": STANDALONE_PIN,
     ENGINE_STANDALONE / "compose.py": STANDALONE_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
@@ -52,6 +55,10 @@ HELPER_HASHES = {
     ).hexdigest()
     for path, revision in HELPER_PINS.items()
 }
+# Earlier receipts bind this deleted verifier to its release commit.
+ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
+ARCHIVED_COMPOSER_SHA = hashlib.sha256(subprocess.check_output(
+    ["git", "show", f"{INPUT_REVISION}:{ARCHIVED_COMPOSER}"], cwd=ROOT)).hexdigest()
 PREVIOUS = runpy.run_path(str(WHOLE / "canonical-linux-imports/verify.py"))
 AUDIT = PREVIOUS["audit"]
 DARWIN = AUDIT.HOST
@@ -59,13 +66,15 @@ LINUX = PREVIOUS["HOST"]
 
 
 def engine_lane():
-    native = sys.modules.pop("compose")
+    native = sys.modules.pop("compose", None)
     sys.path.insert(0, str(ENGINE_STANDALONE))
     try:
         return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
     finally:
         sys.path.pop(0)
-        sys.modules["compose"] = native
+        sys.modules.pop("compose", None)
+        if native is not None:
+            sys.modules["compose"] = native
 
 
 def pinned(path, commit):
@@ -86,7 +95,7 @@ def prior(host):
 
 
 def snapshots(args, profile):
-    assert CANDIDATE.read_bytes() == compose()
+    NATIVE["check_api_release"]("canonical-engine-choices", PORTABLE)
     prior_input = PREVIOUS["CANONICAL"]
     AUDIT.verify_product(args.baseline, ROOT, prior_input)
     AUDIT.verify_product(args.product, ROOT, profile)
@@ -254,6 +263,8 @@ def candidate_serde(raw, target, host):
 def qualify(args):
     assert args.input_revision == INPUT_REVISION and digest(LOCK) == LOCK_SHA256
     runtime = engine_lane()
+    companion = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    runtime["checkout"](ROOT, companion)
     runtime["checkout"](args.framework, FRAMEWORK)
     original = PREVIOUS["source_pin"](args.original)
     assert all(
@@ -327,6 +338,7 @@ def qualify(args):
     assert before == snapshots(args, profile)
     assert original == PREVIOUS["source_pin"](args.original)
     runtime["checkout"](args.framework, FRAMEWORK)
+    runtime["checkout"](ROOT, companion)
     return {
         "platform": host,
         "rustc": rustc,
@@ -350,6 +362,10 @@ def qualify(args):
         "standaloneReceiptSha256": digest(ENGINE_STANDALONE / f"{host}.json"),
         "verifierSha256": digest(Path(__file__)),
         "helperSha256": HELPER_HASHES,
+        "archivedComposer": {"path": ARCHIVED_COMPOSER, "revision": INPUT_REVISION, "sha256": ARCHIVED_COMPOSER_SHA},
+        "nativeComposer": {"companion": companion,
+                           "executableSha256": digest(NATIVE["workspace_tool"]()[1]),
+                           "sourceSha256": digest(WHOLE / "canonical-range-data/compose.rs")},
     }
 
 
