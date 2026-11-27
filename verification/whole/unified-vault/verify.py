@@ -176,25 +176,22 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
         **errors,
         "binaries": binaries,
     }
-    observe = lane("engine-limits", "observe.py")
-    old_caller, original_libs = observe["reference_caller"](work, original, reference_target)
-    new_caller, generated_libs = observe["generated_caller"](work, product)
-    original_limits = observe["file_limits"](work, old_caller)
-    generated_limits = observe["file_limits"](work, new_caller)
-    assert original_limits == generated_limits
-    receipt["processLimitCases"] = generated_limits
-    startup = observe["startup"](work, reference_target / "aarch64-apple-darwin/release",
-                                 product / "target/release")
-    assert len(startup["argvCases"]) == 10
-    receipt["processStartupCases"] = startup["argvCases"]
+    limits = json.loads(run(
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-limits-observer",
+        "--target-dir", work / "copy-test-tools", "--", original,
+        reference_target / "aarch64-apple-darwin/release", product, reference_target,
+    ))
+    assert len(limits["argvCases"]) == 10
+    receipt["processLimitCases"] = limits["libraryCases"]
+    receipt["processStartupCases"] = limits["argvCases"]
     receipt["processArtifacts"] = {
-        "originalBinaries": startup["originalBinaries"],
-        "generatedBinaries": startup["generatedBinaries"],
-        "originalLibraries": original_libs,
-        "generatedLibraries": generated_libs,
-        "observerSha256": sha((HERE.parent / "engine-limits/observe.rs").read_bytes()),
-        "faultObserverSha256": sha((HERE.parent / "engine-limits/deny_darwin.c").read_bytes()),
+        key: limits[key] for key in (
+            "originalBinaries", "generatedBinaries", "originalLibraries",
+            "generatedLibraries", "observerSha256",
+        )
     }
+    receipt["processArtifacts"]["faultObserverSha256"] = limits["darwinFaultObserverSha256"]
     return receipt, manifest_lock
 
 

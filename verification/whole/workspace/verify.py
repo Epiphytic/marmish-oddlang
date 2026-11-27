@@ -446,9 +446,12 @@ def main():
                 raise ValueError("release-info exercised different generated executables")
             interfaces["releaseInfo"] = reports
         if engine_limits:
-            observer = runpy.run_path(str(HERE.parent / "engine-limits/observe.py"))
-            cache = args.original_cargo_target or work/"reference-engine"
-            limits = observer["observe"](work, original, binaries, target, cache.resolve())
+            cache = args.original_cargo_target or work / "reference-engine"
+            limits = json.loads(envtools.run(
+                "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+                HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-limits-observer", "--",
+                original, binaries, target, cache.resolve(),
+            ))
             if limits["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("process limit startup exercised different generated executables")
             interfaces["engineProcessLimits"] = limits
