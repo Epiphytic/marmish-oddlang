@@ -46,6 +46,11 @@ fn files(root: &Path, path: &Path, out: &mut BTreeMap<String, String>) -> Result
     }
     Ok(())
 }
+pub fn file_digests(root: &Path) -> Result<BTreeMap<String, String>> {
+    let mut entries = BTreeMap::new();
+    files(root, root, &mut entries)?;
+    Ok(entries)
+}
 fn checked(p: &Path, hash: &Value) -> Result {
     require(
         sha(p)? == text(hash)?,

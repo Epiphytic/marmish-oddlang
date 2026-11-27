@@ -1,6 +1,6 @@
 //! Check the pinned range endpoint contract and stage its representation-hint variants.
 use public_data_qualification::{
-    Result, assembly, json_bytes, list, load, pin, portable, product, require, text, whole,
+    Result, assembly, json_bytes, list, load, pin, portable, product, require, sha, text, whole,
 };
 use serde_json::{Value, json};
 use std::{
@@ -147,6 +147,51 @@ pub fn stage(work: &Path, profile: &str) -> Result<Value> {
     let manifest = inputs.join(MANIFEST);
     fs::copy(portable().join(MANIFEST), &manifest)?;
     Ok(json!([lane, manifest]))
+}
+
+pub fn profiles(work: &Path) -> Result<Value> {
+    let reference = portable().join("engine-gap-range-recovered-v1/package.lock");
+    product::pinned(&reference, SEALED)?;
+    let lock = load(&reference)?;
+    let mut sealed = lock["generatedFiles"].clone();
+    sealed["Cargo.toml"] = lock["cargoManifestSha256"].clone();
+    sealed["Cargo.lock"] = lock["cargoLockSha256"].clone();
+    let mut outputs = json!({});
+    let mut package_lock = None;
+    let wire = sha(&bundle().join("wire.json"))?;
+    let cases = sha(&cases_path())?;
+    for profile in [
+        "baseline",
+        "replacement",
+        "without-rust",
+        "without-typescript",
+        "absent",
+    ] {
+        let lane = work.join(profile);
+        require(
+            sha(&lane.join("wire.json"))? == wire && sha(&lane.join("cases.json"))? == cases,
+            format!("portable wire or cases changed under {profile}"),
+        )?;
+        let files = product::file_digests(&lane.join("product"))?;
+        let digest = files
+            .get("package.lock")
+            .ok_or("missing generated package.lock")?;
+        let expected_lock = package_lock.get_or_insert_with(|| digest.clone());
+        let mut expected = sealed.clone();
+        expected["package.lock"] = json!(expected_lock);
+        require(
+            json!(files) == expected,
+            format!("generated package files differ under {profile}"),
+        )?;
+        let hints = lane.join("hints.json");
+        let hint_digest = if hints.try_exists()? {
+            Some(sha(&hints)?)
+        } else {
+            None
+        };
+        outputs[profile] = json!({"files":files,"hintsSha256":hint_digest});
+    }
+    Ok(outputs)
 }
 
 #[cfg(test)]

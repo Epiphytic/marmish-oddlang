@@ -70,29 +70,12 @@ def verify(work, args):
             wrapper[wrapper.index("--chdir") + 1] = str(cwd)
         return run(*wrapper, *argv, cwd=cwd, env=env, **options)
 
-    outputs = {}
     for profile in ("baseline", "replacement", "without-rust", "without-typescript", "absent"):
         lane, manifest = stage(work, profile)
-        if sha(lane / "wire.json") != sha(BUNDLE / "wire.json") or sha(lane / CASES.name) != sha(CASES):
-            raise ValueError(f"portable wire contract or cases changed under {profile}")
         product = lane / "product"
         inside(compiler, "build", "native-package", "rust", manifest, product, cwd=lane)
-        outputs[profile] = {
-            "hintsSha256": sha(lane / "hints.json") if (lane / "hints.json").is_file() else None,
-            "files": {p.relative_to(product).as_posix(): sha(p) for p in sorted(product.rglob("*")) if p.is_file()},
-        }
+    outputs = WORKSPACE_TOOLS["product_witness"]("endpoint-profiles", work)
     reference_lock = PORTABLE / "engine-gap-range-recovered-v1/package.lock"
-    reference = json.loads(pinned(reference_lock, SEALED))
-    expected_files = {
-        **reference["generatedFiles"],
-        "Cargo.toml": reference["cargoManifestSha256"],
-        "Cargo.lock": reference["cargoLockSha256"],
-    }
-    files = outputs["baseline"]["files"]
-    if {name: digest for name, digest in files.items() if name != "package.lock"} != expected_files:
-        raise ValueError("source-API field requirement changed sealed native package files")
-    if any(profile["files"] != files for profile in outputs.values()):
-        raise ValueError("native package bytes changed with the hint")
 
     negative, negative_manifest = stage(work, "negative-binding")
     bad_spec = read(negative_manifest)

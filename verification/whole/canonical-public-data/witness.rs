@@ -19,6 +19,9 @@ struct Args {
 #[derive(Subcommand)]
 enum Action {
     EndpointContract,
+    EndpointProfiles {
+        work: PathBuf,
+    },
     EndpointInputs {
         work: PathBuf,
         profile: String,
@@ -207,6 +210,7 @@ fn main() -> Result {
         Action::ManifestProduct { product } => {
             public_data_qualification::manifest_product::check(&product)?
         }
+        Action::EndpointProfiles { work } => endpoint_contract::profiles(&work)?,
         Action::EndpointContract => endpoint_contract::validate()?,
         Action::EndpointInputs { work, profile } => endpoint_contract::stage(&work, &profile)?,
         Action::ReaderTest { original } => {
