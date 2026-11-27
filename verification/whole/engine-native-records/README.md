@@ -51,6 +51,14 @@ python3 -B verification/whole/engine-native-records/verify.py \
 The native runs pin original `af54339d250290490d62d4475a77539b7e739071`
 and companion input `d27cc22f1bc3891a0d7c7f765ce209f616c343c0`.
 The original native release binaries and locked dependencies must be
-available offline. The separate `mutate.py` takes the built Oddlang CLI,
-the pinned original, an independent Cargo target directory, a receipt
-output path and the framework revision.
+available offline.
+
+
+Replay the source mutation with the built Oddlang CLI and an independent Cargo target directory:
+
+```sh
+cargo +1.97.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin engine-mutation -- \
+  records "$ODDLANG_CLI" "$MARMISH_CHECKOUT" "$MUTANT_TARGET" "$RECEIPT" \
+  --framework-revision "$ODDLANG_REVISION"
+```

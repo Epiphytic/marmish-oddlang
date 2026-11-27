@@ -18,6 +18,14 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    EngineCaller {
+        #[arg(value_enum)]
+        role: public_data_qualification::engine_caller::Role,
+        library: PathBuf,
+        deps: PathBuf,
+        serde: PathBuf,
+        work: PathBuf,
+    },
     EndpointContract,
     EndpointProfiles {
         work: PathBuf,
@@ -132,6 +140,15 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::EngineCaller {
+            role,
+            library,
+            deps,
+            serde,
+            work,
+        } => serde_json::to_value(public_data_qualification::engine_caller::observe(
+            role, &library, &deps, &serde, &work,
+        )?)?,
         Action::BufferTraces {
             original,
             target,

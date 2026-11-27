@@ -21,21 +21,6 @@ IDENTITY = SIX["lane"]("backend-choice")
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
 BASE = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"
 
-TRAITS = {
-    "Clone": "Clone",
-    "Copy": "Copy",
-    "Default": "Default",
-    "Hash": "std::hash::Hash",
-    "PartialOrd": "PartialOrd",
-    "Ord": "Ord",
-    "Serialize": "serde::Serialize",
-    "Deserialize": "for<'de> serde::Deserialize<'de>",
-    "FromIo": "From<std::io::Error>",
-}
-REASON_TRAITS = {
-    name: TRAITS[name]
-    for name in ("Default", "Hash", "PartialOrd", "Ord", "Serialize", "Deserialize")
-} | {"Display": "std::fmt::Display", "Error": "std::error::Error"}
 REASONS = ["NotFoundReason", "NotExecutableReason", "ResolutionReason"]
 
 
@@ -57,37 +42,7 @@ def check_product(product):
 
 
 def observe(rlib, deps, serde, scratch):
-    scratch.mkdir()
-    args = ["rustc", "+1.97.1", "--edition=2021", "-L", f"dependency={deps}",
-            "-L", f"dependency={serde.parent}", "--extern", f"serde={serde}",
-            "--extern", f"marmish_engine={rlib}"]
-    binary = scratch / "test"
-    run(*args, HERE / "probe.rs", "-o", binary)
-    output = run(binary).decode()
-    negatives = {
-        **{f"EngineError.{name}": ("E0277", f"require::<EngineError>();", bound)
-           for name, bound in TRAITS.items()},
-        **{f"{name}.{trait}": ("E0277", f"require::<{name}>();", bound)
-           for name in REASONS for trait, bound in REASON_TRAITS.items()},
-        "mixedReason": ("E0308", "let _ = EngineError::CommandNotFound(NotExecutableReason::NotRegularFile);", "Sized"),
-        "offsetWidth": ("E0308", "let x = u128::MAX; let _ = EngineError::InputBackpressure { next_offset: x, available_credit: 0 };", "Sized"),
-        "creditWidth": ("E0308", "let x = u64::MAX; let _ = EngineError::InputBackpressure { next_offset: 0, available_credit: x };", "Sized"),
-        "privateModule": ("E0603", "use marmish_engine::model::EngineError as Hidden;", "Sized"),
-        "nonExhaustiveMatch": ("E0004", "match EngineError::Unauthorized { EngineError::Unauthorized => () }", "Sized"),
-    }
-    verified = {}
-    for name, (expected, expression, bound) in negatives.items():
-        path = scratch / "negative.rs"
-        path.write_text(f"use marmish_engine::{{EngineError, {', '.join(REASONS)}}};\n"
-                        f"fn require<T: {bound}>() {{}}\nfn main() {{ {expression} }}\n")
-        call = subprocess.run([*args, "--error-format=json", path, "-o", binary],
-                              capture_output=True, text=True)
-        codes = {item["code"]["code"] for line in call.stderr.splitlines()
-                 if (item := json.loads(line)).get("level") == "error" and item.get("code")}
-        if call.returncode == 0 or codes != {expected}:
-            raise ValueError(f"unexpected negative diagnostic {name}: {call.stderr}")
-        verified[name] = expected
-    return output, verified
+    return tuple(SIX["product_witness"]("engine-caller", "errors", rlib, deps, serde, scratch))
 
 
 def serde_for_native(build, native, deps, scratch):

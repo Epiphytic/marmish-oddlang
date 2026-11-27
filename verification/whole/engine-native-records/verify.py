@@ -3,7 +3,6 @@ import argparse
 import json
 from pathlib import Path
 import runpy
-import subprocess
 import tempfile
 
 BASE = "workspace-v7-converged-public-api.json"
@@ -25,14 +24,9 @@ ENGINE = CONVERGED["ENGINE"]
 LIMIT = CONVERGED["LIMIT"]
 
 TYPES = {
-    "engine": {
-        "marmish_engine::InputReceipt": ("Copy", "Default", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize"),
-        "marmish_engine::MaintenanceReport": ("Copy", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize"),
-    },
-    "native": {"marmish_native::transport::ArtiDirs": ("Copy", "Default", "Eq", "PartialEq", "Ord", "PartialOrd", "Hash", "Display", "Serialize", "Deserialize")},
+    "engine": ["marmish_engine::InputReceipt", "marmish_engine::MaintenanceReport"],
+    "native": ["marmish_native::transport::ArtiDirs"],
 }
-BOUNDS = {"Hash": "std::hash::Hash", "Display": "std::fmt::Display", "Serialize": "serde::Serialize",
-          "Deserialize": "for<'de> serde::Deserialize<'de>"}
 
 
 def check_product(product):
@@ -53,37 +47,8 @@ def check_product(product):
 
 
 def observe(label, library, deps, serde, work):
-    work.mkdir()
-    crate = f"marmish_{label}"
-    args = ["rustc", "+1.97.1", "--edition=2021", "-L", f"dependency={deps}",
-            "-L", f"dependency={serde.parent}", "--extern", f"serde={serde}",
-            "--extern", f"{crate}={library}"]
-    binary = work / "probe"
-    run(*args, HERE / f"{label}.rs", "-o", binary)
-    stdout = run(binary).decode()
-    checks = {
-        f"{ty}.{name}": ("E0277", f"fn require<T: {BOUNDS.get(name, name)}>() {{}}\n"
-                                   f"fn main() {{ require::<{ty}>(); }}")
-        for ty, names in TYPES[label].items() for name in names
-    }
-    if label == "native":
-        checks["rootExposure"] = ("E0432", "use marmish_native::ArtiDirs; fn main() {}")
-    else:
-        checks["privateModule"] = ("E0603", "use marmish_engine::model::InputReceipt; fn main() {}")
-        checks["creditWidth"] = ("E0308", "fn main() { let v = 0u64; let _ = marmish_engine::InputReceipt "
-                                         "{accepted: 0, available_credit: v, duplicate: false}; }")
-    verified = {}
-    for name, (expected, expression) in checks.items():
-        path = work / "negative.rs"
-        path.write_text(expression + "\n")
-        proc = subprocess.run([*args, "--error-format=json", path, "-o", binary],
-                              text=True, capture_output=True)
-        actual = {row["code"]["code"] for line in proc.stderr.splitlines()
-                  if (row := json.loads(line)).get("code") and row.get("level") == "error"}
-        if proc.returncode == 0 or actual != {expected}:
-            raise ValueError(f"unexpected negative check for {name}: {proc.stderr}")
-        verified[name] = expected
-    return stdout, verified
+    role = {"engine": "records", "native": "native"}[label]
+    return tuple(SIX["product_witness"]("engine-caller", role, library, deps, serde, work))
 
 
 def recover(label, compiler, original, output, selection=None):
