@@ -116,7 +116,7 @@ fn observe(
         actual == expected && generated_codes == codes,
         "native and generated callers differ",
     )?;
-    Ok(json!({"output":actual,"copyControl":codes,"originalLibrarySha256":hashes}))
+    Ok(json!({"originalLibrarySha256":hashes,"output":actual,"copyControl":codes}))
 }
 fn main() -> Result {
     let a = Args::parse();
@@ -231,7 +231,9 @@ fn main() -> Result {
             && emitted["projection"] == sealed["components"][0]["projection"],
         "projection differs from independent package",
     )?;
-    base["candidate"] = emitted.clone();
+    base.as_object_mut()
+        .ok_or("invalid baseline observations")?
+        .shift_insert(0, "candidate".into(), emitted.clone());
     let mut cases = catalog.clone();
     cases.push(json!({"id":"new-storage-wire-name","type":"reason","wire":"\"Storage-Failure\""}));
     let mut change = observe(
@@ -260,7 +262,10 @@ fn main() -> Result {
             }),
         "mutated wire admission did not change",
     )?;
-    change["candidate"] = mutation["candidate"].clone();
+    change
+        .as_object_mut()
+        .ok_or("invalid mutation observations")?
+        .shift_insert(0, "candidate".into(), mutation["candidate"].clone());
     checkout(&original, ORIGINAL, false)?;
     let receipt = json!({"format":"marmish-gap-reason-recovery-v1","host":host,"original":ORIGINAL,"framework":a.framework_revision,"companion":companion,"rustc":COMPILER,"compilerSha256":sha(&compiler)?,"sourceSha256":source_hash,"probeSha256":sha(&probe)?,"referenceSha256":sha(&reference_path)?,"baselineRecovery":baseline["recovery"],"mutationRecovery":mutation["recovery"],"lanes":{"baseline":base,"mutation":change}});
     let output = std::path::absolute(a.output)?;

@@ -8,7 +8,7 @@ use std::{
     process::Command,
 };
 const COPY: &str = "fn need<T: Copy>() {} fn main() { need::<marmish_engine::MissingReason>(); }";
-pub fn command(tool: &str, dir: &Path) -> Command {
+pub fn command(tool: impl AsRef<std::ffi::OsStr>, dir: &Path) -> Command {
     let mut c = Command::new(tool);
     c.current_dir(dir).env_clear();
     for key in [

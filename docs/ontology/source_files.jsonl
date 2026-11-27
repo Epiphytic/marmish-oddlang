@@ -1218,7 +1218,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/foreground-owner-project.rs","language":"rust","mode":"100644","sha256":"bec1ae8cb53fe2bbb4f07c783b3140556806f02ec1540f0911e10fcf65b561a3","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/gap-range-reference.rs","language":"rust","mode":"100644","sha256":"35ecd28020abd611d8c873782e006bfac771bc93a76cc9c7b846020be6cfc977","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/gap-reason-contract.rs","language":"rust","mode":"100644","sha256":"82d10e70c282a7629edca188a6b1a8704d6f152e4dc8aca7b9adeb8a9b2a0f3c","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/gap-reason-replay.rs","language":"rust","mode":"100644","sha256":"9786bfda225fefdc4dd721520109989b708e260c4574494b111085a783fa1294","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/gap-reason-replay.rs","language":"rust","mode":"100644","sha256":"cf504ebe03123deec9eb36e1f60b6b06cafcc7ece2dfc253787cb2c3ac2ede34","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/journal-record-inputs.rs","language":"rust","mode":"100644","sha256":"cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/native-build-macos.rs","language":"rust","mode":"100644","sha256":"a8b348b240c95f6ed40c3cee44695b4d9909cb7c2b04abb03f72c729c4a5412e","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/profile-setup.rs","language":"rust","mode":"100644","sha256":"0ee4507cd07f90a016929c201f7850611364422c03061c2b37ac09fbf153578f","parse_status":"parsed"}
@@ -1253,8 +1253,8 @@
 {"path":"verification/whole/canonical-public-data/src/cli_transcript.rs","language":"rust","mode":"100644","sha256":"854846ef11d9d2b447747219de0e6b696157427b47fc068232c550a4594dffa7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/command_output.rs","language":"rust","mode":"100644","sha256":"7f8962d16bb94417b48ed65a363678e4455dd5575efedde7c6a155166e37a53e","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/engine_caller.rs","language":"rust","mode":"100644","sha256":"5911c79a45cdef5abd69d9e44dd848a02d9a8c58a69ef8eb4eddcac306bf631f","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/gap_callers.rs","language":"rust","mode":"100644","sha256":"77c66822bc23edd8ac67679d4b3cb1108164b769c340a0eac117c8b6a2938dec","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/gap_reason.rs","language":"rust","mode":"100644","sha256":"2fc52881652055bea848a53f8242b42913c6498987c6d2135d8479d6d7cfaacf","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/gap_callers.rs","language":"rust","mode":"100644","sha256":"260551f1df69520007b0e1f2167dc4b56e4a1a9906a2f31666c64f4b5bc6805a","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/gap_reason.rs","language":"rust","mode":"100644","sha256":"0347a16458bd1cb40c15a28f7dd2273f7cfbd728db534d4c01ceae52c4a3fe69","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/lib.rs","language":"rust","mode":"100644","sha256":"f9fe96a4aa49b60343cf57bac34f19a037dbc1842ecbe6d2342ef4119530cd33","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/macos_build.rs","language":"rust","mode":"100644","sha256":"10de93ce7bf856700f38b8509e26db32da88737f8765771d8a8f7e39a8ab7652","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/owner_projection.rs","language":"rust","mode":"100644","sha256":"30497240bd5aa0014a0c75a42bcc4e40a8b4e55a576335206ff95df27e5c6073","parse_status":"parsed"}

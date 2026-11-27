@@ -2,7 +2,7 @@
 use crate::{Result, json_bytes, load, portable, require, run, sha, text};
 use rustix::fs::{CWD, RenameFlags, renameat_with};
 use serde_json::{Value, json};
-use std::{fs, path::Path, process::Command};
+use std::{fs, path::Path};
 
 fn project(compiler: &Path, recovered: &Path, work: &Path) -> Result<Value> {
     let inputs = work.join("portable-inputs");
@@ -25,11 +25,10 @@ fn project(compiler: &Path, recovered: &Path, work: &Path) -> Result<Value> {
     let manifest = inputs.join("package.json");
     fs::write(&manifest, json_bytes(&spec)?)?;
     let product = work.join("product");
-    run(Command::new(compiler)
+    run(crate::gap_callers::command(compiler, work)
         .args(["build", "native-package", "rust"])
         .arg(&manifest)
-        .arg(&product)
-        .current_dir(work))?;
+        .arg(&product))?;
     let lock = product.join("package.lock");
     let package = load(&lock)?;
     for (name, digest) in package["generatedFiles"]
@@ -58,7 +57,7 @@ pub fn recover(compiler: &Path, source: &Path, selection: &Path, output: &Path) 
         .canonicalize()?;
     let stage = tempfile::tempdir_in(parent)?;
     let recovered = stage.path().join("recovered");
-    run(Command::new(&compiler)
+    run(crate::gap_callers::command(&compiler, stage.path())
         .args(["recover", "serde-string-choice"])
         .arg(&source)
         .arg(&selection)
