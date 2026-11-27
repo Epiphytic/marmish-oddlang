@@ -1068,13 +1068,12 @@
 {"path":"verification/whole-marmish/inventory/inventory.ttl","language":"inventory","mode":"100644","sha256":"9fcd547ff2e3bc3a93a4a9f06e14b44596e2d41799782e9f92c0d23fa5d8d4c8","parse_status":"inventory"}
 {"path":"verification/whole-marmish/inventory/release.json","language":"inventory","mode":"100644","sha256":"919b0299451d2756cfa412b6029422334e2af1c793b62d6114ecda9cea2c1fa8","parse_status":"inventory"}
 {"path":"verification/whole-marmish/inventory/rust-replay-macos-arm64.json","language":"inventory","mode":"100644","sha256":"40e7ace95b12a8fa38091b1803dbee0a5fd6ff8fce3bd7227d16d9cab2d72c88","parse_status":"inventory"}
-{"path":"verification/whole/backend-choice/README.md","language":"inventory","mode":"100644","sha256":"6b42369d99439e579a77e49f9ddd21651270b5eb8e1077c49a895350dee25b75","parse_status":"inventory"}
+{"path":"verification/whole/backend-choice/README.md","language":"inventory","mode":"100644","sha256":"6f6ae1b192823c2e6ab3af058be8573960f20632420064dda07063d6fcb1e2ec","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/darwin-arm64/baseline.txt","language":"inventory","mode":"100644","sha256":"86836d4015d4c063ecbccb80bb409d933226d5f03648f25706b23606da76258b","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/darwin-arm64/mutant.txt","language":"inventory","mode":"100644","sha256":"b2994e9f706a97ec7eba5b1530b4601cf05264c1db724926255b5f32ca840c8f","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"4afd760f9600b41142b7f2a158bb73f0ce0f0ac5ab17ea663b0babc4809f3c71","parse_status":"inventory"}
 {"path":"verification/whole/backend-choice/probe.rs","language":"rust","mode":"100644","sha256":"38a49e1083f6022d0fcf44c9773ce598e0af1b1cc23ea5448d02ef0ba8a86b4f","parse_status":"parsed"}
 {"path":"verification/whole/backend-choice/selection.json","language":"inventory","mode":"100644","sha256":"e3c3cbb13255a33abfd76ef8eb16b73d21fa758f77bd3571e55be722ec334207","parse_status":"inventory"}
-{"path":"verification/whole/backend-choice/verify.py","language":"python","mode":"100644","sha256":"6016c5bee272a40edf759972dcac11b7d0c4dd0b1e5b0b6f7ec7ae6ca6f6f786","parse_status":"parsed"}
 {"path":"verification/whole/baseline-framework.json","language":"inventory","mode":"100644","sha256":"91d31c592e02ece0a6eccbf0bf502c1537647aa95979035235fd7bcadb9d0636","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/AUTHORIZED-SUBMIT-OFFLINE.md","language":"inventory","mode":"100644","sha256":"4fb6767f9a46280dcb6ebf090016b15c604f35f93b785b3962a9576bbedd44e6","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/BUILD.md","language":"inventory","mode":"100644","sha256":"4ca3df0725cc15d972485f161d3548f54b454850f4cd9c9d117d3f35780501f7","parse_status":"inventory"}
@@ -1204,6 +1203,7 @@
 {"path":"verification/whole/canonical-public-data/src/assembly.rs","language":"rust","mode":"100644","sha256":"c44454fb0a4364b222898e32a258d800ed7635c6fd6cc54e0b62c9fdc60c4e46","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/baseline_framework.rs","language":"rust","mode":"100644","sha256":"7e54d1ca312ee91696f2ac801f2acea67b0a2635f3310b552c6128b8d71ab11c","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/authorized-submit-offline.rs","language":"rust","mode":"100644","sha256":"373e906fbfd2b8c933ebe027583e66193a0790b3fa3c7a9f552a17d98df313a0","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/backend-choice.rs","language":"rust","mode":"100644","sha256":"cf6b39d3205cf796f3268fbe00618f504ba7ff5c51ffc6f833cc4437874caf0b","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/baseline-framework.rs","language":"rust","mode":"100644","sha256":"1bd36ee03a90146187df626b61bd7febf325cc5e9cf187ebe7d1d47f134e7fe7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/buffer-baseline.rs","language":"rust","mode":"100644","sha256":"6855a16d7df34fa9bafb995e6c5c9d53abc3d6c33a20029523d7e964e77baafa","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/check-command-output.rs","language":"rust","mode":"100644","sha256":"0ac12e6abfe496a9f0443268c752712f8431b5d3a319a80b2d8db927c6850fe0","parse_status":"parsed"}
@@ -1328,7 +1328,7 @@
 {"path":"verification/whole/converged-diagnostics-cli/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5baad081be407d8eb2c038498e7c4fa6760beb2f1eb3dd36f1a73de47c281294","parse_status":"inventory"}
 {"path":"verification/whole/converged-diagnostics-cli/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"876ad4d9620a2faffa58b2810183325eacb7c0fccd5bb21c6adda83cc93815b7","parse_status":"inventory"}
 {"path":"verification/whole/converged-diagnostics-cli/linux_cli.py","language":"python","mode":"100644","sha256":"b9e35044cc17296f89c72c7f346bb76fcf47768e0af98d1f64523982ca99d162","parse_status":"parsed"}
-{"path":"verification/whole/converged-diagnostics-cli/verify.py","language":"python","mode":"100644","sha256":"b357c222c5aab244d0a7321f4ea787ceb03f6f7903916636477011beef005d84","parse_status":"parsed"}
+{"path":"verification/whole/converged-diagnostics-cli/verify.py","language":"python","mode":"100644","sha256":"33bb14fda52f1a7598c119ee9711cd1b3323080e6dad615d7d46ee26a233fcda","parse_status":"parsed"}
 {"path":"verification/whole/converged-public-api/README.md","language":"inventory","mode":"100644","sha256":"51814197a512a207ba4f09d29e143aba6a6fef2d086929b10fae680f1f903c58","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f15b3d225a557944c7dafcfdb2df5a247d81f7ded07e62764de1b8c0f4d19103","parse_status":"inventory"}
 {"path":"verification/whole/converged-public-api/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"0670df89693b823345c76acb5d27fdb537528e14bbf2aad638d6b861f41be8bb","parse_status":"inventory"}
