@@ -49,7 +49,29 @@ fn short(name: &str, stdin: &[u8], stdout: &[u8], stderr: &[u8], exit: i32) -> C
         identity: json!({"case":name}),
     }
 }
-fn finite(round: usize) -> Case {
+fn short_cases() -> [Case; 5] {
+    [
+        short("success", b"hello", b"done\n", b"", 0),
+        short(
+            "separate-streams",
+            b"\0\xfe\n",
+            b"stdout\0\xff",
+            b"stderr\0\xfe",
+            0,
+        ),
+        short("empty", b"", b"", b"", 0),
+        short("trailing-newlines", b"next\n", b"one\r\n\n", b"two", 0),
+        short("nonzero", b"finish", b"partial\n", b"controlled error\n", 7),
+    ]
+}
+
+const ROUNDS: std::ops::Range<usize> = 0..4;
+
+fn finite(round: usize) -> Result<Case> {
+    require(
+        ROUNDS.contains(&round),
+        "unrecognized finite benchmark round",
+    )?;
     let seed =
         Sha256::digest(format!("oddlang finite benchmark vector 0 round {round}").as_bytes());
     let nonce = format!("{seed:x}");
@@ -58,7 +80,7 @@ fn finite(round: usize) -> Case {
             .map(|i| (i * multiplier + usize::from(seed[(i / 256) % 32]) + label) as u8)
             .collect()
     };
-    Case {
+    Ok(Case {
         args: vec![
             nonce.clone().into(),
             "0".into(),
@@ -73,7 +95,7 @@ fn finite(round: usize) -> Case {
         stderr: vector(131072, 17, 149),
         exit: 7,
         identity: json!({"vector":0}),
-    }
+    })
 }
 fn install(source: &Path, target: &Path, pin: &str) -> Result {
     require(
@@ -181,23 +203,11 @@ fn main() -> Result {
     let benchmark = root.join("finite");
     install(&args.upstream_fixture, &benchmark, &args.fixture_sha256)?;
     let mut rows = Vec::new();
-    for case in [
-        short("success", b"hello", b"done\n", b"", 0),
-        short(
-            "separate-streams",
-            b"\0\xfe\n",
-            b"stdout\0\xff",
-            b"stderr\0\xfe",
-            0,
-        ),
-        short("empty", b"", b"", b"", 0),
-        short("trailing-newlines", b"next\n", b"one\r\n\n", b"two", 0),
-        short("nonzero", b"finish", b"partial\n", b"controlled error\n", 7),
-    ] {
+    for case in short_cases() {
         rows.push(replay(&root, &local, case)?);
     }
-    for round in 0..4 {
-        let mut row = replay(&root, &benchmark, finite(round))?;
+    for round in ROUNDS {
+        let mut row = replay(&root, &benchmark, finite(round)?)?;
         row["repetition"] = json!(round);
         rows.push(row);
     }
@@ -207,4 +217,75 @@ fn main() -> Result {
     report.sort_all_objects();
     std::io::stdout().write_all(&json_bytes(&report)?)?;
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use std::collections::BTreeSet;
+
+    #[test]
+    fn short_stream_boundaries_and_exit_statuses() {
+        let cases = short_cases();
+        assert_eq!(cases.each_ref().map(|case| case.exit), [0, 0, 0, 0, 7]);
+        assert!(cases[2].stdout.is_empty() && cases[2].stderr.is_empty());
+        assert!(cases[3].stdout.ends_with(b"\n\n"));
+        assert!(!cases[3].stderr.ends_with(b"\n"));
+    }
+
+    #[test]
+    fn independent_stream_and_status_mismatches() {
+        let case = &short_cases()[1];
+        let expected = Output {
+            status: case.exit,
+            stdout: &case.stdout,
+            stderr: &case.stderr,
+        };
+        expected.compare(&expected).unwrap();
+        for changed in [
+            Output {
+                stdout: b"",
+                ..expected
+            },
+            Output {
+                stderr: b"",
+                ..expected
+            },
+            Output {
+                status: 1,
+                ..expected
+            },
+        ] {
+            assert!(changed.compare(&expected).is_err());
+        }
+    }
+
+    #[test]
+    fn finite_vector_matches_pinned_bytes() {
+        let case = finite(0).unwrap();
+        assert_eq!(
+            (
+                case.stdin.len(),
+                case.stdout.len(),
+                case.stderr.len(),
+                case.exit
+            ),
+            (16384, 131072, 131072, 7)
+        );
+        assert_eq!(case.args[1], "0");
+        assert_eq!(case.identity, json!({"vector":0}));
+        assert_eq!(case.args.last().unwrap().as_bytes(), b"e\xffd");
+        assert_eq!(
+            bytes_sha(&case.stdin),
+            "074fd0e99918d116fb92c6922db45eea4e4ecf3fe7e9f293af1f27c22313594d"
+        );
+    }
+
+    #[test]
+    fn four_distinct_nonce_arguments() {
+        let nonces: BTreeSet<_> = (0..4).map(|i| finite(i).unwrap().args.remove(0)).collect();
+        assert_eq!(nonces.len(), 4);
+        assert!(finite(4).is_err());
+        assert!(finite(usize::MAX).is_err());
+    }
 }

@@ -3,7 +3,7 @@
 Run on macOS ARM64 with the original binaries identified by `../bridge/aarch64-apple-darwin.json`. The pinned Deaddrop binary and the original `installed-checks` fixture have separate provenance in `reference-build-macos-arm64.json`. Pass their recorded binary digests. The focused macOS control executes the Command Line Tools Python framework interpreter directly. Its digest is pinned in `short-fixture-runtime-macos-arm64.json`. This avoids both the Xcode discovery launcher and the separate Python framework launcher.
 
 ```sh
-cargo +1.97.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin check-command-output
+cargo +1.97.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin check-command-output --bin replay-command-corpus
 python3 -B -W error::ResourceWarning -m unittest discover -s verification/whole/basic-command-interop
 cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin replay-command-corpus -- \
   /path/to/marmish-installed-fixture FIXTURE_SHA256

@@ -1081,7 +1081,7 @@
 {"path":"verification/whole/basic-command-interop/LOCAL-PROGRESS.md","language":"inventory","mode":"100644","sha256":"fe331ddbad1a27cb4d5ae78aac26577b3b8d9830625ea4a8b51a2bc39e239373","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/PENDING-POLL.md","language":"inventory","mode":"100644","sha256":"f39b2d52cd120858af9550e038a0b18ee0eeb625d00b3dca06eeaf554fb9e671","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/PREPARE-ROOM.md","language":"inventory","mode":"100644","sha256":"3f290d6d86c81e47813b12394251049485ec225631900af58ee16662e648f0e2","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"daeace3de421d32dc52bcc2efeee738b311b9eb07840eb3121a3eaaf4f4eaefa","parse_status":"inventory"}
+{"path":"verification/whole/basic-command-interop/README.md","language":"inventory","mode":"100644","sha256":"5b66594f02d87432aff04ef60718f81e1b6ef2ab61c3a72cd9e68fc9c8212db0","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RELAY.md","language":"inventory","mode":"100644","sha256":"2584c32158df5d54ae384c1bde0207763a914ae83ccb75f1028416740a188c67","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/RETAINED-POLL.md","language":"inventory","mode":"100644","sha256":"d597461fd6268582595cb94a62917e061a70ec1ef81e59c44028dab933a790dc","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/audit_mac_policy.py","language":"python","mode":"100644","sha256":"1f4d144a608bbda5b50111030a37e85e6de112393019d3d1916e051eb8e6c4a0","parse_status":"parsed"}
@@ -1143,7 +1143,6 @@
 {"path":"verification/whole/basic-command-interop/setup-candidate-generated-client-upstream-server-macos-arm64.json","language":"inventory","mode":"100644","sha256":"32a67135621d32520384320d81a295e3567e19ae449cdf154e9817ad0d37dbf1","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/setup-candidate-upstream-client-generated-server-macos-arm64.json","language":"inventory","mode":"100644","sha256":"c584fcd291a76218693f77cd2cb6a34f754787028e9a9b5946c831aa736b1565","parse_status":"inventory"}
 {"path":"verification/whole/basic-command-interop/short-fixture-runtime-macos-arm64.json","language":"inventory","mode":"100644","sha256":"cbe54cdd175de958c39caa73d24af3b49e490b22b1f63b4464a4e708bf3963a9","parse_status":"inventory"}
-{"path":"verification/whole/basic-command-interop/test_corpus.py","language":"python","mode":"100644","sha256":"6521387cebfe15ed070ac04522afffa2a305db0f840787825ba461352e956dfa","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/test_isolate.py","language":"python","mode":"100644","sha256":"50cb2ad7b8aaebbcbf05ab45506037a782a64d58c78f1fdeb699adc42fbd1caf","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/test_observe.py","language":"python","mode":"100644","sha256":"f353caa4dc91925ca2a2d47bcb3141f4e9e58c3ad363e65c586356480aa098f6","parse_status":"parsed"}
 {"path":"verification/whole/basic-command-interop/upstream-clean-metadata-activation-blocked-macos-arm64.json","language":"inventory","mode":"100644","sha256":"c07761eab6f6faa51e026e130033f228c29f9ae1fcde20fefdf69d1ecd99a6a7","parse_status":"inventory"}
@@ -1228,7 +1227,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/release-reference.rs","language":"rust","mode":"100644","sha256":"ea9e14820c33e98df297478a670cf3e5d47fc70133fb078a45926fdf2cf2df0a","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/main.rs","language":"rust","mode":"100644","sha256":"5f47e9a7f5d0873db67fe64edc36ab540975cc90a7ba7917f5b0732e739edec4","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/witness.rs","language":"rust","mode":"100644","sha256":"005a38ce6fdf0597320b32a3ab3b768561f0dd2d389f2a81117f4fb3fb8c4ff0","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/replay-command-corpus.rs","language":"rust","mode":"100644","sha256":"15214292303eb7624aecabaf1f5fce101a5f6138a1794ee4b2d47ab8765f6e4c","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/replay-command-corpus.rs","language":"rust","mode":"100644","sha256":"7ae519ad5ad69129200d94d4c0dc1815e31ab744f76b8e4f4d1e59b4917fdce5","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/retention-structure.rs","language":"rust","mode":"100644","sha256":"9664490c680ea2de7dbd663c1eb066e054f37d8d6d96b6bdd70542bdac70ddee","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/short-command-fixture.rs","language":"rust","mode":"100644","sha256":"3a7bc3291432bae65185352bbc686ddf8e95736c04de62625f504586e5231a02","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/status-owner-project.rs","language":"rust","mode":"100644","sha256":"f7067d174dd1bd09238979d9195bf6f157ead27181f0aeb2086c9dd1583dedb9","parse_status":"parsed"}
