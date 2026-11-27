@@ -1,0 +1,26 @@
+[package]
+name = "public-data-qualification"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+tempfile = "3"
+toml = "0.8.23"
+
+[[bin]]
+name = "compose-public-data"
+path = "compose.rs"
+
+[[bin]]
+name = "qualify-mdk-data"
+path = "../mdk-public-data/verify.rs"
+
+[[bin]]
+name = "mdk-member-witness"
+path = "../mdk-public-data/member_cli.rs"

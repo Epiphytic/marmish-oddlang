@@ -16,3 +16,11 @@ python3 -B verification/whole/canonical-public-data/verify.py INPUT_REVISION \
 The Darwin gate builds the compiler from its pinned source checkout and records the resulting artifact separately from the source revision. The Linux gate uses `--prebuilt PATH --prebuilt-sha256 SHA256` with the independently verified compiler from the [Linux framework receipt](https://github.com/Epiphytic/oddlang/blob/51ffc9ca4a1b35aaed84a67e197cbfd2b83adcb0/verification/public-data-composition/aarch64-unknown-linux-gnu.json). That executable was built with Rust 1.96.1 and the Linux public callers use Rust 1.97.1. The staged binary SHA-256 is `d96dcd109cc623c800ba6ab6440526eba71b1b4e99ede16fd571acd48c60aaa7`.
 
 The [candidate manifest](../../../oddlang/portable/workspace-v7-canonical-public-data.json) emits workspace lock `b50bd2a6896f7f253b4ed6005844f7cc48704dc3663568815df811e60b68f3ab`. [ARM64 macOS receipt](aarch64-apple-darwin.json) · [ARM64 Linux receipt](aarch64-unknown-linux-gnu.json)
+
+Check the four composed manifest and Cargo lock files from the repository root:
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin compose-public-data -- --check
+```
+
+Omit `--check` to regenerate the files. Pass `--portable PATH` to use a scratch copy of the portable inputs. The [macOS ARM64 replay](rust-qualification-macos-arm64.json) records their SHA-256 digests and the three drift controls.

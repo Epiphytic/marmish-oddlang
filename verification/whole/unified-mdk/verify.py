@@ -91,26 +91,31 @@ def cargo_reference(args, name):
 
 
 def mdk_oracle(args, compiler, work, scratch, generated_build):
-    mdk = lane("mdk-public-data")
+    def witness(*argv):
+        return json.loads(run("cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+                              "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+                              "--target-dir", scratch / "qualification-target",
+                              "--bin", "mdk-member-witness", "--", *argv))
+
     inputs = scratch / "mdk-source"
     inputs.mkdir()
-    facts = mdk["recover"](compiler, args.original / mdk["SOURCE"], scratch, inputs)
+    facts = witness("recover", compiler, args.original / "crates/marmish-mdk/src/lib.rs", scratch, inputs)
     baseline = data(HERE.parent / "mdk-public-data/darwin-arm64/receipt.json")["lanes"]["baseline"]
     if facts != baseline["recovery"]:
         raise ValueError("MDK source recovery drifted from its standalone binding")
     for path in inputs.iterdir():
-        if path.read_bytes() != (work / "inputs" / mdk["INPUTS"] / path.name).read_bytes():
+        if path.read_bytes() != (work / "inputs" / "mdk-public-data-v1" / path.name).read_bytes():
             raise ValueError(f"sealed MDK member drift: {path.name}")
     upstream = cargo_reference(args, MEMBER)
     source_lib = artifact(upstream, "marmish_mdk")
     serde = artifact(upstream, "serde")
     linked = artifact(generated_build, "marmish_mdk")
-    source_observed = mdk["observe"](source_lib, serde.parent, serde, serde.parent, scratch / "mdk-original")
+    source_observed = witness("observe", source_lib, serde.parent, serde, serde.parent, scratch / "mdk-original")
     deps = work / "product/target/release/deps"
-    generated = mdk["observe"](linked, deps, serde, serde.parent, scratch / "mdk-generated")
+    generated = witness("observe", linked, deps, serde, serde.parent, scratch / "mdk-generated")
     if source_observed != generated:
         raise ValueError("the sealed MDK member differs from the original pure public API")
-    output, negatives = generated
+    output, negatives = generated["output"].encode(), generated["negativeRustDiagnostics"]
     if hashlib.sha256(output).hexdigest() != baseline["outputSha256"] or negatives != baseline["negativeRustDiagnostics"]:
         raise ValueError("MDK baseline differs from its independent standalone receipt")
     return {

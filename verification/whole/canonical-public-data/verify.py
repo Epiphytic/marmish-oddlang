@@ -10,11 +10,12 @@ import subprocess
 import sys
 import tempfile
 
-from compose import BASE, ENGINE, NATIVE, OUTPUT, PORTABLE, compose, digest, read
-
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 WHOLE = HERE.parent
+PORTABLE = ROOT / "oddlang/portable"
+BASE, OUTPUT = "workspace-v7-canonical-offline", "workspace-v7-canonical-public-data"
+ENGINE, NATIVE = "marmish-engine", "marmish-native"
 FRAMEWORK = "900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab"
 DARWIN, LINUX = "aarch64-apple-darwin", "aarch64-unknown-linux-gnu"
 MANIFEST = PORTABLE / f"{OUTPUT}.json"
@@ -46,7 +47,7 @@ AUDIT = PREVIOUS["audit"]
 ENGINE_DATA = lane("engine-fieldless-choices")
 STATUS_DATA = lane("runtime-status-data")
 REASON = lane("gap-reason-recovery")
-run, data = SIX["run"], SIX["data"]
+run, data, digest = SIX["run"], SIX["data"], SIX["sha"]
 
 
 def changed_files(before, after):
@@ -279,7 +280,9 @@ def qualify(args, scratch):
         ENGINE_DATA["checkout"](path, pin)
     if any(args.work.is_relative_to(path) for path in (ROOT, args.original, args.framework)):
         raise ValueError("use a separate assembly area")
-    compose(check=True)
+    run("cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+        "--manifest-path", HERE / "Cargo.toml", "--target-dir", scratch / "qualification-target",
+        "--bin", "compose-public-data", "--", "--check")
     PREVIOUS["frozen_inputs"](ROOT)
     source = PREVIOUS["source_pin"](args.original)
     version = run("rustc", "+1.97.1", "-vV").decode().splitlines()
