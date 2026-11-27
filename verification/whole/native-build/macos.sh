@@ -18,7 +18,7 @@ toolchain=1.97.1
 test "$(git -C "$framework" rev-parse HEAD)" = "$framework_pin"
 test -z "$(git -C "$framework" status --porcelain --untracked-files=all)"
 test ! -e "$output"
-stage=$(mktemp -d /private/tmp/oddlang-cli.XXXXXXXX)
+stage=$(mktemp -d "${TMPDIR:-/private/tmp}/oddlang-cli.XXXXXXXX")
 outside=$(mktemp /private/tmp/oddlang-outside.XXXXXXXX)
 trap 'rm -rf "$stage"; rm -f "$outside"' EXIT
 stage=$(realpath "$stage")
@@ -26,8 +26,6 @@ rustc=$(rustup which --toolchain "$toolchain" rustc)
 cargo=$(rustup which --toolchain "$toolchain" cargo)
 sysroot=$("$rustc" --print sysroot)
 registry=$(realpath "${CARGO_HOME:-"$HOME/.cargo"}/registry")
-python=$(python3 -c "import os, sys; print(os.path.realpath(sys.executable))")
-python_prefix=$("$python" -c "import os, sys; print(os.path.realpath(sys.base_prefix))")
 sdk=$(xcrun --sdk macosx --show-sdk-path)
 developer_dir=$(xcode-select --print-path)
 clang=$(xcrun --sdk macosx --find clang)
@@ -41,13 +39,32 @@ test "$("$rustc" -vV | /usr/bin/sed -n 's/^commit-hash: //p')" = 8bab26f4f68e0e2
     RUSTC="$rustc" "$cargo" build --locked --offline --bin oddlang --target-dir "$stage/compiler"
 )
 oddlang="$stage/compiler/debug/oddlang"
-"$python" "$project" recover "$oddlang" "$original"
-relative_project=${project#"$companion"/}
-test "$relative_project" != "$project"
 mkdir -p "$stage/cell" "$stage/home/.cargo" "$stage/tmp"
 cp "$oddlang" "$stage/oddlang"
-"$python" "$project" stage "$stage/cell"
-rm -rf "$stage/compiler"
+python_prefix=""
+case "$project" in
+    *.rs)
+        bin=$(basename "$project" .rs)
+        cargo +1.96.1 build --quiet --locked --offline \
+            --manifest-path "$companion/verification/whole/canonical-public-data/Cargo.toml" \
+            --bin "$bin" --target-dir "$stage/tools"
+        projector=("$stage/tools/debug/$bin")
+        cp "${projector[0]}" "$stage/cell/$bin"
+        cell_projector=("$stage/cell/$bin" --root "$stage/cell")
+        ;;
+    *.py)
+        python=$(python3 -c "import os, sys; print(os.path.realpath(sys.executable))")
+        python_prefix=$("$python" -c "import os, sys; print(os.path.realpath(sys.base_prefix))")
+        relative_project=${project#"$companion"/}
+        test "$relative_project" != "$project"
+        projector=("$python" "$project")
+        cell_projector=("$python" "$stage/cell/$relative_project")
+        ;;
+    *) exit 2 ;;
+esac
+"${projector[@]}" recover "$oddlang" "$original"
+"${projector[@]}" stage "$stage/cell"
+rm -rf "$stage/compiler" "$stage/tools"
 ln -s "$registry" "$stage/home/.cargo/registry"
 
 quoted_path() {
@@ -68,11 +85,16 @@ cat > "$profile" <<PROFILE
 (allow file-write* (subpath "$(quoted_path "$stage")") (literal "/dev/null"))
 (allow file-read-data (subpath "$(quoted_path "$stage")") (subpath "$(quoted_path "$sysroot")")
     (subpath "$(quoted_path "$registry")") (subpath "$(quoted_path "$sdk")")
-    (subpath "$(quoted_path "$developer_dir")") (subpath "$(quoted_path "$python_prefix")")
+    (subpath "$(quoted_path "$developer_dir")")
     (subpath "/System") (subpath "/usr") (subpath "/bin") (subpath "/sbin")
     (subpath "/opt/homebrew") (subpath "/dev") (subpath "/private/etc")
     (literal "/") (literal "/private") (literal "/tmp")
     (literal "/private/tmp") (literal "/private/var") (literal "/private/var/select/sh"))
+PROFILE
+if [[ -n "$python_prefix" ]]; then
+    printf '(allow file-read-data (subpath "%s"))\n' "$(quoted_path "$python_prefix")" >> "$profile"
+fi
+cat >> "$profile" <<PROFILE
 (deny file-read-data (subpath "$(quoted_path "$original")")
     (subpath "$(quoted_path "$original_objects")") (subpath "$(quoted_path "$companion")")
     (subpath "$(quoted_path "$companion_objects")") (subpath "$(quoted_path "$framework")"))
@@ -104,7 +126,7 @@ fi
     cd "$stage/cell"
     env -i PATH="$(dirname "$cargo"):/usr/bin:/bin" HOME="$stage/home" TMPDIR="$stage/tmp" \
         CARGO_HOME="$stage/home/.cargo" RUSTC="$rustc" CARGO_NET_OFFLINE=true SDKROOT="$sdk" CC="$clang" AR="$archive" "$linker_var=$clang" \
-        sandbox-exec -f "$profile" "$python" "$stage/cell/$relative_project" \
+        sandbox-exec -f "$profile" "${cell_projector[@]}" \
         generate "$stage/oddlang" "$stage/workspace"
 )
 mv "$stage/workspace" "$output"

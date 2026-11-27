@@ -54,7 +54,9 @@ def stage(destination):
 
 def verify_reference(oddlang, original):
     subprocess.run(
-        ["python3", HERE.parent / "cli/project.py", "recover", oddlang, original], check=True,
+        ["cargo", "+1.96.1", "run", "--quiet", "--offline", "--locked",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "cli-project", "--", "recover", oddlang, original], check=True,
     )
     pinned = {}
     for path, digest in ORIGINAL_PINS.items():
