@@ -1,10 +1,11 @@
 """Bind selected upstream harnesses to a sealed workspace and count uncovered named tests."""
 import argparse
+import atexit
+from functools import lru_cache
 import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import runpy
 import shutil
 import subprocess
@@ -26,10 +27,7 @@ NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 PUBLIC_DATA = "canonical-public-data"
-DEFAULT_SUITE_PINS = {
-    "aarch64-apple-darwin": "7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306",
-    "aarch64-unknown-linux-gnu": "4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941",
-}
+
 
 class Candidate(NamedTuple):
     manifest: Path
@@ -69,49 +67,42 @@ def pin(root, revision):
         raise ValueError(f"expected clean {revision} at {root}")
 
 
-def stream_name(compiled):
-    prefix, tail = compiled.split("::tests::")
-    native = {"copy_caller":"copy_protocol", "wire_caller":"wire"}.get(prefix)
-    if native is None:
-        match = re.fullmatch(r"(windows|codec)::__projection_\d+", prefix)
-        if not match:
-            raise ValueError(f"unexpected upstream module mapping: {compiled}")
-        native = match[1]
-    return f"{native}::tests::{tail}"
+@lru_cache(maxsize=1)
+def suite_tools():
+    target = tempfile.TemporaryDirectory(prefix="odd-suite-tools-")
+    try:
+        run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE / "Cargo.toml", "--target-dir", target.name,
+            "--bin", "suite-selection", "--bin", "reconcile-suite")
+    except BaseException:
+        target.cleanup()
+        raise
+    atexit.register(target.cleanup)
+    return Path(target.name) / "debug"
+
+
+def suite_check(tool, *args, data=None):
+    result = subprocess.run([suite_tools() / tool, *args], capture_output=True,
+                            input=json.dumps(data).encode() if data is not None else b"")
+    if result.returncode:
+        raise ValueError(result.stderr.decode().strip())
+    return json.loads(result.stdout)
 
 
 def default_baseline(host):
-    data = (HERE / f"canonical-{host}.json").read_bytes()
-    if sha(data) != DEFAULT_SUITE_PINS[host]:
-        raise ValueError("pinned canonical named baseline changed")
-    return json.loads(data)
+    return suite_check("suite-selection", "baseline", host)
 
 
 def check_default_baseline(host, harnesses):
-    if harnesses != default_baseline(host)["harnesses"]:
-        raise ValueError("candidate named baseline differs from the canonical selection")
-    return DEFAULT_SUITE_PINS[host]
+    return suite_check("suite-selection", "check-baseline", host, data=harnesses)
 
 
 def check_registered_names(harness, listing, expected):
-    normalize = stream_name if harness == STREAM else lambda name: name
-    names = [normalize(line.removesuffix(": test")) for line in listing.splitlines()
-             if line.endswith(": test")]
-    if sorted(names) != sorted(expected):
-        raise ValueError(f"unsafe or incomplete test registration for {harness}")
-    return sorted(names)
+    return suite_check("suite-selection", "registered", harness, data=[listing, expected])
 
 
 def reconcile(inventory, passed):
-    with tempfile.TemporaryDirectory(prefix="odd-suite-rows-") as target:
-        run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
-            "--manifest-path", HERE / "Cargo.toml", "--target-dir", target,
-            "--bin", "reconcile-suite")
-        result = subprocess.run([Path(target) / "debug/reconcile-suite"],
-                                input=json.dumps([inventory, passed]).encode(), capture_output=True)
-    if result.returncode:
-        raise ValueError(result.stderr.decode().strip())
-    return tuple(json.loads(result.stdout))
+    return tuple(suite_check("reconcile-suite", data=[inventory, passed]))
 
 
 def qualify(original, framework, compiler_cache, reference_target, candidate="v7"):
@@ -272,7 +263,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             raw = inside("cargo","test","--locked","--offline","--release", *target, "--","--format","pretty", cwd=product)
             names = assembly["passing_tests"](raw.decode())
             if harness == STREAM:
-                names = [stream_name(n) for n in names]
+                names = suite_check("suite-selection", "stream-names", data=names)
             if not names or sorted(names) != sorted(inventory["harnesses"][harness]["tests"]):
                 raise ValueError(f"complete harness did not pass: {harness}")
             witnessed[harness] = names
