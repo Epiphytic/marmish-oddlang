@@ -96,7 +96,12 @@ file. On Darwin the upstream harness requires a hard descriptor limit greater
 than 65,536. This case establishes artifact selection and help smoke coverage.
 Candidate executions and Linux cells are open.
 
-The full original release workspace suite on macOS 26.6 exposed an additional baseline failure. When the MDK tests ran serially in one process, the first empty-environment test failed and five subsequent tests reported a poisoned shared mutex. In fresh processes eight of the nine passed. The remaining test copies /usr/bin/env before executing it. In an independent control, the installed executable exited 0 under an empty environment and its temporary copy received SIGKILL. The cause of that OS signal is unverified. Run `mdk_host.py` with the original MDK unit-test binary to reproduce the distinction. [Fresh-process observations](mdk-aarch64-apple-darwin.json)
+The full original release workspace suite on macOS 26.6 exposed an additional baseline failure. When the MDK tests ran serially in one process, the first empty-environment test failed and five subsequent tests reported a poisoned shared mutex. In fresh processes eight of the nine passed. The remaining test copies /usr/bin/env before executing it. In an independent control, the installed executable exited 0 under an empty environment and its temporary copy received SIGKILL. The cause of that OS signal is unverified. To repeat the observation, run the following from the companion root with the original MDK unit-test binary. [Fresh-process observations](mdk-aarch64-apple-darwin.json)
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- mdk-host "$MDK_TEST_BINARY"
+```
+
 
 ## Named release tests
 
@@ -176,6 +181,11 @@ The original workspace is needed by the test oracle. Both generated release exec
 The credited engine cases cover preserved limits. A no-op implementation also passes those cases. High-soft-limit normalization on macOS and the rest of the engine library need their own evidence.
 
 The [macOS receipt](recovered-aarch64-apple-darwin.json) records 39 passed and 870 unverified. The [Linux receipt](recovered-aarch64-unknown-linux-gnu.json) records 40 passed and 847 unverified. Each has five ignored. Both cold runs used companion verifier commit `64f86802a4348fe424977bf134f4ecb45daa4f60`. An engine case gets one catalog credit after its parent and child both run that exact test. Changing the child's filter to an absent name lets Cargo return success, while the coverage gate rejects it on both hosts. [Child-selection control](recovered-child-control.json)
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- child-control "$UPSTREAM" "$ODDLANG"
+```
+
 
 ## Seven-member workspace
 

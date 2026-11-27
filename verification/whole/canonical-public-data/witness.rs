@@ -1,3 +1,5 @@
+#[path = "../suite/controls.rs"]
+mod suite_controls;
 #[path = "../suite/stage.rs"]
 mod suite_stage;
 use clap::{Parser, Subcommand};
@@ -12,6 +14,17 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    MdkHost {
+        binary: PathBuf,
+    },
+    ChildControl {
+        original: PathBuf,
+        compiler: PathBuf,
+    },
+    CountExecution {
+        name: String,
+        runs: usize,
+    },
     Members {
         product: PathBuf,
     },
@@ -76,6 +89,29 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::MdkHost { binary } => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&suite_controls::mdk(&binary.canonicalize()?)?)?
+            );
+            return Ok(());
+        }
+        Action::ChildControl { original, compiler } => {
+            println!(
+                "{}",
+                serde_json::to_string_pretty(&suite_controls::child(
+                    &original.canonicalize()?,
+                    &compiler.canonicalize()?
+                )?)?
+            );
+            return Ok(());
+        }
+        Action::CountExecution { name, runs } => {
+            let (raw, passing): (String, Vec<String>) =
+                serde_json::from_reader(io::stdin().lock())?;
+            let names = passing.iter().map(String::as_str).collect::<Vec<_>>();
+            Value::Bool(suite_controls::counted(&name, runs, &raw, &names))
+        }
         Action::Members { product: p } => {
             product::check_members(&p, &input()?, false)?;
             Value::Null

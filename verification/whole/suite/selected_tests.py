@@ -66,7 +66,7 @@ def stage_reader(original, product):
 
 
 def check_execution(name, runs, raw, passing_names):
-    if passing_names != [name] * runs or raw.count("test result: ok. 1 passed; 0 failed; 0 ignored;") != runs:
+    if not PRODUCT_WITNESS("count-execution", name, str(runs), current=[raw, passing_names]):
         raise ValueError(f"expected {runs} single-case results for {name}: {raw}")
 
 
