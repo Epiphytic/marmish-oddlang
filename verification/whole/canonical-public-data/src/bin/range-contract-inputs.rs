@@ -1,4 +1,6 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
+#[path = "../../../gap-range-assembly/verify.rs"]
+mod derived;
 #[path = "../../../gap-range-recovery/evidence.rs"]
 mod evidence;
 #[path = "../../../gap-range-recovery/qualify.rs"]
@@ -34,6 +36,10 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Verify compact recovery-based package assembly against the sealed explicit package.
+    QualifyDerived(derived::Args),
+    /// Stage the compact manifest and its pinned recovery inputs at a fresh destination.
+    StageDerived { output: PathBuf },
     /// Recover both source variants and qualify their generated native packages.
     Qualify(qualify::Args),
     /// Verify native caller receipts using the rustc -vV lines supplied as JSON on stdin.
@@ -188,6 +194,8 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::QualifyDerived(args) => derived::qualify(args),
+        Action::StageDerived { output } => publish(output, derived::stage),
         Action::Qualify(args) => qualify::qualify(args),
         Action::CheckWitnesses {
             original,

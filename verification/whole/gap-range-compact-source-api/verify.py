@@ -10,10 +10,9 @@ import subprocess
 import tempfile
 
 HERE = Path(__file__).resolve().parent
-ASSEMBLY = runpy.run_path(str(HERE.parent / "gap-range-assembly/verify.py"))
 ENDPOINT = runpy.run_path(str(HERE.parent / "gap-range-endpoint/verify.py"))
-ROOT, PORTABLE, BASELINE, MODEL = (ASSEMBLY[key] for key in ("ROOT", "PORTABLE", "BASELINE", "MODEL"))
-run, sha, dump, read, pinned = (ASSEMBLY[key] for key in ("run", "sha", "dump", "read", "pinned"))
+ROOT, PORTABLE, BASELINE, MODEL = (ENDPOINT[key] for key in ("ROOT", "PORTABLE", "BASELINE", "MODEL"))
+run, sha, dump, read, pinned = (ENDPOINT[key] for key in ("run", "sha", "dump", "read", "pinned"))
 FRAMEWORK = "f74fea91c697e1e59ba894fb5284cb1717efec0f"
 ROLE = "73e9dd4349d990e8dfd7160473799f6ec5b027a7"
 COMPACT = "a18c5f83bd1fcf3869fbcde13ff43bd6bed56d76"
@@ -44,10 +43,15 @@ def verify(work, args):
     earlier = json.loads(pinned(raw_lock, COMPACT))
 
     inputs = work / "inputs"
-    ASSEMBLY["stage"](inputs).unlink()
+    compact = PORTABLE / "engine-gap-range-derived-package.json"
+    with tempfile.TemporaryDirectory(prefix="compact-range-stage-") as target:
+        run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--target-dir", target, "--bin", "range-contract-inputs", "--", "stage-derived", inputs)
+    (inputs / compact.name).unlink()
     spec = read(MANIFEST)
     role_pin = spec["components"][1].pop("sourceApi")
-    if spec != json.loads(pinned(ASSEMBLY["MANIFEST"], COMPACT)):
+    if spec != json.loads(pinned(compact, COMPACT)):
         raise ValueError("compact package changed inputs beyond the role pin")
     role_source = PORTABLE / role_pin["path"]
     if role_source != role_bundle / "rust.json" or sha(role_source) != role_pin["sha256"]:

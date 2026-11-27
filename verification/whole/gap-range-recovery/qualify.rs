@@ -13,7 +13,7 @@ use std::{
 };
 
 const FRAMEWORK: &str = "9923e6664899de66915ed3a94e417f261ffed401";
-const BUILDER: &str = "31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd";
+pub(super) const BUILDER: &str = "31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd";
 
 #[derive(clap::Args)]
 pub(super) struct Args {
@@ -44,7 +44,7 @@ pub(super) fn tool(program: impl AsRef<std::ffi::OsStr>) -> Command {
     cmd
 }
 
-fn version(toolchain: &str, revision: &str, host: &str) -> Result<Value> {
+pub(super) fn version(toolchain: &str, revision: &str, host: &str) -> Result<Value> {
     let info = stdout(tool("rustc").args([toolchain, "-vV"]))?;
     for expected in [format!("host: {host}"), format!("commit-hash: {revision}")] {
         require(
@@ -112,6 +112,15 @@ fn check_graphs(work: &Path) -> Result {
     Ok(())
 }
 
+pub(super) fn host() -> Result<&'static str> {
+    let platform = stdout(Command::new("uname").args(["-sm"]))?;
+    Ok(match platform.trim() {
+        "Darwin arm64" => DARWIN,
+        "Linux aarch64" => LINUX,
+        _ => return Err("expected a native ARM64 host".into()),
+    })
+}
+
 pub(super) fn qualify(args: Args) -> Result {
     require(
         args.framework_revision == FRAMEWORK,
@@ -151,12 +160,7 @@ pub(super) fn qualify(args: Args) -> Result {
         Ok(())
     };
     check_trees()?;
-    let platform = stdout(Command::new("uname").args(["-sm"]))?;
-    let host = match platform.trim() {
-        "Darwin arm64" => DARWIN,
-        "Linux aarch64" => LINUX,
-        _ => return Err("expected a native ARM64 host".into()),
-    };
+    let host = host()?;
     let rustc = version("+1.97.1", COMPILER, host)?;
     let builder = version("+1.96.1", BUILDER, host)?;
     run(tool("cargo")
