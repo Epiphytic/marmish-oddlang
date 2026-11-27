@@ -1,0 +1,15 @@
+{
+  "upstreamCommit": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-apple-darwin",
+  "rust": "1.97.1",
+  "archivedInventorySha256": "0312c1f46c858e18fe4958cbcabca6b7a26d2c3234381bcf8a33077bee6e509b",
+  "archivedGraphSha256": "9fcd547ff2e3bc3a93a4a9f06e14b44596e2d41799782e9f92c0d23fa5d8d4c8",
+  "bothPythonAndRustReproducedArchive": true,
+  "independentUpstreamReleaseNamesMatched": 15,
+  "omittedWorkspaceDetected": true,
+  "workspaces": 2,
+  "packages": 8,
+  "targets": 30,
+  "baselineCells": 9,
+  "rdfTriples": 1286
+}
