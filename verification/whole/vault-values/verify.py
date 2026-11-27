@@ -120,7 +120,8 @@ def consumer(package,work,lock,privacy=False):
     metadata=json.loads(run("cargo","+1.97.1","metadata","--offline","--format-version","1",cwd=work))
     native_package,=[item for item in metadata["packages"] if item["name"]=="marmish-vault"]
     assert (native_package["version"],native_package["edition"])==("0.1.0","2021")
-    checked("cargo","+1.97.1","build","--release","--offline","--locked",cwd=work)
+    checked("cargo","+1.97.1","build","--release","--offline","--locked",
+            "--target-dir",work/"target",cwd=work)
     lines=run(work/"target/release/observe-vault-values").splitlines()
     if privacy:
         for type_name, expression, code in (
