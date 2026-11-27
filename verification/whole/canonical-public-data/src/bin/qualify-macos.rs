@@ -1,5 +1,6 @@
 //! Build the graph-only client in the macOS generation sandbox, then run its independent oracle.
 use clap::{Args, Parser, Subcommand};
+use public_data_qualification::status_qualification::{Profile, qualify};
 use public_data_qualification::{Result, require, stdout, whole};
 use std::{
     path::{Path, PathBuf},
@@ -102,19 +103,19 @@ fn main() -> Result<()> {
             a,
             "c94b678a9672a75df9fe761dad62cfba9aaff33f",
             "status-project.rs",
-            "qualify.py",
+            Some(Profile::Status),
         ),
         Suite::TypedStatus(a) => (
             a,
             "ee4ba72af452aecb0d50c193c6b642552f8f0a79",
             "typed-status-project.rs",
-            "typed_qualify.py",
+            Some(Profile::Typed),
         ),
         Suite::Discovery(a) => (
             a,
             "a882f1cfe4a65880cb038f3ea32ccd7e7b271591",
             "discovery-status-project.rs",
-            "discovery_probe.py",
+            None,
         ),
     };
     require(!args.receipt.try_exists()?, "receipt already exists")?;
@@ -144,20 +145,20 @@ fn main() -> Result<()> {
         "status/macos-arm64.json",
         Some(&args.original_bins),
     )?;
-    let mut probe = Command::new("python3");
-    probe
-        .arg("-B")
-        .arg(whole().join("status").join(oracle))
-        .arg(args.original_bins.canonicalize()?);
-    if oracle == "discovery_probe.py" {
-        probe
-            .arg(&report)
-            .arg("--candidate")
-            .arg(release.join("marmish"));
+    if let Some(profile) = oracle {
+        qualify(profile, &args.original_bins, &release, &report, pin)?;
     } else {
-        probe.arg(release).arg(&report);
+        checked(
+            Command::new("python3")
+                .arg("-B")
+                .arg(whole().join("status/discovery_probe.py"))
+                .arg(args.original_bins.canonicalize()?)
+                .arg(&report)
+                .arg("--candidate")
+                .arg(release.join("marmish"))
+                .args(["--framework-revision", pin]),
+        )?;
     }
-    checked(probe.args(["--framework-revision", pin]))?;
     // Publish only a finished report, keeping a concurrently created receipt intact.
     std::fs::hard_link(report, args.receipt)?;
     Ok(())
