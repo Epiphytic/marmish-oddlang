@@ -40,12 +40,14 @@ pub fn mdk(binary: &Path) -> Result<Value> {
     Ok(json!({"environmentExecutable":controls,"freshProcessPerTest":cases}))
 }
 pub fn counted(name: &str, runs: usize, raw: &str, passing: &[&str]) -> bool {
-    passing.len() == runs
+    let summaries = raw.lines().filter(|line| line.starts_with("test result:"));
+    runs > 0
+        && passing.len() == runs
         && passing.iter().all(|n| *n == name)
-        && raw
-            .matches("test result: ok. 1 passed; 0 failed; 0 ignored;")
-            .count()
-            == runs
+        && summaries.clone().count() == runs
+        && summaries
+            .into_iter()
+            .all(|line| line.starts_with("test result: ok. 1 passed; 0 failed; 0 ignored;"))
 }
 
 fn parser_result(name: &str, raw: &str) -> Result<()> {
@@ -95,6 +97,7 @@ mod parser_controls {
         for raw in [
             "test result: ok. 0 passed; 0 failed; 0 ignored;".to_owned(),
             success.replace(name, "other"),
+            format!("{success}\ntest result: ok. 0 passed; 0 failed; 0 ignored;"),
             format!("{success}\n{success}"),
         ] {
             assert!(parser_result(name, &raw).is_err());

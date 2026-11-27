@@ -68,7 +68,7 @@ def observe(crate, target, name, *, original):
 
 def observe_original(original, target, scratch):
     clone = scratch / "pinned"
-    run("git", "clone", "--quiet", "--local", "--no-checkout", original, clone)
+    run("git", "clone", "--quiet", "--local", "--no-hardlinks", "--no-checkout", original, clone)
     run("git", "-C", clone, "checkout", "--quiet", "--detach", PIN)
     cargo_test(clone, target, "tests::" + CASE, original=True)
     source = clone / SOURCE
