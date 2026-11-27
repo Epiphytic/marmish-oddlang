@@ -10,7 +10,8 @@ From the companion repository root, run `cargo +1.96.1 run --quiet --locked --of
 The [native CLI candidate](../../../oddlang/portable/native-cli-v1/) supplies the graph, executable overlays and workspace pins. Generate and replay both binaries on macOS with:
 
 ```sh
-verification/whole/cli/macos.sh /path/to/oddlang-checkout /path/to/pinned/original /path/to/new/build
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+    --bin qualify-macos -- parser /path/to/oddlang-checkout /path/to/pinned/original /path/to/new/build
 ```
 
 The runner builds the compiler offline from a clean checkout of Oddlang commit `c01279eb61ed9e86b51b2eeaf0c5b744397c74a3` using Rust 1.97.1. Recovery reads the pinned original parser from Git. Generation and the locked offline release build run in a fresh staging directory with a Seatbelt file-data allowlist and network denial. Only the graph inputs, runner, exact compiler, Cargo registry, toolchain and system build paths are readable. The allowlist excludes the original checkout, companion checkout, both Git object stores and the frozen transcript. Replay gets the transcript only after generation and build. The Rust `cli-project` command accepts separate `recover` and `generate` runs, followed by the Rust transcript verifier.
