@@ -1,5 +1,16 @@
+pub mod assembly;
+#[path = "../compose.rs"]
+pub mod composition;
+#[path = "../domains.rs"]
+pub mod domains;
+#[path = "../imports.rs"]
+pub mod imports;
 #[path = "../../mdk-public-data/member.rs"]
 pub mod mdk;
+#[path = "../product.rs"]
+pub mod product;
+#[path = "../../unified-mdk/compose.rs"]
+pub mod six_composition;
 use serde_json::Value;
 use sha2::{Digest, Sha256};
 use std::{
@@ -49,8 +60,69 @@ pub fn json_bytes(v: &Value) -> Result<Vec<u8>> {
 pub fn pin(base: &Path, relative: &str) -> Result<Value> {
     Ok(serde_json::json!({"path":relative,"sha256":sha(&base.join(relative))?}))
 }
+/// Capture both streams without pipe backpressure and bound each native tool invocation.
+pub fn capture(
+    cmd: &mut Command,
+    seconds: u64,
+    input: Option<&[u8]>,
+) -> Result<std::process::Output> {
+    use std::io::{Read, Seek, Write};
+    use std::os::unix::process::CommandExt;
+    use std::process::{Output, Stdio};
+    use std::time::{Duration, Instant};
+    let mut out = tempfile::tempfile()?;
+    let mut err = tempfile::tempfile()?;
+    if let Some(bytes) = input {
+        let mut file = tempfile::tempfile()?;
+        file.write_all(bytes)?;
+        file.rewind()?;
+        cmd.stdin(file);
+    } else {
+        cmd.stdin(Stdio::null());
+    }
+    // The downstream callback owns a dedicated session and cancels its complete group on failure.
+    let supervised = std::env::var_os("MARMISH_WORKSPACE_CALLBACK_SESSION").is_some()
+        && unsafe { libc::getsid(0) } == std::process::id() as libc::pid_t;
+    if !supervised {
+        cmd.process_group(0);
+    }
+    let mut child = cmd
+        .stdout(out.try_clone()?)
+        .stderr(err.try_clone()?)
+        .spawn()?;
+    let deadline = Instant::now() + Duration::from_secs(seconds);
+    let status = loop {
+        if let Some(status) = child.try_wait()? {
+            break status;
+        }
+        if Instant::now() >= deadline {
+            if supervised {
+                child.kill()?;
+            } else {
+                // This child was made leader of its own group immediately before exec.
+                unsafe {
+                    libc::killpg(child.id() as libc::pid_t, libc::SIGKILL);
+                }
+            }
+            child.wait()?;
+            return Err(format!("{cmd:?} timed out after {seconds}s").into());
+        }
+        std::thread::sleep(Duration::from_millis(5));
+    };
+    let mut stdout = Vec::new();
+    let mut stderr = Vec::new();
+    out.rewind()?;
+    err.rewind()?;
+    out.read_to_end(&mut stdout)?;
+    err.read_to_end(&mut stderr)?;
+    Ok(Output {
+        status,
+        stdout,
+        stderr,
+    })
+}
 pub fn run(cmd: &mut Command) -> Result<Vec<u8>> {
-    let output = cmd.output()?;
+    let output = capture(cmd, 600, None)?;
     require(
         output.status.success(),
         format!(

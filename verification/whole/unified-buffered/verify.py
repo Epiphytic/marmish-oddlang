@@ -28,7 +28,7 @@ def load_lane(path, *, isolated_modules=()):
         sys.modules.update(saved)
 
 
-SIX = load_lane(HERE.parent / "unified-mdk/verify.py", isolated_modules=("compose",))
+SIX = load_lane(HERE.parent / "unified-mdk/workspace_compat.py", isolated_modules=("compose",))
 BUFFER = load_lane(PRIVATE / "verify.py")
 run, data, sha = (SIX[key] for key in ("run", "data", "sha"))
 

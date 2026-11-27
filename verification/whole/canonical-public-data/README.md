@@ -9,7 +9,7 @@ The verifier regenerates the prior workspace with the same compiler and checks i
 Use clean original, framework, and companion checkouts, Rust 1.97.1 for the native witnesses, and the locked offline dependencies. The original revision is `af54339d250290490d62d4475a77539b7e739071`. The [combined Oddlang source](https://github.com/Epiphytic/oddlang/tree/900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab) is fixed at `900cfa5`.
 
 ```sh
-python3 -B verification/whole/canonical-public-data/verify.py INPUT_REVISION \
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-canonical-public-data -- INPUT_REVISION \
   FRAMEWORK ORIGINAL COMPILER_TARGET NEW_WORK_DIRECTORY RECEIPT
 ```
 
@@ -24,3 +24,5 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 ```
 
 Omit `--check` to regenerate the files. Pass `--portable PATH` to use a scratch copy of the portable inputs. The [macOS ARM64 replay](rust-qualification-macos-arm64.json) records their SHA-256 digests and the three drift controls.
+
+The qualification command uses Rust to stage the pinned inputs, isolate the native build and run the external callers. The compiler cache is keyed by framework revision. The gate records the compiler, Cargo artifacts and input revision for each replay.

@@ -15,7 +15,7 @@ DOMAIN = PORTABLE / "native-diagnostics-v1"
 MEMBER = "marmish-native"
 sys.path.insert(0, str(HERE.parent / "unified-mdk"))
 try:
-    SHARED = runpy.run_path(str(HERE.parent / "unified-mdk/verify.py"))
+    SHARED = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
 finally:
     sys.path.pop(0)
 ORACLE = runpy.run_path(str(HERE.parent / "public-diagnostics/verify.py"))

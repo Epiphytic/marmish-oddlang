@@ -40,7 +40,7 @@ def local(directory, name="verify.py"):
         sys.modules.update(saved)
 
 
-COMBINED = local("canonical-public-data")
+COMBINED = local("canonical-public-data", "workspace_compat.py")
 AUDIT = COMBINED["AUDIT"]
 run, data = COMBINED["run"], COMBINED["data"]
 digest = COMBINED["digest"]

@@ -31,7 +31,7 @@ def lane(name, script="verify.py"):
             sys.modules["compose"] = previous
 
 
-SIX = lane("unified-mdk")
+SIX = lane("unified-mdk", "workspace_compat.py")
 JOURNAL = SIX["JOURNAL"]
 run, sha, data, artifact = (SIX[name] for name in ("run", "sha", "data", "artifact"))
 ORIGINAL = SIX["ORIGINAL"]

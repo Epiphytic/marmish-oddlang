@@ -24,7 +24,7 @@ def inherited():
     prior = sys.modules.pop("compose")
     sys.path.insert(0, str(WHOLE / "canonical-public-data"))
     try:
-        return runpy.run_path(str(WHOLE / "canonical-public-data/verify.py"))
+        return runpy.run_path(str(WHOLE / "canonical-public-data/workspace_compat.py"))
     finally:
         sys.path[:] = path
         sys.modules["compose"] = prior

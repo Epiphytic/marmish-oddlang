@@ -1,6 +1,5 @@
 //! Compose the two qualified declaration packages onto the canonical workspace.
-use clap::Parser;
-use public_data_qualification::*;
+use crate::*;
 use serde_json::{Value, json};
 use std::{
     collections::{BTreeMap, HashSet},
@@ -263,20 +262,8 @@ fn push(array: &mut Value, value: Value) -> Result {
         .push(value);
     Ok(())
 }
-#[derive(Parser)]
-struct Args {
-    #[arg(long)]
-    check: bool,
-    #[arg(long,default_value_os_t=portable())]
-    portable: PathBuf,
-}
-fn main() -> Result {
-    let args = Args::parse();
-    Composer {
-        base: args.portable,
-        check: args.check,
-    }
-    .compose()
+pub fn compose(base: PathBuf, check: bool) -> Result {
+    Composer { base, check }.compose()
 }
 
 #[cfg(test)]
