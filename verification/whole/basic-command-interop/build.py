@@ -12,7 +12,6 @@ import runpy
 import shutil
 import subprocess
 import tempfile
-import tomllib
 
 
 HERE = Path(__file__).resolve().parent
@@ -57,118 +56,15 @@ def pinned_json(path, expected):
     return json.loads(body)
 
 
-def copy_registry(locks, source, target):
-    """Stage archives by lock checksum and unpack them only inside Seatbelt."""
-    rows = (row for lock in locks for row in tomllib.loads(lock.read_text())["package"])
-    source_cache = source / "cache"
-    shutil.copytree(source / "index", target / "index",
-                    ignore=shutil.ignore_patterns(".git", ".DS_Store"))
-    staged = {}
-    for row in rows:
-        if "checksum" not in row:
-            continue
-        if row.get("source") != "registry+https://github.com/rust-lang/crates.io-index":
-            raise ValueError(f"unexpected registry: {row}")
-        filename = f"{row['name']}-{row['version']}.crate"
-        if filename in staged:
-            if staged[filename] != row["checksum"]:
-                raise ValueError(f"inconsistent lock checksums for {filename}")
-            continue
-        matches = list(source_cache.glob(f"index.crates.io-*/{filename}"))
-        if len(matches) != 1 or sha(matches[0]) != row["checksum"]:
-            raise ValueError(f"missing or mismatched cached archive: {filename}")
-        output = target / "cache" / matches[0].relative_to(source_cache)
-        output.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(matches[0], output)
-        if sha(output) != row["checksum"]:
-            raise ValueError(f"copied archive fails its lock checksum: {filename}")
-        staged[filename] = row["checksum"]
-    return staged
-
-
 def verified_binaries(messages, product):
-    binaries = {}
-    for line in messages.splitlines():
-        row = json.loads(line)
-        if row["reason"] != "compiler-artifact" or row["executable"] is None:
-            continue
-        if "bin" not in row["target"]["kind"]:
-            continue
-        manifest = Path(row["manifest_path"]).resolve()
-        if not manifest.is_relative_to(product):
-            continue
-        path = Path(row["executable"]).resolve()
-        name = row["target"]["name"]
-        if (path != product / "target/release" / name or name in binaries
-                or row["fresh"] or row["profile"]["test"]):
-            raise ValueError(f"invalid fresh executable artifact: {name}")
-        binaries[name] = path
-    return binaries
+    tool = TOOLS.qualification_tool("workspace-inputs")[1]
+    paths = subprocess.check_output([tool, "release-artifacts", product], input=messages, timeout=1200)
+    return {name: Path(path) for name, path in json.loads(paths).items()}
 
 
 def verify_product(product, workspace):
     pinned = workspace.with_suffix("") / "workspace.lock"
-    emitted = product / "workspace.lock"
-    if pinned.read_bytes() != emitted.read_bytes():
-        raise ValueError("generated workspace lock differs")
-    lock = read(emitted)
-    if (sha(product / "Cargo.toml") != lock["workspaceCargoManifestSha256"]
-            or sha(product / "Cargo.lock") != lock["cargoLockSha256"]):
-        raise ValueError("generated workspace manifest or Cargo.lock differs")
-    expected = {Path(name) for name in ("Cargo.toml", "Cargo.lock", "workspace.lock")}
-    for name, row in lock["members"].items():
-        member = product / name
-        package_lock = member / "package.lock"
-        if (sha(member / "Cargo.toml") != row["workspaceCargoManifestSha256"]
-                or sha(package_lock) != row["standalonePackageLockSha256"]):
-            raise ValueError(f"generated member manifest or lock differs: {name}")
-        files = {path.relative_to(member).as_posix(): sha(path)
-                 for path in (member / "src").rglob("*") if path.is_file()}
-        if (member / "build.rs").is_file():
-            files["build.rs"] = sha(member / "build.rs")
-        if files != read(package_lock)["generatedFiles"]:
-            raise ValueError(f"generated member sources differ: {name}")
-        expected.update(Path(name, path) for path in {*files, "Cargo.toml", "package.lock"})
-    actual = set()
-    for path in product.rglob("*"):
-        relative = path.relative_to(product)
-        if relative.parts[0] == "target":
-            continue
-        if path.is_symlink():
-            raise ValueError(f"unexpected generated symlink: {relative}")
-        if path.is_file():
-            actual.add(relative)
-    if actual != expected:
-        raise ValueError(f"unexpected generated file inventory: {sorted(actual ^ expected)}")
-    return lock
-
-
-def candidate_roles(binaries, descriptor, inputs):
-    declared = set()
-    roles = {}
-    for member in descriptor["members"].values():
-        manifest = inputs / member["manifest"]["path"]
-        package = read(manifest)
-        for binary in package.get("binaries", []):
-            if binary["name"] in declared:
-                raise ValueError("duplicate executable in workspace")
-            declared.add(binary["name"])
-        for component in package.get("components", []):
-            if component["kind"] != "cli-surface":
-                continue
-            binding = read(manifest.parent / component["overlay"]["path"])
-            executable = binding["executable"]
-            if executable in roles:
-                raise ValueError(f"duplicate CLI binding: {executable}")
-            handlers = binding.get("handlers", {})
-            roles[executable] = {
-                "boundOperations": sorted(op for op, iri in binding["operations"].items() if iri in handlers and op),
-                "unboundOperations": sorted(op for op, iri in binding["operations"].items() if iri not in handlers),
-                "uncoveredExit": binding["uncovered_exit"],
-            }
-    if binaries.keys() != declared or not roles.keys() <= declared:
-        raise ValueError("first-party executable inventory differs from workspace")
-    return roles
+    return ASSEMBLY["workspace_inputs"]("export-product", product, pinned)
 
 
 def qualify(work, compiler, export, probes, checkout, pins):
@@ -195,7 +91,7 @@ def qualify(work, compiler, export, probes, checkout, pins):
     registry_link = Path(env["CARGO_HOME"]) / "registry"
     registry_source = registry_link.resolve(strict=True)
     registry_link.unlink()
-    archives = copy_registry(locks, registry_source, registry_link)
+    archives = ASSEMBLY["workspace_inputs"]("registry-archives", registry_source, registry_link, *locks)
     providers = ASSEMBLY["stage_provider_git_cache"](cargo_lock, Path(env["CARGO_HOME"]) / "git")
     developer = Path(env["DEVELOPER_DIR"])
     xcode = next(path for path in developer.parents if path.suffix == ".app")
@@ -232,7 +128,7 @@ def qualify(work, compiler, export, probes, checkout, pins):
                  "--message-format=json", cwd=product, env=env)
     verify_product(product, pins.workspace)
     binaries = verified_binaries(output, product)
-    roles = candidate_roles(binaries, descriptor, inputs)
+    roles = ASSEMBLY["workspace_inputs"]("candidate-roles", inputs, *sorted(binaries), document=descriptor)
     receipt = {
         "format": "marmish-basic-command-generated-build-v1",
         "companionInputRevision": pins.companion_revision,
