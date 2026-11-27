@@ -124,7 +124,7 @@ git -C "$root/reference" checkout --detach af54339d250290490d62d4475a77539b7e739
 mkdir "$root/build"
 (cd "$root/reference" && CARGO_TARGET_DIR="$root/build" cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast -- --test-threads=1) > "$root/test.log" 2>&1 &&
 python3 -B verification/whole/suite/list_cargo.py "$root/reference" "$root/build" "$root/named.json" &&
-python3 -B verification/whole/suite/summarize_cargo.py "$root/test.log" "$root/named.json" "$root/result.json"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin summarize-cargo -- "$root/test.log" "$root/named.json" "$root/result.json"
 ```
 
 ## Upstream tests on the five-crate generated candidate

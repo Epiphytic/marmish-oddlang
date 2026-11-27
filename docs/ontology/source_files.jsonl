@@ -1846,9 +1846,9 @@
 {"path":"verification/whole/structure/aarch64-apple-darwin/marmish_stream.lock.json","language":"inventory","mode":"100644","sha256":"47ccc56528c701c868f22393de45819c0d0104533abfc2d34ca43368d8dd3e03","parse_status":"inventory"}
 {"path":"verification/whole/structure/linux-aarch64-original.json","language":"inventory","mode":"100644","sha256":"24671fdf452cf8ad611d33d246b0db6063cdd9a7756cb62a1e31e74f9a4f87d9","parse_status":"inventory"}
 {"path":"verification/whole/structure/replay.py","language":"python","mode":"100644","sha256":"73d721ee81d058886d20b56b7378fa79f435998e9f92a6043507f3de010d9833","parse_status":"parsed"}
-{"path":"verification/whole/suite/Cargo.lock","language":"inventory","mode":"100644","sha256":"911a0dea09aadb2577b99e64f6d768ae3d343b2215adeaea62096b0a33a9ed6c","parse_status":"inventory"}
-{"path":"verification/whole/suite/Cargo.toml","language":"inventory","mode":"100644","sha256":"178f73f10d012310c87151ceb4aba80bd2c2927192e01c60d49bb86a14a432d6","parse_status":"inventory"}
-{"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"ce61c84183ab50ae1694d425cc6afa31eb6e3f0f01e8551a4bb3ab79727450bd","parse_status":"inventory"}
+{"path":"verification/whole/suite/Cargo.lock","language":"inventory","mode":"100644","sha256":"30a744d41264f0fc78ad0a8cc98da737e0892febc4c89623246b3e4d43125b43","parse_status":"inventory"}
+{"path":"verification/whole/suite/Cargo.toml","language":"inventory","mode":"100644","sha256":"2c0cb7e834ec7045b1aafc3c734b1c6d18f51ba84ca8466bff7ab172bff3a63b","parse_status":"inventory"}
+{"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"72c078d20e187c8d5bc689821b432711678ecc1ae01387527c843071e2402c5d","parse_status":"inventory"}
 {"path":"verification/whole/suite/candidate_coverage.py","language":"python","mode":"100644","sha256":"b8b3d93ae8803f4391131a79709a5d0c377bb8690ff728a58f43032a8872e25c","parse_status":"parsed"}
 {"path":"verification/whole/suite/canonical-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306","parse_status":"inventory"}
 {"path":"verification/whole/suite/canonical-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941","parse_status":"inventory"}
@@ -1885,8 +1885,8 @@
 {"path":"verification/whole/suite/seven-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"8573535a963066ad097f7ef23e75bac7c5bc42df0274839a7f532bda8b5e50fd","parse_status":"inventory"}
 {"path":"verification/whole/suite/src/bin/candidate-targets.rs","language":"rust","mode":"100644","sha256":"f3d47c00327b3a40836b18d034c8bce88575d5d611bb8c97a4308766f47546fc","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/bin/check-coverage.rs","language":"rust","mode":"100644","sha256":"2a44b4760f68c55d7896d0bfe7001da9f4d90a19e092b685739eeddc34421e9e","parse_status":"parsed"}
+{"path":"verification/whole/suite/src/bin/summarize-cargo.rs","language":"rust","mode":"100644","sha256":"cc1f76a298c2ebb1de8fa5219e8b3eb124b56c4e83a74b050af50c1ac11b0e3a","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/lib.rs","language":"rust","mode":"100644","sha256":"48bb8834b1eaeee844b6350e95959a58aaabc96088b8d61a7ff193dd62c06202","parse_status":"parsed"}
-{"path":"verification/whole/suite/summarize_cargo.py","language":"python","mode":"100644","sha256":"ee7588c4a2cb939dd1601b2f7951084e131d29ba5d3b806324d5269766a9a93d","parse_status":"parsed"}
 {"path":"verification/whole/suite/test_candidate_producer.py","language":"python","mode":"100644","sha256":"55145eee67b4a57ba9e9c6bcd389f35b8baeb3ca26a0118d5e73297eb6539a24","parse_status":"parsed"}
 {"path":"verification/whole/suite/tests/archives.rs","language":"rust","mode":"100644","sha256":"214c3db6ef1a3c5bbcac9c714f7c8929f372584481d3110496a6739738a250a5","parse_status":"parsed"}
 {"path":"verification/whole/suite/tests/refusal-cases.json","language":"inventory","mode":"100644","sha256":"73a4f0d77fda6fb9ffcd3b7e49b2596c188d635b5729276be581262c6f757ea2","parse_status":"inventory"}
