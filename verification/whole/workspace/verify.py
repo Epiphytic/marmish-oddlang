@@ -393,7 +393,7 @@ def main():
             inaccessible += [HERE.parent / "status/configured_init_probe.py",
                              HERE.parent / "foreground-lifecycle/observe.py"]
         if report:
-            inaccessible += [HERE.parent / "build-report/observe.py",
+            inaccessible += [HERE.parent / "unified-mdk/release.rs",
                              original / "crates/marmish-native/src/native_manifest.rs"]
         if engine_limits:
             inaccessible += [HERE.parent / "engine-limits/observe.rs",
@@ -435,10 +435,13 @@ def main():
             interfaces["configuredInit"] = configured
             interfaces["localProviderLifecycle"] = lifecycle
         if report:
-            observer = runpy.run_path(str(HERE.parent / "build-report/observe.py"))
             host = next(line.removeprefix("host: ") for line in
                         envtools.run("rustc", "+1.97.1", "-vV").splitlines() if line.startswith("host: "))
-            reports = observer["observe"](original, PORTABLE, binaries, target / "target/release", host)
+            reports = json.loads(envtools.run(
+                "cargo", "+1.97.1", "run", "--locked", "--offline", "--quiet", "--manifest-path",
+                HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "release-info-observer", "--",
+                original, PORTABLE, binaries, target / "target/release", host,
+            ))
             if reports["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("release-info exercised different generated executables")
             interfaces["releaseInfo"] = reports

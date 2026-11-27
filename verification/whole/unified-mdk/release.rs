@@ -64,8 +64,14 @@ fn capture(binary: &Path, argv: &[&str], home: &Path) -> Result<Value> {
         "stdout":String::from_utf8(output.stdout)?, "stderr":String::from_utf8(output.stderr)?}),
     )
 }
-pub fn observe(original: &Path, upstream: &Path, candidate: &Path, host: &str) -> Result<Value> {
-    let graph = load(&portable().join("native-configured-init-v1/graph.json"))?;
+pub fn observe(
+    original: &Path,
+    portable: &Path,
+    upstream: &Path,
+    candidate: &Path,
+    host: &str,
+) -> Result<Value> {
+    let graph = load(&portable.join("native-configured-init-v1/graph.json"))?;
     let mut facts = Vec::new();
     let mut formats = Vec::new();
     for (role, file, symbol, ty, generated) in [
@@ -74,35 +80,35 @@ pub fn observe(original: &Path, upstream: &Path, candidate: &Path, host: &str) -
             "crates/marmish-native/src/identity.rs",
             "PROFILE_FORMAT",
             "u8",
-            &graph["manifest"]["version"],
+            Some(&graph["manifest"]["version"]),
         ),
         (
             "journal",
             "crates/marmish-native/src/journal.rs",
             "JOURNAL_FORMAT",
             "i64",
-            &graph["initialize"]["journal"]["version"],
+            Some(&graph["initialize"]["journal"]["version"]),
         ),
         (
             "engine",
             "crates/marmish-engine/src/store.rs",
             "ENGINE_FORMAT",
             "i64",
-            &Value::Null,
+            None,
         ),
         (
             "configuration",
             "crates/marmish-native/src/command_config.rs",
             "CONFIG_FORMAT",
             "u32",
-            &graph["initialize"]["configured"]["fixed"]["version"],
+            Some(&graph["initialize"]["configured"]["fixed"]["version"]),
         ),
         (
             "command",
             "crates/marmish-native/src/command_wire.rs",
             "COMMAND_FORMAT",
             "u32",
-            &Value::Null,
+            None,
         ),
     ] {
         let path = original.join(file);
@@ -116,7 +122,7 @@ pub fn observe(original: &Path, upstream: &Path, candidate: &Path, host: &str) -
             return Err(format!("expected one format constant for {symbol}").into());
         };
         require(
-            (ty != "u8" || *value < 256) && (generated.is_null() || *generated == *value),
+            (ty != "u8" || *value < 256) && generated.is_none_or(|declared| *declared == *value),
             "generated format differs from original",
         )?;
         formats.push(*value);

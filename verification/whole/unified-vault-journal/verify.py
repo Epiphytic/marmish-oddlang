@@ -145,7 +145,7 @@ def qualify(work, scratch, args):
         "framework-source": args.framework / "src/lib.rs",
         "journal-caller": HERE.parent / "journal-records/probe.rs",
         "vault-holdout": HERE.parent / "unified-recovered-vault/fixed_bytes.rs",
-        "release-observer": HERE.parent / "build-report/observe.py",
+        "release-observer": HERE.parent / "unified-mdk/release.rs",
     }
     for name, path in denied.items():
         if not path.is_file():

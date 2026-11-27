@@ -375,7 +375,7 @@ fn execute(a: Args) -> Result {
         }
     }
     sandbox.deny(&denied.values().cloned().collect::<Vec<_>>())?;
-    sandbox.deny(&[whole().join("build-report/observe.py")])?;
+    sandbox.deny(&[whole().join("unified-mdk/release.rs")])?;
     let product = work.join("product");
     run(sandbox
         .command(&work)?
@@ -437,7 +437,13 @@ fn execute(a: Args) -> Result {
     };
     let report = source::report(&cli, &original, &inputs, &spec, &scratch)?;
     let mut journal = source::journal(&cli, &original, &scratch)?;
-    let release = release::observe(&original, &originals, &product.join("target/release"), host)?;
+    let release = release::observe(
+        &original,
+        &portable(),
+        &originals,
+        &product.join("target/release"),
+        host,
+    )?;
     let vault = vault::observe(
         &original,
         &ot,
