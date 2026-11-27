@@ -7,7 +7,7 @@ The request and invocation IDs contain a six-byte unsigned big-endian Unix secon
 Run the local witness with a compiler that supports the workspace.
 
 ```sh
-python3 -B verification/whole/basic-command-interop/authorized_submit_offline.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin authorized-submit-offline -- \
   /path/to/oddlang /path/to/fixture-target
 ```
 
