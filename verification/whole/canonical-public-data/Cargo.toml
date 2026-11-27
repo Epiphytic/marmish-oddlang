@@ -54,3 +54,7 @@ path = "../canonical-range-data/verify.rs"
 [[bin]]
 name = "qualify-recovered-range"
 path = "../canonical-recovered-range/verify.rs"
+
+[[bin]]
+name = "qualify-process-limits"
+path = "../suite/process_limits.rs"

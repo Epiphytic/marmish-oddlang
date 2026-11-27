@@ -144,7 +144,9 @@ def v3_interfaces(work, target, original, binaries, compiler):
     libc, = (release / "deps").glob("liblibc-*.rlib")
     toolchain = Path(envtools.run("rustc", "+1.97.1", "--print", "sysroot").strip())
     process_limits = json.loads(envtools.run(
-        sys.executable, "-B", HERE.parent / "suite/process_limits.py", original,
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--target-dir", work / "process-test-tool", "--bin", "qualify-process-limits", "--", original,
         "--rustc", toolchain / "bin/rustc", "--libc", libc,
         "--client", release / "marmish", "--daemon", release / "marmishd",
     ))

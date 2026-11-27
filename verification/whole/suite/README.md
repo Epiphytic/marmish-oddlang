@@ -76,14 +76,14 @@ expected outcomes come from the pinned suite and independently authored cases.
 
 ## Verified external executable selection
 
-`process_limits.py` extracts the unchanged upstream native-process integration
+`qualify-process-limits` extracts the unchanged upstream native-process integration
 test and compiles just that verifier with `rustc --test`, a matching third-party
 `libc` artifact and compile-time paths to explicitly staged client and daemon
 executables. The verifier invokes rustc directly. The optional Cargo harness is a negative
 control for attempts to use runtime `CARGO_BIN_EXE_*` overrides.
 
 ```sh
-python3 verification/whole/suite/process_limits.py "$UPSTREAM" \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-process-limits -- "$UPSTREAM" \
   --rustc "$RUSTC" --libc "$LIBC_RLIB" \
   --client "$CLIENT" --daemon "$DAEMON" --cargo-harness "$ORIGINAL_TEST_HARNESS"
 ```

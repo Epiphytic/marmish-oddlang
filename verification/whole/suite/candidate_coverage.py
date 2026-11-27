@@ -14,12 +14,11 @@ import tomllib
 from typing import NamedTuple
 import tempfile
 
-from upstream import PIN
-import process_limits
 import selected_tests
 import parser_cases
 
 HERE = Path(__file__).resolve().parent
+PIN = "af54339d250290490d62d4475a77539b7e739071"
 WHOLE = HERE.parent
 CORE = "marmish-core/test/contracts"
 STREAM = "marmish-stream/lib/marmish_stream"
@@ -310,7 +309,13 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                  if (row:=json.loads(line)).get("reason")=="compiler-artifact" and row["target"]["name"]=="libc"
                  for path in row["filenames"] if path.endswith(".rlib")]
         rustc = Path(run("rustup","which","--toolchain","1.97.1","rustc").decode().strip())
-        processes = process_limits.run(original,rustc,libc,{n:release/n for n in ("marmish","marmishd")},None)
+        processes = json.loads(run(
+            "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", WHOLE / "canonical-public-data/Cargo.toml",
+            "--target-dir", work / "process-test-tool", "--bin", "qualify-process-limits", "--",
+            original, "--rustc", rustc, "--libc", libc, "--client", release / "marmish",
+            "--daemon", release / "marmishd",
+        ))
         if processes["executables"] != binary_hashes:
             raise ValueError("harness received different release binaries")
         witnessed[NATIVE] = [processes["test"]]
