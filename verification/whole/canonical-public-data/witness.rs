@@ -1,3 +1,5 @@
+#[path = "../offline-cli/observe.rs"]
+mod offline_cli;
 #[path = "../public-diagnostics/verify.rs"]
 mod diagnostics;
 #[path = "../private-buffer-inference/source.rs"]
@@ -21,6 +23,20 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    OfflineCliCase {
+        binary: PathBuf,
+        home: PathBuf,
+        #[arg(last = true)]
+        argv: Vec<String>,
+    },
+    CompareOfflineCli {
+        original: PathBuf,
+        baseline: PathBuf,
+        output: PathBuf,
+        baseline_build: PathBuf,
+        successor: PathBuf,
+        successor_build: PathBuf,
+    },
     ComposeCli {
         #[arg(value_enum)]
         release: public_data_qualification::cli_composition::Release,
@@ -201,6 +217,11 @@ fn main() -> Result {
                 &destination,
             )?;
             Value::Null
+        }
+        Action::OfflineCliCase {binary, home, argv} => offline_cli::observe(&binary, &home, &argv)?,
+        Action::CompareOfflineCli { original, baseline, output, baseline_build, successor, successor_build } => {
+            offline_cli::compare(&original, &baseline, &baseline_build, &successor, &successor_build, &output)?;
+            return Ok(());
         }
         Action::ComposeCli { release, compiler, original, portable, write } => {
             public_data_qualification::cli_composition::compose(release, &portable, &compiler, &original, write)?;

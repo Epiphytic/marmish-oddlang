@@ -44,7 +44,7 @@ fn objects(repo: &Path) -> Result<PathBuf> {
         "--git-common-dir",
     ]))
 }
-fn publish(src: &Path, dest: &Path) -> Result<()> {
+pub fn publish(src: &Path, dest: &Path) -> Result<()> {
     match renameat_with(CWD, src, CWD, dest, RenameFlags::NOREPLACE) {
         Ok(()) => Ok(()),
         Err(rustix::io::Errno::XDEV) => {

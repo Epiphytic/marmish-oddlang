@@ -41,14 +41,17 @@ the original binary directory matching the release receipt. Create an
 empty scratch directory and set `WORK` to its absolute path.
 
 ```sh
-lane=verification/whole/offline-cli
-cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+tools=verification/whole/canonical-public-data/Cargo.toml
+cargo +1.97.1 run --locked --offline --manifest-path "$tools" \
   --bin workspace-product -- compose-cli offline-cli "$NEXT_COMPILER" "$ORIGINAL" oddlang/portable
-python3 -B "$lane/build.py" "$BASE_COMPILER" "$BASE_FRAMEWORK" "$ORIGINAL" \
+cargo +1.97.1 run --locked --offline --manifest-path "$tools" \
+  --bin build-offline-cli -- "$BASE_COMPILER" "$BASE_FRAMEWORK" "$ORIGINAL" \
   "$WORK/base-product" "$WORK/base-cargo" "$WORK/base-build.json"
-python3 -B "$lane/build.py" "$NEXT_COMPILER" "$NEXT_FRAMEWORK" "$ORIGINAL" \
+cargo +1.97.1 run --locked --offline --manifest-path "$tools" \
+  --bin build-offline-cli -- "$NEXT_COMPILER" "$NEXT_FRAMEWORK" "$ORIGINAL" \
   "$WORK/next-product" "$WORK/next-cargo" "$WORK/next-build.json" --successor
-python3 -B "$lane/observe.py" "$ORIGINAL_BIN" "$WORK/base-cargo/release" \
+cargo +1.97.1 run --locked --offline --manifest-path "$tools" \
+  --bin workspace-product -- compare-offline-cli "$ORIGINAL_BIN" "$WORK/base-cargo/release" \
   "$WORK/cli.json" "$WORK/base-build.json" "$WORK/next-cargo/release" "$WORK/next-build.json"
 ```
 

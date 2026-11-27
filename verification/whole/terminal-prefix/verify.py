@@ -38,7 +38,7 @@ def inherited():
 
 PRIOR = inherited()
 load, sha = PRIOR["load"], PRIOR["sha"]
-WORKSPACE, IMPORTS, PARSER = (PRIOR[key] for key in ("WORKSPACE", "IMPORTS", "PARSER"))
+WORKSPACE, IMPORTS = PRIOR["WORKSPACE"], PRIOR["IMPORTS"]
 exact_checkout, execute = (PRIOR[key] for key in ("exact_checkout", "execute"))
 
 EXTRA = [
@@ -65,7 +65,7 @@ def corpus(role):
                 or len(argv) == 2 and argv[0] == "help" and argv[1].isascii()
                 and argv[1].replace("-", "").isalnum()):
             raise ValueError(f"unexpected archived invocation: {argv!r}")
-    return [row["args"] for row in archived] + PARSER["CASES"] + EXTRA
+    return [row["args"] for row in archived] + PRIOR["CLI_CASES"] + EXTRA
 
 
 def build(args, work, compiler, host, profile):
@@ -108,7 +108,7 @@ def build(args, work, compiler, host, profile):
 def observe(executable, argv, home, launcher):
     if launcher is not None:
         return PRIOR["confined_cli"](launcher, executable, argv, home)
-    row = PARSER["observe"](executable, argv, home)
+    row = PRIOR["observe_cli"](executable, argv, home)
     return {key: value for key, value in row.items() if key != "args"}
 
 

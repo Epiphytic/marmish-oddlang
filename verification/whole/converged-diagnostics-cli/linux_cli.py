@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 
 from verify import HERE, OUTPUT, PORTABLE, check_composition, load, sha
-from verify import FRAMEWORK, IMPORTS, PARSER, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
+from verify import CLI_CASES, FRAMEWORK, IMPORTS, observe_cli, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
 
 HOST = "aarch64-unknown-linux-gnu"
 
@@ -24,7 +24,7 @@ def safe_catalog(role):
         if not (argv in (["--help"], ["--version"]) or len(argv) == 2 and argv[0] == "help"
                 and argv[1].isascii() and argv[1].replace("-", "").isalnum()):
             raise ValueError(f"unsupported historical help case: {argv!r}")
-    appended = [argv for argv in PARSER["CASES"] if help_or_version(argv)]
+    appended = [argv for argv in CLI_CASES if help_or_version(argv)]
     return historical + appended
 
 

@@ -38,12 +38,16 @@ def lane(name, filename):
 
 WORKSPACE = lane("workspace", "verify.py")
 IMPORTS = lane("seven-public-imports", "verify.py")
-PARSER = lane("offline-cli", "observe.py")
+CLI_CASES = json.loads((HERE.parent / "offline-cli/cases.json").read_bytes())
 ERRORS = lane("engine-public-error", "verify.py")
 
 
 load = ERRORS["SIX"]["data"]
 sha = ERRORS["SIX"]["JOURNAL"]["sha"]
+
+
+def observe_cli(binary, argv, home):
+    return ERRORS["SIX"]["product_witness"]("offline-cli-case", binary, home, "--", *argv)
 
 
 def check_composition():
@@ -130,11 +134,11 @@ def cli_observations(args, generated, scratch):
             permitted_history = tokens in historic_safe or (
                 len(argv) == 2 and argv[0] == "help" and argv[1].isascii() and argv[1].replace("-", "").isalnum())
             if original_row["args"] != successor_row["args"] or (
-                    tokens not in historical and argv not in PARSER["CASES"]
+                    tokens not in historical and argv not in CLI_CASES
                     or tokens in historical and not permitted_history):
                 raise ValueError(f"unrecognized fixed replay case: {argv!r}")
-            orig = PARSER["observe"](original, argv, home)
-            candidate = PARSER["observe"](binary, argv, home)
+            orig = observe_cli(original, argv, home)
+            candidate = observe_cli(binary, argv, home)
             if orig != original_row or candidate != successor_row:
                 raise ValueError(f"changed CLI bytes for {name} {argv!r}")
         if any(home.iterdir()):

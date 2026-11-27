@@ -99,3 +99,7 @@ path = "../public-types/check_workspace.rs"
 [[bin]]
 name = "check-copy-frame-pipe"
 path = "../copy-frame/check_pipe.rs"
+
+[[bin]]
+name = "build-offline-cli"
+path = "../offline-cli/build.rs"
