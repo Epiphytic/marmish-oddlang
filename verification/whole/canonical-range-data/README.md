@@ -20,3 +20,5 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 ```
 
 Omit `--check` to regenerate the descriptors.
+
+The [composition comparison](rust-composition-macos-arm64.json) records five byte-identical output descriptors across the three canonical releases and fourteen independent rejection cases. The [macOS ARM64 native replay](rust-aarch64-apple-darwin.json) exercised the 18 range cases, all 35 paired observations, the public import, private-module control and inherited public-data callers. It also recorded the fresh 587-entry library closure.

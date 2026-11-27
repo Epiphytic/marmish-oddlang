@@ -17,3 +17,7 @@ The read-only review compared the buffered composer, Rust qualifier and downstre
 ## Public API composition
 
 A read-only review compared the three Rust composition paths and their verifier entry points to the previous Python producers. It identified a malformed base manifest that could add a missing prototype member, plus the engine command's path output. The corrected implementation requires the existing member, reports invalid startup descriptors and prints the engine workspace path. Independent Rust and Python replays reproduced six published files byte for byte and rejected fourteen cases, including both malformed structures. [Composition evidence](../../verification/whole/converged-public-api/rust-composition-macos-arm64.json)
+
+## Canonical engine and range composers
+
+The read-only review compared the three Rust composition paths with their Python predecessors, including pin checks, fieldless exports, the external reason binding, and the recovered range's semantic and raw identity. Review prompted separate records for the archived Python source and the executed native checker. The [parity report](../../verification/whole/canonical-range-data/rust-composition-macos-arm64.json) verifies the old engine-choice composer hash against its pinned Git blob and both host receipts, and identifies the Rust checker toolchain. Each native receipt retains the actual build hashes from that run.

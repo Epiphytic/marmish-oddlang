@@ -29,3 +29,5 @@ cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/
 ```
 
 Omit `--check` to regenerate the descriptors.
+
+The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) compared the complete generated tree to the retained authored-range product. It reproduced all 84 Rust files, the eight source denials and the archived native evidence. Only the companion revision differs in the two macOS receipt documents.

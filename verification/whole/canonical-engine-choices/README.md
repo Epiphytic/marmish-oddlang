@@ -60,3 +60,5 @@ phase runs compile-only import probes and the local enum data caller.
 The promotion evidence remains open.
 
 Omit `--check` from the composition command to regenerate the candidate workspace descriptor.
+
+The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) preserved the seven member locks and exercised all 140 imports. The native library exposed 79 imports, including the two new engine choices. The receipt identifies the historical Python composer separately from the Rust checker, its source revision and its executable. Build hashes identify the artifacts used by that run.
