@@ -38,7 +38,7 @@ def pin_bytes(path, revision):
     return want
 
 
-IMPORT_TOOLING_PIN = "ec5a24b45a977b6a9dd0b4515cf8179670d4ba83"
+IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
 HELPER_PINS = {
     ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
     WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
@@ -48,6 +48,8 @@ HELPER_PINS = {
     WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/product.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": IMPORT_TOOLING_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
