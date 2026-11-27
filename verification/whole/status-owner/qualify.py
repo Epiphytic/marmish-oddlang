@@ -14,9 +14,11 @@ import subprocess
 import tempfile
 import time
 
-from project import INPUTS, REFERENCE
-
 HERE = Path(__file__).resolve().parent
+PORTABLE = HERE.parents[2] / "oddlang/portable"
+INPUTS = PORTABLE / "native-status-owner-v1"
+REFERENCE = "af54339d250290490d62d4475a77539b7e739071"
+
 EXPECTED = {"exit": 0, "stdout": '{"ok":true,"result":{"state":"activating"},"error":null}\n', "stderr": ""}
 MISSING = {"exit": 1, "stdout": "", "stderr": "marmish: local I/O failed\n"}
 INVALID = b'{"ok":false,"result":null,"error":"invalid_request"}'

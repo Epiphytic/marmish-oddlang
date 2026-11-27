@@ -3,7 +3,7 @@
 The macOS runner starts from a clean pinned Oddlang checkout, the pinned original source and original native release binaries:
 
 ```sh
-verification/whole/status-owner/macos.sh FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
+cargo +1.96.1 run --quiet --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-macos -- status-owner FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
 ```
 
 It verifies the original source and dependency pins, compiles the exact framework, then generates the package and builds the native release executable from the graph and lock in an isolated staging cell. Original binaries, both source trees, Git objects, network and independent evidence are unavailable during generation. The runner verifies the Cargo and package locks before running the build.

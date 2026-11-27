@@ -23,6 +23,7 @@ pub mod cli_projection;
 #[path = "../../offline-cli/compose.rs"]
 pub mod cli_composition;
 pub mod status_package;
+pub mod owner_projection;
 pub mod status_peer;
 pub mod macos_build;
 pub mod status_qualification;
