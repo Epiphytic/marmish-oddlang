@@ -91,3 +91,7 @@ path = "../shapes/archive.rs"
 [[bin]]
 name = "qualify-mdk-json-input"
 path = "../mdk-json-input/verify.rs"
+
+[[bin]]
+name = "check-public-types"
+path = "../public-types/check_workspace.rs"
