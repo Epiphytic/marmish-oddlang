@@ -10,7 +10,7 @@ use std::{
 const HOST: &str = "aarch64-apple-darwin";
 const ORIGINAL: &str = "af54339d250290490d62d4475a77539b7e739071";
 const COMPILER: &str = "8bab26f4f68e0e26f0bb7960be334d5b520ea452";
-const COUNT: [(&str, usize); 7] = [
+pub const COUNT: [(&str, usize); 7] = [
     ("core", 6),
     ("engine", 48),
     ("mdk", 5),
@@ -86,7 +86,7 @@ pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value>
     )?;
     Ok(json!({"compiles":result.status.success(),"diagnostics":diagnostics}))
 }
-fn library(name: &str, count: usize, host: &str, role: &Value, original: &Path) -> Result<Value> {
+pub fn library(name: &str, count: usize, host: &str, role: &Value, original: &Path) -> Result<Value> {
     let root = whole()
         .join("public-types")
         .join(format!("original-{name}"));

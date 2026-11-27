@@ -58,3 +58,11 @@ path = "../canonical-recovered-range/verify.rs"
 [[bin]]
 name = "qualify-process-limits"
 path = "../suite/process_limits.rs"
+
+[[bin]]
+name = "qualify-range-role"
+path = "../gap-range-role-workspace/verify.rs"
+
+[[bin]]
+name = "qualify-range-imports"
+path = "../gap-range-role-workspace/imports.rs"

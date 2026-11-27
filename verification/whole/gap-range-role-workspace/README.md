@@ -6,7 +6,7 @@ To reproduce, use the reviewed Oddlang runtime commit `b530e740a6eaef5e993192777
 
 ```sh
 cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api range-native-idioms oddlang/portable --check
-python3 -B verification/whole/gap-range-role-workspace/verify.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-range-role -- \
   FRAMEWORK CHECKED_COMPILER PREDECESSOR_PRODUCT NEW_WORK_DIRECTORY RECEIPT
 ```
 
@@ -30,6 +30,6 @@ metadata. Runtime processing and peer compatibility require separate evidence.
 To replay against the retained release libraries, run:
 
 ```sh
-python3 -B verification/whole/gap-range-role-workspace/imports.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-range-imports -- \
   "$ORIGINAL" "$RETAINED_RANGE_BUILD" /tmp/range-imports.json
 ```
