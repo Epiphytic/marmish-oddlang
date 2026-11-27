@@ -491,7 +491,7 @@
       "module": "command_client_resume",
       "graph": {
         "path": "basic-command-retained-poll-v1/resume.json",
-        "sha256": "129ff120da472d22f82e80cb2495f9527a6a0fbab346be2e5ba20db3ee261800"
+        "sha256": "c4f0d1bcd3eecbe186e950f0c2d05e2d2f883bf343ba91b1ac242da4d83c8d60"
       },
       "overlay": {
         "path": "basic-command-retained-poll-v1/resume.rust.json",
