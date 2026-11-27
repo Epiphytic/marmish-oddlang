@@ -1,19 +1,48 @@
 //! Stage the core package graph and verify its generated Rust source inventory.
 #[path = "../../../core-package/linux.rs"]
 mod linux;
+#[path = "../../../core-package/macos.rs"]
+mod macos;
 #[path = "../../../core-package/mutations.rs"]
 mod mutations;
 use clap::{Parser, Subcommand};
 use mutations::Mutation;
 use public_data_qualification::{
-    Result, cli_projection::input_bytes, list, load, product::file_digests, require, sha, text,
+    Result, cli_projection::input_bytes, list, load, product::file_digests, require, run, sha,
+    stdout, text,
 };
 use serde_json::json;
 use std::{
     collections::{BTreeMap, BTreeSet},
     fs,
     path::{Component, Path, PathBuf},
+    process::Command,
 };
+
+const ORIGINAL: &str = "af54339d250290490d62d4475a77539b7e739071";
+const FRAMEWORK: &str = "a635eec8e0f71d2dabc9aee28655e26494a7506f";
+const RUST: &str = "8bab26f4f68e0e26f0bb7960be334d5b520ea452";
+fn checkout(root: &Path, pin: &str) -> Result {
+    require(
+        stdout(
+            Command::new("git")
+                .current_dir(root)
+                .args(["rev-parse", "HEAD"]),
+        )?
+        .trim()
+            == pin,
+        "wrong checkout revision",
+    )?;
+    require(
+        run(Command::new("git").current_dir(root).args([
+            "status",
+            "--porcelain",
+            "--untracked-files=all",
+        ]))?
+        .is_empty(),
+        "checkout is dirty",
+    )
+}
 
 #[derive(Parser)]
 struct Args {
@@ -24,6 +53,21 @@ struct Args {
 enum Action {
     /// Run the source-isolated Linux qualification.
     Linux(linux::Args),
+    /// Run the source-isolated macOS qualification and mutation witnesses.
+    Macos(macos::Args),
+    /// Prepare the private Cargo home and emit the reviewed read roots and build environment.
+    MacosEnvironment {
+        work: PathBuf,
+        host: String,
+    },
+    /// Emit the same Seatbelt policy for a caller that adds its own read roots and exclusions.
+    MacosPolicy {
+        work: PathBuf,
+        #[arg(long)]
+        read: Vec<PathBuf>,
+        #[arg(long)]
+        deny: Vec<PathBuf>,
+    },
     #[command(hide = true)]
     ProbeLoopback {
         port: u16,
@@ -260,6 +304,20 @@ fn compare(original: &Path, generated: &Path) -> Result<BTreeMap<String, usize>>
 fn main() -> Result<()> {
     match Args::parse().action {
         Action::Linux(args) => linux::qualify(args),
+        Action::Macos(args) => macos::qualify(args),
+        Action::MacosEnvironment { work, host } => macos::environment(&work, &host),
+        Action::MacosPolicy { work, read, deny } => {
+            require(cfg!(target_os = "macos"), "macOS Seatbelt required")?;
+            println!(
+                "{}",
+                public_data_qualification::assembly::seatbelt_policy(
+                    &work,
+                    &read.iter().map(PathBuf::as_path).collect::<Vec<_>>(),
+                    &deny.iter().map(PathBuf::as_path).collect::<Vec<_>>()
+                )?
+            );
+            Ok(())
+        }
         Action::ProbeLoopback { port } => linux::probe_loopback(port),
         Action::Compare {
             original,

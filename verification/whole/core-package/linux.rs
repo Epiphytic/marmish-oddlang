@@ -11,37 +11,13 @@ use std::{
     time::Duration,
 };
 
-const ORIGINAL: &str = "af54339d250290490d62d4475a77539b7e739071";
-const FRAMEWORK: &str = "a635eec8e0f71d2dabc9aee28655e26494a7506f";
-const RUST: &str = "8bab26f4f68e0e26f0bb7960be334d5b520ea452";
+use super::{FRAMEWORK, ORIGINAL, RUST, checkout};
 #[derive(clap::Args)]
 pub struct Args {
     portable: PathBuf,
     original: PathBuf,
     framework: PathBuf,
     receipt: PathBuf,
-}
-
-fn checkout(root: &Path, pin: &str) -> Result {
-    require(
-        stdout(
-            Command::new("git")
-                .current_dir(root)
-                .args(["rev-parse", "HEAD"]),
-        )?
-        .trim()
-            == pin,
-        "wrong checkout revision",
-    )?;
-    require(
-        run(Command::new("git").current_dir(root).args([
-            "status",
-            "--porcelain",
-            "--untracked-files=all",
-        ]))?
-        .is_empty(),
-        "checkout is dirty",
-    )
 }
 
 fn connect(port: u16) -> std::io::Result<TcpStream> {

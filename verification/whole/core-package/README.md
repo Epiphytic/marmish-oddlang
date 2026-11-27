@@ -34,7 +34,8 @@ revisions in the [native qualification receipt](reference-aarch64-apple-darwin.j
 Rust 1.97.1 and the locked Cargo dependencies cached locally.
 
 ```sh
-python3 -B verification/whole/core-package/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin core-package-inputs -- macos \
   /path/to/original /path/to/pinned-oddlang /tmp/core-package-replay.json
 cmp /tmp/core-package-replay.json verification/whole/core-package/reference-aarch64-apple-darwin.json
 ```
