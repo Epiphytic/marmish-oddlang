@@ -40,7 +40,6 @@ WORKSPACE = lane("workspace", "verify.py")
 IMPORTS = lane("seven-public-imports", "verify.py")
 PARSER = lane("offline-cli", "observe.py")
 ERRORS = lane("engine-public-error", "verify.py")
-DIAG = lane("public-diagnostics", "verify.py")
 
 
 load = ERRORS["SIX"]["data"]
@@ -191,9 +190,9 @@ def imports_and_behavior(args, raw, scratch):
     diag = load(HERE.parent / "public-diagnostics" / f"{HOST}.json")
     probe = HERE.parent / "public-diagnostics/probe.rs"
     if (diag["original"] != IMPORTS["ORIGINAL"] or diag["probeSha256"] != sha(probe.read_bytes())
-            or diag["sourceSha256"] != sha((args.original / DIAG["SOURCE"]).read_bytes())):
+            or diag["sourceSha256"] != sha((args.original / "crates/marmish-native/src/diagnostics.rs").read_bytes())):
         raise ValueError("diagnostic baseline pin differs")
-    generated_diag = DIAG["observe"](found["marmish-native"][1], HOST, "0.3.1", scratch)
+    generated_diag = ERRORS["SIX"]["product_witness"]("diagnostic-caller", found["marmish-native"][1], HOST, "0.3.1", scratch)
     if generated_diag != diag["observations"]:
         raise ValueError("public diagnostic behavior differs")
     return {"spellingCount": 140, "importable": 71, "delta": delta, "libraries": observed,

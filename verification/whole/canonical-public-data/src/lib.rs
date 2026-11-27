@@ -102,6 +102,15 @@ pub fn capture(
     seconds: u64,
     input: Option<&[u8]>,
 ) -> Result<std::process::Output> {
+    capture_stderr(cmd, seconds, input, None)
+}
+/// A supplied stderr sink receives the child stream directly, including OS write failures.
+pub fn capture_stderr(
+    cmd: &mut Command,
+    seconds: u64,
+    input: Option<&[u8]>,
+    sink: Option<std::process::Stdio>,
+) -> Result<std::process::Output> {
     use std::io::{Read, Seek, Write};
     use std::os::unix::process::CommandExt;
     use std::process::{Output, Stdio};
@@ -124,7 +133,10 @@ pub fn capture(
     }
     let mut child = cmd
         .stdout(out.try_clone()?)
-        .stderr(err.try_clone()?)
+        .stderr(match sink {
+            Some(sink) => sink,
+            None => err.try_clone()?.into(),
+        })
         .spawn()?;
     let deadline = Instant::now() + Duration::from_secs(seconds);
     let status = loop {

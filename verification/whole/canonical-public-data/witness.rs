@@ -1,3 +1,5 @@
+#[path = "../public-diagnostics/verify.rs"]
+mod diagnostics;
 #[path = "../private-buffer-inference/source.rs"]
 mod buffer_trace;
 #[path = "../gap-range-endpoint/contract.rs"]
@@ -19,6 +21,18 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    DiagnosticCaller {
+        library: PathBuf,
+        host: String,
+        version: String,
+        work: PathBuf,
+        host_deps: Option<PathBuf>,
+    },
+    PublicDiagnostics {
+        original: PathBuf,
+        target: PathBuf,
+        receipt: PathBuf,
+    },
     EngineCaller {
         #[arg(value_enum)]
         role: public_data_qualification::engine_caller::Role,
@@ -178,6 +192,13 @@ fn main() -> Result {
                 &destination,
             )?;
             Value::Null
+        }
+        Action::DiagnosticCaller { library, host, version, work, host_deps } => {
+            diagnostics::observe(&library, &host, &version, &work, host_deps.as_deref())?
+        }
+        Action::PublicDiagnostics { original, target, receipt } => {
+            diagnostics::baseline(&original, &target, &receipt)?;
+            return Ok(());
         }
         Action::EngineCaller {
             role,

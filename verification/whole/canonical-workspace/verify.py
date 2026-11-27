@@ -43,7 +43,6 @@ def lane(name, program="verify.py"):
 PARSER = lane("converged-release-manifest", "workspace_compat.py")
 RECORD_API = lane("engine-native-records")
 CLI = lane("terminal-prefix")
-DIAG = lane("public-diagnostics")
 VAULT_API = lane("vault-mode")
 CONVERGED = PARSER["CONVERGENCE"]
 ENGINE_API, LIMIT, SIX = (PARSER[name] for name in ("ENGINE", "LIMIT", "SIX"))
@@ -150,7 +149,7 @@ def diagnostics(args, host, work, scratch, product, build):
     root.mkdir()
     archived = WHOLE / "public-diagnostics" / f"{host}.json"
     expected = data(archived)
-    source = args.original / DIAG["SOURCE"]
+    source = args.original / "crates/marmish-native/src/diagnostics.rs"
     probe = WHOLE / "public-diagnostics/probe.rs"
     if expected["original"] != SIX["ORIGINAL"] or expected["sourceSha256"] != sha(source) or expected["probeSha256"] != sha(probe):
         raise ValueError("unexpected original diagnostics pin")
@@ -159,7 +158,7 @@ def diagnostics(args, host, work, scratch, product, build):
     if recovered.read_bytes() != (work / "inputs/native-diagnostics-v1/graph.json").read_bytes():
         raise ValueError("native diagnostic source observations drifted")
     lib = SIX["artifact"](build, "marmish_native")
-    actual = DIAG["observe"](lib, host, "0.3.1", root, product / "target/release/deps")
+    actual = SIX["product_witness"]("diagnostic-caller", lib, host, "0.3.1", root, product / "target/release/deps")
     if actual != expected["observations"]:
         raise ValueError("canonical native diagnostic observations differ")
     return {"diagnostics": {"observations": actual, "originalWitnessSha256": sha(archived),
@@ -229,7 +228,7 @@ def denied(args, host):
         "original-native-path-records": args.original / RECORD_API["SOURCE"]["native"],
         "engine-record-caller": WHOLE / "engine-native-records/engine.rs",
         "native-record-caller": WHOLE / "engine-native-records/native.rs",
-        "original-native-diagnostics": args.original / DIAG["SOURCE"],
+        "original-native-diagnostics": args.original / "crates/marmish-native/src/diagnostics.rs",
         "diagnostic-caller": WHOLE / "public-diagnostics/probe.rs",
         "original-vault-mode": args.original / VAULT_API["SOURCE"],
         "vault-mode-caller": WHOLE / "vault-mode/probe.rs",

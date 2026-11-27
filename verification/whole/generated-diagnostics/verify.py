@@ -18,7 +18,6 @@ try:
     SHARED = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
 finally:
     sys.path.pop(0)
-ORACLE = runpy.run_path(str(HERE.parent / "public-diagnostics/verify.py"))
 run, data, sha = (SHARED[key] for key in ("run", "data", "sha"))
 
 
@@ -45,7 +44,7 @@ def check_product(product):
 
 
 def qualify(args, host, work, scratch):
-    source = args.original / ORACLE["SOURCE"]
+    source = args.original / "crates/marmish-native/src/diagnostics.rs"
     baseline = data(HERE.parent / "public-diagnostics" / (host + ".json"))
     if baseline["original"] != SHARED["ORIGINAL"] or baseline["sourceSha256"] != sha(source):
         raise ValueError("different upstream diagnostic oracle")
@@ -56,10 +55,10 @@ def qualify(args, host, work, scratch):
         run(compiler, "recover", "structured-diagnostics", source, recovered)
         if recovered.read_bytes() != (DOMAIN / "graph.json").read_bytes():
             raise ValueError("recovery differs from pinned graph")
-        if baseline["probeSha256"] != sha(ORACLE["HERE"] / "probe.rs"):
+        if baseline["probeSha256"] != sha(HERE.parent / "public-diagnostics/probe.rs"):
             raise ValueError("different original consumer")
         library = product / "target/release/libmarmish_native.rlib"
-        actual = ORACLE["observe"](library, host, "0.3.1", scratch)
+        actual = SHARED["product_witness"]("diagnostic-caller", library, host, "0.3.1", scratch)
         if actual != baseline["observations"]:
             raise ValueError("generated diagnostics differ from original")
         return {"diagnostics": {"consumerSha256": baseline["probeSha256"], "graphSha256": sha(recovered),
@@ -68,7 +67,7 @@ def qualify(args, host, work, scratch):
 
     return SHARED["qualify"](args, host, work, scratch, manifest=PORTABLE / (WORKSPACE + ".json"),
                             base=BASE + ".json", member=MEMBER, check=check_product,
-                            extra_denied={"diagnostic-source": source, "diagnostic-consumer": ORACLE["HERE"] / "probe.rs"},
+                            extra_denied={"diagnostic-source": source, "diagnostic-consumer": HERE.parent / "public-diagnostics/probe.rs"},
                             extra_oracle=observations, receipt_format="marmish-diagnostic-workspace-v1")
 
 
