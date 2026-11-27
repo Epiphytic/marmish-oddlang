@@ -1,6 +1,6 @@
-use public_data_qualification::{Result, assembly, load, portable, require, run};
+use public_data_qualification::{Result, assembly, capture, load, portable, require, run};
 use serde::Serialize;
-use serde_json::{Value, ser::Formatter};
+use serde_json::{Value, json, ser::Formatter};
 use std::{
     fs,
     io::{self, Write},
@@ -79,4 +79,48 @@ pub fn python_line(v: &Value) -> Result<Vec<u8>> {
         }
     }
     Ok(out.into_bytes())
+}
+pub fn consumer(root: &Path, work: &Path, lock: &Path, caller: &Path) -> Result<PathBuf> {
+    fs::create_dir_all(work.join("src"))?;
+    fs::copy(caller, work.join("src/main.rs"))?;
+    fs::write(
+        work.join("Cargo.toml"),
+        format!(
+            "[package]\nname=\"observe-copy-launch\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[dependencies]\nserde={{version=\"=1.0.229\",features=[\"derive\"]}}\nserde_json=\"=1.0.151\"\nmarmish-stream={{path={}}}\n[workspace]\n",
+            json!(root)
+        ),
+    )?;
+    fs::copy(lock, work.join("Cargo.lock"))?;
+    for args in [
+        &["metadata", "--offline", "--format-version", "1"][..],
+        &["build", "--release", "--offline", "--locked"],
+    ] {
+        run(Command::new("cargo")
+            .env_remove("CARGO_TARGET_DIR")
+            .current_dir(work)
+            .arg("+1.97.1")
+            .args(args))?;
+    }
+    Ok(work.join("target/release/observe-copy-launch"))
+}
+pub fn compare(label: &str, exe: &Path, requests: &[Value], expected: &[Value]) -> Result {
+    let mut input = Vec::new();
+    for r in requests {
+        serde_json::to_writer(&mut input, r)?;
+        writeln!(input)?;
+    }
+    let out = capture(&mut Command::new(exe), 600, Some(&input))?;
+    require(out.status.success(), String::from_utf8_lossy(&out.stderr))?;
+    let lines = std::str::from_utf8(&out.stdout)?.lines();
+    require(
+        lines.clone().count() == expected.len(),
+        format!("{label} result count differs"),
+    )?;
+    for (i, (line, want)) in lines.zip(expected).enumerate() {
+        require(
+            serde_json::from_str::<Value>(line)? == *want,
+            format!("{label} case {i} differs"),
+        )?;
+    }
+    Ok(())
 }

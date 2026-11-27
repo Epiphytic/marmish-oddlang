@@ -4,14 +4,13 @@ import json
 import os
 from pathlib import Path
 import platform
-import runpy
 import subprocess
 import sys
 import tempfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "copy-launch"))
-from inputs import PIN, ROOT, consumer, observe, read, run, sha, write
+from inputs import PIN, ROOT, read, run, sha, write
 from verify import linux_project, staged
 
 CALLER = HERE.parent / "copy-field-relations/caller.rs"
@@ -23,7 +22,6 @@ METHOD = "crate::copy_protocol::Launch::matches_manifest"
 SOURCE = Path("crates/marmish-stream/src/copy_protocol.rs")
 BINDING = PORTABLE / "copy-field-relations-v1/rust.json"
 RELEASED = PORTABLE / "copy-field-relations-v1/graph.json"
-CONTRACT = runpy.run_path(str(CALLER.parent / "verify.py"))
 
 
 def checked(*command, cwd=None, env=None):
@@ -82,22 +80,6 @@ def mutation(original, mutant):
     source.write_text(text.replace(old, "&& self.transfer == manifest.server"))
 
 
-def oracle_rows():
-    all_requests, expected = CONTRACT["corpus"]()
-    original_expected = [item for req, item in zip(all_requests, expected, strict=True)
-                         if req["operation"] == "match"]
-    requests = [req for req in all_requests if req["operation"] == "match"]
-    base = CONTRACT["manifest"]["corpus"]()[0][0]
-    assert base["server"] != base["transfer"]
-    # Cases where the two native revisions disagree in both directions.
-    paired = dict(base, server=base["transfer"], transfer=base["server"])
-    launch = {key: paired[key] for key in CONTRACT["KEYS"]} | dict(transfer=paired["server"], mode="create")
-    request = dict(operation="match", launch=CONTRACT["launch_wire"](launch),
-                   manifest=list(CONTRACT["manifest"]["encode"](paired)))
-    mutated_expected = [False] * len(requests)
-    return requests + [request], original_expected + [False], mutated_expected + [True]
-
-
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for label in ("original", "framework", "receipt"):
@@ -144,15 +126,11 @@ def main():
         write(package, package_manifest)
         altered = work / "altered-package"
         assert sealed_project(work, cli, package, altered, original, mutant)
-        requests, normal, changed = oracle_rows()
-        for label, root, lock, expect in (
-            ("reference", original / SOURCE.parents[1], original / "Cargo.lock", normal),
-            ("recovered", native, native / "Cargo.lock", normal),
-            ("mutant-reference", mutant / SOURCE.parents[1], mutant / "Cargo.lock", changed),
-            ("mutant-recovered", altered, altered / "Cargo.lock", changed),
-        ):
-            executable = consumer(root, work / label, lock, CALLER)
-            assert observe(executable, requests) == expect, label
+        comparison = json.loads(run(
+            "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+            HERE.parent / "copy-manifest/Cargo.toml", "--bin", "copy-field-relations", "--",
+            "correspondence", original, native, mutant, altered, work,
+        ))
         original_package = native / "package.lock"
         mutant_package = altered / "package.lock"
         assert original_package.read_bytes() == (DATA / "package.lock").read_bytes()
@@ -161,8 +139,8 @@ def main():
         assert original_component["kind"] == mutant_component["kind"] == "field-relation"
         assert original_component["sourceSha256"] != mutant_component["sourceSha256"]
         write(args.receipt, dict(original=PIN, framework=framework_pin, rust=rust,
-              comparisons=len(rows), casesPerImplementation=len(requests),
-              changedCases=sum(x != y for x, y in zip(normal, changed, strict=True)),
+              comparisons=len(rows), casesPerImplementation=comparison["casesPerImplementation"],
+              changedCases=comparison["changedCases"],
               readDenied=denied, callerSha256=sha(CALLER), originalGraphSha256=sha(base_graph), mutatedGraphSha256=sha(mutated_graph),
               originalEvidenceSha256=sha(base_graph.parent / "evidence.json"),
               mutatedEvidenceSha256=sha(mutated_graph.parent / "evidence.json"),

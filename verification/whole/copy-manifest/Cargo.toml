@@ -1,0 +1,23 @@
+[package]
+name = "copy-manifest-replay"
+version = "0.1.0"
+edition = "2024"
+publish = false
+default-run = "copy-manifest-replay"
+
+[workspace]
+
+[dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+copy-checkpoint-replay = { path = "../copy-checkpoint" }
+public-data-qualification = { path = "../canonical-public-data" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+stream-wire-replay = { path = "../stream-wire" }
+tempfile = "3"
+
+[[bin]]
+name = "copy-field-relations"
+path = "../copy-field-relations/replay.rs"

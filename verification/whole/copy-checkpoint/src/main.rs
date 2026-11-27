@@ -1,20 +1,17 @@
+#[cfg(test)]
+use std::io::Write;
 mod corpus;
 mod oracle;
 use clap::Parser;
-use copy_checkpoint_replay::{build_compiler, stage};
+use copy_checkpoint_replay::{build_compiler, compare, consumer, stage};
 use oracle::{DOMAIN, decode, fault};
 use public_data_qualification::{
     Result,
     assembly::{self, ORIGINAL, Sandbox, bytes_sha},
-    capture, json_bytes, load, portable, require, run, sha, stdout, text, whole,
+    json_bytes, load, portable, require, run, sha, stdout, text, whole,
 };
-use serde_json::{Value, json};
-use std::{
-    fs,
-    io::Write,
-    path::{Path, PathBuf},
-    process::Command,
-};
+use serde_json::json;
+use std::{fs, path::PathBuf, process::Command};
 const FRAMEWORK: &str = "3b3a1ef0e560041474cf6cddedcd52ab66defde2";
 const PACKAGE: &str = "stream-copy-checkpoint-package.json";
 #[derive(Parser)]
@@ -22,50 +19,6 @@ struct Args {
     original: PathBuf,
     framework: PathBuf,
     receipt: PathBuf,
-}
-fn consumer(root: &Path, work: &Path, lock: &Path, caller: &Path) -> Result<PathBuf> {
-    fs::create_dir_all(work.join("src"))?;
-    fs::copy(caller, work.join("src/main.rs"))?;
-    fs::write(
-        work.join("Cargo.toml"),
-        format!(
-            "[package]\nname=\"observe-copy-launch\"\nversion=\"0.1.0\"\nedition=\"2021\"\n[dependencies]\nserde={{version=\"=1.0.229\",features=[\"derive\"]}}\nserde_json=\"=1.0.151\"\nmarmish-stream={{path={}}}\n[workspace]\n",
-            json!(root)
-        ),
-    )?;
-    fs::copy(lock, work.join("Cargo.lock"))?;
-    for args in [
-        &["metadata", "--offline", "--format-version", "1"][..],
-        &["build", "--release", "--offline", "--locked"],
-    ] {
-        run(Command::new("cargo")
-            .env_remove("CARGO_TARGET_DIR")
-            .current_dir(work)
-            .arg("+1.97.1")
-            .args(args))?;
-    }
-    Ok(work.join("target/release/observe-copy-launch"))
-}
-fn compare(label: &str, exe: &Path, requests: &[Value], expected: &[Value]) -> Result {
-    let mut input = Vec::new();
-    for r in requests {
-        serde_json::to_writer(&mut input, r)?;
-        writeln!(input)?;
-    }
-    let out = capture(&mut Command::new(exe), 600, Some(&input))?;
-    require(out.status.success(), String::from_utf8_lossy(&out.stderr))?;
-    let lines = std::str::from_utf8(&out.stdout)?.lines();
-    require(
-        lines.clone().count() == expected.len(),
-        format!("{label} result count differs"),
-    )?;
-    for (i, (line, want)) in lines.zip(expected).enumerate() {
-        require(
-            serde_json::from_str::<Value>(line)? == *want,
-            format!("{label} case {i} differs"),
-        )?;
-    }
-    Ok(())
 }
 fn main() -> Result {
     let a = Args::parse();

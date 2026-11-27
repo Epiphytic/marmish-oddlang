@@ -117,15 +117,11 @@ def stage_workspace(manifest, graph):
 
 
 def v3_interfaces(work, target, original, binaries, compiler):
-    lane = runpy.run_path(str(HERE.parent / "copy-field-relations/verify.py"))
-    cases, expected = lane["corpus"]()
-    for name, crate, lock in (
-        ("original", original / "crates/marmish-stream", original / "Cargo.lock"),
-        ("generated", target / "marmish-stream", target / "Cargo.lock"),
-    ):
-        executable = lane["consumer"](crate, work / ("relation-" + name), lock, lane["CALLER"])
-        if lane["observe"](executable, cases) != expected:
-            raise ValueError(f"{name} copy relations differ from portable oracle")
+    relations = json.loads(envtools.run(
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "copy-manifest/Cargo.toml", "--bin", "copy-field-relations", "--",
+        "workspace", original, target, work,
+    ))
     runtime = work / "status.json"
     original_status = json.loads((HERE.parent / "status" / ("linux-arm64.json" if sys.platform == "linux" else "macos-arm64.json")).read_bytes())
     for name, digest in original_status["originalBinaries"].items():
@@ -155,8 +151,7 @@ def v3_interfaces(work, target, original, binaries, compiler):
     if process_limits["executables"] != parser_evidence["generatedBinaries"]:
         raise ValueError("the process limits harness exercised different artifacts")
     return {
-        "copyRelations": {"cases": len(cases), "callerSha256": sha(lane["CALLER"].read_bytes()),
-                          "observationsSha256": sha(json.dumps(expected, separators=(",", ":")).encode())},
+        "copyRelations": relations,
         "status": status,
         "cliParser": parser_evidence,
         "nativeProcessLimits": process_limits,
