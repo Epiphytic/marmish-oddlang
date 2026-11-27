@@ -47,38 +47,6 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def selection(source, rustdoc):
-    document = read(rustdoc)
-    (filename,) = {
-        item["span"]["filename"]
-        for item in document["index"].values()
-        if item["name"] == "MissingRange"
-        and "struct" in item["inner"]
-        and item["crate_id"] == 0
-        and item["span"] is not None
-    }
-    if filename != MODEL.as_posix():
-        raise ValueError("unexpected compiled declaration source path")
-    return {
-        "format": "oddlang-serde-public-record-selection-v1",
-        "sourceFilename": filename,
-        "sourceSha256": sha(source),
-        "rustdocSha256": sha(rustdoc),
-        "crateName": "marmish_engine",
-        "crateRootSha256": sha(source.with_name("lib.rs")),
-        "moduleId": ID + "range-module",
-        "moduleName": "model",
-        "record": {
-            "name": "MissingRange",
-            "id": ID + "range",
-            "fields": {
-                name: ID + "range:" + name for name in ("start", "end", "reason")
-            },
-        },
-        "choices": [{"name": "MissingReason", "id": ID + "reason"}],
-    }
-
-
 def rustdoc_inputs(directory, original, sources, host):
     evidence = read(directory / "evidence.json")
     profile = {
@@ -156,29 +124,6 @@ def rustdoc_inputs(directory, original, sources, host):
     return inputs, evidence
 
 
-def recover(compiler, source, doc, work):
-    picked, out = work / "selection.json", work / "recovered"
-    work.mkdir()
-    dump(picked, selection(source, doc))
-    run(compiler, "recover", "serde-public-record", source, doc, picked, out, env=ENV)
-    lock = read(out / "recovery.lock")
-    pins = {
-        "selection": picked,
-        "source": source,
-        "crateRoot": source.with_name("lib.rs"),
-        "rustdoc": doc,
-        "graph": out / "graph.json",
-        "overlay": out / "rust.json",
-    }
-    if lock["format"] != "oddlang-serde-public-record-recovery-lock-v1" or any(
-        lock[key + "Sha256"] != sha(path) for key, path in pins.items()
-    ):
-        raise ValueError(
-            "compiler recovery lock differs from the selected inputs or outputs"
-        )
-    return picked, out
-
-
 def qualification_witnesses(original, host, sources, rustc):
     receipt = HERE.parent / "gap-range-record" / f"{host}.json"
     archived = json.loads(pinned(receipt, LEGACY))
@@ -239,32 +184,8 @@ def reason_witness(host, baseline_source):
     return {"framework": archived["framework"], "receiptSha256": sha(path)}
 
 
-def stage(recovered, inputs):
-    authored_path = PORTABLE / "engine-gap-range-package.json"
-    manifest = json.loads(pinned(authored_path, LEGACY))
-    for name, component in (("graph.json", "graph"), ("rust.json", "overlay")):
-        reason = PORTABLE / REASON_GRAPH / name
-        pinned(reason, REASON)
-        target = inputs / REASON_GRAPH / name
-        target.parent.mkdir(exist_ok=True, parents=True)
-        shutil.copyfile(reason, target)
-        manifest["components"][0][component] = PRIOR["pin"](inputs, target)
-
-        record = inputs / RECORD / name
-        record.parent.mkdir(exist_ok=True, parents=True)
-        shutil.copyfile(recovered / name, record)
-        manifest["components"][1][component] = PRIOR["pin"](inputs, record)
-    cargo = PRIOR["checked_pin"](PORTABLE, manifest["cargoLock"])
-    lock = inputs / manifest["cargoLock"]["path"]
-    lock.parent.mkdir(exist_ok=True, parents=True)
-    shutil.copyfile(cargo, lock)
-    path = inputs / PACKAGE
-    dump(path, manifest)
-    return path
-
-
 def sealed(
-    compiler, original, framework, scratch, inputs, recovered, expected, host, work
+    compiler, original, framework, scratch, inputs, recovered, expected, host, work, preparer
 ):
     tool = Path(shutil.copy2(compiler, work / "oddlang"))
     forbidden = [
@@ -306,7 +227,8 @@ def sealed(
     products = {}
     for label, path in recovered.items():
         lane = work / label
-        manifest = stage(path, lane / "inputs")
+        run(preparer, "stage", path, lane / "inputs", env=ENV)
+        manifest = lane / "inputs" / PACKAGE
         product = lane / "product"
         inside(tool, "build", "native-package", "rust", manifest, product, cwd=lane)
         products[label] = lane, manifest, product
@@ -435,11 +357,16 @@ def qualify(args):
         expected, legacy_sha, baseline_sha = qualification_witnesses(
             args.original, host, sources, rustc
         )
+        tool_target = scratch / "tools"
+        run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "range-contract-inputs",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--target-dir", tool_target, env=ENV)
+        preparer = tool_target / "debug/range-contract-inputs"
         recovered, selections = {}, {}
         for label, source in sources.items():
-            selections[label], recovered[label] = recover(
-                compiler, source, docs[label], scratch / label
-            )
+            lane = scratch / label
+            run(preparer, "recover", compiler, source, docs[label], lane, env=ENV)
+            selections[label], recovered[label] = lane / "selection.json", lane / "recovered"
         denied = scratch / "stale-selector-output"
         rejected = subprocess.run(
             [
@@ -488,6 +415,7 @@ def qualify(args):
             expected,
             host,
             work,
+            preparer,
         )
         if rustdoc_inputs(args.rustdoc, args.original, sources, host)[1] != evidence:
             raise ValueError("rustdoc inputs changed during qualification")

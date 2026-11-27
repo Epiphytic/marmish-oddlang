@@ -34,6 +34,8 @@ host receipt, and cached Cargo inputs. Use Rust 1.96.1 to build Oddlang
 and native Rust 1.97.1 to collect rustdoc and compile the callers.
 Use external scratch directories for the build targets and outputs.
 
+For recovery alone, build the `range-contract-inputs` binary from the same Cargo manifest as the collector below. Run `range-contract-inputs recover COMPILER MODEL_RS RUSTDOC_JSON OUTPUT` to write the selector and recovery artifacts. Run `range-contract-inputs stage OUTPUT/recovered INPUTS` to prepare the linked package manifest and its pinned dependencies for the compiler. Both commands require a fresh destination.
+
 ```sh
 lane=verification/whole/gap-range-recovery
 cargo +1.97.1 run --locked --offline --manifest-path "$lane/../canonical-public-data/Cargo.toml" \
