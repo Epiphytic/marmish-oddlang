@@ -40,3 +40,5 @@ python3 -B verification/whole/prototype-constant/verify.py \
 ```
 
 [ARM64 macOS sealed receipt](aarch64-apple-darwin.json) · [ARM64 Linux sealed receipt](aarch64-unknown-linux-gnu.json).
+
+The [macOS ARM64 callback replay](rust-buffered-callback-aarch64-apple-darwin.json) rebuilt the seven-member workspace and exercised the Rust private-reader oracle on its unchanged generated leaf. The original and generated native callers each printed `131072`, and the source-recovery mutation and all four reader tests reproduced their archived results.

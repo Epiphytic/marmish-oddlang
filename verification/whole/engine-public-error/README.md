@@ -44,3 +44,5 @@ and deny the first-party sources and test callers during generation and
 build. The separate mutation runner takes the built Oddlang CLI, the
 clean original checkout, an independent Cargo target directory, the
 receipt output path and the same framework revision.
+
+The [macOS ARM64 callback replay](rust-buffered-callback-aarch64-apple-darwin.json) reran the complete seven-member qualification with the Rust private-reader oracle. Its four buffered cases, 26 engine-error variants, 38 negative Rust diagnostics and native backend-choice observations matched the archived receipt.
