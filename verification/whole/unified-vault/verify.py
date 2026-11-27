@@ -32,7 +32,7 @@ def lane(name, file="verify.py"):
     return runpy.run_path(str(HERE.parent / name / file))
 
 
-def sandbox(work, original, compiler, framework, reference_target):
+def sandbox(work, original, compiler, framework, reference_target, *, reference_executable=None):
     assert platform.system() == "Darwin" and platform.machine() == "arm64"
     protected = [ROOT.resolve(), original.resolve(), framework.resolve(), reference_target.resolve(),
                  Path("/private/tmp"), Path.home() / "repos"]
@@ -44,11 +44,14 @@ def sandbox(work, original, compiler, framework, reference_target):
     with tempfile.TemporaryDirectory(prefix="odd-source-probe-", dir="/private/tmp") as outside:
         sentinel = Path(outside) / "Cargo.toml"
         sentinel.write_text("[workspace]\n")
+        if reference_executable is None:
+            reference_executable = reference_target / "aarch64-apple-darwin/release/marmish"
+        assert reference_executable.resolve().is_relative_to(reference_target.resolve())
         probes = {
             "companionCaller": HERE.parent / "vault-values/caller.rs",
             "originalLibrary": original / "crates/marmish-vault/src/lib.rs",
             "frameworkLibrary": framework / "src/lib.rs",
-            "referenceExecutable": reference_target / "aarch64-apple-darwin/release/marmish",
+            "referenceExecutable": reference_executable,
             "externalCheckoutExample": sentinel,
         }
         for file in probes.values():

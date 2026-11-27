@@ -84,7 +84,13 @@ def generated(args, host, work, scratch, helper, body, probe):
     workspace = ASSEMBLY["stage_workspace"](PORTABLE / OUTPUT, inputs)
     if host == "aarch64-apple-darwin":
         sandbox = runpy.run_path(str(HERE.parent / "unified-vault/verify.py"))["sandbox"]
-        prefix, compiler, _ = sandbox(work, args.original, args.compiler, args.framework, args.original_target)
+        deps = args.original_target / host / "release/deps"
+        reference_test = next((p for p in sorted(deps.glob("marmish_native-*"))
+                               if p.is_file() and not p.suffix and os.access(p, os.X_OK)), None)
+        if reference_test is None:
+            raise ValueError("missing original native test executable")
+        prefix, compiler, _ = sandbox(work, args.original, args.compiler, args.framework,
+                                      args.original_target, reference_executable=reference_test)
         prefix += ["RUSTUP_TOOLCHAIN=1.97.1"]
         env = os.environ
     elif host == "aarch64-unknown-linux-gnu":
