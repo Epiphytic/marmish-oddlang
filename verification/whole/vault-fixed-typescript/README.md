@@ -9,6 +9,8 @@ The obligation catalog records deterministic destruction and storage erasure as 
 Use a clean Oddlang checkout at `0f8410636148e3afa96005c9c24390fbd32eb602` and Node.js with native TypeScript support.
 
 ```sh
-python verification/whole/vault-fixed-typescript/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin vault-fixed-typescript -- \
   /path/to/framework /path/to/compiler-target /tmp/vault-typescript/receipt.json
 ```
+
+New receipts identify the compiled Rust verifier by SHA-256. The archive records the historical Python verifier.

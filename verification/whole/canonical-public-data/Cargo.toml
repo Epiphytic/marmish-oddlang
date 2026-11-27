@@ -123,3 +123,7 @@ path = "../state/replay.rs"
 [[bin]]
 name = "vault-mode-typescript"
 path = "../vault-mode-typescript/verify.rs"
+
+[[bin]]
+name = "vault-fixed-typescript"
+path = "../vault-fixed-typescript/verify.rs"
