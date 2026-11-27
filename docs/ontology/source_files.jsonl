@@ -1214,6 +1214,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/release-inventory/inventory.rs","language":"rust","mode":"100644","sha256":"c4fe1d0ecd2a74882f5a2c5729df32ceb1222dd7e87de50b0977e5af4e8b1d2d","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-inventory/main.rs","language":"rust","mode":"100644","sha256":"03545ed86f9ed70eb32e5890e50c3507eb2123a18f9d7fd198ea7392afafc53a","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-manifest-observer.rs","language":"rust","mode":"100644","sha256":"592e9919898acdd111267a525bd7ad58c38aa7d87bd18877f5eb47af83de75d8","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/release-reference.rs","language":"rust","mode":"100644","sha256":"ea9e14820c33e98df297478a670cf3e5d47fc70133fb078a45926fdf2cf2df0a","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/main.rs","language":"rust","mode":"100644","sha256":"5f47e9a7f5d0873db67fe64edc36ab540975cc90a7ba7917f5b0732e739edec4","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/witness.rs","language":"rust","mode":"100644","sha256":"005a38ce6fdf0597320b32a3ab3b768561f0dd2d389f2a81117f4fb3fb8c4ff0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/retention-structure.rs","language":"rust","mode":"100644","sha256":"9664490c680ea2de7dbd663c1eb066e054f37d8d6d96b6bdd70542bdac70ddee","parse_status":"parsed"}
@@ -1734,9 +1735,8 @@
 {"path":"verification/whole/release-version-grammar/README.md","language":"inventory","mode":"100644","sha256":"198729d4074982f03b3141023a50acd34e43bcbd372b943b7eb0b9593182dc23","parse_status":"inventory"}
 {"path":"verification/whole/release-version-grammar/boundaries.json","language":"inventory","mode":"100644","sha256":"818d18a666962968323e1b8a4966e305e1a31fbd0199678f88e369124d2465d6","parse_status":"inventory"}
 {"path":"verification/whole/release-version-grammar/darwin-arm64/receipt.json","language":"inventory","mode":"100644","sha256":"50a847bbd59327a0e34c67051cdc300722a4f6bb576a311de8e59524b3c27cdb","parse_status":"inventory"}
-{"path":"verification/whole/release/README.md","language":"inventory","mode":"100644","sha256":"24f50fcf2e8839c158b5d3d99abedb7ab5bb598aef59034ba36456a5b1d8c542","parse_status":"inventory"}
+{"path":"verification/whole/release/README.md","language":"inventory","mode":"100644","sha256":"38a862efa0291e691ff6b06e20c5bdcfe2f2ad2d40bba67a5a4717aa75795e60","parse_status":"inventory"}
 {"path":"verification/whole/release/reference.json","language":"inventory","mode":"100644","sha256":"c5022d166d48a8a6ab60c8e5c76ba763da821a72d72600c3cd94a993d9b762fa","parse_status":"inventory"}
-{"path":"verification/whole/release/reference.py","language":"python","mode":"100644","sha256":"2eb2e2916dcc15921d93bca393a14f9142f6e922545776e5e4a5f707226df0b5","parse_status":"parsed"}
 {"path":"verification/whole/retention-structure/README.md","language":"inventory","mode":"100644","sha256":"dbb70bb07542ad5d98919896d42e0364860ec32a01919f153acc5caa2322ed69","parse_status":"inventory"}
 {"path":"verification/whole/retention-structure/caller.rs","language":"rust","mode":"100644","sha256":"b52c8e65bfd4237f7de789775c8bdf1ea986a3736a3ef39b7b4474f609caefac","parse_status":"parsed"}
 {"path":"verification/whole/retention-structure/darwin-arm64/baseline/caller.txt","language":"inventory","mode":"100644","sha256":"b1957576ec099289ce6a132e3a4eed353faf514437210602d2e9623a59e7dddf","parse_status":"inventory"}
