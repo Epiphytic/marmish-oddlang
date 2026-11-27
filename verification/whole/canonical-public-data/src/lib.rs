@@ -24,6 +24,8 @@ mod offline_composition;
 pub use offline_composition::check_product as check_canonical_offline;
 pub mod assembly;
 pub mod command_output;
+pub mod gap_callers;
+pub mod gap_reason;
 pub mod engine_caller;
 pub mod baseline_framework;
 pub mod cli_projection;
