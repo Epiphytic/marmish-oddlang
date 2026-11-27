@@ -48,7 +48,8 @@ For recovery alone, build the `range-contract-inputs` binary from the same Cargo
 lane=verification/whole/gap-range-recovery
 cargo +1.97.1 run --locked --offline --manifest-path "$lane/../canonical-public-data/Cargo.toml" \
   --bin collect-range-rustdoc -- "$ORIGINAL" "$RUSTDOC_TARGET" "$RUSTDOC_EVIDENCE"
-python3 -B "$lane/verify.py" --framework-revision "$RUNTIME_PIN" \
+cargo +1.97.1 run --locked --offline --manifest-path "$lane/../canonical-public-data/Cargo.toml" \
+  --bin range-contract-inputs -- qualify --framework-revision "$RUNTIME_PIN" \
   "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RUSTDOC_EVIDENCE" "$OUTPUT"
 ```
 

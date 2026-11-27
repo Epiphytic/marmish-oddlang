@@ -1,6 +1,10 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
 #[path = "../../../gap-range-recovery/evidence.rs"]
 mod evidence;
+#[path = "../../../gap-range-recovery/qualify.rs"]
+mod qualify;
+#[path = "../../../gap-range-recovery/sealed.rs"]
+mod sealed;
 #[path = "../../../gap-range-recovery/witnesses.rs"]
 mod witnesses;
 use clap::{Parser, Subcommand};
@@ -13,7 +17,6 @@ use std::{
     collections::BTreeSet,
     fs,
     path::{Path, PathBuf},
-    process::Command,
 };
 
 const MODEL: &str = "crates/marmish-engine/src/model.rs";
@@ -31,6 +34,8 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Recover both source variants and qualify their generated native packages.
+    Qualify(qualify::Args),
     /// Verify native caller receipts using the rustc -vV lines supplied as JSON on stdin.
     CheckWitnesses {
         original: PathBuf,
@@ -104,7 +109,7 @@ fn recover(compiler: &Path, source: &Path, doc: &Path, work: &Path) -> Result {
         }),
     )?;
     let out = work.join("recovered");
-    run(Command::new(compiler)
+    run(qualify::tool(compiler)
         .args(["recover", "serde-public-record"])
         .arg(source)
         .arg(doc)
@@ -183,6 +188,7 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::Qualify(args) => qualify::qualify(args),
         Action::CheckWitnesses {
             original,
             mutation,
