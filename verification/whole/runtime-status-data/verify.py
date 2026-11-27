@@ -9,7 +9,10 @@ import subprocess
 import sys
 import tempfile
 
-from compose import BASE, DOMAIN, MEMBER, OUTPUT, compose
+BASE = "workspace-v7-canonical-offline"
+DOMAIN = "native-journal-runtime-status-v1"
+MEMBER = "marmish-native"
+OUTPUT = "workspace-v7-canonical-runtime-status"
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -276,7 +279,7 @@ def main():
             rev and run("git", "rev-parse", "HEAD", cwd=checkout).decode().strip() != rev
         ):
             raise ValueError(f"expected clean pinned checkout: {checkout}")
-    compose(PORTABLE, True)
+    SIX["check_api_release"]("canonical-runtime-status", PORTABLE)
     host, = [line.removeprefix("host: ") for line in run("rustc", "+1.97.1", "-vV").decode().splitlines()
              if line.startswith("host: ")]
     if host not in SIX["PLATFORMS"]:
