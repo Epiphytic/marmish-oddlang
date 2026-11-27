@@ -23,3 +23,5 @@ Check the composed package and workspace from the repository root.
 ```sh
 cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-runtime-status oddlang/portable --check
 ```
+
+The verifier calls Rust to compose the pinned API release, recover both source models and run the external observation and compiler probes. The Python entry point still orchestrates the build. It partitions the original Cargo target directory by upstream revision and source-model digest so a cached baseline cannot stand in for the reordered source. Cold and warm runs on ARM64 macOS reproduced the archived staged inputs, diagnostics, and before-and-after serialization observations. The receipts identify each build's linked libraries separately. [Rust replay on ARM64 macOS](rust-aarch64-apple-darwin.json)
