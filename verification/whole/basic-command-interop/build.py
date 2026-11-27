@@ -87,60 +87,14 @@ def copy_registry(locks, source, target):
 
 
 def verified_binaries(messages, product):
-    binaries = {}
-    for line in messages.splitlines():
-        row = json.loads(line)
-        if row["reason"] != "compiler-artifact" or row["executable"] is None:
-            continue
-        if "bin" not in row["target"]["kind"]:
-            continue
-        manifest = Path(row["manifest_path"]).resolve()
-        if not manifest.is_relative_to(product):
-            continue
-        path = Path(row["executable"]).resolve()
-        name = row["target"]["name"]
-        if (path != product / "target/release" / name or name in binaries
-                or row["fresh"] or row["profile"]["test"]):
-            raise ValueError(f"invalid fresh executable artifact: {name}")
-        binaries[name] = path
-    return binaries
+    tool = TOOLS.qualification_tool("workspace-inputs")[1]
+    paths = subprocess.check_output([tool, "release-artifacts", product], input=messages, timeout=1200)
+    return {name: Path(path) for name, path in json.loads(paths).items()}
 
 
 def verify_product(product, workspace):
     pinned = workspace.with_suffix("") / "workspace.lock"
-    emitted = product / "workspace.lock"
-    if pinned.read_bytes() != emitted.read_bytes():
-        raise ValueError("generated workspace lock differs")
-    lock = read(emitted)
-    if (sha(product / "Cargo.toml") != lock["workspaceCargoManifestSha256"]
-            or sha(product / "Cargo.lock") != lock["cargoLockSha256"]):
-        raise ValueError("generated workspace manifest or Cargo.lock differs")
-    expected = {Path(name) for name in ("Cargo.toml", "Cargo.lock", "workspace.lock")}
-    for name, row in lock["members"].items():
-        member = product / name
-        package_lock = member / "package.lock"
-        if (sha(member / "Cargo.toml") != row["workspaceCargoManifestSha256"]
-                or sha(package_lock) != row["standalonePackageLockSha256"]):
-            raise ValueError(f"generated member manifest or lock differs: {name}")
-        files = {path.relative_to(member).as_posix(): sha(path)
-                 for path in (member / "src").rglob("*") if path.is_file()}
-        if (member / "build.rs").is_file():
-            files["build.rs"] = sha(member / "build.rs")
-        if files != read(package_lock)["generatedFiles"]:
-            raise ValueError(f"generated member sources differ: {name}")
-        expected.update(Path(name, path) for path in {*files, "Cargo.toml", "package.lock"})
-    actual = set()
-    for path in product.rglob("*"):
-        relative = path.relative_to(product)
-        if relative.parts[0] == "target":
-            continue
-        if path.is_symlink():
-            raise ValueError(f"unexpected generated symlink: {relative}")
-        if path.is_file():
-            actual.add(relative)
-    if actual != expected:
-        raise ValueError(f"unexpected generated file inventory: {sorted(actual ^ expected)}")
-    return lock
+    return ASSEMBLY["workspace_inputs"]("export-product", product, pinned)
 
 
 def qualify(work, compiler, export, probes, checkout, pins):

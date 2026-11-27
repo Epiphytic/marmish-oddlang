@@ -23,6 +23,13 @@ enum Action {
         inputs: PathBuf,
         binaries: Vec<String>,
     },
+    /// Read Cargo JSON lines on stdin and verify the fresh release executable paths.
+    ReleaseArtifacts { product: PathBuf },
+    /// Check the sealed export against its independently published workspace lock.
+    ExportProduct {
+        product: PathBuf,
+        pinned_lock: PathBuf,
+    },
     /// Populate the offline Cargo Git cache from its locked local providers.
     WorkspaceProviders { lock: PathBuf, destination: PathBuf },
     /// List external package identities used to compare workspace and original locks.
@@ -55,6 +62,13 @@ fn main() -> Result {
         Action::CandidateRoles { inputs, binaries } => {
             candidate_roles::inspect(&inputs, std::io::stdin().lock(), binaries)?
         }
+        Action::ReleaseArtifacts { product } => {
+            candidate_roles::release_artifacts(&product, std::io::stdin().lock())?
+        }
+        Action::ExportProduct {
+            product,
+            pinned_lock,
+        } => public_data_qualification::product::export_product(&product, &pinned_lock)?,
         Action::WorkspaceProviders { lock, destination } => {
             assembly::providers(&lock, &destination)?
         }

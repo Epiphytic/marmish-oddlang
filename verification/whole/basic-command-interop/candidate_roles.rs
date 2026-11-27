@@ -97,3 +97,43 @@ pub fn inspect(
     )?;
     Ok(serde_json::to_value(roles)?)
 }
+
+/// Select the fresh, first-party executable files actually reported by Cargo.
+pub fn release_artifacts(product: &Path, messages: impl std::io::BufRead) -> Result<Value> {
+    let product = product.canonicalize()?;
+    let release = product.join("target/release");
+    let mut artifacts = BTreeMap::new();
+    for line in messages.lines() {
+        let row: Value = serde_json::from_str(&line?)?;
+        if text(&row["reason"])? != "compiler-artifact" {
+            continue;
+        }
+        let executable = row.get("executable").ok_or("missing executable field")?;
+        if executable.is_null()
+            || !list(&row["target"]["kind"])?
+                .iter()
+                .any(|kind| kind == "bin")
+        {
+            continue;
+        }
+        let manifest = fs::canonicalize(text(&row["manifest_path"])?)?;
+        if !manifest.starts_with(&product) {
+            continue;
+        }
+        let path = fs::canonicalize(text(executable)?)?;
+        let name = text(&row["target"]["name"])?;
+        require(
+            path.parent() == Some(release.as_path())
+                && path.file_name().and_then(|s| s.to_str()) == Some(name)
+                && path.is_file()
+                && row["fresh"] == false
+                && row["profile"]["test"] == false,
+            format!("invalid fresh executable artifact: {name}"),
+        )?;
+        require(
+            artifacts.insert(name.to_owned(), path).is_none(),
+            format!("duplicate executable artifact: {name}"),
+        )?;
+    }
+    Ok(serde_json::to_value(artifacts)?)
+}

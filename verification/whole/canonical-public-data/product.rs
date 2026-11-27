@@ -108,6 +108,67 @@ pub fn check_members(product: &Path, lock: &Value, full: bool) -> Result {
     })
 }
 
+fn contains_only_directories(path: &Path) -> Result<bool> {
+    for entry in fs::read_dir(path)? {
+        let entry = entry?;
+        if !entry.file_type()?.is_dir() || !contains_only_directories(&entry.path())? {
+            return Ok(false);
+        }
+    }
+    Ok(true)
+}
+
+/// Check the sealed product before and after a Cargo build, excluding its target directory.
+pub fn export_product(product: &Path, pinned_lock: &Path) -> Result<Value> {
+    let emitted = product.join("workspace.lock");
+    let bytes = fs::read(pinned_lock)?;
+    require(
+        emitted.symlink_metadata()?.is_file() && fs::read(&emitted)? == bytes,
+        "generated workspace lock differs",
+    )?;
+    let lock: Value = serde_json::from_slice(&bytes)?;
+    let members = props(&lock["members"])?;
+    for entry in fs::read_dir(product)? {
+        let entry = entry?;
+        let ty = entry.file_type()?;
+        let name = entry.file_name();
+        let name = name.to_str().ok_or("non-UTF-8 product path")?;
+        if matches!(name, "Cargo.toml" | "Cargo.lock" | "workspace.lock") {
+            require(ty.is_file(), "invalid workspace metadata file")?;
+        } else if name == "target" || members.contains_key(name) {
+            require(ty.is_dir(), "expected ordinary workspace directory")?;
+            if members.contains_key(name) {
+                for file in ["Cargo.toml", "package.lock"] {
+                    require(
+                        entry.path().join(file).symlink_metadata()?.is_file(),
+                        "invalid member metadata file",
+                    )?;
+                }
+            }
+        } else {
+            require(
+                ty.is_dir() && contains_only_directories(&entry.path())?,
+                "unexpected workspace entry",
+            )?;
+        }
+    }
+    checked(
+        &product.join("Cargo.toml"),
+        &lock["workspaceCargoManifestSha256"],
+    )?;
+    check_member_files(product, &lock, |_, member| {
+        let mut all = file_digests(member)?;
+        all.remove("Cargo.toml");
+        all.remove("package.lock");
+        require(
+            all.keys().all(|p| p == "build.rs" || p.starts_with("src/")),
+            "unexpected member file",
+        )?;
+        Ok(all)
+    })?;
+    Ok(lock)
+}
+
 /// Older qualification releases checked sources only. Unified releases added a root
 /// manifest pin, then report-bearing releases specified the exact member layout.
 pub fn verify_release_tree(product: &Path, lock: &Value, report: bool, unified: bool) -> Result {
