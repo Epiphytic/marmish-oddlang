@@ -19,6 +19,7 @@ FRAMEWORK = "18ea58006de4482c0ebc61de9e800edc78eba987"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 JOURNAL = runpy.run_path(str(HERE.parent / "journal-records/verify.py"))
 WORKSPACE = runpy.run_path(str(HERE.parent / "workspace/verify.py"))
+CORE = runpy.run_path(str(HERE.parent / "core-package/verify.py"))
 run = JOURNAL["run"]
 
 
@@ -58,21 +59,8 @@ def check_inputs(args):
 
 
 def observe(library, scratch, host_deps):
-    args = ["rustc", "+1.97.1", "--edition=2021", "--extern", f"marmish_vault={library}",
-            "-L", f"dependency={library.parent / 'deps'}", "-L", f"dependency={host_deps}"]
-    run(*args, HERE / "probe.rs", "-o", scratch / "caller")
-    output = run(scratch / "caller").decode().splitlines()
-    rejected = {}
-    for bound in ("PartialEq", "Eq", "std::fmt::Debug", "std::fmt::Display", "Default", "std::hash::Hash", "Ord"):
-        source = f"fn test<T: {bound}>() {{}} fn main() {{test::<marmish_vault::helper::AuthorizationMode>()}}"
-        proc = subprocess.run([*args, "--emit=metadata", "--error-format=json", "-", "-o", scratch / "reject.rmeta"],
-                              input=source.encode(), capture_output=True)
-        errors = [d["code"]["code"] for line in proc.stderr.splitlines()
-                  if (d := json.loads(line)).get("code") and d["level"] == "error"]
-        if proc.returncode == 0 or errors != ["E0277"]:
-            raise ValueError(f"unexpected {bound} result: {proc.stderr!r}")
-        rejected[bound] = errors[0]
-    return {"values": output, "absentTraits": rejected}
+    tool = CORE["qualification_tool"]("vault-mode-observer")[1]
+    return json.loads(run(tool, library, scratch, host_deps))
 
 
 def qualify(args, scratch, work, host):
