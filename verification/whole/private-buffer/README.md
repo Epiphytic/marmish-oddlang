@@ -20,7 +20,7 @@ The error observation matters for reproducing the next call as well as the curre
 To repeat the original observations, use a clean reference checkout at `af54339d250290490d62d4475a77539b7e739071` and an offline Rust 1.97.1 dependency cache.
 
 ```sh
-python3 -B verification/whole/private-buffer/baseline.py "$UPSTREAM" "$CARGO_TARGET" /tmp/buffer-original.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin buffer-baseline -- "$UPSTREAM" "$CARGO_TARGET" /tmp/buffer-original.json
 ```
 
 ## Source-free native package

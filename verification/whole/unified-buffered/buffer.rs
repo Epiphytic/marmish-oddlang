@@ -15,7 +15,7 @@ pub const RELEASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffe
 pub const SOURCE: &str = "crates/marmish-prototype/src/lib.rs";
 const BASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk";
 const LEAF: &str = "src/group_0/__projection_0.rs";
-const CASES: [&str; 4] = [
+pub const CASES: [&str; 4] = [
     "secret_request_tests::private_reader_wipes_consumed_spans",
     "buffer_contract_observations::retained_span_and_consumed_bytes",
     "buffer_contract_observations::failed_refill_retains_prior_end",

@@ -12,7 +12,13 @@ import subprocess
 import tempfile
 import tomllib
 
-from baseline import CASES, HERE, ORIGINAL_CASE, PIN, PREFIX, SOURCE
+PIN = "af54339d250290490d62d4475a77539b7e739071"
+SOURCE = "crates/marmish-prototype/src/lib.rs"
+HERE = Path(__file__).resolve().parent
+PREFIX = "buffer_contract_observations::"
+CASES = ["retained_span_and_consumed_bytes", "failed_refill_retains_prior_end",
+         "zero_output_still_reads_and_eof_can_be_polled_again"]
+ORIGINAL_CASE = "secret_request_tests::private_reader_wipes_consumed_spans"
 
 ROOT = HERE.parents[2]
 MANIFEST = ROOT/"oddlang/portable/prototype-buffer-package.json"
