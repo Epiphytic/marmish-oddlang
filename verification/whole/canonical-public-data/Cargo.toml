@@ -111,3 +111,7 @@ path = "../seven-public-imports/verify.rs"
 [[bin]]
 name = "relay-fixture"
 path = "../relay/replay.rs"
+
+[[bin]]
+name = "legacy-version-probe"
+path = "../legacy/observe.rs"
