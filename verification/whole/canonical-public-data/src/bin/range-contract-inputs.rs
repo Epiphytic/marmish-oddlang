@@ -65,7 +65,26 @@ fn recover(compiler: &Path, source: &Path, doc: &Path, work: &Path) -> Result {
     let selection = work.join("selection.json");
     write_json(
         &selection,
-        json!({"format":"oddlang-serde-public-record-selection-v1","sourceFilename":MODEL,"sourceSha256":sha(source)?,"rustdocSha256":sha(doc)?,"crateName":"marmish_engine","crateRootSha256":sha(&root)?,"moduleId":format!("{ID}range-module"),"moduleName":"model","record":{"name":"MissingRange","id":format!("{ID}range"),"fields":{"start":format!("{ID}range:start"),"end":format!("{ID}range:end"),"reason":format!("{ID}range:reason")}},"choices":[{"name":"MissingReason","id":format!("{ID}reason")}]}),
+        json!({
+            "format": "oddlang-serde-public-record-selection-v1",
+            "sourceFilename": MODEL,
+            "sourceSha256": sha(source)?,
+            "rustdocSha256": sha(doc)?,
+            "crateName": "marmish_engine",
+            "crateRootSha256": sha(&root)?,
+            "moduleId": format!("{ID}range-module"),
+            "moduleName": "model",
+            "record": {
+                "name": "MissingRange",
+                "id": format!("{ID}range"),
+                "fields": {
+                    "start": format!("{ID}range:start"),
+                    "end": format!("{ID}range:end"),
+                    "reason": format!("{ID}range:reason")
+                }
+            },
+            "choices": [{"name": "MissingReason", "id": format!("{ID}reason")}]
+        }),
     )?;
     let out = work.join("recovered");
     run(Command::new(compiler)
@@ -80,7 +99,7 @@ fn recover(compiler: &Path, source: &Path, doc: &Path, work: &Path) -> Result {
         "unexpected recovery lock format",
     )?;
     for (key, path) in [
-        ("selection", &selection as &Path),
+        ("selection", selection.as_path()),
         ("source", source),
         ("crateRoot", &root),
         ("rustdoc", doc),
@@ -95,6 +114,11 @@ fn recover(compiler: &Path, source: &Path, doc: &Path, work: &Path) -> Result {
     Ok(())
 }
 fn stage(recovered: &Path, inputs: &Path) -> Result {
+    let recovery = load(&recovered.join("recovery.lock"))?;
+    require(
+        recovery["format"] == "oddlang-serde-public-record-recovery-lock-v1",
+        "unexpected range recovery lock",
+    )?;
     let base = portable();
     let authored = base.join("engine-gap-range-package.json");
     pinned(&authored, LEGACY)?;
@@ -111,7 +135,14 @@ fn stage(recovered: &Path, inputs: &Path) -> Result {
                 recovered.join(file)
             };
             fs::copy(source, inputs.join(&rel))?;
-            manifest["components"][index][key] = pin(inputs, &rel)?;
+            let staged = pin(inputs, &rel)?;
+            if directory == RECORD_DIR {
+                require(
+                    staged["sha256"] == recovery[format!("{key}Sha256")],
+                    format!("recovered {key} differs from its lock"),
+                )?;
+            }
+            manifest["components"][index][key] = staged;
         }
     }
     let relative = text(&manifest["cargoLock"]["path"])?;
