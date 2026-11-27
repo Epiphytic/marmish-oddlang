@@ -115,3 +115,7 @@ path = "../relay/replay.rs"
 [[bin]]
 name = "legacy-version-probe"
 path = "../legacy/observe.rs"
+
+[[bin]]
+name = "bridge-state-replay"
+path = "../state/replay.rs"
