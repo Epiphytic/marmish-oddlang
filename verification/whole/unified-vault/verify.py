@@ -64,6 +64,12 @@ def sandbox(work, original, compiler, framework, reference_target, *, reference_
     return [*prefix, "/usr/bin/env", f"TMPDIR={work}"], cli, sorted(probes)
 
 
+def vault_check(work, binary, *args):
+    return json.loads(run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+                          "--manifest-path", HERE.parent / "copy-manifest/Cargo.toml", "--bin", binary,
+                          "--target-dir", work / "copy-test-tools", "--", "workspace", *args))
+
+
 def copy_tests(work, original, product):
     manifest = HERE.parent / "copy-manifest/Cargo.toml"
     target = work / "copy-test-tools"
@@ -108,12 +114,7 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
 
     generated_copy = copy_tests(work, original, product)
 
-    vault = lane("vault-values")
-    original_vault = vault["consumer"](original / "crates/marmish-vault", work / "original-vault",
-                                      original / "Cargo.lock", privacy=True)
-    generated_vault = vault["consumer"](product / "marmish-vault", work / "generated-vault",
-                                       product / "Cargo.lock", privacy=True)
-    assert original_vault == generated_vault == vault["expected"](128)
+    vault = vault_check(work, "check-vault-values", original, product, work)
 
     errors = lane("native-error")
     old_errors = errors["native_probe"](original, reference_target, work / "original-errors")
@@ -161,8 +162,8 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
         "workspaceLockSha256": sha(manifest_lock),
         "members": sorted(packages),
         "copyCases": generated_copy,
-        "vaultRows": len(generated_vault),
-        "vaultStdoutSha256": sha(("\n".join(generated_vault) + "\n").encode()),
+        "vaultRows": vault["vaultRows"],
+        "vaultStdoutSha256": vault["vaultStdoutSha256"],
         "vaultPrivateConstructorRejections": 2,
         "nativeErrorRows": len(new_errors.splitlines()),
         "nativeErrorStdoutSha256": sha(new_errors),

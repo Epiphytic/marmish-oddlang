@@ -1,3 +1,5 @@
+#[path = "../../vault-fixed-bytes/witness.rs"]
+pub mod vault_witness;
 #[path = "../../suite/stage.rs"]
 pub mod suite_stage;
 pub mod stream_caller;

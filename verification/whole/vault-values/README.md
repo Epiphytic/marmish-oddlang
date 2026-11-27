@@ -8,9 +8,13 @@ The verifier tightens the original and portable label byte limit from 128 to 127
 
 Run from this repository against upstream revision `af54339d250290490d62d4475a77539b7e739071`, the [recorded framework revision](reference-aarch64-apple-darwin.json) and Rust 1.97.1 with its host `rustc-dev` component.
 
+Set `ODDLANG` to the current Oddlang checkout containing the Rust capture tool. Set `FRAMEWORK` and `ORIGINAL` to the pinned checkouts and `RECEIPT` to the output path.
+
 ```sh
-python3 verification/whole/vault-values/verify.py \
-  /path/to/upstream /path/to/oddlang /tmp/vault-values.json
+cargo +1.97.1 build --locked --offline --manifest-path "$ODDLANG/verification/provider-validation/Cargo.toml" --bin rust-capture
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/copy-manifest/Cargo.toml \
+  --bin check-vault-values -- qualify "$ORIGINAL" "$FRAMEWORK" "$RECEIPT" \
+  --rust-capture "$ODDLANG/verification/provider-validation/target/debug/rust-capture"
 ```
 
 The receipt qualifies macOS ARM64. Secret ownership, platform providers, helper commands, and unified workspace integration remain open. The verifier uses synthetic labels and identifiers from its own offline corpus and performs no platform credential operations.

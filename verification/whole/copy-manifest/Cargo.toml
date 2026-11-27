@@ -49,3 +49,11 @@ path = "../copy-launch/verify.rs"
 [[bin]]
 name = "check-copy-helper-context"
 path = "../copy-helper-context/verify.rs"
+
+[[bin]]
+name = "check-vault-fixed-bytes"
+path = "../vault-fixed-bytes/verify.rs"
+
+[[bin]]
+name = "check-vault-values"
+path = "../vault-values/verify.rs"

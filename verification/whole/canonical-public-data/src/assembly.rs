@@ -484,6 +484,30 @@ impl Sandbox {
             .envs(&self.env);
         Ok(cmd)
     }
+    pub fn build_native_package(
+        &self,
+        compiler: &Path,
+        plan: &Path,
+        destination: &Path,
+        probes: &[PathBuf],
+    ) -> Result {
+        self.deny(probes)?;
+        run(self
+            .command(&self.work)?
+            .arg(compiler)
+            .args(["build", "native-package", "rust"])
+            .arg(plan)
+            .arg(destination))?;
+        run(self.command(destination)?.args([
+            "cargo",
+            "build",
+            "--locked",
+            "--offline",
+            "--release",
+        ]))?;
+        Ok(())
+    }
+
     pub fn deny(&self, paths: &[PathBuf]) -> Result {
         for p in paths {
             require(
