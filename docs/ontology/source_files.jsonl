@@ -1218,6 +1218,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/main.rs","language":"rust","mode":"100644","sha256":"5f47e9a7f5d0873db67fe64edc36ab540975cc90a7ba7917f5b0732e739edec4","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/witness.rs","language":"rust","mode":"100644","sha256":"005a38ce6fdf0597320b32a3ab3b768561f0dd2d389f2a81117f4fb3fb8c4ff0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/retention-structure.rs","language":"rust","mode":"100644","sha256":"9664490c680ea2de7dbd663c1eb066e054f37d8d6d96b6bdd70542bdac70ddee","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/structure-replay.rs","language":"rust","mode":"100644","sha256":"16b05fd34712bb3866a3e06369bd9314dceff9059d3086d48ff1d3db5e5f9c12","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/lib.rs","language":"rust","mode":"100644","sha256":"b3320664a508cc6ff09fd3a3cbd85e750094db147edb2cc6b5e29af8b6ebc7a3","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/private_buffer.rs","language":"rust","mode":"100644","sha256":"55102dce6ebd6f24d856efaf9441410569ba7dedb5a267887597e9fdfc0cc3b7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/witness.rs","language":"rust","mode":"100644","sha256":"e57d9ea8070b7da3fd467538cc5e6450e287f68495ab8cddff2861426d1aaeaa","parse_status":"recovered"}
@@ -1864,12 +1865,11 @@
 {"path":"verification/whole/stream/structure/README.md","language":"inventory","mode":"100644","sha256":"c29930bf5e28a7004fa20579a9f2b144af77ba4d4e2b100ac9554d8fe3a6f95c","parse_status":"inventory"}
 {"path":"verification/whole/stream/structure/historical-spans.json.gz","language":"inventory","mode":"100644","sha256":"906e1e1a068025658fe3a5e55d8cda64fd672164d5bcaf6fa1850f80b9534b7e","parse_status":"inventory"}
 {"path":"verification/whole/stream/structure/release-comparison.json.gz","language":"inventory","mode":"100644","sha256":"203612c1a0e468834eb2b271a5b33f72c49d2c312e4b48ad2a5bc78d108aaa6e","parse_status":"inventory"}
-{"path":"verification/whole/structure/README.md","language":"inventory","mode":"100644","sha256":"568ae036f04243feed57967738f38c9ecdfafcf156448b371ef434b86c927df3","parse_status":"inventory"}
+{"path":"verification/whole/structure/README.md","language":"inventory","mode":"100644","sha256":"7b51ef1b60dcacc602f80dd8fc90430b814e6324b23a5ded394c7677c0c898e5","parse_status":"inventory"}
 {"path":"verification/whole/structure/aarch64-apple-darwin/marmish-engine-bridge.lock.json","language":"inventory","mode":"100644","sha256":"89da54fb0be1348a706591fa60684014351f2b37d7fba4d1e58d009d629dde74","parse_status":"inventory"}
 {"path":"verification/whole/structure/aarch64-apple-darwin/marmish_prototype.lock.json","language":"inventory","mode":"100644","sha256":"47724d242e2ef2aae0e62ce12535678bf09ce084b1a95cae12b0ca3725b58336","parse_status":"inventory"}
 {"path":"verification/whole/structure/aarch64-apple-darwin/marmish_stream.lock.json","language":"inventory","mode":"100644","sha256":"47ccc56528c701c868f22393de45819c0d0104533abfc2d34ca43368d8dd3e03","parse_status":"inventory"}
 {"path":"verification/whole/structure/linux-aarch64-original.json","language":"inventory","mode":"100644","sha256":"24671fdf452cf8ad611d33d246b0db6063cdd9a7756cb62a1e31e74f9a4f87d9","parse_status":"inventory"}
-{"path":"verification/whole/structure/replay.py","language":"python","mode":"100644","sha256":"73d721ee81d058886d20b56b7378fa79f435998e9f92a6043507f3de010d9833","parse_status":"parsed"}
 {"path":"verification/whole/suite/Cargo.lock","language":"inventory","mode":"100644","sha256":"30a744d41264f0fc78ad0a8cc98da737e0892febc4c89623246b3e4d43125b43","parse_status":"inventory"}
 {"path":"verification/whole/suite/Cargo.toml","language":"inventory","mode":"100644","sha256":"2c0cb7e834ec7045b1aafc3c734b1c6d18f51ba84ca8466bff7ab172bff3a63b","parse_status":"inventory"}
 {"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"ff1939a0b04774e329d3b82659b658876094b9e84e70b495babf317911c175b5","parse_status":"inventory"}

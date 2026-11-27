@@ -1,9 +1,10 @@
 # Structural extraction baseline
 
-Run the companion replay from a clean Oddlang checkout at `b653f1ada68791cd2fb70293bf227c5665850d1e`, a clean selected Marmish checkout and the Rust 1.97.1 compiler development component.
+From the companion repository root, run the replay with a clean Oddlang checkout at `b653f1ada68791cd2fb70293bf227c5665850d1e`, a clean selected Marmish checkout and the Rust 1.97.1 compiler development component.
 
 ```sh
-python3 replay.py /path/to/oddlang /path/to/marmish /tmp/fresh-projections \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+    --bin structure-replay -- /path/to/oddlang /path/to/marmish /tmp/fresh-projections \
     --triple aarch64-apple-darwin
 ```
 
