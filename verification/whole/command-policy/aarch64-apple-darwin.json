@@ -1,0 +1,13 @@
+{
+  "upstreamCommit": "af54339d250290490d62d4475a77539b7e739071",
+  "rustToolchain": "1.97.1",
+  "host": "aarch64-apple-darwin",
+  "workspaceLockSha256": "2efe4cea5e65e5918024f7f79465c92297e47dc019a66399b4e5894eb6eb172c",
+  "foregroundSourceSha256": "9ddc9fd6ab6f2fa08e3e80805c18d96a0d0be4c02ca177205bbe5cd692d106e2",
+  "policyDecisions": {
+    "cases": 105,
+    "inputsSha256": "b392ced173616d91990bb648af275a25776ccc15e22f33faf7388baea451a980",
+    "observationsSha256": "c30e84dc1ec0633fc995d79eda55ece8dfabd27db8cc91bcf72e2270cbbd6f6b"
+  },
+  "roomConfigFileCases": 11
+}

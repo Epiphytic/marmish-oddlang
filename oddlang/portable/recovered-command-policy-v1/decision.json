@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "maximum_keys": 128,
+  "maximum_patterns": 256,
+  "maximum_pattern_bytes": 1024,
+  "maximum_executable_bytes": 4095,
+  "match_fuel": 1000000,
+  "default_allow": "/**",
+  "semantics": "additive-absolute-byte-glob-v1"
+}

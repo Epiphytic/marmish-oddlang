@@ -1,0 +1,585 @@
+{
+  "format": "oddlang-native-package-v1",
+  "name": "marmish-native",
+  "version": "0.3.1",
+  "edition": "2024",
+  "dependencies": {
+    "clap": {
+      "version": "4.6.7"
+    },
+    "libc": {
+      "version": "0.2.189"
+    },
+    "serde": {
+      "version": "1.0.229",
+      "features": [
+        "derive"
+      ]
+    },
+    "serde_json": {
+      "version": "1.0.151"
+    },
+    "tokio": {
+      "version": "1.54.1",
+      "features": [
+        "io-util",
+        "macros",
+        "net",
+        "rt",
+        "signal",
+        "sync",
+        "time"
+      ]
+    },
+    "base64": {
+      "version": "0.22.1"
+    },
+    "secp256k1": {
+      "version": "0.30.0",
+      "features": []
+    },
+    "zeroize": {
+      "version": "1.9.1",
+      "features": []
+    },
+    "rustls": {
+      "version": "0.23.46",
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "std",
+        "tls12"
+      ]
+    },
+    "tokio-rustls": {
+      "version": "0.26.6",
+      "defaultFeatures": false,
+      "features": [
+        "ring",
+        "tls12"
+      ]
+    },
+    "webpki-roots": {
+      "version": "1.0.11"
+    },
+    "getrandom": {
+      "version": "0.4.3",
+      "features": []
+    },
+    "rustix": {
+      "version": "1.1.5",
+      "features": [
+        "fs"
+      ]
+    },
+    "hex": {
+      "version": "0.4.3"
+    },
+    "async-trait": {
+      "version": "0.1.92"
+    },
+    "hkdf": {
+      "version": "0.12.4"
+    },
+    "sha2": {
+      "version": "0.10.9"
+    },
+    "url": {
+      "version": "2.5.8"
+    },
+    "rusqlite": {
+      "version": "0.40.1",
+      "features": [
+        "bundled-sqlcipher-vendored-openssl"
+      ],
+      "defaultFeatures": false
+    },
+    "cgka-traits": {
+      "version": "0.15.0-dev",
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      }
+    },
+    "marmot-session": {
+      "version": "0.15.0-dev",
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      }
+    },
+    "storage-sqlite": {
+      "version": "0.15.0-dev",
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      }
+    },
+    "transport-nostr-peeler": {
+      "version": "0.15.0-dev",
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      }
+    },
+    "nostr": {
+      "version": "0.45.5",
+      "defaultFeatures": false,
+      "features": [
+        "std",
+        "rand",
+        "os-rng",
+        "nip04",
+        "nip49",
+        "nip59"
+      ],
+      "source": {
+        "git": "https://github.com/erskingardner/rust-nostr",
+        "revision": "48801bf6f2f1cd55bb1729e94159946c8832a786"
+      }
+    },
+    "nostr-sdk": {
+      "version": "0.45.4",
+      "defaultFeatures": false,
+      "source": {
+        "git": "https://github.com/erskingardner/rust-nostr",
+        "revision": "48801bf6f2f1cd55bb1729e94159946c8832a786"
+      }
+    },
+    "transport-nostr-adapter": {
+      "version": "0.15.0-dev",
+      "features": [
+        "sdk"
+      ],
+      "source": {
+        "git": "https://github.com/marmot-protocol/mdk",
+        "revision": "8abc51befbf71a1ae3bdbb25eb0860c731e75db2"
+      }
+    },
+    "arti-client": {
+      "version": "0.47.0",
+      "defaultFeatures": false,
+      "features": [
+        "onion-service-client",
+        "rustls",
+        "tokio"
+      ]
+    },
+    "async-wsocket": {
+      "version": "0.17.0"
+    },
+    "futures-util": {
+      "version": "0.3.34",
+      "features": [
+        "sink"
+      ]
+    },
+    "tokio-tungstenite": {
+      "version": "0.28.0",
+      "defaultFeatures": false,
+      "features": [
+        "handshake"
+      ]
+    },
+    "tor-rtcompat": {
+      "version": "0.47.0",
+      "defaultFeatures": false,
+      "features": [
+        "rustls",
+        "tokio"
+      ]
+    },
+    "data-encoding": {
+      "version": "2.11.1"
+    },
+    "sha3": {
+      "version": "0.12.0"
+    }
+  },
+  "cargoLock": {
+    "path": "composed-basic-owner-v1/member.Cargo.lock",
+    "sha256": "6079b2886f681a437623b599cd5b1b632460af88b09b118aa12251bbb1eb4f67"
+  },
+  "components": [
+    {
+      "kind": "cli-surface",
+      "module": "marmish_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-prefix-v1/graph.json",
+        "sha256": "e42435541ec64e62319e00926bd4880017a0cf26c061c36c8c04868f4f9d0c6a"
+      },
+      "overlay": {
+        "path": "basic-command-delivery-v1/cli.rust.json",
+        "sha256": "dc0531e6d49ec46f73b383566b8e73bede4be426315224888710119eef939d41"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "cli-surface",
+      "module": "marmishd_parser",
+      "visibility": "public",
+      "graph": {
+        "path": "native-cli-prefix-v1/graph.json",
+        "sha256": "e42435541ec64e62319e00926bd4880017a0cf26c061c36c8c04868f4f9d0c6a"
+      },
+      "overlay": {
+        "path": "native-cli-terminal-v1/marmishd-cli.json",
+        "sha256": "fc89b4c73b663813a1c571ce57ad384e6ce7af52ff73cecfe3a50da56ea16b58"
+      },
+      "reexports": [
+        "run_cli"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-command-client",
+      "module": "local_status",
+      "graph": {
+        "path": "native-status-discovery-v1/graph.json",
+        "sha256": "5516fc8b7ca45648b1744ae7489f8c2e2cbf70057bfa6057fbb5d868eb026700"
+      },
+      "overlay": {
+        "path": "native-status-v1/rust.json",
+        "sha256": "75dbf409efc8af694f094b0759e8c224c15767e8b76f211675dfe005347de5ea"
+      },
+      "reexports": [
+        "handle_status"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-status-owner",
+      "module": "status_owner",
+      "graph": {
+        "path": "native-relay-activation-v1/status.json",
+        "sha256": "f22a867984b26ffb518ae1c0433eb4b34be0dec2dabe4960ec0a6149f21fedd4"
+      },
+      "overlay": {
+        "path": "bounded-owner-prepare-v1/status.rust.json",
+        "sha256": "707806582774f79f3d5f94e02d239a627b63078ea8ab398fb6d4c26d767431ab"
+      },
+      "reexports": [
+        "BoundOwner",
+        "SnapshotPublisher",
+        "OwnerError",
+        "run_owner"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "foreground-profile-owner",
+      "module": "foreground",
+      "graph": {
+        "path": "recovered-command-policy-v1/foreground.json",
+        "sha256": "d314e96ba0fbc63ff52ce907a3e842a584e26c7b87f98f561dc88d1a10db1cab"
+      },
+      "overlay": {
+        "path": "native-relay-activation-v1/foreground.rust.json",
+        "sha256": "069ea61bfc0a8dd131286139dffc98fe61dbe2e446c5ca14c27c8ad67c00e05d"
+      },
+      "reexports": [
+        "run_foreground"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "file-profile",
+      "module": "profile_initialize",
+      "graph": {
+        "path": "leased-profile-setup-v1/graph.json",
+        "sha256": "0db607877f8b96dfa939c107262beb1fa4dd4c95c5a98cc7ecf8bdcd90adc930"
+      },
+      "overlay": {
+        "path": "leased-profile-setup-v1/profile.rust.json",
+        "sha256": "32ffcf0d5976d8a8c3f3438710a6df587262dff93cc75c04843ee1d63a19f91e"
+      },
+      "reexports": [
+        "initialize_profile",
+        "configure_profile"
+      ],
+      "rootReexports": [],
+      "crateReexports": [
+        "open_retained_stores"
+      ]
+    },
+    {
+      "kind": "build-report",
+      "module": "release_metadata",
+      "graph": {
+        "path": "native-build-report-recovered-v1/graph.json",
+        "sha256": "20358d51451b80ffc68f2044a2e32e996373267d3f262a94796b34bfb590d5d7"
+      },
+      "overlay": {
+        "path": "native-build-report-v1/rust.json",
+        "sha256": "4070dd46da9c8db378501b0e9fa3973a184eb42ea34a5e173c548ba55df1b91a"
+      },
+      "reexports": [
+        "report_release"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "finite-error-domain",
+      "module": "error",
+      "graph": {
+        "path": "native-error-v1/graph.json",
+        "sha256": "846d248e700cd6572be06e882f6b1075608361cc646656a6dd1b4ca723ba5d34"
+      },
+      "overlay": {
+        "path": "native-error-v1/rust.json",
+        "sha256": "28fc57f8fe5241d391b275200eaed55c96a26c928834fc6f2ed45aae85d2df8a"
+      },
+      "visibility": "public",
+      "reexports": [
+        "Error",
+        "Result"
+      ]
+    },
+    {
+      "kind": "public-records",
+      "module": "record_views",
+      "graph": {
+        "path": "native-journal-records-v1/graph.json",
+        "sha256": "466852c624970b2edfb91823b19ca75e59fad8a1fe0eee2532881547e75c33d2"
+      },
+      "overlay": {
+        "path": "native-journal-records-v1/rust.json",
+        "sha256": "e34efdd5a30b62c7fab43260f78891ba215beeb521de5e2d6cf9c9e00cbaffe5"
+      },
+      "reexports": [
+        "journal",
+        "mdk_adapter"
+      ]
+    },
+    {
+      "kind": "checked-values",
+      "module": "identity",
+      "visibility": "public",
+      "graph": {
+        "path": "native-backend-choice-v1/graph.json",
+        "sha256": "78dbab0729733f0c4e700dfbdabd0175e823864867bd69a0c7bc3e8c71c75926"
+      },
+      "overlay": {
+        "path": "native-backend-choice-v1/rust.json",
+        "sha256": "87037762d967a9bb0bdd24a8b92b651dd7297856c8cfa7eb97ee37af9a6d2809"
+      },
+      "reexports": [
+        "BackendChoice"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "structured-diagnostics",
+      "module": "diagnostics",
+      "visibility": "public",
+      "reexports": [
+        "enable",
+        "event",
+        "stage"
+      ],
+      "rootReexports": [],
+      "graph": {
+        "path": "native-diagnostics-v1/graph.json",
+        "sha256": "a517354acc5ead6297cff9d8d78fe1e5a4678e6b7f2ea305f7fb6b9eb690a353"
+      },
+      "overlay": {
+        "path": "native-diagnostics-v1/rust.json",
+        "sha256": "f8a06e4910d6bd71cdc8620d36295a5a89b777544f4eb03ba8af11bfc297e6c3"
+      }
+    },
+    {
+      "kind": "line-grammar",
+      "module": "native_manifest",
+      "graph": {
+        "path": "release-manifest-v1/graph.json",
+        "sha256": "d72b16b4e4e4f0c92e1d0e2743164ef6556a03bb52e9eaec1f9b8a26963a0896"
+      },
+      "overlay": {
+        "path": "release-manifest-integrated-v1/rust.json",
+        "sha256": "38b090c700692b800e1a3348dde736ba9bed3601cabb0f6b535857561638ebaa"
+      },
+      "reexports": [],
+      "crateReexports": [
+        "Manifest",
+        "Asset",
+        "version",
+        "TARGETS"
+      ]
+    },
+    {
+      "kind": "public-records",
+      "module": "transport",
+      "reexports": [
+        "ArtiDirs"
+      ],
+      "graph": {
+        "path": "native-path-records-v1/graph.json",
+        "sha256": "23819586cc9d517cc6197c85fc42834b16e62acdc65e6d5f00e78150202977ba"
+      },
+      "overlay": {
+        "path": "native-path-records-v1/rust.json",
+        "sha256": "92e9dd4ba53d9a89ae489c6198bb9d48d9a580aa673579d44220754817a430d4"
+      },
+      "visibility": "public",
+      "rootReexports": []
+    },
+    {
+      "kind": "wire-protocol",
+      "module": "command_requests",
+      "visibility": "public",
+      "rootReexports": [],
+      "graph": {
+        "path": "command-requests-v1/graph.json",
+        "sha256": "7ef7b340fa1633a33588e88f5933a568f953fc5fd5343c50a28ad5b3f134f777"
+      },
+      "overlay": {
+        "path": "command-requests-v1/rust.json",
+        "sha256": "25227dc3f35bab68afd404016acedeb864b2329ebe09661313da1518820c4bf7"
+      },
+      "wireShape": {
+        "graph": {
+          "path": "command-requests-v1/shape.json",
+          "sha256": "33fdc29a8fdddba6eb76aa518967f538734b2b7b4e6fd16b293f61bfd245e7a9"
+        },
+        "overlay": {
+          "path": "command-requests-v1/shape.rust.json",
+          "sha256": "93027b7ae7410427159c21f38b5ee0bed90e79c86d80d8dd6a00844b40b19e8c"
+        }
+      },
+      "reexports": [
+        "SubmitRequest",
+        "encode_submit",
+        "decode_submit",
+        "StatusRequest",
+        "encode_status",
+        "decode_status",
+        "PollRequest",
+        "encode_poll",
+        "decode_poll",
+        "CancelRequest",
+        "encode_cancel",
+        "decode_cancel",
+        "FinishRequest",
+        "encode_finish",
+        "decode_finish",
+        "PROTOCOL",
+        "REQUEST_KIND"
+      ]
+    },
+    {
+      "kind": "local-command-client",
+      "module": "command_client",
+      "graph": {
+        "path": "basic-command-delivery-v1/submit.json",
+        "sha256": "b596eda4f00853f59ac6179e22fec7e8418dcd77c7ea6d56f8f9a94864dda038"
+      },
+      "overlay": {
+        "path": "basic-command-delivery-v1/submit.rust.json",
+        "sha256": "803fd9c5ab24488de21f59c5e2aa74d775d4e8a2dc597f5dddae2616e307e3b4"
+      },
+      "reexports": [
+        "submit"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "local-command-client",
+      "module": "command_client_resume",
+      "graph": {
+        "path": "basic-command-retained-poll-v1/resume.json",
+        "sha256": "c4f0d1bcd3eecbe186e950f0c2d05e2d2f883bf343ba91b1ac242da4d83c8d60"
+      },
+      "overlay": {
+        "path": "basic-command-retained-poll-v1/resume.rust.json",
+        "sha256": "3616dfbb4ab6fae4614f28feb537610cb567ccd0de994f106fa4534eff1328f8"
+      },
+      "reexports": [
+        "resume"
+      ],
+      "rootReexports": []
+    },
+    {
+      "kind": "wire-protocol",
+      "module": "command_responses",
+      "visibility": "public",
+      "rootReexports": [],
+      "graph": {
+        "path": "command-responses-v1/graph.json",
+        "sha256": "2c0c4dafdfcfec3d059f19ca5d7017575e7935feaa1439d9e5ee423e41ef2fed"
+      },
+      "overlay": {
+        "path": "command-responses-v1/rust.json",
+        "sha256": "cca4f7fe34c6eccf83ddbff62b90e5e3aef96a80b1aad1d619b498679a8fa769"
+      },
+      "wireShape": {
+        "graph": {
+          "path": "command-response-shapes-v1/graph.json",
+          "sha256": "ef164b49af608bfda7c660d8ced732cd02550ee9e6f162e6cdc593073bae44a8"
+        },
+        "overlay": {
+          "path": "command-response-shapes-v1/rust.json",
+          "sha256": "2093bf303de101ebe2acea1c459a3a59d94cd8251b18b33ac5a49faa838493cd"
+        }
+      },
+      "reexports": [
+        "SubmitReply",
+        "decode_submit",
+        "encode_submit",
+        "StatusReply",
+        "decode_status",
+        "encode_status",
+        "PollReply",
+        "decode_poll",
+        "encode_poll",
+        "CancelReply",
+        "decode_cancel",
+        "encode_cancel",
+        "FinishReply",
+        "decode_finish",
+        "encode_finish"
+      ]
+    }
+  ],
+  "binaries": [
+    {
+      "name": "marmish",
+      "entry": [
+        "marmish_parser",
+        "run_cli"
+      ],
+      "startup": {
+        "dependency": "marmish-engine",
+        "entry": [
+          "initialize_process_limits"
+        ],
+        "exit": 1,
+        "stderr": "marmish: process_limits"
+      }
+    },
+    {
+      "name": "marmishd",
+      "entry": [
+        "marmishd_parser",
+        "run_cli"
+      ],
+      "startup": {
+        "dependency": "marmish-engine",
+        "entry": [
+          "initialize_process_limits"
+        ],
+        "exit": 1,
+        "stderr": "marmish: process_limits"
+      }
+    }
+  ],
+  "registryPatches": {
+    "libsqlite3-sys": {
+      "git": "https://github.com/rusqlite/rusqlite.git",
+      "revision": "5ae7fdf83085c595fd54f977b3a56ccacabaf16b"
+    }
+  }
+}
