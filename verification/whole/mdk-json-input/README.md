@@ -18,3 +18,5 @@ cargo +1.97.1 run --quiet --locked --offline \
 ```
 
 The Rust qualifier shares the pinned test extractor with the workspace witness. The native oracle builds the pristine, instrumented and mutated source in separate Cargo targets keyed by source digest. Cold and warm replays on ARM64 macOS produced identical receipts, including the original and projected bounds on both sides of the source edit. [Rust staging replay](rust-stage-aarch64-apple-darwin.json)
+
+The standalone Rust qualifier also drives the original source mutation, contract recovery, package composition, isolated release builds and projected tests. Its cold and warm macOS receipts were byte-identical. The fresh Python comparison differed only in the recorded companion commit. In a disposable checkout, `--prepare` restored the graph, overlay and package descriptor from altered copies. [Standalone Rust replay](rust-aarch64-apple-darwin.json)

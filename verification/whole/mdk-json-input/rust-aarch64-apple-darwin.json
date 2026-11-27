@@ -1,0 +1,85 @@
+{
+  "baseline": {
+    "observations": {
+      "acceptedRecords": 200,
+      "acceptedValueBytes": 65536,
+      "cases": {
+        "byte-before-count": "capacity-unconsumed",
+        "count-before-json": "capacity-consumed",
+        "duplicate-member": "last-value",
+        "empty-sequence": "empty",
+        "malformed-after-line": "invalid",
+        "malformed-json": "invalid",
+        "newline-counts": "capacity",
+        "per-record-budget": "accepted",
+        "read-error": "invalid",
+        "terminal-line": "invalid",
+        "value-size-before-json": "capacity"
+      },
+      "format": "oddlang-bounded-json-observation-v1",
+      "rejectedRecords": 201,
+      "rejectedValueBytes": 65537
+    },
+    "packageLockSha256": "52d7ba3cd3ee77eb46490f8720c1ef793a34791cf9a9cd71c131c2648c38cd92",
+    "recovery": {
+      "format": "oddlang-bounded-json-recovery-lock-v1",
+      "graphSha256": "6b24f0203c0b14d0ccca7db77692bce8bea4cc68458be76d764edddfa947278a",
+      "observationSha256": "47537a0e80668c000fb6245442fda33f72c08b6b2776c1297b81a6ce4d407e2f",
+      "overlaySha256": "f64fef03c920bc784486d6daf52a09cc3efa5daf001841c047ea90cb22350a2e",
+      "scope": "observed guard and structural JSON cases, with additional JSON value behavior delegated to the pinned provider",
+      "selectionSha256": "0c2261b84e4dcc8349a598abf3e7ec81b5b1fe57e567a016c8887bec27eb88ae"
+    }
+  },
+  "case": "tests::synthetic_json_and_ndjson_are_bounded_and_structural_only",
+  "caseCount": 1,
+  "caseSha256": "04916e33e73f6e8856688823f8af5af965677a7403e195477de9f4a19d1a6ad7",
+  "changedSourceSha256": "79c982e871253e47948b38c3282166aa66fae5d62c995593e0cdb8f2030b7548",
+  "companion": "38d4b7c1d4139e370256fa1a6378179a537066e8",
+  "compilerSha256": "5941029b8dcc1552d72b31aec8414a3dae95a6ca6ac269a9b7ef7919c0d3942b",
+  "deniedSourcePaths": 4,
+  "format": "marmish-private-mdk-json-input-v1",
+  "framework": "1d3b45fb79f775a445ae874c06ed89c818b1f697",
+  "mutation": {
+    "observations": {
+      "acceptedRecords": 181,
+      "acceptedValueBytes": 32768,
+      "cases": {
+        "byte-before-count": "capacity-unconsumed",
+        "count-before-json": "capacity-consumed",
+        "duplicate-member": "last-value",
+        "empty-sequence": "empty",
+        "malformed-after-line": "invalid",
+        "malformed-json": "invalid",
+        "newline-counts": "capacity",
+        "per-record-budget": "accepted",
+        "read-error": "invalid",
+        "terminal-line": "invalid",
+        "value-size-before-json": "capacity"
+      },
+      "format": "oddlang-bounded-json-observation-v1",
+      "rejectedRecords": 182,
+      "rejectedValueBytes": 32769
+    },
+    "packageLockSha256": "da4d79fd19ec18222e38e95e1d30148bbf301d484364d3cfc727de4162a6cef8",
+    "recovery": {
+      "format": "oddlang-bounded-json-recovery-lock-v1",
+      "graphSha256": "d489875d7d97a02dd13fbd92b7debdf00afaed3b0ce015132a19150d708908d1",
+      "observationSha256": "3496911270d53936784d05890f52dec6ff2d0abbdd8d0391eec09a93a66b3ca1",
+      "overlaySha256": "f64fef03c920bc784486d6daf52a09cc3efa5daf001841c047ea90cb22350a2e",
+      "scope": "observed guard and structural JSON cases, with additional JSON value behavior delegated to the pinned provider",
+      "selectionSha256": "4bae2541bb6d9efec237c29b95b22a64a498152e20bd3d74e4ea22f61c8824f8"
+    }
+  },
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "originalSourceSha256": "ee29c34649843ee04b21dc92605a2056659bb487ed0ac993915df32a5baa1794",
+  "probeSha256": "8686c15202ae69193c4ab2f5c87deae57ade2a4b16394b02ee7d276dae3a322b",
+  "rustc": [
+    "rustc 1.97.1 (8bab26f4f 2026-07-14)",
+    "binary: rustc",
+    "commit-hash: 8bab26f4f68e0e26f0bb7960be334d5b520ea452",
+    "commit-date: 2026-07-14",
+    "host: aarch64-apple-darwin",
+    "release: 1.97.1",
+    "LLVM version: 22.1.6"
+  ]
+}
