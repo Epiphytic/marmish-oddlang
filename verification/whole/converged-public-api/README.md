@@ -24,3 +24,12 @@ Omit `--check` to generate the descriptors.
 The [Rust composition replay](rust-composition-macos-arm64.json) records the hashes of all six descriptors across the two parents and their combined release. The Rust and historical Python commands independently regenerated the published bytes and rejected all fourteen input and output drift controls.
 
 The [macOS ARM64 native replay](rust-aarch64-apple-darwin.json) ran from a clean implementation checkout after the Rust compose check. The isolated build reproduced the seven member locks and both parent seals. The original and generated constant callers each printed `131072`. All four private-reader cases, 26 distinct engine-error variants, 38 negative Rust diagnostics and the remaining native oracles matched the archived release receipt.
+
+The complete qualification uses the Rust workspace runner. Supply a clean framework checkout at the pinned revision, a clean original checkout, and the qualified original binary directory.
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- "$FRAMEWORK" "$ORIGINAL" "$RECEIPT" --public-api \
+  --framework-revision 225c32d49be4ac7f96a9ff7874220b5307753a90 \
+  --compiler-target "$COMPILER_TARGET" --original-target "$ORIGINAL_TARGET" --original-bin-dir "$ORIGINAL_BIN_DIR"
+```

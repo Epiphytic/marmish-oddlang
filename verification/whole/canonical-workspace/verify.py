@@ -37,11 +37,10 @@ def lane(name, program="verify.py"):
         sys.modules.update(saved)
 
 
-CONVERGED = lane("converged-public-api")
 RECORD_API = lane("engine-native-records")
 CLI = lane("terminal-prefix")
 VAULT_API = lane("vault-mode")
-ENGINE_API, LIMIT, SIX = (CONVERGED[name] for name in ("ENGINE", "LIMIT", "SIX"))
+ENGINE_API, LIMIT, SIX = (RECORD_API[name] for name in ("ENGINE", "LIMIT", "SIX"))
 run, data, sha = (SIX[name] for name in ("run", "data", "sha"))
 
 
@@ -210,7 +209,7 @@ def main():
             result.update(diagnostics(args, host, work, scratch, product, build))
             result.update(vault_mode(args, host, work, scratch, product, build))
             result.update(RECORD_API["observe_records"](args, product, build, work, scratch))
-            result.update(CONVERGED["observe"](args, host, work, scratch, product, build))
+            result.update(RECORD_API["observe_public_api"](args, host, work, scratch, product))
             result["releaseManifest"] = SIX["product_witness"](
                 "manifest-oracle", product, args.original, args.original_target, scratch, host,
                 scratch / "workspace-cargo-artifacts.jsonl")

@@ -193,6 +193,8 @@ enum Action {
         scratch: PathBuf,
         host: String,
         artifacts: PathBuf,
+        #[arg(long)]
+        inherited_work: Option<PathBuf>,
     },
     RangeTree {
         root: PathBuf,
@@ -388,18 +390,22 @@ fn main() -> Result {
             scratch,
             host,
             artifacts,
+            inherited_work,
         } => {
             use public_data_qualification::manifest_native::{ParserRun, rows};
             let build = rows(&std::fs::read(artifacts)?)?;
-            ParserRun {
+            let parser = ParserRun {
                 product: &product,
                 original: &original,
                 original_target: &original_target,
                 scratch: &scratch,
                 host: &host,
                 build: &build,
+            };
+            match inherited_work {
+                Some(work) => parser.inherited(&work,&work.join("oddlang"))?,
+                None => parser.observe(None)?,
             }
-            .observe(None)?
         }
         Action::RangeTree { root } => public_data_qualification::range::tree(&root)?,
         Action::RangeHash => public_data_qualification::range::hashed(&input()?)?.into(),

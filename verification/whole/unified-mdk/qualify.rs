@@ -1,4 +1,6 @@
 //! Rebuild and qualify all six generated members against the original native workspace.
+#[path = "../converged-public-api/product.rs"]
+mod converged;
 #[path = "../generated-diagnostics/verify.rs"]
 mod diagnostics;
 mod release;
@@ -40,6 +42,9 @@ struct Args {
     /// Qualify the offline CLI diagnostics module and its independently pinned public caller.
     #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest"])]
     diagnostics: bool,
+    /// Qualify the combined prototype and engine public API release.
+    #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest", "diagnostics"])]
+    public_api: bool,
     #[arg(long, requires = "release_manifest")]
     raw_results: Option<PathBuf>,
 }
@@ -136,7 +141,14 @@ fn execute(a: Args) -> Result {
         [DARWIN, LINUX].contains(&host),
         "unsupported native qualification host",
     )?;
-    if a.release_manifest {
+    if a.public_api {
+        let profile = load(&whole().join("converged-public-api/import-profile.json"))?;
+        require(
+            profile["framework_revision"] == a.framework_revision,
+            "unexpected public API compiler revision",
+        )?;
+        api_composition::compose(api_composition::Release::Converged, &portable(), true)?;
+    } else if a.release_manifest {
         api_composition::compose(api_composition::Release::ReleaseManifest, &portable(), true)?;
     } else if a.buffered {
         buffered::compose(&portable(), true)?;
@@ -195,7 +207,14 @@ fn execute(a: Args) -> Result {
             text(&e["format"])?,
         )
     } else {
-        let (release, parent, member, format) = if a.diagnostics {
+        let (release, parent, member, format) = if a.public_api {
+            (
+                converged::RELEASE,
+                converged::ERRORS,
+                converged::MEMBER,
+                "marmish-converged-public-api-v1",
+            )
+        } else if a.diagnostics {
             (
                 diagnostics::RELEASE,
                 diagnostics::BASE,
@@ -304,7 +323,7 @@ fn execute(a: Args) -> Result {
             whole().join("private-buffer/observations.rs"),
         );
     }
-    if a.release_manifest {
+    if a.public_api || a.release_manifest {
         for (label, path) in [
             (
                 "original-prototype",
@@ -331,6 +350,12 @@ fn execute(a: Args) -> Result {
                 original.join("crates/marmish-native/src/identity.rs"),
             ),
             ("choice-caller", whole().join("backend-choice/probe.rs")),
+        ] {
+            denied.insert(label.to_owned(), path);
+        }
+    }
+    if a.release_manifest {
+        for (label, path) in [
             (
                 "original-release-manifest",
                 original.join(manifest_product::SOURCE),
@@ -379,6 +404,8 @@ fn execute(a: Args) -> Result {
         )?;
         product::check_members(&product, &checked, false)?;
         checked
+    } else if a.public_api {
+        converged::check(&product)?
     } else if a.diagnostics {
         diagnostics::check(&product)?
     } else if a.release_manifest {
@@ -500,7 +527,7 @@ fn execute(a: Args) -> Result {
     if a.buffered {
         result["bufferedInput"] = buffered::observe(&product, &original, host, None)?;
     }
-    if a.release_manifest {
+    if a.public_api || a.release_manifest {
         let parser = manifest_native::ParserRun {
             product: &product,
             original: &original,
@@ -516,7 +543,11 @@ fn execute(a: Args) -> Result {
         {
             result[key] = value.clone();
         }
-        result["releaseManifest"] = parser.observe(a.raw_results.as_deref())?;
+        if a.public_api {
+            result["parentWorkspaceLocks"] = converged::parent_hashes()?;
+        } else {
+            result["releaseManifest"] = parser.observe(a.raw_results.as_deref())?;
+        }
     }
     if extension.is_some() {
         result["format"] = "marmish-extended-workspace-intermediate-v1".into();

@@ -17,11 +17,10 @@ SOURCE = {"engine": "crates/marmish-engine/src/model.rs",
           "native": "crates/marmish-native/src/transport.rs"}
 CHANGED = {f"marmish-{name}" for name in DOMAINS}
 
-CONVERGED = runpy.run_path(str(HERE.parent / "converged-public-api/verify.py"))
-SIX = CONVERGED["SIX"]
+ENGINE = runpy.run_path(str(HERE.parent / "engine-public-error/verify.py"))
+LIMIT = runpy.run_path(str(HERE.parent / "prototype-constant/verify.py"))
+SIX = ENGINE["SIX"]
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
-ENGINE = CONVERGED["ENGINE"]
-LIMIT = CONVERGED["LIMIT"]
 
 TYPES = {
     "engine": ["marmish_engine::InputReceipt", "marmish_engine::MaintenanceReport"],
@@ -85,6 +84,12 @@ def observe_records(args, product, build, work, scratch):
     return {"publicRecords": result}
 
 
+def observe_public_api(args, host, work, scratch, product):
+    return SIX["product_witness"]("manifest-oracle", product, args.original, args.original_target,
+                                  scratch, host, scratch / "workspace-cargo-artifacts.jsonl",
+                                  "--inherited-work", work)
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("framework", "original", "receipt"):
@@ -108,7 +113,7 @@ def main():
         work, scratch = Path(w).resolve(), Path(s).resolve()
 
         def witness(product, build):
-            return CONVERGED["observe"](args, host, work, scratch, product, build) | observe_records(
+            return observe_public_api(args, host, work, scratch, product) | observe_records(
                 args, product, build, work, scratch,
             )
 
