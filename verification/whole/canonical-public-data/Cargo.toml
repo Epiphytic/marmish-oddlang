@@ -83,3 +83,7 @@ path = "../local-file-catalog/compose.rs"
 [[bin]]
 name = "qualify-array-shapes"
 path = "../shapes/arrays/replay.rs"
+
+[[bin]]
+name = "workspace-shape-archive"
+path = "../shapes/archive.rs"
