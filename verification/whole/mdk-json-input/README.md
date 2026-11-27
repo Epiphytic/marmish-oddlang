@@ -14,3 +14,5 @@ python3 -B verification/whole/mdk-json-input/verify.py \
   /path/to/original /tmp/mdk-json-original-target /tmp/mdk-json-receipt.json \
   --framework-revision 1d3b45fb79f775a445ae874c06ed89c818b1f697
 ```
+
+The Rust workspace witness extracts and stages the pinned test body. The native oracle builds the pristine, instrumented and mutated source in separate Cargo targets keyed by source digest. Cold and warm replays on ARM64 macOS produced identical receipts, including the original and projected bounds on both sides of the source edit. [Rust staging replay](rust-stage-aarch64-apple-darwin.json)

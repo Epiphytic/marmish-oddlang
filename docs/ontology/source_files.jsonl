@@ -1594,11 +1594,12 @@
 {"path":"verification/whole/local-file-integrity/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"0ff3b7d37206d062e6578fcdeb58f7fb699ba8e82702fafb8097348b19701579","parse_status":"inventory"}
 {"path":"verification/whole/local-file-integrity/observe.rs","language":"rust","mode":"100644","sha256":"280f3aeb3ad7ea7a6c70d9511219730b236ef62aeb951f01286e0926ee3df931","parse_status":"parsed"}
 {"path":"verification/whole/local-file-integrity/verify.py","language":"python","mode":"100644","sha256":"d9287342565e20372e4d12be7cb3a2fe8fca5a3874a063faa2605f9ec984f7aa","parse_status":"parsed"}
-{"path":"verification/whole/mdk-json-input/README.md","language":"inventory","mode":"100644","sha256":"4c224a6075021492809ba52497fa24a5ae351e39ee6f4469e550b44335a8eebd","parse_status":"inventory"}
+{"path":"verification/whole/mdk-json-input/README.md","language":"inventory","mode":"100644","sha256":"397b9d4ea465722889f331a97a73a668086aef2c2e98d58d61eea02307cc6c2a","parse_status":"inventory"}
 {"path":"verification/whole/mdk-json-input/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"8a89f777cf8cdc907aaf5752f17e06260524aa7424756ab1f0ab61a575602dd9","parse_status":"inventory"}
 {"path":"verification/whole/mdk-json-input/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"ea90e287282d5b7356fed909a26ffa0843d82c15f3337a314946ce8f21abc6fb","parse_status":"inventory"}
 {"path":"verification/whole/mdk-json-input/compose.rs","language":"rust","mode":"100644","sha256":"e32872194a709f37bd36a4f109d407c4347154f36b67510e63ef4599ad328f9c","parse_status":"parsed"}
 {"path":"verification/whole/mdk-json-input/observe.rs","language":"rust","mode":"100644","sha256":"8686c15202ae69193c4ab2f5c87deae57ade2a4b16394b02ee7d276dae3a322b","parse_status":"parsed"}
+{"path":"verification/whole/mdk-json-input/rust-stage-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"862c5bfd74523bb585ddbe1482c0ad3d990945a5d2d8d3ea0365b0ca197a1068","parse_status":"inventory"}
 {"path":"verification/whole/mdk-json-input/verify.py","language":"python","mode":"100644","sha256":"97ca62c6209b33992d2a7a0dd497324a6bf895a1890d9e6ea140f29447d216ac","parse_status":"parsed"}
 {"path":"verification/whole/mdk-public-data/README.md","language":"inventory","mode":"100644","sha256":"13324713778c206afe2184c6b0369b290150586a00eee5921c8cb213b46ca344","parse_status":"inventory"}
 {"path":"verification/whole/mdk-public-data/darwin-arm64/baseline.txt","language":"inventory","mode":"100644","sha256":"855b1fa98421386d72a9cb0ed1500e69af1c2a8a09de82fd725d98cab62613e4","parse_status":"inventory"}
@@ -1883,7 +1884,7 @@
 {"path":"verification/whole/structure/linux-aarch64-original.json","language":"inventory","mode":"100644","sha256":"24671fdf452cf8ad611d33d246b0db6063cdd9a7756cb62a1e31e74f9a4f87d9","parse_status":"inventory"}
 {"path":"verification/whole/suite/Cargo.lock","language":"inventory","mode":"100644","sha256":"30a744d41264f0fc78ad0a8cc98da737e0892febc4c89623246b3e4d43125b43","parse_status":"inventory"}
 {"path":"verification/whole/suite/Cargo.toml","language":"inventory","mode":"100644","sha256":"2c0cb7e834ec7045b1aafc3c734b1c6d18f51ba84ca8466bff7ab172bff3a63b","parse_status":"inventory"}
-{"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"b58fc0ffa4440742c3ec5f69ae12139d1577db38bc3ead84b03f3bb970b4984d","parse_status":"inventory"}
+{"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"574cdc0c57190a09d46cc3be9d270726625629212409d275a39f7a58e699da6d","parse_status":"inventory"}
 {"path":"verification/whole/suite/candidate_coverage.py","language":"python","mode":"100644","sha256":"a4821365600a3400849a36151408e3ad7477664cae37fdf40122cb2c97b6c258","parse_status":"parsed"}
 {"path":"verification/whole/suite/canonical-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306","parse_status":"inventory"}
 {"path":"verification/whole/suite/canonical-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941","parse_status":"inventory"}
