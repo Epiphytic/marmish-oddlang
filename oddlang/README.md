@@ -85,12 +85,13 @@ from the Marmish repository. Point `ODDLANG` to the resulting binary when
 it is outside your PATH.
 
 ```sh
-ODDLANG=/path/to/oddlang ./oddlang/regenerate-stream.sh
+ODDLANG=/path/to/oddlang cargo +1.96.1 run --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin regenerate-stream
 cargo +1.97.1 test --locked --offline -p marmish-stream
 cargo +1.97.1 check --locked --offline --workspace --all-targets
 ```
 
-The script verifies the graph and every emitted source against
+The Rust tool verifies the graph and every emitted source against
 [the lock pin](stream.sha256). A repeat run checks the materialized sources.
 Cargo uses the existing crate name, path, version, API and locked dependencies.
 For offline builds, prepare the dependencies in the local Cargo cache first.
