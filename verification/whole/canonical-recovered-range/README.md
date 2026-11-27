@@ -16,7 +16,9 @@ The verifier also rehashes the complete retained native Cargo library closure an
 Use a clean companion checkout, the exact reviewed framework checkout and same-host compiler recorded by the source-recovery receipt, the pinned original checkout, and the retained #123 build directory.
 
 ```sh
-python3 -B verification/whole/canonical-recovered-range/verify.py INPUT_REVISION \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-recovered-range -- INPUT_REVISION \
   FRAMEWORK COMPILER ORIGINAL RETAINED_123_BUILD NEW_WORK_DIRECTORY RECEIPT
 ```
 

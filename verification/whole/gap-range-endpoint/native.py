@@ -14,7 +14,7 @@ WHOLE = HERE.parent
 ROOT = WHOLE.parents[1]
 sys.path.insert(0, str(WHOLE / "canonical-recovered-range"))
 try:
-    RECOVERED = runpy.run_path(str(WHOLE / "canonical-recovered-range/verify.py"))
+    RECOVERED = runpy.run_path(str(WHOLE / "canonical-recovered-range/workspace_compat.py"))
 finally:
     sys.path.pop(0)
 PRIOR, AUDIT, COMBINED = (RECOVERED[key] for key in ("PRIOR", "AUDIT", "COMBINED"))

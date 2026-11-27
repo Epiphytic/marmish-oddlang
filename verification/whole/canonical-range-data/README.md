@@ -7,7 +7,9 @@ The verifier uses the same sealed native build for the public range import, an e
 From clean checkouts, build with Rust 1.97.1, the [framework source at 7855c055](https://github.com/Epiphytic/oddlang/tree/7855c055dc1e72b49d3654f6e6c500a0ffdb57ec), and the [sealed four-type predecessor product](../canonical-public-data/README.md).
 
 ```sh
-python3 -B verification/whole/canonical-range-data/verify.py INPUT_REVISION \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-range-data -- INPUT_REVISION \
   FRAMEWORK ORIGINAL BASELINE_PRODUCT COMPILER_TARGET NEW_WORK_DIRECTORY RECEIPT
 ```
 

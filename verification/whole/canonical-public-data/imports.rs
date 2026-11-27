@@ -23,7 +23,7 @@ const LOCK: &str = "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f2
 fn object(v: &Value) -> Result<&serde_json::Map<String, Value>> {
     Ok(v.as_object().ok_or("expected an object")?)
 }
-fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value> {
+pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value> {
     fs::write(work.join("caller.rs"), body)?;
     let meta = Path::new(text(&role[0])?);
     let mut cmd = Command::new("rustc");

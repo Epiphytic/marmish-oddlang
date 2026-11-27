@@ -46,3 +46,11 @@ path = "../unified-mdk/qualify.rs"
 [[bin]]
 name = "compose-buffered"
 path = "../unified-buffered/compose_cli.rs"
+
+[[bin]]
+name = "qualify-range-data"
+path = "../canonical-range-data/verify.rs"
+
+[[bin]]
+name = "qualify-recovered-range"
+path = "../canonical-recovered-range/verify.rs"

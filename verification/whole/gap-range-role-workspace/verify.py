@@ -10,7 +10,7 @@ import sys
 from compose import BASE, ENGINE, HERE, PACKAGE, PORTABLE, ROLE_BINDING, ROOT, WORKSPACE, compose, pin
 
 WHOLE = HERE.parent
-SCRIPT = WHOLE / "canonical-recovered-range/verify.py"
+SCRIPT = WHOLE / "canonical-recovered-range/workspace_compat.py"
 saved = sys.modules.pop("compose")
 sys.path.insert(0, str(SCRIPT.parent))
 try:

@@ -121,7 +121,7 @@ fn pinned(path: &Path, rev: &str) -> Result {
         format!("release bytes differ from Git pin: {name}"),
     )
 }
-fn public_product(product: &Path, release: &str, rev: &str, hash: &str) -> Result<Value> {
+pub fn public_product(product: &Path, release: &str, rev: &str, hash: &str) -> Result<Value> {
     let manifest = portable().join(format!("{release}.json"));
     let reference = portable().join(release).join("workspace.lock");
     for path in [&manifest, &reference] {

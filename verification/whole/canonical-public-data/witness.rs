@@ -84,6 +84,18 @@ enum Action {
         host: String,
         artifacts: PathBuf,
     },
+    RangeTree {
+        root: PathBuf,
+    },
+    RangeHash,
+    RangeLockDelta {
+        #[arg(default_value = "")]
+        path: String,
+    },
+    RangeClosure {
+        target: PathBuf,
+        host: String,
+    },
     Domains,
 }
 fn main() -> Result {
@@ -179,6 +191,16 @@ fn main() -> Result {
                 build: &build,
             }
             .observe(None)?
+        }
+        Action::RangeTree { root } => public_data_qualification::range::tree(&root)?,
+        Action::RangeHash => public_data_qualification::range::hashed(&input()?)?.into(),
+        Action::RangeLockDelta { path } => {
+            let input: Value = input()?;
+            public_data_qualification::range::delta(&input["old"], &input["new"], &path)
+        }
+        Action::RangeClosure { target, host } => {
+            let raw: String = serde_json::from_reader(io::stdin().lock())?;
+            public_data_qualification::range::library_closure(raw.as_bytes(), &target, &host)?
         }
         Action::Domains => domains::observe(&input()?)?,
     };

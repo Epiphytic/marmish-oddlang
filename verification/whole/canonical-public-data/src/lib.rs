@@ -161,3 +161,7 @@ mod tests {
 
 #[path = "../../converged-release-manifest/inherited.rs"]
 mod manifest_inherited;
+
+pub mod artifacts;
+#[path = "../../canonical-range-data/qualification.rs"]
+pub mod range;
