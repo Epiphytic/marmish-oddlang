@@ -25,3 +25,11 @@ path = "../copy-field-relations/replay.rs"
 [[bin]]
 name = "check-copy-frame"
 path = "../copy-frame/verify.rs"
+
+[[bin]]
+name = "launch-hash-cases"
+path = "../copy-launch-hash/main.rs"
+
+[[bin]]
+name = "check-launch-layout"
+path = "../copy-launch-layout/verify.rs"

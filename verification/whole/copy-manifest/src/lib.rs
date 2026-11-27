@@ -1,3 +1,5 @@
+#[path = "../../copy-launch-hash/cases.rs"]
+pub mod launch_hash;
 mod cases;
 pub use cases::cases;
 pub mod corpus;
