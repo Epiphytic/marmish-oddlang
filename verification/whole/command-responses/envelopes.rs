@@ -1,3 +1,5 @@
+#[path = "../command-requests/verify.rs"]
+mod requests;
 mod shapes;
 use clap::{Parser, Subcommand};
 use serde_json::{Value, json};
@@ -23,6 +25,12 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Mode {
+    Requests {
+        compiler: PathBuf,
+        original: PathBuf,
+        #[arg(long)]
+        package: Option<PathBuf>,
+    },
     Shapes {
         compiler: PathBuf,
         original: PathBuf,
@@ -132,6 +140,36 @@ fn observe(root: &Path, flags: &str, input: &Path) -> Result<Vec<u8>> {
     }
     Ok(result.stdout)
 }
+fn compare_codecs(
+    root: &Path,
+    whole: &Path,
+    original: &Path,
+    source: &[u8],
+    input: &Path,
+    candidate_adapter: &Path,
+    reference_adapter: &Path,
+) -> Result<Vec<u8>> {
+    let mut observations = Vec::new();
+    for (reference, adapter) in [(false, candidate_adapter), (true, reference_adapter)] {
+        let dir = root.join(if reference { "reference" } else { "candidate" });
+        fs::create_dir(&dir)?;
+        prepare(&dir, &whole.join("command-requests"))?;
+        fs::copy(adapter, dir.join("peer.rs"))?;
+        let mut flags = String::from("-Adead_code --check-cfg=cfg(reference)");
+        if reference {
+            fs::write(dir.join("codec.rs"), git_blob(original, "command_wire.rs")?)?;
+            write_foundation(&dir, original)?;
+            flags.push_str(" --cfg reference");
+        } else {
+            fs::write(dir.join("codec.rs"), source)?;
+        }
+        observations.push(observe(&dir, &flags, input)?);
+    }
+    if observations[0] != observations[1] {
+        return Err("reference and projected codec observations differ".into());
+    }
+    Ok(observations.remove(0))
+}
 fn main() -> Result<()> {
     let args = Args::parse();
     let whole = Path::new(env!("CARGO_MANIFEST_DIR")).parent().unwrap();
@@ -144,6 +182,15 @@ fn main() -> Result<()> {
     let generated = matches!(args.mode, Mode::Generated { .. });
     let mut receipt = json!({"referenceRevision":ORIGINAL});
     match args.mode {
+        Mode::Requests {
+            compiler,
+            original,
+            package,
+        } => {
+            let result = requests::compare(root, whole, &compiler, &original, package.as_deref())?;
+            println!("{}", serde_json::to_string_pretty(&result)?);
+            return Ok(());
+        }
         Mode::Shapes { compiler, original } => {
             let result = shapes::compare(root, whole, &compiler, &original)?;
             println!("{}", serde_json::to_string_pretty(&result)?);
