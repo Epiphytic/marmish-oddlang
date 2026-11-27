@@ -27,7 +27,7 @@ pub fn host() -> Result<(String, Value)> {
     )?;
     Ok((host.into(), json!(version.lines().collect::<Vec<_>>())))
 }
-pub fn workdir(path: &Path, denied: &[&Path]) -> Result<PathBuf> {
+pub fn output_path(path: &Path, denied: &[&Path]) -> Result<PathBuf> {
     let path = std::path::absolute(path)?;
     let work = path
         .parent()
@@ -38,7 +38,6 @@ pub fn workdir(path: &Path, denied: &[&Path]) -> Result<PathBuf> {
         !denied.iter().any(|p| work.starts_with(p)),
         "choose an independent assembly area",
     )?;
-    fs::create_dir(&work)?;
     Ok(work)
 }
 pub fn tree(root: &Path) -> Result<Value> {

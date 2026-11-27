@@ -70,7 +70,8 @@ fn main() -> Result {
         .join(format!("{host}.json"));
     let prior = load(&prior_path)?;
     require(
-        range["observations"] == prior["missingRange"]["pairedObservations"],
+        list(&range["observations"])?.len() == 35
+            && list(&range["observations"])? == list(&prior["missingRange"]["pairedObservations"])?,
         "upstream and retained native observations differ",
     )?;
     let old_hash = text(&prior["workspace"]["workspaceLockSha256"])?;
@@ -90,7 +91,8 @@ fn main() -> Result {
             && prior["cargoLibraryClosureSha256"] == closure_hash,
         "retained native build closure differs",
     )?;
-    let work = workdir(&a.work, &[root(), &original, &framework, &prior_work])?;
+    let work = output_path(&a.work, &[root(), &original, &framework, &prior_work])?;
+    fs::create_dir(&work)?;
     let inputs = work.join("inputs");
     let manifest = portable().join(format!("{RECOVERED}.json"));
     let spec = stage(&manifest, &inputs)?;
@@ -170,8 +172,8 @@ fn main() -> Result {
     product::public_product(&candidate, RECOVERED, &a.input_revision, &hash)?;
     let compared = compare(&baseline, &candidate)?;
     require(
-        compared["identicalRustFiles"]["marmish-engine/src/group_1/__projection_5.rs"]
-            == range["generatedFiles"]["src/group_0/__projection_1.rs"],
+        text(&compared["identicalRustFiles"]["marmish-engine/src/group_1/__projection_5.rs"])?
+            == text(&range["generatedFiles"]["src/group_0/__projection_1.rs"])?,
         "combined range leaf differs from independently recovered code",
     )?;
     require(

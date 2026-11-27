@@ -144,7 +144,7 @@ fn main() -> Result {
     )?;
     let (host, version) = host()?;
     let source = artifacts::source_pin(&original)?;
-    let work = workdir(&a.work, &[root(), &framework, &original, &base])?;
+    let work = output_path(&a.work, &[root(), &framework, &original, &base])?;
     let exe = if let Some(p) = a.darwin_compiler {
         require(
             host == DARWIN && sha(&p)? == DARWIN_BINARY,
@@ -170,6 +170,7 @@ fn main() -> Result {
         ))?;
         t.join("debug/oddlang")
     };
+    fs::create_dir(&work)?;
     let cli = work.join("oddlang");
     fs::copy(&exe, &cli)?;
     require(sha(&cli)? == sha(&exe)?, "staged compiler digest changed")?;
