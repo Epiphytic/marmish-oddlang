@@ -1,3 +1,5 @@
+#[path = "../../suite/stage.rs"]
+pub mod suite_stage;
 #[path = "../../converged-public-api/compose.rs"]
 pub mod api_composition;
 #[path = "../../mdk-json-input/compose.rs"]

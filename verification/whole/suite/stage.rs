@@ -1,5 +1,5 @@
 //! Stage the pinned native test sources used by the named-suite qualification.
-use public_data_qualification::{
+use crate::{
     Result,
     assembly::{ORIGINAL, bytes_sha},
     manifest_product, require, stdout,
@@ -134,7 +134,7 @@ fn append_module(crate_root: &Path, leaf: &str, module: &str) -> Result<()> {
 }
 
 pub fn reader(original: &Path, prototype: &Path) -> Result<Value> {
-    use public_data_qualification::buffered;
+    use crate::buffered;
     let leaf = "src/group_0/__projection_0.rs";
     let module = buffered::original_test(&buffered::reader_source(original)?)?;
     append_module(prototype, leaf, &module)?;

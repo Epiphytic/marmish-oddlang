@@ -87,3 +87,7 @@ path = "../shapes/arrays/replay.rs"
 [[bin]]
 name = "workspace-shape-archive"
 path = "../shapes/archive.rs"
+
+[[bin]]
+name = "qualify-mdk-json-input"
+path = "../mdk-json-input/verify.rs"

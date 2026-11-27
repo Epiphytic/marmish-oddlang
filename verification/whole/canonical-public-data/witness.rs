@@ -6,8 +6,7 @@ mod endpoint_contract;
 mod suite_controls;
 #[path = "../suite/selected.rs"]
 mod suite_selected;
-#[path = "../suite/stage.rs"]
-mod suite_stage;
+use public_data_qualification::suite_stage;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{Result, api_composition, buffered, domains, imports, product};
 use serde_json::Value;
