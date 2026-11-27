@@ -26,6 +26,8 @@ offline npm cache. The verifier builds the compiler into the external
 target and obtains graph and witness bytes from their published commit.
 
 ```sh
-python3 -B verification/whole/vault-mode-typescript/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin vault-mode-typescript -- \
   "$FRAMEWORK" "$COMPILER_TARGET" "$RECEIPT"
 ```
+
+New receipts hash the Rust verifier executable. The archived receipt hashes its Python predecessor.

@@ -17,6 +17,15 @@ pub const COMPILER: &str = "8bab26f4f68e0e26f0bb7960be334d5b520ea452";
 pub fn root() -> &'static Path {
     whole().ancestors().nth(2).unwrap()
 }
+// Cargo accepts new target directories. Resolve their existing ancestors before checking containment.
+pub fn resolved(path: &Path) -> Result<PathBuf> {
+    if path.try_exists()? {
+        return Ok(path.canonicalize()?);
+    }
+    let parent = path.parent().ok_or("missing target parent")?;
+    Ok(resolved(parent)?.join(path.file_name().ok_or("invalid target path")?))
+}
+
 pub fn checkout(path: &Path, revision: &str, reject_config: bool) -> Result {
     if reject_config {
         for p in path.ancestors() {

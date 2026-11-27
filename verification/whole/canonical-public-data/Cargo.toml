@@ -119,3 +119,7 @@ path = "../legacy/observe.rs"
 [[bin]]
 name = "bridge-state-replay"
 path = "../state/replay.rs"
+
+[[bin]]
+name = "vault-mode-typescript"
+path = "../vault-mode-typescript/verify.rs"

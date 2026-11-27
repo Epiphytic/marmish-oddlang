@@ -3,7 +3,7 @@ use clap::Parser;
 use public_data_qualification::{
     Result,
     artifacts::selected_build,
-    assembly::{COMPILER, DARWIN, ORIGINAL, bytes_sha, root},
+    assembly::{COMPILER, DARWIN, ORIGINAL, bytes_sha, resolved, root},
     imports, json_bytes, load,
     product::public_product_at,
     require, run, sha, stdout, text, whole,
@@ -110,15 +110,6 @@ fn build(path: &Path, target: &Path, options: &[&str], archive: Option<&Path>) -
         .arg("--target-dir")
         .arg(target)
         .arg("--message-format=json"))
-}
-
-// Cargo accepts new target directories. Resolve their existing ancestors before checking containment.
-fn resolved(path: &Path) -> Result<PathBuf> {
-    if path.try_exists()? {
-        return Ok(path.canonicalize()?);
-    }
-    let parent = path.parent().ok_or("missing target parent")?;
-    Ok(resolved(parent)?.join(path.file_name().ok_or("invalid target path")?))
 }
 
 fn main() -> Result {
