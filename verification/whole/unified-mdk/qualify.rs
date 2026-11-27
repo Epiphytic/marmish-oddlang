@@ -1,4 +1,6 @@
 //! Rebuild and qualify all six generated members against the original native workspace.
+#[path = "../generated-diagnostics/verify.rs"]
+mod diagnostics;
 mod release;
 mod source;
 mod vault;
@@ -35,6 +37,9 @@ struct Args {
     buffered: bool,
     #[arg(long, conflicts_with_all = ["extension","buffered"])]
     release_manifest: bool,
+    /// Qualify the offline CLI diagnostics module and its independently pinned public caller.
+    #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest"])]
+    diagnostics: bool,
     #[arg(long, requires = "release_manifest")]
     raw_results: Option<PathBuf>,
 }
@@ -135,7 +140,7 @@ fn execute(a: Args) -> Result {
         api_composition::compose(api_composition::Release::ReleaseManifest, &portable(), true)?;
     } else if a.buffered {
         buffered::compose(&portable(), true)?;
-    } else if extension.is_none() {
+    } else if extension.is_none() && !a.diagnostics {
         six_composition::compose(&portable(), true)?;
     }
     let tmp = tempfile::tempdir()?;
@@ -182,29 +187,49 @@ fn execute(a: Args) -> Result {
     ))?;
     let cli = work.join("oddlang");
     fs::copy(build_target.join("debug/oddlang"), &cli)?;
-    let manifest = match &extension {
-        Some(e) => PathBuf::from(text(&e["manifest"])?),
-        None if a.release_manifest => portable().join(format!("{}.json", manifest_product::OUTPUT)),
-        None if a.buffered => portable().join(format!("{}.json", buffered::RELEASE)),
-        None => portable().join(format!("{SIX}.json")),
-    };
-    let base = match &extension {
-        Some(e) => portable().join(text(&e["base"])?).with_extension(""),
-        None if a.release_manifest => portable().join(manifest_product::BASE),
-        None if a.buffered => portable().join(SIX),
-        None => portable().join(FIVE),
-    };
-    let member = match &extension {
-        Some(e) => text(&e["member"])?,
-        None if a.release_manifest => manifest_product::MEMBER,
-        None if a.buffered => buffered::MEMBER,
-        None => "marmish-mdk",
-    };
-    let format = match &extension {
-        Some(e) => text(&e["format"])?,
-        None if a.release_manifest => "marmish-converged-pure-release-manifest-v1",
-        None if a.buffered => "marmish-seven-member-private-buffer-v1",
-        None => "marmish-six-member-mdk-public-data-v1",
+    let (manifest, base, member, format) = if let Some(e) = &extension {
+        (
+            PathBuf::from(text(&e["manifest"])?),
+            portable().join(text(&e["base"])?).with_extension(""),
+            text(&e["member"])?,
+            text(&e["format"])?,
+        )
+    } else {
+        let (release, parent, member, format) = if a.diagnostics {
+            (
+                diagnostics::RELEASE,
+                diagnostics::BASE,
+                diagnostics::MEMBER,
+                "marmish-diagnostic-workspace-v1",
+            )
+        } else if a.release_manifest {
+            (
+                manifest_product::OUTPUT,
+                manifest_product::BASE,
+                manifest_product::MEMBER,
+                "marmish-converged-pure-release-manifest-v1",
+            )
+        } else if a.buffered {
+            (
+                buffered::RELEASE,
+                SIX,
+                buffered::MEMBER,
+                "marmish-seven-member-private-buffer-v1",
+            )
+        } else {
+            (
+                SIX,
+                FIVE,
+                "marmish-mdk",
+                "marmish-six-member-mdk-public-data-v1",
+            )
+        };
+        (
+            portable().join(format!("{release}.json")),
+            portable().join(parent),
+            member,
+            format,
+        )
     };
     let inputs = work.join("inputs");
     let spec = stage(&manifest, &inputs)?;
@@ -261,6 +286,16 @@ fn execute(a: Args) -> Result {
         {
             denied.insert(k.clone(), PathBuf::from(text(p)?));
         }
+    }
+    if a.diagnostics {
+        denied.insert(
+            "diagnostic-source".into(),
+            original.join(diagnostics::SOURCE),
+        );
+        denied.insert(
+            "diagnostic-consumer".into(),
+            whole().join(diagnostics::PROBE),
+        );
     }
     if a.buffered {
         denied.insert("original-prototype".into(), original.join(buffered::SOURCE));
@@ -344,6 +379,8 @@ fn execute(a: Args) -> Result {
         )?;
         product::check_members(&product, &checked, false)?;
         checked
+    } else if a.diagnostics {
+        diagnostics::check(&product)?
     } else if a.release_manifest {
         manifest_product::check(&product)?
     } else if a.buffered {
@@ -457,6 +494,9 @@ fn execute(a: Args) -> Result {
         "journal": journal,
         "mdk": mdk,
     });
+    if a.diagnostics {
+        result["diagnostics"] = diagnostics::observe(&product, &original, &cli, &scratch, host)?;
+    }
     if a.buffered {
         result["bufferedInput"] = buffered::observe(&product, &original, host, None)?;
     }
