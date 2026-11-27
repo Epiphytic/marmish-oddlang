@@ -18,7 +18,6 @@ SOURCE = {"engine": "crates/marmish-engine/src/model.rs",
 CHANGED = {f"marmish-{name}" for name in DOMAINS}
 
 ENGINE = runpy.run_path(str(HERE.parent / "engine-public-error/verify.py"))
-LIMIT = runpy.run_path(str(HERE.parent / "prototype-constant/verify.py"))
 SIX = ENGINE["SIX"]
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
 
@@ -121,7 +120,7 @@ def main():
             args, host, work, scratch, manifest=MANIFEST, base=BASE,
             check=check_product, extra_artifact_oracle=witness,
             extra_denied={
-                "original-prototype": args.original / LIMIT["SOURCE"], "constant-caller": LIMIT["FILE"],
+                "original-prototype": args.original / "crates/marmish-prototype/src/lib.rs", "constant-caller": HERE.parent / "prototype-constant/caller.rs",
                 "reader-caller": HERE.parent / "private-buffer/observations.rs",
                 "original-engine-error": args.original / ENGINE["SOURCE"],
                 "engine-error-caller": ENGINE["HERE"] / "probe.rs",

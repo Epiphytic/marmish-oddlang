@@ -32,7 +32,8 @@ Run from a clean checkout with Rust 1.97.1, offline dependencies, and the
 pinned upstream release binaries available.
 
 ```sh
-python3 -B verification/whole/prototype-constant/verify.py \
+cargo +1.96.1 run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --prototype-constant \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision c70bc9b3b39f6c4a23641679185dea5d0e5bc32b \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \

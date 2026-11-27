@@ -203,18 +203,8 @@ impl ParserRun<'_> {
             ("generated-constant", self.build),
         ] {
             let lib = one(rows, "marmish_prototype")?;
-            let dir = parent(&lib)?;
-            let deps = dir.join("deps");
-            let exe = self.scratch.join(label);
-            let mut c = Command::new("rustc");
-            c.args(["+1.97.1", "--edition=2021"])
-                .arg(whole().join("prototype-constant/caller.rs"));
-            depend(&mut c, if deps.is_dir() { &deps } else { dir });
-            external(&mut c, "marmish_prototype", &lib);
-            run(c.arg("-o").arg(&exe))?;
-            let out = stdout(&mut Command::new(exe))?;
-            require(out == "131072\n", "MAX_LINE differs")?;
-            report["publicConstant"][label] = json!({"librarySha256":sha(&lib)?,"stdout":out});
+            report["publicConstant"][label] =
+                prototype_constant::caller(&lib, &self.scratch.join(label))?;
         }
         Ok(report)
     }

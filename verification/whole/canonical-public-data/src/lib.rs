@@ -1,3 +1,5 @@
+#[path = "../../prototype-constant/verify.rs"]
+pub mod prototype_constant;
 #[path = "../../vault-fixed-bytes/witness.rs"]
 pub mod vault_witness;
 #[path = "../../suite/stage.rs"]

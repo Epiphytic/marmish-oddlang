@@ -45,6 +45,9 @@ struct Args {
     /// Qualify the combined prototype and engine public API release.
     #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest", "diagnostics"])]
     public_api: bool,
+    /// Qualify the public prototype MAX_LINE export and its source recovery.
+    #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest", "diagnostics", "public_api"])]
+    prototype_constant: bool,
     #[arg(long, requires = "release_manifest")]
     raw_results: Option<PathBuf>,
 }
@@ -150,6 +153,12 @@ fn execute(a: Args) -> Result {
         api_composition::compose(api_composition::Release::Converged, &portable(), true)?;
     } else if a.release_manifest {
         api_composition::compose(api_composition::Release::ReleaseManifest, &portable(), true)?;
+    } else if a.prototype_constant {
+        api_composition::compose(
+            api_composition::Release::PrototypeConstant,
+            &portable(),
+            true,
+        )?;
     } else if a.buffered {
         buffered::compose(&portable(), true)?;
     } else if extension.is_none() && !a.diagnostics {
@@ -227,6 +236,13 @@ fn execute(a: Args) -> Result {
                 manifest_product::BASE,
                 manifest_product::MEMBER,
                 "marmish-converged-pure-release-manifest-v1",
+            )
+        } else if a.prototype_constant {
+            (
+                prototype_constant::RELEASE,
+                buffered::RELEASE,
+                buffered::MEMBER,
+                "marmish-seven-member-prototype-constant-v1",
             )
         } else if a.buffered {
             (
@@ -316,7 +332,13 @@ fn execute(a: Args) -> Result {
             whole().join(diagnostics::PROBE),
         );
     }
-    if a.buffered {
+    if a.prototype_constant {
+        denied.insert(
+            "prototype-constant-caller".into(),
+            whole().join(prototype_constant::CALLER),
+        );
+    }
+    if a.buffered || a.prototype_constant {
         denied.insert("original-prototype".into(), original.join(buffered::SOURCE));
         denied.insert(
             "buffer-caller".into(),
@@ -391,6 +413,11 @@ fn execute(a: Args) -> Result {
         .args(["build", "native-workspace", "rust"])
         .arg(inputs.join(manifest.file_name().ok_or("missing manifest name")?))
         .arg(&product))?;
+    let prior = if a.prototype_constant {
+        Some(prototype_constant::predecessor(&cli, &scratch)?)
+    } else {
+        None
+    };
     let lock = if extension.is_some() {
         // The parent verifies its additional package locks before this process builds any code.
         println!("check-product");
@@ -410,6 +437,8 @@ fn execute(a: Args) -> Result {
         diagnostics::check(&product)?
     } else if a.release_manifest {
         manifest_product::check(&product)?
+    } else if let Some(prior) = &prior {
+        prototype_constant::check(&product, prior)?
     } else if a.buffered {
         buffered::check(&product)?
     } else {
@@ -524,8 +553,18 @@ fn execute(a: Args) -> Result {
     if a.diagnostics {
         result["diagnostics"] = diagnostics::observe(&product, &original, &cli, &scratch, host)?;
     }
-    if a.buffered {
-        result["bufferedInput"] = buffered::observe(&product, &original, host, None)?;
+    if a.prototype_constant {
+        let reference = library(&collect(buffered::MEMBER)?, "marmish_prototype")?;
+        let generated = library(&build, "marmish_prototype")?;
+        result["publicConstant"] = json!({
+            "path":"marmish_prototype::MAX_LINE", "callerSha256":sha(&whole().join(prototype_constant::CALLER))?,
+            "nativeOriginal":prototype_constant::caller(&reference, &scratch.join("original-caller"))?,
+            "nativeGenerated":prototype_constant::caller(&generated, &scratch.join("generated-caller"))?,
+            "sourceRecovery":prototype_constant::source_oracle(&original, &cli, &ot, &scratch)?,
+        });
+    }
+    if a.buffered || a.prototype_constant {
+        result["bufferedInput"] = buffered::observe(&product, &original, host, prior.as_deref())?;
     }
     if a.public_api || a.release_manifest {
         let parser = manifest_native::ParserRun {
