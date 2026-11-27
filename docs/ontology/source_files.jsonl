@@ -1206,6 +1206,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/journal-record-inputs.rs","language":"rust","mode":"100644","sha256":"cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/qualify-buffer-inference.rs","language":"rust","mode":"100644","sha256":"6d64466c74e50995a2214ce150b46bb14a242546336fecb1ad82dc6d619c2999","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/src/bin/qualify-five-member.rs","language":"rust","mode":"100644","sha256":"f1c79afd467c7ad3cb528f265b89da257c4597559307c5842bb1d95089be0ee7","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/qualify-private-buffer.rs","language":"rust","mode":"100644","sha256":"6aa3cb29dac4e2c71ed72121d6c4bc4427d6c01743a726cdad1cace67b6c6fbf","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/recover-release-info.rs","language":"rust","mode":"100644","sha256":"855e421fd85f9f8f349682e9db182f707620a4a62bb1f1ce086f6c5bdc01b5cd","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-info-observer.rs","language":"rust","mode":"100644","sha256":"75c5f41cef7fabe06d4d917ad65fa78488da2a0fbb58a0aed5fdf92cb80019f8","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-info-structure.rs","language":"rust","mode":"100644","sha256":"8c889b7055ecde3a33fd13207f742123696fd4582fcfeb28427b9c9d9bcafe7c","parse_status":"parsed"}
@@ -1613,7 +1614,7 @@
 {"path":"verification/whole/private-buffer-inference/shape-selection.json","language":"inventory","mode":"100644","sha256":"42058a77bfc8c256b0ede4ecbb7766269bd6d23b60565aeaa59f9e669b58e5d2","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer-inference/source.rs","language":"rust","mode":"100644","sha256":"244b9c113cefeb70466ff8e6686a0313fb5cb401395a9143fa355d73ba50781d","parse_status":"recovered"}
 {"path":"verification/whole/private-buffer-inference/trace.rs","language":"rust","mode":"100644","sha256":"35347889ae1920a86c16dcd237c10ed336526e09f199d020a9e88bf09d6faf4f","parse_status":"parsed"}
-{"path":"verification/whole/private-buffer/README.md","language":"inventory","mode":"100644","sha256":"fe604da7ffa2a49cc67561e272005e36c93b2a53a1d4e335b70f2719573995bf","parse_status":"inventory"}
+{"path":"verification/whole/private-buffer/README.md","language":"inventory","mode":"100644","sha256":"a8effda85f74a9a0169604bad1ff6d43267b39351cd3859631fcfbb253535141","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/candidate-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d65a804c689892a8967943b3840a728ef3f50a5a05d528562a4d83cf26386553","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/candidate-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"481968e99d6bdfbd1750f659382bbd16fcdc519e893d60633bbc1db828940eb4","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/compiler.json","language":"inventory","mode":"100644","sha256":"69724e9ea57e3755ddd442f7fe670030814c5ca06560623f118899a91f51dc99","parse_status":"inventory"}
@@ -1621,7 +1622,6 @@
 {"path":"verification/whole/private-buffer/original-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"543bbfe72bcb8bb5c1a8b81480c142facfc09c0e764239ca38936319588f77fc","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/original-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"afb5c82487d5e62303c7a97bc0b5d82887bcfdf84ed45f3d5c3d933b304247f8","parse_status":"inventory"}
 {"path":"verification/whole/private-buffer/selection.json","language":"inventory","mode":"100644","sha256":"6eadb532bcecd8c59330def695dc387841ba0c5c9f868b1473f738a8f9cd23ec","parse_status":"inventory"}
-{"path":"verification/whole/private-buffer/verify.py","language":"python","mode":"100644","sha256":"aa3f059b5ec86721443c5e5f3efb2cdf08ee3563b1bcf04e0fe2728b20efd729","parse_status":"parsed"}
 {"path":"verification/whole/prototype-constant/README.md","language":"inventory","mode":"100644","sha256":"f8e620eae62003cce4ddac3fa47ae2dc1535037a6d73f3b2a85f96832c0257ab","parse_status":"inventory"}
 {"path":"verification/whole/prototype-constant/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"f60df7d3df17bb6bca804405936c3355580a1525f0b053d762b5d4bbf830742d","parse_status":"inventory"}
 {"path":"verification/whole/prototype-constant/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"7c9548915c43b7798c634ddb092782c4a11836b320b539603179f409fdb435a9","parse_status":"inventory"}
@@ -1926,7 +1926,7 @@
 {"path":"verification/whole/unified-buffered/README.md","language":"inventory","mode":"100644","sha256":"9239117f1a855446243c8c60b446b375ef39e1380505df23d15b442a3e9011d8","parse_status":"inventory"}
 {"path":"verification/whole/unified-buffered/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"3c30b36ae828124f484a9d6aaec2dc7a6014f18081ecc7a3c4c501eba2777e8f","parse_status":"inventory"}
 {"path":"verification/whole/unified-buffered/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"71177d127b6b6b17cf1875a6459715947888227118cb5b5cf4e774013dbc3a54","parse_status":"inventory"}
-{"path":"verification/whole/unified-buffered/buffer.rs","language":"rust","mode":"100644","sha256":"f67264beff1bb93a773e99adae664261780cdcd92333cdacb22e9661b2b2c669","parse_status":"parsed"}
+{"path":"verification/whole/unified-buffered/buffer.rs","language":"rust","mode":"100644","sha256":"cd4baecefb20352ca71f9fac434be65fb161892231b646e72ee784c8d3ac51bc","parse_status":"parsed"}
 {"path":"verification/whole/unified-buffered/compose_cli.rs","language":"rust","mode":"100644","sha256":"126b145a34642a51f68ea9408a2e32df9457f588223df4856c01484fa06f2527","parse_status":"parsed"}
 {"path":"verification/whole/unified-buffered/native-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a2646aac4ed5edf082e28c90bc0c146f6877d89b55f453f798c99f3f0f358187","parse_status":"inventory"}
 {"path":"verification/whole/unified-buffered/rust-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"5c6af9aef47da1d117b2b3ad87c3286f01f006a0b07364910d470735ed4c602f","parse_status":"inventory"}

@@ -108,7 +108,7 @@ pub fn check(product: &Path) -> Result<Value> {
     product::check_members(product, &current, false)?;
     Ok(current)
 }
-fn provider(original: &Path, host: &str) -> Result<Value> {
+pub fn provider(original: &Path, host: &str) -> Result<Value> {
     let meta: Value = serde_json::from_slice(&run(build_env(
         Command::new("cargo")
             .args([
