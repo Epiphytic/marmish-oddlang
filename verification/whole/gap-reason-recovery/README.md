@@ -7,7 +7,8 @@ Native Rust callers construct variants and check Clone, Debug, total equality, i
 Generate the candidate from the graph, Rust overlay and pinned Cargo lock staged in a separate directory. The source digest is needed for recovery only. The source profile is a syntax candidate because native compilation independently establishes actual derive expansion and the crate-root public export.
 
 ```sh
-python3 -B verification/whole/gap-reason-recovery/verify.py FRAMEWORK ORIGINAL RECEIPT \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin gap-reason-replay -- FRAMEWORK ORIGINAL RECEIPT \
   --framework-revision FRAMEWORK_REVISION --compiler-target COMPILER_TARGET \
   --reference-target REFERENCE_TARGET --mutation-target MUTATION_TARGET
 ```
