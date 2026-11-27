@@ -41,3 +41,15 @@ and 17 trait and visibility probes in each of the baseline and mutation
 cases. The graph, binding, and package lock digests matched across hosts.
 The [Darwin receipt](aarch64-apple-darwin.json) and
 [Linux receipt](aarch64-unknown-linux-gnu.json) identify the precise inputs.
+
+To recover just the two reviewed declarations and compare the graph, Rust overlay,
+and engine package descriptor with their published bytes, run:
+
+```sh
+cargo +1.97.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin engine-choice-inputs -- \
+  compose "$ODDLANG_CLI" "$ORIGINAL"
+```
+
+Pass `--write` to update those three files. The standalone qualification uses the
+same binary to stage the baseline and mutated packages.
