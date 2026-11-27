@@ -62,3 +62,8 @@ The promotion evidence remains open.
 Omit `--check` from the composition command to regenerate the candidate workspace descriptor.
 
 The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) reproduced the candidate member locks and exercised all 140 imports. The seven native libraries exposed 79 imports, including the two new engine choices. The receipt identifies the historical Python composer separately from the Rust checker, its source revision and its executable. Build hashes identify the artifacts used by that run.
+
+The [canonical replay after migrating the standalone recovery tool](rust-recovery-aarch64-apple-darwin.json)
+compiled all seven candidate libraries on macOS ARM64. The import verdicts and
+diagnostics for all 140 spellings matched the earlier replay. The receipt records
+the current helper hashes and the archived standalone receipt used for comparison.

@@ -53,3 +53,9 @@ cargo +1.97.1 run --quiet --locked --offline \
 
 Pass `--write` to update those three files. The standalone qualification uses the
 same binary to stage the baseline and mutated packages.
+
+The [Rust recovery replay on macOS ARM64](rust-recovery-aarch64-apple-darwin.json)
+reproduced both archived graph, overlay and package-lock digests. Reordering
+the variants changed their ordinals from `0, 1` to `1, 0` in both libraries.
+Adding `Copy` to the original `SubmitDisposition` also made the generated type
+pass the same Rust trait check.
