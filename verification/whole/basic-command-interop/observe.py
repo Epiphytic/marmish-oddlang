@@ -1,5 +1,6 @@
 """Probe the pinned upstream control using a test-owned onion relay."""
 import argparse
+from contextlib import closing, contextmanager
 import hashlib
 import json
 import os
@@ -8,6 +9,7 @@ from select import select
 import platform
 import re
 import shutil
+import sqlite3
 import subprocess
 import tempfile
 from threading import Event, Thread
@@ -37,6 +39,34 @@ def copy_verified(source, target, expected):
     target.chmod(0o500)
     if file_digest(target) != expected:
         raise ValueError("artifact digest differs")
+
+
+@contextmanager
+def foreground_relay_counts(observation, relay_db, enabled):
+    if not enabled:
+        yield
+        return
+
+    def snapshot():
+        uri = relay_db.as_uri() + "?mode=ro"
+        with closing(sqlite3.connect(uri, uri=True, timeout=2)) as db:
+            return dict(db.execute("SELECT kind, COUNT(*) FROM events GROUP BY kind ORDER BY kind"))
+
+    counts = observation["relay_counts_by_kind"] = {"before": snapshot()}
+    try:
+        yield
+    except BaseException:
+        try:
+            counts["after"] = snapshot()
+        except sqlite3.Error as error:
+            counts["after_error"] = type(error).__name__
+        raise
+    else:
+        try:
+            counts["after"] = snapshot()
+        except sqlite3.Error as error:
+            counts["after_error"] = type(error).__name__
+            raise
 
 
 def until(check, timeout, stage):
@@ -403,11 +433,12 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
                     client = peers["client"]
                     base = [client.root / "marmish", *account_options(client, "client"),
                             "--no-autostart", "--wait-seconds", "300"]
-                    reference_commands(observation["attempts"], client, base, address, accounts["server"],
-                                       account_keys["server"], fixtures, first_foreground_only, audit.checkpoint)
+                    with foreground_relay_counts(observation, service.root / "data/relay.sqlite3", first_foreground_only):
+                        reference_commands(observation["attempts"], client, base, address, accounts["server"],
+                                           account_keys["server"], fixtures, first_foreground_only, audit.checkpoint)
                     set_stage("complete")
-                    observation["reference_complete"] = generated_role is None
-    except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError) as error:
+                    observation["reference_complete"] = generated_role is None and not first_foreground_only
+    except (ValueError, RuntimeError, TimeoutError, subprocess.TimeoutExpired, InterruptedError, sqlite3.Error) as error:
         observation["failure_type"] = type(error).__name__
         outcome = "blocked"
     else:
@@ -415,7 +446,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
         if activation_only:
             outcome = "mixed-activation-pass"
         if first_foreground_only:
-            outcome = "mixed-foreground-pass"
+            outcome = "control-foreground-pass" if generated_role is None else "mixed-foreground-pass"
     finally:
         stop_readers.set()
         for reader in readers:
@@ -530,7 +561,7 @@ def main():
     args = parser.parse_args()
     if (args.generated_dir is None) != (args.generated_role is None):
         parser.error("provide both --generated-dir and --generated-role")
-    if (args.activation_only or args.first_foreground_only) and args.generated_dir is None:
+    if args.activation_only and args.generated_dir is None:
         parser.error("the selected observation scope requires a generated peer")
     receipt = observe(args.upstream_bin_dir, args.deaddrop, args.deaddrop_sha256,
                       args.installed_fixture, args.fixture_sha256, args.interpreter,
@@ -538,7 +569,7 @@ def main():
                       args.generated_build_record, args.generated_preflight_record, args.activation_only,
                       args.first_foreground_only)
     print(json.dumps(receipt, indent=2, sort_keys=True))
-    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass", "mixed-activation-pass", "mixed-foreground-pass"} else 1
+    return 0 if receipt["outcome"] in {"reference-pass", "mixed-pass", "mixed-activation-pass", "mixed-foreground-pass", "control-foreground-pass"} else 1
 
 
 if __name__ == "__main__":

@@ -1,6 +1,8 @@
 """Artifact substitution must fail before use."""
 import json
 import os
+import sqlite3
+from contextlib import closing
 from pathlib import Path
 import tempfile
 from subprocess import CompletedProcess
@@ -9,10 +11,33 @@ import unittest
 from unittest.mock import Mock
 
 from corpus import SHORT_CASES, digest, expected_receipt
-from observe import HostMetadataAudit, copy_verified, drain, reference_commands
+from observe import HostMetadataAudit, copy_verified, drain, foreground_relay_counts, reference_commands
 
 
 class ObserveTests(unittest.TestCase):
+    def test_relay_counts_survive_command_failure(self):
+        with tempfile.TemporaryDirectory() as directory:
+            db = Path(directory) / "relay.sqlite3"
+            with closing(sqlite3.connect(db)) as writer:
+                writer.execute("CREATE TABLE events (kind INTEGER, content TEXT)")
+                writer.execute("INSERT INTO events VALUES (7, 'private')")
+                writer.commit()
+                report = {}
+                with self.assertRaisesRegex(ValueError, "command mismatch"):
+                    with foreground_relay_counts(report, db, True):
+                        writer.execute("INSERT INTO events VALUES (7, 'private')")
+                        writer.commit()
+                        raise ValueError("command mismatch")
+                self.assertEqual(report, {"relay_counts_by_kind": {"before": {7: 1}, "after": {7: 2}}})
+
+    def test_relay_counts_do_not_create_missing_database(self):
+        with tempfile.TemporaryDirectory() as directory:
+            db = Path(directory) / "missing.sqlite3"
+            with self.assertRaises(sqlite3.OperationalError):
+                with foreground_relay_counts({}, db, True):
+                    self.fail("missing database was accepted")
+            self.assertFalse(db.exists())
+
     def test_host_metadata_records_only_changed_categories_and_intervals(self):
         key = Path("/private/path-not-published")
         before = {"keychain_directory": {key: (1, 2)}, "config": {}}
