@@ -20,7 +20,7 @@
     "marmish-native": {
       "manifest": {
         "path": "marmish-native-retained-poll-package.json",
-        "sha256": "2b17fa8db75d0283c6e76a9752aa2774c8a0797c146a600ccc52aafd4cce3d63"
+        "sha256": "290b8dc2597745594282fac5ecc2286696a437fa3106baacf9bbbafc2864b126"
       },
       "dependencies": [
         "marmish-engine",

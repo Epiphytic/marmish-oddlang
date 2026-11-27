@@ -617,7 +617,7 @@
         "stderr": "marmish: command client option outside generated handoff scope"
       },
       "path": {
-        "exit": 1,
+        "exit": 255,
         "stderr": "marmish: identity: unsafe_profile_path"
       },
       "file": {
@@ -629,7 +629,7 @@
         "stderr": "marmish: invalid input: config_size"
       },
       "schema": {
-        "exit": 1,
+        "exit": 255,
         "stderr": "marmish: invalid input: config_schema"
       },
       "destination": {
@@ -663,6 +663,22 @@
       "random": {
         "exit": 255,
         "stderr": "marmish: command_id"
+      },
+      "state_directory": {
+        "exit": 255,
+        "stderr": "marmish: local I/O failed"
+      },
+      "missing_profile_directory": {
+        "exit": 255,
+        "stderr": "marmish: local I/O failed"
+      },
+      "document_open": {
+        "exit": 255,
+        "stderr": "marmish: local I/O failed"
+      },
+      "document_metadata": {
+        "exit": 255,
+        "stderr": "marmish: identity: unsafe_profile_file"
       }
     },
     "resume": {
