@@ -107,3 +107,7 @@ path = "../offline-cli/build.rs"
 [[bin]]
 name = "seven-public-imports"
 path = "../seven-public-imports/verify.rs"
+
+[[bin]]
+name = "relay-fixture"
+path = "../relay/replay.rs"
