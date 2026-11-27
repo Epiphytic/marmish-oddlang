@@ -1,0 +1,230 @@
+{
+  "format": "oddlang-foreground-profile-owner-v1",
+  "arguments": {
+    "foreground": "foreground",
+    "state": "state_dir",
+    "identity": "identity",
+    "backend": "key_storage",
+    "backend_choices": {
+      "auto": "files",
+      "file": "files"
+    },
+    "route": "tor",
+    "relay": "relay"
+  },
+  "profile": {
+    "document": "profile.json",
+    "lock": "owner.lock",
+    "format": 2,
+    "maximum_bytes": 8192,
+    "name_limit": 64,
+    "short_reference_bytes": 16,
+    "credential_reference_bytes": 32,
+    "ready": "ready",
+    "backend": "files",
+    "fields": {
+      "format": "format",
+      "profile_id": "profile_id",
+      "name": "name",
+      "transaction": "transaction",
+      "phase": "phase",
+      "backend": "backend",
+      "public_key": "public_key",
+      "signing_ref": "nostr_ref",
+      "data_ref": "sqlcipher_ref",
+      "device": "device_slot"
+    }
+  },
+  "runtime": {
+    "prefix": "mr2",
+    "binding": "binding.json",
+    "socket": "s",
+    "format": 2,
+    "fields": {
+      "format": "format",
+      "profile_id": "profile_id",
+      "root": "root"
+    },
+    "maximum_path_bytes_exclusive": 104,
+    "reserved_path_bytes": 10
+  },
+  "provider": {
+    "kind": "private_file_secp256k1",
+    "directory": "keys",
+    "signing_prefix": "nostr",
+    "data_prefix": "sqlcipher"
+  },
+  "diagnostics": {
+    "scope": "marmish: foreground status owner requires explicit state and a prepared file profile",
+    "io": "marmish: local I/O failed",
+    "invalid_name": "marmish: identity: invalid_profile_name",
+    "unsafe_directory": "marmish: identity: unsafe_profile_path",
+    "unsafe_file": "marmish: identity: unsafe_profile_file",
+    "already_running": "marmish: identity: profile_in_use",
+    "missing_profile": "marmish: identity: missing_manifest",
+    "incompatible_format": "marmish: storage: incompatible_state",
+    "invalid_profile": "marmish: identity: invalid_manifest",
+    "not_ready": "marmish: identity: profile_not_ready",
+    "backend_mismatch": "marmish: identity: backend_mismatch",
+    "missing_credential": "marmish: identity: missing",
+    "invalid_credential": "marmish: identity: invalid_secret",
+    "identity_mismatch": "marmish: identity: identity_mismatch",
+    "runtime_collision": "marmish: identity: runtime_collision",
+    "runtime_length": "marmish: identity: runtime_path_too_long",
+    "cleanup": "marmish: identity: owned_stop_incomplete",
+    "relay_scope": "marmish: foreground relay provider requires one explicit onion WebSocket relay",
+    "plaintext_relay": "marmish: invalid input: plaintext_relay",
+    "relay_failed": "marmish: transport: relay_connect",
+    "activation_deadline": "marmish: operation deadline exceeded",
+    "provider_unavailable": "marmish: marmot: key_package_publish"
+  },
+  "activation": {
+    "kind": "onion_websocket",
+    "route_value": "auto",
+    "deadline_ms": 300000,
+    "relay_runtime": {
+      "state_directory": "arti-state",
+      "cache_directory": "arti-cache",
+      "maximum_frame_bytes": 1048576,
+      "ready_state": "provider_active",
+      "application_components": [
+        32769,
+        32771,
+        32772,
+        32780
+      ],
+      "health_check_ms": 250
+    }
+  },
+  "lifecycle": {
+    "storage_profile": "urn:marmish:private-files:configured-initialization",
+    "engine": "absent",
+    "excluded_profile_entries": [],
+    "shutdown_ms": 10000,
+    "dial_ms": 60000,
+    "dial_attempts": 3,
+    "report_version": 1,
+    "report_fields": {
+      "schema": "schema",
+      "engine_quiesced": "engine_quiesced",
+      "engine_stop_complete": "engine_stop_complete",
+      "provider_stop_complete": "mdk_stop_complete",
+      "runtime_cleanup_complete": "runtime_cleanup_complete"
+    },
+    "provider_open_failure": "marmish: marmot: runtime"
+  },
+  "room_prepare": {
+    "contract": "urn:marmish:contract:native-owner:bounded-command-prepare",
+    "configuration": "config.json",
+    "maximum_config_bytes": 1048576,
+    "operation": "command_prepare",
+    "request": [
+      "operation",
+      "remote",
+      "relays"
+    ],
+    "reply": [
+      "ok",
+      "result",
+      "error",
+      "command",
+      "state",
+      "session",
+      "local_account",
+      "category",
+      "handle"
+    ],
+    "states": [
+      "local_busy",
+      "ready",
+      "failure"
+    ],
+    "categories": [
+      "command_unauthorized",
+      "command_relay_binding",
+      "command_room_uncertain",
+      "command_room_capacity",
+      "key_package_unavailable"
+    ],
+    "config_fields": [
+      "role",
+      "trusted_remotes",
+      "relays",
+      "tor"
+    ],
+    "roles": [
+      "client",
+      "server"
+    ],
+    "name_prefix": "marmish/command/1/",
+    "description": "marmish-command/1 command transport",
+    "deadline_ms": 12000,
+    "slot_limit": 1,
+    "restriction_lists": {
+      "schema": {
+        "declarations": {
+          "allow": "urn:marmish:command-policy/field/allow",
+          "defaults": "urn:marmish:command-policy/field/defaults",
+          "deny": "urn:marmish:command-policy/field/deny",
+          "entries": "urn:marmish:command-policy/field/entries",
+          "policy": "urn:marmish:command-policy/field/policy",
+          "principal": "urn:marmish:command-policy/field/principal",
+          "restrictions": "urn:marmish:command-policy/field/restrictions",
+          "version": "urn:marmish:command-policy/field/version"
+        },
+        "fields": {
+          "allow": "allow_exec",
+          "defaults": "defaults",
+          "deny": "deny_exec",
+          "entries": "keys",
+          "policy": "command_policy",
+          "principal": "principal",
+          "restrictions": "restrictions",
+          "version": "version"
+        },
+        "format": "oddlang-restriction-lists-v1",
+        "id": "urn:marmish:command-policy",
+        "shape": {
+          "missingAllow": "absent",
+          "missingDefaults": "emptyRestrictions",
+          "missingDeny": "emptyList",
+          "missingEntries": "emptyList",
+          "missingPolicy": "reject",
+          "missingPrincipal": "reject",
+          "missingRestrictions": "reject",
+          "missingVersion": "reject",
+          "nullAllow": "reject",
+          "nullPolicy": "reject",
+          "sequenceFields": {
+            "entry": [
+              "principal",
+              "restrictions"
+            ],
+            "policy": [
+              "version",
+              "defaults",
+              "entries"
+            ],
+            "restrictions": [
+              "allow",
+              "deny"
+            ]
+          },
+          "unknownPolicyFields": "reject",
+          "versionType": "u32"
+        },
+        "sourceSha256": "f84f4d8d13f5cb1d4912c236a16797f27b946dd11584b1f5b9776590f05cae19"
+      },
+      "decision": {
+        "version": 1,
+        "maximum_keys": 128,
+        "maximum_patterns": 256,
+        "maximum_pattern_bytes": 1024,
+        "maximum_executable_bytes": 4095,
+        "match_fuel": 1000000,
+        "default_allow": "/**",
+        "semantics": "additive-absolute-byte-glob-v1"
+      }
+    }
+  }
+}

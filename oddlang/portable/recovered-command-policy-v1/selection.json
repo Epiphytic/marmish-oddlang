@@ -1,0 +1,21 @@
+{
+  "format": "oddlang-restriction-lists-selection-v1",
+  "id": "urn:marmish:command-policy",
+  "sourceSha256": "f84f4d8d13f5cb1d4912c236a16797f27b946dd11584b1f5b9776590f05cae19",
+  "records": {
+    "config": "RawConfig",
+    "policy": "RawPolicy",
+    "entry": "RawKeyRestrictions",
+    "restrictions": "RawRestrictions"
+  },
+  "fields": {
+    "policy": "command_policy",
+    "version": "version",
+    "defaults": "defaults",
+    "entries": "keys",
+    "principal": "principal",
+    "restrictions": "restrictions",
+    "allow": "allow_exec",
+    "deny": "deny_exec"
+  }
+}

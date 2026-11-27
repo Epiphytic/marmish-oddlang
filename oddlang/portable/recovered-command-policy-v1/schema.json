@@ -1,0 +1,54 @@
+{
+  "declarations": {
+    "allow": "urn:marmish:command-policy/field/allow",
+    "defaults": "urn:marmish:command-policy/field/defaults",
+    "deny": "urn:marmish:command-policy/field/deny",
+    "entries": "urn:marmish:command-policy/field/entries",
+    "policy": "urn:marmish:command-policy/field/policy",
+    "principal": "urn:marmish:command-policy/field/principal",
+    "restrictions": "urn:marmish:command-policy/field/restrictions",
+    "version": "urn:marmish:command-policy/field/version"
+  },
+  "fields": {
+    "allow": "allow_exec",
+    "defaults": "defaults",
+    "deny": "deny_exec",
+    "entries": "keys",
+    "policy": "command_policy",
+    "principal": "principal",
+    "restrictions": "restrictions",
+    "version": "version"
+  },
+  "format": "oddlang-restriction-lists-v1",
+  "id": "urn:marmish:command-policy",
+  "shape": {
+    "missingAllow": "absent",
+    "missingDefaults": "emptyRestrictions",
+    "missingDeny": "emptyList",
+    "missingEntries": "emptyList",
+    "missingPolicy": "reject",
+    "missingPrincipal": "reject",
+    "missingRestrictions": "reject",
+    "missingVersion": "reject",
+    "nullAllow": "reject",
+    "nullPolicy": "reject",
+    "sequenceFields": {
+      "entry": [
+        "principal",
+        "restrictions"
+      ],
+      "policy": [
+        "version",
+        "defaults",
+        "entries"
+      ],
+      "restrictions": [
+        "allow",
+        "deny"
+      ]
+    },
+    "unknownPolicyFields": "reject",
+    "versionType": "u32"
+  },
+  "sourceSha256": "f84f4d8d13f5cb1d4912c236a16797f27b946dd11584b1f5b9776590f05cae19"
+}
