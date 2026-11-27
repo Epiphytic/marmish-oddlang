@@ -237,6 +237,34 @@ fn command_text(tool: &str, args: &[&str]) -> Result<String> {
 fn string(path: &Path) -> Result<String> {
     Ok(path.to_str().ok_or("non-UTF-8 path")?.into())
 }
+pub fn seatbelt_policy(work: &Path, read_roots: &[&Path], denied: &[&Path]) -> Result<String> {
+    let policy_paths = |paths: Vec<&Path>| -> Result<String> {
+        Ok(paths
+            .iter()
+            .map(|p| Ok(format!("(subpath {})", serde_json::to_string(&string(p)?)?)))
+            .collect::<Result<Vec<_>>>()?
+            .join(" "))
+    };
+    let mut reads: Vec<_> = [
+        "/System",
+        "/usr",
+        "/bin",
+        "/sbin",
+        "/Library/Developer",
+        "/private/etc/ssl",
+    ]
+    .iter()
+    .map(Path::new)
+    .collect();
+    reads.extend_from_slice(read_roots);
+    reads.push(work);
+    Ok(format!(
+        "(version 1) (deny default) (allow process* sysctl-read mach-lookup file-read-metadata) (allow file-read* {} (literal \"/\") (literal \"/dev/null\") (literal \"/dev/random\") (literal \"/dev/urandom\") (literal \"/private/etc/localtime\")) (allow file-write* (subpath {}) (literal \"/dev/null\")) (deny file-read* {}) (deny network*)",
+        policy_paths(reads)?,
+        serde_json::to_string(&string(work)?)?,
+        policy_paths(denied.to_vec())?
+    ))
+}
 impl Sandbox {
     pub fn new(host: &str, work: &Path, denied: &[&Path], providers: &Path) -> Result<Self> {
         let toolchain = PathBuf::from(command_text("rustc", &["+1.97.1", "--print", "sysroot"])?)
@@ -393,39 +421,18 @@ impl Sandbox {
         symlink(providers, home.join("git"))?;
         let tmp = work.join("tmp");
         fs::create_dir(&tmp)?;
-        let policy_paths = |paths: Vec<&Path>| -> Result<String> {
-            Ok(paths
-                .iter()
-                .map(|p| Ok(format!("(subpath {})", serde_json::to_string(&string(p)?)?)))
-                .collect::<Result<Vec<_>>>()?
-                .join(" "))
-        };
-        let mut reads: Vec<_> = [
-            "/System",
-            "/usr",
-            "/bin",
-            "/sbin",
-            "/Library/Developer",
-            "/private/etc/ssl",
-        ]
-        .iter()
-        .map(Path::new)
-        .collect();
-        reads.extend([
-            &toolchain,
-            &developer,
-            &registry,
-            &sdk,
-            clang.parent().ok_or("missing clang directory")?,
-            app,
+        let policy = seatbelt_policy(
             work,
-        ]);
-        let policy = format!(
-            "(version 1) (deny default) (allow process* sysctl-read mach-lookup file-read-metadata) (allow file-read* {} (literal \"/\") (literal \"/dev/null\") (literal \"/dev/random\") (literal \"/dev/urandom\") (literal \"/private/etc/localtime\")) (allow file-write* (subpath {}) (literal \"/dev/null\")) (deny file-read* {}) (deny network*)",
-            policy_paths(reads)?,
-            serde_json::to_string(&string(work)?)?,
-            policy_paths(denied.to_vec())?
-        );
+            &[
+                &toolchain,
+                &developer,
+                &registry,
+                &sdk,
+                clang.parent().ok_or("missing clang directory")?,
+                app,
+            ],
+            denied,
+        )?;
         let env = BTreeMap::from([
             (
                 "PATH",
@@ -511,4 +518,63 @@ pub fn archive(repo: &Path, revision: &str, dest: &Path) -> Result {
         .arg("-C")
         .arg(dest))?;
     Ok(())
+}
+
+#[cfg(all(test, target_os = "macos"))]
+mod seatbelt_tests {
+    use super::*;
+    use std::net::TcpListener;
+
+    #[test]
+    fn preflight_and_build_limit_reads_writes_and_network() -> Result<()> {
+        let temp = tempfile::tempdir()?;
+        let base = temp.path().canonicalize()?;
+        let work = base.join("scratch");
+        let inputs = base.join("export");
+        fs::create_dir(&work)?;
+        fs::create_dir(&inputs)?;
+        let visible = inputs.join("readable");
+        let hidden = inputs.join("denied");
+        fs::write(&visible, b"input")?;
+        fs::write(&hidden, b"secret")?;
+        let policy = seatbelt_policy(&work, &[&inputs], &[&hidden])?;
+        let sandbox = |tool: &str| {
+            let mut command = Command::new("/usr/bin/sandbox-exec");
+            command.args(["-p", &policy, tool]);
+            command
+        };
+        let read = sandbox("/bin/cat").arg(&visible).output()?;
+        assert!(read.status.success());
+        assert_eq!(read.stdout, b"input");
+        let read = sandbox("/bin/cat").arg(&hidden).output()?;
+        assert!(!read.status.success());
+        assert!(read.stdout.is_empty());
+        assert!(
+            sandbox("/usr/bin/touch")
+                .arg(work.join("created"))
+                .output()?
+                .status
+                .success()
+        );
+        assert!(
+            !sandbox("/usr/bin/touch")
+                .arg(inputs.join("forbidden"))
+                .output()?
+                .status
+                .success()
+        );
+        assert!(!inputs.join("forbidden").exists());
+        let listener = TcpListener::bind(("127.0.0.1", 0))?;
+        let port = listener.local_addr()?.port().to_string();
+        let args = ["-z", "-w", "1", "127.0.0.1", &port];
+        assert!(
+            Command::new("/usr/bin/nc")
+                .args(args)
+                .output()?
+                .status
+                .success()
+        );
+        assert!(!sandbox("/usr/bin/nc").args(args).output()?.status.success());
+        Ok(())
+    }
 }

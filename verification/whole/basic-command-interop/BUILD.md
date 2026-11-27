@@ -34,11 +34,13 @@ The [build receipt](generated-build-aarch64-apple-darwin.json) records the seven
 Use the expected receipt digest from the original build handoff to replay the preflight.
 
 ```sh
-python3 -B verification/whole/basic-command-interop/candidate_preflight.py \
+cargo +1.97.1 run --quiet --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin candidate-preflight -- candidate \
   "$EXPORT" "$PREFLIGHT_RECEIPT" --build-receipt-sha256 "$EXPECTED_BUILD_RECEIPT_SHA256"
 ```
 
 See the [Claude review](../../../docs/reviews/basic-command-generated-build.md) for the provenance checks and remaining scope.
+
+For a bounded room-preparation export, select `prepare` or `prepare-fixed` in place of `candidate`. The runner checks the four selected composition inputs against their build pins before executing either binary.
 
 ## Profile setup candidate
 
