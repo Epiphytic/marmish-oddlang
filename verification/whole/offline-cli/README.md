@@ -42,7 +42,8 @@ empty scratch directory and set `WORK` to its absolute path.
 
 ```sh
 lane=verification/whole/offline-cli
-python3 -B "$lane/compose.py" "$NEXT_COMPILER" "$ORIGINAL"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product -- compose-cli offline-cli "$NEXT_COMPILER" "$ORIGINAL" oddlang/portable
 python3 -B "$lane/build.py" "$BASE_COMPILER" "$BASE_FRAMEWORK" "$ORIGINAL" \
   "$WORK/base-product" "$WORK/base-cargo" "$WORK/base-build.json"
 python3 -B "$lane/build.py" "$NEXT_COMPILER" "$NEXT_FRAMEWORK" "$ORIGINAL" \

@@ -1,5 +1,6 @@
 """Build the base or successor binaries from an isolated graph closure."""
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -8,7 +9,14 @@ import shutil
 import subprocess
 import tempfile
 
-from compose import BASE, HERE, ROOT, WORKSPACE, sha
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2] / "oddlang/portable"
+BASE = ROOT / "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"
+WORKSPACE = ROOT / "workspace-v7-offline-cli.json"
+
+
+def sha(content):
+    return hashlib.sha256(content).hexdigest()
 
 
 def build(compiler, framework, original, output, target, successor):

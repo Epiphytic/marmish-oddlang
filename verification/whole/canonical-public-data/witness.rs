@@ -21,6 +21,15 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    ComposeCli {
+        #[arg(value_enum)]
+        release: public_data_qualification::cli_composition::Release,
+        compiler: PathBuf,
+        original: PathBuf,
+        portable: PathBuf,
+        #[arg(long)]
+        write: bool,
+    },
     DiagnosticCaller {
         library: PathBuf,
         host: String,
@@ -192,6 +201,10 @@ fn main() -> Result {
                 &destination,
             )?;
             Value::Null
+        }
+        Action::ComposeCli { release, compiler, original, portable, write } => {
+            public_data_qualification::cli_composition::compose(release, &portable, &compiler, &original, write)?;
+            return Ok(());
         }
         Action::DiagnosticCaller { library, host, version, work, host_deps } => {
             diagnostics::observe(&library, &host, &version, &work, host_deps.as_deref())?

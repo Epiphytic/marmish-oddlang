@@ -177,6 +177,9 @@ pub fn compose(release: Release, root: &Path, check: bool) -> Result {
         Release::CanonicalRangeData => canonical_composition::range(root)?,
         Release::CanonicalRecoveredRange => canonical_composition::recovered(root)?,
     };
+    publish(root, outputs, check)
+}
+pub(crate) fn publish(root: &Path, outputs: Vec<Descriptor>, check: bool) -> Result {
     for descriptor in outputs {
         let path = root.join(descriptor.name);
         if check {

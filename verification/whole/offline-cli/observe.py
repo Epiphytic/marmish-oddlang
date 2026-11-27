@@ -4,12 +4,13 @@ import hashlib
 import json
 from pathlib import Path
 import platform
+import runpy
 import subprocess
 import tempfile
 
-from compose import BASE, WORKSPACE
-
 HERE = Path(__file__).resolve().parent
+BUILD = runpy.run_path(str(HERE / "build.py"))
+BASE, WORKSPACE = BUILD["BASE"], BUILD["WORKSPACE"]
 SEVEN = HERE.parent / "unified-buffered/aarch64-apple-darwin.json"
 CLI = HERE.parent / "cli/transcript.json"
 SUCCESSOR_FRAMEWORK = "0fc48e920e30baf6396218cee0983732ba6c3a78"

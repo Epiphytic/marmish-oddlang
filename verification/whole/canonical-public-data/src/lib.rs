@@ -19,6 +19,8 @@ pub mod assembly;
 pub mod engine_caller;
 pub mod baseline_framework;
 pub mod cli_projection;
+#[path = "../../offline-cli/compose.rs"]
+pub mod cli_composition;
 pub mod status_package;
 pub mod status_peer;
 pub mod macos_build;
