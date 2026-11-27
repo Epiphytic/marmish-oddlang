@@ -33,3 +33,11 @@ path = "../copy-launch-hash/main.rs"
 [[bin]]
 name = "check-launch-layout"
 path = "../copy-launch-layout/verify.rs"
+
+[[bin]]
+name = "check-launch-hash"
+path = "../copy-launch-hash/verify.rs"
+
+[[bin]]
+name = "launch-data-cases"
+path = "../copy-launch/data_main.rs"

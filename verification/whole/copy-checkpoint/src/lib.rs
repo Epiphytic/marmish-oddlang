@@ -106,7 +106,7 @@ pub fn consumer(root: &Path, work: &Path, lock: &Path, caller: &Path) -> Result<
     }
     Ok(work.join("target/release/observe-copy-launch"))
 }
-pub fn compare(label: &str, exe: &Path, requests: &[Value], expected: &[Value]) -> Result {
+pub fn observe(exe: &Path, requests: &[Value]) -> Result<Vec<u8>> {
     let mut input = Vec::new();
     for r in requests {
         serde_json::to_writer(&mut input, r)?;
@@ -114,7 +114,15 @@ pub fn compare(label: &str, exe: &Path, requests: &[Value], expected: &[Value]) 
     }
     let out = capture(&mut Command::new(exe), 600, Some(&input))?;
     require(out.status.success(), String::from_utf8_lossy(&out.stderr))?;
-    let lines = std::str::from_utf8(&out.stdout)?.lines();
+    require(
+        std::str::from_utf8(&out.stdout)?.lines().count() == requests.len(),
+        "observer response count differs",
+    )?;
+    Ok(out.stdout)
+}
+pub fn compare(label: &str, exe: &Path, requests: &[Value], expected: &[Value]) -> Result {
+    let output = observe(exe, requests)?;
+    let lines = std::str::from_utf8(&output)?.lines();
     require(
         lines.clone().count() == expected.len(),
         format!("{label} result count differs"),

@@ -1,6 +1,5 @@
 """Reproduce the portable Launch release, compare both native APIs, then falsify its guard order."""
 import argparse
-import base64
 from hashlib import sha256
 import json
 import importlib.util
@@ -20,47 +19,11 @@ def compact(value):
     return json.dumps(value, separators=(",", ":"))
 
 
-def canonical(req):
-    source, destination = bytes(req["source"]), bytes(req["destination"])
-    version = req["version"]
-    error = None
-    if version != 1:
-        error = "copy_version"
-    elif any(not 1 <= len(path) <= 4096 or 0 in path for path in (source, destination)):
-        error = "copy_path"
-    payload = dict(version=version, mode=req["mode"], transfer="01"*32, client="02"*32,
-                   server="03"*32, direction=req["direction"],
-                   source=base64.b64encode(source).decode(), destination=base64.b64encode(destination).decode(),
-                   overwrite=True, preserve_mode=False, preserve_mtime=True)
-    return {"wire": compact(payload), "valid": {"Err": [f'Invalid("{error}")', f"invalid stream input: {error}"]} if error else {"Ok": None}}
-
-
-def corpus():
-    base = dict(operation="construct", version=1, mode="create", direction="put", source=[1], destination=[255])
-    creates = [dict(base, version=v, mode=m, direction=d) for v in (0,1,2,2**32-1)
-               for m in ("create", "resume") for d in ("put", "get")]
-    for role in ("source", "destination"):
-        for path in ([], [0], [0,2], [1,0], [254]*4095, [255]*4096, [255]*4097):
-            for version in (0, 1):
-                creates.append(dict(base, version=version, **{role:path}))
-    creates.append(dict(base, source=[], destination=[]))
-    wire = json.loads(canonical(base)["wire"])
-    texts = [compact(wire), compact(dict(reversed(list(wire.items())))), compact(list(wire.values())),
-             compact(list(wire.values())[:-1]), compact(list(wire.values())+[True]),
-             '{"version":1,'+compact(wire)[1:], compact(dict(wire, extraneous=True)), "null", "{}"]
-    for field in wire:
-        texts.append(compact({k:v for k,v in wire.items() if k != field}))
-    for field in ("transfer", "client", "server"):
-        for value in ("AA"*32, "xx"*32, "00"*31, "a0"*32, None):
-            texts.append(compact(dict(wire, **{field:value})))
-    for field in ("source", "destination"):
-        for value in ("", "AA==", "/w==", "AB==", "?", "?"*5465,
-                      base64.b64encode(b"b"*4096).decode(), base64.b64encode(b"b"*4097).decode()):
-            texts.append(compact(dict(wire, **{field:value})))
-    for field,value in (("mode","future"), ("direction","future"), ("version",-1),
-                        ("version",2**32), ("overwrite","true")):
-        texts.append(compact(dict(wire, **{field:value})))
-    return creates, [dict(operation="decode",text=text) for text in texts]
+def corpus(work):
+    raw = subprocess.check_output(["cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+                                   "--manifest-path", HERE.parent / "copy-manifest/Cargo.toml",
+                                   "--target-dir", work / "corpus-tools", "--bin", "launch-data-cases"])
+    return json.loads(raw)
 
 
 def staged(work, manifest_path=MANIFEST):
@@ -141,8 +104,8 @@ def main():
             assert (work/"recovery"/name).read_bytes()==(DATA/name).read_bytes(),name
         assert (work/"recovery/candidate/observation.json").read_bytes()==(DATA/"observation.json").read_bytes()
         assert observe(new,[dict(operation="enums")])==[table]
-        creates,decodes=corpus()
-        expected=[canonical(req) for req in creates]
+        cases=corpus(work)
+        creates,expected,decodes=cases["creates"],cases["expected"],cases["decodes"]
         assert observe(old,creates)==expected==observe(new,creates)
         decoded=observe(old,decodes)
         assert decoded==observe(new,decodes)
@@ -156,9 +119,9 @@ def main():
         mutant=work/"mutant"
         project(work,cli,manifest,mutant,original)
         negative=consumer(mutant,work/"mutant-observer",mutant/"Cargo.lock")
-        req=next(r for r in creates if r["version"]==0 and not r["source"])
+        req,baseline=next((r,row) for r,row in zip(creates,expected) if r["version"]==0 and not r["source"])
         got,=observe(negative,[req])
-        assert got["valid"]["Err"][0]=='Invalid("copy_path")' and canonical(req)["valid"]["Err"][0]=='Invalid("copy_version")'
+        assert got["valid"]["Err"][0]=='Invalid("copy_path")' and baseline["valid"]["Err"][0]=='Invalid("copy_version")'
         write(args.receipt,dict(original=PIN,framework=FRAMEWORK,rust=run("rustc","+1.97.1","-vV"),
               originalAndCompanionReadDenied=sandbox,packageLockSha256=sha(DATA/"package.lock"),
               callerSha256=sha(HERE/"caller.rs"),nativeEnumByteOutcomes=5*256,constructCases=len(creates),
