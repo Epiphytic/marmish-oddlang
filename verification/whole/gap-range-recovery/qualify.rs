@@ -87,20 +87,21 @@ fn check_graphs(work: &Path) -> Result {
     let overlay = authored.join("rust.json");
     pinned(&graph, LEGACY)?;
     pinned(&overlay, LEGACY)?;
-    let mut expected = load(&graph)?;
+    let expected = load(&graph)?;
+    let mut mutant = expected.clone();
+    let field = mutant
+        .pointer_mut("/modules/0/records/0/readPolicy/unknownFields")
+        .ok_or("missing unknown field policy")?;
+    require(
+        *field == "ignore",
+        "unexpected authored unknown field policy",
+    )?;
+    *field = json!("reject");
     let rust = load(&overlay)?;
-    for (label, policy) in [("baseline", "ignore"), ("mutation", "reject")] {
+    for (label, graph) in [("baseline", &expected), ("mutation", &mutant)] {
         let lane = work.join(label).join("recovered");
-        let field = expected
-            .pointer_mut("/modules/0/records/0/readPolicy/unknownFields")
-            .ok_or("missing unknown field policy")?;
         require(
-            *field == "ignore",
-            "unexpected authored unknown field policy",
-        )?;
-        *field = json!(policy);
-        require(
-            load(&lane.join("graph.json"))? == expected,
+            load(&lane.join("graph.json"))? == *graph,
             format!("unexpected {label} record graph"),
         )?;
         require(
@@ -150,9 +151,10 @@ pub(super) fn qualify(args: Args) -> Result {
         Ok(())
     };
     check_trees()?;
-    let host = match (env::consts::OS, env::consts::ARCH) {
-        ("macos", "aarch64") => DARWIN,
-        ("linux", "aarch64") => LINUX,
+    let platform = stdout(Command::new("uname").args(["-sm"]))?;
+    let host = match platform.trim() {
+        "Darwin arm64" => DARWIN,
+        "Linux aarch64" => LINUX,
         _ => return Err("expected a native ARM64 host".into()),
     };
     let rustc = version("+1.97.1", COMPILER, host)?;
