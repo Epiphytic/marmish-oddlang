@@ -18,13 +18,18 @@ struct Args {
     #[arg(value_enum)]
     release: Release,
     export: PathBuf,
-    receipt: PathBuf,
+    #[arg(required_unless_present = "inspect", conflicts_with = "inspect")]
+    receipt: Option<PathBuf>,
+    /// Print the verified artifacts and contract pins without launching a candidate.
+    #[arg(long)]
+    inspect: bool,
     #[arg(long)]
     build_receipt_sha256: String,
 }
 #[derive(Clone, Copy, ValueEnum)]
 enum Release {
     Candidate,
+    Composed,
     Prepare,
     PrepareFixed,
 }
@@ -52,7 +57,7 @@ fn verify(export: &Path, digest: &str, release: Release) -> Result<(Value, Value
     let mut pins = json!({});
     if !matches!(release, Release::Candidate) {
         require(
-            build["platform"] == "aarch64-apple-darwin"
+            (matches!(release, Release::Composed) || build["platform"] == "aarch64-apple-darwin")
                 && build["artifacts"]
                     .as_object()
                     .is_some_and(|obj| obj.len() == 2),
@@ -72,17 +77,43 @@ fn verify(export: &Path, digest: &str, release: Release) -> Result<(Value, Value
             .all(|k| probes.contains_key(*k)),
             "missing build read denials",
         )?;
-        let manifest = if matches!(release, Release::Prepare) {
-            "workspace-bounded-owner-prepare.json"
-        } else {
-            "workspace-bounded-owner-prepare-fixed.json"
+        let inputs: &[&str] = match release {
+            Release::Composed => {
+                require(
+                    build["readIsolation"]
+                        .as_str()
+                        .is_some_and(|s| s.starts_with("Host Seatbelt default deny")),
+                    "missing required source exclusions",
+                )?;
+                let roles = list(&build["cliSurfaces"]["marmish"]["boundOperations"])?;
+                require(
+                    ["setup", "*"]
+                        .iter()
+                        .all(|role| roles.iter().any(|v| v == role)),
+                    "composed role inventory differs",
+                )?;
+                &[
+                    "workspace-composed-basic-owner.json",
+                    "marmish-native-composed-basic-owner-package.json",
+                    "composed-basic-owner-v1/marmish-cli.json",
+                ]
+            }
+            Release::Prepare | Release::PrepareFixed => {
+                let manifest = if matches!(release, Release::Prepare) {
+                    "workspace-bounded-owner-prepare.json"
+                } else {
+                    "workspace-bounded-owner-prepare-fixed.json"
+                };
+                &[
+                    manifest,
+                    "marmish-native-bounded-owner-prepare-package.json",
+                    "bounded-owner-prepare-v1/foreground.json",
+                    "bounded-owner-prepare-v1/status.rust.json",
+                ]
+            }
+            Release::Candidate => unreachable!(),
         };
-        for relative in [
-            manifest,
-            "marmish-native-bounded-owner-prepare-package.json",
-            "bounded-owner-prepare-v1/foreground.json",
-            "bounded-owner-prepare-v1/status.rust.json",
-        ] {
+        for &relative in inputs {
             let digest = sha(&portable().join(relative))?;
             require(
                 build["stagedContracts"][relative] == digest,
@@ -114,6 +145,12 @@ fn main() -> Result {
     let args = Args::parse();
     let export = args.export.canonicalize()?;
     let (build, pins) = verify(&export, &args.build_receipt_sha256, args.release)?;
+    if args.inspect {
+        let inspection = json!({"artifacts":build["artifacts"],"compositionPins":pins});
+        std::io::stdout().write_all(&json_bytes(&inspection)?)?;
+        return Ok(());
+    }
+    let receipt = args.receipt.ok_or("missing preflight receipt path")?;
     let candidate = matches!(args.release, Release::Candidate);
     let work = tempfile::tempdir()?;
     let root = work.path().canonicalize()?;
@@ -202,22 +239,23 @@ fn main() -> Result {
     require(!root.try_exists()?, "preflight workspace remains")?;
     let format = if candidate {
         "marmish-basic-command-generated-preflight-v1"
+    } else if matches!(args.release, Release::Composed) {
+        "marmish-composed-owner-preflight-v1"
     } else {
         "marmish-bounded-room-prepare-preflight-v1"
     };
     let mut report = json!({"format":format,"buildReceiptSha256":args.build_receipt_sha256,"preflightSha256":bytes_sha(include_bytes!("preflight.rs")),"cases":rows,"workspaceRemoved":true});
     if candidate {
         report.sort_all_objects();
-    } else {
+    } else if !matches!(args.release, Release::Composed) {
         report["compositionPins"] = pins;
     }
-    let parent = args
-        .receipt
+    let parent = receipt
         .parent()
         .filter(|p| !p.as_os_str().is_empty())
         .unwrap_or(Path::new("."));
     let mut tmp = tempfile::NamedTempFile::new_in(parent)?;
     tmp.write_all(&json_bytes(&report)?)?;
-    tmp.persist_noclobber(args.receipt)?;
+    tmp.persist_noclobber(receipt)?;
     Ok(())
 }

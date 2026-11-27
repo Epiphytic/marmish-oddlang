@@ -48,6 +48,15 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
+def pinned_json(path, expected):
+    if path.is_symlink():
+        raise ValueError("receipt must be an ordinary file")
+    body = path.read_bytes()
+    if hashlib.sha256(body).hexdigest() != expected:
+        raise ValueError("receipt digest differs")
+    return json.loads(body)
+
+
 def copy_registry(locks, source, target):
     """Stage archives by lock checksum and unpack them only inside Seatbelt."""
     rows = (row for lock in locks for row in tomllib.loads(lock.read_text())["package"])
