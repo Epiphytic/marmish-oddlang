@@ -1,7 +1,8 @@
 //! Run the fixed local reference executables and compare their bytes and private receipts.
 use clap::Parser;
 use public_data_qualification::{
-    Result, assembly::bytes_sha, capture, json_bytes, load, require, sha, whole,
+    Result, assembly::bytes_sha, capture, command_output::Output, json_bytes, load, require, sha,
+    whole,
 };
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
@@ -100,12 +101,16 @@ fn replay(root: &Path, exe: &Path, case: Case) -> Result<Value> {
         });
     }
     let output = capture(&mut cmd, 330, Some(&case.stdin))?;
-    require(
-        output.status.code() == Some(case.exit),
-        "fixture exit differs",
-    )?;
-    require(output.stdout == case.stdout, "fixture stdout differs")?;
-    require(output.stderr == case.stderr, "fixture stderr differs")?;
+    Output {
+        status: output.status.code().ok_or("fixture terminated by signal")?,
+        stdout: &output.stdout,
+        stderr: &output.stderr,
+    }
+    .compare(&Output {
+        status: case.exit,
+        stdout: &case.stdout,
+        stderr: &case.stderr,
+    })?;
     let mut argv = Vec::new();
     for arg in std::iter::once(exe.as_os_str()).chain(case.args.iter().map(|a| a.as_os_str())) {
         let bytes = arg.as_bytes();
