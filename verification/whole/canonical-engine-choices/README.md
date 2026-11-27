@@ -36,7 +36,7 @@ Produce the preceding canonical workspace separately with its published
 compiler and pins.
 
 ```sh
-python3 -B verification/whole/canonical-engine-choices/compose.py --check
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-engine-choices oddlang/portable --check
 "$ODDLANG" build native-workspace rust \
   oddlang/portable/workspace-v7-canonical-engine-choices.json "$PRODUCT"
 python3 -B verification/whole/canonical-engine-choices/verify.py \
@@ -59,10 +59,4 @@ on Linux ARM64, with five ignored cases on each host. This candidate
 phase runs compile-only import probes and the local enum data caller.
 The promotion evidence remains open.
 
-Check the workspace descriptors from the companion repository root:
-
-```sh
-cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-engine-choices oddlang/portable --check
-```
-
-Omit `--check` to regenerate the descriptors.
+Omit `--check` from the composition command to regenerate the candidate workspace descriptor.

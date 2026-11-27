@@ -1174,10 +1174,10 @@
 {"path":"verification/whole/bridge/baseline.py","language":"python","mode":"100644","sha256":"e844e0409403f6a7df9b080991d4d40e148b1d02e6b3145ce729eb9cef060dca","parse_status":"parsed"}
 {"path":"verification/whole/bridge/darwin_effects.py","language":"python","mode":"100644","sha256":"f5ba5c5b27a15ad28433f250660338499873b2140bfd2a9d8511e55964667014","parse_status":"parsed"}
 {"path":"verification/whole/build-report/observe.py","language":"python","mode":"100644","sha256":"2379186ba2f0bef744ea074254222918c2d1f9a1c5ab8e823ec4acdf044d8a44","parse_status":"parsed"}
-{"path":"verification/whole/canonical-engine-choices/README.md","language":"inventory","mode":"100644","sha256":"939f7c3a6af7a3f9f73f6d747947d7edf468610b944a77ae4966112733423504","parse_status":"inventory"}
+{"path":"verification/whole/canonical-engine-choices/README.md","language":"inventory","mode":"100644","sha256":"e7ae9aa71701a31b2f9bb580aedee4999d10ee38089ed1ef53b617dd9685dcf3","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7419e73eb144ad846a37345b1a6c600c807051cb999456d59af756cc15f38473","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"65cb51ef1458b37c77605aacdc923ba63d3e916f340df39fea696688b76340ff","parse_status":"inventory"}
-{"path":"verification/whole/canonical-engine-choices/verify.py","language":"python","mode":"100644","sha256":"f2b7e2377336e1bdad519870e1102bdc1c8fa10750291027046464845377219b","parse_status":"parsed"}
+{"path":"verification/whole/canonical-engine-choices/verify.py","language":"python","mode":"100644","sha256":"79d8f7ec032f61e0ff5a26a27902a9bfc700ecac02aca6790a2cf723f7ea2f9e","parse_status":"parsed"}
 {"path":"verification/whole/canonical-linux-imports/README.md","language":"inventory","mode":"100644","sha256":"557f7b0227ea81565536cb6e5dd637cae4cbff7b24e35938403378d347d5e939","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"691381304ddd75d092ef3ef6df6f38d1b815df8980d2f00ae6dc3d3d6db94f49","parse_status":"inventory"}
 {"path":"verification/whole/canonical-linux-imports/verify.py","language":"python","mode":"100644","sha256":"df5e8c6ace53f315cdbbf973d9d1991b97b152f6edbcb7c17acdea86de35db53","parse_status":"parsed"}

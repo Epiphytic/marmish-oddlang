@@ -363,9 +363,15 @@ def qualify(args):
         "verifierSha256": digest(Path(__file__)),
         "helperSha256": HELPER_HASHES,
         "archivedComposer": {"path": ARCHIVED_COMPOSER, "revision": INPUT_REVISION, "sha256": ARCHIVED_COMPOSER_SHA},
-        "nativeComposer": {"companion": companion,
-                           "executableSha256": digest(NATIVE["workspace_tool"]()[1]),
-                           "sourceSha256": digest(WHOLE / "canonical-range-data/compose.rs")},
+        "nativeComposer": {
+            "companion": companion, "executableSha256": digest(NATIVE["workspace_tool"]()[1]),
+            "sourceSha256": {name: digest(WHOLE / name) for name in (
+                "canonical-range-data/compose.rs", "converged-public-api/compose.rs",
+                "canonical-public-data/src/lib.rs", "canonical-public-data/src/assembly.rs",
+                "canonical-public-data/witness.rs", "canonical-public-data/Cargo.toml",
+                "canonical-public-data/Cargo.lock", "unified-mdk/workspace_compat.py",
+            )},
+        },
     }
 
 
