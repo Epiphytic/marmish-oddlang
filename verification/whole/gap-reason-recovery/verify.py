@@ -52,16 +52,6 @@ def clean_pin(checkout, revision=None):
     return actual
 
 
-def recover(compiler, source, selected, out):
-    run(compiler, "recover", "serde-string-choice", source, selected, out)
-    lock = read(out / "recovery.lock")
-    for field, item in (("source", source), ("selection", selected),
-                        ("graph", out / "graph.json"), ("overlay", out / "rust.json")):
-        if lock[f"{field}Sha256"] != sha(item):
-            raise ValueError(f"wrong recovery digest: {field}")
-    return lock
-
-
 def original_mutation(original, work):
     mutated = work / "mutated-application"
     mutated.mkdir()
@@ -82,35 +72,6 @@ def original_mutation(original, work):
     pin = work / "changed-selection.json"
     write(pin, selection)
     return mutated, pin
-
-
-def candidate(compiler, recovered, work, env):
-    work.mkdir()
-    inputs = work / "portable-inputs"
-    inputs.mkdir()
-    spec = read(MANIFEST)
-    for key in ("graph", "overlay"):
-        item = spec["components"][0][key]
-        filename = "graph.json" if key == "graph" else "rust.json"
-        path = inputs / filename
-        shutil.copyfile(recovered / filename, path)
-        item.update(path=filename, sha256=sha(path))
-    cargo = spec["cargoLock"]
-    lock = PORTABLE / cargo["path"]
-    if sha(lock) != cargo["sha256"]:
-        raise ValueError("wrong pinned provider lock")
-    shutil.copyfile(lock, inputs / "Cargo.lock")
-    cargo["path"] = "Cargo.lock"
-    manifest = inputs / "package.json"
-    write(manifest, spec)
-    product = work / "product"
-    run(compiler, "build", "native-package", "rust", manifest, product, cwd=work, env=env)
-    package = read(product / "package.lock")
-    declared = {key: sha(product / key) for key in package["generatedFiles"]}
-    if declared != package["generatedFiles"]:
-        raise ValueError("generated package source does not match the package lock")
-    return product, {"manifestSha256": sha(manifest), "packageLockSha256": sha(product / "package.lock"),
-                     "generatedFiles": declared, "projection": package["components"][0]["projection"]}
 
 
 def reference_products(root, target, host, env):
@@ -203,8 +164,14 @@ def verify(args, work):
         cwd=args.framework, env=env)
     compiler = work / "oddlang"
     shutil.copy2(args.compiler_target / "debug/oddlang", compiler)
-    baseline, changed = work / "recovered", work / "changed"
-    locked = recover(compiler, args.original / SOURCE, BUNDLE / "selection.json", baseline)
+    manifest = HERE.parent / "canonical-public-data/Cargo.toml"
+    run(*CARGO, "build", "--locked", "--offline", "--manifest-path", manifest,
+        "--bin", "gap-reason-contract", "--target-dir", work / "tools", env=env)
+    recovery = work / "tools/debug/gap-reason-contract"
+    original_contract = json.loads(run(recovery, compiler, args.original / SOURCE,
+                                       BUNDLE / "selection.json", work / "baseline", env=env))
+    locked = original_contract["recovery"]
+    baseline = work / "baseline/recovered"
     for name in ARTIFACTS:
         if (baseline / name).read_bytes() != (BUNDLE / name).read_bytes():
             raise ValueError(f"pinned source recovery drift: {name}")
@@ -213,7 +180,9 @@ def verify(args, work):
             raise ValueError(f"recovered contract differs from independent baseline: {name}")
 
     mutant, selected = original_mutation(args.original, work)
-    mutant_lock = recover(compiler, mutant / SOURCE, selected, changed)
+    mutation_contract = json.loads(run(recovery, compiler, mutant / SOURCE, selected, work / "mutation", env=env))
+    mutant_lock = mutation_contract["recovery"]
+    changed = work / "mutation/recovered"
     graph, overlay = read(baseline / "graph.json"), read(baseline / "rust.json")
     choice, = graph["stringEnums"]
     variants = choice["variants"]
@@ -243,9 +212,9 @@ def verify(args, work):
         with (target / ".oddlang-missing-reason-reference.lock").open("a") as gate:
             fcntl.flock(gate, fcntl.LOCK_EX)
             references[lane] = observe_reference(native, work / (lane + "-original"), target, host, env, cases, lane)
-    for lane, contract, cases in (("baseline", baseline, catalog), ("mutation", changed, mutation_cases)):
+    for lane, contract, cases in (("baseline", original_contract, catalog), ("mutation", mutation_contract, mutation_cases)):
         build = work / lane
-        product, emitted = candidate(compiler, contract, build, env)
+        product, emitted = build / "product", contract["candidate"]
         got = observe_candidate(product, build, host, env, cases, lane)
         original, libraries = references[lane]
         if got != original:
