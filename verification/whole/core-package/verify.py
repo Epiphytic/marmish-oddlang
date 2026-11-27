@@ -14,7 +14,7 @@ import subprocess
 import sys
 import tarfile
 import tempfile
-import tomllib
+from functools import lru_cache
 
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 RUST_COMMIT = "8bab26f4f68e0e26f0bb7960be334d5b520ea452"
@@ -119,22 +119,17 @@ def build_framework(framework, work):
     return target / "debug/oddlang"
 
 
+@lru_cache(maxsize=1)
+def qualification_tool():
+    target = tempfile.TemporaryDirectory(prefix="core-package-tools-")
+    run("cargo", f"+{RUST}", "build", "--quiet", "--locked", "--offline",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--bin", "core-package-inputs", "--target-dir", target.name)
+    return target, Path(target.name) / "debug/core-package-inputs"
+
+
 def stage_inputs(root):
-    root.mkdir()
-    manifest = read(MANIFEST)
-    inputs = [manifest["cargoLock"]]
-    for component in manifest["components"]:
-        inputs.extend((component["graph"], component["overlay"]))
-    for item in inputs:
-        relative = Path(item["path"])
-        require(not relative.is_absolute() and ".." not in relative.parts, f"unsafe input {relative}")
-        source = (PORTABLE / relative).resolve(strict=True)
-        require(source.is_relative_to(PORTABLE), f"input escapes portable directory: {relative}")
-        require(sha(source) == item["sha256"], f"input digest mismatch: {item['path']}")
-        out = root / relative
-        out.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(source, out)
-    shutil.copyfile(MANIFEST, root / MANIFEST.name)
+    run(qualification_tool()[1], "stage", PORTABLE, root)
 
 
 def inventory(root):
@@ -147,36 +142,8 @@ def inventory(root):
 
 
 def verify_lock(package, manifest_path):
-    required = {"Cargo.lock", "Cargo.toml", "package.lock", "src"}
-    require({entry.name for entry in package.iterdir()} == required, "unexpected generated package entries")
-    manifest = read(manifest_path)
-    lock_path = package / "package.lock"
-    lock = read(lock_path)
-    require(lock["format"] == "oddlang-native-package-lock-v1", "package lock format")
-    generated = {f"src/{name}": digest for name, digest in inventory(package / "src").items()}
-    require(lock["generatedFiles"] == generated, "generated source inventory differs from lock")
-    require(lock["manifestSha256"] == sha(manifest_path), "manifest lock mismatch")
-    require(lock["cargoManifestSha256"] == sha(package / "Cargo.toml"), "Cargo.toml lock mismatch")
-    cargo_lock = package / "Cargo.lock"
-    require(lock["cargoLockSha256"] == manifest["cargoLock"]["sha256"] == sha(cargo_lock),
-            "Cargo.lock mismatch")
-    for dependency in tomllib.loads(cargo_lock.read_text())["package"]:
-        if dependency["name"] != manifest["name"]:
-            require(dependency.get("source") == "registry+https://github.com/rust-lang/crates.io-index"
-                    and re.fullmatch(r"[0-9a-f]{64}", dependency.get("checksum", "")),
-                    f"dependency is not pinned in the registry: {dependency['name']}")
-    require(len(lock["components"]) == len(manifest["components"]), "component lock count")
-    groups = {}
-    for ordinal, (component, pinned) in enumerate(zip(manifest["components"], lock["components"])):
-        for name in ("kind", "module", "reexports"):
-            require(component[name] == pinned[name], f"component {ordinal} {name} mismatch")
-        for name in ("graph", "overlay"):
-            require(component[name]["sha256"] == pinned[f"{name}Sha256"],
-                    f"component {ordinal} {name} digest mismatch")
-        group = groups.setdefault(pinned["module"], ordinal)
-        source = package / "src" / f"group_{group}" / f"__projection_{ordinal}.rs"
-        require(sha(source) == pinned["sourceSha256"], f"component {ordinal} source digest mismatch")
-    return lock_path
+    run(qualification_tool()[1], "verify", package, manifest_path)
+    return package / "package.lock"
 
 
 def cargo_environment():
@@ -413,10 +380,10 @@ fn main() {
         mutant_lock = generate(mutated, out)
         install_caller(out)
         witness = work / f"{name}.jsonl"
-        cargo(reference_sandbox, out, target, "test", test="differential", transcript=witness,
+        cargo(reference_sandbox, out, work / f"{name}-target", "test", test="differential", transcript=witness,
               candidate_env=candidate_env)
         changed = cases(witness)
-        require(changed[case][property_name] == expected_value and changed[case] != expected[case],
+        require(changed[case].get(property_name) == expected_value and changed[case] != expected[case],
                 f"mutant survived at {case}")
         mutants[name] = {"case": list(case), "original": expected[case], "mutated": changed[case],
                          "packageLockSha256": sha(mutant_lock), "transcriptSha256": sha(witness)}

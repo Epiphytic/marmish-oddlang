@@ -21,27 +21,17 @@ rust_pin=8bab26f4f68e0e26f0bb7960be334d5b520ea452
 [[ $(rustc +1.97.1 -vV) == *"commit-hash: $rust_pin"* ]]
 work=$(mktemp -d)
 trap 'rm -rf "$work"' EXIT
-mkdir -p "$work/in" "$work/out/tmp" "$work/source" "$work/tests"
+mkdir -p "$work/out/tmp" "$work/source" "$work/tests"
 (
     cd "$framework"
     unset RUSTC RUSTFLAGS CARGO_ENCODED_RUSTFLAGS RUSTC_BOOTSTRAP RUSTC_WRAPPER RUSTC_WORKSPACE_WRAPPER
     cargo +1.97.1 build --locked --offline --bin oddlang --target-dir "$work/framework-target"
 )
 compiler="$work/framework-target/debug/oddlang"
-python3 - "$inputs" "$work/in" <<'PY'
-import hashlib,json,shutil,sys
-from pathlib import Path
-root,dest=map(Path,sys.argv[1:])
-manifest=root/"core-package.json"
-data=json.loads(manifest.read_bytes())
-for pin in [data["cargoLock"]]+[c[k] for c in data["components"] for k in ("graph","overlay")]:
-    src=(root/pin["path"]).resolve()
-    assert src.is_relative_to(root) and hashlib.sha256(src.read_bytes()).hexdigest()==pin["sha256"]
-    out=dest/src.relative_to(root)
-    out.parent.mkdir(parents=True,exist_ok=True)
-    shutil.copyfile(src,out)
-shutil.copyfile(manifest,dest/manifest.name)
-PY
+cargo +1.97.1 build --quiet --locked --offline --manifest-path "$here/../canonical-public-data/Cargo.toml" \
+  --bin core-package-inputs --target-dir "$work/qualification-tools"
+qualifier="$work/qualification-tools/debug/core-package-inputs"
+"$qualifier" stage "$inputs" "$work/in"
 toolchain=$(rustc +1.97.1 --print sysroot)
 registry=${CARGO_HOME:-$HOME/.cargo}/registry
 drop=()
@@ -91,23 +81,7 @@ NET
 "${native[@]}" --ro-bind "$compiler" /oddlang --ro-bind "$work/in" /inputs \
     "${drop[@]}" /oddlang build native-package rust /inputs/core-package.json /out/generated
 cmp "$inputs/core-package-v1/package.lock" "$work/out/generated/package.lock"
-python3 - "$work/out/generated" <<'VERIFY'
-import hashlib
-import json
-from pathlib import Path
-import sys
-
-root = Path(sys.argv[1])
-assert {path.name for path in root.iterdir()} == {"Cargo.lock", "Cargo.toml", "package.lock", "src"}
-lock = json.loads((root / "package.lock").read_bytes())
-def sha(path):
-    return hashlib.sha256(path.read_bytes()).hexdigest()
-assert sha(root / "Cargo.toml") == lock["cargoManifestSha256"]
-assert sha(root / "Cargo.lock") == lock["cargoLockSha256"]
-paths = list((root / "src").rglob("*"))
-assert not any(path.is_symlink() for path in paths)
-assert {path.relative_to(root).as_posix(): sha(path) for path in paths if path.is_file()} == lock["generatedFiles"]
-VERIFY
+"$qualifier" verify "$work/out/generated" "$work/in/core-package.json"
 "${native[@]}" --chdir /out/generated "${drop[@]}" cargo build --release --locked --offline
 # Source and callers first become available after the clean build succeeds.
 git -C "$original" archive "$pin" | tar -x -C "$work/source"
