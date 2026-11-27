@@ -4,10 +4,11 @@ import json
 from pathlib import Path
 import runpy
 import subprocess
-import sys
 import tempfile
 
-from compose import BASE, GROUPS, WORKSPACE, compose
+BASE = "workspace-v7-converged-public-api.json"
+WORKSPACE = "workspace-v7-observational-records.json"
+DOMAINS = {"engine": "engine-scalar-records-v1", "native": "native-path-records-v1"}
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -15,16 +16,9 @@ PORTABLE = ROOT / "oddlang/portable"
 MANIFEST = PORTABLE / WORKSPACE
 SOURCE = {"engine": "crates/marmish-engine/src/model.rs",
           "native": "crates/marmish-native/src/transport.rs"}
-CHANGED = {f"marmish-{name}" for name in GROUPS}
+CHANGED = {f"marmish-{name}" for name in DOMAINS}
 
-previous = sys.modules.pop("compose")
-directory = HERE.parent / "converged-public-api"
-sys.path.insert(0, str(directory))
-try:
-    CONVERGED = runpy.run_path(str(directory / "verify.py"))
-finally:
-    sys.path.pop(0)
-    sys.modules["compose"] = previous
+CONVERGED = runpy.run_path(str(HERE.parent / "converged-public-api/verify.py"))
 SIX = CONVERGED["SIX"]
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
 ENGINE = CONVERGED["ENGINE"]
@@ -107,13 +101,13 @@ def observe_records(args, product, build, work, scratch):
     generated_deps = product / "target/release/deps"
     generated_serde = ENGINE["serde_for_native"](build, generated_native, generated_deps, scratch / "record-gen-serde")
     result = {}
-    for label, member in GROUPS.items():
+    for label, domain in DOMAINS.items():
         original = artifact(native, f"marmish_{label}")
         generated = artifact(build, f"marmish_{label}")
         recovered = scratch / f"{label}-record-recovered"
         provenance = recover(label, work / "oddlang", args.original, recovered)
         for name in ("graph.json", "rust.json"):
-            if (recovered / name).read_bytes() != (work / "inputs" / member["domain"] / name).read_bytes():
+            if (recovered / name).read_bytes() != (work / "inputs" / domain / name).read_bytes():
                 raise ValueError(f"{label} record recovery differs from staged inputs")
         expected = observe(label, original, reference_deps, reference_serde, scratch / f"{label}-record-original")
         got = observe(label, generated, generated_deps, generated_serde, scratch / f"{label}-record-generated")
@@ -139,7 +133,7 @@ def main():
             rev and run("git", "rev-parse", "HEAD", cwd=checkout).decode().strip() != rev
         ):
             raise ValueError(f"expected clean checkout {rev or ''}: {checkout}")
-    compose(PORTABLE, check=True)
+    SIX["check_api_release"]("observational-records", PORTABLE)
     host, = (line[6:] for line in run("rustc", "+1.97.1", "-vV").decode().splitlines() if line.startswith("host: "))
     if host not in SIX["PLATFORMS"]:
         raise ValueError(f"unsupported native host: {host}")

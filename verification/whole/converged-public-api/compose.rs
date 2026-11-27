@@ -15,6 +15,8 @@ pub enum Release {
     CanonicalRecoveredRange,
     CanonicalMdkTestSeam,
     CanonicalRuntimeStatus,
+    ObservationalRecords,
+    RangeNativeIdioms,
 }
 const BASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json";
 const LIMIT: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json";
@@ -158,6 +160,8 @@ pub fn compose(release: Release, root: &Path, check: bool) -> Result {
     let outputs = match release {
         Release::CanonicalMdkTestSeam => mdk_seam::descriptors(root)?,
         Release::CanonicalRuntimeStatus => runtime_status_composition::descriptors(root)?,
+        Release::ObservationalRecords => observational_records::descriptors(root)?,
+        Release::RangeNativeIdioms => range_binding::descriptors(root)?,
         Release::ReleaseManifest => manifest_product::descriptors(root)?,
         Release::PrototypeConstant => constant(root, base()?)?,
         Release::EnginePublicError => errors(root, base()?)?,

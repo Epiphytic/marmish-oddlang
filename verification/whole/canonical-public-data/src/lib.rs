@@ -4,6 +4,10 @@ pub mod api_composition;
 mod mdk_seam;
 #[path = "../../runtime-status-data/compose.rs"]
 mod runtime_status_composition;
+#[path = "../../engine-native-records/compose.rs"]
+mod observational_records;
+#[path = "../../gap-range-role-workspace/compose.rs"]
+mod range_binding;
 pub mod assembly;
 #[path = "../../unified-buffered/buffer.rs"]
 pub mod buffered;

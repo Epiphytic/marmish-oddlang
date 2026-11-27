@@ -5,7 +5,7 @@ The seven-member [workspace manifest](../../../oddlang/portable/workspace-v7-can
 To reproduce, use the reviewed Oddlang runtime commit `b530e740a6eaef5e993192777463bf39e222c477`, its same-host compiled CLI, the retained source-recovered [predecessor](../canonical-recovered-range/README.md) product directory, and a fresh work path. The assembly uses a sealed stage and network-denied confinement.
 
 ```sh
-python3 -B verification/whole/gap-range-role-workspace/compose.py --check
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api range-native-idioms oddlang/portable --check
 python3 -B verification/whole/gap-range-role-workspace/verify.py \
   FRAMEWORK CHECKED_COMPILER PREDECESSOR_PRODUCT NEW_WORK_DIRECTORY RECEIPT
 ```

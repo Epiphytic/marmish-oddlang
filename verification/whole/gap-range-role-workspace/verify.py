@@ -5,19 +5,17 @@ from pathlib import Path
 import runpy
 import shutil
 import subprocess
-import sys
 
-from compose import BASE, ENGINE, HERE, PACKAGE, PORTABLE, ROLE_BINDING, ROOT, WORKSPACE, compose, pin
-
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+PORTABLE = ROOT / "oddlang/portable"
+BASE = "workspace-v7-canonical-recovered-range"
+WORKSPACE = "workspace-v7-canonical-range-native-idioms"
+ENGINE = "marmish-engine"
+PACKAGE = "marmish-engine-canonical-range-native-idioms-package.json"
+ROLE_BINDING = "engine-gap-range-native-idioms-v1/rust.json"
 WHOLE = HERE.parent
-SCRIPT = WHOLE / "canonical-recovered-range/workspace_compat.py"
-saved = sys.modules.pop("compose")
-sys.path.insert(0, str(SCRIPT.parent))
-try:
-    BASELINE = runpy.run_path(str(SCRIPT))
-finally:
-    sys.path.pop(0)
-    sys.modules["compose"] = saved
+BASELINE = runpy.run_path(str(WHOLE / "canonical-recovered-range/workspace_compat.py"))
 
 FRAMEWORK = "b530e740a6eaef5e993192777463bf39e222c477"
 ASSEMBLY, AUDIT, JOURNAL = (BASELINE[key] for key in ("ASSEMBLY", "AUDIT", "JOURNAL"))
@@ -25,7 +23,7 @@ data, digest, hashed, tree, delta = (BASELINE[key] for key in ("data", "sha", "h
 
 
 def verify(args):
-    compose(check=True)
+    BASELINE["COMBINED"]["SIX"]["check_api_release"]("range-native-idioms", PORTABLE)
     version = subprocess.check_output(["rustc", "+1.97.1", "-vV"], text=True).splitlines()
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in (BASELINE["DARWIN"], BASELINE["LINUX"]) or f"commit-hash: {AUDIT.COMPILER}" not in version:
@@ -94,7 +92,7 @@ def verify(args):
     expected_workspace = {"inputSha256", f"members/{ENGINE}/inputSha256", f"members/{ENGINE}/standalonePackageLockSha256"}
     expected_package = {"manifestSha256", "components/5/overlaySha256", "components/5/projection/overlaySha256"}
     if pins[root_lock].keys() != expected_workspace or pins[package_lock].keys() != expected_package or (
-        pins[package_lock]["components/5/overlaySha256"]["after"] != pin(ROLE_BINDING)["sha256"]
+        pins[package_lock]["components/5/overlaySha256"]["after"] != digest(PORTABLE / ROLE_BINDING)
     ):
         raise ValueError(f"unexpected workspace provenance deltas: {pins}")
     frozen = PORTABLE / WORKSPACE / root_lock
@@ -103,8 +101,8 @@ def verify(args):
     common = {name: row for name, row in after.items() if name not in changed}
     return {
         "host": host, "rustc": version, "framework": FRAMEWORK, "compilerSha256": compiler_sha,
-        "manifestSha256": digest(manifest), "engineManifestSha256": pin(PACKAGE)["sha256"],
-        "roleBindingSha256": pin(ROLE_BINDING)["sha256"], "workspaceLockSha256": digest(product / root_lock),
+        "manifestSha256": digest(manifest), "engineManifestSha256": digest(PORTABLE / PACKAGE),
+        "roleBindingSha256": digest(PORTABLE / ROLE_BINDING), "workspaceLockSha256": digest(product / root_lock),
         "predecessorReceiptSha256": digest(prior_path), "nativeEndpointReceiptSha256": digest(endpoint_path),
         "stagedInputs": len(staged), "stagedInputsSha256": hashed(staged), "deniedInputs": 3,
         "files": sum(r["kind"] == "file" for r in after.values()),
