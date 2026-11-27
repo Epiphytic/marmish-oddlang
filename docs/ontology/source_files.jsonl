@@ -1202,7 +1202,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/check-command-output.rs","language":"rust","mode":"100644","sha256":"0ac12e6abfe496a9f0443268c752712f8431b5d3a319a80b2d8db927c6850fe0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/cli-project.rs","language":"rust","mode":"100644","sha256":"737afc18410282fd92bda16f56a2b7135b4886bd50527ded32be81648e449579","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/cli-transcript.rs","language":"rust","mode":"100644","sha256":"5d715586fc2f4def800a1ac47f66bf1876ccc47b160e7e3777ca9884fc18693e","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/core-package-inputs.rs","language":"rust","mode":"100644","sha256":"d0fb5c2029c818a1d73ea3f69e0c069e008035b127795d2be2e99416e200fde5","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/core-package-inputs.rs","language":"rust","mode":"100644","sha256":"06809085dea286c75c6dabc33b15fd1a57b7c33831dcc6c30575ebcab5b02908","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/discovery-status-project.rs","language":"rust","mode":"100644","sha256":"1f1704e71ad4e7805f9a57c92d6c7a77be8bbbb90041ec1293d3b17ead869193","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/engine-choice-inputs.rs","language":"rust","mode":"100644","sha256":"08aef783825393e1e47bbdd685461776e8ce5f870f9f8ee72006b2a45c198d93","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/engine-mutation/main.rs","language":"rust","mode":"100644","sha256":"d0d1799545be713bf41727d78303080530d583d694f0fd1adc99061b4e3cbfdc","parse_status":"parsed"}
@@ -1432,10 +1432,10 @@
 {"path":"verification/whole/core-ownership/semantic-roles.sparql.txt","language":"inventory","mode":"100644","sha256":"ef1715923e024c1e7df06b2b55bee31efbb5fbe740806c91b6060faa4d6f16a9","parse_status":"inventory"}
 {"path":"verification/whole/core-ownership/semantic_roles.rs","language":"rust","mode":"100644","sha256":"849279f5a6e5d4f838412f862953f5d8af4305da337e9322bfe7abd50cb28549","parse_status":"parsed"}
 {"path":"verification/whole/core-ownership/verify.rs","language":"rust","mode":"100644","sha256":"3c08da1c694d4da326b033529b85785a0f4e44d8887819ae8c0ba20daac764c9","parse_status":"parsed"}
-{"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"517618872c06dbf67ba4c80fba35396a72b1cbe8b8954e5dc51da60a930514df","parse_status":"inventory"}
+{"path":"verification/whole/core-package/README.md","language":"inventory","mode":"100644","sha256":"7fadc1a8ad21499003a7e7e5b8cfb0a4e00144a47866ac5c0582fc6e79e680bb","parse_status":"inventory"}
 {"path":"verification/whole/core-package/caller.rs","language":"rust","mode":"100644","sha256":"838b738223d82497d42f42b19b2a805f653579fad045990f561867d36637d5ce","parse_status":"recovered"}
 {"path":"verification/whole/core-package/expected-observations.json","language":"inventory","mode":"100644","sha256":"ab5910faed74b3dcfc35f13bc385fee1ac6b2c81c631095cac169847b9eab1e0","parse_status":"inventory"}
-{"path":"verification/whole/core-package/linux.sh","language":"bash","mode":"100755","sha256":"fc0eb6b0514d261283b1c31e3ba07338482b25650fc34b0e45af23f7a05bcd0d","parse_status":"parsed"}
+{"path":"verification/whole/core-package/linux.rs","language":"rust","mode":"100644","sha256":"32d51a8f4403b7e19252b48fad49cf2310785d0d33a1c8ef6b2ed7ec3e23f037","parse_status":"parsed"}
 {"path":"verification/whole/core-package/mutations.rs","language":"rust","mode":"100644","sha256":"47edba1a85eb73c932d2d84509fca66e330bc09564577dfc195f79ccbbb8710f","parse_status":"parsed"}
 {"path":"verification/whole/core-package/public-api-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"4ce9a0c5153a3f78c2e6adc1163b4b6235e28970dc41c887acf5827b24e6ae5f","parse_status":"inventory"}
 {"path":"verification/whole/core-package/reference-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"51f8b24becb49c9e84daf8d651e3a659506a242a9aafe74828655b4fbc2379c8","parse_status":"inventory"}

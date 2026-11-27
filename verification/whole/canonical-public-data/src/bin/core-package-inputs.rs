@@ -1,4 +1,6 @@
 //! Stage the core package graph and verify its generated Rust source inventory.
+#[path = "../../../core-package/linux.rs"]
+mod linux;
 #[path = "../../../core-package/mutations.rs"]
 mod mutations;
 use clap::{Parser, Subcommand};
@@ -20,6 +22,12 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Run the source-isolated Linux qualification.
+    Linux(linux::Args),
+    #[command(hide = true)]
+    ProbeLoopback {
+        port: u16,
+    },
     Compare {
         original: PathBuf,
         generated: PathBuf,
@@ -205,7 +213,7 @@ fn observations(bytes: &[u8]) -> Result<Observations> {
     Ok(rows)
 }
 
-fn compare(original: &Path, generated: &Path) -> Result<()> {
+fn compare(original: &Path, generated: &Path) -> Result<BTreeMap<String, usize>> {
     let reference = fs::read(original)?;
     let candidate = fs::read(generated)?;
     let rows = observations(&reference)?;
@@ -246,16 +254,23 @@ fn compare(original: &Path, generated: &Path) -> Result<()> {
         }
         return Err("native transcripts differ in bytes".into());
     }
-    println!("{}", serde_json::to_string(&counts)?);
-    Ok(())
+    Ok(counts.into_iter().map(|(k, v)| (k.to_owned(), v)).collect())
 }
 
 fn main() -> Result<()> {
     match Args::parse().action {
+        Action::Linux(args) => linux::qualify(args),
+        Action::ProbeLoopback { port } => linux::probe_loopback(port),
         Action::Compare {
             original,
             generated,
-        } => compare(&original, &generated),
+        } => {
+            println!(
+                "{}",
+                serde_json::to_string(&compare(&original, &generated)?)?
+            );
+            Ok(())
+        }
         Action::Observe {
             transcript,
             family,
