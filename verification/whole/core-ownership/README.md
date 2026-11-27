@@ -23,7 +23,7 @@ Use [ownership.sparql.txt](ownership.sparql.txt) with the Turtle map, or run its
 from a checkout containing the linked Git revisions:
 
 ```sh
-uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/verify.py
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-ownership
 ```
 
 The verifier parses the native facade and portable ownership graphs,
@@ -49,7 +49,7 @@ Rust binding nodes and overlay links, and substitutes a different error
 component to verify that the mapping rejects it.
 
 ```sh
-uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/semantic_roles.py
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-semantic-roles
 ```
 
 To exercise a second target, pass the Oddlang executable from framework revision
@@ -61,5 +61,11 @@ existing Node checks for 264 sampled inputs, eight generated cases and
 explicit absence.
 
 ```sh
-uvx --offline --from rdflib==7.6.0 python -B verification/whole/core-ownership/project_retention.py /path/to/oddlang
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-project-retention -- /path/to/oddlang
 ```
+
+The [macOS ARM64 verifier replay](rust-qualification-macos-arm64.json)
+records the four outputs compared byte for byte with the Python callers from
+`a51c2e8`. The ownership rows, native declaration comparison, Node receipt
+and [native retention receipt](../core-value/reference.json) also matched
+their archived bytes.

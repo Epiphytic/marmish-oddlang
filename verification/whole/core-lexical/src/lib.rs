@@ -1,4 +1,7 @@
 //! Source seals and pinned compiler observers shared by core qualification.
+pub mod comparison;
+#[path = "../../core-ownership/graph.rs"]
+pub mod ownership;
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
