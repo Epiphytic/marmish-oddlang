@@ -143,7 +143,9 @@ pub fn runtime_from_cargo(
     work: &Path,
     projected: Option<&Path>,
 ) -> Result<Value> {
-    let mut libraries = std::collections::BTreeMap::<String, BTreeSet<PathBuf>>::new();
+    let mut native_libraries = Vec::new();
+    let mut serde_libraries = BTreeSet::new();
+    let mut json_libraries = BTreeSet::new();
     let mut links = BTreeSet::new();
     let mut finished = false;
     for line in build.lines() {
@@ -152,15 +154,20 @@ pub fn runtime_from_cargo(
         match row["reason"].as_str() {
             Some("compiler-artifact") => {
                 let name = text(&row["target"]["name"])?;
-                if ["serde", "serde_json", "marmish_native"].contains(&name) {
-                    for file in list(&row["filenames"])? {
-                        let path = Path::new(text(file)?);
-                        if path.extension().is_some_and(|ext| ext == "rlib") {
-                            libraries
-                                .entry(name.into())
-                                .or_default()
-                                .insert(path.to_owned());
+                for file in list(&row["filenames"])? {
+                    let path = Path::new(text(file)?);
+                    if !path.extension().is_some_and(|ext| ext == "rlib") {
+                        continue;
+                    }
+                    match name {
+                        "marmish_native" => native_libraries.push(path.to_owned()),
+                        "serde" => {
+                            serde_libraries.insert(path.to_owned());
                         }
+                        "serde_json" => {
+                            json_libraries.insert(path.to_owned());
+                        }
+                        _ => {}
                     }
                 }
             }
@@ -177,20 +184,16 @@ pub fn runtime_from_cargo(
         }
     }
     require(finished, "incomplete Cargo transcript")?;
-    let native = match projected {
-        Some(path) => path,
-        None => {
-            let native = libraries
-                .get("marmish_native")
-                .ok_or("missing native library")?;
-            require(native.len() == 1, "ambiguous native library")?;
-            native.first().unwrap().as_path()
-        }
+    let native = match (projected, native_libraries.as_slice()) {
+        (Some(path), _) => path,
+        (None, [path]) => path.as_path(),
+        (None, []) => return Err("missing native library".into()),
+        (None, _) => return Err("ambiguous native library".into()),
     };
-    let serdes = libraries.get("serde").ok_or("missing Serde candidates")?;
-    let json_libs = libraries
-        .get("serde_json")
-        .ok_or("missing serde_json candidates")?;
+    require(
+        !serde_libraries.is_empty() && !json_libraries.is_empty(),
+        "missing Serde candidates",
+    )?;
     let version = stdout(Command::new("rustc").args(["+1.97.1", "-vV"]))?;
     let host = version
         .lines()
@@ -200,8 +203,8 @@ pub fn runtime_from_cargo(
     let links = links.into_iter().collect::<Vec<_>>();
     let mut matched = None;
     let mut failures = Vec::new();
-    for (i, serde) in serdes.iter().enumerate() {
-        for (j, json_lib) in json_libs.iter().enumerate() {
+    for (i, serde) in serde_libraries.iter().enumerate() {
+        for (j, json_lib) in json_libraries.iter().enumerate() {
             let dirs = [serde, json_lib].map(|p| {
                 p.parent()
                     .map(Path::to_owned)
