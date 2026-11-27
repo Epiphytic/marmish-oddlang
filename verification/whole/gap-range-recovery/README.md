@@ -27,6 +27,12 @@ The source-denied native build receives graph, overlay and Cargo inputs.
 The probe source is staged only after generation. The raw model and
 Rustdoc files remain outside the generated package and publication.
 
+The Rust verifier reads the archived caller results through
+`range-contract-inputs check-witnesses ORIGINAL MUTATED_MODEL_RS HOST`.
+Pass the JSON array of `rustc -vV` lines on standard input. It checks the
+source, compiler, and receipt pins before returning the ordered baseline
+and mutation rows and the linked choice receipt digest.
+
 ## Reproduce
 
 Use the pinned upstream checkout, the framework runtime recorded in the

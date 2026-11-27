@@ -1,6 +1,8 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
 #[path = "../../../gap-range-recovery/evidence.rs"]
 mod evidence;
+#[path = "../../../gap-range-recovery/witnesses.rs"]
+mod witnesses;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
     Result, json_bytes, load, pin, portable, product::pinned, require, run, sha, text,
@@ -29,6 +31,12 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Verify native caller receipts using the rustc -vV lines supplied as JSON on stdin.
+    CheckWitnesses {
+        original: PathBuf,
+        mutation: PathBuf,
+        host: String,
+    },
     /// Verify both collected Rustdoc files and print their checked provenance receipt.
     CheckEvidence {
         directory: PathBuf,
@@ -175,6 +183,15 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::CheckWitnesses {
+            original,
+            mutation,
+            host,
+        } => {
+            let rustc = serde_json::from_reader(std::io::stdin().lock())?;
+            println!("{}", witnesses::check(&original, &mutation, &host, &rustc)?);
+            Ok(())
+        }
         Action::CheckEvidence {
             directory,
             original,

@@ -46,66 +46,6 @@ def read(path):
     return json.loads(path.read_bytes())
 
 
-def qualification_witnesses(original, host, sources, rustc):
-    receipt = HERE.parent / "gap-range-record" / f"{host}.json"
-    archived = json.loads(pinned(receipt, LEGACY))
-    legacy_profile = {
-        "original": PIN,
-        "format": "marmish-public-gap-range-v1",
-        "rustc": rustc,
-        "sourceModelSha256": sha(sources["baseline"]),
-        "changedRows": ["unknown-field"],
-    }
-    if any(archived[key] != value for key, value in legacy_profile.items()):
-        raise ValueError("archived native qualification profile differs")
-    baseline, baseline_sha = PRIOR["fixture_reference"](original, host)
-    if (
-        archived["originalReferenceSha256"] != baseline_sha
-        or archived["baseline"]["observations"] != baseline
-    ):
-        raise ValueError("archived native baseline differs")
-    if archived["mutationSourceModelSha256"] != sha(sources["mutation"]):
-        raise ValueError(
-            "mutation source differs from the independently compiled original"
-        )
-    if archived["unchangedProbeSha256"] != sha(BASELINE / "probe.rs") or archived[
-        "casesSha256"
-    ] != sha(BASELINE / "cases.json"):
-        raise ValueError("caller or corpus changed")
-    ids = [row["id"] for row in read(BASELINE / "cases.json")]
-    mutation = archived["mutation"]["observations"]
-    if len(set(ids)) != 35 or any(
-        [row["id"] for row in rows] != ids for rows in (baseline, mutation)
-    ):
-        raise ValueError("wrong native case inventory")
-    changed = [a["id"] for a, b in zip(baseline, mutation, strict=True) if a != b]
-    if changed != ["unknown-field"] or tuple(
-        PRIOR["observed_policy"](rows) for rows in (baseline, mutation)
-    ) != ("ignore", "reject"):
-        raise ValueError("native oracle approved a different mutation outcome")
-    if archived["nativeTraitsProbeSha256"] != sha(prior_helper.with_name("traits.rs")):
-        raise ValueError("archived traits witness changed")
-    return {"baseline": baseline, "mutation": mutation}, sha(receipt), baseline_sha
-
-
-def reason_witness(host, baseline_source):
-    path = HERE.parent / "gap-reason-recovery" / f"{host}.json"
-    archived = json.loads(pinned(path, REASON))
-    if (archived["original"], archived["host"], archived["sourceSha256"]) != (
-        PIN,
-        host,
-        sha(baseline_source),
-    ):
-        raise ValueError("the linked choice's source provenance differs")
-    recorded = archived["baselineRecovery"]
-    for key, name in (("graph", "graph.json"), ("overlay", "rust.json")):
-        if recorded[key + "Sha256"] != sha(PORTABLE / REASON_GRAPH / name):
-            raise ValueError(
-                "the linked choice did not come from the archived recovery"
-            )
-    return {"framework": archived["framework"], "receiptSha256": sha(path)}
-
-
 def sealed(
     compiler, original, framework, scratch, inputs, recovered, expected, host, work, preparer
 ):
@@ -286,10 +226,12 @@ def qualify(args):
 
         evidence = checked_evidence()
         docs = {label: args.rustdoc / evidence["inputs"][label]["rustdocFile"] for label in sources}
-        reason = reason_witness(host, sources["baseline"])
-        expected, legacy_sha, baseline_sha = qualification_witnesses(
-            args.original, host, sources, rustc
-        )
+        witnesses = json.loads(run(preparer, "check-witnesses", args.original, sources["mutation"],
+                                   host, env=ENV, input=json.dumps(rustc).encode()))
+        expected = witnesses["observations"]
+        reason = witnesses["linkedChoice"]
+        legacy_sha = witnesses["nativeReceiptSha256"]
+        baseline_sha = witnesses["originalReferenceSha256"]
         recovered, selections = {}, {}
         for label, source in sources.items():
             lane = scratch / label
