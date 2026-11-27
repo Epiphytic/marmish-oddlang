@@ -36,7 +36,8 @@ Use external scratch directories for the build targets and outputs.
 
 ```sh
 lane=verification/whole/gap-range-recovery
-python3 -B "$lane/rustdoc.py" "$ORIGINAL" "$RUSTDOC_TARGET" "$RUSTDOC_EVIDENCE"
+cargo +1.97.1 run --locked --offline --manifest-path "$lane/../canonical-public-data/Cargo.toml" \
+  --bin collect-range-rustdoc -- "$ORIGINAL" "$RUSTDOC_TARGET" "$RUSTDOC_EVIDENCE"
 python3 -B "$lane/verify.py" --framework-revision "$RUNTIME_PIN" \
   "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RUSTDOC_EVIDENCE" "$OUTPUT"
 ```

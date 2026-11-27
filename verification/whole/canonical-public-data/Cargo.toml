@@ -71,3 +71,7 @@ path = "../gap-range-role-workspace/imports.rs"
 [[bin]]
 name = "qualify-range-endpoint"
 path = "../gap-range-endpoint/native.rs"
+
+[[bin]]
+name = "collect-range-rustdoc"
+path = "../gap-range-recovery/rustdoc.rs"
