@@ -10,6 +10,8 @@ pub enum Release {
     EnginePublicError,
     Converged,
     ReleaseManifest,
+    ConvergedDiagnosticsCli,
+    CanonicalOffline,
     CanonicalEngineChoices,
     CanonicalRangeData,
     CanonicalRecoveredRange,
@@ -24,18 +26,21 @@ pub const ERRORS: &str = "workspace-v7-engine-public-error-identity.json";
 const MERGED: &str = "workspace-v7-converged-public-api.json";
 
 pub(crate) struct Descriptor {
-    name: &'static str,
+    name: String,
     bytes: Vec<u8>,
 }
 impl Descriptor {
     pub(crate) fn new(name: &'static str, value: &Value) -> Result<Self> {
         Ok(Self {
-            name,
+            name: name.into(),
             bytes: json_bytes(value)?,
         })
     }
-    pub(crate) fn from_bytes(name: &'static str, bytes: Vec<u8>) -> Self {
-        Self { name, bytes }
+    pub(crate) fn from_bytes(name: impl Into<String>, bytes: Vec<u8>) -> Self {
+        Self {
+            name: name.into(),
+            bytes,
+        }
     }
     pub(crate) fn pin(&self) -> Value {
         json!({"path":self.name,"sha256":bytes_sha(&self.bytes)})
@@ -158,6 +163,8 @@ fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
 pub fn compose(release: Release, root: &Path, check: bool) -> Result {
     let base = || load(&root.join(BASE));
     let outputs = match release {
+        Release::ConvergedDiagnosticsCli => offline_composition::diagnostics(root)?,
+        Release::CanonicalOffline => offline_composition::canonical(root)?,
         Release::CanonicalMdkTestSeam => mdk_seam::descriptors(root)?,
         Release::CanonicalRuntimeStatus => runtime_status_composition::descriptors(root)?,
         Release::ObservationalRecords => observational_records::descriptors(root)?,

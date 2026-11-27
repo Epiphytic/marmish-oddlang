@@ -46,8 +46,10 @@ directory and records the executable and verifier hashes.
 
 ```sh
 lane=verification/whole/converged-diagnostics-cli
-python3 -B "$lane/test_compose.py"
-python3 -B "$lane/compose.py" --check
+manifest=verification/whole/canonical-public-data/Cargo.toml
+cargo +1.96.1 test --quiet --locked --offline --manifest-path "$manifest" --lib offline_composition
+cargo +1.96.1 run --quiet --locked --offline --manifest-path "$manifest" --bin workspace-product -- \
+  compose-api converged-diagnostics-cli oddlang/portable --check
 python3 -B "$lane/verify.py" "$INPUT_REVISION" "$COMPILER_TARGET" "$FRAMEWORK" \
   "$ORIGINAL" "$ORIGINAL_BIN" "$ORIGINAL_TARGET" "$PRODUCT" "$TARGET" "$RECEIPT"
 ```

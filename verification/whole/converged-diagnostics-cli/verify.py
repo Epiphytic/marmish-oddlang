@@ -10,7 +10,12 @@ import subprocess
 import sys
 import tempfile
 
-from compose import CLI, DIAGNOSTICS, HERE, OUTPUT, PORTABLE, PUBLIC, compose, load, sha
+HERE = Path(__file__).resolve().parent
+PORTABLE = HERE.parents[2] / "oddlang/portable"
+CLI = "workspace-v7-offline-cli"
+DIAGNOSTICS = "workspace-v7-offline-cli-diagnostics"
+OUTPUT = "workspace-v7-converged-diagnostics-cli"
+PUBLIC = "workspace-v7-converged-public-api"
 
 ROOT = HERE.parents[2]
 FRAMEWORK = "0568396f8d0641b266aed1702d482d71c79b3ba4"
@@ -20,13 +25,15 @@ ROLES = ("marmish", "marmishd")
 
 def lane(name, filename):
     directory = HERE.parent / name
-    own_compose = sys.modules.pop("compose")
+    own_compose = sys.modules.pop("compose", None)
     sys.path.insert(0, str(directory))
     try:
         return runpy.run_path(str(directory / filename))
     finally:
         sys.path.pop(0)
-        sys.modules["compose"] = own_compose
+        sys.modules.pop("compose", None)
+        if own_compose is not None:
+            sys.modules["compose"] = own_compose
 
 
 WORKSPACE = lane("workspace", "verify.py")
@@ -34,6 +41,14 @@ IMPORTS = lane("seven-public-imports", "verify.py")
 PARSER = lane("offline-cli", "observe.py")
 ERRORS = lane("engine-public-error", "verify.py")
 DIAG = lane("public-diagnostics", "verify.py")
+
+
+load = ERRORS["SIX"]["data"]
+sha = ERRORS["SIX"]["JOURNAL"]["sha"]
+
+
+def check_composition():
+    ERRORS["SIX"]["check_api_release"]("converged-diagnostics-cli", PORTABLE)
 
 
 def execute(*args, cwd=None, env=None):
@@ -197,7 +212,7 @@ def verify(args):
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
         raise ValueError("requires a native Darwin ARM64 toolchain")
-    compose(PORTABLE, check=True)
+    check_composition()
     lock = PORTABLE / OUTPUT / "workspace.lock"
     profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock.read_bytes()))
     parent_locks = {name: load(PORTABLE / name / "workspace.lock") for name in (PUBLIC, CLI, DIAGNOSTICS)}

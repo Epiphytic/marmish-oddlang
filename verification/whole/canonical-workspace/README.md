@@ -4,6 +4,8 @@ Build all seven members through this [workspace manifest](../../../oddlang/porta
 and the [qualified compiler](https://github.com/Epiphytic/oddlang/tree/8a20ea283d0d43da42f054a7c7774eb9e6a20da7).
 
 ```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product -- compose-api canonical-offline oddlang/portable --check
 oddlang build native-workspace rust \
   oddlang/portable/workspace-v7-canonical-offline.json "$OUTPUT"
 cargo +1.97.1 build --manifest-path "$OUTPUT/Cargo.toml" --workspace --release --locked --offline

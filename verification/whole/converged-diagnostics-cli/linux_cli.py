@@ -7,7 +7,7 @@ import shutil
 import subprocess
 import tempfile
 
-from compose import HERE, OUTPUT, PORTABLE, compose, load, sha
+from verify import HERE, OUTPUT, PORTABLE, check_composition, load, sha
 from verify import FRAMEWORK, IMPORTS, PARSER, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
 
 HOST = "aarch64-unknown-linux-gnu"
@@ -59,7 +59,7 @@ def verify(args):
     exact_checkout(ROOT, args.input_revision)
     exact_checkout(args.original, IMPORTS["ORIGINAL"])
     exact_checkout(args.framework, FRAMEWORK)
-    compose(PORTABLE, check=True)
+    check_composition()
     manifest = PORTABLE / f"{OUTPUT}.json"
     lock = (PORTABLE / OUTPUT / "workspace.lock").read_bytes()
     profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock))

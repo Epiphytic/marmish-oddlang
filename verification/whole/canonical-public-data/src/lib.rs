@@ -8,6 +8,8 @@ mod runtime_status_composition;
 mod observational_records;
 #[path = "../../gap-range-role-workspace/compose.rs"]
 mod range_binding;
+#[path = "../../canonical-workspace/compose.rs"]
+mod offline_composition;
 pub mod assembly;
 pub mod engine_caller;
 pub mod baseline_framework;

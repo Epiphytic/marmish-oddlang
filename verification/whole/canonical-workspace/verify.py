@@ -9,7 +9,15 @@ import runpy
 import sys
 import tempfile
 
-from compose import BASE, ENGINE, NATIVE, OUTPUT, PREFIX, PUBLIC, RECORDS, VAULT, VAULT_MODE, compose
+BASE = "workspace-v7-converged-diagnostics-cli"
+ENGINE = "marmish-engine"
+NATIVE = "marmish-native"
+OUTPUT = "workspace-v7-canonical-offline"
+PREFIX = "workspace-v7-terminal-prefix"
+PUBLIC = "workspace-v7-converged-public-api"
+RECORDS = "workspace-v7-observational-records"
+VAULT = "marmish-vault"
+VAULT_MODE = "vault-fixed-value-mode-package.json"
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
@@ -245,7 +253,7 @@ def main():
     host, = (line[6:] for line in run("rustc", "+1.97.1", "-vV").decode().splitlines() if line.startswith("host: "))
     if host not in SIX["PLATFORMS"]:
         raise ValueError("expected one of the qualified native ARM64 hosts")
-    compose(PORTABLE, check=True)
+    SIX["check_api_release"]("canonical-offline", PORTABLE)
     old_vault = data(PORTABLE / (BASE + ".json"))["members"][VAULT]["manifest"]
     before = PORTABLE / old_vault["path"]
     if sha(before) != old_vault["sha256"]:
