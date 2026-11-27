@@ -22,8 +22,7 @@ PREVIOUS = PORTABLE / BASE
 PRIVATE_LEAF = "src/group_0/__projection_0.rs"
 
 
-BUFFERED = runpy.run_path(str(HERE.parent / "unified-buffered/workspace_compat.py"))
-SIX = BUFFERED["SIX"]
+SIX = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
 run, data, sha = (SIX[k] for k in ("run", "data", "sha"))
 
 
@@ -119,7 +118,7 @@ def caller(path, scratch, label):
 
 
 def reader_oracle(product, args, host, prior):
-    return BUFFERED["successor_reader"](product, args.original, host, prior)
+    return SIX["product_witness"]("buffered-oracle", product, args.original, host, "--prior", prior)
 
 
 def main():
@@ -169,7 +168,7 @@ def main():
             args, host, Path(work).resolve(), scratch, manifest=MANIFEST, base=BASE, member=MEMBER,
             check=check, extra_denied={"original-prototype": args.original / SOURCE,
                                        "prototype-constant-caller": FILE,
-                                       "buffer-caller": BUFFERED["PRIVATE"] / "observations.rs"},
+                                       "buffer-caller": HERE.parent / "private-buffer/observations.rs"},
             extra_oracle=observe, receipt_format="marmish-seven-member-prototype-constant-v1",
         )
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")

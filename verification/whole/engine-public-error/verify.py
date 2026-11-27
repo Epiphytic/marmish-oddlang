@@ -16,11 +16,10 @@ MANIFEST = PORTABLE / WORKSPACE
 SOURCE = Path("crates/marmish-engine/src/model.rs")
 CHANGED = {"marmish-engine", "marmish-native"}
 
-BUFFERED = runpy.run_path(str(HERE.parent / "unified-buffered/workspace_compat.py"))
-SIX = BUFFERED["SIX"]
+SIX = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
 IDENTITY = SIX["lane"]("backend-choice")
 run, data, sha, artifact = (SIX[key] for key in ("run", "data", "sha", "artifact"))
-BASE = BUFFERED["WORKSPACE"]
+BASE = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json"
 
 TRAITS = {
     "Clone": "Clone",
@@ -126,7 +125,7 @@ def recovery(compiler, source, output, *, selection=HERE / "selection.json"):
 
 def observe_workspace(args, host, work, scratch, product, build, compiler=None):
     # This runs only after the sandboxed workspace build and the inherited oracles.
-    prior = BUFFERED["buffer_oracle"](product, args.original, host)
+    prior = {"bufferedInput": SIX["product_witness"]("buffered-oracle", product, args.original, host)}
     return prior | observe_types(args, work, scratch, product, build, compiler)
 
 
@@ -200,8 +199,8 @@ def main():
             args, host, work, scratch,
             manifest=MANIFEST, base=BASE, member="marmish-engine", check=check_product,
             extra_denied={
-                "original-prototype": args.original / BUFFERED["SOURCE"],
-                "buffer-caller": BUFFERED["PRIVATE"] / "observations.rs",
+                "original-prototype": args.original / "crates/marmish-prototype/src/lib.rs",
+                "buffer-caller": HERE.parent / "private-buffer/observations.rs",
                 "original-engine-error": args.original / SOURCE,
                 "engine-error-caller": HERE / "probe.rs",
                 "original-backend-choice": args.original / IDENTITY["SOURCE"],

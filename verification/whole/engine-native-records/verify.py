@@ -152,7 +152,7 @@ def main():
             check=check_product, extra_artifact_oracle=witness,
             extra_denied={
                 "original-prototype": args.original / LIMIT["SOURCE"], "constant-caller": LIMIT["FILE"],
-                "reader-caller": LIMIT["BUFFERED"]["PRIVATE"] / "observations.rs",
+                "reader-caller": HERE.parent / "private-buffer/observations.rs",
                 "original-engine-error": args.original / ENGINE["SOURCE"],
                 "engine-error-caller": ENGINE["HERE"] / "probe.rs",
                 "original-native-choice": args.original / ENGINE["IDENTITY"]["SOURCE"],
