@@ -123,3 +123,20 @@ The release report prints the actual Cargo package version and target, the pinne
 Both ordinary native entrypoints are measured with accepted global flags, guard failures and precedence, parser errors, help, and runtime environment overrides. Worker and installed tools, descriptor-based startup reporting, output failure semantics, and additional targets remain open.
 
 The [macOS ARM64 receipt](v7-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v7-aarch64-unknown-linux-gnu.json) cover 16 `release-info` invocations per binary, with each report showing its own compiled Cargo target. Common report values, CLI diagnostics, and retained v6 observations agree.
+
+## Stage qualification inputs from Rust
+
+Build the native verifier with `cargo +1.97.1 build --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-inputs`. The same executable prepares inputs for the historical workspace and suite callers.
+
+```sh
+workspace-inputs workspace oddlang/portable/workspace-profile-command-policy.json "$INPUTS"
+workspace-inputs external-packages "$INPUTS/composed-basic-owner-v1/workspace.Cargo.lock"
+workspace-inputs workspace-providers "$INPUTS/composed-basic-owner-v1/workspace.Cargo.lock" "$PRIVATE_GIT_CACHE"
+```
+
+Run the independent library tests on a disposable copy of the generated product after verifying its release hashes. The last positional argument is the stream package manifest recorded in the workspace's member declaration, relative to `oddlang/portable`.
+
+```sh
+workspace-inputs library-tests "$PRODUCT" "$ORIGINAL" stream-package-v5.json --wire --copy
+cargo +1.97.1 test --offline --locked --manifest-path "$PRODUCT/Cargo.toml" -p marmish-core -p marmish-stream
+```

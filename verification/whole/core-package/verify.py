@@ -21,13 +21,13 @@ def run(*args, cwd=None, env=None, fail=None):
     return result.stdout
 
 
-@lru_cache(maxsize=1)
-def qualification_tool():
+@lru_cache(maxsize=2)
+def qualification_tool(name="core-package-inputs"):
     target = tempfile.TemporaryDirectory(prefix="core-package-tools-")
     run("cargo", f"+{RUST}", "build", "--quiet", "--locked", "--offline",
         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
-        "--bin", "core-package-inputs", "--target-dir", target.name)
-    return target, Path(target.name) / "debug/core-package-inputs"
+        "--bin", name, "--target-dir", target.name)
+    return target, Path(target.name) / "debug" / name
 
 
 def isolation_environment(work, triple):

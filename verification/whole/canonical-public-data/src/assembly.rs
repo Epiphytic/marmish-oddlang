@@ -2,7 +2,7 @@
 use crate::*;
 use serde_json::{Value, json};
 use std::{
-    collections::BTreeMap,
+    collections::{BTreeMap, BTreeSet},
     env,
     ffi::OsStr,
     fs,
@@ -147,6 +147,33 @@ fn cargo_home() -> Result<PathBuf> {
         .map(PathBuf::from)
         .unwrap_or(PathBuf::from(env::var_os("HOME").ok_or("missing HOME")?).join(".cargo")))
 }
+type PackageIdentity = (String, String, String, Option<String>);
+pub fn external_packages(lock: &Path) -> Result<BTreeSet<PackageIdentity>> {
+    let document: toml::Table = toml::from_str(&fs::read_to_string(lock)?)?;
+    let rows = document
+        .get("package")
+        .and_then(toml::Value::as_array)
+        .ok_or("missing locked packages")?;
+    let mut packages = BTreeSet::new();
+    for row in rows {
+        let Some(source) = row.get("source") else {
+            continue;
+        };
+        let field = |value: &toml::Value| -> Result<String> {
+            Ok(value
+                .as_str()
+                .ok_or("invalid Cargo package field")?
+                .to_owned())
+        };
+        packages.insert((
+            field(row.get("name").ok_or("missing package name")?)?,
+            field(row.get("version").ok_or("missing package version")?)?,
+            field(source)?,
+            row.get("checksum").map(field).transpose()?,
+        ));
+    }
+    Ok(packages)
+}
 pub fn providers(lock: &Path, out: &Path) -> Result<Value> {
     let keys = BTreeMap::from([
         (
@@ -166,18 +193,11 @@ pub fn providers(lock: &Path, out: &Path) -> Result<Value> {
             "rusqlite-8e5e8204e489f2fd",
         ),
     ]);
-    let lock: toml::Table = toml::from_str(&fs::read_to_string(lock)?)?;
+    let packages = external_packages(lock)?;
     let mut revisions = BTreeMap::new();
     let mut provider_receipt = json!({});
-    for pkg in lock["package"]
-        .as_array()
-        .ok_or("missing locked packages")?
-    {
-        let Some(source) = pkg
-            .get("source")
-            .and_then(|s| s.as_str())
-            .and_then(|s| s.strip_prefix("git+"))
-        else {
+    for (_, _, source, _) in &packages {
+        let Some(source) = source.strip_prefix("git+") else {
             continue;
         };
         let (repo, pin) = source.split_once("?rev=").ok_or("expected exact Git rev")?;
