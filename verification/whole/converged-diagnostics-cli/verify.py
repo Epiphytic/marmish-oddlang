@@ -38,19 +38,20 @@ def lane(name, filename):
 WORKSPACE = lane("workspace", "verify.py")
 IMPORTS = lane("seven-public-imports", "verify.py")
 CLI_CASES = json.loads((HERE.parent / "offline-cli/cases.json").read_bytes())
-ERRORS = lane("engine-public-error", "verify.py")
+SIX = lane("unified-mdk", "workspace_compat.py")
+IDENTITY = lane("backend-choice", "verify.py")
 
 
-load = ERRORS["SIX"]["data"]
-sha = ERRORS["SIX"]["JOURNAL"]["sha"]
+load = SIX["data"]
+sha = SIX["JOURNAL"]["sha"]
 
 
 def observe_cli(binary, argv, home):
-    return ERRORS["SIX"]["product_witness"]("offline-cli-case", binary, home, "--", *argv)
+    return SIX["product_witness"]("offline-cli-case", binary, home, "--", *argv)
 
 
 def check_composition():
-    ERRORS["SIX"]["check_api_release"]("converged-diagnostics-cli", PORTABLE)
+    SIX["check_api_release"]("converged-diagnostics-cli", PORTABLE)
 
 
 def execute(*args, cwd=None, env=None):
@@ -163,9 +164,9 @@ def imports_and_behavior(args, raw, scratch):
     if delta != [("native", "diagnostics")] or sum(v["importable"] for v in observed.values()) != 71:
         raise ValueError(f"unexpected import delta: {delta!r}")
 
-    artifact = ERRORS["artifact"]
-    ref_engine = ERRORS["SIX"]["cargo_reference"](args, "marmish-engine")
-    ref_native = ERRORS["SIX"]["cargo_reference"](args, "marmish-native")
+    artifact = SIX["artifact"]
+    ref_engine = SIX["cargo_reference"](args, "marmish-engine")
+    ref_native = SIX["cargo_reference"](args, "marmish-native")
     ref_prototype_raw = execute("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--lib",
                                 "-p", "marmish-prototype", "--target", HOST, "--target-dir", args.original_target,
                                 "--message-format=json", cwd=args.original)
@@ -177,11 +178,11 @@ def imports_and_behavior(args, raw, scratch):
         raise ValueError("prototype public probes regressed")
 
     engine, serde = artifact(ref_engine, "marmish_engine"), artifact(ref_engine, "serde")
-    original_engine = ERRORS["observe"](engine, engine.parent / "deps", serde, scratch / "original-engine")
-    generated_engine = ERRORS["observe"](found["marmish-engine"][1], found["marmish-engine"][0].parent,
+    original_engine = SIX["product_witness"]("engine-caller", "errors", engine, engine.parent / "deps", serde, scratch / "original-engine")
+    generated_engine = SIX["product_witness"]("engine-caller", "errors", found["marmish-engine"][1], found["marmish-engine"][0].parent,
                                           artifact(raw, "serde"), scratch / "generated-engine")
     native, serde = artifact(ref_native, "marmish_native"), artifact(ref_native, "serde")
-    choice = ERRORS["IDENTITY"]["observe"]
+    choice = IDENTITY["observe"]
     original_identity = choice(native, native.parent / "deps", serde, serde.parent, scratch / "original-identity")
     candidate_serde = artifact(raw, "serde")
     generated_identity = choice(found["marmish-native"][1], found["marmish-native"][0].parent,
@@ -193,7 +194,7 @@ def imports_and_behavior(args, raw, scratch):
     if (diag["original"] != IMPORTS["ORIGINAL"] or diag["probeSha256"] != sha(probe.read_bytes())
             or diag["sourceSha256"] != sha((args.original / "crates/marmish-native/src/diagnostics.rs").read_bytes())):
         raise ValueError("diagnostic baseline pin differs")
-    generated_diag = ERRORS["SIX"]["product_witness"]("diagnostic-caller", found["marmish-native"][1], HOST, "0.3.1", scratch)
+    generated_diag = SIX["product_witness"]("diagnostic-caller", found["marmish-native"][1], HOST, "0.3.1", scratch)
     if generated_diag != diag["observations"]:
         raise ValueError("public diagnostic behavior differs")
     return {"spellingCount": 140, "importable": 71, "delta": delta, "libraries": observed,

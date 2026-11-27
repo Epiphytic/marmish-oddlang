@@ -99,7 +99,16 @@ impl Library<'_> {
     }
 }
 impl ParserRun<'_> {
-    pub fn inherited(&self, work: &Path, cli: &Path) -> Result<Value> {
+    pub(crate) fn native_serde(&self, rows: &[Value], deps: &Path) -> Result<PathBuf> {
+        Library {
+            name: "marmish_native",
+            lib: &one(rows, "marmish_native")?,
+            deps,
+            edition: "--edition=2024",
+        }
+        .choose_serde(rows, self.scratch)
+    }
+    pub fn public_errors(&self, work: &Path, cli: &Path) -> Result<Value> {
         let recovered = self.scratch.join("engine-recovered");
         run(Command::new(cli)
             .args(["recover", "finite-error-domain"])
@@ -185,6 +194,10 @@ impl ParserRun<'_> {
             }
             report[role] = v;
         }
+        Ok(report)
+    }
+    pub fn inherited(&self, work: &Path, cli: &Path) -> Result<Value> {
+        let mut report = self.public_errors(work, cli)?;
         let prior = self.scratch.join("prior");
         run(Command::new(cli)
             .args(["build", "native-package", "rust"])

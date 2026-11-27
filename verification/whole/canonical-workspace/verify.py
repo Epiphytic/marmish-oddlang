@@ -37,10 +37,9 @@ def lane(name, program="verify.py"):
         sys.modules.update(saved)
 
 
-RECORD_API = lane("engine-native-records")
+SIX = lane("unified-mdk", "workspace_compat.py")
 CLI = lane("terminal-prefix")
 VAULT_API = lane("vault-mode")
-ENGINE_API, SIX = (RECORD_API[name] for name in ("ENGINE", "SIX"))
 run, data, sha = (SIX[name] for name in ("run", "data", "sha"))
 
 
@@ -153,20 +152,20 @@ def imports(args, product, build):
 
 def denied(args, host):
     return {
-        "original-prototype": args.original / RECORD_API["PROTOTYPE_SOURCE"],
-        "constant-caller": RECORD_API["CONSTANT_CALLER"],
+        "original-prototype": args.original / "crates/marmish-prototype/src/lib.rs",
+        "constant-caller": WHOLE / "prototype-constant/caller.rs",
         "reader-caller": HERE.parent / "private-buffer/observations.rs",
-        "original-engine-error": args.original / ENGINE_API["SOURCE"],
-        "engine-error-caller": ENGINE_API["HERE"] / "probe.rs",
-        "original-native-choice": args.original / ENGINE_API["IDENTITY"]["SOURCE"],
+        "original-engine-error": args.original / "crates/marmish-engine/src/model.rs",
+        "engine-error-caller": WHOLE / "engine-public-error/probe.rs",
+        "original-native-choice": args.original / "crates/marmish-native/src/identity.rs",
         "choice-caller": WHOLE / "backend-choice/probe.rs",
         "original-release-manifest": args.original / "crates/marmish-native/src/native_manifest.rs",
         "original-release-versions": args.original / "tools/release-version-vectors.json",
         "manifest-oracle-caller": WHOLE / "release-manifest/probe.rs",
         "manifest-blind-vectors": WHOLE / "release-manifest/vectors.json",
         "manifest-original-receipt": WHOLE / "release-manifest" / f"{host}.json",
-        "original-engine-records": args.original / RECORD_API["SOURCE"]["engine"],
-        "original-native-path-records": args.original / RECORD_API["SOURCE"]["native"],
+        "original-engine-records": args.original / "crates/marmish-engine/src/model.rs",
+        "original-native-path-records": args.original / "crates/marmish-native/src/transport.rs",
         "engine-record-caller": WHOLE / "engine-native-records/engine.rs",
         "native-record-caller": WHOLE / "engine-native-records/native.rs",
         "original-native-diagnostics": args.original / "crates/marmish-native/src/diagnostics.rs",
@@ -208,8 +207,10 @@ def main():
             result.update(terminal(args, host, work, scratch, product, build))
             result.update(diagnostics(args, host, work, scratch, product, build))
             result.update(vault_mode(args, host, work, scratch, product, build))
-            result.update(RECORD_API["observe_records"](args, product, build, work, scratch))
-            result.update(RECORD_API["observe_public_api"](args, host, work, scratch, product))
+            for selection in ("--records-work", "--inherited-work"):
+                result.update(SIX["product_witness"](
+                    "manifest-oracle", product, args.original, args.original_target, scratch, host,
+                    scratch / "workspace-cargo-artifacts.jsonl", selection, work))
             result["releaseManifest"] = SIX["product_witness"](
                 "manifest-oracle", product, args.original, args.original_target, scratch, host,
                 scratch / "workspace-cargo-artifacts.jsonl")

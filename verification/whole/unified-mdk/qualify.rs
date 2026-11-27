@@ -48,6 +48,9 @@ struct Args {
     /// Qualify the public prototype MAX_LINE export and its source recovery.
     #[arg(long, conflicts_with_all = ["extension", "buffered", "release_manifest", "diagnostics", "public_api"])]
     prototype_constant: bool,
+    /// Qualify a workspace release that changes engine and native public types.
+    #[arg(long, conflicts_with_all = ["extension","buffered","release_manifest","diagnostics","public_api","prototype_constant"])]
+    public_types: Option<public_types::Release>,
     #[arg(long, requires = "release_manifest")]
     raw_results: Option<PathBuf>,
 }
@@ -153,6 +156,9 @@ fn execute(a: Args) -> Result {
         api_composition::compose(api_composition::Release::Converged, &portable(), true)?;
     } else if a.release_manifest {
         api_composition::compose(api_composition::Release::ReleaseManifest, &portable(), true)?;
+    } else if let Some(release) = a.public_types {
+        let (_, _, _, projection) = release.profile();
+        api_composition::compose(projection, &portable(), true)?;
     } else if a.prototype_constant {
         api_composition::compose(
             api_composition::Release::PrototypeConstant,
@@ -237,6 +243,9 @@ fn execute(a: Args) -> Result {
                 manifest_product::MEMBER,
                 "marmish-converged-pure-release-manifest-v1",
             )
+        } else if let Some(release) = a.public_types {
+            let (name, base, format, _) = release.profile();
+            (name, base, "marmish-engine", format)
         } else if a.prototype_constant {
             (
                 prototype_constant::RELEASE,
@@ -338,14 +347,56 @@ fn execute(a: Args) -> Result {
             whole().join(prototype_constant::CALLER),
         );
     }
-    if a.buffered || a.prototype_constant {
+    let errors = a.public_types == Some(public_types::Release::Errors);
+    let records = a.public_types == Some(public_types::Release::Records);
+    if a.buffered || a.prototype_constant || errors {
         denied.insert("original-prototype".into(), original.join(buffered::SOURCE));
         denied.insert(
             "buffer-caller".into(),
             whole().join("private-buffer/observations.rs"),
         );
     }
-    if a.public_api || a.release_manifest {
+    if errors {
+        for (label, path) in [
+            (
+                "original-engine-error",
+                original.join("crates/marmish-engine/src/model.rs"),
+            ),
+            (
+                "engine-error-caller",
+                whole().join("engine-public-error/probe.rs"),
+            ),
+            (
+                "original-backend-choice",
+                original.join("crates/marmish-native/src/identity.rs"),
+            ),
+            (
+                "backend-choice-caller",
+                whole().join("backend-choice/probe.rs"),
+            ),
+        ] {
+            denied.insert(label.into(), path);
+        }
+    }
+    if records {
+        for (label, path) in [
+            (
+                "original-public-path-record",
+                original.join("crates/marmish-native/src/transport.rs"),
+            ),
+            (
+                "engine-record-caller",
+                whole().join("engine-native-records/engine.rs"),
+            ),
+            (
+                "native-record-caller",
+                whole().join("engine-native-records/native.rs"),
+            ),
+        ] {
+            denied.insert(label.into(), path);
+        }
+    }
+    if a.public_api || a.release_manifest || records {
         for (label, path) in [
             (
                 "original-prototype",
@@ -437,6 +488,8 @@ fn execute(a: Args) -> Result {
         diagnostics::check(&product)?
     } else if a.release_manifest {
         manifest_product::check(&product)?
+    } else if let Some(release) = a.public_types {
+        release.check(&product)?
     } else if let Some(prior) = &prior {
         prototype_constant::check(&product, prior)?
     } else if a.buffered {
@@ -527,7 +580,10 @@ fn execute(a: Args) -> Result {
         .keys()
         .cloned()
         .collect();
-    let unchanged: Vec<_> = members.iter().filter(|m| *m != member).collect();
+    let unchanged: Vec<_> = members
+        .iter()
+        .filter(|m| *m != member && !(a.public_types.is_some() && m.as_str() == "marmish-native"))
+        .collect();
     let mut result = json!({
         "format": format,
         "platform": host,
@@ -563,10 +619,10 @@ fn execute(a: Args) -> Result {
             "sourceRecovery":prototype_constant::source_oracle(&original, &cli, &ot, &scratch)?,
         });
     }
-    if a.buffered || a.prototype_constant {
+    if a.buffered || a.prototype_constant || errors {
         result["bufferedInput"] = buffered::observe(&product, &original, host, prior.as_deref())?;
     }
-    if a.public_api || a.release_manifest {
+    if a.public_api || a.release_manifest || a.public_types.is_some() {
         let parser = manifest_native::ParserRun {
             product: &product,
             original: &original,
@@ -575,8 +631,12 @@ fn execute(a: Args) -> Result {
             host,
             build: &build,
         };
-        for (key, value) in parser
-            .inherited(&work, &cli)?
+        let observed = if errors {
+            parser.public_errors(&work, &cli)?
+        } else {
+            parser.inherited(&work, &cli)?
+        };
+        for (key, value) in observed
             .as_object()
             .ok_or("invalid inherited observations")?
         {
@@ -584,7 +644,9 @@ fn execute(a: Args) -> Result {
         }
         if a.public_api {
             result["parentWorkspaceLocks"] = converged::parent_hashes()?;
-        } else {
+        } else if records {
+            result["publicRecords"] = parser.records(&work, &cli)?;
+        } else if a.release_manifest {
             result["releaseManifest"] = parser.observe(a.raw_results.as_deref())?;
         }
     }

@@ -30,7 +30,8 @@ From a clean checkout with the pinned original release binaries and
 cached dependencies, run:
 
 ```sh
-python3 -B verification/whole/engine-public-error/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --public-types errors \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision bbdc69e026ee0ae0c50bd9884fa4b6eaad8040a1 \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \

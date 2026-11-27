@@ -41,7 +41,8 @@ Build and compare both native ARM64 releases from a clean checkout:
 
 ```sh
 cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api observational-records oddlang/portable --check
-python3 -B verification/whole/engine-native-records/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --public-types records \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision 6457c87f65f542d47045d0338a64e99346e1ca39 \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \

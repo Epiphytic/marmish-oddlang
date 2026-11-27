@@ -1,3 +1,5 @@
+#[path = "../../engine-native-records/verify.rs"]
+pub mod public_types;
 #[path = "../../prototype-constant/verify.rs"]
 pub mod prototype_constant;
 #[path = "../../vault-fixed-bytes/witness.rs"]

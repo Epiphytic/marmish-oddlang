@@ -195,6 +195,8 @@ enum Action {
         artifacts: PathBuf,
         #[arg(long)]
         inherited_work: Option<PathBuf>,
+        #[arg(long, conflicts_with="inherited_work")]
+        records_work: Option<PathBuf>,
     },
     RangeTree {
         root: PathBuf,
@@ -390,7 +392,7 @@ fn main() -> Result {
             scratch,
             host,
             artifacts,
-            inherited_work,
+            inherited_work, records_work,
         } => {
             use public_data_qualification::manifest_native::{ParserRun, rows};
             let build = rows(&std::fs::read(artifacts)?)?;
@@ -402,9 +404,12 @@ fn main() -> Result {
                 host: &host,
                 build: &build,
             };
-            match inherited_work {
-                Some(work) => parser.inherited(&work,&work.join("oddlang"))?,
-                None => parser.observe(None)?,
+            if let Some(work) = records_work {
+                serde_json::json!({"publicRecords":parser.records(&work,&work.join("oddlang"))?})
+            } else if let Some(work) = inherited_work {
+                parser.inherited(&work,&work.join("oddlang"))?
+            } else {
+                parser.observe(None)?
             }
         }
         Action::RangeTree { root } => public_data_qualification::range::tree(&root)?,
