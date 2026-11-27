@@ -39,7 +39,7 @@ WORKSPACE = lane("workspace", "verify.py")
 IMPORTS = lane("seven-public-imports", "verify.py")
 CLI_CASES = json.loads((HERE.parent / "offline-cli/cases.json").read_bytes())
 SIX = lane("unified-mdk", "workspace_compat.py")
-IDENTITY = lane("backend-choice", "verify.py")
+QUALIFICATION = lane("core-package", "verify.py")
 
 
 load = SIX["data"]
@@ -182,11 +182,13 @@ def imports_and_behavior(args, raw, scratch):
     generated_engine = SIX["product_witness"]("engine-caller", "errors", found["marmish-engine"][1], found["marmish-engine"][0].parent,
                                           artifact(raw, "serde"), scratch / "generated-engine")
     native, serde = artifact(ref_native, "marmish_native"), artifact(ref_native, "serde")
-    choice = IDENTITY["observe"]
-    original_identity = choice(native, native.parent / "deps", serde, serde.parent, scratch / "original-identity")
+    _, choice = QUALIFICATION["qualification_tool"]("backend-choice")
+    original_identity = json.loads(execute(choice, "observe", native, native.parent / "deps",
+                                           serde, serde.parent, scratch / "original-identity"))
     candidate_serde = artifact(raw, "serde")
-    generated_identity = choice(found["marmish-native"][1], found["marmish-native"][0].parent,
-                                candidate_serde, candidate_serde.parent, scratch / "generated-identity")
+    generated_identity = json.loads(execute(choice, "observe", found["marmish-native"][1],
+                                            found["marmish-native"][0].parent, candidate_serde,
+                                            candidate_serde.parent, scratch / "generated-identity"))
     if original_engine != generated_engine or original_identity != generated_identity:
         raise ValueError("inherited engine or identity public behavior changed")
     diag = load(HERE.parent / "public-diagnostics" / f"{HOST}.json")
@@ -199,7 +201,7 @@ def imports_and_behavior(args, raw, scratch):
         raise ValueError("public diagnostic behavior differs")
     return {"spellingCount": 140, "importable": 71, "delta": delta, "libraries": observed,
             "prototype": constant, "engine": {"outputs": generated_engine[0], "negative": generated_engine[1]},
-            "identity": {"outputs": generated_identity[0].decode(), "negative": generated_identity[1]},
+            "identity": generated_identity,
             "diagnostics": generated_diag}
 
 

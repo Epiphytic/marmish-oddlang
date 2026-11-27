@@ -1,0 +1,35 @@
+{
+  "format": "marmish-profile-policy-preflight-v1",
+  "buildReceiptSha256": "599dcc864aa25486f136800f979f7ee5f3313004bf7bcb1d589d96d521215efa",
+  "preflightSha256": "a16b395aca24ce3047f8786eb6b4362830f54ef9a2f17ed704a23bad1390b1a3",
+  "cases": {
+    "setupWithoutFileProvider": {
+      "role": "marmish",
+      "argv": [
+        "setup",
+        "--role",
+        "client",
+        "--no-grants"
+      ],
+      "exit": 1,
+      "stdout": "",
+      "stderr": "marmish: profile preparation requires the file key provider\n"
+    },
+    "foregroundWithoutState": {
+      "role": "marmishd",
+      "argv": [
+        "--foreground"
+      ],
+      "exit": 125,
+      "stdout": "",
+      "stderr": "marmish: foreground status owner requires explicit state and a prepared file profile\n"
+    }
+  },
+  "workspaceRemoved": true,
+  "compositionPins": {
+    "workspace-profile-command-policy.json": "35fcd02816277171b6eac6c9349b2d14439ac9cab038f1f347ddaa5f67d300a1",
+    "marmish-native-profile-command-policy-package.json": "47acca0c2a5d49f22c602fa0aa5d5d454a6de13f2f1c9f9a0b79ee88e4153182",
+    "recovered-command-policy-v1/foreground.json": "d314e96ba0fbc63ff52ce907a3e842a584e26c7b87f98f561dc88d1a10db1cab",
+    "basic-command-delivery-v1/cli.rust.json": "dc0531e6d49ec46f73b383566b8e73bede4be426315224888710119eef939d41"
+  }
+}
