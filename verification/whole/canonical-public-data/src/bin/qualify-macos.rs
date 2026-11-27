@@ -48,19 +48,15 @@ fn generate(
     fixture: &str,
     binaries: Option<&Path>,
 ) -> Result<()> {
-    let mut build = Command::new("bash");
-    build
-        .arg(whole().join("native-build/macos.sh"))
-        .arg(framework)
-        .arg(original)
-        .arg(output)
-        .arg(pin)
-        .arg(whole().join("canonical-public-data/src/bin").join(project))
-        .arg(whole().join(fixture));
-    if let Some(bins) = binaries {
-        build.arg(bins);
-    }
-    checked(&mut build)
+    public_data_qualification::macos_build::generate(
+        framework,
+        original,
+        output,
+        pin,
+        &whole().join("canonical-public-data/src/bin").join(project),
+        &whole().join(fixture),
+        binaries,
+    )
 }
 
 fn main() -> Result<()> {

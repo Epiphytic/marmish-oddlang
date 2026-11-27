@@ -12,6 +12,7 @@ pub mod assembly;
 pub mod cli_projection;
 pub mod status_package;
 pub mod status_peer;
+pub mod macos_build;
 pub mod status_qualification;
 #[path = "../../unified-buffered/buffer.rs"]
 pub mod buffered;
