@@ -9,8 +9,14 @@ This evidence covers one named case and supplied-byte metadata parsing only. It 
 Run from a clean checkout with the pinned original and compiler revisions. The runner builds offline with Rust 1.97.1. Use separate writable target directories for the compiler and upstream oracle.
 
 ```sh
-python3 -B verification/whole/mdk-json-input/verify.py \
+cargo +1.97.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-mdk-json-input -- \
   /path/to/oddlang /tmp/mdk-json-compiler-target \
   /path/to/original /tmp/mdk-json-original-target /tmp/mdk-json-receipt.json \
   --framework-revision 1d3b45fb79f775a445ae874c06ed89c818b1f697
 ```
+
+The Rust qualifier shares the pinned test extractor with the workspace witness. The native oracle builds the pristine, instrumented and mutated source in separate Cargo targets keyed by source digest. Cold and warm replays on ARM64 macOS produced identical receipts, including the original and projected bounds on both sides of the source edit. [Rust staging replay](rust-stage-aarch64-apple-darwin.json)
+
+The standalone Rust qualifier also drives the original source mutation, contract recovery, package composition, isolated release builds and projected tests. Its cold and warm macOS receipts were byte-identical. The fresh Python comparison differed only in the recorded companion commit. In a disposable checkout, `--prepare` restored the graph, overlay and package descriptor from altered copies. [Standalone Rust replay](rust-aarch64-apple-darwin.json)

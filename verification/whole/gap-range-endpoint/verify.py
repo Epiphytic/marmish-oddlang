@@ -22,64 +22,16 @@ MANIFEST = PORTABLE / (PROFILE + "-package.json")
 CASES = HERE / "cases.json"
 
 
+WORKSPACE_TOOLS = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
+
+
 def stage(work, profile):
-    lane = work / profile
-    inputs = lane / "inputs"
-    inputs.mkdir(parents=True)
-    manifest = read(MANIFEST)
-    graph = ROOT / read(BUNDLE / "wire.json")["graph"]["path"]
-    pinned(graph, SEALED)
-    pins = [manifest["cargoLock"]]
-    for component in manifest["components"]:
-        pins.extend((component["graph"], component["overlay"]))
-    for descriptor in pins:
-        source = PRIOR["PRIOR"]["checked_pin"](PORTABLE, descriptor)
-        target = inputs / descriptor["path"]
-        target.parent.mkdir(exist_ok=True, parents=True)
-        shutil.copyfile(source, target)
-    shutil.copyfile(BUNDLE / "wire.json", lane / "wire.json")
-    shutil.copyfile(CASES, lane / CASES.name)
-    original_hints = BUNDLE / "hints.json"
-    if original_hints.is_file() and profile != "absent":
-        hints = read(original_hints)
-        if profile == "replacement":
-            alternate = {"rust": "OpenOr<u64>", "typescript": "decimal string | null"}
-            for entry in hints["hints"]:
-                entry["representation"] = alternate.get(entry["language"], entry["representation"])
-        if profile in ("without-rust", "without-typescript"):
-            language = profile.removeprefix("without-")
-            hints["hints"] = [entry for entry in hints["hints"] if entry["language"] != language]
-        dump(lane / "hints.json", hints)
-    return lane, Path(shutil.copy2(MANIFEST, inputs))
+    lane, manifest = WORKSPACE_TOOLS["product_witness"]("endpoint-inputs", work, profile)
+    return Path(lane), Path(manifest)
 
 
 def validate_contract():
-    wire = read(BUNDLE / "wire.json")
-    if (wire["role"], wire["pathBase"]) != ("json-wire", "companion-repository-root"):
-        raise ValueError("unexpected wire contract role or path base")
-    graph = PRIOR["PRIOR"]["checked_pin"](ROOT, wire["graph"])
-    endpoint, = [field for module in read(graph)["modules"] for record in module["records"]
-                 for field in record["fields"] if field["id"] == STABLE_ID]
-    if endpoint != {"id": STABLE_ID, "wire": "end", "type": {"optional": "u64"}}:
-        raise ValueError("portable endpoint graph differs")
-    if wire["endpoint"] != {
-        "id": STABLE_ID, "absent": "open", "null": "open",
-        "integer": {"minimum": "0", "maximum": "18446744073709551615"},
-        "encodeOpen": None, "encodePresent": "exact-json-integer",
-    }:
-        raise ValueError("portable endpoint wire contract differs")
-    if read(BUNDLE / "rust.json")["sourceApi"] != {
-        "role": "rust-drop-in-source-api",
-        "fields": {STABLE_ID: {"name": "end", "visibility": "public", "type": {"optional": "u64"}}},
-    }:
-        raise ValueError("Rust source-API requirement differs")
-    if wire["cases"] != {"path": CASES.relative_to(ROOT).as_posix(), "sha256": sha(CASES)}:
-        raise ValueError("portable endpoint corpus pin differs")
-    cases = read(CASES)
-    if not any('"end":9007199254740993' in case["wire"] and
-               '"end":9007199254740993' in (case["expected"] or "") for case in cases):
-        raise ValueError("missing exact precision-loss case")
-    return cases
+    return WORKSPACE_TOOLS["product_witness"]("endpoint-contract")
 
 
 def verify(work, args):
@@ -118,29 +70,12 @@ def verify(work, args):
             wrapper[wrapper.index("--chdir") + 1] = str(cwd)
         return run(*wrapper, *argv, cwd=cwd, env=env, **options)
 
-    outputs = {}
     for profile in ("baseline", "replacement", "without-rust", "without-typescript", "absent"):
         lane, manifest = stage(work, profile)
-        if sha(lane / "wire.json") != sha(BUNDLE / "wire.json") or sha(lane / CASES.name) != sha(CASES):
-            raise ValueError(f"portable wire contract or cases changed under {profile}")
         product = lane / "product"
         inside(compiler, "build", "native-package", "rust", manifest, product, cwd=lane)
-        outputs[profile] = {
-            "hintsSha256": sha(lane / "hints.json") if (lane / "hints.json").is_file() else None,
-            "files": {p.relative_to(product).as_posix(): sha(p) for p in sorted(product.rglob("*")) if p.is_file()},
-        }
+    outputs = WORKSPACE_TOOLS["product_witness"]("endpoint-profiles", work)
     reference_lock = PORTABLE / "engine-gap-range-recovered-v1/package.lock"
-    reference = json.loads(pinned(reference_lock, SEALED))
-    expected_files = {
-        **reference["generatedFiles"],
-        "Cargo.toml": reference["cargoManifestSha256"],
-        "Cargo.lock": reference["cargoLockSha256"],
-    }
-    files = outputs["baseline"]["files"]
-    if {name: digest for name, digest in files.items() if name != "package.lock"} != expected_files:
-        raise ValueError("source-API field requirement changed sealed native package files")
-    if any(profile["files"] != files for profile in outputs.values()):
-        raise ValueError("native package bytes changed with the hint")
 
     negative, negative_manifest = stage(work, "negative-binding")
     bad_spec = read(negative_manifest)
@@ -217,6 +152,7 @@ def verify(work, args):
         "typescriptInputs": ts_inputs,
         "typescript": "5.9.3" if args.typescript else None,
         "verifierSha256": sha(HERE / "verify.py"),
+        "contractVerifierSha256": sha(WORKSPACE_TOOLS["workspace_tool"]()[1]),
         "host": host,
         "rustc": version,
         "sealedPackageLockSha256": sha(reference_lock),

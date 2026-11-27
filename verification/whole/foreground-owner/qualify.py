@@ -18,9 +18,12 @@ import sys
 import tempfile
 import time
 
-from project import INPUTS, MANIFEST, REFERENCE
-
 HERE = Path(__file__).resolve().parent
+PORTABLE = HERE.parents[2] / "oddlang/portable"
+INPUTS = PORTABLE / "native-foreground-owner-v1"
+REFERENCE = "af54339d250290490d62d4475a77539b7e739071"
+MANIFEST = PORTABLE / "native-foreground-package.json"
+
 SUCCESS = {"exit": 0, "stdout": '{"ok":true,"result":{"state":"activating"},"error":null}\n', "stderr": ""}
 QUIET = {"exit": 0, "stdout": "", "stderr": ""}
 LOCKED = {"exit": 1, "stdout": "", "stderr": "marmish: identity: profile_in_use\n"}
@@ -342,7 +345,9 @@ def main():
         binary = args.package / "target/release"
         report = observe(args.original, binary, Path(path).resolve(), trust_failure=True)
     parser_output = subprocess.check_output(
-        [sys.executable, HERE.parent / "cli/replay.py", "verify", binary], text=True, timeout=60,
+        ["cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+         "--bin", "cli-transcript", "--", "verify", binary], text=True, timeout=60,
     )
     report.update(
         platform=target, referenceRevision=REFERENCE, companionRevision=revision,

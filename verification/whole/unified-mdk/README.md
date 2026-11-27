@@ -23,9 +23,13 @@ From a clean companion checkout, with cached locked dependencies and the
 original release binaries built for the native host, run:
 
 ```sh
-python3 -B verification/whole/unified-mdk/verify.py \
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-six-member -- \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision d4c429e0d4e85eefa70ff3cdbda5a97b472b588e \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
   --original-bin-dir "$MARMISH_BIN_DIR"
 ```
+
+The Rust verifier builds each pinned framework revision in a separate subdirectory of `--compiler-target`. Downstream workspace releases use the same sealed build and common witnesses. Their callbacks check release-specific package locks before compilation and run additional native oracles after the shared witnesses pass.
+
+The [Rust workspace replay on macOS ARM64](rust-aarch64-apple-darwin.json) records a new compiler build from the pinned framework checkout and a fresh build of all six crates. Its five previous member locks, 32 release-info invocations, 600 vault value rows, strict and holdout results, journal mutation and MDK observations match the archived macOS receipt. The receipt identifies the actual native libraries and executables used in the replay. The [buffered successor replay](../unified-buffered/rust-aarch64-apple-darwin.json) also exercised the downstream seal check, 12 source-denial probes and all four buffered-reader tests.

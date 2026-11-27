@@ -1,6 +1,7 @@
 """Recover the native gap record and replay the archived original data witnesses."""
 
 import argparse
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -35,7 +36,8 @@ def pinned(path, commit):
 
 
 prior_helper = HERE.parent / "gap-range-record/verify.py"
-pinned(prior_helper, LEGACY)
+# The current helper retrieves the original observer from its pinned Git revision.
+pinned(prior_helper, "393a561aca0103148bcc443c54c989309ac65bee")
 PRIOR = runpy.run_path(str(prior_helper))
 run, sha, dump, clean = (PRIOR[key] for key in ("run", "sha", "dump", "clean"))
 PIN, MODEL, ENV, BASELINE = (PRIOR[key] for key in ("PIN", "MODEL", "ENV", "BASELINE"))
@@ -80,14 +82,12 @@ def selection(source, rustdoc):
 def rustdoc_inputs(directory, original, sources, host):
     evidence = read(directory / "evidence.json")
     profile = {
-        "format": "marmish-linked-range-rustdoc-v1",
         "original": PIN,
         "host": host,
         "source": MODEL.as_posix(),
         "cargoLockSha256": sha(original / "Cargo.lock"),
-        "runnerSha256": sha(HERE / "rustdoc.py"),
         "crateRootSha256": sha((original / MODEL).with_name("lib.rs")),
-        "helperSha256": sha(prior_helper),
+
         "cargoArgs": [
             "cargo",
             "+1.97.1",
@@ -114,6 +114,17 @@ def rustdoc_inputs(directory, original, sources, host):
             "CARGO_INCREMENTAL": "0",
         },
     }
+    if evidence["format"] == "marmish-linked-range-rustdoc-v2":
+        profile["runnerSha256"] = sha(HERE / "rustdoc.rs")
+    elif evidence["format"] == "marmish-linked-range-rustdoc-v1":
+        historical = "f3bbe1c50150ce2c2458e747f6c1efbd50dbf8b8"
+        runner = (HERE / "rustdoc.py").relative_to(ROOT)
+        profile["runnerSha256"] = hashlib.sha256(run("git", "show", f"{historical}:{runner}", cwd=ROOT)).hexdigest()
+        archived_helper = run("git", "show", f"{LEGACY}:{prior_helper.relative_to(ROOT)}", cwd=ROOT)
+        if evidence["helperSha256"] not in {sha(prior_helper), hashlib.sha256(archived_helper).hexdigest()}:
+            raise ValueError("unrecognized rustdoc helper")
+    else:
+        raise ValueError("unrecognized rustdoc evidence version")
     if any(evidence[key] != value for key, value in profile.items()):
         raise ValueError("rustdoc runner, original source or profile differs")
     if (

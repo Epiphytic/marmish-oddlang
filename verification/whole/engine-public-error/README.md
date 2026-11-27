@@ -30,7 +30,8 @@ From a clean checkout with the pinned original release binaries and
 cached dependencies, run:
 
 ```sh
-python3 -B verification/whole/engine-public-error/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --public-types errors \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision bbdc69e026ee0ae0c50bd9884fa4b6eaad8040a1 \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
@@ -41,6 +42,24 @@ The two sealed receipts pin companion input
 `ba1057a6c1ad5d483b96d7e28977876dbd4acc76` and original
 `af54339d250290490d62d4475a77539b7e739071`. Both use native Rust 1.97.1
 and deny the first-party sources and test callers during generation and
-build. The separate mutation runner takes the built Oddlang CLI, the
-clean original checkout, an independent Cargo target directory, the
-receipt output path and the same framework revision.
+build.
+
+The [macOS ARM64 callback replay](rust-buffered-callback-aarch64-apple-darwin.json) reran the complete seven-member qualification with the Rust private-reader oracle. Its four buffered cases, 26 engine-error variants, 38 negative Rust diagnostics and native backend-choice observations matched the archived receipt.
+
+Check the portable descriptors from the companion repository root:
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api engine-public-error oddlang/portable --check
+```
+
+Omit `--check` to generate the descriptors.
+
+
+Replay the source mutation with the built Oddlang CLI and an independent Cargo target directory:
+
+```sh
+cargo +1.97.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin engine-mutation -- \
+  errors "$ODDLANG_CLI" "$MARMISH_CHECKOUT" "$MUTANT_TARGET" "$RECEIPT" \
+  --framework-revision "$ODDLANG_REVISION"
+```

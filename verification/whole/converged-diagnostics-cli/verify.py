@@ -1,6 +1,5 @@
 """Probe CLI and public imports from the same isolated seven-member build."""
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
@@ -10,7 +9,12 @@ import subprocess
 import sys
 import tempfile
 
-from compose import CLI, DIAGNOSTICS, HERE, OUTPUT, PORTABLE, PUBLIC, compose, load, sha
+HERE = Path(__file__).resolve().parent
+PORTABLE = HERE.parents[2] / "oddlang/portable"
+CLI = "workspace-v7-offline-cli"
+DIAGNOSTICS = "workspace-v7-offline-cli-diagnostics"
+OUTPUT = "workspace-v7-converged-diagnostics-cli"
+PUBLIC = "workspace-v7-converged-public-api"
 
 ROOT = HERE.parents[2]
 FRAMEWORK = "0568396f8d0641b266aed1702d482d71c79b3ba4"
@@ -20,20 +24,34 @@ ROLES = ("marmish", "marmishd")
 
 def lane(name, filename):
     directory = HERE.parent / name
-    own_compose = sys.modules.pop("compose")
+    own_compose = sys.modules.pop("compose", None)
     sys.path.insert(0, str(directory))
     try:
         return runpy.run_path(str(directory / filename))
     finally:
         sys.path.pop(0)
-        sys.modules["compose"] = own_compose
+        sys.modules.pop("compose", None)
+        if own_compose is not None:
+            sys.modules["compose"] = own_compose
 
 
 WORKSPACE = lane("workspace", "verify.py")
 IMPORTS = lane("seven-public-imports", "verify.py")
-PARSER = lane("offline-cli", "observe.py")
-ERRORS = lane("engine-public-error", "verify.py")
-DIAG = lane("public-diagnostics", "verify.py")
+CLI_CASES = json.loads((HERE.parent / "offline-cli/cases.json").read_bytes())
+SIX = lane("unified-mdk", "workspace_compat.py")
+IDENTITY = lane("backend-choice", "verify.py")
+
+
+load = SIX["data"]
+sha = SIX["JOURNAL"]["sha"]
+
+
+def observe_cli(binary, argv, home):
+    return SIX["product_witness"]("offline-cli-case", binary, home, "--", *argv)
+
+
+def check_composition():
+    SIX["check_api_release"]("converged-diagnostics-cli", PORTABLE)
 
 
 def execute(*args, cwd=None, env=None):
@@ -116,11 +134,11 @@ def cli_observations(args, generated, scratch):
             permitted_history = tokens in historic_safe or (
                 len(argv) == 2 and argv[0] == "help" and argv[1].isascii() and argv[1].replace("-", "").isalnum())
             if original_row["args"] != successor_row["args"] or (
-                    tokens not in historical and argv not in PARSER["CASES"]
+                    tokens not in historical and argv not in CLI_CASES
                     or tokens in historical and not permitted_history):
                 raise ValueError(f"unrecognized fixed replay case: {argv!r}")
-            orig = PARSER["observe"](original, argv, home)
-            candidate = PARSER["observe"](binary, argv, home)
+            orig = observe_cli(original, argv, home)
+            candidate = observe_cli(binary, argv, home)
             if orig != original_row or candidate != successor_row:
                 raise ValueError(f"changed CLI bytes for {name} {argv!r}")
         if any(home.iterdir()):
@@ -134,9 +152,7 @@ def cli_observations(args, generated, scratch):
 def imports_and_behavior(args, raw, scratch):
     packages = [f"marmish-{key}" for key in IMPORTS["COUNTS"]]
     found, links = IMPORTS["artifacts"](raw, args.product, packages, args.target, generated=True)
-    with ThreadPoolExecutor(max_workers=7) as jobs:
-        observed = dict(zip(IMPORTS["COUNTS"], jobs.map(
-            lambda crate: IMPORTS["imports"](crate, found[f"marmish-{crate}"], args.original), IMPORTS["COUNTS"])))
+    observed = IMPORTS["library_imports"](found, args.original)
     previous = load(HERE.parent / "converged-public-api/darwin-imports.json")["imports"]
     delta = []
     for crate, result in observed.items():
@@ -148,9 +164,9 @@ def imports_and_behavior(args, raw, scratch):
     if delta != [("native", "diagnostics")] or sum(v["importable"] for v in observed.values()) != 71:
         raise ValueError(f"unexpected import delta: {delta!r}")
 
-    artifact = ERRORS["artifact"]
-    ref_engine = ERRORS["SIX"]["cargo_reference"](args, "marmish-engine")
-    ref_native = ERRORS["SIX"]["cargo_reference"](args, "marmish-native")
+    artifact = SIX["artifact"]
+    ref_engine = SIX["cargo_reference"](args, "marmish-engine")
+    ref_native = SIX["cargo_reference"](args, "marmish-native")
     ref_prototype_raw = execute("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--lib",
                                 "-p", "marmish-prototype", "--target", HOST, "--target-dir", args.original_target,
                                 "--message-format=json", cwd=args.original)
@@ -162,11 +178,11 @@ def imports_and_behavior(args, raw, scratch):
         raise ValueError("prototype public probes regressed")
 
     engine, serde = artifact(ref_engine, "marmish_engine"), artifact(ref_engine, "serde")
-    original_engine = ERRORS["observe"](engine, engine.parent / "deps", serde, scratch / "original-engine")
-    generated_engine = ERRORS["observe"](found["marmish-engine"][1], found["marmish-engine"][0].parent,
+    original_engine = SIX["product_witness"]("engine-caller", "errors", engine, engine.parent / "deps", serde, scratch / "original-engine")
+    generated_engine = SIX["product_witness"]("engine-caller", "errors", found["marmish-engine"][1], found["marmish-engine"][0].parent,
                                           artifact(raw, "serde"), scratch / "generated-engine")
     native, serde = artifact(ref_native, "marmish_native"), artifact(ref_native, "serde")
-    choice = ERRORS["IDENTITY"]["observe"]
+    choice = IDENTITY["observe"]
     original_identity = choice(native, native.parent / "deps", serde, serde.parent, scratch / "original-identity")
     candidate_serde = artifact(raw, "serde")
     generated_identity = choice(found["marmish-native"][1], found["marmish-native"][0].parent,
@@ -176,9 +192,9 @@ def imports_and_behavior(args, raw, scratch):
     diag = load(HERE.parent / "public-diagnostics" / f"{HOST}.json")
     probe = HERE.parent / "public-diagnostics/probe.rs"
     if (diag["original"] != IMPORTS["ORIGINAL"] or diag["probeSha256"] != sha(probe.read_bytes())
-            or diag["sourceSha256"] != sha((args.original / DIAG["SOURCE"]).read_bytes())):
+            or diag["sourceSha256"] != sha((args.original / "crates/marmish-native/src/diagnostics.rs").read_bytes())):
         raise ValueError("diagnostic baseline pin differs")
-    generated_diag = DIAG["observe"](found["marmish-native"][1], HOST, "0.3.1", scratch)
+    generated_diag = SIX["product_witness"]("diagnostic-caller", found["marmish-native"][1], HOST, "0.3.1", scratch)
     if generated_diag != diag["observations"]:
         raise ValueError("public diagnostic behavior differs")
     return {"spellingCount": 140, "importable": 71, "delta": delta, "libraries": observed,
@@ -197,7 +213,7 @@ def verify(args):
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
     if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
         raise ValueError("requires a native Darwin ARM64 toolchain")
-    compose(PORTABLE, check=True)
+    check_composition()
     lock = PORTABLE / OUTPUT / "workspace.lock"
     profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock.read_bytes()))
     parent_locks = {name: load(PORTABLE / name / "workspace.lock") for name in (PUBLIC, CLI, DIAGNOSTICS)}

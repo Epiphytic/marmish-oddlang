@@ -2,7 +2,6 @@
 
 import argparse
 from collections import Counter
-from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
@@ -123,15 +122,7 @@ def import_rows(role, root, target, original, *, generated):
     for artifact in artifacts.values():
         assert all(path.is_relative_to(release) for path in artifact[:2])
     before = closure(raw, target)
-    with ThreadPoolExecutor(max_workers=4) as jobs:
-        rows = list(
-            jobs.map(
-                lambda name: audit.imports(
-                    name, artifacts[f"marmish-{name}"], original, target=HOST
-                ),
-                audit.COUNTS,
-            )
-        )
+    rows = audit.library_imports(artifacts, original, target=HOST)
     controls = {}
     with tempfile.TemporaryDirectory(prefix="linux-import-controls-") as temp:
         for label, path, code in (
@@ -155,7 +146,7 @@ def import_rows(role, root, target, original, *, generated):
         "cargoArtifactLogSha256": audit.sha(raw),
         "cargoArtifactClosure": before,
         "negativeImportControls": controls,
-        "libraries": dict(zip(audit.COUNTS, rows, strict=True)),
+        "libraries": rows,
     }
 
 

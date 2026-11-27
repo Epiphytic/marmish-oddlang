@@ -3,7 +3,8 @@
 The macOS ARM64 runner requires a clean pinned Oddlang framework checkout, the pinned original checkout, the original release binary directory, an empty output location, and a fresh receipt path.
 
 ```sh
-verification/whole/status/macos-client.sh FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+    --bin qualify-macos -- status FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
 ```
 
 The runner validates the source and Cargo pins, builds the exact framework compiler with Rust 1.97.1, then isolates graph-only workspace generation and locked offline binary builds behind a Seatbelt data allowlist. The original and companion trees, original binaries, Git databases, oracle and network are outside the generation cell. Writes are confined to that cell. The runner compares the Cargo, package and workspace locks before building. A separate process after build uses the pinned original daemon and original client as a differential oracle, exercises the frame controls and tests explicit CLI argument guard precedence. Three known incompatible reply shapes are checked and recorded as open. The existing parser transcript is replayed separately as a regression check.

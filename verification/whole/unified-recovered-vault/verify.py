@@ -5,7 +5,6 @@ import argparse
 import json
 from pathlib import Path
 import runpy
-import shutil
 import tempfile
 
 HERE = Path(__file__).resolve().parent
@@ -33,49 +32,10 @@ def check_recovered_report(inputs):
     return {"graphSha256": digest, "recoveryReceiptSha256": sha(prior.read_bytes())}
 
 
-def from_bytes_test(work, original, fixed):
-    harness = HERE / "fixed_bytes.rs"
-    reference = work / "reference-from-bytes"
-    (reference / "src").mkdir(parents=True)
-    shutil.copyfile(harness, reference / "src/lib.rs")
-    shutil.copyfile(original / "Cargo.lock", reference / "Cargo.lock")
-    vault = json.dumps(str(original / "crates/marmish-vault"))
-    (reference / "Cargo.toml").write_text(
-        '[package]\nname = "observe-vault-from-bytes"\nversion = "0.0.0"\nedition = "2021"\n'
-        '[dependencies]\nmarmish-vault = { path = ' + vault + ' }\n[workspace]\n')
-    run("cargo", "+1.97.1", "metadata", "--offline", "--format-version", "1", cwd=reference)
-
-    name = "from_bytes_owns_the_input_and_requires_drop"
-    baseline = run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
-                   "--lib", "--", "--exact", name, cwd=reference)
-    generated = work / "generated-from-bytes"
-    fixed["link_test"](harness, work / "product", generated)
-    for result in (baseline, run(generated, "--exact", name)):
-        lines = result.decode().splitlines()
-        assert lines.count(f"test {name} ... ok") == 1
-        assert any(line.startswith("test result: ok. 1 passed; 0 failed; 0 ignored;") for line in lines)
-    return {"name": name, "sourceSha256": sha(harness.read_bytes()), "originalAndGeneratedPassed": True}
-
-
 def fixed_value_test(work, original, reference_target, *, predecessor_package=None):
-    fixed = UNIFIED["lane"]("vault-fixed-bytes")
-    name = fixed["NAME"]
-    source = run("git", "-C", original, "show",
-                 UNIFIED["ORIGINAL"] + ":crates/marmish-vault/src/lib.rs")
-    marker = b"#[cfg(test)]\nmod tests {"
-    _, body = source.split(marker)
-    module = marker + body
-    digest = sha(module)
-    assert digest == fixed["MODULE"]
-    fixed["passed"](run("cargo", "+1.97.1", "test", "--locked", "--offline", "--release",
-                        "--target", "aarch64-apple-darwin", "--target-dir", reference_target,
-                        "--lib", "--package", "marmish-vault", "--", "--exact", name,
-                        cwd=original))
-    harness = work / "strict-vault-values.rs"
-    harness.write_bytes(b"pub use marmish_vault::*;\n" + module)
-    executable = work / "probe-strict-vault-values"
-    fixed["link_test"](harness, work / "product", executable)
-    fixed["passed"](run(executable, "--exact", name))
+    tests = UNIFIED["vault_check"](work, "check-vault-fixed-bytes", original, work / "product",
+                                  reference_target, "aarch64-apple-darwin", work)
+    digest = tests["unchangedModuleSha256"]
     standalone_receipt = (HERE.parent / "vault-fixed-bytes/aarch64-apple-darwin.json").read_bytes()
     expected = json.loads(standalone_receipt)
     staged = work / "inputs"
@@ -97,9 +57,7 @@ def fixed_value_test(work, original, reference_target, *, predecessor_package=No
         package_sha = sha(predecessor_package.read_bytes())
     if expected["packageManifestSha256"] != package_sha:
         raise ValueError("fixed-value package differs from the exact native precedent")
-    return {"name": name, "unchangedModuleSha256": digest, "originalAndGeneratedPassed": True,
-            "standaloneReceiptSha256": sha(standalone_receipt),
-            "fromBytesHoldout": from_bytes_test(work, original, fixed)}
+    return dict(tests, standaloneReceiptSha256=sha(standalone_receipt))
 
 
 def main():

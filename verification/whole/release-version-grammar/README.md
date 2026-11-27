@@ -9,7 +9,7 @@ The verifier runs the unchanged upstream Rust `strict_vectors` and `shared_relea
 Use clean checkouts of Marmish at `af54339d250290490d62d4475a77539b7e739071` and Oddlang at `d322eca7fdfa2e5e257512ea477a09bb2022e9fa`.
 
 ```sh
-python verification/whole/release-version-grammar/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin release-version-grammar -- \
   /path/to/original /path/to/framework /path/to/compiler-target \
   /path/to/reference-target /tmp/release-version-grammar/receipt.json
 ```

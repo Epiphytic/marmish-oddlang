@@ -1,10 +1,11 @@
 """Bind selected upstream harnesses to a sealed workspace and count uncovered named tests."""
 import argparse
+import atexit
+from functools import lru_cache
 import hashlib
 import json
 import os
 from pathlib import Path
-import re
 import runpy
 import shutil
 import subprocess
@@ -13,12 +14,9 @@ import tomllib
 from typing import NamedTuple
 import tempfile
 
-from inventory import PIN
-import process_limits
-import selected_tests
-import parser_cases
 
 HERE = Path(__file__).resolve().parent
+PIN = "af54339d250290490d62d4475a77539b7e739071"
 WHOLE = HERE.parent
 CORE = "marmish-core/test/contracts"
 STREAM = "marmish-stream/lib/marmish_stream"
@@ -26,10 +24,8 @@ NATIVE = "marmish-native/test/process_limits"
 FRAMEWORK = "7ed1c29acde2cc4cfdc58c2489935e703470ae70"
 MANIFEST = HERE.parents[2] / "oddlang/portable/workspace-v7-vault-engine.json"
 PUBLIC_DATA = "canonical-public-data"
-DEFAULT_SUITE_PINS = {
-    "aarch64-apple-darwin": "7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306",
-    "aarch64-unknown-linux-gnu": "4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941",
-}
+MDK_DENIED_SOURCES = ("lib.rs", "tests.rs")
+
 
 class Candidate(NamedTuple):
     manifest: Path
@@ -69,56 +65,42 @@ def pin(root, revision):
         raise ValueError(f"expected clean {revision} at {root}")
 
 
-def stream_name(compiled):
-    prefix, tail = compiled.split("::tests::")
-    native = {"copy_caller":"copy_protocol", "wire_caller":"wire"}.get(prefix)
-    if native is None:
-        match = re.fullmatch(r"(windows|codec)::__projection_\d+", prefix)
-        if not match:
-            raise ValueError(f"unexpected upstream module mapping: {compiled}")
-        native = match[1]
-    return f"{native}::tests::{tail}"
+@lru_cache(maxsize=1)
+def suite_tools():
+    target = tempfile.TemporaryDirectory(prefix="odd-suite-tools-")
+    try:
+        run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE / "Cargo.toml", "--target-dir", target.name,
+            "--bin", "suite-selection", "--bin", "reconcile-suite")
+    except BaseException:
+        target.cleanup()
+        raise
+    atexit.register(target.cleanup)
+    return Path(target.name) / "debug"
+
+
+def suite_check(tool, *args, data=None):
+    result = subprocess.run([suite_tools() / tool, *args], capture_output=True,
+                            input=json.dumps(data).encode() if data is not None else b"")
+    if result.returncode:
+        raise ValueError(result.stderr.decode().strip())
+    return json.loads(result.stdout)
 
 
 def default_baseline(host):
-    data = (HERE / f"canonical-{host}.json").read_bytes()
-    if sha(data) != DEFAULT_SUITE_PINS[host]:
-        raise ValueError("pinned canonical named baseline changed")
-    return json.loads(data)
+    return suite_check("suite-selection", "baseline", host)
 
 
 def check_default_baseline(host, harnesses):
-    if harnesses != default_baseline(host)["harnesses"]:
-        raise ValueError("candidate named baseline differs from the canonical selection")
-    return DEFAULT_SUITE_PINS[host]
+    return suite_check("suite-selection", "check-baseline", host, data=harnesses)
 
 
 def check_registered_names(harness, listing, expected):
-    normalize = stream_name if harness == STREAM else lambda name: name
-    names = [normalize(line.removesuffix(": test")) for line in listing.splitlines()
-             if line.endswith(": test")]
-    if sorted(names) != sorted(expected):
-        raise ValueError(f"unsafe or incomplete test registration for {harness}")
-    return sorted(names)
+    return suite_check("suite-selection", "registered", harness, data=[listing, expected])
 
 
 def reconcile(inventory, passed):
-    harnesses = inventory["harnesses"]
-    if set(passed) - set(harnesses):
-        raise ValueError("case receipt names an unknown harness")
-    rows = {}
-    for target, entry in harnesses.items():
-        eligible, ignored = set(entry["tests"]), set(entry["ignored"])
-        names = passed.get(target, [])
-        if len(eligible) != len(entry["tests"]) or len(ignored) != len(entry["ignored"]) or eligible & ignored:
-            raise ValueError(f"invalid test inventory: {target}")
-        if len(set(names)) != len(names) or set(names) - eligible:
-            raise ValueError(f"duplicate or unrecognized test: {target}")
-        rows[target] = dict(passed=sorted(names), unverified=sorted(eligible-set(names)),
-                            ignored=sorted(ignored), benchmarks=entry["benchmarks"])
-    totals = {key:sum(len(row[key]) for row in rows.values())
-              for key in ("passed", "unverified", "ignored", "benchmarks")}
-    return rows, totals
+    return tuple(suite_check("reconcile-suite", data=[inventory, passed]))
 
 
 def qualify(original, framework, compiler_cache, reference_target, candidate="v7"):
@@ -171,7 +153,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             return run(*args, *cmd, cwd=cwd, env=env)
 
         if suite_kind == "manifest-mdk":
-            for name in selected_tests.MDK_DENIED_SOURCES:
+            for name in MDK_DENIED_SOURCES:
                 forbidden = original / "crates/marmish-mdk/src" / name
                 denied = subprocess.run([*prefix, "/bin/cat", forbidden], env=env, capture_output=True)
                 if (not forbidden.is_file() or denied.returncode != 1 or denied.stdout
@@ -245,20 +227,24 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     "marmish-stream/src/original_copy_test_module.rs","marmish-stream/tests/exact_copy_frames.rs"}
         additional = {}
         if suite_kind != "v7":
-            paths, additional = selected_tests.stage(original, product)
-            injected.update(paths)
+            helpers = runpy.run_path(str(WHOLE / "unified-mdk/workspace_compat.py"))
+            witness = helpers["product_witness"]
+            staged_tests = witness("suite-vault-engine", original, product)
+            injected.update(staged_tests["paths"])
+            additional = staged_tests["digests"]
         if include_reader:
-            additional["prototypeReader"] = selected_tests.stage_reader(original,product)
-            appended.add(selected_tests.READER_LEAF)
+            reader = witness("suite-reader-stage", original, product / "marmish-prototype")
+            additional["prototypeReader"] = reader["bodySha256"]
+            appended.add("marmish-prototype/" + reader["leaf"])
         if include_manifest:
-            parser_leaf, parser_prefix, vector_path = parser_cases.stage(original, product)
-            injected.add(vector_path)
-            appended.add(parser_leaf)
-            additional.update(parser_cases.SOURCES)
+            parser_stage = witness("suite-parser", original, product)
+            injected.add(parser_stage["vector"])
+            appended.add(parser_stage["leaf"])
+            additional.update(parser_stage["digests"])
         if include_mdk:
-            leaf, digest = selected_tests.stage_mdk(original, product)
-            appended.add(leaf)
-            additional["mdkSyntheticJson"] = digest
+            mdk = witness("suite-mdk-case", original, product / "marmish-mdk")
+            appended.add("marmish-mdk/" + mdk["leaf"])
+            additional["mdkSyntheticJson"] = mdk["bodySha256"]
         staged = snapshot()
         if set(staged) != set(pristine) | injected or len(appended) != 3 + int(include_reader) + int(include_manifest) + int(include_mdk):
             raise ValueError("unexpected staged file inventory")
@@ -279,7 +265,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
             raw = inside("cargo","test","--locked","--offline","--release", *target, "--","--format","pretty", cwd=product)
             names = assembly["passing_tests"](raw.decode())
             if harness == STREAM:
-                names = [stream_name(n) for n in names]
+                names = suite_check("suite-selection", "stream-names", data=names)
             if not names or sorted(names) != sorted(inventory["harnesses"][harness]["tests"]):
                 raise ValueError(f"complete harness did not pass: {harness}")
             witnessed[harness] = names
@@ -287,35 +273,16 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
         invocations = {}
         mdk_control = {}
         if additional:
-            for harness, names in selected_tests.cases(host, include_reader, include_mdk).items():
-                package = harness.split("/")[0]
-                private_prefixes = {selected_tests.PROTOTYPE: selected_tests.READER_PREFIX,
-                                    selected_tests.MDK: selected_tests.MDK_PREFIX}
-                target = ["--lib"] if harness in private_prefixes else ["--test", "selected_upstream"]
-                test_prefix = private_prefixes.get(harness, "")
-                command = ("cargo","test","--locked","--offline","--release","-p",package,
-                           *target,"--")
-                listing = inside(*command,"--list",cwd=product).decode()
-                if sorted(line.removesuffix(": test") for line in listing.splitlines()
-                          if line.endswith(": test")) != [test_prefix+n for n in names]:
-                    raise ValueError(f"unexpected upstream tests registered for {package}")
-                invocations[harness] = {}
-                for name in names:
-                    registered = test_prefix+name
-                    raw = inside(*command,"--exact",registered,"--format","pretty",cwd=product).decode()
-                    # Engine starts a second test harness process at this exact name.
-                    # Each process must really run the case and report its own success.
-                    runs = 2 if harness == selected_tests.ENGINE else 1
-                    selected_tests.check_execution(registered, runs, raw, assembly["passing_tests"](raw))
-                    invocations[harness][name] = runs
-                if harness == selected_tests.MDK:
-                    mdk_control = selected_tests.zero_mdk_control(
-                        inside, product, command, assembly["passing_tests"])
-                witnessed[harness] = names
+            runner = work / "workspace-product"
+            shutil.copy2(helpers["workspace_tool"]()[1], runner)
+            selected = json.loads(inside(runner, "suite-selected-cases", product, host, suite_kind, cwd=product))
+            invocations.update(selected["passingProcesses"])
+            witnessed.update(selected["witnessed"])
+            mdk_control = selected["mdkZeroTestControl"]
         if include_manifest:
-            invocations[parser_cases.HARNESS] = parser_cases.witness(
-                inside, product, parser_prefix, assembly["passing_tests"], selected_tests.check_execution)
-            witnessed[parser_cases.HARNESS] = list(parser_cases.NAMES)
+            parsed = json.loads(inside(runner, "suite-parser-cases", product, cwd=product))
+            invocations[parsed["harness"]] = parsed["cases"]
+            witnessed[parsed["harness"]] = sorted(parsed["cases"])
         # Use Cargo's artifact for the harness target. Native and test builds can
         # legitimately leave multiple feature-specific libc archives in release/deps.
         libc_pin, = [p for p in tomllib.loads((product/"Cargo.lock").read_text())["package"]
@@ -326,7 +293,13 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                  if (row:=json.loads(line)).get("reason")=="compiler-artifact" and row["target"]["name"]=="libc"
                  for path in row["filenames"] if path.endswith(".rlib")]
         rustc = Path(run("rustup","which","--toolchain","1.97.1","rustc").decode().strip())
-        processes = process_limits.run(original,rustc,libc,{n:release/n for n in ("marmish","marmishd")},None)
+        processes = json.loads(run(
+            "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", WHOLE / "canonical-public-data/Cargo.toml",
+            "--target-dir", work / "process-test-tool", "--bin", "qualify-process-limits", "--",
+            original, "--rustc", rustc, "--libc", libc, "--client", release / "marmish",
+            "--daemon", release / "marmishd",
+        ))
         if processes["executables"] != binary_hashes:
             raise ValueError("harness received different release binaries")
         witnessed[NATIVE] = [processes["test"]]
@@ -340,7 +313,7 @@ def qualify(original, framework, compiler_cache, reference_target, candidate="v7
                     inventorySha256=sha(suite.read_bytes()), upstreamModules=modules,
                     releaseBinarySha256=binary_hashes, nativeProcessTest=processes, harnesses=rows, totals=totals,
                     **({"mdkZeroTestControl": mdk_control, "mdkNormalDependencies": [],
-                        "mdkDeniedSourcePaths": list(selected_tests.MDK_DENIED_SOURCES)} if include_mdk else {}),
+                        "mdkDeniedSourcePaths": list(MDK_DENIED_SOURCES)} if include_mdk else {}),
                     **named_baseline,
                     **({"builtLibraries":built_libraries} if include_reader else {}),
                     **({"selectedTestSources": additional, "passingProcesses": invocations} if additional else {}))

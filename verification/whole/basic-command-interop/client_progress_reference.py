@@ -154,9 +154,9 @@ def run_client(binary, work, owner, argv, operations, *, bad_digest=False):
 MULTI = ref.POLL + ('command_unconsumed',) + ref.POLL
 
 
-def check(program):
+def check(program, scratch_parent="/private/tmp"):
     output = dict(allFramesCompared=True, cases={})
-    with TemporaryDirectory(prefix='opg-', dir='/private/tmp') as directory:
+    with TemporaryDirectory(prefix='opg-', dir=scratch_parent) as directory:
         root = Path(directory)
         command = ['--stdin-none', ref.NPUB, '--', '/usr/bin/true']
 
@@ -251,13 +251,13 @@ class WrongSessionOwner(PollOwner):
         return answer, checksum
 
 
-def verify_progress_admission(program):
+def verify_progress_admission(program, scratch_parent="/private/tmp"):
     cases = (
         ('staleInitialCursors', StaleCursorOwner(), ('command_cursors',), 'command_cursors'),
         ('digestValidWrongSession', WrongSessionOwner(), ('command_cursors', 'command_poll'), 'command_poll'),
     )
     result = {}
-    with TemporaryDirectory(prefix='opb-', dir='/private/tmp') as directory:
+    with TemporaryDirectory(prefix='opb-', dir=scratch_parent) as directory:
         command = ['--stdin-none', ref.NPUB, '--', '/usr/bin/true']
         for name, owner, suffix, error in cases:
             work = Path(directory) / name
@@ -270,7 +270,7 @@ def verify_progress_admission(program):
     return result
 
 
-def verify_resume_admission(program):
+def verify_resume_admission(program, scratch_parent="/private/tmp"):
     handle = dict(format=1, profile='default', remote=ref.ACCOUNT, session=ref.ROOM,
                   invocation='123456789abc00000000000000000002', submit_sha256='11' * 32)
     scope = (125, b'', b'marmish: command client option outside generated handoff scope\n')
@@ -283,7 +283,7 @@ def verify_resume_admission(program):
         ('unsafeManifest', ref.compact(handle), 0o644, unsafe),
     )
     result = {}
-    with TemporaryDirectory(prefix='opa-', dir='/private/tmp') as directory:
+    with TemporaryDirectory(prefix='opa-', dir=scratch_parent) as directory:
         for name, input_handle, mode, expected in cases:
             work = Path(directory) / name
             work.mkdir(mode=0o700)
@@ -304,16 +304,18 @@ def main():
     parser.add_argument('client', type=lambda value: Path(value).resolve(strict=True))
     parser.add_argument('sha256')
     parser.add_argument('receipt', type=Path)
+    parser.add_argument('--scratch-parent', type=lambda path: Path(path).resolve(strict=True),
+                        default=Path('/private/tmp'), help='parent for the private socket and bounded output files')
     parser.add_argument('--check-resume-admission', action='store_true',
                         help='exercise candidate-only matching authority and cursor refusals')
     args = parser.parse_args()
     actual = ref.sha(args.client)
     if actual != args.sha256:
         raise ValueError('client digest differs')
-    evidence = check(args.client)
+    evidence = check(args.client, args.scratch_parent)
     if args.check_resume_admission:
-        evidence['resumeAdmission'] = verify_resume_admission(args.client)
-        evidence['progressAdmission'] = verify_progress_admission(args.client)
+        evidence['resumeAdmission'] = verify_resume_admission(args.client, args.scratch_parent)
+        evidence['progressAdmission'] = verify_progress_admission(args.client, args.scratch_parent)
     evidence['clientSha256'] = actual
     evidence['fixtureSha256'] = ref.sha(Path(__file__))
     evidence['format'] = 'marmish-basic-command-bounded-local-progress-v1'

@@ -34,11 +34,13 @@ The [build receipt](generated-build-aarch64-apple-darwin.json) records the seven
 Use the expected receipt digest from the original build handoff to replay the preflight.
 
 ```sh
-python3 -B verification/whole/basic-command-interop/candidate_preflight.py \
+cargo +1.97.1 run --quiet --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin candidate-preflight -- candidate \
   "$EXPORT" "$PREFLIGHT_RECEIPT" --build-receipt-sha256 "$EXPECTED_BUILD_RECEIPT_SHA256"
 ```
 
 See the [Claude review](../../../docs/reviews/basic-command-generated-build.md) for the provenance checks and remaining scope.
+
+For a bounded room-preparation export, select `prepare` or `prepare-fixed` in place of `candidate`. The runner checks the four selected composition inputs against their build pins before executing either binary.
 
 ## Profile setup candidate
 
@@ -49,7 +51,34 @@ The local profile comparison invokes both builds with fresh file credentials and
 To replay the role-change comparison, supply the original installation recorded by the reference run, the sealed candidate installation, and its published build receipt. The comparator checks the SHA-256 of each copied executable, verifies that a connection to a listening loopback socket is denied, and deletes both peer roots after the run.
 
 ```sh
-python3 -B verification/whole/basic-command-interop/profile_setup.py \
+cargo run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin profile-setup -- \
   "$MARMISH_BIN_DIR" "$EXPORT" \
   --candidate-build verification/whole/basic-command-interop/profile-setup-build-macos-arm64.json
 ```
+
+To compare profile setup across mixed implementations, point the checker at a
+freshly generated profile command-policy workspace. From the companion root,
+run `command-policy-validation profile "$ODDLANG" "$GENERATED_WORKSPACE"` with
+a new destination to generate it from the recovered schema and decision rules. It checks the published workspace
+lock and each generated member before building the executables offline.
+
+```sh
+cargo run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin profile-setup -- \
+  "$MARMISH_BIN_DIR" "$GENERATED_WORKSPACE" --command-policy-workspace --mixed
+```
+
+On macOS ARM64, the checker tests each client/server pairing with separate
+working directories and file keystores for both relay address formats. Each
+pair starts with new keys. The mainline pair supplies the expected results for
+grant, trust, rejection, revocation and role changes. The test also reopens the
+authorized server with an explicit single-command allowlist and compares the
+saved configuration. It compares the schema, principal and bounds diagnostics
+for invalid policies. The report includes the
+digest of normalized output and configuration, the stderr digest and the exit
+status of each invocation. The checker verifies key-file permissions and
+cleanup between pairings. Use a temporary directory whose ancestors satisfy
+Marmish's executable installation permissions. The mixed check requires a
+clear daemon census before and after each pairing.
+
+These observations cover offline setup. The live command gate separately
+exercises peer activation, allowlisted command delivery and receiver output.

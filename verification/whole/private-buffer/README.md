@@ -20,7 +20,7 @@ The error observation matters for reproducing the next call as well as the curre
 To repeat the original observations, use a clean reference checkout at `af54339d250290490d62d4475a77539b7e739071` and an offline Rust 1.97.1 dependency cache.
 
 ```sh
-python3 -B verification/whole/private-buffer/baseline.py "$UPSTREAM" "$CARGO_TARGET" /tmp/buffer-original.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin buffer-baseline -- "$UPSTREAM" "$CARGO_TARGET" /tmp/buffer-original.json
 ```
 
 ## Source-free native package
@@ -35,9 +35,15 @@ cargo +1.97.1 build --manifest-path /tmp/prototype-reader/Cargo.toml --release -
 The native verifier independently rebuilds the graph from rustc observations. A source change from 8,192 to 4,096 bytes must change only the recovered extent. The original test must then fail compilation at its 8,192-byte initializer. Three separate graph changes exercise the empty-read, failed-refill and consumed-byte policies. The sealed build grants read access to the pinned inputs, compiler and native toolchain. It probes access to the original source and test oracle before any test is staged.
 
 ```sh
-python3 -B verification/whole/private-buffer/verify.py "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" /tmp/candidate.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-private-buffer -- "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" /tmp/candidate.json
 ```
 
 The candidate uses an Oddlang CLI built with Rust 1.96.1. The observation adapter, native crate and native tests use Rust 1.97.1. The release only exposes the private reader to in-crate tests. The public bridge entrypoint remains unverified.
 
 Both native runs used companion inputs at `3c1ee1321449d1852e1aabcb00f6aa12e991af3b`. Each passed the original test plus the three independent observations. Each detected the width mutation at the upstream initializer and rejected all three altered transition policies at their expected assertions. [macOS candidate](candidate-aarch64-apple-darwin.json) · [Linux candidate](candidate-aarch64-unknown-linux-gnu.json)
+
+
+The standalone Rust verifier reproduced the archived Darwin candidate receipt
+byte for byte (SHA-256 `d65a804c689892a8967943b3840a728ef3f50a5a05d528562a4d83cf26386553`).
+The Linux receipt records the earlier Linux run. The Rust driver retains its
+Bubblewrap isolation path.

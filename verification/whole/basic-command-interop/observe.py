@@ -17,7 +17,7 @@ import time
 
 from corpus import SHORT_CASES, expected_receipt, finite_case
 from isolate import Workspace, SYSTEM_HOME
-from qualify import Output, detached_handle, finite_goodput
+from qualify import Output, detached_handle, finite_goodput, prepare_verifier
 from provider_activation import phase, publication
 
 
@@ -472,6 +472,7 @@ def observe(binaries, deaddrop, deaddrop_digest, installed_fixture, fixture_dige
 
 def reference_commands(attempts, client, base, relay, server_npub, server_hex, fixtures,
                        first_foreground_only=False, checkpoint=None):
+    prepare_verifier()
     handles = set()
     expected_files = set()
     for repetition in range(1 if first_foreground_only else 4):

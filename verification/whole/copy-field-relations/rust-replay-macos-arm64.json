@@ -1,0 +1,31 @@
+{
+  "nativeHost": "aarch64-apple-darwin",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "7588c8288b89e4a4abc7cfbd110c9b71305377f7",
+  "archivedReceiptSha256": "923c667e30218c844cce0ee401eeaf8bcefe36ec47d37132353f476443bd5df9",
+  "sortedCompactRequestArraySha256": "71e6e7be8b78d90c64367f3a5f16c115405b03dbb577e79b8b13b21d78b52702",
+  "observationsSha256": "2fdc49c664670af630a0deb4661321bd158922d3fef3dac4861e439d7f09bf87",
+  "callerSha256": "b930543875806ffedf7b1d15aa01a49511d297d3f091d2bf3079b3dfe95fc00f",
+  "packageLockSha256": "33a3ea71cb85065229d745b1723725ff733d5b9b95d4836747490156049b8b62",
+  "originalAndCompanionReadDenied": true,
+  "negativeControl": "advancing the fallible digest before identity checks converts copy_context_launch into copy_path",
+  "cases": {
+    "match": 14,
+    "start": 56,
+    "build": 24
+  },
+  "sourceCorrespondenceRequestAndOutcomeArraySha256": "caa1f4729655ecd77335bbed7f9277ef07600401f3c215f03226adade4e57e3e",
+  "workspaceConsumer": {
+    "cases": 94,
+    "callerSha256": "b930543875806ffedf7b1d15aa01a49511d297d3f091d2bf3079b3dfe95fc00f",
+    "observationsSha256": "2fdc49c664670af630a0deb4661321bd158922d3fef3dac4861e439d7f09bf87"
+  },
+  "workspaceLockSha256": "7e078d8dad898b707ac7341f9caffa038fd5afd9e13ea2464bbb060be988a6f1",
+  "sourceCorrespondenceReplay": {
+    "archivedReceiptSha256": "30da71c162231b96990b6475d535a78eb2875c4c767fecd84888f4e80e4ad36f",
+    "framework": "4258cf67bd9153de7da86a6f4e1b03a9fbb66f35",
+    "implementations": 4,
+    "casesPerImplementation": 15,
+    "changedCases": 5
+  }
+}

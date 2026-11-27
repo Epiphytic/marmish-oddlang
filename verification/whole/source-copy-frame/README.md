@@ -6,9 +6,14 @@ The verifier changes the upstream `Finish` tag from 9 to 19 and reverses the two
 
 Run from this repository with the upstream revision `af54339d250290490d62d4475a77539b7e739071`, the [recorded framework revision](reference-aarch64-apple-darwin.json) and Rust 1.97.1 with its host `rustc-dev` component.
 
+Set `ODDLANG` to the Oddlang checkout containing the Rust capture tool and `TOOLS` to an absolute build directory. The recovery compiler is built separately from the framework revision pinned in the reference receipt.
+
 ```sh
-python3 verification/whole/source-copy-frame/verify.py \
-  /path/to/upstream /path/to/oddlang /tmp/source-copy-frame.json
+cargo +1.97.1 build --locked --offline --bin rust-capture \
+  --manifest-path "$ODDLANG/verification/provider-validation/Cargo.toml" --target-dir "$TOOLS"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/copy-checkpoint/Cargo.toml \
+  --bin check-source-copy-frame -- /path/to/upstream /path/to/pinned-oddlang \
+  "$TOOLS/debug/rust-capture" /tmp/source-copy-frame.json
 ```
 
 This receipt covers the encoder on macOS ARM64. The mutated reference decoder is outside the comparison. The earlier [copy frame release](../copy-frame/README.md) records the unchanged original decode and error suites.

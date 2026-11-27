@@ -1,0 +1,14 @@
+{
+  "rust": "1.97.1",
+  "executionHost": "aarch64-apple-darwin",
+  "archiveHostsChecked": ["aarch64-apple-darwin", "aarch64-unknown-linux-gnu"],
+  "originalPythonVerifierPassed": true,
+  "inputsSha256": "8ee7f76d039723f9b481cbdaadabf8feed0156c215a7f6a4e45b65ae132c40bd",
+  "vectorsSha256": "c7670f87d2a5f2ca113f8a37c7283a92107b8ecd15474d1a165a1ce7e9de308b",
+  "changedVectorsSha256": "666c92def09c2e41a32aec0245b50852ce97ae495650c5a2da58e51c8ffb09aa",
+  "cases": 224,
+  "baselineAccepted": 34,
+  "changedAccepted": 35,
+  "changedCase": "size-3-16777217",
+  "negativeControls": ["missing rows", "integer and boolean substitution", "wrong case", "extra field", "duplicate nested JSON member"]
+}

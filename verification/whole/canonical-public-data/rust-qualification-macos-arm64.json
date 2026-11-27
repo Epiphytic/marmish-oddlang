@@ -1,0 +1,70 @@
+{
+  "canonicalComposition": {
+    "byteIdenticalOutputs": {
+      "marmish-engine-canonical-public-data-package.json": "78c7243125c803bdcd77f2900142587972107776985cabbf7df310f8a12512aa",
+      "workspace-v7-canonical-public-data.json": "b0cebc91d550db8daba623333d09db2917eb2cd55874957912cd97a3f9eb5fc4",
+      "workspace-v7-canonical-public-data/Cargo.lock": "ca03c518a3f483a988b2884c1f6f64514f3419aa0a9ef3cc6030ecd7f39dce28",
+      "workspace-v7-canonical-public-data/engine-Cargo.lock": "4b2f8fa1a383319f72350f429059aeb282aaf65f7bbdfc999c4b91095277fe05"
+    },
+    "controls": {
+      "engine-lock-pin": "input digest changed: workspace-v7-recovered-vault-engine-journal-mdk-buffered/Cargo.lock",
+      "output-drift": "composition drift: workspace-v7-canonical-public-data.json",
+      "recovered-reason": "recovered MissingReason differs from qualified contract"
+    }
+  },
+  "host": "aarch64-apple-darwin",
+  "pythonOracleCompanion": "0a1d816a84f4f3c148ea37427ab83e508a86b660",
+  "sixMember": {
+    "comparedToArchivedMdkFields": [
+      "scope",
+      "standaloneCompanion",
+      "output",
+      "negativeRustDiagnostics",
+      "recovery"
+    ],
+    "generatedLibrarySha256": "7acec6c6572bdcc5c665850d6da9767a95def49cdca36df4db83746951267936",
+    "negativeRustDiagnostics": {
+      "AdapterError:Clone": "E0277",
+      "AdapterError:Copy": "E0277",
+      "AdapterError:Default": "E0277",
+      "AdapterError:Deserialize": "E0277",
+      "AdapterError:Eq": "E0277",
+      "AdapterError:PartialEq": "E0277",
+      "AdapterError:Serialize": "E0277",
+      "VersionObservation:Clone": "E0277",
+      "VersionObservation:Copy": "E0277",
+      "VersionObservation:Default": "E0277",
+      "VersionObservation:Deserialize": "E0277",
+      "VersionObservation:Eq": "E0277",
+      "VersionObservation:Error": "E0277",
+      "VersionObservation:PartialEq": "E0277",
+      "VersionObservation:Serialize": "E0277",
+      "rootResult": "E0432"
+    },
+    "originalLibrarySha256": "2f4aa09ab6b3e3dc97cb5c9f68c803c694c4ef91eaf95d30d93548bd0cae7384",
+    "outputRows": 8,
+    "workspaceLockSha256": "9423afac63d498c5597e5d3e44353f9c4691e811d8eeccb30f1cc2a0b239d09b",
+    "workspaceProjectionCompilerSha256": "3884c423fccb909d69c8a6d5e119d4097b8ea6fade8936274edfe814890a08a4"
+  },
+  "standalone": {
+    "byteIdenticalToArchiveAndPython": [
+      "baseline.txt",
+      "mutant.txt",
+      "receipt.json"
+    ],
+    "changedTranscriptRowsOneBased": [
+      5,
+      8
+    ],
+    "framework": "f6ef205351425d36df450b18b71e5757448ea514",
+    "frameworkBinarySha256": "7e513e6c8e874218b2252419dcc3bcd45f9f978217176956049bc4651bdd460a",
+    "mutant": "bf73ac9a09aeb39431434ee3bd108c1ba3b593cb",
+    "negativeRustDiagnosticsPerCaller": 16,
+    "original": "af54339d250290490d62d4475a77539b7e739071",
+    "receiptSha256": "3cc61d831e04f2876490352bfa63856e0371c0e9e6a6a9dfe46cffaa398c4c81",
+    "transcriptSha256": {
+      "baseline": "855b1fa98421386d72a9cb0ed1500e69af1c2a8a09de82fd725d98cab62613e4",
+      "mutant": "1924c50d7e577f10831422549ee9e4deb6b1e37de022f6ad4d36fb6a03e7d0df"
+    }
+  }
+}

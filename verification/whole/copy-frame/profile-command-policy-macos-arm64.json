@@ -1,0 +1,21 @@
+{
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "generatedWorkspaceLockSha256": "889017343f0fdb092dee203264aa4f6d6d194bad8ef396e336f2dd2cf6ec9b76",
+  "driverSha256": "d5ec33dd26c651ca82483188862bc43ee459b900fdb39c4ccc9d7199a537dd66",
+  "framesPerDirection": 1260,
+  "payloadSha256": "e8007b4a0a207564767a34fd944d829e984318e4ac4d65522b136ca16794106e",
+  "wireSha256": "a2ad71740d1390383296943473fdfac7ed6515b005e1cae5cb0f5f1cb62f78e5",
+  "originalToGenerated": {
+    "encodeExit": 0,
+    "decodeExit": 0,
+    "wireBytesCompared": 4210721,
+    "payloadBytesCompared": 4194341
+  },
+  "generatedToOriginal": {
+    "encodeExit": 0,
+    "decodeExit": 0,
+    "wireBytesCompared": 4210721,
+    "payloadBytesCompared": 4194341
+  },
+  "truncationAndOffsetControlsPassed": 4
+}

@@ -11,8 +11,6 @@ import runpy
 import shutil
 import subprocess
 import tempfile
-import tomllib
-from urllib.parse import urlsplit
 
 HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
@@ -23,12 +21,6 @@ PROVISIONING_FRAMEWORK = "fa40d7fab0bd6308ed7b13ef2aa97206145ebd36"
 UNIFIED_FRAMEWORK = "ab7171bb583f7e04c63896caeafaa476eb810d5a"
 ENGINE_LIMITS_FRAMEWORK = "aaf3f497d7b0fdcc543aa51dbdf19fbf517d261b"
 REPORT_FRAMEWORK = "799a2467b0eccd9e5d902c5b6a81b1e289536b50"
-PROVIDER_CACHE_KEYS = {
-    "https://github.com/erskingardner/openmls.git": "openmls-daf8a12ad11cf9dc",
-    "https://github.com/erskingardner/rust-nostr": "rust-nostr-86bd2a4a0ba8c210",
-    "https://github.com/marmot-protocol/mdk": "mdk-7d5a3a2420b194f5",
-    "https://github.com/rusqlite/rusqlite.git": "rusqlite-8e5e8204e489f2fd",
-}
 spec=importlib.util.spec_from_file_location("isolation",HERE.parent/"core-package/verify.py")
 envtools=importlib.util.module_from_spec(spec)
 spec.loader.exec_module(envtools)
@@ -37,40 +29,18 @@ spec.loader.exec_module(envtools)
 def sha(data):return hashlib.sha256(data).hexdigest()
 
 
+def workspace_inputs(action, *paths, document=None):
+    tool = envtools.qualification_tool("workspace-inputs")[1]
+    payload = None if document is None else json.dumps(document)
+    return json.loads(envtools.run(tool, action, *paths, input_text=payload))
+
+
 def external_packages(lock):
-    entries = tomllib.loads(lock.read_text())["package"]
-    return {(pkg["name"], pkg["version"], pkg["source"], pkg.get("checksum"))
-            for pkg in entries if "source" in pkg}
+    return {tuple(row) for row in workspace_inputs("external-packages", lock)}
 
 
 def stage_provider_git_cache(lock, destination):
-    source = (Path(os.environ.get("CARGO_HOME", Path.home() / ".cargo")) / "git").resolve()
-    checked_sources = {}
-    for _, _, url, _ in sorted(external_packages(lock)):
-        if not url.startswith("git+"):
-            continue
-        parsed = urlsplit(url.removeprefix("git+"))
-        repository = parsed._replace(query="", fragment="").geturl()
-        revision = parsed.fragment
-        if parsed.query != f"rev={revision}" or not re.fullmatch(r"[0-9a-f]{40}", revision):
-            raise ValueError(f"provider requires a full pinned Git revision: {repository}")
-        if repository in checked_sources and checked_sources[repository] != revision:
-            raise ValueError(f"multiple Git revisions selected for {repository}")
-        checked_sources[repository] = revision
-    if checked_sources.keys() != PROVIDER_CACHE_KEYS.keys():
-        raise ValueError("unexpected Git provider inventory")
-    for repository, revision in checked_sources.items():
-        name = PROVIDER_CACHE_KEYS[repository]
-        cached = source / "db" / name
-        pinned = destination / "db" / name
-        pinned.parent.mkdir(parents=True, exist_ok=True)
-        envtools.run("git", "init", "--quiet", "--bare", pinned)
-        envtools.run("git", "-C", pinned, "fetch", "--quiet", "--depth=1",
-                     "--no-tags", cached.as_uri(), revision)
-        captured = envtools.run("git", "-C", pinned, "rev-parse", "FETCH_HEAD").strip()
-        if captured != revision or (pinned / "shallow").read_text().strip() != revision:
-            raise ValueError(f"Git provider did not stage exactly its locked commit: {repository}")
-    return checked_sources
+    return workspace_inputs("workspace-providers", lock, destination)
 
 
 def linux_isolation(work, provider_cache=None):
@@ -96,45 +66,27 @@ def linux_isolation(work, provider_cache=None):
 
 
 def stage_workspace(manifest, graph):
-    def stage(base,descriptor):
-        orig=(base/descriptor["path"]).resolve()
-        if not orig.is_relative_to(PORTABLE) or sha(orig.read_bytes())!=descriptor["sha256"]:
-            raise ValueError("invalid closure input")
-        target=graph/orig.relative_to(PORTABLE)
-        target.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(orig,target)
-        return orig
-    w=json.loads(manifest.read_bytes())
-    shutil.copyfile(manifest,graph/manifest.name)
-    stage(PORTABLE,w["cargoLock"])
-    for member in w["members"].values():
-        src=stage(PORTABLE,member["manifest"]); m=json.loads(src.read_bytes())
-        for descriptor in [m["cargoLock"]]+[c[k] for c in m["components"] for k in ("graph","overlay")]:
-            stage(src.parent,descriptor)
-        for component in m["components"]:
-            for descriptor in component.get("wireShape", {}).values():
-                stage(src.parent, descriptor)
-    return w
+    return workspace_inputs("workspace", manifest, graph)
 
 
 def v3_interfaces(work, target, original, binaries, compiler):
-    lane = runpy.run_path(str(HERE.parent / "copy-field-relations/verify.py"))
-    cases, expected = lane["corpus"]()
-    for name, crate, lock in (
-        ("original", original / "crates/marmish-stream", original / "Cargo.lock"),
-        ("generated", target / "marmish-stream", target / "Cargo.lock"),
-    ):
-        executable = lane["consumer"](crate, work / ("relation-" + name), lock, lane["CALLER"])
-        if lane["observe"](executable, cases) != expected:
-            raise ValueError(f"{name} copy relations differ from portable oracle")
+    relations = json.loads(envtools.run(
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "copy-manifest/Cargo.toml", "--bin", "copy-field-relations", "--",
+        "workspace", original, target, work,
+    ))
     runtime = work / "status.json"
     original_status = json.loads((HERE.parent / "status" / ("linux-arm64.json" if sys.platform == "linux" else "macos-arm64.json")).read_bytes())
     for name, digest in original_status["originalBinaries"].items():
         if sha((binaries / name).read_bytes()) != digest:
             raise ValueError(f"original executable digest mismatch: {name}")
-    replay = HERE.parent / "cli/replay.py"
-    fixture = replay.with_name("transcript.json")
+    fixture = HERE.parent / "cli/transcript.json"
     for bindir in (binaries, target / "target/release"):
-        envtools.run(sys.executable, "-B", replay, "verify", bindir, "--fixture", fixture)
+        envtools.run(
+            "cargo", "+1.96.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--bin", "cli-transcript", "--", "verify", bindir, "--fixture", fixture,
+        )
     parser_evidence = {
         "fixtureSha256": sha(fixture.read_bytes()),
         "casesPerRole": {role: len(rows) for role, rows in json.loads(fixture.read_bytes()).items()},
@@ -148,15 +100,16 @@ def v3_interfaces(work, target, original, binaries, compiler):
     libc, = (release / "deps").glob("liblibc-*.rlib")
     toolchain = Path(envtools.run("rustc", "+1.97.1", "--print", "sysroot").strip())
     process_limits = json.loads(envtools.run(
-        sys.executable, "-B", HERE.parent / "suite/process_limits.py", original,
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--target-dir", work / "process-test-tool", "--bin", "qualify-process-limits", "--", original,
         "--rustc", toolchain / "bin/rustc", "--libc", libc,
         "--client", release / "marmish", "--daemon", release / "marmishd",
     ))
     if process_limits["executables"] != parser_evidence["generatedBinaries"]:
         raise ValueError("the process limits harness exercised different artifacts")
     return {
-        "copyRelations": {"cases": len(cases), "callerSha256": sha(lane["CALLER"].read_bytes()),
-                          "observationsSha256": sha(json.dumps(expected, separators=(",", ":")).encode())},
+        "copyRelations": relations,
         "status": status,
         "cliParser": parser_evidence,
         "nativeProcessLimits": process_limits,
@@ -164,100 +117,18 @@ def v3_interfaces(work, target, original, binaries, compiler):
 
 
 def verify_generated_tree(target, receipt, report, unified):
-    for name,r in receipt["members"].items():
-        pkg=target/name; lock=(pkg/"package.lock").read_bytes()
-        if sha(lock)!=r["standalonePackageLockSha256"] or sha((pkg/"Cargo.toml").read_bytes())!=r["workspaceCargoManifestSha256"]:raise ValueError("member receipt mismatch")
-        generated = {p.relative_to(pkg).as_posix(): sha(p.read_bytes())
-                     for p in (pkg / "src").rglob("*") if p.is_file()}
-        if report:
-            allowed = {"Cargo.toml", "package.lock", "src"}
-            if name == "marmish-native":
-                allowed.add("build.rs")
-                generated["build.rs"] = sha((pkg / "build.rs").read_bytes())
-            if {p.name for p in pkg.iterdir()} != allowed:
-                raise ValueError(f"unexpected generated package paths: {name}")
-        if generated != json.loads(lock)["generatedFiles"]:
-            raise ValueError("member source inventory mismatch")
-    if sha((target/"Cargo.lock").read_bytes())!=receipt["cargoLockSha256"]:raise ValueError("root Cargo.lock mismatch")
-    if unified:
-        if sha((target / "Cargo.toml").read_bytes()) != receipt["workspaceCargoManifestSha256"]:
-            raise ValueError("workspace generated Cargo manifest mismatch")
+    flags = (["--report"] if report else []) + (["--unified"] if unified else [])
+    workspace_inputs("verify-product", target, *flags, document=receipt)
 
 
 def passing_tests(output):
     return re.findall(r"^test ([\w:]+) \.\.\. ok$", output, re.M)
 
 
-def stage_copy_tests(original, stream):
-    upstream = (original / "crates/marmish-stream/src/copy_protocol.rs").read_bytes()
-    marker = b"#[cfg(test)]\nmod tests {"
-    if upstream.count(marker) != 1:
-        raise ValueError("unexpected original copy module")
-    start = upstream.index(marker)
-    suite = upstream[start:upstream.index(b"\nmod path_encoding {", start)]
-    exact = (HERE.parent / "copy-frame/exact.rs").read_bytes()
-    (stream / "src/original_copy_test_module.rs").write_bytes(suite)
-    tests = stream / "tests"
-    tests.mkdir()
-    (tests / "exact_copy_frames.rs").write_bytes(exact)
-    with (stream / "src/lib.rs").open("a") as lib:
-        lib.write("""
-#[cfg(test)]
-mod copy_caller {
-    use crate::{MAX_BLOCK, MAX_OFFSET, codec::Codec, copy_protocol::*};
-    use sha2::{Digest, Sha256};
-    const CONTEXT_DOMAIN: &[u8] = b"marmish-copy-context/1\\0";
-    include!("original_copy_test_module.rs");
-}
-""")
-    return sha(suite), sha(exact)
-
-
 def stage_library_tests(target, original, workspace, combined, provisioning):
-    core_tests = target / "marmish-core/tests"
-    core_tests.mkdir()
-    contracts = original / "crates/marmish-core/tests/contracts.rs"
-    shutil.copyfile(contracts, core_tests / contracts.name)
-    digests = {"coreContracts": sha(contracts.read_bytes())}
-    stream = target / "marmish-stream"
-    manifest = PORTABLE / workspace["members"]["marmish-stream"]["manifest"]["path"]
-    components = json.loads(manifest.read_bytes())["components"]
-    marker = b"#[cfg(test)]\nmod tests {"
-
-    def test_module(name):
-        raw = (original / f"crates/marmish-stream/src/{name}.rs").read_bytes()
-        if raw.count(marker) != 1:
-            raise ValueError(f"unexpected upstream test module: {name}")
-        suite = raw[raw.index(marker):]
-        digests[name] = sha(suite)
-        return suite
-
-    for name, imports in (("codec", "Error, MAX_BLOCK, MAX_OFFSET"),
-                          ("windows", "Error, MAX_BLOCK, MAX_RECORDS, WINDOW_BYTES")):
-        index, = [i for i, component in enumerate(components) if component["module"] == name]
-        leaf = stream / f"src/group_{index}/__projection_{index}.rs"
-        with leaf.open("ab") as output:
-            output.write(f"\n#[cfg(test)]\nuse crate::{{{imports}}};\n".encode())
-            output.write(test_module(name))
-    if combined:
-        (stream / "src/original_wire_test_module.rs").write_bytes(test_module("wire"))
-        with (stream / "src/lib.rs").open("a") as library:
-            library.write("""
-#[cfg(test)]
-mod wire_caller {
-    use crate::wire::*;
-    use crate::codec::{Codec, EncodedBlock};
-    use crate::{MAX_BLOCK, MAX_CONTENT, MAX_OFFSET, WINDOW_BYTES};
-    const MAX_ARGV_BYTES: usize = 16384;
-    const MAX_ARGV_ITEMS: usize = 128;
-    const MAX_AGE_SECONDS: u64 = 604800;
-    const FUTURE_SKEW_SECONDS: u64 = 60;
-    include!("original_wire_test_module.rs");
-}
-""")
-    if provisioning:
-        digests["copyProtocol"], digests["exactCopyFrames"] = stage_copy_tests(original, stream)
-    return digests
+    manifest = workspace["members"]["marmish-stream"]["manifest"]["path"]
+    flags = (["--wire"] if combined else []) + (["--copy"] if provisioning else [])
+    return workspace_inputs("library-tests", target, original, manifest, *flags)
 
 
 def profile_inspector(work, target, filename):
@@ -393,7 +264,7 @@ def main():
             inaccessible += [HERE.parent / "status/configured_init_probe.py",
                              HERE.parent / "foreground-lifecycle/observe.py"]
         if report:
-            inaccessible += [HERE.parent / "build-report/observe.py",
+            inaccessible += [HERE.parent / "unified-mdk/release.rs",
                              original / "crates/marmish-native/src/native_manifest.rs"]
         if engine_limits:
             inaccessible += [HERE.parent / "engine-limits/observe.rs",
@@ -435,17 +306,23 @@ def main():
             interfaces["configuredInit"] = configured
             interfaces["localProviderLifecycle"] = lifecycle
         if report:
-            observer = runpy.run_path(str(HERE.parent / "build-report/observe.py"))
             host = next(line.removeprefix("host: ") for line in
                         envtools.run("rustc", "+1.97.1", "-vV").splitlines() if line.startswith("host: "))
-            reports = observer["observe"](original, PORTABLE, binaries, target / "target/release", host)
+            reports = json.loads(envtools.run(
+                "cargo", "+1.97.1", "run", "--locked", "--offline", "--quiet", "--manifest-path",
+                HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "release-info-observer", "--",
+                original, PORTABLE, binaries, target / "target/release", host,
+            ))
             if reports["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("release-info exercised different generated executables")
             interfaces["releaseInfo"] = reports
         if engine_limits:
-            observer = runpy.run_path(str(HERE.parent / "engine-limits/observe.py"))
-            cache = args.original_cargo_target or work/"reference-engine"
-            limits = observer["observe"](work, original, binaries, target, cache.resolve())
+            cache = args.original_cargo_target or work / "reference-engine"
+            limits = json.loads(envtools.run(
+                "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+                HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-limits-observer", "--",
+                original, binaries, target, cache.resolve(),
+            ))
             if limits["generatedBinaries"] != interfaces["cliParser"]["generatedBinaries"]:
                 raise ValueError("process limit startup exercised different generated executables")
             interfaces["engineProcessLimits"] = limits

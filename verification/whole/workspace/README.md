@@ -86,7 +86,14 @@ RUSTUP_TOOLCHAIN=1.97.1 oddlang build native-workspace rust oddlang/portable/wor
 cargo +1.97.1 build --manifest-path /tmp/marmish-fresh/Cargo.toml --workspace --locked --release --offline
 ```
 
-The [cold-cache verifier](cold_cache.py) stages only the 55 inputs reachable from the v5 manifest. In a new Cargo home it checks the default offline failure, permits locked fetching in a second empty home, regenerates with Cargo offline and compares both products to the published workspace, package and source hashes. It runs the frozen 34-case parser transcript on each release executable. It accepts a clean pinned Oddlang checkout and a receipt output path. Building the verifier’s compiler uses its own existing toolchain dependency cache.
+The [Rust cold-cache verifier](../canonical-public-data/src/bin/cold-workspace.rs) stages only the 55 inputs reachable from the v5 manifest. In a new Cargo home it checks the default offline failure, permits locked fetching in a second empty home, regenerates with Cargo offline and compares both products to the published workspace, package and source hashes. It runs the frozen 34-case parser transcript on each release executable. It accepts a clean pinned Oddlang checkout and a receipt output path. Building the verifier’s compiler uses its own existing toolchain dependency cache.
+
+Run the verifier from the companion repository with the pinned framework checkout and a receipt destination.
+
+```sh
+cargo +1.97.1 run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin cold-workspace -- "$FRAMEWORK" "$RECEIPT"
+```
 
 The [macOS ARM64 receipt](cold-cache-aarch64-apple-darwin.json) and [Linux ARM64 receipt](cold-cache-aarch64-unknown-linux-gnu.json) record identical input digests and workspace lock. Each host compiled both release binaries offline after acquisition and passed 34 parser cases per binary.
 
@@ -123,3 +130,22 @@ The release report prints the actual Cargo package version and target, the pinne
 Both ordinary native entrypoints are measured with accepted global flags, guard failures and precedence, parser errors, help, and runtime environment overrides. Worker and installed tools, descriptor-based startup reporting, output failure semantics, and additional targets remain open.
 
 The [macOS ARM64 receipt](v7-aarch64-apple-darwin.json) and [Linux ARM64 receipt](v7-aarch64-unknown-linux-gnu.json) cover 16 `release-info` invocations per binary, with each report showing its own compiled Cargo target. Common report values, CLI diagnostics, and retained v6 observations agree.
+
+## Stage qualification inputs from Rust
+
+Build the native verifier with `cargo +1.97.1 build --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-inputs`. The same executable prepares inputs for the historical workspace and suite callers.
+
+```sh
+workspace-inputs workspace oddlang/portable/workspace-profile-command-policy.json "$INPUTS"
+workspace-inputs external-packages "$INPUTS/composed-basic-owner-v1/workspace.Cargo.lock"
+workspace-inputs workspace-providers "$INPUTS/composed-basic-owner-v1/workspace.Cargo.lock" "$PRIVATE_GIT_CACHE"
+```
+
+Run the independent library tests on a disposable copy of the generated product after verifying its release hashes. The last positional argument is the stream package manifest recorded in the workspace's member declaration, relative to `oddlang/portable`.
+
+```sh
+workspace-inputs library-tests "$PRODUCT" "$ORIGINAL" stream-package-v5.json --wire --copy
+cargo +1.97.1 test --offline --locked --manifest-path "$PRODUCT/Cargo.toml" -p marmish-core -p marmish-stream
+```
+
+The [Rust verifier replay](cold-cache-rust-aarch64-apple-darwin.json) matched the archived macOS v5 workspace lock, 55 input digests and 34 parser cases per executable. The two builds recorded different compiler and executable digests.

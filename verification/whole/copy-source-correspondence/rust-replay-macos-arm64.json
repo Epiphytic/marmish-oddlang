@@ -1,0 +1,35 @@
+{
+  "nativeHost": "aarch64-apple-darwin",
+  "archivedReceiptSha256": "30da71c162231b96990b6475d535a78eb2875c4c767fecd84888f4e80e4ad36f",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "4258cf67bd9153de7da86a6f4e1b03a9fbb66f35",
+  "comparisons": 10,
+  "casesPerImplementation": 15,
+  "implementations": [
+    "original",
+    "projected",
+    "mutated-original",
+    "mutated-projected"
+  ],
+  "changedCases": 5,
+  "sourceReadDenialProbes": [
+    "original Rust source",
+    "mutated Rust source",
+    "independent caller",
+    "archived compiler evidence"
+  ],
+  "historicalCaptureDriver": "verification/rust-recovery/run.sh",
+  "originalPackageLockSha256": "33fe604e1f8fc8740e8ff24bbbb115ebf1a5c3b830c781a8aa4d6d5e218ce737",
+  "mutantPackageLockSha256": "d2d753cd35a232ae060375458f5bf049807da915bc0885698dc48251b91f5729",
+  "archiveHelperConsumers": [
+    "source-copy-frame",
+    "source-copy-frame-fragments",
+    "source-copy-frame-guards",
+    "vault-values"
+  ],
+  "pinControls": [
+    "incorrect original checkout",
+    "incorrect framework revision",
+    "absent archive revision"
+  ]
+}

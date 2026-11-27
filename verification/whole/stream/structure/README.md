@@ -8,7 +8,7 @@ Matching toolchains and profile settings did not remove the historical span diff
 
 ```sh
 gzip -dc verification/whole/stream/structure/historical-spans.json.gz >/tmp/old-spans.json
-python3 -B /path/to/oddlang/verification/rust-recovery/release_rustdoc.py \
+cargo +1.96.1 run --locked --offline --manifest-path /path/to/oddlang/verification/provider-validation/Cargo.toml --bin release-rustdoc -- \
   /path/to/pinned/marmish marmish-stream lib marmish_stream aarch64-apple-darwin \
   --revision af54339d250290490d62d4475a77539b7e739071 --previous-spans /tmp/old-spans.json --out /tmp/release-comparison.json
 ```

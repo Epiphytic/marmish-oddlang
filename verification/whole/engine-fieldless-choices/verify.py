@@ -8,14 +8,24 @@ import shutil
 import subprocess
 import tempfile
 
-from compose import BASE, DOMAIN, HERE, ORIGINAL, PACKAGE, PORTABLE, ROOT, SOURCE, TYPES
-from compose import compose, load, mutated, original_source, package, recover, sha
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+PORTABLE = ROOT / "oddlang/portable"
+DOMAIN = "engine-fieldless-choices-v1"
+BASE = "engine-observational-records-package.json"
+PACKAGE = "engine-fieldless-choices-package.json"
+ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
+SOURCE = Path("crates/marmish-engine/src/model.rs")
+TYPES = ("Stream", "SubmitDisposition")
 
 FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 RUSTC = "8bab26f4f68e0e26f0bb7960be334d5b520ea452"
 HOSTS = ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu")
 SHARED = runpy.run_path(str(HERE.parent / "vault-mode/verify.py"))
 WORKSPACE, JOURNAL, run = (SHARED[key] for key in ("WORKSPACE", "JOURNAL", "run"))
+
+
+sha = JOURNAL["sha"]
 
 
 def checkout(path, revision):
@@ -92,25 +102,13 @@ def observe(library, serde, host_deps, links, host, work, copy_disposition, env)
     return {"values": observed, "traits": verified}
 
 
-def stage(graph, binding, inputs):
-    inputs.mkdir()
-    manifest = package(graph, binding)
-    spec = json.loads(manifest)
-    overrides = {f"{DOMAIN}/graph.json": graph, f"{DOMAIN}/rust.json": binding}
-    for pin in [spec["cargoLock"], *(component[key] for component in spec["components"] for key in ("graph", "overlay"))]:
-        rel = pin["path"]
-        content = overrides[rel] if rel in overrides else (PORTABLE / rel).read_bytes()
-        if sha(content) != pin["sha256"]:
-            raise ValueError("package closure changed")
-        destination = inputs / rel
-        destination.parent.mkdir(exist_ok=True, parents=True)
-        destination.write_bytes(content)
-    path = inputs / PACKAGE
-    path.write_bytes(manifest)
-    return path
-
-
 def qualify(args, host, work, scratch, compiler, env):
+    target = scratch / "input-tool-target"
+    run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-choice-inputs",
+        "--target-dir", target, env=env)
+    tool = target / "debug/engine-choice-inputs"
+    run(tool, "compose", compiler, args.original)
     staged = Path(shutil.copy2(compiler, work / "oddlang"))
     sandbox, build_env = JOURNAL["sandbox"](WORKSPACE, work,
         [ROOT, args.original, args.framework, args.original_target, scratch], None)
@@ -120,19 +118,21 @@ def qualify(args, host, work, scratch, compiler, env):
                 text in denied.stderr for text in (b"Operation not permitted", b"No such file")):
             raise ValueError(f"sandbox failed to deny {path}")
 
-    data = original_source(args.original)
     with (scratch / "original.tar").open("wb") as archive:
         subprocess.run(["git", "-C", args.original, "archive", ORIGINAL], stdout=archive, check=True)
     mutant = scratch / "mutated"
     mutant.mkdir()
     run("tar", "-xf", scratch / "original.tar", "-C", mutant)
-    (mutant / SOURCE).write_bytes(mutated(data))
+    (mutant / SOURCE).write_bytes(run(tool, "mutate", args.original))
     results = {}
     for case, reference_source in (("baseline", args.original), ("mutation", mutant)):
         copy_disposition = case == "mutation"
         model = (reference_source / SOURCE).read_bytes()
-        graph, binding, declaration = recover(compiler, model, scratch / (case + "-recovery"))
-        spec = stage(graph, binding, work / (case + "-inputs"))
+        inputs = work / (case + "-inputs")
+        declaration = json.loads(run(tool, "prepare", compiler, reference_source / SOURCE, inputs))
+        graph = (inputs / DOMAIN / "graph.json").read_bytes()
+        binding = (inputs / DOMAIN / "rust.json").read_bytes()
+        spec = inputs / PACKAGE
         product = work / (case + "-engine")
         run(*sandbox, staged, "build", "native-package", "rust", spec, product, cwd=work, env=build_env)
         lock = (product / "package.lock").read_bytes()
@@ -182,7 +182,6 @@ def verify(args):
         run("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--bin", "oddlang",
             "--target-dir", args.compiler_target, cwd=args.framework, env=env)
         compiler = args.compiler_target / "release/oddlang"
-        compose(compiler, args.original, check=True)
         choices = qualify(args, host, work, scratch, compiler, env)
     for path, pin in ((ROOT, args.input_revision), (args.framework, FRAMEWORK), (args.original, ORIGINAL)):
         checkout(path, pin)

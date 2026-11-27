@@ -34,7 +34,9 @@ From a clean companion checkout, with the offline dependencies and the
 original's native release binaries available, run:
 
 ```sh
-python3 -B verification/whole/unified-buffered/verify.py \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --buffered \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision 59f947dafdb4cf3055e35216857472ada895a76a \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
@@ -45,3 +47,11 @@ The composition verifier uses Rust 1.97.1 for both compiler and
 product. Both receipts pin original
 `af54339d250290490d62d4475a77539b7e739071` and companion input
 `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df`.
+
+The [first Rust workspace replay on macOS ARM64](rust-aarch64-apple-darwin.json) ran the earlier Python buffered verifier through the Rust workspace qualifier. The downstream verifier checked the projected seven-member lock before the isolated release build, then ran its four buffered-reader tests. Its recorded provider, checksums, cases and outcomes match the original macOS receipt.
+
+Check the two composed portable files with `cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin compose-buffered -- oddlang/portable --check`. The full workspace gate builds the pinned compiler and runs all four private-reader cases on the generated native member.
+
+The [standalone Rust receipt](native-aarch64-apple-darwin.json) records the full gate on macOS ARM64. Its observations, workspace locks and four provider-backed cases match both earlier receipts. The [callback controls](rust-callback-controls.json) record the two composer hashes, the private leaf observed by the prototype successor, and six checks for drift and test isolation. The Rust reader oracle instruments a temporary copy of the generated workspace.
+
+Both complete downstream gates also ran with their pinned compilers. The [prototype-constant replay](../prototype-constant/rust-buffered-callback-aarch64-apple-darwin.json) checked the private leaf against its predecessor package. The [engine-error replay](../engine-public-error/rust-buffered-callback-aarch64-apple-darwin.json) checked the standalone private-buffer package seal and provider before running the four cases.

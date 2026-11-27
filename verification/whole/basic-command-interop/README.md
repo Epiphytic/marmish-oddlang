@@ -3,8 +3,9 @@
 Run on macOS ARM64 with the original binaries identified by `../bridge/aarch64-apple-darwin.json`. The pinned Deaddrop binary and the original `installed-checks` fixture have separate provenance in `reference-build-macos-arm64.json`. Pass their recorded binary digests. The focused macOS control executes the Command Line Tools Python framework interpreter directly. Its digest is pinned in `short-fixture-runtime-macos-arm64.json`. This avoids both the Xcode discovery launcher and the separate Python framework launcher.
 
 ```sh
+cargo +1.97.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin check-command-output --bin replay-command-corpus
 python3 -B -W error::ResourceWarning -m unittest discover -s verification/whole/basic-command-interop
-python3 -B verification/whole/basic-command-interop/replay_corpus.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin replay-command-corpus -- \
   /path/to/marmish-installed-fixture FIXTURE_SHA256
 python3 -B verification/whole/relay/owner_tls.py \
   /path/to/original/bin verification/whole/bridge/aarch64-apple-darwin.json /tmp/owner-tls.json
@@ -14,6 +15,8 @@ python3 -B verification/whole/basic-command-interop/observe.py \
   /path/to/marmish-installed-fixture FIXTURE_SHA256 \
   /Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/Resources/Python.app/Contents/MacOS/Python
 ```
+
+The direct Rust replay builds its short fixture offline and compares every exit status, both output streams and the private receiver receipt. Pass `--historical-short` to run the pinned Python fixture and reproduce `direct-corpus-macos-arm64.json` byte for byte. The live reference observer retains its original fixture and interpreter pins.
 
 The observer provisions fresh private file-backed credentials and uses a fresh test-owned Deaddrop onion relay. The relay and peer clients need public Tor transit. All application messages go to the owned relay through its private onion address. The runner's JSON receipt publishes only sanitized build and result evidence. The direct corpus receipt qualifies fixture byte preservation and server receipt formulas. A blocked transport or command attempt is evidence for its stage only.
 

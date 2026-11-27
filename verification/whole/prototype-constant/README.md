@@ -32,7 +32,8 @@ Run from a clean checkout with Rust 1.97.1, offline dependencies, and the
 pinned upstream release binaries available.
 
 ```sh
-python3 -B verification/whole/prototype-constant/verify.py \
+cargo +1.96.1 run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --prototype-constant \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision c70bc9b3b39f6c4a23641679185dea5d0e5bc32b \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
@@ -40,3 +41,13 @@ python3 -B verification/whole/prototype-constant/verify.py \
 ```
 
 [ARM64 macOS sealed receipt](aarch64-apple-darwin.json) · [ARM64 Linux sealed receipt](aarch64-unknown-linux-gnu.json).
+
+The [macOS ARM64 callback replay](rust-buffered-callback-aarch64-apple-darwin.json) rebuilt the seven-member workspace and exercised the Rust private-reader oracle on its unchanged generated leaf. The original and generated native callers each printed `131072`, and the source-recovery mutation and all four reader tests reproduced their archived results.
+
+Check the portable descriptors from the companion repository root:
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api prototype-constant oddlang/portable --check
+```
+
+Omit `--check` to generate the descriptors.

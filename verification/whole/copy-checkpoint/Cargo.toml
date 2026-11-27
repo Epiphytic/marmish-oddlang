@@ -1,0 +1,28 @@
+[package]
+name = "copy-checkpoint-replay"
+version="0.1.0"
+edition="2024"
+publish=false
+default-run="copy-checkpoint-replay"
+
+[workspace]
+
+[dependencies]
+clap={version="4",features=["derive"]}
+public-data-qualification={path="../canonical-public-data"}
+serde={version="1",features=["derive"]}
+serde_json={version="1",features=["preserve_order"]}
+sha2="0.10"
+tempfile="3"
+
+[[bin]]
+name = "check-copy-frame-guards"
+path = "../source-copy-frame-guards/verify.rs"
+
+[[bin]]
+name = "check-source-copy-frame"
+path = "../source-copy-frame/verify.rs"
+
+[[bin]]
+name = "check-copy-frame-fragments"
+path = "../source-copy-frame-fragments/verify.rs"

@@ -1,0 +1,145 @@
+[package]
+name = "public-data-qualification"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+clap = { version = "4", features = ["derive"] }
+libc = "0.2"
+regex = "1"
+rustix = { version = "1", features = ["fs"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+tempfile = "3"
+toml = "0.8.23"
+
+[[bin]]
+name = "compose-public-data"
+path = "compose_cli.rs"
+
+[[bin]]
+name = "qualify-mdk-data"
+path = "../mdk-public-data/verify.rs"
+
+[[bin]]
+name = "mdk-member-witness"
+path = "../mdk-public-data/member_cli.rs"
+
+[[bin]]
+name = "compose-six-member"
+path = "../unified-mdk/compose_cli.rs"
+
+[[bin]]
+name = "workspace-product"
+path = "witness.rs"
+
+[[bin]]
+name = "qualify-canonical-public-data"
+path = "qualify.rs"
+
+[[bin]]
+name = "qualify-six-member"
+path = "../unified-mdk/qualify.rs"
+
+[[bin]]
+name = "compose-buffered"
+path = "../unified-buffered/compose_cli.rs"
+
+[[bin]]
+name = "qualify-range-data"
+path = "../canonical-range-data/verify.rs"
+
+[[bin]]
+name = "qualify-recovered-range"
+path = "../canonical-recovered-range/verify.rs"
+
+[[bin]]
+name = "qualify-process-limits"
+path = "../suite/process_limits.rs"
+
+[[bin]]
+name = "qualify-range-role"
+path = "../gap-range-role-workspace/verify.rs"
+
+[[bin]]
+name = "qualify-range-imports"
+path = "../gap-range-role-workspace/imports.rs"
+
+[[bin]]
+name = "qualify-range-endpoint"
+path = "../gap-range-endpoint/native.rs"
+
+[[bin]]
+name = "collect-range-rustdoc"
+path = "../gap-range-recovery/rustdoc.rs"
+
+[[bin]]
+name = "compose-local-file-catalog"
+path = "../local-file-catalog/compose.rs"
+
+[[bin]]
+name = "qualify-array-shapes"
+path = "../shapes/arrays/replay.rs"
+
+[[bin]]
+name = "workspace-shape-archive"
+path = "../shapes/archive.rs"
+
+[[bin]]
+name = "qualify-mdk-json-input"
+path = "../mdk-json-input/verify.rs"
+
+[[bin]]
+name = "check-public-types"
+path = "../public-types/check_workspace.rs"
+
+[[bin]]
+name = "check-copy-frame-pipe"
+path = "../copy-frame/check_pipe.rs"
+
+[[bin]]
+name = "build-offline-cli"
+path = "../offline-cli/build.rs"
+
+[[bin]]
+name = "seven-public-imports"
+path = "../seven-public-imports/verify.rs"
+
+[[bin]]
+name = "relay-fixture"
+path = "../relay/replay.rs"
+
+[[bin]]
+name = "legacy-version-probe"
+path = "../legacy/observe.rs"
+
+[[bin]]
+name = "bridge-state-replay"
+path = "../state/replay.rs"
+
+[[bin]]
+name = "vault-mode-typescript"
+path = "../vault-mode-typescript/verify.rs"
+
+[[bin]]
+name = "vault-fixed-typescript"
+path = "../vault-fixed-typescript/verify.rs"
+
+[[bin]]
+name = "check-command-room-binding"
+path = "../command-room-binding/verify.rs"
+
+[[bin]]
+name = "check-response-envelopes"
+path = "../command-responses/envelopes.rs"
+
+[[bin]]
+name = "candidate-preflight"
+path = "../basic-command-interop/preflight.rs"
+
+[[bin]]
+name = "native-error-replay"
+path = "../native-error/replay.rs"

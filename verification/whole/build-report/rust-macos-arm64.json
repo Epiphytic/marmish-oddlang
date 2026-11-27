@@ -1,0 +1,24 @@
+{
+  "host": "aarch64-apple-darwin",
+  "upstreamRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "reportSha256": "87a7ccbe003e37d8d22577b9ad3055f276f97803d658532a6e6d21efa63522d0",
+  "evidence": "The Python and Rust observers ran against the same retained original and generated role binaries; their serialized reports matched byte for byte.",
+  "originalBinaries": {
+    "marmish": "8097469a154ba7cf3a5a4d4848537f7ce72ba9f767f90ab7362aba8074842ac7",
+    "marmishd": "f35024f7a3a342392d36b83e4348f7bf0ea65d9e39b9358425c8249592038f41"
+  },
+  "generatedBinaries": {
+    "marmish": "b17061bc97b34679a19619f3e930bf10c793017e8a3fd7138f4a4f13a922912b",
+    "marmishd": "cdd12904d06914c647351bed27f6ba5d70f8bccfa16d0d3302b72277ab86c1bb"
+  },
+  "invocationCounts": {
+    "marmish": 16,
+    "marmishd": 16
+  },
+  "formatFacts": 5,
+  "declinedFormatControls": [
+    "absent profile version",
+    "null journal version",
+    "changed configuration version"
+  ]
+}

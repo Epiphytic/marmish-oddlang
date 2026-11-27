@@ -12,7 +12,9 @@ import tempfile
 sys.dont_write_bytecode = True
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 from framework_pin import REVISION, verify_checkout
-from replay import LOCK, PIN
+
+PIN = "af54339d250290490d62d4475a77539b7e739071"
+LOCK = "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3"
 
 
 def driver(root):

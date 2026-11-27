@@ -10,7 +10,8 @@ cargo +1.97.1 build --manifest-path /tmp/discovery-status/Cargo.toml --locked --
 The macOS ARM64 run built the pinned graph inputs with the existing Seatbelt allowlist. It denied reads of the original and companion trees and original executable directory, denied network and external writes, then built the generated binaries locked and offline. The runner compared the package lock and discovery obligation catalog before compiling.
 
 ```sh
-verification/whole/status/macos-discovery-client.sh FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+    --bin qualify-macos -- discovery FRAMEWORK ORIGINAL ORIGINAL_BINS OUTPUT RECEIPT
 ```
 
 The independent replay pins the native original binaries and uses fresh private home and temporary directories. It compares both client routes to a real original daemon, one using `--state-dir` without `--socket` and another using the environment default. The 43 private-fixture cases cover explicit bypass, profile and environment precedence, existing status guards, canonical paths, permission-mode or link violations in controlled same-UID fixtures, bounded documents, and named failures. It compares final paths, modes, link counts and file contents around each controlled client process. The existing typed response and same-UID exchange are retained.

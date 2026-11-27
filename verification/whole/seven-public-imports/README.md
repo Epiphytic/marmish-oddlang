@@ -22,9 +22,11 @@ The prototype inventory includes zero type, alias and module spellings. A separa
 Use the original checkout at `af54339d250290490d62d4475a77539b7e739071` and the generated workspace identified by input revision `6a3eb779b60e63bef3dbfbb83e64b8a486ef77df`, compiler runtime `59f947dafdb4cf3055e35216857472ada895a76a`, and workspace-lock SHA-256 `fdfa5b16d9172fe97705ee5794251c6168d0e226ea159334a52286e2e7172b68`. Run with Rust 1.97.1 and offline dependency caches. Both Cargo target directories are outside the source trees.
 
 ```sh
-python3 verification/whole/seven-public-imports/verify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin seven-public-imports -- \
     /path/to/generated-workspace /path/to/candidate-target \
     /path/to/original /path/to/original-target /tmp/seven-public-imports.json
 ```
 
 The verifier checks the generated tree before and after the probes. Supply `--release-inputs` if the pinned workspace manifest and lock are in a separate companion checkout. With `--candidate-artifacts` and `--original-artifacts`, it consumes Cargo JSON from completed builds and the corresponding local artifacts. Otherwise it runs the locked offline release builds. Absolute paths and compiler build outputs can affect artifact digests in separate runs.
+
+New receipts identify the Rust verifier executable by SHA-256. The archived receipt identifies the historical Python verifier.

@@ -32,7 +32,7 @@ def lane(name, file="verify.py"):
     return runpy.run_path(str(HERE.parent / name / file))
 
 
-def sandbox(work, original, compiler, framework, reference_target):
+def sandbox(work, original, compiler, framework, reference_target, *, reference_executable=None):
     assert platform.system() == "Darwin" and platform.machine() == "arm64"
     protected = [ROOT.resolve(), original.resolve(), framework.resolve(), reference_target.resolve(),
                  Path("/private/tmp"), Path.home() / "repos"]
@@ -44,11 +44,14 @@ def sandbox(work, original, compiler, framework, reference_target):
     with tempfile.TemporaryDirectory(prefix="odd-source-probe-", dir="/private/tmp") as outside:
         sentinel = Path(outside) / "Cargo.toml"
         sentinel.write_text("[workspace]\n")
+        if reference_executable is None:
+            reference_executable = reference_target / "aarch64-apple-darwin/release/marmish"
+        assert reference_executable.resolve().is_relative_to(reference_target.resolve())
         probes = {
             "companionCaller": HERE.parent / "vault-values/caller.rs",
             "originalLibrary": original / "crates/marmish-vault/src/lib.rs",
             "frameworkLibrary": framework / "src/lib.rs",
-            "referenceExecutable": reference_target / "aarch64-apple-darwin/release/marmish",
+            "referenceExecutable": reference_executable,
             "externalCheckoutExample": sentinel,
         }
         for file in probes.values():
@@ -59,6 +62,40 @@ def sandbox(work, original, compiler, framework, reference_target):
     shutil.copyfile(compiler, cli)
     cli.chmod(0o755)
     return [*prefix, "/usr/bin/env", f"TMPDIR={work}"], cli, sorted(probes)
+
+
+def vault_check(work, binary, *args):
+    return json.loads(run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+                          "--manifest-path", HERE.parent / "copy-manifest/Cargo.toml", "--bin", binary,
+                          "--target-dir", work / "copy-test-tools", "--", "workspace", *args))
+
+
+def copy_tests(work, original, product):
+    manifest = HERE.parent / "copy-manifest/Cargo.toml"
+    target = work / "copy-test-tools"
+    run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+        "--manifest-path", manifest, "--bin", "check-copy-frame", "--target-dir", target)
+    check = target / "debug/check-copy-frame"
+    reference = json.loads(run(check, "test-package", original, original / "crates/marmish-stream",
+                               original / "Cargo.lock", work / "original-copy"))
+    generated = json.loads(run(check, "test-package", original, product / "marmish-stream",
+                               product / "Cargo.lock", work / "generated-copy"))
+    if reference != generated:
+        raise ValueError("original and generated copy test suites differ")
+    return generated
+
+
+def native_error_observations(work, original, product, reference_target):
+    error_tool = work / "copy-test-tools/debug/native-error-replay"
+    run("cargo", "+1.97.1", "build", "--quiet", "--offline", "--locked",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--bin", "native-error-replay", "--target-dir", work / "copy-test-tools")
+    old_errors = run(error_tool, "probe", original, reference_target, work / "original-errors")
+    new_errors = run(error_tool, "probe", product, product / "target", work / "generated-errors")
+    baseline = (HERE.parent / "native-error/darwin-arm64/baseline.txt").read_bytes()
+    assert old_errors == new_errors == baseline
+    assert len(baseline.splitlines()) == 32
+    return {"nativeErrorRows": len(new_errors.splitlines()), "nativeErrorStdoutSha256": sha(new_errors)}
 
 
 def qualify(work, manifest, original, framework, compiler, reference_target):
@@ -88,31 +125,11 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
     if pinned_workspace_lock.is_file():
         assert manifest_lock == pinned_workspace_lock.read_bytes()
 
-    copy = lane("copy-frame")
-    source = run("git", "-C", original, "show",
-                 ORIGINAL + ":crates/marmish-stream/src/copy_protocol.rs")
-    start = source.index(b"#[cfg(test)]\nmod tests {")
-    upstream = source[start:source.index(b"\nmod path_encoding {", start)]
-    assert upstream.count(b"#[test]") == 11
-    original_copy = copy["tests"](original / "crates/marmish-stream", original / "Cargo.lock",
-                                 work / "original-copy", upstream)
-    generated_copy = copy["tests"](product / "marmish-stream", product / "Cargo.lock",
-                                  work / "generated-copy", upstream)
-    assert original_copy == generated_copy
+    generated_copy = copy_tests(work, original, product)
 
-    vault = lane("vault-values")
-    original_vault = vault["consumer"](original / "crates/marmish-vault", work / "original-vault",
-                                      original / "Cargo.lock", privacy=True)
-    generated_vault = vault["consumer"](product / "marmish-vault", work / "generated-vault",
-                                       product / "Cargo.lock", privacy=True)
-    assert original_vault == generated_vault == vault["expected"](128)
+    vault = vault_check(work, "check-vault-values", original, product, work)
 
-    errors = lane("native-error")
-    old_errors = errors["native_probe"](original, reference_target, work / "original-errors")
-    new_errors = errors["native_probe"](product, product / "target", work / "generated-errors")
-    baseline = (HERE.parent / "native-error/darwin-arm64/baseline.txt").read_bytes()
-    assert old_errors == new_errors == baseline
-    assert len(baseline.splitlines()) == 32
+    errors = native_error_observations(work, original, product, reference_target)
     reference_path = HERE.parent / "workspace/v7-aarch64-apple-darwin.json"
     reference = json.loads(reference_path.read_bytes())["releaseInfo"]["cases"]
     assert set(reference) == {"marmish", "marmishd"}
@@ -153,32 +170,28 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
         "workspaceLockSha256": sha(manifest_lock),
         "members": sorted(packages),
         "copyCases": generated_copy,
-        "vaultRows": len(generated_vault),
-        "vaultStdoutSha256": sha(("\n".join(generated_vault) + "\n").encode()),
+        "vaultRows": vault["vaultRows"],
+        "vaultStdoutSha256": vault["vaultStdoutSha256"],
         "vaultPrivateConstructorRejections": 2,
-        "nativeErrorRows": len(new_errors.splitlines()),
-        "nativeErrorStdoutSha256": sha(new_errors),
+        **errors,
         "binaries": binaries,
     }
-    observe = lane("engine-limits", "observe.py")
-    old_caller, original_libs = observe["reference_caller"](work, original, reference_target)
-    new_caller, generated_libs = observe["generated_caller"](work, product)
-    original_limits = observe["file_limits"](work, old_caller)
-    generated_limits = observe["file_limits"](work, new_caller)
-    assert original_limits == generated_limits
-    receipt["processLimitCases"] = generated_limits
-    startup = observe["startup"](work, reference_target / "aarch64-apple-darwin/release",
-                                 product / "target/release")
-    assert len(startup["argvCases"]) == 10
-    receipt["processStartupCases"] = startup["argvCases"]
+    limits = json.loads(run(
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-limits-observer",
+        "--target-dir", work / "copy-test-tools", "--", original,
+        reference_target / "aarch64-apple-darwin/release", product, reference_target,
+    ))
+    assert len(limits["argvCases"]) == 10
+    receipt["processLimitCases"] = limits["libraryCases"]
+    receipt["processStartupCases"] = limits["argvCases"]
     receipt["processArtifacts"] = {
-        "originalBinaries": startup["originalBinaries"],
-        "generatedBinaries": startup["generatedBinaries"],
-        "originalLibraries": original_libs,
-        "generatedLibraries": generated_libs,
-        "observerSha256": sha((HERE.parent / "engine-limits/observe.rs").read_bytes()),
-        "faultObserverSha256": sha((HERE.parent / "engine-limits/deny_darwin.c").read_bytes()),
+        key: limits[key] for key in (
+            "originalBinaries", "generatedBinaries", "originalLibraries",
+            "generatedLibraries", "observerSha256",
+        )
     }
+    receipt["processArtifacts"]["faultObserverSha256"] = limits["darwinFaultObserverSha256"]
     return receipt, manifest_lock
 
 

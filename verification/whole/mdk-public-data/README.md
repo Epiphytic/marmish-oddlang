@@ -22,9 +22,11 @@ Use a fresh output directory and separate target roots. The verifier isolates
 baseline and mutant artifacts underneath each root.
 
 ```sh
-RUSTUP_TOOLCHAIN=1.97.1 python3 -B verification/whole/mdk-public-data/verify.py \
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-mdk-data -- \
   /path/to/oddlang /path/to/original /tmp/mdk-public-data-run \
   --framework-revision FRAMEWORK_SHA \
   --original-target /tmp/mdk-original-targets \
   --generated-target /tmp/mdk-generated-targets
 ```
+
+The six-member workspace verifier uses the same Rust recovery and external caller against its selected MDK release libraries. The [Rust verifier replay](../canonical-public-data/rust-qualification-macos-arm64.json) records the standalone output hashes and the six-member observations checked against their archived evidence.

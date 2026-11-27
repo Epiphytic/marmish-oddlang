@@ -1,10 +1,10 @@
 # Pinned Marmish acceptance inventory
 
-This inventory sets the baseline for the whole-project recovery against Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Run the checks with Python 3.11+, Git, the pinned Cargo toolchain (1.97.1) and Node. The local reference clone needs both the prior and current Git objects. The checker uses a disposable clone and offline Cargo metadata. Reference sources are verification inputs only.
+This inventory sets the baseline for the whole-project recovery against Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Run the checks with Git, the pinned Rust toolchain (1.97.1) and Node. The local reference clone needs both the prior and current Git objects. The checker uses a disposable clone and offline Cargo metadata. Reference sources are verification inputs only.
 
 ```sh
-cd verification/whole-marmish/inventory
-python3 check.py /path/to/reference/clone
+cargo +1.97.1 run --offline --locked --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin release-inventory -- check /path/to/reference/clone
 ```
 
 [release.json](release.json) defines reviewed platform minima, profiles, surface owners and checks, external program provenance, and the split distribution layout. [inventory.json](inventory.json) derives two lock digests, target metadata and paths, feature gates, file families and release names from the pin. The seven workspace packages declare 29 Cargo targets. The standalone installed fixture adds another package and target. The 214 supporting files include 54 Python test modules and 21 Node test modules. Rust harness and doctest applicability come directly from Cargo metadata. The inventory spans three deployment targets and three feature selections. A platform cell records an obligation to run.
@@ -34,7 +34,7 @@ The seven upstream workspace packages declare seven library targets and ten bina
 From the companion root, run the inventory comparison for a selected native receipt:
 
 ```sh
-python3 -B verification/whole-marmish/inventory/candidate_targets.py \
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin candidate-targets -- \
   verification/whole/suite/canonical-aarch64-apple-darwin.json
 ```
 

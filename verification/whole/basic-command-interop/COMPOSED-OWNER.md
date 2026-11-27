@@ -4,7 +4,7 @@ The [composed workspace](../../../oddlang/portable/workspace-composed-basic-owne
 
 The local handoff ends at the owner's IPC boundary. The provider scope covers authenticated relay activation and owned shutdown. The composed activation fixture performs setup, grant and trust for two fresh test identities, then starts the foreground provider on the granted server profile. It compares the selected relay and authorization configuration before and after startup. The test uses one owned relay and does not issue a command.
 
-Build with the [source-denied driver](BUILD.md) and pass `--workspace workspace-composed-basic-owner.json` together with the immutable companion and framework input revisions. Pass the exported receipt digest to `composed_preflight.py` before selecting the candidate for live runs. For `composed_owner.py`, also supply the pinned Deaddrop executable and isolation helper. Keep the original and generated actors in distinct private workspaces.
+Build with the [source-denied driver](BUILD.md) and pass `--workspace workspace-composed-basic-owner.json` together with the immutable companion and framework input revisions. Run the [native preflight](BUILD.md) with `composed` and the exported receipt digest before selecting the candidate for live runs. For `composed_owner.py`, also supply the pinned Deaddrop executable and isolation helper. Keep the original and generated actors in distinct private workspaces.
 
 ## macOS ARM64 evidence
 

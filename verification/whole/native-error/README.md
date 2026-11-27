@@ -25,7 +25,7 @@ at the recorded revision, pinned Cargo dependencies available offline, and an
 Oddlang executable built from the framework revision in the receipt.
 
 ```sh
-RUSTUP_TOOLCHAIN=1.97.1 python3 -B verification/whole/native-error/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin native-error-replay -- recover \
   /path/to/oddlang /path/to/original /tmp/marmish-native-error-evidence \
   --original-target /tmp/marmish-native-original-target \
   --generated-target /tmp/marmish-native-generated-target \
@@ -54,7 +54,7 @@ caller against a debug build of the same workspace. The replay uses the stored
 original observations and requires no original Marmish checkout.
 
 ```sh
-python3 -B verification/whole/native-error/combined.py /path/to/pinned/oddlang /tmp/marmish-combined-cache /tmp/combined.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin native-error-replay -- combined /path/to/pinned/oddlang /tmp/marmish-combined-cache /tmp/combined.json
 ```
 
 The [Darwin ARM64 combined receipt](darwin-arm64/combined.json) records 32 CLI

@@ -1,0 +1,46 @@
+{
+  "format": "marmish-integrated-parser-rust-comparison-v1",
+  "sourceCommit": "de0ad11268e518fe4651a1687c1fff6e10452c30",
+  "platform": "aarch64-apple-darwin",
+  "historicalReceiptSha256": "23b3758086f294b83b2be1ed8a0a6f5cebf9b12fbeb395b7e078c8d94c914f56",
+  "freshReceiptSha256": "325d314890b1229e0b57868a582fe8443327bf6b097971f2a12228878a80f9f3",
+  "sameResultStreamSha256": "602e037a6b3a5c02726fd90d1e3205a4c3b4af2d832ddb6459cf97aa4cfd333f",
+  "comparedAllReceiptFields": true,
+  "changedBuildIdentityFields": [
+    "/companion",
+    "/compilerSha256",
+    "/enginePublicError/originalLibrarySha256",
+    "/enginePublicError/sealedLibrarySha256",
+    "/fixedVault/librarySha256",
+    "/journal/generated/libraries/marmish_native",
+    "/journal/generated/libraries/serde_json",
+    "/journal/original/libraries/marmish_native",
+    "/mdk/originalLibrarySha256",
+    "/mdk/sealedLibrarySha256",
+    "/publicConstant/generated-constant/librarySha256",
+    "/publicConstant/original-constant/librarySha256",
+    "/releaseInfo/generatedBinaries/marmish",
+    "/releaseInfo/generatedBinaries/marmishd",
+    "/releaseInfo/originalBinaries/marmish",
+    "/releaseInfo/originalBinaries/marmishd"
+  ],
+  "unchangedSourceTestSha256": "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9c9e5073dcfae8",
+  "originalBlindInputsSha256": "967cbae1e747bbb6b2aae7007f4240d8b273a2fa8a73f6a5b016efa6685d3cdf",
+  "originalParserProbeSha256": "c47132c88068dbf556cbd0653fd8686ef9d0aeeee54644d05e9926d224b9c2c7",
+  "compositionDescriptorSha256": {
+    "release-manifest-integrated-v1/rust.json": "38b090c700692b800e1a3348dde736ba9bed3601cabb0f6b535857561638ebaa",
+    "native-converged-release-manifest-package.json": "d874b0ed9db8b257cf771559c53d6bf6dbf47ab011d94caf6c85460919d54d22",
+    "workspace-v7-converged-release-manifest.json": "bd640145f6099a39c09e26df3b50dd80783098f93f8f851737ad946fd4b09058"
+  },
+  "rejectedCompositionAndProductControls": [
+    "changedBasePin",
+    "changedOverlay",
+    "publicModule"
+  ],
+  "sourceDenialProbes": 22,
+  "engineCompilerControlsPerRole": 38,
+  "identityCompilerControlsPerRole": 12,
+  "cases": 224,
+  "accepted": 34,
+  "rejected": 190
+}

@@ -16,8 +16,26 @@ The verifier also rehashes the complete retained native Cargo library closure an
 Use a clean companion checkout, the exact reviewed framework checkout and same-host compiler recorded by the source-recovery receipt, the pinned original checkout, and the retained #123 build directory.
 
 ```sh
-python3 -B verification/whole/canonical-recovered-range/verify.py INPUT_REVISION \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-recovered-range -- INPUT_REVISION \
   FRAMEWORK COMPILER ORIGINAL RETAINED_123_BUILD NEW_WORK_DIRECTORY RECEIPT
 ```
 
 The [workspace manifest](../../../oddlang/portable/workspace-v7-canonical-recovered-range.json) emits lock `67615fada2203cadc9bd9373e864df7999585849ca57570fa6fda9655c5bd5e3` using recovered-input compiler [9923e666](https://github.com/Epiphytic/oddlang/tree/9923e6664899de66915ed3a94e417f261ffed401). Both hosts staged 105 portable inputs and confirmed eight denied files. Each emitted tree had 45 directories and 101 files. All 84 generated Rust files matched #123 byte for byte. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
+
+Check the workspace descriptors from the companion repository root:
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-recovered-range oddlang/portable --check
+```
+
+Omit `--check` to regenerate the descriptors.
+
+The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) compared the complete generated tree to the retained authored-range product. It reproduced all 84 Rust files, the eight source denials and the archived native evidence. Only the companion revision differs in the two macOS receipt documents.
+
+The [native Rust qualifier receipt](native-qualifier-aarch64-apple-darwin.json)
+matched every field of the earlier macOS receipt except the companion revision.
+The endpoint and role callers reuse its Rust tree comparison, lock delta and
+retained-library digest commands. The [paired qualification comparison](../canonical-range-data/qualification-comparison-aarch64-apple-darwin.json)
+also identifies the fresh authored build and native original observations.

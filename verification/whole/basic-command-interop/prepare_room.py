@@ -16,7 +16,7 @@ import tempfile
 from observe import (BRIDGE, RELAY, account_options, copy_verified, file_digest,
                      host_preferences_state, json_command, until, verify_profile)
 from isolate import Workspace
-from composed_preflight import pinned_json
+from build import pinned_json
 from provider_activation import phase, publication, read_exact
 
 UNTRUSTED_ACCOUNT = "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798"

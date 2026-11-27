@@ -10,7 +10,12 @@ import subprocess
 import sys
 import tempfile
 
-from compose import BASE, HERE, ORIGINAL, OUTPUT, PORTABLE, ROOT, compose, load, sha
+HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[2]
+PORTABLE = ROOT / "oddlang/portable"
+BASE = "workspace-v7-converged-diagnostics-cli"
+OUTPUT = "workspace-v7-terminal-prefix"
+ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 
 FRAMEWORK = "4b0e07a97de579adbd779bbd598a532bda9fdb3c"
 DARWIN = "aarch64-apple-darwin"
@@ -32,7 +37,8 @@ def inherited():
 
 
 PRIOR = inherited()
-WORKSPACE, IMPORTS, PARSER = (PRIOR[key] for key in ("WORKSPACE", "IMPORTS", "PARSER"))
+load, sha = PRIOR["load"], PRIOR["sha"]
+WORKSPACE, IMPORTS = PRIOR["WORKSPACE"], PRIOR["IMPORTS"]
 exact_checkout, execute = (PRIOR[key] for key in ("exact_checkout", "execute"))
 
 EXTRA = [
@@ -59,7 +65,7 @@ def corpus(role):
                 or len(argv) == 2 and argv[0] == "help" and argv[1].isascii()
                 and argv[1].replace("-", "").isalnum()):
             raise ValueError(f"unexpected archived invocation: {argv!r}")
-    return [row["args"] for row in archived] + PARSER["CASES"] + EXTRA
+    return [row["args"] for row in archived] + PRIOR["CLI_CASES"] + EXTRA
 
 
 def build(args, work, compiler, host, profile):
@@ -102,7 +108,7 @@ def build(args, work, compiler, host, profile):
 def observe(executable, argv, home, launcher):
     if launcher is not None:
         return PRIOR["confined_cli"](launcher, executable, argv, home)
-    row = PARSER["observe"](executable, argv, home)
+    row = PRIOR["observe_cli"](executable, argv, home)
     return {key: value for key, value in row.items() if key != "args"}
 
 
@@ -125,7 +131,10 @@ def verify(args):
     execute("cargo", "+1.97.1", "build", "--release", "--offline", "--locked", "--bin", "oddlang",
             "--target-dir", args.compiler_target, cwd=args.framework)
     compiler = args.compiler_target / "release/oddlang"
-    compose(compiler, args.original, check=True)
+    execute("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--target-dir", args.compiler_target, "--bin", "workspace-product", "--",
+            "compose-cli", "terminal-prefix", compiler, args.original, PORTABLE)
 
     parent = load(PORTABLE / BASE / "workspace.lock")
     lock_path = PORTABLE / OUTPUT / "workspace.lock"

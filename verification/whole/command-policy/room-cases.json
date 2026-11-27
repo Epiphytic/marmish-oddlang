@@ -1,0 +1,13 @@
+[
+  {"name":"omitted policy","fields":{},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"null policy","fields":{"command_policy":null},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"missing version","fields":{"command_policy":{}},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"unsupported version","fields":{"command_policy":{"version":2}},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"omitted default allow","fields":{"command_policy":{"version":1}},"expected":"loaded-allow"},
+  {"name":"explicit named","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":["/usr/bin/echo"]}}},"expected":"loaded-allow"},
+  {"name":"unlisted","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":["/bin/cat"]}}},"expected":"loaded-deny"},
+  {"name":"empty allow","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":[]}}},"expected":"loaded-deny"},
+  {"name":"null allow","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":null}}},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"scalar allow","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":"/usr/bin/echo"}}},"expected":"marmish: identity: invalid_manifest"},
+  {"name":"non-string item","fields":{"command_policy":{"version":1,"defaults":{"allow_exec":[3]}}},"expected":"marmish: identity: invalid_manifest"}
+]

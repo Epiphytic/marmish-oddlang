@@ -17,8 +17,10 @@ The independent extended corpus exercises sixteen representations, including tup
 
 ```sh
 cd verification/whole/status
-python3 -B reply_shapes.py /path/to/original/marmish /tmp/original-shapes.json --reference-status macos-arm64.json
-python3 -B reply_shapes.py /path/to/generated/marmish /tmp/candidate-shapes.json --compare reply-shapes-macos-arm64.json
+cargo +1.96.1 run --quiet --locked --offline --manifest-path ../canonical-public-data/Cargo.toml \
+  --bin status-replies -- extended /path/to/original/marmish /tmp/original-shapes.json --reference-status macos-arm64.json
+cargo +1.96.1 run --quiet --locked --offline --manifest-path ../canonical-public-data/Cargo.toml \
+  --bin status-replies -- extended /path/to/generated/marmish /tmp/candidate-shapes.json --compare reply-shapes-macos-arm64.json
 ```
 
 Comparison writes the actual output and mismatching case names before returning failure. The initial generated status client differed on nine cases, including the three-field tuple, nested typed results and their combination. This corpus supplements the real activating-daemon and framing observations. It samples a subset of the nested command and stream variants.

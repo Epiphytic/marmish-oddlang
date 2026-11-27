@@ -10,7 +10,7 @@ import subprocess
 import tempfile
 
 import provider_activation
-from composed_preflight import COMPOSITION, load_candidate, pinned_json
+from build import pinned_json
 from provider_activation import RELAY_URL, digest, phase, publication, stage, until
 
 
@@ -41,8 +41,19 @@ def configured_profile(peer, identity):
     return manifest, config
 
 
+def inspect_candidate(export, digest):
+    manifest = Path(__file__).resolve().parents[1] / "canonical-public-data/Cargo.toml"
+    with tempfile.TemporaryDirectory(prefix="composed-preflight-") as target:
+        raw = subprocess.check_output([
+            "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", manifest, "--target-dir", target, "--bin", "candidate-preflight",
+            "--", "composed", export, "--inspect", "--build-receipt-sha256", digest,
+        ])
+    return json.loads(raw)
+
+
 def observe(args):
-    build = load_candidate(args.export, args.build_receipt_sha256)
+    build = inspect_candidate(args.export, args.build_receipt_sha256)
     preflight = pinned_json(args.preflight, args.preflight_receipt_sha256)
     if (preflight["format"] != "marmish-composed-owner-preflight-v1"
             or preflight["buildReceiptSha256"] != args.build_receipt_sha256
@@ -150,7 +161,7 @@ def observe(args):
         "isolationFixtureSha256": args.isolation_sha256,
         "providerSupportFixtureSha256": digest(Path(provider_activation.__file__)),
         "artifacts": build["artifacts"],
-        "compositionPins": {path: build["stagedContracts"][path] for path in COMPOSITION},
+        "compositionPins": build["compositionPins"],
         "providerFixtureSha256": digest(Path(__file__)),
         "relaySha256": args.relay_sha256,
         "distinctGeneratedFileProfiles": True,

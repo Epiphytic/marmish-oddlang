@@ -7,7 +7,7 @@ The verifier runs the original Cargo retention integration test. It then extract
 The mutation lowers the graph's upper bound by one second while preserving the Rust binding. The caller rejects the result at the original upper bound. That check uses the independent 365-day expectation. The unchanged upstream test derives its upper boundary from the API constant and checks that the API applies that constant consistently.
 
 ```sh
-python3 -B verification/whole/core-value/verify.py \
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/core-lexical/Cargo.toml --bin core-value -- \
   /path/to/pinned/marmish /path/to/generated/rust-release /path/to/oddlang /tmp/reference.json
 ```
 

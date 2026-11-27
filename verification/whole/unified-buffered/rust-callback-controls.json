@@ -1,0 +1,41 @@
+{
+  "format": "marmish-buffered-workspace-rust-qualification-v1",
+  "host": "aarch64-apple-darwin",
+  "testedSourceTree": "ee70124279ed3efbfc6fe234f4386f8be8434679",
+  "implementation": "60e05ad3e496465103588b151ae103008a821ed5",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "framework": "59f947dafdb4cf3055e35216857472ada895a76a",
+  "originalCaseAndHoldoutReceipts": {
+    "verification/whole/unified-buffered/aarch64-apple-darwin.json": "3c30b36ae828124f484a9d6aaec2dc7a6014f18081ecc7a3c4c501eba2777e8f",
+    "verification/whole/unified-buffered/rust-aarch64-apple-darwin.json": "5c6af9aef47da1d117b2b3ad87c3286f01f006a0b07364910d470735ed4c602f",
+    "verification/whole/private-buffer/original-aarch64-apple-darwin.json": "543bbfe72bcb8bb5c1a8b81480c142facfc09c0e764239ca38936319588f77fc",
+    "verification/whole/private-buffer/candidate-aarch64-apple-darwin.json": "d65a804c689892a8967943b3840a728ef3f50a5a05d528562a4d83cf26386553",
+    "verification/whole/prototype-constant/aarch64-apple-darwin.json": "f60df7d3df17bb6bca804405936c3355580a1525f0b053d762b5d4bbf830742d"
+  },
+  "composerManifestSha256": "9b48e0471d15c634b556bdc7be2369df53eb7f731c4f67c32bb94007141afa6e",
+  "composerCargoLockSha256": "fe6e73cdd2e6926cea6369c00112cae5e312eb9834b567258ac4e91f90b403aa",
+  "member": "marmish-prototype",
+  "publishedBufferedCases": [
+    "secret_request_tests::private_reader_wipes_consumed_spans",
+    "buffer_contract_observations::retained_span_and_consumed_bytes",
+    "buffer_contract_observations::failed_refill_retains_prior_end",
+    "buffer_contract_observations::zero_output_still_reads_and_eof_can_be_polled_again"
+  ],
+  "successor": {
+    "passed": [
+      "secret_request_tests::private_reader_wipes_consumed_spans",
+      "buffer_contract_observations::retained_span_and_consumed_bytes",
+      "buffer_contract_observations::failed_refill_retains_prior_end",
+      "buffer_contract_observations::zero_output_still_reads_and_eof_can_be_polled_again"
+    ],
+    "privateReaderLeafSha256": "e04583de9468f4b12e1c0a626e68ee42034df5f5f03177f7297f95197fccc690"
+  },
+  "controls": [
+    "Cargo.lock drift",
+    "standalone digest drift",
+    "repinned conflicting dependency",
+    "sealed product drift",
+    "private predecessor mismatch",
+    "failed native test restores private leaf"
+  ]
+}

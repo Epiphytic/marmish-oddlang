@@ -1,0 +1,57 @@
+{
+  "format": "marmish-canonical-workspace-composer-parity-v1",
+  "host": "aarch64-apple-darwin",
+  "predecessor": "3460c689e219e4ab6bc22e41ee8e4a867d99461c",
+  "historicalProducers": {
+    "verification/whole/canonical-engine-choices/compose.py": "f00b6456bbc1c3ce0a135f9e34ab5a3ac36a749df3e42a68a9fa4a26a00d68f9",
+    "verification/whole/canonical-range-data/compose.py": "25ac35e0ff1bed663bd4ab0630f2282719f0583eea5d56ea4fbce5a909f60bb6",
+    "verification/whole/canonical-recovered-range/compose.py": "e177270179bd85ba64dee494a4628739e2ee47221f6a5d65185c953b0fcfdd64"
+  },
+  "descriptorSha256": {
+    "workspace-v7-canonical-engine-choices.json": "42543b05d2b003bde34354410fd3742c4d3dd67b75fada018e1e01f66a229909",
+    "marmish-engine-canonical-range-data-package.json": "740167eb4fb8d243d030baeb61687903b187f63cf40a497fd13eea501c85d878",
+    "workspace-v7-canonical-range-data.json": "7bf3547c57ad523d71543f9bd738e38d2825aee9d8416189b6f15e771f99bdf3",
+    "marmish-engine-canonical-recovered-range-package.json": "9ef9d1c704129baa45173bec7dad25b41c4af1b3c29e4a238356e8ad387138ac",
+    "workspace-v7-canonical-recovered-range.json": "fc1c86e5e700dbb85c1d2c579d6fd26254ad23c7b4646b7ea8817582e2daba3c"
+  },
+  "independentRejections": [
+    "stale workspace-v7-canonical-engine-choices.json",
+    "stale marmish-engine-canonical-range-data-package.json",
+    "stale workspace-v7-canonical-range-data.json",
+    "stale marmish-engine-canonical-recovered-range-package.json",
+    "stale workspace-v7-canonical-recovered-range.json",
+    "changed canonical engine pin",
+    "changed inherited component",
+    "changed choice exports",
+    "stale reason pin",
+    "wrong record module",
+    "wrong source-recovered graph path",
+    "changed source-recovered reason",
+    "repinned range overlay loses external type",
+    "authored and recovered range share the same raw digest"
+  ],
+  "implementation": "31af864ecf53db39586192ddae21bf91a441f4a2",
+  "referenceReceipts": {
+    "verification/whole/canonical-engine-choices/aarch64-apple-darwin.json": "7419e73eb144ad846a37345b1a6c600c807051cb999456d59af756cc15f38473",
+    "verification/whole/canonical-range-data/aarch64-apple-darwin.json": "4b90f3dd77dace69b8cf3e2719bda5a773c28ea77fc899991977b44073c426bf",
+    "verification/whole/canonical-recovered-range/aarch64-apple-darwin.json": "320644aa9fcef8b779beaa226365d82f517718c481558aa603bbcb46e23f6a39"
+  },
+  "engineChoiceArchivedComposer": {
+    "revision": "934bd7c96af85e0c502cf943b1c1d72f36692a8e",
+    "path": "verification/whole/canonical-engine-choices/compose.py",
+    "sha256": "f00b6456bbc1c3ce0a135f9e34ab5a3ac36a749df3e42a68a9fa4a26a00d68f9",
+    "verifiedReceiptHosts": [
+      "aarch64-apple-darwin",
+      "aarch64-unknown-linux-gnu"
+    ]
+  },
+  "composerRustc": [
+    "rustc 1.96.1 (31fca3adb 2026-06-26)",
+    "binary: rustc",
+    "commit-hash: 31fca3adb283cc9dfd56b49cdee9a96eb9c96ffd",
+    "commit-date: 2026-06-26",
+    "host: aarch64-apple-darwin",
+    "release: 1.96.1",
+    "LLVM version: 22.1.2"
+  ]
+}

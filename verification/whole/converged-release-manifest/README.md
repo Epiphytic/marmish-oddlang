@@ -35,7 +35,9 @@ Run the sealed native qualifier from a clean checkout with available
 offline dependencies and the pinned original release binaries.
 
 ```sh
-python3 -B verification/whole/converged-release-manifest/verify.py \
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-six-member -- --release-manifest \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision da1b0033ae9345c2d8288b4164d4fd1dbf5bcade \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET" \
@@ -47,9 +49,36 @@ result stream alongside the receipt.
 
 The [native result stream](results.json) records all 224 checked inputs.
 The [ARM64 macOS receipt](aarch64-apple-darwin.json) pins the full parser
-result, both unmodified upstream test names and all 22 denied reads.
+result, both unmodified upstream test names and all 22 source-denial probes. Two probes exercise the same original file.
 
 The [ARM64 Linux receipt](aarch64-unknown-linux-gnu.json) has the same
 result bytes and package pins. Its input revision additionally carries
 the predecessor's native Serde trait selection in the inherited observer.
 Both receipts identify the exact trees from which they were measured.
+
+## Rust qualification
+
+The [native macOS replay](rust-aarch64-apple-darwin.json) records the
+seven-member qualification at its named companion commit. The
+[comparison](rust-comparison-aarch64-apple-darwin.json) lists each build
+identity that changed from the historical macOS receipt. All 224 parser
+results match the archived stream byte for byte. The independent Rust
+callers compiled 38 negative engine controls and 12 negative identity
+controls against each role. Both downstream parser imports produced
+`E0603`.
+
+To regenerate the three workspace descriptors, run the following command
+from the companion root. Append `--check` to compare their bytes with
+the published descriptors.
+
+```sh
+cargo +1.96.1 run --quiet --locked --offline \
+  --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product -- compose-api release-manifest oddlang/portable
+```
+
+The integrated gate checks the exact caller and blind input digests from
+the pinned upstream observation. The blind file consists of the ordered
+`case` and `hex` pairs. A temporary source copy receives the two
+unchanged upstream tests and the observer after generation. The archived
+ARM64 Linux receipt remains the evidence for that platform.

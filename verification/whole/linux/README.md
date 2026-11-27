@@ -3,11 +3,14 @@
 The ARM64 receipts came from a native CPU Linux VM on Apple Silicon with Rosetta disabled and no host mounts. The Ubuntu 24.04.5 image SHA-256 was `50e24e1fb79e89116e939d90aa7738f7af48c442fa1bc2510131e0b39c50348e`. Rust 1.97.1 compiled both the upstream package and the independent caller inside the guest. All 403 public stream cases, 31 wire replays and three mutation controls matched in dev and release. Rust and Python exchanged compressed data in both directions. All 29 unchanged upstream stream unit tests passed in release.
 
 ```sh
-python3 -B verification/whole/linux/replay.py /path/to/pinned-oddlang /path/to/original /tmp/stream-receipts
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin public-stream-replay -- run /path/to/pinned-oddlang /path/to/original /tmp/stream-receipts
 cargo +1.97.1 test --manifest-path /path/to/original/Cargo.toml --release --locked --offline -p marmish-stream
 ```
 
-The stream runner checks the framework revision from `verification/whole/framework_pin.py` and the source revision and lock of the original. Use the updated driver required by `verification/whole/bridge/baseline.py` for the separate bridge run. Supply a writable target directory under a trusted parent. The VM's default 0002 build umask produced a group-writable worker and the original rejected Init with `invalid_policy`. The builder sets 0077 for new artifacts.
+The Rust runner builds the oracle from Git revision `08373b871aeac0f76cb1675748fd604cea2a79a2`. The baseline Oddlang checkout must contain that commit in its Git object database. The host receipt records the Rust oracle revision and executable digest. To recheck saved dev and release receipts, use `public-stream-replay verify FRAMEWORK TARGET RECEIPT_DIRECTORY`.
+
+The stream runner checks the framework revision from [the reviewed baseline pin](../baseline-framework.json) using the shared Rust checker and the source revision and lock of the original. Use the updated driver required by `verification/whole/bridge/baseline.py` for the separate bridge run. Supply a writable target directory under a trusted parent. The VM's default 0002 build umask produced a group-writable worker and the original rejected Init with `invalid_policy`. The builder sets 0077 for new artifacts.
 
 ```sh
 python3 -B verification/whole/bridge/baseline.py --upstream /path/to/original \

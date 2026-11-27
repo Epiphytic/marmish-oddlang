@@ -1,0 +1,18 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-apple-darwin",
+  "toolchain": "1.97.1",
+  "sourceInventorySha256": "f7534e67a5de7b9d16f29e6015af81b0c19cc4b19076d88505b1409fa7e82b40",
+  "historicalNamedInventorySha256": "9250fdc0d448ead1fd30b030f58ef622b4cd4080a48461604b5f291ab1e2b18f",
+  "freshPythonAndRustNamedInventorySha256": "8b4b471d967569804a88ed6425aa129c74e2750d069b7505108282d0ed2b7d45",
+  "harnesses": 24,
+  "runnable": 909,
+  "ignored": 5,
+  "benchmarks": 0,
+  "changedHarnessBinaryHashesSinceArchive": 14,
+  "allOtherHistoricalFieldsMatched": true,
+  "refusedBeforeCargoBuild": [
+    "wrong upstream revision",
+    "modified pinned checkout"
+  ]
+}

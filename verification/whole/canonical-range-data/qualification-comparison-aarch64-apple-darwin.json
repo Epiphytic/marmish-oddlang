@@ -1,0 +1,40 @@
+{
+  "format": "marmish-source-range-rust-comparison-v1",
+  "platform": "aarch64-apple-darwin",
+  "companion": "1aa0f0f2ab8df809978fb6b4e4958fff6e392bbe",
+  "original": "af54339d250290490d62d4475a77539b7e739071",
+  "authoredFramework": "7855c055dc1e72b49d3654f6e6c500a0ffdb57ec",
+  "recoveredFramework": "9923e6664899de66915ed3a94e417f261ffed401",
+  "historicalAuthoredReceiptSha256": "4b90f3dd77dace69b8cf3e2719bda5a773c28ea77fc899991977b44073c426bf",
+  "authoredReceiptSha256": "eb039dd90c3e8596be8a54a67aa4d4dcfc4d15bb5965a957f7442b43d96f8184",
+  "historicalRecoveredReceiptSha256": "320644aa9fcef8b779beaa226365d82f517718c481558aa603bbcb46e23f6a39",
+  "recoveredReceiptSha256": "f79a342df4021890147d7292cd5646c99fc7ce9709af5e15757a70da8024e901",
+  "authoredChangedBuildIdentityFields": [
+    "/cargoArtifactLogSha256",
+    "/cargoLibraryClosureSha256",
+    "/companion",
+    "/inheritedPublicData/candidateEngineLibrarySha256",
+    "/inheritedPublicData/candidateNativeLibrarySha256",
+    "/missingRange/engineLibrarySha256"
+  ],
+  "recoveredChangedBuildIdentityFields": [
+    "/companion"
+  ],
+  "freshOriginalReceiptSha256": "e76b2ee6ebf114c7ffc609419fd558cefdb127f3a47861424ced728ad725814d",
+  "originalCopyControl": [
+    "E0277"
+  ],
+  "originalAndGeneratedPairedObservations": 35,
+  "rangeCases": 18,
+  "reasonCases": 17,
+  "privateModuleDiagnostic": "E0603",
+  "currentLibraryClosureEntries": 587,
+  "retainedLibraryClosureEntries": 587,
+  "retainedCargoLibraryClosureSha256": "13fd5c8c2e9bed00766ce82bb8fea68748b6776a3acec41026d211d252856f23",
+  "identicalGeneratedRustFiles": 84,
+  "comparedFiles": 101,
+  "comparedDirectories": 45,
+  "changedLockFields": 8,
+  "authoredDenials": 5,
+  "recoveredDenials": 8
+}

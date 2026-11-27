@@ -7,8 +7,15 @@ The verifier swaps the two preflight statements in the upstream Data encoder. In
 Run from this repository with upstream revision `af54339d250290490d62d4475a77539b7e739071` and the [recorded framework revision](reference-aarch64-apple-darwin.json). Rust 1.97.1 with the host's `rustc-dev` component is required.
 
 ```sh
-python3 verification/whole/source-copy-frame-guards/verify.py \
-  /path/to/upstream /path/to/oddlang /tmp/source-copy-frame-guards.json
+cargo +1.97.1 build --locked --offline --bin rust-capture \
+  --manifest-path "$ODDLANG/verification/provider-validation/Cargo.toml" \
+  --target-dir "$TOOLS"
+cargo +1.97.1 run --locked --offline --bin check-copy-frame-guards \
+  --manifest-path verification/whole/copy-checkpoint/Cargo.toml -- \
+  /path/to/upstream /path/to/pinned-oddlang "$TOOLS/debug/rust-capture" \
+  /tmp/source-copy-frame-guards.json
 ```
+
+Set `ODDLANG` to the Oddlang checkout containing the Rust capture tool (verified at `af40726`) and `TOOLS` to an absolute build directory. The verifier builds the recovery compiler from a Git archive of the recorded framework revision.
 
 The receipt covers macOS ARM64. Both product builds deny upstream sources and compiler observations.

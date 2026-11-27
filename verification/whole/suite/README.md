@@ -6,7 +6,7 @@ against an independent checkout of that commit. The upstream checkout is an
 oracle input and belongs outside the source-free candidate build.
 
 ```sh
-python3 verification/whole/suite/inventory.py "$UPSTREAM" > /tmp/marmish-upstream-tests.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin suite-inventory -- "$UPSTREAM" > /tmp/marmish-upstream-tests.json
 cmp verification/whole/suite/inventory.json /tmp/marmish-upstream-tests.json
 ```
 
@@ -76,14 +76,14 @@ expected outcomes come from the pinned suite and independently authored cases.
 
 ## Verified external executable selection
 
-`process_limits.py` extracts the unchanged upstream native-process integration
+`qualify-process-limits` extracts the unchanged upstream native-process integration
 test and compiles just that verifier with `rustc --test`, a matching third-party
 `libc` artifact and compile-time paths to explicitly staged client and daemon
 executables. The verifier invokes rustc directly. The optional Cargo harness is a negative
 control for attempts to use runtime `CARGO_BIN_EXE_*` overrides.
 
 ```sh
-python3 verification/whole/suite/process_limits.py "$UPSTREAM" \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-process-limits -- "$UPSTREAM" \
   --rustc "$RUSTC" --libc "$LIBC_RLIB" \
   --client "$CLIENT" --daemon "$DAEMON" --cargo-harness "$ORIGINAL_TEST_HARNESS"
 ```
@@ -96,14 +96,19 @@ file. On Darwin the upstream harness requires a hard descriptor limit greater
 than 65,536. This case establishes artifact selection and help smoke coverage.
 Candidate executions and Linux cells are open.
 
-The full original release workspace suite on macOS 26.6 exposed an additional baseline failure. When the MDK tests ran serially in one process, the first empty-environment test failed and five subsequent tests reported a poisoned shared mutex. In fresh processes eight of the nine passed. The remaining test copies /usr/bin/env before executing it. In an independent control, the installed executable exited 0 under an empty environment and its temporary copy received SIGKILL. The cause of that OS signal is unverified. Run `mdk_host.py` with the original MDK unit-test binary to reproduce the distinction. [Fresh-process observations](mdk-aarch64-apple-darwin.json)
+The full original release workspace suite on macOS 26.6 exposed an additional baseline failure. When the MDK tests ran serially in one process, the first empty-environment test failed and five subsequent tests reported a poisoned shared mutex. In fresh processes eight of the nine passed. The remaining test copies /usr/bin/env before executing it. In an independent control, the installed executable exited 0 under an empty environment and its temporary copy received SIGKILL. The cause of that OS signal is unverified. To repeat the observation, run the following from the companion root with the original MDK unit-test binary. [Fresh-process observations](mdk-aarch64-apple-darwin.json)
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- mdk-host "$MDK_TEST_BINARY"
+```
+
 
 ## Named release tests
 
 Rebuild the pinned original in a private directory with a prepopulated Cargo registry, then list its test harnesses. For the subsequent execution run, set umask 077 before creating the checkout and build directories. The engine exercises path-permission checks on its working directory and executable.
 
 ```sh
-python3 -B verification/whole/suite/list_cargo.py "$UPSTREAM" "$CARGO_TARGET_DIR" /tmp/marmish-release-tests.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin list-cargo -- "$UPSTREAM" "$CARGO_TARGET_DIR" /tmp/marmish-release-tests.json
 ```
 
 Each row identifies a Cargo workspace package, target kind and target name, source path, the package’s own features and executable digest. The two harness listings distinguish default runnable cases from ignored cases. The inventory covers compiled host-default release harnesses. Doctests, fault-injection builds, installed checks and interpreted suites have separate entry points. Harness digests identify a particular build and may vary across build directories.
@@ -123,8 +128,8 @@ git clone --no-local "$UPSTREAM" "$root/reference"
 git -C "$root/reference" checkout --detach af54339d250290490d62d4475a77539b7e739071
 mkdir "$root/build"
 (cd "$root/reference" && CARGO_TARGET_DIR="$root/build" cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast -- --test-threads=1) > "$root/test.log" 2>&1 &&
-python3 -B verification/whole/suite/list_cargo.py "$root/reference" "$root/build" "$root/named.json" &&
-python3 -B verification/whole/suite/summarize_cargo.py "$root/test.log" "$root/named.json" "$root/result.json"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin list-cargo -- "$root/reference" "$root/build" "$root/named.json" &&
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin summarize-cargo -- "$root/test.log" "$root/named.json" "$root/result.json"
 ```
 
 ## Upstream tests on the five-crate generated candidate
@@ -144,7 +149,7 @@ To reproduce a receipt, use a clean checkout of each recorded revision, a popula
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/candidate.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/candidate.json --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/candidate.json --require-complete
 ```
 
 The completeness check exits 1 while any eligible catalog case lacks passing evidence.
@@ -176,6 +181,11 @@ The original workspace is needed by the test oracle. Both generated release exec
 The credited engine cases cover preserved limits. A no-op implementation also passes those cases. High-soft-limit normalization on macOS and the rest of the engine library need their own evidence.
 
 The [macOS receipt](recovered-aarch64-apple-darwin.json) records 39 passed and 870 unverified. The [Linux receipt](recovered-aarch64-unknown-linux-gnu.json) records 40 passed and 847 unverified. Each has five ignored. Both cold runs used companion verifier commit `64f86802a4348fe424977bf134f4ecb45daa4f60`. An engine case gets one catalog credit after its parent and child both run that exact test. Changing the child's filter to an absent name lets Cargo return success, while the coverage gate rejects it on both hosts. [Child-selection control](recovered-child-control.json)
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- child-control "$UPSTREAM" "$ODDLANG"
+```
+
 
 ## Seven-member workspace
 
@@ -211,8 +221,8 @@ The `canonical` candidate uses the [combined seven-member workspace](../../../od
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-suite.json --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-suite.json
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-suite.json --require-complete
 ```
 
 The [Darwin ARM64 receipt](canonical-aarch64-apple-darwin.json) records 42 passed and 867 unverified. The [Linux ARM64 receipt](canonical-aarch64-unknown-linux-gnu.json) records 43 passed and 844 unverified. Each host had five additional ignored cases and both completeness checks rejected certification. Both cold builds used verifier `048a521` and workspace lock `5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4`.
@@ -226,10 +236,10 @@ The runner repeats the complete canonical selection on each fresh sealed build. 
 Upstream exposes this parser only during tests. The generated parser is also under `cfg(test)`, and Cargo confirms the provider is a development dependency with no ordinary MDK dependency edge. The existing canonical manifest remains the default. The candidate changes only the MDK member lock and adds its development dependency edge to the shared Cargo lock, reusing the existing JSON provider entry.
 
 ```sh
-python3 -B verification/whole/mdk-json-input/compose_canonical.py --check
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-mdk-test-seam oddlang/portable --check
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-mdk \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-mdk-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-mdk-suite.json
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-mdk-suite.json
 ```
 
 The [macOS ARM64 receipt](canonical-mdk-aarch64-apple-darwin.json) records 43 of 909 active cases passed and 866 unverified. The [Linux ARM64 receipt](canonical-mdk-aarch64-unknown-linux-gnu.json) records 44 of 887 passed and 843 unverified. Each host has five additional ignored cases. The named MDK test is the only additional pass on each host.
@@ -256,8 +266,8 @@ or ignored in the receipts.
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-public-data \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" "$RECEIPT"
-python3 -B verification/whole/suite/check_coverage.py "$RECEIPT"
-python3 -B verification/whole/suite/check_coverage.py "$RECEIPT" --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- "$RECEIPT"
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- "$RECEIPT" --require-complete
 ```
 
 The [Darwin replay](canonical-public-data-aarch64-apple-darwin.json)
@@ -278,3 +288,26 @@ covers the two terminal help invocations only. Other test profiles,
 targets, installation and live operation have separate evidence and
 receive no coverage credit here. The published default remains pinned
 to the previous canonical workspace.
+
+### Release-manifest parser tests
+
+The live producer stages the two pinned upstream parser tests and their version vectors with `workspace-product suite-parser`. It then runs `workspace-product suite-parser-cases` inside the candidate sandbox. The runner discovers the generated module path and asks Cargo to run each exact name. A case receives credit only when the transcript names that test and reports one pass.
+
+Run the parser execution controls from the companion root:
+
+```sh
+cargo +1.96.1 test --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin workspace-product suite_controls::parser_controls
+```
+
+### Archived receipt verifier
+
+Run both Rust receipt checkers and their controls offline from the companion root:
+
+```sh
+cargo test --locked --offline --manifest-path verification/whole/suite/Cargo.toml
+```
+
+The replay compares all 14 macOS ARM64 and Linux ARM64 totals with the archived observations and rejects full-coverage promotion for each. Across those same receipts the Rust and historical Python checkers emitted byte-identical totals. Ten receipts also yielded byte-identical target reports with nine observed builds among 17 upstream targets. Four older receipts lack per-library build evidence and both checkers refused to report target coverage. The regression tests pin the ten historical report digests and check 66 changes to case names, source or executable pins, child counts, library evidence, and baseline controls. The independent rules in `receipt-rules.json` come from the original candidate, selected-test and parser-case definitions.
+
+For the recovered, seven, manifest and manifest-mdk profiles, the producer runs the Rust workspace witness inside the isolated generated workspace. Its `suite-selected-cases PRODUCT HOST PROFILE` command lists each selected harness before execution, runs each named case with an exact filter, and counts the passing processes. The manifest-mdk profile also runs an absent filter and checks its successful zero-test result.

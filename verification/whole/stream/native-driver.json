@@ -1,0 +1,31 @@
+{
+  "oracleSourceSha256": {
+    "verification/marmish-inventory/src/bin/portable-oracle/main.rs": "dce81eff4368cd0b0727408106ac30f0a2590dc5273b3647ad436a3ed609d0bd",
+    "verification/marmish-inventory/src/bin/portable-oracle/corpus.rs": "94ec54b7ece7dd2096c85c7b7cfa3c0b60c8d910e95da512223343f2f12b48e5",
+    "verification/marmish-inventory/src/bin/portable-oracle/native.rs": "96f2c04df2e6b26858acf6103211780735bfa423d6dfd869e86652966fb75624",
+    "verification/marmish-inventory/src/stream_observer.rs": "12140de2838f6394eeb80efb4ba24b4b3dad4c2dc5e4fc8deff5bec8d6ca9fe1",
+    "examples/marmish/portable-oracle/authored-cases.json": "0684ce7c9bd506f28ec4391d66348bf1b71cc8fca04e76abd966a0c8b3d3f566"
+  },
+  "driverSourceSha256": {
+    "qualify-tagged/main.rs": "7a257cda1417bf0db796348db2f106076120505dbd3d2073f6f79d3156fbbb11",
+    "qualify-tagged/build.rs": "69ce020315ac020bfb000425eb1f2581e2f0f3548a1655325c111a8a4a43e8ad",
+    "qualify-tagged/protocol.rs": "fc9549f7160b07dc438953d051af461918701c56d74ae1942b846e9074e0dbaa",
+    "qualify-tagged/sandbox.rs": "fba9e72ab7d70ba819635536f06a7d5ee2590bdd66b45055a61d48d0de336d72",
+    "qualify-tagged/linux.rs": "01becc4f824cabbb7e6d1144fd56f3968e0f8dcd90cfb3237f3a7a5c15438101",
+    "portable-oracle/corpus.rs": "94ec54b7ece7dd2096c85c7b7cfa3c0b60c8d910e95da512223343f2f12b48e5",
+    "portable-oracle/native.rs": "96f2c04df2e6b26858acf6103211780735bfa423d6dfd869e86652966fb75624",
+    "authored-cases.json": "0684ce7c9bd506f28ec4391d66348bf1b71cc8fca04e76abd966a0c8b3d3f566",
+    "tagged-supplement.json": "770a46a18a8b10cdb79bf6eebbc9b0d7a7c8563feeca705eed52a7340e98abbf",
+    "tagged_adapter.rs": "8f8315f5975326950ec9ca9bcb08192e9b382f7951c642a0e4f3e000247cf2f1",
+    "tagged_adapter.mjs": "5be9dd353fabb41c58439c4b3dda71e1a1252e648c24b5a6d3d8eac737643c52"
+  },
+  "gaps": [
+    "Copy variants other than Data and mixed frames requiring another variant",
+    "Windows, codec, stream JSON wire, bridge command and host effects",
+    "Full Rust public paths, signatures, traits, bindings and native consumers",
+    "Invalid portable values and trailing payload are outside the selected upstream comparison",
+    "Successful reads confined; file metadata probes remain allowed",
+    "Runtime dependencies and platforms beyond those recorded",
+    "Alternative compression library role is outside the Data contract"
+  ]
+}

@@ -48,18 +48,21 @@ directories. An interrupted run can reuse its work directory and validated
 cells. Use a new work directory for independent replay.
 
 ```sh
-runner=verification/whole/shapes/workspace_shapes.py
-python3 -B "$runner" /path/to/original /path/to/oddlang verify
-python3 -B "$runner" /path/to/original /path/to/oddlang recover /tmp/shapes-repeat \
+runner() {
+  cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+    --bin workspace-shape-archive -- "$@"
+}
+archive=oddlang/portable/workspace-shapes-v1
+runner verify /path/to/original /path/to/oddlang "$archive"
+runner recover /path/to/original /path/to/oddlang /tmp/shapes-repeat \
   aarch64-apple-darwin --target marmish_core --feature-mode default
-python3 -B "$runner" /path/to/original /path/to/oddlang compare /tmp/shapes-repeat
-python3 -B verification/whole/shapes/test_archive.py /path/to/original /path/to/oddlang \
-  oddlang/portable/workspace-shapes-v1
+runner compare /path/to/original /path/to/oddlang "$archive" /tmp/shapes-repeat
+runner controls /path/to/original /path/to/oddlang "$archive"
 ```
 
 Omit `--target` and `--feature-mode` to recover the whole selected host matrix.
 Pass `--target` more than once to select several targets. To seal a fresh
-archive, use `seal NEW_ARCHIVE WORK_DIR [WORK_DIR ...]` with the same runner.
+archive, use `seal ORIGINAL FRAMEWORK NEW_ARCHIVE WORK_DIR [WORK_DIR ...]` with the same runner.
 The verifier compares the inventory against Cargo metadata, checks the complete
 profile matrix, validates payload digests and locks, and checks the graph's
 closed structure and order of declarations, parameters, arguments, variants,

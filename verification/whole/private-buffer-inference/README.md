@@ -13,8 +13,14 @@ The verifier changes each policy independently in a disposable copy of the origi
 The native test observes the behavior of a known private type. Its adapter names, scripted stimuli and semantic field roles are supplied by the project. Inference distinguishes the supported alternatives for that profile. Inputs outside those observations still need their own compatibility evidence.
 
 ```sh
-python3 -B verification/whole/private-buffer-inference/qualify.py \
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-buffer-inference -- \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_CARGO_TARGET" /tmp/observed-reader.json
+```
+
+To reproduce the five original-source traces, run the Rust observer from the companion root.
+
+```sh
+cargo +1.96.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- buffer-traces "$UPSTREAM" "$CARGO_TARGET" --receipt /tmp/buffer-traces.json
 ```
 
 The native qualification requires clean checkouts of the original and the compiler named in [compiler.json](compiler.json). Rust 1.96.1 builds Oddlang, and Rust 1.97.1 runs the native cases. On each ARM64 host, all five inferred graphs produced the observed bytes, errors and poll counts for all three trials. Each graph and native package lock matched between hosts. Both runs used companion verifier commit `3703f0340f3535b0625928da0b89e255dff0c70d`. [macOS results](candidate-aarch64-apple-darwin.json) · [Linux results](candidate-aarch64-unknown-linux-gnu.json)

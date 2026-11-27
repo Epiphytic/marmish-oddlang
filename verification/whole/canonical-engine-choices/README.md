@@ -36,7 +36,7 @@ Produce the preceding canonical workspace separately with its published
 compiler and pins.
 
 ```sh
-python3 -B verification/whole/canonical-engine-choices/compose.py --check
+cargo +1.96.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-engine-choices oddlang/portable --check
 "$ODDLANG" build native-workspace rust \
   oddlang/portable/workspace-v7-canonical-engine-choices.json "$PRODUCT"
 python3 -B verification/whole/canonical-engine-choices/verify.py \
@@ -58,3 +58,12 @@ named suite verified 42 of 909 tests on Darwin ARM64 and 43 of 887
 on Linux ARM64, with five ignored cases on each host. This candidate
 phase runs compile-only import probes and the local enum data caller.
 The promotion evidence remains open.
+
+Omit `--check` from the composition command to regenerate the candidate workspace descriptor.
+
+The [Rust composer replay on macOS ARM64](rust-aarch64-apple-darwin.json) reproduced the candidate member locks and exercised all 140 imports. The seven native libraries exposed 79 imports, including the two new engine choices. The receipt identifies the historical Python composer separately from the Rust checker, its source revision and its executable. Build hashes identify the artifacts used by that run.
+
+The [canonical replay after migrating the standalone recovery tool](rust-recovery-aarch64-apple-darwin.json)
+compiled all seven candidate libraries on macOS ARM64. The import verdicts and
+diagnostics for all 140 spellings matched the earlier replay. The receipt records
+the current helper hashes and the archived standalone receipt used for comparison.

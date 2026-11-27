@@ -14,6 +14,7 @@ HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 PORTABLE = ROOT / "oddlang/portable"
 BASELINE = HERE.parent / "gap-range-reference"
+REFERENCE_RELEASE = "2c69f8c38cbd57136eb684f5b515ef1490f017b3"
 PIN = "af54339d250290490d62d4475a77539b7e739071"
 MODEL = Path("crates/marmish-engine/src/model.rs")
 SCOPE = "engine-gap-range-v1"
@@ -60,10 +61,11 @@ def clean(tree, commit):
 def fixture_reference(original, host):
     fixture = BASELINE / f"original-{host}.json"
     evidence = json.loads(fixture.read_bytes())
+    observer = run("git", "show", f"{REFERENCE_RELEASE}:verification/whole/gap-range-reference/observe.py", cwd=ROOT)
     expected = {"original": PIN, "host": host, "modelSha256": sha(original / MODEL),
                 "cargoLockSha256": sha(original / "Cargo.lock"),
                 "casesSha256": sha(BASELINE / "cases.json"), "probeSha256": sha(BASELINE / "probe.rs"),
-                "observerSha256": sha(BASELINE / "observe.py")}
+                "observerSha256": hashlib.sha256(observer).hexdigest()}
     if any(evidence.get(key) != value for key, value in expected.items()):
         raise ValueError("original reference provenance differs")
     return evidence["results"], sha(fixture)

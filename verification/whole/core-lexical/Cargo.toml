@@ -1,0 +1,43 @@
+[package]
+name = "core-qualification"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+oxigraph = { version = "=0.5.13", default-features = false }
+oxrdf = "=0.3.5"
+oxttl = "=0.2.5"
+serde_json = "1"
+sha2 = "0.10"
+tempfile = "3"
+
+[[bin]]
+name = "core-lexical-replay"
+path = "replay.rs"
+
+[[bin]]
+name = "core-lexical-compare"
+path = "compare.rs"
+
+[[bin]]
+name = "core-inherent"
+path = "../core-inherent/verify.rs"
+
+[[bin]]
+name = "core-ownership"
+path = "../core-ownership/verify.rs"
+
+[[bin]]
+name = "core-semantic-roles"
+path = "../core-ownership/semantic_roles.rs"
+
+[[bin]]
+name = "core-project-retention"
+path = "../core-ownership/project_retention.rs"
+
+[[bin]]
+name = "core-value"
+path = "../core-value/verify.rs"

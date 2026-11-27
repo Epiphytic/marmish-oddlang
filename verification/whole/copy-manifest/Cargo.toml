@@ -1,0 +1,59 @@
+[package]
+name = "copy-manifest-replay"
+version = "0.1.0"
+edition = "2024"
+publish = false
+default-run = "copy-manifest-replay"
+
+[workspace]
+
+[dependencies]
+base64 = "0.22"
+clap = { version = "4", features = ["derive"] }
+copy-checkpoint-replay = { path = "../copy-checkpoint" }
+public-data-qualification = { path = "../canonical-public-data" }
+serde = { version = "1", features = ["derive"] }
+serde_json = { version = "1", features = ["preserve_order"] }
+sha2 = "0.10"
+stream-wire-replay = { path = "../stream-wire" }
+tempfile = "3"
+
+[[bin]]
+name = "copy-field-relations"
+path = "../copy-field-relations/replay.rs"
+
+[[bin]]
+name = "check-copy-frame"
+path = "../copy-frame/verify.rs"
+
+[[bin]]
+name = "launch-hash-cases"
+path = "../copy-launch-hash/main.rs"
+
+[[bin]]
+name = "check-launch-layout"
+path = "../copy-launch-layout/verify.rs"
+
+[[bin]]
+name = "check-launch-hash"
+path = "../copy-launch-hash/verify.rs"
+
+[[bin]]
+name = "launch-data-cases"
+path = "../copy-launch/data_main.rs"
+
+[[bin]]
+name = "check-launch"
+path = "../copy-launch/verify.rs"
+
+[[bin]]
+name = "check-copy-helper-context"
+path = "../copy-helper-context/verify.rs"
+
+[[bin]]
+name = "check-vault-fixed-bytes"
+path = "../vault-fixed-bytes/verify.rs"
+
+[[bin]]
+name = "check-vault-values"
+path = "../vault-values/verify.rs"

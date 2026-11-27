@@ -30,6 +30,18 @@ On macOS an own-process libc fault forces the real entrypoint to return its
 startup error ahead of an invalid argument. The regular v7 replay runs against
 the same generated executables.
 
+To replay just the engine and entrypoint observations on an existing release
+workspace, run the Rust observer from the repository root. It builds the pinned
+engine library in each workspace and resolves the exact library files from
+Cargo's JSON messages. The generated client and daemon must already exist in
+the generated workspace's `target/release` directory.
+
+```sh
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin engine-limits-observer -- PATH_TO_ORIGINAL PATH_TO_ORIGINAL_RELEASE_BINS \
+  PATH_TO_GENERATED_WORKSPACE PATH_TO_REFERENCE_CARGO_TARGET
+```
+
 Scope ends at process limit initialization and its reachable error. The
 remainder of `EngineError`, engine bootstrap, descriptor enumeration,
 spawn gates, worker executables, and the separate native error-family

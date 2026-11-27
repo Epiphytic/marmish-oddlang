@@ -1,0 +1,24 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "host": "aarch64-apple-darwin",
+  "workspaceLockSha256": "a09599c28e2f7349cd83aa5a61cd26d49568c89940373fbc9ed19d047fa5a57a",
+  "byteIdenticalStagedFiles": {
+    "marmish-vault/tests/selected_upstream.rs": "cf1043df8f7a346f618e3ec7bf39a8c1ce72ec4d57599c1bad11448ff09f0a64",
+    "marmish-engine/tests/selected_upstream.rs": "2bb42ba08c15e0b73b99bde01c26bbc141e3bd8290006be02b275f138e694aa2",
+    "marmish-native/src/group_10/__projection_10.rs": "9b87422eb04b2e961bf84fa47a2e5db057393cd7c9529b8680aaa7cd399a81da",
+    "tools/release-version-vectors.json": "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1"
+  },
+  "readerTestModuleSha256": "c7b2957dabae4962c51b0b7370766ce75fff6e8385575cf551b7d5a997d3e511",
+  "readerTestBodySha256": "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc",
+  "passingNamedCases": [
+    "process_limits_tests::lower_soft_hard_and_descriptor_flags_are_unchanged",
+    "buffer::__projection_0::secret_request_tests::private_reader_wipes_consumed_spans",
+    "native_manifest::__projection_10::tests::shared_release_version_vectors",
+    "tests::strict_public_values",
+    "native_manifest::__projection_10::tests::strict_vectors"
+  ],
+  "repeatStagingRefusedWithoutChangingFiles": [
+    "suite-vault-engine",
+    "suite-parser"
+  ]
+}

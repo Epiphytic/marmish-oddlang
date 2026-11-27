@@ -1,26 +1,29 @@
 """Check the seven-member engine-choice candidate using native release metadata and data callers."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
 from pathlib import Path
 import runpy
 import subprocess
-import sys
 import tempfile
 
-from compose import CANDIDATE, ENGINE, PORTABLE, compose, digest
 
 HERE = Path(__file__).resolve().parent
 ROOT = HERE.parents[2]
 WHOLE = HERE.parent
+PORTABLE = ROOT / "oddlang/portable"
+CANDIDATE = PORTABLE / "workspace-v7-canonical-engine-choices.json"
+ENGINE = "marmish-engine"
+NATIVE = runpy.run_path(str(WHOLE / "unified-mdk/workspace_compat.py"))
+digest = NATIVE["sha"]
 FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
 STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
 LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
+RECOVERY_PIN = "d45ac05ae29feba3379f488caacc3b18e6e38ed9"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
 ADDED = [("engine", "Stream"), ("engine", "SubmitDisposition")]
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
@@ -35,16 +38,18 @@ def pin_bytes(path, revision):
     return want
 
 
+IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
 HELPER_PINS = {
-    HERE / "compose.py": INPUT_REVISION,
-    ENGINE_STANDALONE / "verify.py": STANDALONE_PIN,
-    ENGINE_STANDALONE / "compose.py": STANDALONE_PIN,
+    ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
+    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "vault-mode/verify.py": STANDALONE_PIN,
-    WHOLE / "journal-records/verify.py": STANDALONE_PIN,
-    WHOLE / "workspace/verify.py": STANDALONE_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": LINUX_IMPORT_PIN,
-    WHOLE / "seven-public-imports/verify.py": LINUX_IMPORT_PIN,
+    WHOLE / "workspace/verify.py": "a5b32e8fa246aa93df730a66943fdf3c4707254c",
+    WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/product.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": IMPORT_TOOLING_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
@@ -52,6 +57,25 @@ HELPER_HASHES = {
     ).hexdigest()
     for path, revision in HELPER_PINS.items()
 }
+# The earlier standalone run used the journal projection embedded in its Python
+# verifier. Current replay loads that helper and its native projection sources.
+JOURNAL_INPUT_PINS = {
+    "journal-records/verify.py": "2bb91a8849fc8cf66293fc31de3d50d566a6e8319d8e33b2f0d6381a5de725d8",
+    "journal-records/recovery.rs": "1acceb5f9260cca04a7b5989fadaaa0f9f21d5a82087bd2bccaecf0bdd11e682",
+    "journal-records/witness.rs": "c1061086c30ff0b806b694b094082a1748eb66e9b2de5d6e3e4585d42e6c2ca7",
+    "canonical-public-data/src/bin/journal-record-inputs.rs": "cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce",
+}
+for relative, expected in JOURNAL_INPUT_PINS.items():
+    path = WHOLE / relative
+    actual_digest = digest(path)
+    if actual_digest != expected:
+        raise ValueError(f"pinned journal input helper changed: {path}")
+    HELPER_HASHES[path.relative_to(ROOT).as_posix()] = actual_digest
+
+# Earlier receipts bind this deleted verifier to its release commit.
+ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
+ARCHIVED_COMPOSER_SHA = hashlib.sha256(subprocess.check_output(
+    ["git", "show", f"{INPUT_REVISION}:{ARCHIVED_COMPOSER}"], cwd=ROOT)).hexdigest()
 PREVIOUS = runpy.run_path(str(WHOLE / "canonical-linux-imports/verify.py"))
 AUDIT = PREVIOUS["audit"]
 DARWIN = AUDIT.HOST
@@ -59,13 +83,7 @@ LINUX = PREVIOUS["HOST"]
 
 
 def engine_lane():
-    native = sys.modules.pop("compose")
-    sys.path.insert(0, str(ENGINE_STANDALONE))
-    try:
-        return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
-    finally:
-        sys.path.pop(0)
-        sys.modules["compose"] = native
+    return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
 
 
 def pinned(path, commit):
@@ -86,7 +104,7 @@ def prior(host):
 
 
 def snapshots(args, profile):
-    assert CANDIDATE.read_bytes() == compose()
+    NATIVE["check_api_release"]("canonical-engine-choices", PORTABLE)
     prior_input = PREVIOUS["CANONICAL"]
     AUDIT.verify_product(args.baseline, ROOT, prior_input)
     AUDIT.verify_product(args.product, ROOT, profile)
@@ -181,19 +199,7 @@ def build(args, host):
 
 def imports(host, artifacts, original):
     previous = prior(host)
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        result = dict(
-            zip(
-                AUDIT.COUNTS,
-                pool.map(
-                    lambda name: AUDIT.imports(
-                        name, artifacts[f"marmish-{name}"], original, target=host
-                    ),
-                    AUDIT.COUNTS,
-                ),
-                strict=True,
-            )
-        )
+    result = AUDIT.library_imports(artifacts, original, target=host)
     additions = []
     for name, library in result.items():
         assert all(
@@ -254,6 +260,8 @@ def candidate_serde(raw, target, host):
 def qualify(args):
     assert args.input_revision == INPUT_REVISION and digest(LOCK) == LOCK_SHA256
     runtime = engine_lane()
+    companion = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
+    runtime["checkout"](ROOT, companion)
     runtime["checkout"](args.framework, FRAMEWORK)
     original = PREVIOUS["source_pin"](args.original)
     assert all(
@@ -273,7 +281,9 @@ def qualify(args):
         "compilerSha256"
     ] == digest(args.compiler)
     PREVIOUS["frozen_inputs"](ROOT)
-    assert digest(ENGINE_STANDALONE / "verify.py") == standalone["verifierSha256"]
+    archived_verifier = subprocess.check_output(
+        ["git", "show", f"{STANDALONE_PIN}:verification/whole/engine-fieldless-choices/verify.py"], cwd=ROOT)
+    assert hashlib.sha256(archived_verifier).hexdigest() == standalone["verifierSha256"]
     assert digest(ENGINE_STANDALONE / "probe.rs") == standalone["probeSha256"]
     profile = AUDIT.Candidate(CANDIDATE.stem, INPUT_REVISION, FRAMEWORK, LOCK_SHA256)
     before = snapshots(args, profile)
@@ -327,6 +337,7 @@ def qualify(args):
     assert before == snapshots(args, profile)
     assert original == PREVIOUS["source_pin"](args.original)
     runtime["checkout"](args.framework, FRAMEWORK)
+    runtime["checkout"](ROOT, companion)
     return {
         "platform": host,
         "rustc": rustc,
@@ -350,6 +361,16 @@ def qualify(args):
         "standaloneReceiptSha256": digest(ENGINE_STANDALONE / f"{host}.json"),
         "verifierSha256": digest(Path(__file__)),
         "helperSha256": HELPER_HASHES,
+        "archivedComposer": {"path": ARCHIVED_COMPOSER, "revision": INPUT_REVISION, "sha256": ARCHIVED_COMPOSER_SHA},
+        "nativeComposer": {
+            "companion": companion, "executableSha256": digest(NATIVE["workspace_tool"]()[1]),
+            "sourceSha256": {name: digest(WHOLE / name) for name in (
+                "canonical-range-data/compose.rs", "converged-public-api/compose.rs",
+                "canonical-public-data/src/lib.rs", "canonical-public-data/src/assembly.rs",
+                "canonical-public-data/witness.rs", "canonical-public-data/Cargo.toml",
+                "canonical-public-data/Cargo.lock", "unified-mdk/workspace_compat.py",
+            )},
+        },
     }
 
 

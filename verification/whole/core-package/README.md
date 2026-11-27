@@ -34,7 +34,8 @@ revisions in the [native qualification receipt](reference-aarch64-apple-darwin.j
 Rust 1.97.1 and the locked Cargo dependencies cached locally.
 
 ```sh
-python3 -B verification/whole/core-package/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin core-package-inputs -- macos \
   /path/to/original /path/to/pinned-oddlang /tmp/core-package-replay.json
 cmp /tmp/core-package-replay.json verification/whole/core-package/reference-aarch64-apple-darwin.json
 ```
@@ -67,7 +68,10 @@ mount for the reference source. Seven unchanged integration tests passed
 on each implementation, and all 1,735 observations matched the macOS
 transcript digest. [Linux ARM64 qualification](reference-aarch64-unknown-linux-gnu.json)
 
+The archived receipt was produced by the shell runner. To qualify the Rust runner on Linux, run the following command and compare the receipt.
+
 ```sh
-bash verification/whole/core-package/linux.sh oddlang/portable \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin core-package-inputs -- linux oddlang/portable \
   /path/to/original /path/to/pinned-oddlang /tmp/core-package-linux-replay.json
 ```
