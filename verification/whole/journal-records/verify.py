@@ -5,7 +5,6 @@ import json
 import os
 from pathlib import Path
 import runpy
-import shutil
 import subprocess
 import sys
 import tempfile
@@ -29,8 +28,8 @@ ALTERNATE = [*EXPECTED[:2], EXPECTED[2].replace(
     r'"session":"s\n1","cursor":18446744073709551615', 1)]
 
 
-def run(*argv, cwd=None, env=None):
-    result = subprocess.run(argv, cwd=cwd, env=env, check=False, capture_output=True, timeout=600)
+def run(*argv, cwd=None, env=None, input=None):
+    result = subprocess.run(argv, cwd=cwd, env=env, input=input, check=False, capture_output=True, timeout=600)
     if result.returncode:
         raise RuntimeError(f"command failed: {argv}\n{result.stderr.decode(errors='replace')}")
     return result.stdout
@@ -48,10 +47,6 @@ def write_json(path, value):
     path.write_text(json.dumps(value, indent=2) + "\n")
 
 
-def pin(base, path):
-    return {"path": path.relative_to(base).as_posix(), "sha256": sha(path.read_bytes())}
-
-
 def cargo_env():
     env = dict(os.environ, RUSTUP_TOOLCHAIN="1.97.1", CARGO_NET_OFFLINE="true",
                MARMISH_BUILD_COMMIT=ORIGINAL)
@@ -61,85 +56,18 @@ def cargo_env():
 
 
 def probe(output, messages):
-    libraries = {}
-    native_paths = set()
-    for line in messages.splitlines():
-        item = json.loads(line)
-        if item["reason"] == "compiler-artifact":
-            name = item["target"]["name"]
-            if name in ("marmish_native", "serde_json"):
-                paths = [Path(path) for path in item["filenames"] if path.endswith(".rlib")]
-                if len(paths) == 1:
-                    if name in libraries:
-                        raise ValueError(f"ambiguous {name} library in Cargo records")
-                    libraries[name] = paths[0]
-        elif item["reason"] == "build-script-executed":
-            native_paths.update(item["linked_paths"])
-    if set(libraries) != {"marmish_native", "serde_json"}:
-        raise ValueError(f"unexpected native caller libraries: {libraries}")
-    flags = ["-L", f"dependency={libraries['serde_json'].parent}"]
-    for name, path in sorted(libraries.items()):
-        flags.extend(("--extern", f"{name}={path}"))
-    for path in sorted(native_paths):
-        flags.extend(("-L", path))
-    run("rustc", "+1.97.1", "--edition=2024", HERE / "probe.rs", *flags, "-o", output)
-    return {"jsonLines": run(output, cwd=output.parent).decode().splitlines(),
-            "libraries": {name: sha(path.read_bytes()) for name, path in libraries.items()}}
+    return json.loads(journal_inputs("probe", output, input=messages))
 
 
-def mutate(original, mutant):
-    # The reordered public fields keep the original implementation and call sites valid.
-    archive = mutant.parent / "original.tar"
-    with archive.open("wb") as output:
-        subprocess.run(["git", "-C", original, "archive", ORIGINAL], stdout=output, check=True)
-    mutant.mkdir()
-    run("tar", "-xf", archive, "-C", mutant)
-    file = mutant / SOURCE / "journal.rs"
-    prefix = b"pub struct ReceivedMessage {\n"
-    old = prefix + b"    pub cursor: u64,\n    pub session: String,\n"
-    replacement = prefix + b"    pub session: String,\n    pub cursor: u64,\n"
-    original_source = file.read_bytes()
-    if original_source.count(old) != 1:
-        raise ValueError("source mutation no longer changes exactly the two admitted fields")
-    file.write_bytes(original_source.replace(old, replacement))
-
-
-def recover(compiler, original, mutant, scratch):
-    selection = PORTABLE / BUNDLE / "selection.json"
-    baseline, changed = scratch/"recovered", scratch/"recovered-reordered"
-    run(compiler, "recover", "public-records", original/SOURCE/"lib.rs", selection, baseline)
-    for name in ("graph.json", "rust.json", "recovery.lock"):
-        if (baseline/name).read_bytes() != (PORTABLE/BUNDLE/name).read_bytes():
-            raise ValueError(f"committed record recovery differs: {name}")
-    altered = json_file(selection)
-    part, = [part for part in altered["modules"] if part["name"] == "journal"]
-    part["sha256"] = sha((mutant/SOURCE/"journal.rs").read_bytes())
-    changed_selection = scratch/"mutated-selection.json"
-    write_json(changed_selection, altered)
-    run(compiler, "recover", "public-records", mutant/SOURCE/"lib.rs", changed_selection, changed)
-    graph = json_file(baseline/"graph.json")
-    record, = [record for module in graph["modules"] for record in module["records"]
-               if record["id"] == "urn:marmish:native:journal:ReceivedMessage"]
-    record["fields"][:2] = record["fields"][:2][::-1]
-    if graph != json_file(changed/"graph.json") or (baseline/"rust.json").read_bytes() != (changed/"rust.json").read_bytes():
-        raise ValueError("mutation changed the graph beyond the declared field permutation")
-    return changed
+def journal_inputs(*args, input=None):
+    return run("cargo", "+1.97.1", "run", "--locked", "--offline", "--quiet",
+               "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+               "--bin", "journal-record-inputs", "--", *args, input=input)
 
 
 def stage_thin(dst, graphs):
-    dst.mkdir()
-    bundle = dst / BUNDLE
-    bundle.mkdir()
-    manifest = json_file(PORTABLE / THIN)
-    for name in ("graph.json", "rust.json"):
-        shutil.copyfile(graphs / name, bundle / name)
-    shutil.copyfile(PORTABLE / BUNDLE / "Cargo.lock", bundle / "Cargo.lock")
-    component, = manifest["components"]
-    component["graph"] = pin(dst, bundle/"graph.json")
-    component["overlay"] = pin(dst, bundle/"rust.json")
-    out = dst/THIN
-    write_json(out, manifest)
-    return out
+    journal_inputs("stage", dst, graphs)
+    return dst / THIN
 
 
 def sandbox(assembly, work, paths, provider_cache):
@@ -163,9 +91,9 @@ def qualify(work, scratch, args, assembly):
     run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "oddlang",
         "--target-dir", compiler_target, cwd=args.framework, env=cargo_env())
     compiler = compiler_target/"debug/oddlang"
-    mutant = scratch/"original-mutant"
-    mutate(args.original, mutant)
-    changed = recover(compiler, args.original, mutant, scratch)
+    mutant = scratch/"journal-mutant"
+    journal_inputs("recover", compiler, args.original, scratch)
+    changed = scratch/"recovered-reordered"
     reference_build = ("cargo", "+1.97.1", "build", "--locked", "--offline", "--release",
         "-p", "marmish-native", "--lib", "--message-format=json", "--target-dir")
     original_output = probe(scratch/"native-original",

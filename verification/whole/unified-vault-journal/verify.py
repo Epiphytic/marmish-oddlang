@@ -107,9 +107,8 @@ def source_oracles(compiler, original, scratch, prior, work):
     candidate["guards"] = data(PORTABLE / "native-build-report-v1/graph.json")["guards"]
     if candidate != data(inputs / "native-build-report-recovered-v1/graph.json"):
         raise ValueError("source-recovered report graph changed")
-    mutant = scratch / "journal-mutant"
-    JOURNAL["mutate"](original, mutant)
-    changed = JOURNAL["recover"](compiler, original, mutant, scratch)
+    JOURNAL["journal_inputs"]("recover", compiler, original, scratch)
+    changed = scratch / "recovered-reordered"
     previous = data(HERE.parent / "journal-records/aarch64-apple-darwin.json")
     if data(changed / "recovery.lock") != previous["reorderedRecovery"]:
         raise ValueError("journal source mutation no longer recovers the qualified graph")

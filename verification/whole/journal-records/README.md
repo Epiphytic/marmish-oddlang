@@ -60,3 +60,21 @@ Follow-up compiler `0a44ffd4355ecd6a12bd8227626786562cea7991` checks Rust
 binding identities for raw names and grouped self imports. Its replays of
 the pinned original and reorder recover identical locks. Its baseline
 projection reproduces the Rust source hash sealed in the native package.
+
+## Native recovery and caller replay
+
+The journal gate and the combined workspace gates share the Rust
+`journal-record-inputs` tool for source recovery and the independent native
+caller. Its `stage` command prepares the standalone package from the recovered
+graph, overlay and Cargo lock. The existing verifier runs the source-denial
+checks before invoking the projector.
+
+On Darwin ARM64, the pinned compiler reproduced both original recovery
+directories byte for byte against the earlier verifier at `042f0182`. Both
+recovery locks matched the Darwin and Linux archives. The baseline and reordered
+standalone inputs also matched the earlier verifier, including their manifests.
+After all five excluded-file probes failed as required, both generated packages
+reproduced the archived standalone package locks and three ordered JSON lines
+each. Running the old and Rust callers against the same Cargo artifacts also
+reproduced both library hashes. This replay covered the standalone projection;
+the linked five-member receipt above records the combined workspace run.

@@ -44,8 +44,7 @@ HELPER_PINS = {
     ENGINE_STANDALONE / "compose.py": STANDALONE_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "vault-mode/verify.py": STANDALONE_PIN,
-    WHOLE / "journal-records/verify.py": STANDALONE_PIN,
-    WHOLE / "workspace/verify.py": STANDALONE_PIN,
+    WHOLE / "workspace/verify.py": "6d87add48e3e2857ad4213d7ae81ca037522a03d",
     WHOLE / "canonical-linux-imports/verify.py": LINUX_IMPORT_PIN,
     WHOLE / "seven-public-imports/verify.py": LINUX_IMPORT_PIN,
 }
@@ -55,6 +54,21 @@ HELPER_HASHES = {
     ).hexdigest()
     for path, revision in HELPER_PINS.items()
 }
+# The earlier standalone run used the journal projection embedded in its Python
+# verifier. Current replay loads that helper and its native projection sources.
+JOURNAL_INPUT_PINS = {
+    "journal-records/verify.py": "2bb91a8849fc8cf66293fc31de3d50d566a6e8319d8e33b2f0d6381a5de725d8",
+    "journal-records/recovery.rs": "1acceb5f9260cca04a7b5989fadaaa0f9f21d5a82087bd2bccaecf0bdd11e682",
+    "journal-records/witness.rs": "c1061086c30ff0b806b694b094082a1748eb66e9b2de5d6e3e4585d42e6c2ca7",
+    "canonical-public-data/src/bin/journal-record-inputs.rs": "cd78ccc0f484a7bcb5bc33c76e6e7867f5a2bc7df6e1992cceaa3bebd5a9a2ce",
+}
+for relative, expected in JOURNAL_INPUT_PINS.items():
+    path = WHOLE / relative
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+    if digest != expected:
+        raise ValueError(f"pinned journal input helper changed: {path}")
+    HELPER_HASHES[path.relative_to(ROOT).as_posix()] = digest
+
 # Earlier receipts bind this deleted verifier to its release commit.
 ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
 ARCHIVED_COMPOSER_SHA = hashlib.sha256(subprocess.check_output(
