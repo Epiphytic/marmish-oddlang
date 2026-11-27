@@ -23,7 +23,7 @@ package locks. Its graph and receipt contain no upstream function bodies.
 Run the reproduction from a source checkout of the companion:
 
 ```sh
-python3 -B verification/whole/retention-structure/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin retention-structure -- \
   ODDLANG ORIGINAL NEW_OUTPUT --framework-revision FRAMEWORK_REVISION
 ```
 
@@ -32,3 +32,7 @@ covers one conventional public-reexported optional unsigned tuple newtype
 and the closed forms documented in the framework plan. Additional guard
 effects, arbitrary macros, type aliases, and general Rust behavior remain
 outside this extraction.
+
+The Rust verifier reproduced all seven archived files on Darwin ARM64, including
+the baseline and seven-day caller transcripts and the receipt with SHA-256
+`964b84660a8c31a96114b774381c2cf873a94d6e425862fb0408b20a7133c06f`.

@@ -3,6 +3,9 @@ use public_data_qualification::{assembly::*, *};
 use serde_json::{Value, json};
 use std::{fs, path::Path, process::Command};
 
+#[path = "../release-info-structure/ingest.rs"]
+mod release_ingest;
+
 pub fn report(
     cli: &Path,
     original: &Path,
@@ -31,20 +34,13 @@ pub fn report(
             && component["graph"]["sha256"] == graph,
         "recovered report differs from standalone qualification",
     )?;
-    let mut config = load(&whole().join("release-info-structure/selection.json"))?;
-    let sources = list(&config["sources"])?
-        .iter()
-        .map(|s| pin(original, text(&s["path"])?))
-        .collect::<Result<Vec<_>>>()?;
-    config["sources"] = sources.into();
-    let path = scratch.join("report-selection.json");
-    fs::write(&path, json_bytes(&config)?)?;
     let extracted = scratch.join("original-report");
-    run(Command::new(cli)
-        .args(["recover", "build-report"])
-        .arg(original)
-        .arg(path)
-        .arg(&extracted))?;
+    release_ingest::recover(
+        cli,
+        original,
+        &extracted,
+        &scratch.join("report-selection.json"),
+    )?;
     let mut candidate = load(&extracted.join("graph.json"))?;
     candidate["guards"] =
         load(&portable().join("native-build-report-v1/graph.json"))?["guards"].clone();

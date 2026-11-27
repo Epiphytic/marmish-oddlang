@@ -98,9 +98,11 @@ def source_oracles(compiler, original, scratch, prior, work):
     inputs = work / "inputs"
     with patch.dict(prior["check_recovered_report"].__globals__, {"MANIFEST": MANIFEST}):
         release = prior["check_recovered_report"](inputs)
-    report = lane("release-info-structure")
     recovered = scratch / "original-report"
-    report["ingest"](compiler, original, recovered, scratch / "report-selection.json")
+    run("cargo", "+1.97.1", "run", "--offline", "--locked", "--quiet",
+        "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+        "--bin", "recover-release-info", "--", compiler, original, recovered,
+        scratch / "report-selection.json")
     candidate = data(recovered / "graph.json")
     candidate["guards"] = data(PORTABLE / "native-build-report-v1/graph.json")["guards"]
     if candidate != data(inputs / "native-build-report-recovered-v1/graph.json"):

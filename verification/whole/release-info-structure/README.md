@@ -30,12 +30,24 @@ populated. Use a fresh output directory and reuse separate target roots dedicate
 baseline and mutant Cargo caches in distinct subdirectories.
 
 ```sh
-RUSTUP_TOOLCHAIN=1.97.1 python3 -B verification/whole/release-info-structure/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin release-info-structure -- \
   /path/to/oddlang /path/to/original /tmp/recovered-release-info-run \
   --framework-revision FRAMEWORK_SHA \
   --original-target /tmp/recovered-report-original-target \
   --generated-target /tmp/recovered-report-generated-target
 ```
 
+For a replay using retained Darwin upstream binaries, add
+`--retained-original-pins verification/whole/release-info-structure/darwin-original-pins.json`.
+The verifier checks SHA-256 for both roles under `baseline/debug` and
+`mutant/debug` in the original target root before observing their metadata.
+These digests identify the specific retained executables used for this replay.
+The generated workspaces and commands, and the scratch source type probe,
+still compile during that run.
+
 This phase qualifies the ordinary development-layout report and its named
 inputs. It leaves v7's published release pins and prior command coverage in place.
+
+With the four pinned Darwin upstream witnesses, the Rust verifier reproduced
+both archived transcripts and the receipt with SHA-256
+`99f863e4f34fdc8f3bc92675fa992dc8b3c041eb708f2f2217f47108a06f2065`.

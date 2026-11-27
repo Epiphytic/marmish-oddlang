@@ -1,0 +1,10 @@
+{
+  "baseline": {
+    "marmish": "5aaf1373ed55baeaeff3e0c1b1c91d3f529a2a18014d3ff9266e016aed42f04d",
+    "marmishd": "05d3ab99c602de2e6cc3d3bb4cc9512ec54a9279bbf777015ee78ef663fe0ddf"
+  },
+  "mutant": {
+    "marmish": "c19b8447f021e777e112395e966d4c9446e139f38c20ce0d1127619b28a9e67d",
+    "marmishd": "3e1504e60d26201805048f7a37b46e1319702915a288a86d07e6294ad0889401"
+  }
+}
