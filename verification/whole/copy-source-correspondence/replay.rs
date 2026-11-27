@@ -18,21 +18,8 @@ const RELATION: &str = "urn:marmish:copy:launch:matches-manifest";
 const METHOD: &str = "crate::copy_protocol::Launch::matches_manifest";
 const PACKAGE: &str = "stream-copy-source-correspondence-package.json";
 
-pub fn archive(repo: &Path, revision: &str, dest: &Path) -> Result {
-    let tar = tempfile::NamedTempFile::new()?;
-    run(Command::new("git")
-        .current_dir(repo)
-        .args(["archive", "--output"])
-        .arg(tar.path())
-        .arg(revision))?;
-    fs::create_dir(dest)?;
-    run(Command::new("tar")
-        .arg("-xf")
-        .arg(tar.path())
-        .arg("-C")
-        .arg(dest))?;
-    Ok(())
-}
+pub use public_data_qualification::assembly::archive;
+
 fn recover(
     framework: &Path,
     cli: &Path,

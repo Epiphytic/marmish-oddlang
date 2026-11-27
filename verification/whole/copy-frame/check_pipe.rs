@@ -1,7 +1,7 @@
 //! Compare real two-process exchanges with independently encoded copy Data records.
 use clap::Parser;
 use public_data_qualification::{
-    assembly::{ORIGINAL, build_env, bytes_sha, checkout},
+    assembly::{ORIGINAL, bytes_sha, checkout},
     product::check_members,
     *,
 };
@@ -22,36 +22,14 @@ struct Args {
 const LOCK: &str = "2efe4cea5e65e5918024f7f79465c92297e47dc019a66399b4e5894eb6eb172c";
 
 fn build(work: &Path, workspace: &Path, member: &str) -> Result<PathBuf> {
-    fs::create_dir_all(work.join("src"))?;
-    fs::write(work.join("src/main.rs"), include_bytes!("pipe.rs"))?;
-    let dependency = workspace.join(member);
-    let manifest = format!(
-        "[workspace]\n[package]\nname='copy-frame-pipe'\nversion='0.1.0'\nedition='2024'\n[dependencies]\nmarmish-stream={{path={}}}\n",
-        toml::Value::String(dependency.to_str().ok_or("non-UTF-8 crate path")?.into())
-    );
-    fs::write(work.join("Cargo.toml"), manifest)?;
-    fs::copy(workspace.join("Cargo.lock"), work.join("Cargo.lock"))?;
-    run(build_env(Command::new("cargo").current_dir(work).args([
-        "+1.97.1",
-        "metadata",
-        "--offline",
-        "--format-version",
-        "1",
-    ])))?;
-    run(build_env(
-        Command::new("cargo")
-            .current_dir(work)
-            .args([
-                "+1.97.1",
-                "build",
-                "--release",
-                "--locked",
-                "--offline",
-                "--target-dir",
-            ])
-            .arg(work.join("target")),
-    ))?;
-    Ok(work.join("target/release/copy-frame-pipe"))
+    stream_caller::build(
+        work,
+        &workspace.join(member),
+        &workspace.join("Cargo.lock"),
+        include_bytes!("pipe.rs"),
+        "copy-frame-pipe",
+        "2024",
+    )
 }
 
 fn corpus() -> Vec<u8> {
