@@ -1,7 +1,6 @@
 """Check the seven-member engine-choice candidate using native release metadata and data callers."""
 
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
@@ -39,14 +38,16 @@ def pin_bytes(path, revision):
     return want
 
 
+IMPORT_TOOLING_PIN = "ec5a24b45a977b6a9dd0b4515cf8179670d4ba83"
 HELPER_PINS = {
     ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
     WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "vault-mode/verify.py": STANDALONE_PIN,
     WHOLE / "workspace/verify.py": "a5b32e8fa246aa93df730a66943fdf3c4707254c",
-    WHOLE / "canonical-linux-imports/verify.py": LINUX_IMPORT_PIN,
-    WHOLE / "seven-public-imports/verify.py": LINUX_IMPORT_PIN,
+    WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
@@ -196,19 +197,7 @@ def build(args, host):
 
 def imports(host, artifacts, original):
     previous = prior(host)
-    with ThreadPoolExecutor(max_workers=4) as pool:
-        result = dict(
-            zip(
-                AUDIT.COUNTS,
-                pool.map(
-                    lambda name: AUDIT.imports(
-                        name, artifacts[f"marmish-{name}"], original, target=host
-                    ),
-                    AUDIT.COUNTS,
-                ),
-                strict=True,
-            )
-        )
+    result = AUDIT.library_imports(artifacts, original, target=host)
     additions = []
     for name, library in result.items():
         assert all(
