@@ -1,7 +1,6 @@
 """Recover the native gap record and replay the archived original data witnesses."""
 
 import argparse
-import hashlib
 import json
 import os
 from pathlib import Path
@@ -45,83 +44,6 @@ PIN, MODEL, ENV, BASELINE = (PRIOR[key] for key in ("PIN", "MODEL", "ENV", "BASE
 
 def read(path):
     return json.loads(path.read_bytes())
-
-
-def rustdoc_inputs(directory, original, sources, host):
-    evidence = read(directory / "evidence.json")
-    profile = {
-        "original": PIN,
-        "host": host,
-        "source": MODEL.as_posix(),
-        "cargoLockSha256": sha(original / "Cargo.lock"),
-        "crateRootSha256": sha((original / MODEL).with_name("lib.rs")),
-
-        "cargoArgs": [
-            "cargo",
-            "+1.97.1",
-            "rustdoc",
-            "--locked",
-            "--offline",
-            "--lib",
-            "-p",
-            "marmish-engine",
-            "--target",
-            host,
-            "--target-dir",
-            "<target-dir>",
-            "--",
-            "-Z",
-            "unstable-options",
-            "--output-format",
-            "json",
-            "--document-private-items",
-        ],
-        "profileEnvironment": {
-            "RUSTC_BOOTSTRAP": "1",
-            "CARGO_PROFILE_DEV_DEBUG": "0",
-            "CARGO_INCREMENTAL": "0",
-        },
-    }
-    if evidence["format"] == "marmish-linked-range-rustdoc-v2":
-        profile["runnerSha256"] = sha(HERE / "rustdoc.rs")
-    elif evidence["format"] == "marmish-linked-range-rustdoc-v1":
-        historical = "f3bbe1c50150ce2c2458e747f6c1efbd50dbf8b8"
-        runner = (HERE / "rustdoc.py").relative_to(ROOT)
-        profile["runnerSha256"] = hashlib.sha256(run("git", "show", f"{historical}:{runner}", cwd=ROOT)).hexdigest()
-        archived_helper = run("git", "show", f"{LEGACY}:{prior_helper.relative_to(ROOT)}", cwd=ROOT)
-        if evidence["helperSha256"] not in {sha(prior_helper), hashlib.sha256(archived_helper).hexdigest()}:
-            raise ValueError("unrecognized rustdoc helper")
-    else:
-        raise ValueError("unrecognized rustdoc evidence version")
-    if any(evidence[key] != value for key, value in profile.items()):
-        raise ValueError("rustdoc runner, original source or profile differs")
-    if (
-        f"commit-hash: {RUSTC}" not in evidence["rustdoc"]
-        or f"host: {host}" not in evidence["rustdoc"]
-    ):
-        raise ValueError("wrong native rustdoc toolchain")
-    inputs = {}
-    for label, source in sources.items():
-        document = directory / f"{label}.json"
-        compiled = read(document)
-        if (
-            compiled["format_version"] != 57
-            or not compiled["includes_private"]
-            or compiled["target"]["triple"] != host
-            or compiled["index"][str(compiled["root"])]["name"] != "marmish_engine"
-        ):
-            raise ValueError(f"wrong compiled rustdoc document for {label}")
-        wanted = {
-            "sourceSha256": sha(source),
-            "rustdocSha256": sha(document),
-            "rustdocFile": document.name,
-        }
-        if evidence["inputs"][label] != wanted:
-            raise ValueError(f"wrong compiler evidence inputs for {label}")
-        inputs[label] = document
-    if sha(inputs["baseline"]) == sha(inputs["mutation"]):
-        raise ValueError("the two independent rustdoc builds must differ")
-    return inputs, evidence
 
 
 def qualification_witnesses(original, host, sources, rustc):
@@ -352,16 +274,22 @@ def qualify(args):
         crate_root = sha(sources["baseline"].with_name("lib.rs"))
         if sha(sources["mutation"].with_name("lib.rs")) != crate_root:
             raise ValueError("the source mutation changed the crate root")
-        docs, evidence = rustdoc_inputs(args.rustdoc, args.original, sources, host)
-        reason = reason_witness(host, sources["baseline"])
-        expected, legacy_sha, baseline_sha = qualification_witnesses(
-            args.original, host, sources, rustc
-        )
         tool_target = scratch / "tools"
         run("cargo", "+1.97.1", "build", "--locked", "--offline", "--bin", "range-contract-inputs",
             "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
             "--target-dir", tool_target, env=ENV)
         preparer = tool_target / "debug/range-contract-inputs"
+
+        def checked_evidence():
+            return json.loads(run(preparer, "check-evidence", args.rustdoc, args.original,
+                                  sources["mutation"], host, env=ENV))
+
+        evidence = checked_evidence()
+        docs = {label: args.rustdoc / evidence["inputs"][label]["rustdocFile"] for label in sources}
+        reason = reason_witness(host, sources["baseline"])
+        expected, legacy_sha, baseline_sha = qualification_witnesses(
+            args.original, host, sources, rustc
+        )
         recovered, selections = {}, {}
         for label, source in sources.items():
             lane = scratch / label
@@ -417,7 +345,7 @@ def qualify(args):
             work,
             preparer,
         )
-        if rustdoc_inputs(args.rustdoc, args.original, sources, host)[1] != evidence:
+        if checked_evidence() != evidence:
             raise ValueError("rustdoc inputs changed during qualification")
         if (
             run("git", "status", "--porcelain", "--untracked-files=all", cwd=mutant)

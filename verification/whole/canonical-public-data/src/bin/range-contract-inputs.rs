@@ -1,4 +1,6 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
+#[path = "../../../gap-range-recovery/evidence.rs"]
+mod evidence;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
     Result, json_bytes, load, pin, portable, product::pinned, require, run, sha, text,
@@ -27,6 +29,13 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Verify both collected Rustdoc files and print their checked provenance receipt.
+    CheckEvidence {
+        directory: PathBuf,
+        original: PathBuf,
+        mutation: PathBuf,
+        host: String,
+    },
     /// Emit the source selection and checked recovered graph, overlay and lock.
     Recover {
         compiler: PathBuf,
@@ -155,25 +164,35 @@ fn stage(recovered: &Path, inputs: &Path) -> Result {
     fs::copy(base.join(relative), dest)?;
     write_json(&inputs.join(PACKAGE), manifest)
 }
-fn main() -> Result {
-    let action = Args::parse().action;
-    let output = match &action {
-        Action::Recover { output, .. } | Action::Stage { output, .. } => {
-            std::path::absolute(output)?
-        }
-    };
+fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
+    let output = std::path::absolute(output)?;
     let parent = output.parent().ok_or("missing output parent")?;
     fs::create_dir_all(parent)?;
     let temp = tempfile::tempdir_in(parent)?;
-    match action {
+    prepare(temp.path())?;
+    renameat_with(CWD, temp.path(), CWD, output, RenameFlags::NOREPLACE)?;
+    Ok(())
+}
+fn main() -> Result {
+    match Args::parse().action {
+        Action::CheckEvidence {
+            directory,
+            original,
+            mutation,
+            host,
+        } => {
+            println!(
+                "{}",
+                evidence::check(&directory, &original, &mutation, &host)?
+            );
+            Ok(())
+        }
         Action::Recover {
             compiler,
             source,
             rustdoc,
-            ..
-        } => recover(&compiler, &source, &rustdoc, temp.path())?,
-        Action::Stage { recovered, .. } => stage(&recovered, temp.path())?,
+            output,
+        } => publish(output, |work| recover(&compiler, &source, &rustdoc, work)),
+        Action::Stage { recovered, output } => publish(output, |work| stage(&recovered, work)),
     }
-    renameat_with(CWD, temp.path(), CWD, output, RenameFlags::NOREPLACE)?;
-    Ok(())
 }
