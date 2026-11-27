@@ -41,3 +41,11 @@ path = "../copy-launch-hash/verify.rs"
 [[bin]]
 name = "launch-data-cases"
 path = "../copy-launch/data_main.rs"
+
+[[bin]]
+name = "check-launch"
+path = "../copy-launch/verify.rs"
+
+[[bin]]
+name = "check-copy-helper-context"
+path = "../copy-helper-context/verify.rs"

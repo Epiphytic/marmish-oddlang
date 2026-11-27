@@ -1,3 +1,6 @@
+mod cursor;
+#[path = "../../copy-helper-context/model.rs"]
+pub mod helper_context;
 mod cases;
 #[path = "../../copy-launch/data_cases.rs"]
 pub mod launch_data;

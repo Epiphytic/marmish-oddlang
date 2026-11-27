@@ -11,8 +11,7 @@ import tempfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0,str(HERE.parent/"copy-launch"))
-from inputs import archive_at, PIN,ROOT,read,run,sha,write
-from verify import linux_project,staged
+from inputs import PIN, ROOT, archive_at, linux_project, read, run, sha, staged, write
 
 PORTABLE=ROOT/"oddlang/portable"
 DATA=PORTABLE/"vault-values-v1"

@@ -1,5 +1,8 @@
-"""Combine a pinned structural candidate, a native declaration observer, and reviewed Launch guards."""
+"""Shared build helpers for the remaining Python package verifiers."""
 import hashlib
+import importlib.util
+import platform
+import tempfile
 import json
 from pathlib import Path
 import shutil
@@ -9,8 +12,7 @@ HERE=Path(__file__).resolve().parent
 ROOT=HERE.parents[2]
 DATA=ROOT/"oddlang/portable/copy-launch-v1"
 PIN="af54339d250290490d62d4475a77539b7e739071"
-LIMITS="urn:marmish:copy:"
-LAUNCH=LIMITS+"launch"
+MANIFEST = DATA.parent / "stream-launch-package.json"
 
 
 def write(path,obj):
@@ -26,84 +28,56 @@ def archive_at(checkout, revision, destination):
         HERE.parent / "copy-manifest/Cargo.toml", "--bin", "copy-field-relations", "--",
         "archive", checkout, revision, destination)
 
-def observe(exe,requests):
-    p=subprocess.run([exe],capture_output=True,input="".join(json.dumps(r)+"\n" for r in requests),text=True,check=True)
-    rows=[json.loads(line) for line in p.stdout.splitlines()]
-    assert len(rows)==len(requests)
-    return rows
+def staged(work, manifest_path=MANIFEST):
+    stage = work / "inputs"
+    stage.mkdir()
+    manifest = read(manifest_path)
+    pins = [manifest["cargoLock"]] + [part[k] for part in manifest["components"] for k in ("graph","overlay")]
+    for pin in pins:
+        source = manifest_path.parent / pin["path"]
+        assert sha(source) == pin["sha256"]
+        dest = stage / pin["path"]
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copyfile(source, dest)
+    shutil.copyfile(manifest_path, stage/manifest_path.name)
+    assert not list(stage.rglob("*.rs"))
+    return stage / manifest_path.name
 
 
-def consumer(crate,root,lock,caller=HERE/"caller.rs"):
-    (root/"src").mkdir(parents=True)
-    shutil.copyfile(caller,root/"src/main.rs")
-    (root/"Cargo.toml").write_text('[package]\nname="observe-copy-launch"\nversion="0.1.0"\nedition="2021"\n'
-        '[dependencies]\nserde={version="=1.0.229",features=["derive"]}\nserde_json="=1.0.151"\nmarmish-stream={path='
-        + json.dumps(str(crate.resolve()))+'}\n[workspace]\n')
-    shutil.copyfile(lock,root/"Cargo.lock")
-    run("cargo","+1.97.1","metadata","--offline","--format-version","1",cwd=root)
-    run("cargo","+1.97.1","build","--release","--offline","--locked",cwd=root)
-    return root/"target/release/observe-copy-launch"
+def linux_project(cli, manifest, dest, original, caller, extra_sources=()):
+    spec = importlib.util.spec_from_file_location("workspace_verifier", HERE.parent / "workspace/verify.py")
+    workspace = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(workspace)
+    with tempfile.TemporaryDirectory(prefix="odd-copy-", dir="/tmp") as directory:
+        stage = Path(directory).resolve()
+        shutil.copy2(cli, stage / "oddlang")
+        inputs = stage / "inputs"
+        shutil.copytree(manifest.parent, inputs)
+        sandbox, env = workspace.linux_isolation(stage)
+        for path in (original / "Cargo.toml", caller, *(repo / "Cargo.toml" for repo in extra_sources)):
+            missing = subprocess.run([*sandbox, "/bin/cat", path], capture_output=True, env=env)
+            if not missing.returncode or b"No such file or directory" not in missing.stderr:
+                raise ValueError(f"reference file was visible inside the build: {path}")
+        target = stage / "generated"
+        workspace.envtools.run(*sandbox, stage / "oddlang", "build", "native-package", "rust",
+                               inputs / manifest.name, target, cwd=stage, env=env)
+        workspace.envtools.run(*sandbox, "cargo", "build", "--release", "--offline", "--locked",
+                               "--manifest-path", target / "Cargo.toml", cwd=stage, env=env)
+        shutil.move(str(target), dest)
+    return True
 
 
-def derive(original,cli,exe,out):
-    assert run("git","rev-parse","HEAD",cwd=original)==PIN and not run("git","status","--porcelain",cwd=original)
-    out.mkdir()
-    run(cli,"recover","wire-schema",original/"crates/marmish-stream/src/copy_protocol.rs",DATA/"selection.json",out/"candidate")
-    graph=read(out/"candidate/graph.json")
-    binding=read(out/"candidate/rust.json")
-    unresolved=graph.pop("unresolved")
-    assert sorted(unresolved)==["source item has unverified native derive Default","unexpanded source item macro numbered_enum"]
-    record,=[d for d in graph["types"] if d["id"]==LAUNCH]
-    # Independently compiled data-shape observer records the macro-expanded field set and order.
-    base=ROOT/"oddlang/portable/workspace-shapes-v1"
-    target=run("rustc","+1.97.1","-vV").split("host: ")[1].splitlines()[0]
-    lock=read(base/"locks"/f"{target}.marmish-stream.lib.marmish_stream.json")
-    assert lock["pin"]["sourceRevision"]==PIN
-    shape=base/"graphs"/(lock["shapesSha256"]+".json")
-    assert sha(shape)==lock["shapesSha256"]
-    native,=[d for d in read(shape)["declarations"] if d["name"]=="Launch"]
-    assert [f["name"] for f in native["fields"]]==[f["name"] for f in record["fields"]]
-    table,=observe(exe,[dict(operation="enums")])
-    version=table["version"]
-    def guard(label,field,require,error):
-        graph["guards"].append({"id":LAUNCH+":guard:"+label,"owner":LAUNCH,
-              "require":{"field":LAUNCH+":field:"+field,**require},"error":LIMITS+error})
-    guard("version","version",dict(kind="unsigned-range",minimum=version,maximum=version),"copy_version")
-    for f in ("source","destination"):
-        guard(f+"-length",f,dict(kind="count",minimum=1,maximum=4096),"copy_path")
-        guard(f+"-content",f,{"kind":"excludes-byte","byte":0},"copy_path")
-    binding["nativeValidation"]={LAUNCH:dict(method="validate",typePath="crate::Error",
-           errors={LIMITS+s:dict(variant="Invalid",argument=s) for s in ("copy_version","copy_path")})}
-    write(out/"launch.json",graph);write(out/"launch-rust.json",binding)
-    text={"format":"oddlang-shared-declarations-v1","id":LIMITS+"numeric-constants-and-enums",
-          "constants":[{"id":LIMITS+"VERSION","value":version}],"stringEnums":[]}
-    names={LIMITS+"VERSION":"VERSION"};orders={}
-    shared=ROOT/"oddlang/portable/stream-shared-v1"
-    error,=read(shared/"graph.json")["errors"]
-    shared_binding=read(shared/"rust.json")
-    error_id=error["id"]
-    text["errors"]=[error]
-    names.update({i:shared_binding["names"][i] for i in [error_id,*[v["id"] for v in error["variants"]]]})
-    orders[error_id]=shared_binding["variantOrder"][error_id]
-    invalid,=[v["id"] for v in error["variants"] if names[v["id"]]=="Invalid"]
-    for name,rows in table["enums"].items():
-        id=LIMITS+name
-        names[id]=name
-        variants=[];tags={};order=[]
-        rejected=rows["reject"]
-        assert all(row[1:]==['Invalid("copy_enum")','invalid stream input: copy_enum'] for row in rejected)
-        assert len(rows["accept"])+len(rejected)==256
-        for v in rows["accept"]:
-            vi=id+":"+v["rust"];names[vi]=v["rust"];order.append(vi);tags[vi]=v["tag"]
-            variants.append(dict(id=vi,wire=v["wire"]))
-        # Preserve the native declaration order using the independent compiler inventory.
-        # Numeric iteration alone would silently reorder nonmonotonic discriminants.
-        enum,=[d for d in read(shape)["declarations"] if d["name"]==name and "::copy_protocol::" in d["id"] and d["kind"]=="sum"]
-        order=[id+":"+v["name"] for v in enum["variants"]]
-        assert set(order)==set(tags)
-        orders[id]=order
-        text["stringEnums"].append(dict(id=id,variants=variants,numbers=dict(tags=tags,unknown=dict(id=invalid,argument="copy_enum"))))
-    write(out/"enums.json",text)
-    write(out/"enums-rust.json",dict(format="oddlang-shared-rust-v1",names=names,constantTypes={LIMITS+"VERSION":"u32"},
-            variantOrder=orders,externalErrorTypes={error_id:"crate::Error"}))
-    return table
+def project(work, cli, manifest, dest, original, caller=HERE/"caller.rs"):
+    if platform.system() == "Linux":
+        return linux_project(cli, manifest, dest, original, caller)
+    wrapper = []
+    if platform.system() == "Darwin":
+        profile = '(version 1)(allow default)(deny network*)' + ''.join(
+            '(deny file-read* (subpath '+json.dumps(str(p.resolve()))+'))' for p in (ROOT,original))
+        wrapper = ["/usr/bin/sandbox-exec", "-p", profile]
+        for inaccessible in [caller,original/"Cargo.toml"]:
+            control = subprocess.run([*wrapper,"/bin/cat",inaccessible],cwd=work,capture_output=True)
+            assert control.returncode and b"Operation not permitted" in control.stderr
+    run(*wrapper, cli, "build","native-package","rust",manifest,dest,cwd=work)
+    run(*wrapper,"cargo","+1.97.1","build","--locked","--offline","--release",cwd=dest)
+    return bool(wrapper)

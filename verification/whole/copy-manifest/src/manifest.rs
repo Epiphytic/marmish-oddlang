@@ -1,3 +1,4 @@
+use crate::cursor::Cursor;
 use public_data_qualification::assembly::bytes_sha;
 use serde::{Deserialize, Serialize};
 use serde_json::{Value, json};
@@ -10,50 +11,6 @@ pub fn fault(name: &str) -> Value {
         "Limit" => json!({"error":["Limit","stream capacity reached"]}),
         _ => {
             json!({"error":[format!("Invalid(\"{name}\")"),format!("invalid stream input: {name}")]})
-        }
-    }
-}
-struct Cursor<'a>(&'a [u8]);
-impl<'a> Cursor<'a> {
-    fn take(&mut self, n: usize) -> Check<&'a [u8]> {
-        let (v, rest) = self.0.split_at_checked(n).ok_or("copy_truncated")?;
-        self.0 = rest;
-        Ok(v)
-    }
-    fn array<const N: usize>(&mut self) -> Check<[u8; N]> {
-        Ok(self.take(N)?.try_into().unwrap())
-    }
-    fn byte(&mut self) -> Check<u8> {
-        Ok(self.array::<1>()?[0])
-    }
-    fn u32(&mut self) -> Check<u32> {
-        Ok(u32::from_be_bytes(self.array()?))
-    }
-    fn u64(&mut self) -> Check<u64> {
-        Ok(u64::from_be_bytes(self.array()?))
-    }
-    fn i64(&mut self) -> Check<i64> {
-        Ok(i64::from_be_bytes(self.array()?))
-    }
-    fn bytes(&mut self, limit: usize) -> Check<Vec<u8>> {
-        let len = self.u32()? as usize;
-        if len > limit {
-            return Err("Limit");
-        }
-        Ok(self.take(len)?.to_vec())
-    }
-    fn flag(&mut self, error: &'static str) -> Check<bool> {
-        match self.byte()? {
-            0 => Ok(false),
-            1 => Ok(true),
-            _ => Err(error),
-        }
-    }
-    fn finish(&self) -> Check<()> {
-        if self.0.is_empty() {
-            Ok(())
-        } else {
-            Err("copy_trailing")
         }
     }
 }

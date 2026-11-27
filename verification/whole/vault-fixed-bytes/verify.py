@@ -10,8 +10,7 @@ import tempfile
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE.parent / "copy-launch"))
-from inputs import PIN, ROOT
-from verify import project, staged
+from inputs import PIN, ROOT, project, staged
 
 FRAMEWORK = "595fb7a55dc2016cfab70c5b131bf2f6acfe9983"
 PORTABLE = ROOT / "oddlang/portable"
