@@ -24,7 +24,7 @@ offline. The runner separates baseline and mutant caches below each target
 root and snapshots the compiled libraries.
 
 ```sh
-RUSTUP_TOOLCHAIN=1.97.1 python3 -B verification/whole/backend-choice/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin backend-choice -- qualify \
   /path/to/oddlang /path/to/original /tmp/backend-choice-replay \
   --framework-revision FRAMEWORK_SHA \
   --original-target /tmp/backend-choice-upstream-targets \
