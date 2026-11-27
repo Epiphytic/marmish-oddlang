@@ -134,18 +134,21 @@ def verify(args, host, work, scratch):
         "-L", f"dependency={serde.parent}", "--extern", f"serde={serde}", projection / "records.rs", "-o", changed_native)
     changed, changed_library, _ = caller(scratch / "generated-mutation", build, changed_native)
     args.original_target.mkdir(parents=True, exist_ok=True)
-    # Cargo may assign the original and the mutated crate the same output path.
-    # Hold the reference lock through linking every external caller.
+    # Cargo can report the original artifact as fresh for a relocated source tree.
+    # Partition the two models before building and hold the lock through caller linking.
+    cache = args.original_target / "runtime-status" / ORIGINAL
+    baseline_target = cache / sha(args.original / SOURCE)
+    mutation_target = cache / sha(mutant / SOURCE)
     with (args.original_target / ".oddlang-runtime-status-reference.lock").open("a") as lock:
         fcntl.flock(lock, fcntl.LOCK_EX)
         originals = {}
         for case, flags in (("default", ()), ("installed-checks", ("--no-default-features", "--features", "installed-checks"))):
-            actual, lib, _ = caller(scratch / case, cargo_reference(args.original, args.original_target, *flags))
+            actual, lib, _ = caller(scratch / case, cargo_reference(args.original, baseline_target, *flags))
             if actual != generated or actual["jsonLines"] != baseline_expected():
                 raise ValueError(f"RuntimeStatus caller mismatch for {case}: {actual!r} != {generated!r}")
             originals[case] = lib
         reference_mutation, mutation_library, _ = caller(
-            scratch / "original-mutation", cargo_reference(mutant, args.original_target),
+            scratch / "original-mutation", cargo_reference(mutant, mutation_target),
         )
     observed = [json.loads(line) for line in changed["jsonLines"][:-1]]
     if changed != reference_mutation or changed == generated or changed["diagnostics"] != generated["diagnostics"]:
