@@ -1174,7 +1174,7 @@
 {"path":"verification/whole/bridge/baseline.py","language":"python","mode":"100644","sha256":"e844e0409403f6a7df9b080991d4d40e148b1d02e6b3145ce729eb9cef060dca","parse_status":"parsed"}
 {"path":"verification/whole/bridge/darwin_effects.py","language":"python","mode":"100644","sha256":"f5ba5c5b27a15ad28433f250660338499873b2140bfd2a9d8511e55964667014","parse_status":"parsed"}
 {"path":"verification/whole/build-report/observe.py","language":"python","mode":"100644","sha256":"2379186ba2f0bef744ea074254222918c2d1f9a1c5ab8e823ec4acdf044d8a44","parse_status":"parsed"}
-{"path":"verification/whole/canonical-engine-choices/README.md","language":"inventory","mode":"100644","sha256":"ec98299b3c972a9be902418744963b6d8f357b7401c6a9f6a5baf0327b2fcd0e","parse_status":"inventory"}
+{"path":"verification/whole/canonical-engine-choices/README.md","language":"inventory","mode":"100644","sha256":"a39d1ad2f61bce77f314b70a8e04fcb468279256d43ef3c4518858e47c86c7d6","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7419e73eb144ad846a37345b1a6c600c807051cb999456d59af756cc15f38473","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"65cb51ef1458b37c77605aacdc923ba63d3e916f340df39fea696688b76340ff","parse_status":"inventory"}
 {"path":"verification/whole/canonical-engine-choices/rust-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"d5ee39d8706bcd4aeb7bae3d92f38146bfc20090a4cb04a0a332cae6e20f19eb","parse_status":"inventory"}
