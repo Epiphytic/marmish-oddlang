@@ -1,0 +1,12 @@
+{
+  "canonical-aarch64-apple-darwin.json": "87ed9d2f00257be94032f30a5e8aa76d708beee30e96aa6d8a484d8fbb1ea39f",
+  "canonical-aarch64-unknown-linux-gnu.json": "201a3b280fa5e745fc28829b393dfc654b20ac6d2437411267230f064a39b1af",
+  "canonical-mdk-aarch64-apple-darwin.json": "124ee3d773941044dc9ff9d2d829ba1a53ad5187c935d88b687b822d9cc4d996",
+  "canonical-mdk-aarch64-unknown-linux-gnu.json": "420ffaaee655b0c1bf920300183dd0c41a899b1e70bd4b42669f2e05f2549331",
+  "canonical-public-data-aarch64-apple-darwin.json": "c93e1a194b23b459a684564692ce5185852691a99f632dede895dec79ee97d90",
+  "canonical-public-data-aarch64-unknown-linux-gnu.json": "9e5fb67152caa4dd30c7dfc3eff66e817f47f3ed0cf577048ca2c7702c3635f7",
+  "manifest-aarch64-apple-darwin.json": "e454c43597f9d8f78d19af3c5a2894b14a7c4a6170cb2cbdceb2065d47aba401",
+  "manifest-aarch64-unknown-linux-gnu.json": "42b971468815c08c5be9905d943f420e941d34f97f6ba3f9f5ac38a7aa911d02",
+  "seven-aarch64-apple-darwin.json": "6aa31e293da75fc8d49dc3de98efdcd77cc2dbde58bbcfe70906cc8b36917a3e",
+  "seven-aarch64-unknown-linux-gnu.json": "4afa07ecba00d7eeccce75362e2721ffacd351b2bfaacd21c97404fd01698ac2"
+}

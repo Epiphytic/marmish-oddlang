@@ -1,0 +1,74 @@
+{
+  "upstream": "af54339d250290490d62d4475a77539b7e739071",
+  "candidates": {
+    "v7": {
+      "manifest": "workspace-v7-vault-engine.json",
+      "compiler": "7ed1c29acde2cc4cfdc58c2489935e703470ae70",
+      "kind": "v7"
+    },
+    "canonical-public-data": {
+      "manifest": "workspace-v7-canonical-public-data.json",
+      "compiler": "900cfa517d0136fa80c2b5e92ccf9b1a3b2a71ab",
+      "kind": "manifest"
+    },
+    "canonical-mdk": {
+      "manifest": "workspace-v7-canonical-mdk-test-seam.json",
+      "compiler": "48bc6754dcbe12cfa953b94ca8771001a1ce72ec",
+      "kind": "manifest-mdk"
+    },
+    "canonical": {
+      "manifest": "workspace-v7-canonical-offline.json",
+      "compiler": "8a20ea283d0d43da42f054a7c7774eb9e6a20da7",
+      "kind": "manifest"
+    },
+    "manifest": {
+      "manifest": "workspace-v7-converged-release-manifest.json",
+      "compiler": "da1b0033ae9345c2d8288b4164d4fd1dbf5bcade",
+      "kind": "manifest"
+    },
+    "seven": {
+      "manifest": "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json",
+      "compiler": "59f947dafdb4cf3055e35216857472ada895a76a",
+      "kind": "seven"
+    },
+    "recovered": {
+      "manifest": "workspace-v7-recovered-vault-engine.json",
+      "compiler": "6e2d1ef00f286b6132b84e27a61805c659dfd437",
+      "kind": "recovered"
+    }
+  },
+  "canonicalPins": {
+    "aarch64-apple-darwin": "7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306",
+    "aarch64-unknown-linux-gnu": "4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941"
+  },
+  "sourceHashes": {
+    "vaultValueModule": "5389218be38e60288371fe63a79ae71d2e9dbb8408a34bc53e8010f03117359c",
+    "engineLimitHelpers": "f27e24a823249163fa4e7d99634429edf50488b8706094bcbfe19bdbb599b11f",
+    "engineLimitCases": "c8344cac4a33a60ec110a385c4a61087ccfee2f8a52e41395cab4513c852d570"
+  },
+  "readerHash": "f841185690a16f313b54410278ed093e80aa9078dd790c5090d698d7ea763fcc",
+  "mdkHash": "04916e33e73f6e8856688823f8af5af965677a7403e195477de9f4a19d1a6ad7",
+  "mdkControl": {
+    "selector": "metadata::__projection_2::tests::synthetic_json_and_ndjson_are_bounded_and_structural_only_absent",
+    "cargoExit": 0,
+    "executed": 0,
+    "coverageRejected": true
+  },
+  "mdkDenied": [
+    "lib.rs",
+    "tests.rs"
+  ],
+  "parserHashes": {
+    "manifestTests": "6012150c30678a0ccaddd4475249132528d174ab0bf62750dd9c9e5073dcfae8",
+    "releaseVersionVectors": "b07696eda226714f8bd5f6a725be662d1a7df4ec1693c2bfd30a78df0dc3b6c1"
+  },
+  "parserCases": [
+    "native_manifest::tests::shared_release_version_vectors",
+    "native_manifest::tests::strict_vectors"
+  ],
+  "vaultCase": "tests::strict_public_values",
+  "engineCase": "process_limits_tests::lower_soft_hard_and_descriptor_flags_are_unchanged",
+  "linuxCase": "process_limits_tests::linux_process_limits_are_unchanged",
+  "readerCase": "secret_request_tests::private_reader_wipes_consumed_spans",
+  "mdkCase": "tests::synthetic_json_and_ndjson_are_bounded_and_structural_only"
+}

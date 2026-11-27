@@ -34,7 +34,7 @@ The seven upstream workspace packages declare seven library targets and ten bina
 From the companion root, run the inventory comparison for a selected native receipt:
 
 ```sh
-python3 -B verification/whole-marmish/inventory/candidate_targets.py \
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin candidate-targets -- \
   verification/whole/suite/canonical-aarch64-apple-darwin.json
 ```
 

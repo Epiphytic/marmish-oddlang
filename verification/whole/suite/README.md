@@ -144,7 +144,7 @@ To reproduce a receipt, use a clean checkout of each recorded revision, a popula
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/candidate.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/candidate.json --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/candidate.json --require-complete
 ```
 
 The completeness check exits 1 while any eligible catalog case lacks passing evidence.
@@ -211,8 +211,8 @@ The `canonical` candidate uses the [combined seven-member workspace](../../../od
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-suite.json --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-suite.json
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-suite.json --require-complete
 ```
 
 The [Darwin ARM64 receipt](canonical-aarch64-apple-darwin.json) records 42 passed and 867 unverified. The [Linux ARM64 receipt](canonical-aarch64-unknown-linux-gnu.json) records 43 passed and 844 unverified. Each host had five additional ignored cases and both completeness checks rejected certification. Both cold builds used verifier `048a521` and workspace lock `5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4`.
@@ -229,7 +229,7 @@ Upstream exposes this parser only during tests. The generated parser is also und
 python3 -B verification/whole/mdk-json-input/compose_canonical.py --check
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-mdk \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-mdk-suite.json
-python3 -B verification/whole/suite/check_coverage.py /tmp/canonical-mdk-suite.json
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-mdk-suite.json
 ```
 
 The [macOS ARM64 receipt](canonical-mdk-aarch64-apple-darwin.json) records 43 of 909 active cases passed and 866 unverified. The [Linux ARM64 receipt](canonical-mdk-aarch64-unknown-linux-gnu.json) records 44 of 887 passed and 843 unverified. Each host has five additional ignored cases. The named MDK test is the only additional pass on each host.
@@ -256,8 +256,8 @@ or ignored in the receipts.
 ```sh
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-public-data \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" "$RECEIPT"
-python3 -B verification/whole/suite/check_coverage.py "$RECEIPT"
-python3 -B verification/whole/suite/check_coverage.py "$RECEIPT" --require-complete
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- "$RECEIPT"
+cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- "$RECEIPT" --require-complete
 ```
 
 The [Darwin replay](canonical-public-data-aarch64-apple-darwin.json)
@@ -278,3 +278,13 @@ covers the two terminal help invocations only. Other test profiles,
 targets, installation and live operation have separate evidence and
 receive no coverage credit here. The published default remains pinned
 to the previous canonical workspace.
+
+### Archived receipt verifier
+
+Run both Rust receipt checkers and their controls offline from the companion root:
+
+```sh
+cargo test --locked --offline --manifest-path verification/whole/suite/Cargo.toml
+```
+
+The replay compares all 14 macOS ARM64 and Linux ARM64 totals with the archived observations and rejects full-coverage promotion for each. Across those same receipts the Rust and historical Python checkers emitted byte-identical totals. Ten receipts also yielded byte-identical target reports with nine observed builds among 17 upstream targets. Four older receipts lack per-library build evidence and both checkers refused to report target coverage. The regression tests pin the ten historical report digests and check 66 changes to case names, source or executable pins, child counts, library evidence, and baseline controls. The independent rules in `receipt-rules.json` come from the original candidate, selected-test and parser-case definitions.
