@@ -65,6 +65,32 @@ fn baseline(host: &str) -> Result<(&'static str, Value)> {
     Ok((pin, serde_json::from_slice(&data)?))
 }
 
+fn check_mdk_seam(original: &Value, candidate: &Value, tree: &str, product: &str) -> Result<()> {
+    let members = |lock: &Value| -> Result<serde_json::Map<String, Value>> {
+        let mut members = lock["members"]
+            .as_object()
+            .ok_or("missing workspace members")?
+            .clone();
+        members
+            .remove("marmish-mdk")
+            .ok_or("missing marmish-mdk member")?;
+        Ok(members)
+    };
+    let root_pin = original["workspaceCargoManifestSha256"]
+        .as_str()
+        .ok_or("missing workspace root pin")?;
+    if candidate["workspaceCargoManifestSha256"] != root_pin
+        || members(original)? != members(candidate)?
+    {
+        return Err("the MDK test seam changed another member or the workspace root".into());
+    }
+    let expected = format!("marmish-mdk v0.1.0 ({product}/marmish-mdk)");
+    if tree.trim() != expected {
+        return Err(format!("MDK acquired an ordinary dependency: {tree}").into());
+    }
+    Ok(())
+}
+
 fn input<T: DeserializeOwned>() -> Result<T> {
     Ok(serde_json::from_reader(io::stdin().lock())?)
 }
@@ -90,6 +116,15 @@ fn main() -> Result<()> {
             let (listing, expected): (String, Vec<String>) = input()?;
             serde_json::to_value(registered(harness, &listing, expected)?)?
         }
+        ["check-mdk-seam", original, candidate, product] => {
+            check_mdk_seam(
+                &suite_receipts::read(original.as_ref())?,
+                &suite_receipts::read(candidate.as_ref())?,
+                &input::<String>()?,
+                product,
+            )?;
+            Value::Null
+        }
         ["baseline", host] => baseline(host)?.1,
         ["check-baseline", host] => {
             let (pin, canonical) = baseline(host)?;
@@ -100,7 +135,7 @@ fn main() -> Result<()> {
         }
         _ => {
             return Err(
-                "expected stream-names, registered HARNESS, baseline HOST or check-baseline HOST"
+                "expected stream-names, registered HARNESS, baseline HOST, check-baseline HOST or check-mdk-seam ORIGINAL CANDIDATE PRODUCT"
                     .into(),
             );
         }
@@ -112,6 +147,34 @@ fn main() -> Result<()> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn mdk_seam_accepts_the_published_pair_and_rejects_unrelated_changes() -> Result<()> {
+        let root = suite().join("../../../oddlang/portable");
+        let original =
+            suite_receipts::read(&root.join("workspace-v7-canonical-offline/workspace.lock"))?;
+        let candidate = suite_receipts::read(
+            &root.join("workspace-v7-canonical-mdk-test-seam/workspace.lock"),
+        )?;
+        let listing = "marmish-mdk v0.1.0 (/workspace/marmish-mdk)\n";
+        let check = |candidate: &Value, listing: &str| {
+            check_mdk_seam(&original, candidate, listing, "/workspace")
+        };
+        check(&candidate, listing)?;
+        assert!(check(&candidate, &format!("{listing}libc v0.2.0")).is_err());
+        for path in ["/members/marmish-core", "/workspaceCargoManifestSha256"] {
+            let mut changed = candidate.clone();
+            *changed.pointer_mut(path).unwrap() = Value::Null;
+            assert!(check(&changed, listing).is_err());
+        }
+        let mut missing = candidate.clone();
+        missing["members"]
+            .as_object_mut()
+            .unwrap()
+            .remove("marmish-mdk");
+        assert!(check(&missing, listing).is_err());
+        Ok(())
+    }
 
     #[test]
     fn projected_names_have_exact_module_boundaries() -> Result<()> {
