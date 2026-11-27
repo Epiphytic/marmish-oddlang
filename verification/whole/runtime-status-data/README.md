@@ -17,3 +17,9 @@ python3 -B verification/whole/runtime-status-data/verify.py FRAMEWORK ORIGINAL R
 The previous workspace remains an independent build pin. The successor retains its Cargo lock, workspace dependency edges and six sibling locks.
 
 The pinned workspace lock SHA-256 is `cd3ca304611f48b30a58b37449beb572add5de2dbaa3b282197771c6c700d210`. The native receipts record the exact companion input, compiler, source, caller, workspace lock and linked library digests. [ARM64 macOS](aarch64-apple-darwin.json) · [ARM64 Linux](aarch64-unknown-linux-gnu.json)
+
+Check the composed package and workspace from the repository root.
+
+```sh
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-runtime-status oddlang/portable --check
+```

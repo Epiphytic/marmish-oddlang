@@ -236,7 +236,7 @@ The runner repeats the complete canonical selection on each fresh sealed build. 
 Upstream exposes this parser only during tests. The generated parser is also under `cfg(test)`, and Cargo confirms the provider is a development dependency with no ordinary MDK dependency edge. The existing canonical manifest remains the default. The candidate changes only the MDK member lock and adds its development dependency edge to the shared Cargo lock, reusing the existing JSON provider entry.
 
 ```sh
-python3 -B verification/whole/mdk-json-input/compose_canonical.py --check
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin workspace-product -- compose-api canonical-mdk-test-seam oddlang/portable --check
 python3 -B verification/whole/suite/candidate_coverage.py --candidate canonical-mdk \
   "$UPSTREAM" "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL_TARGET" /tmp/canonical-mdk-suite.json
 cargo run --quiet --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin check-coverage -- /tmp/canonical-mdk-suite.json

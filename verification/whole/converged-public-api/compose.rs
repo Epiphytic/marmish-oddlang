@@ -13,6 +13,8 @@ pub enum Release {
     CanonicalEngineChoices,
     CanonicalRangeData,
     CanonicalRecoveredRange,
+    CanonicalMdkTestSeam,
+    CanonicalRuntimeStatus,
 }
 const BASE: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered.json";
 const LIMIT: &str = "workspace-v7-recovered-vault-engine-journal-mdk-buffered-limit.json";
@@ -30,9 +32,28 @@ impl Descriptor {
             bytes: json_bytes(value)?,
         })
     }
+    pub(crate) fn from_bytes(name: &'static str, bytes: Vec<u8>) -> Self {
+        Self { name, bytes }
+    }
     pub(crate) fn pin(&self) -> Value {
         json!({"path":self.name,"sha256":bytes_sha(&self.bytes)})
     }
+}
+pub(crate) fn checked_path(root: &Path, descriptor: &Value) -> Result<std::path::PathBuf> {
+    let name = text(&descriptor["path"])?;
+    require(
+        pin(root, name)? == *descriptor,
+        format!("input pin differs: {name}"),
+    )?;
+    Ok(root.join(name))
+}
+pub(crate) fn canonical_member(root: &Path, name: &str) -> Result<(Value, Value)> {
+    let workspace = load(&root.join("workspace-v7-canonical-offline.json"))?;
+    let package = load(&checked_path(
+        root,
+        &workspace["members"][name]["manifest"],
+    )?)?;
+    Ok((workspace, package))
 }
 fn components(package: &mut Value) -> Result<&mut Vec<Value>> {
     Ok(package
@@ -135,6 +156,8 @@ fn converge(root: &Path, mut base: Value) -> Result<Vec<Descriptor>> {
 pub fn compose(release: Release, root: &Path, check: bool) -> Result {
     let base = || load(&root.join(BASE));
     let outputs = match release {
+        Release::CanonicalMdkTestSeam => mdk_seam::descriptors(root)?,
+        Release::CanonicalRuntimeStatus => runtime_status_composition::descriptors(root)?,
         Release::ReleaseManifest => manifest_product::descriptors(root)?,
         Release::PrototypeConstant => constant(root, base()?)?,
         Release::EnginePublicError => errors(root, base()?)?,
