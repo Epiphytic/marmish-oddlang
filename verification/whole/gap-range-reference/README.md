@@ -29,13 +29,16 @@ archives its observations. The second needs the reference receipt, probes
 and portable inputs and can run with the original checkout absent.
 
 ```sh
-lane=verification/whole/gap-range-reference
 host=$(rustc +1.97.1 -vV | sed -n 's/^host: //p')
-python3 -B "$lane/observe.py" "$ORIGINAL" "$TARGET" "$lane/original-$host.json"
-python3 -B "$lane/project.py" "$FRAMEWORK" "$COMPILER_TARGET" "$lane/generated-$host.json"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin gap-range-reference -- observe "$ORIGINAL" "$TARGET" "/tmp/original-$host.json"
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin gap-range-reference -- project "$FRAMEWORK" "$COMPILER_TARGET" "/tmp/generated-$host.json"
 ```
 
 A candidate match in this lane covers the tested Serde JSON representations,
 native access to the root type and its Copy exclusion. The diagnostic
 strings include the dependency version's wording. Stable compiler, input,
 package and probe pins are recorded beside the results.
+
+The Rust tools replayed all 35 upstream cases and 17 independently projected reason cases on Apple Silicon, including the native Copy rejection. A previously populated target changed the unknown-field result. Rebuilding in an empty target reproduced the archived range behavior. Use an empty external target for a fresh upstream observation. [Rust replay receipt](rust-replay-aarch64-apple-darwin.json)

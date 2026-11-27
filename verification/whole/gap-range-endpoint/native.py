@@ -12,14 +12,13 @@ import tempfile
 HERE = Path(__file__).resolve().parent
 WHOLE = HERE.parent
 ROOT = WHOLE.parents[1]
-REFERENCE = runpy.run_path(str(WHOLE / "gap-range-reference/observe.py"))
 sys.path.insert(0, str(WHOLE / "canonical-recovered-range"))
 try:
     RECOVERED = runpy.run_path(str(WHOLE / "canonical-recovered-range/verify.py"))
 finally:
     sys.path.pop(0)
 PRIOR, AUDIT, COMBINED = (RECOVERED[key] for key in ("PRIOR", "AUDIT", "COMBINED"))
-sha = REFERENCE["sha"]
+sha = RECOVERED["sha"]
 PACKAGE = "marmish-engine"
 
 
@@ -47,7 +46,7 @@ def call(artifact_log, engine, target, host, work, vectors, env):
 
 def verify(args):
     original, original_target, retained = args.original, args.original_target, args.retained
-    REFERENCE["pinned"](original)
+    COMBINED["ENGINE_DATA"]["checkout"](original, AUDIT.ORIGINAL)
     if original_target.is_relative_to(original) or original_target == retained / "target":
         raise ValueError("expected independent original Cargo target")
     env = {key: os.environ[key] for key in ("HOME", "PATH", "TMPDIR", "CARGO_HOME", "RUSTUP_HOME", "SDKROOT")
@@ -55,7 +54,7 @@ def verify(args):
     version = subprocess.check_output(["rustc", "+1.97.1", "-vV"], env=env, text=True).splitlines()
     host, = [line[6:] for line in version if line.startswith("host: ")]
     if host not in (RECOVERED["DARWIN"], RECOVERED["LINUX"]) or (
-        f"commit-hash: {REFERENCE['COMPILER']}" not in version
+        f"commit-hash: {AUDIT.COMPILER}" not in version
     ):
         raise ValueError("requires the pinned native ARM64 toolchain")
 
@@ -116,7 +115,7 @@ def verify(args):
                 raise ValueError(f"expected native rejection for {case['id']}")
         elif result != {"encoded": expected}:
             raise ValueError(f"wrong encoded bytes for {case['id']}")
-    REFERENCE["pinned"](original)
+    COMBINED["ENGINE_DATA"]["checkout"](original, AUDIT.ORIGINAL)
     AUDIT.verify_product(product, ROOT, candidate)
     if sha(source) != source_sha or libraries != PRIOR["library_closure"](generated_log, target, host):
         raise ValueError("source or retained generated build changed during the observations")
@@ -125,7 +124,7 @@ def verify(args):
         "contract": "urn:marmish:engine:output-gap:range:end",
         "casesSha256": sha(HERE / "cases.json"), "probeSha256": sha(WHOLE / "gap-range-reference/probe.rs"),
         "observerSha256": sha(HERE / "native.py"),
-        "originalSource": REFERENCE["ORIGINAL"], "originalModelSha256": source_sha,
+        "originalSource": AUDIT.ORIGINAL, "originalModelSha256": source_sha,
         "originalCargoLockSha256": sha(original / "Cargo.lock"), "original": reference,
         "generatedWorkspaceLockSha256": candidate.lock_sha256, "generatedBuildReceiptSha256": sha(old_path),
         "sourceEquivalenceReceiptSha256": sha(new_path), "generated": generated,

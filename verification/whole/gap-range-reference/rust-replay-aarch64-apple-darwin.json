@@ -1,0 +1,51 @@
+{
+  "scope": "AArch64 Darwin native data-only Rust probes",
+  "verifier": "verification/whole/canonical-public-data/src/bin/gap-range-reference.rs",
+  "verifierSha256": "168a662a98869d7638e0488934e6cb7783016ef2ec676fb536c3f59768cb6d90",
+  "modes": {
+    "observe": {
+      "archive": "original-aarch64-apple-darwin.json",
+      "archiveSha256": "431a9eef60aa3ab14968ab9169cdb19a5ad5d825a1872f92bac8d659a944d777",
+      "freshNativeReceiptSha256": "9573aa885cea794033ce075aaf50d0d4cfb86843d5d566ceec486d639e09ac71",
+      "historicalToolFreshReceiptSha256": "12ffe79d37fc01c083131d25031ff68c7775de617ed8af1b8b08bab5bec7b94a",
+      "matchingRows": 35,
+      "negativeCopyDiagnostic": [
+        "E0277"
+      ],
+      "differencesFromArchive": [
+        "librarySha256",
+        "observerSha256"
+      ],
+      "checkout": "af54339d250290490d62d4475a77539b7e739071",
+      "freshLibrarySha256": {
+        "marmish_engine": "9e2e9a3a4401d1a5016ca2b48b246ccf9bc7828563a8e2ed551d73410157d145",
+        "serde_json": "756bcbf547d75e5bd07bf326cd027ac592a28f13bc950104e66a2bbfb2d47d38"
+      }
+    },
+    "project": {
+      "archive": "generated-aarch64-apple-darwin.json",
+      "archiveSha256": "3e6fe8ad5fc52853bab054581c4bbfe9033687d67cc8eadfe0e384515e3b13ad",
+      "freshNativeReceiptSha256": "127d2b794c4cec839f6c538ab666782cea1a01d0c18299b632a65f8779f19906",
+      "historicalToolFreshReceiptSha256": "3e6fe8ad5fc52853bab054581c4bbfe9033687d67cc8eadfe0e384515e3b13ad",
+      "matchingRows": 17,
+      "negativeCopyDiagnostic": [
+        "E0277"
+      ],
+      "differencesFromArchive": [
+        "verifierSha256"
+      ],
+      "checkout": "3c01918dd430afcf3b57a21a5b24191f99333025"
+    }
+  },
+  "retainedTargetControl": {
+    "changedCases": [
+      "unknown-field"
+    ],
+    "librarySha256": {
+      "marmish_engine": "34ecf3f3c0eff0db6720c821022de74477eb84147a86f4a18f9e76967732d5b1",
+      "serde_json": "c2952096c619d2c903df05eb47c699d85ed59c9347936b6998adc3cbbb097e37"
+    },
+    "rejectedUnknownMember": true
+  },
+  "qualification": "The previous and new observers selected the same libraries and produced identical report data after removing the tool source digest. The previous and new projectors agreed on the sealed package, original archive, exact encoded results, diagnostics, pinned compiler executable and caller inputs. The original was freshly built in an empty target. Both checked-in Linux archives were preserved."
+}
