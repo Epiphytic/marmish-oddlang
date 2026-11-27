@@ -19,7 +19,7 @@ The existing caller constructs the struct and reads the field into a typed
 `Option<u64>` local. See [the native idioms specification](https://github.com/Epiphytic/oddlang/blob/d63dde7/docs/design/contract-recovery.md#native-idioms-and-role-specific-requirements).
 
 The original and the retained workspace build independently establish
-the expected Rust observations. `native.py` compiles the unchanged wire
+the expected Rust observations. `qualify-range-endpoint` compiles the unchanged wire
 probe against both. The retained build has the same generated Rust bytes
 as the [source-recovered workspace](../canonical-recovered-range/).
 The [TypeScript consumer](typescript/) checks the same raw input and
@@ -34,7 +34,7 @@ check with Node 22 and cached TypeScript 5.9.3 by adding `--typescript`.
 
 ```sh
 lane=verification/whole/gap-range-endpoint
-python3 -B "$lane/native.py" "$ORIGINAL" "$ORIGINAL_TARGET" "$RETAINED" "$REFERENCE_RECEIPT"
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-range-endpoint -- "$ORIGINAL" "$ORIGINAL_TARGET" "$RETAINED" "$REFERENCE_RECEIPT"
 python3 -B "$lane/verify.py" "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$BINDING_RECEIPT" --typescript
 ```
 

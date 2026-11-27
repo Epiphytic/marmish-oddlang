@@ -66,3 +66,7 @@ path = "../gap-range-role-workspace/verify.rs"
 [[bin]]
 name = "qualify-range-imports"
 path = "../gap-range-role-workspace/imports.rs"
+
+[[bin]]
+name = "qualify-range-endpoint"
+path = "../gap-range-endpoint/native.rs"
