@@ -7,8 +7,6 @@ from pathlib import Path
 import subprocess
 import tempfile
 
-from corpus import cases, mutant_expected
-
 HERE = Path(__file__).resolve().parent
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 NATIVE = Path("crates/marmish-native/src")
@@ -52,9 +50,15 @@ def qualify(original, target, base):
     with lib.open("ab") as stream:
         stream.write(b'\n#[cfg(test)]\n#[path = "manifest_oracle.rs"]\nmod manifest_oracle;\n')
     (scratch/NATIVE/"manifest_oracle.rs").write_bytes((HERE/"probe.rs").read_bytes())
-    fixtures=cases()
+    def vectors(mode):
+        path = base / (mode + ".json")
+        run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE / "Cargo.toml", "--", mode, path)
+        return json.loads(path.read_bytes())
+
+    fixtures = vectors("vectors")
     inputs=base/"cases.json"
-    inputs.write_text(json.dumps([{"case":name,"hex":raw.hex()} for name,(raw,_) in fixtures.items()]))
+    inputs.write_text(json.dumps([{"case":row["case"],"hex":row["hex"]} for row in fixtures]))
     env = dict(os.environ,CARGO_NET_OFFLINE="true",MARMISH_BUILD_COMMIT=ORIGINAL)
     for variable in ("CARGO_BUILD_TARGET","CARGO_TARGET_DIR","RUSTFLAGS","CARGO_ENCODED_RUSTFLAGS"):
         env.pop(variable,None)
@@ -71,13 +75,13 @@ def qualify(original, target, base):
                 raise ValueError(f"{name} {row['case']}: {row['result']!r} != {expected[row['case']]!r}")
         return rows
 
-    baseline = observe("baseline",{name:value for name,(_,value) in fixtures.items()})
+    baseline = observe("baseline",{row["case"]:row["result"] for row in fixtures})
     old,new=b"                    16 * 1024 * 1024\n",b"                    16 * 1024 * 1024 + 1\n"
     if pinned.count(old) != 1:
         raise ValueError("mutation requires exactly one license ceiling")
     mutation=pinned.replace(old,new)
     (scratch/SOURCE).write_bytes(mutation)
-    mutated=observe("mutated",mutant_expected(fixtures))
+    mutated=observe("mutated",{row["case"]:row["result"] for row in vectors("changed-vectors")})
     changed=[r["case"] for r,s in zip(baseline,mutated) if r != s]
     if changed!=["size-3-16777217"]:
         raise ValueError("mutation did not produce the independent expected delta")
@@ -89,7 +93,7 @@ def qualify(original, target, base):
                        (SOURCE,NATIVE/"foundation.rs",NATIVE/"error.rs",Path("tools/release-version-vectors.json"))},
         "mutatedSourceSha256":sha(mutation),
         "callerSha256":sha((HERE/"probe.rs").read_bytes()),
-        "corpusSha256":sha((HERE/"corpus.py").read_bytes()),
+        "corpusSha256":sha((HERE/"src/corpus.rs").read_bytes()),
         "inputsSha256":sha(inputs.read_bytes()),
         "unchangedPureTests":witnesses,
         "cases":len(baseline),

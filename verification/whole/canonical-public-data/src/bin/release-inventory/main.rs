@@ -99,7 +99,9 @@ fn check(repo: &Path) -> Result<()> {
     match inventory::generate(repo, &spec) {
         Err(e) if e.to_string().contains("unclassified Cargo manifests") => (),
         other => {
-            return Err(format!("standalone workspace omission was not detected: {other:?}").into());
+            return Err(
+                format!("standalone workspace omission was not detected: {other:?}").into(),
+            );
         }
     }
     println!("Reproduced inventory, matched upstream asset list, detected omitted workspace.");

@@ -204,8 +204,8 @@ def manifest_oracle(args, host, scratch, product, build):
         leaf.write_bytes(original_source)
         lib.write_bytes(original_lib)
     rows = data(result)
-    checker = load(OBSERVATIONS, "conformance.py")
-    checker["check"](rows, checker["cases"]())
+    run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+        "--manifest-path", OBSERVATIONS / "Cargo.toml", "--", "check", result)
     if rows != official["baseline"]:
         raise ValueError("integrated parser differs from the actual original observation")
     standalone = data(PROJECTION / f"{host}.json")

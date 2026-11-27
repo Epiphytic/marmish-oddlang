@@ -52,11 +52,11 @@ The [portable test vectors](vectors.json) pair each ordered case identifier and 
 A consumer can load the vectors directly with its own test framework. For a blind run, export just the inputs, pass them to the consumer, and have it write an array of objects with exactly the keys `case` and `result`, in input order. Run the following commands from this directory.
 
 ```sh
-python3 -B conformance.py inputs /tmp/manifest-inputs.json
+cargo +1.97.1 run --quiet --locked --offline -- inputs /tmp/manifest-inputs.json
 # Run the consumer against /tmp/manifest-inputs.json, writing /tmp/manifest-results.json.
-python3 -B conformance.py check /tmp/manifest-results.json
+cargo +1.97.1 run --quiet --locked --offline -- check /tmp/manifest-results.json
 ```
 
-The checker derives expectations independently from the authored corpus, requires every case, and checks JSON types, field sets and array order. JSON object member order is insignificant. To reproduce the committed vectors, run `python3 -B conformance.py vectors vectors.json`. These tests describe pure release metadata parsing. A matching result on the published inputs establishes corpus conformance.
+The checker derives expectations independently from the authored corpus, requires every case, and checks JSON types, field sets and array order. JSON object member order is insignificant. To reproduce the committed vectors, run `cargo +1.97.1 run --quiet --locked --offline -- vectors vectors.json`. These tests describe pure release metadata parsing. A matching result on the published inputs establishes corpus conformance.
 
-The [Linux ARM64 observation](aarch64-unknown-linux-gnu.json) and the [macOS ARM64 observation](aarch64-apple-darwin.json) agree on all 224 results, including all 34 successful parses, and on the single changed result when the license size limit moves. Their source pins, case data and selected unchanged test names match. The compiler host metadata differs. Run `python3 -B test_conformance.py` here to regenerate the exported vectors in a temporary directory and validate both sets of native results.
+The [Linux ARM64 observation](aarch64-unknown-linux-gnu.json) and the [macOS ARM64 observation](aarch64-apple-darwin.json) agree on all 224 results, including all 34 successful parses, and on the single changed result when the license size limit moves. Their source pins, case data and selected unchanged test names match. The compiler host metadata differs. Run `cargo +1.97.1 test --locked --offline` here to regenerate the exported vectors in a temporary directory and validate both sets of native results.

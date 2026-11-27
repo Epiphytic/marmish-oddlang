@@ -133,9 +133,11 @@ def main():
     reference_file = OBSERVATIONS / f"{host}.json"
     reference = read(reference_file)
     vectors = read(OBSERVATIONS / "vectors.json")
-    checker = lane(OBSERVATIONS / "conformance.py")
-    fixtures = checker["cases"]()
-    checker["check"](reference["baseline"], fixtures)
+    def check_observations(mode, path):
+        run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", OBSERVATIONS / "Cargo.toml", "--", mode, path)
+
+    check_observations("check-receipt", reference_file)
     if reference["originalRevision"] != ORIGINAL or sha(args.original / SOURCE) != reference["sourcePins"][SOURCE]:
         raise ValueError("release parser source provenance changed")
     source = (args.original / SOURCE).read_bytes()
@@ -157,9 +159,6 @@ def main():
     original_delta = {row["case"]: row["result"] for row in reference["mutation"]}
     if set(original_delta) != {"size-3-16777217"}:
         raise ValueError("source mutation must have exactly the named native delta")
-    expected_change = {
-        name: (bytes_, original_delta.get(name, outcome)) for name, (bytes_, outcome) in fixtures.items()
-    }
     journal = lane(WHOLE / "journal-records/verify.py")
     assembly = lane(WHOLE / "workspace/verify.py")
     env = journal["cargo_env"]()
@@ -212,11 +211,11 @@ def main():
         inputs = scratch / "inputs.json"
         write(inputs, [{"case": row["case"], "hex": row["hex"]} for row in vectors])
         results = {}
-        for tag, expected in (("baseline", fixtures), ("changed", expected_change)):
+        for tag, mode in (("baseline", "check"), ("changed", "check-changed")):
             lane_dir = scratch / tag
             lane_dir.mkdir()
             rows, raw_hash = invoke_probe(products[tag], lane_dir, inputs, env)
-            checker["check"](rows, expected)
+            check_observations(mode, lane_dir / "results.json")
             reference_rows = (reference["baseline"] if tag == "baseline" else
                               [{"case": row["case"], "result": original_delta.get(row["case"], row["result"])}
                                for row in reference["baseline"]])
