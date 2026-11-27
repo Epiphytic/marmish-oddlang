@@ -1215,7 +1215,8 @@
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/main.rs","language":"rust","mode":"100644","sha256":"5f47e9a7f5d0873db67fe64edc36ab540975cc90a7ba7917f5b0732e739edec4","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/release-version-grammar/witness.rs","language":"rust","mode":"100644","sha256":"005a38ce6fdf0597320b32a3ab3b768561f0dd2d389f2a81117f4fb3fb8c4ff0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/retention-structure.rs","language":"rust","mode":"100644","sha256":"9664490c680ea2de7dbd663c1eb066e054f37d8d6d96b6bdd70542bdac70ddee","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/lib.rs","language":"rust","mode":"100644","sha256":"588a82bbe98758b4cb440278ef5d730f55dd5bc1744691a8212f014d17a2040b","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/lib.rs","language":"rust","mode":"100644","sha256":"c6a34f58309cd4390c8ab5d3ea7e481a0386c728c5d3f2eb82fa3a5ebb4430ce","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/private_buffer.rs","language":"rust","mode":"100644","sha256":"55102dce6ebd6f24d856efaf9441410569ba7dedb5a267887597e9fdfc0cc3b7","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/witness.rs","language":"rust","mode":"100644","sha256":"7031b967eafd37bdfbbc7a02e6652c681599131771dc56d5d081c77ecdf9629c","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/workspace_compat.py","language":"python","mode":"100644","sha256":"2064f1b808d692d6e79eb09aac4782d4f029710f08064ce81e07af9cda772863","parse_status":"parsed"}
 {"path":"verification/whole/canonical-range-data/README.md","language":"inventory","mode":"100644","sha256":"a97c26ba682d41d843be6decc77a6504bb223cd9216e6875e6e5adf841f31975","parse_status":"inventory"}

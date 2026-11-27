@@ -165,3 +165,4 @@ mod manifest_inherited;
 pub mod artifacts;
 #[path = "../../canonical-range-data/qualification.rs"]
 pub mod range;
+pub mod private_buffer;
