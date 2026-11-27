@@ -8,6 +8,7 @@ pub(super) fn compare(
     compiler: &Path,
     original: &Path,
     package: Option<&Path>,
+    workspace_lock: Option<&Path>,
 ) -> Result<Value> {
     let portable = whole.join("../../oddlang/portable");
     let model = portable.join("command-requests-v1");
@@ -21,13 +22,17 @@ pub(super) fn compare(
         return Err("request projection failed".into());
     }
     let source = fs::read(dir.join("wire.rs"))?;
-    if let Some(package) = package {
-        workspace_evidence(
-            package,
-            &portable.join("workspace-basic-commands/workspace.lock"),
-            &source,
-        )?;
-    }
+    let historical = portable.join("workspace-basic-commands/workspace.lock");
+    let workspace = package
+        .map(|path| {
+            workspace_evidence(
+                path,
+                workspace_lock.unwrap_or(&historical),
+                "command_requests",
+                &source,
+            )
+        })
+        .transpose()?;
     let cases: Vec<(String, String, String, bool)> =
         serde_json::from_slice(include_bytes!("cases.json"))?;
     let input = root.join("request-input");
@@ -60,7 +65,9 @@ pub(super) fn compare(
             return Err(format!("incorrect request observation for {op}/{name}").into());
         }
     }
-    Ok(
-        json!({"original":ORIGINAL,"cases":cases.len(),"accepted":expected.iter().flatten().count(),"observationsSha256":sha(&observed),"wireSha256":sha(&source),"compilerSha256":sha(&fs::read(compiler)?)}),
-    )
+    let mut receipt = json!({"original":ORIGINAL,"cases":cases.len(),"accepted":expected.iter().flatten().count(),"observationsSha256":sha(&observed),"wireSha256":sha(&source),"compilerSha256":sha(&fs::read(compiler)?)});
+    if let Some(workspace) = workspace {
+        receipt["workspace"] = workspace;
+    }
+    Ok(receipt)
 }

@@ -30,6 +30,8 @@ enum Mode {
         original: PathBuf,
         #[arg(long)]
         package: Option<PathBuf>,
+        #[arg(long, requires = "package")]
+        workspace_lock: Option<PathBuf>,
     },
     Shapes {
         compiler: PathBuf,
@@ -73,7 +75,7 @@ fn git_blob(repo: &Path, name: &str) -> Result<Vec<u8>> {
     Ok(output.stdout)
 }
 
-fn workspace_evidence(workspace: &Path, pin: &Path, source: &[u8]) -> Result<Value> {
+fn workspace_evidence(workspace: &Path, pin: &Path, module: &str, source: &[u8]) -> Result<Value> {
     let lock = fs::read(workspace.join("workspace.lock"))?;
     if lock != fs::read(pin)? {
         return Err("workspace differs from pinned selection".into());
@@ -87,6 +89,19 @@ fn workspace_evidence(workspace: &Path, pin: &Path, source: &[u8]) -> Result<Val
     }
     let manifest: Value = serde_json::from_slice(&package)?;
     let source_hash = sha(source);
+    let mut selected = manifest["components"]
+        .as_array()
+        .ok_or("missing native components")?
+        .iter()
+        .filter(|c| c["module"] == module);
+    let codec = selected.next().ok_or("missing selected wire component")?;
+    if selected.next().is_some()
+        || codec["kind"] != "wire-protocol"
+        || codec["sourceSha256"] != source_hash
+        || codec["projection"]["wireSha256"] != source_hash
+    {
+        return Err("selected wire component differs from standalone codec".into());
+    }
     let paths: Vec<_> = manifest["generatedFiles"]
         .as_object()
         .ok_or("missing generated files")?
@@ -186,8 +201,16 @@ fn main() -> Result<()> {
             compiler,
             original,
             package,
+            workspace_lock,
         } => {
-            let result = requests::compare(root, whole, &compiler, &original, package.as_deref())?;
+            let result = requests::compare(
+                root,
+                whole,
+                &compiler,
+                &original,
+                package.as_deref(),
+                workspace_lock.as_deref(),
+            )?;
             println!("{}", serde_json::to_string_pretty(&result)?);
             return Ok(());
         }
@@ -232,7 +255,8 @@ fn main() -> Result<()> {
             }
             let source = fs::read(projection.join("wire.rs"))?;
             if let (Some(dir), Some(pin)) = (workspace, workspace_lock) {
-                receipt["workspace"] = workspace_evidence(&dir, &pin, &source)?;
+                receipt["workspace"] =
+                    workspace_evidence(&dir, &pin, "command_responses", &source)?;
             }
             fs::write(root.join("codec.rs"), source)?;
             fs::copy(requests.join("generated.rs"), root.join("peer.rs"))?;

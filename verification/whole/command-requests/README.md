@@ -9,3 +9,10 @@ cargo +1.97.1 run --quiet --offline --locked --manifest-path verification/whole/
 The generated consumer builds first, with a separate Cargo target and the four portable model/binding files as its projection inputs. The reference consumer compiles the pinned private command codec and its hexadecimal-validation helper. Both process the exact request bytes in `cases.json`, including duplicate keys, trailing whitespace, and inputs that exceed the byte limit. Six accepted requests across the five operations must round-trip byte for byte, including an exactly 32,768-byte submit. The rejection cases compare acceptance only. The observer does not run either daemon.
 
 The receipt used the compiler built from Oddlang revision `1dcf568d7da9aabcdba7dc134eef5654f063096f` with Rust 1.97.1. To check the workspace projection, run `oddlang build native-workspace rust oddlang/portable/workspace-basic-commands.json <new-directory>` and pass `--package <new-directory>` to the observer. It checks the workspace lock and matches the standalone codec to the exact file in the packaged member.
+
+For another release, pass its independently published workspace lock with the generated package. The receipt identifies the workspace, member lock, and exact source file used for the comparison.
+
+```sh
+check-response-envelopes requests "$ODDLANG" "$MAINLINE_CHECKOUT" --package "$GENERATED_WORKSPACE" \
+  --workspace-lock oddlang/portable/workspace-profile-command-policy/workspace.lock
+```

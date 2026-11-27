@@ -51,3 +51,7 @@ The [package codec comparison](bounded-local-progress-workspace-codec-aarch64-ap
 used the emitted `marmish-native` response module pinned by the same workspace
 lock. It checks 117 mainline packet observations, including 36 admitted
 responses, and rejects all 20 cross-operation decoder pairings.
+
+The bounded progress checker accepts `--scratch-parent DIRECTORY` for the private Unix socket, stdout and stderr files. Select a short absolute path on a volume with room for the two 131,072-byte streams. The default is `/private/tmp`. Both clients must pass against the same fixture before comparing the `cases` objects. This exercise uses a local owner fixture.
+
+At the profile command-policy lock `889017343f0fdb092dee203264aa4f6d6d194bad8ef396e336f2dd2cf6ec9b76`, the mainline and generated clients agreed on all eight cases. The foreground graph in this workspace includes room preparation and policy parsing. The separate authorized-owner-submit workspace declares the local submit operation and queue. To reproduce the diagnostic for this specific lock, append `profile-policy-route-probe.rs` to `marmish-native/src/group_4/__projection_4.rs` in a disposable copy of the verified workspace and run `cargo +1.97.1 test --locked --offline -p marmish-native --lib release_route_probe` there. The probe sends no command and opens no network connection. It observes a structured refusal for the prepare control, no route for the submit operation and an empty queue. [Client and packet observations](profile-policy-local-macos-arm64.json)
