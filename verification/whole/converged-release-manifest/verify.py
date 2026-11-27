@@ -35,8 +35,6 @@ def load(directory, name="verify.py"):
 
 
 CONVERGENCE = load(HERE.parent / "converged-public-api")
-SHAPES = load(PROJECTION, "shapes.py")
-DIFFERENTIAL = load(PROJECTION)
 ENGINE, LIMIT, SIX = (CONVERGENCE[key] for key in ("ENGINE", "LIMIT", "SIX"))
 run, sha, data = (SIX[key] for key in ("run", "sha", "data"))
 
@@ -163,13 +161,12 @@ def manifest_oracle(args, host, scratch, product, build):
         "original": private_import(original_build, privacy, scratch / "original.rmeta", host),
         "generated": private_import(build, privacy, scratch / "generated.rmeta", host),
     }
-    generated_doc = DIFFERENTIAL["rustdoc"](product, product / "target", native_build_env)
-    reference_doc = DIFFERENTIAL["rustdoc"](args.original, args.original_target, native_build_env)
-    graph = data(PORTABLE / "release-manifest-v1/graph.json")
-    binding = data(PORTABLE / BUNDLE / "rust.json")
-    shape = SHAPES["shape"](generated_doc, leaf.relative_to(product).as_posix())
-    if shape != SHAPES["shape"](reference_doc, SOURCE) or shape != SHAPES["declared"](graph, binding):
-        raise ValueError("native library records changed when integrated")
+    shape = json.loads(run(
+        "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+        PROJECTION / "Cargo.toml", "--bin", "compare-records", "--", args.original,
+        args.original_target, product, product / "target", leaf.relative_to(product).as_posix(),
+        PORTABLE / "release-manifest-v1/graph.json", PORTABLE / BUNDLE / "rust.json",
+    ))
 
     source_cases = unchanged_tests(args.original)
     official = data(OBSERVATIONS / f"{host}.json")

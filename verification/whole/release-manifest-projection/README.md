@@ -36,7 +36,7 @@ repositories.
 Rust 1.97.1 and cached offline dependencies are required.
 
 ```sh
-python3 -B verification/whole/release-manifest-projection/verify.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/release-manifest-projection/Cargo.toml -- \
   "$ODDLANG_CHECKOUT" "$MARMISH_CHECKOUT" "$RECEIPT" \
   --framework-revision 5bd0d54858380efadfdfa62d37d8293594ab2ebd \
   --compiler-target "$ODDLANG_TARGET" --original-target "$MARMISH_TARGET"
