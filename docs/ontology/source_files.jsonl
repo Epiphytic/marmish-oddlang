@@ -1873,7 +1873,7 @@
 {"path":"verification/whole/suite/Cargo.lock","language":"inventory","mode":"100644","sha256":"30a744d41264f0fc78ad0a8cc98da737e0892febc4c89623246b3e4d43125b43","parse_status":"inventory"}
 {"path":"verification/whole/suite/Cargo.toml","language":"inventory","mode":"100644","sha256":"2c0cb7e834ec7045b1aafc3c734b1c6d18f51ba84ca8466bff7ab172bff3a63b","parse_status":"inventory"}
 {"path":"verification/whole/suite/README.md","language":"inventory","mode":"100644","sha256":"24b80e74ddad4c6d3d93107359cae8e7ae9d90907f89b071680b29368e7ebc27","parse_status":"inventory"}
-{"path":"verification/whole/suite/candidate_coverage.py","language":"python","mode":"100644","sha256":"b051cdccbe85ba032bbd8553a4ce7123b2818c5553ade12ed7e8c8c9f84feb9d","parse_status":"parsed"}
+{"path":"verification/whole/suite/candidate_coverage.py","language":"python","mode":"100644","sha256":"72c61e6a1eeacd286d4f268528d7a4d491b3f78e56ba2e0175e34fb665666834","parse_status":"parsed"}
 {"path":"verification/whole/suite/canonical-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"7cfd7edb63815f1e73553786abe5dc0c35535c7b7ea98ea4245db979068c2306","parse_status":"inventory"}
 {"path":"verification/whole/suite/canonical-aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"4a472c53a1fea65ea7d5b4cf5eb144081aa33e9936e53ff92baa0b3b7359e941","parse_status":"inventory"}
 {"path":"verification/whole/suite/canonical-mdk-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"8814a80c88fdfd26eac3ccf768be66a4c86c58c437081901cf03ec7a7c7d675d","parse_status":"inventory"}
@@ -1909,12 +1909,14 @@
 {"path":"verification/whole/suite/src/bin/candidate-targets.rs","language":"rust","mode":"100644","sha256":"f3d47c00327b3a40836b18d034c8bce88575d5d611bb8c97a4308766f47546fc","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/bin/check-coverage.rs","language":"rust","mode":"100644","sha256":"2a44b4760f68c55d7896d0bfe7001da9f4d90a19e092b685739eeddc34421e9e","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/bin/list-cargo.rs","language":"rust","mode":"100644","sha256":"fb59f87d6e748874b61f38980fff21625ceee98b2ed52e947bcc34776cea6aac","parse_status":"parsed"}
+{"path":"verification/whole/suite/src/bin/reconcile-suite.rs","language":"rust","mode":"100644","sha256":"f7b6a6d4a2f6b08360dbee7122554d06507c8b2e128f6b77d393f5ae5d21037b","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/bin/suite-inventory.rs","language":"rust","mode":"100644","sha256":"0cdc26cd5ae6be5f9ab8a59573a500381900fca3125da563ac6db27adea034a3","parse_status":"parsed"}
 {"path":"verification/whole/suite/src/bin/summarize-cargo.rs","language":"rust","mode":"100644","sha256":"cd314846d4f5cb7853dd58adfc311ab0fb7ccd995023637f52dea94d85ea2a49","parse_status":"parsed"}
-{"path":"verification/whole/suite/src/lib.rs","language":"rust","mode":"100644","sha256":"973c8202d3b9b64de41479ab4b875d18beff78481d3f074c4a6ec2d3a6c1e13b","parse_status":"parsed"}
+{"path":"verification/whole/suite/src/lib.rs","language":"rust","mode":"100644","sha256":"456de8f64fc2ca1ad347c2af45b49eb169cfd3b5fa2244d3a35bcbb9fe60357f","parse_status":"parsed"}
 {"path":"verification/whole/suite/stage.rs","language":"rust","mode":"100644","sha256":"79e1021af838615f2c0446ca104a7e2a4f34a85bdf54abdbe74f02b63cb7397d","parse_status":"parsed"}
 {"path":"verification/whole/suite/test_candidate_producer.py","language":"python","mode":"100644","sha256":"55145eee67b4a57ba9e9c6bcd389f35b8baeb3ca26a0118d5e73297eb6539a24","parse_status":"parsed"}
 {"path":"verification/whole/suite/tests/archives.rs","language":"rust","mode":"100644","sha256":"214c3db6ef1a3c5bbcac9c714f7c8929f372584481d3110496a6739738a250a5","parse_status":"parsed"}
+{"path":"verification/whole/suite/tests/reconcile.rs","language":"rust","mode":"100644","sha256":"e0d9faca78ee16aa48b30b6eaea8455a10f6dec1cba4ea124b594c7d2d779655","parse_status":"parsed"}
 {"path":"verification/whole/suite/tests/refusal-cases.json","language":"inventory","mode":"100644","sha256":"73a4f0d77fda6fb9ffcd3b7e49b2596c188d635b5729276be581262c6f757ea2","parse_status":"inventory"}
 {"path":"verification/whole/suite/tests/target-report-sha256.json","language":"inventory","mode":"100644","sha256":"0d30e34165f54712c3d6cf015862be8a91d2558b6069e1f1834bbdee9fdb749d","parse_status":"inventory"}
 {"path":"verification/whole/suite/upstream.py","language":"python","mode":"100644","sha256":"2e9efba5d90f566544e09c2caeb83c3f5701fe875e34663f132d120b1021ad69","parse_status":"parsed"}

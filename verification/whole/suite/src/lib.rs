@@ -239,39 +239,12 @@ fn inspect_selected(receipt: &Value, rules: &Value, c: &Selected) -> Result<Valu
             return Err("native executable witness failed its control".into());
         }
     }
-    let mut rows = json!({});
-    let mut totals = BTreeMap::<&str, usize>::new();
-    for (harness, entry) in obj(&catalog["harnesses"])? {
-        let tests = names(&entry["tests"])?;
-        let eligible: BTreeSet<_> = tests.iter().collect();
-        let ignored = names(&entry["ignored"])?;
-        let excluded: BTreeSet<_> = ignored.iter().collect();
-        let names = passed.remove(harness).unwrap_or_default();
-        let seen: BTreeSet<_> = names.iter().collect();
-        if eligible.len() != tests.len()
-            || excluded.len() != ignored.len()
-            || !eligible.is_disjoint(&excluded)
-            || seen.len() != names.len()
-            || !seen.is_subset(&eligible)
-        {
-            return Err(format!("invalid cases for {harness}").into());
-        }
-        let row = json!({"passed":names,"unverified":eligible.difference(&seen).collect::<Vec<_>>(),"ignored":excluded,"benchmarks":entry["benchmarks"]});
-        for key in ["benchmarks", "ignored", "passed", "unverified"] {
-            *totals.entry(key).or_default() +=
-                row[key].as_array().ok_or("invalid case list")?.len();
-        }
-        rows[harness] = row;
-    }
-    if !passed.is_empty() {
-        return Err("missing qualified harness".into());
-    }
+    let (rows, totals) = reconcile(&catalog, passed)?;
     matches(
         &receipt["harnesses"],
         &rows,
         "case dispositions disagree with catalog",
     )?;
-    let totals = json!(totals);
     matches(&receipt["totals"], &totals, "totals disagree with catalog")?;
     if c.name == "canonical-public-data" {
         if receipt["manifestSha256"]
@@ -301,6 +274,48 @@ fn inspect_selected(receipt: &Value, rules: &Value, c: &Selected) -> Result<Valu
     }
     Ok(totals)
 }
+/// Account for every named test, including harnesses with no observations.
+pub fn reconcile(
+    catalog: &Value,
+    mut passed: BTreeMap<String, Vec<String>>,
+) -> Result<(Value, Value)> {
+    let mut rows = json!({});
+    let mut totals = [0usize; 4];
+    for (harness, entry) in obj(&catalog["harnesses"])? {
+        let tests = names(&entry["tests"])?;
+        let eligible: BTreeSet<_> = tests.iter().collect();
+        let ignored = names(&entry["ignored"])?;
+        let excluded: BTreeSet<_> = ignored.iter().collect();
+        let mut names = passed.remove(harness).unwrap_or_default();
+        names.sort();
+        let seen: BTreeSet<_> = names.iter().collect();
+        if eligible.len() != tests.len()
+            || excluded.len() != ignored.len()
+            || !eligible.is_disjoint(&excluded)
+            || seen.len() != names.len()
+            || !seen.is_subset(&eligible)
+        {
+            return Err(format!("invalid cases for {harness}").into());
+        }
+        let row = json!({"passed":names,"unverified":eligible.difference(&seen).collect::<Vec<_>>(),"ignored":excluded,"benchmarks":entry["benchmarks"]});
+        for (count, key) in totals
+            .iter_mut()
+            .zip(["passed", "unverified", "ignored", "benchmarks"])
+        {
+            *count += row[key].as_array().ok_or("invalid case list")?.len();
+        }
+        rows[harness] = row;
+    }
+    if !passed.is_empty() {
+        return Err("missing qualified harness".into());
+    }
+    let [passed, unverified, ignored, benchmarks] = totals;
+    Ok((
+        rows,
+        json!({"passed": passed, "unverified": unverified, "ignored": ignored, "benchmarks": benchmarks}),
+    ))
+}
+
 pub fn inspect(receipt: &Value) -> Result<Value> {
     let rules = read(&suite().join("receipt-rules.json"))?;
     inspect_selected(receipt, &rules, &select(receipt, &rules)?)

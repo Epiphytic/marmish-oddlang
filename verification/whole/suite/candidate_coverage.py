@@ -103,22 +103,15 @@ def check_registered_names(harness, listing, expected):
 
 
 def reconcile(inventory, passed):
-    harnesses = inventory["harnesses"]
-    if set(passed) - set(harnesses):
-        raise ValueError("case receipt names an unknown harness")
-    rows = {}
-    for target, entry in harnesses.items():
-        eligible, ignored = set(entry["tests"]), set(entry["ignored"])
-        names = passed.get(target, [])
-        if len(eligible) != len(entry["tests"]) or len(ignored) != len(entry["ignored"]) or eligible & ignored:
-            raise ValueError(f"invalid test inventory: {target}")
-        if len(set(names)) != len(names) or set(names) - eligible:
-            raise ValueError(f"duplicate or unrecognized test: {target}")
-        rows[target] = dict(passed=sorted(names), unverified=sorted(eligible-set(names)),
-                            ignored=sorted(ignored), benchmarks=entry["benchmarks"])
-    totals = {key:sum(len(row[key]) for row in rows.values())
-              for key in ("passed", "unverified", "ignored", "benchmarks")}
-    return rows, totals
+    with tempfile.TemporaryDirectory(prefix="odd-suite-rows-") as target:
+        run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE / "Cargo.toml", "--target-dir", target,
+            "--bin", "reconcile-suite")
+        result = subprocess.run([Path(target) / "debug/reconcile-suite"],
+                                input=json.dumps([inventory, passed]).encode(), capture_output=True)
+    if result.returncode:
+        raise ValueError(result.stderr.decode().strip())
+    return tuple(json.loads(result.stdout))
 
 
 def qualify(original, framework, compiler_cache, reference_target, candidate="v7"):
