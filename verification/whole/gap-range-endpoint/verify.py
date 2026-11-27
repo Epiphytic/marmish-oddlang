@@ -22,16 +22,16 @@ MANIFEST = PORTABLE / (PROFILE + "-package.json")
 CASES = HERE / "cases.json"
 
 
-PRODUCT_WITNESS = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))["product_witness"]
+WORKSPACE_TOOLS = runpy.run_path(str(HERE.parent / "unified-mdk/workspace_compat.py"))
 
 
 def stage(work, profile):
-    lane, manifest = PRODUCT_WITNESS("endpoint-inputs", work, profile)
+    lane, manifest = WORKSPACE_TOOLS["product_witness"]("endpoint-inputs", work, profile)
     return Path(lane), Path(manifest)
 
 
 def validate_contract():
-    return PRODUCT_WITNESS("endpoint-contract")
+    return WORKSPACE_TOOLS["product_witness"]("endpoint-contract")
 
 
 def verify(work, args):
@@ -169,6 +169,7 @@ def verify(work, args):
         "typescriptInputs": ts_inputs,
         "typescript": "5.9.3" if args.typescript else None,
         "verifierSha256": sha(HERE / "verify.py"),
+        "contractVerifierSha256": sha(WORKSPACE_TOOLS["workspace_tool"]()[1]),
         "host": host,
         "rustc": version,
         "sealedPackageLockSha256": sha(reference_lock),

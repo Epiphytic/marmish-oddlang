@@ -21,6 +21,12 @@ fn cases_path() -> PathBuf {
 
 fn checked(base: &Path, descriptor: &Value) -> Result<PathBuf> {
     let name = text(&descriptor["path"])?;
+    require(
+        Path::new(name)
+            .components()
+            .all(|component| matches!(component, std::path::Component::Normal(_))),
+        "expected a relative input path",
+    )?;
     let path = base.join(name).canonicalize()?;
     require(
         path.starts_with(base.canonicalize()?) && pin(base, name)? == *descriptor,
