@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """Build the Linux reference caller, then judge it from a separate macOS host."""
 import argparse
-import hashlib
+from functools import lru_cache
+import os
 import json
 from pathlib import Path
 import shlex
@@ -10,11 +11,29 @@ import sys
 import tempfile
 
 sys.dont_write_bytecode = True
-sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
-from framework_pin import REVISION, verify_checkout
+WHOLE = Path(__file__).resolve().parents[1]
+REVISION = json.loads((WHOLE / "baseline-framework.json").read_bytes())
 
 PIN = "af54339d250290490d62d4475a77539b7e739071"
 LOCK = "9c5f7dde5c0f7d340e22dbefaa8a1c6ddb94c119011ba3e49ac8044c9b4cb0b3"
+
+
+@lru_cache(maxsize=1)
+def _tool():
+    directory = tempfile.TemporaryDirectory(prefix="baseline-checker-")
+    env = os.environ.copy()
+    for key in ("RUSTC", "RUSTFLAGS", "CARGO_ENCODED_RUSTFLAGS", "RUSTC_WRAPPER", "RUSTC_WORKSPACE_WRAPPER"):
+        env.pop(key, None)
+    subprocess.run(["cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline",
+                    "--manifest-path", WHOLE / "canonical-public-data/Cargo.toml",
+                    "--bin", "baseline-framework", "--target-dir", directory.name], env=env, check=True)
+    return directory, Path(directory.name) / "debug/baseline-framework"
+
+
+def verify_checkout(root):
+    result = subprocess.check_output([_tool()[1], "verify", root], text=True).strip()
+    if result != REVISION:
+        raise ValueError("unexpected baseline framework revision")
 
 
 def driver(root):
@@ -104,28 +123,10 @@ def judge_data(args):
     except Exception:
         raise RuntimeError("isolated generated target comparison failed") from None
     receipt_bytes = remote("cat", str(args.guest_receipt)).stdout
-    receipt = json.loads(receipt_bytes)
-    driver_pins = {
-        "linux_boundary.py": "559e56472735f81ca0400e221c207b202a632b0358fd8d0e3695adeefe30e387",
-        "qualify_tagged.py": "f2fd54fc8768215eb41d4052b8194f15699f4bc72a5266a9e07ebf7086b6a973",
-        "tagged_adapter.mjs": "5be9dd353fabb41c58439c4b3dda71e1a1252e648c24b5a6d3d8eac737643c52",
-        "tagged_adapter.rs": "8f8315f5975326950ec9ca9bcb08192e9b382f7951c642a0e4f3e000247cf2f1",
-    }
-    if receipt["driverSourceSha256"] != driver_pins:
-        raise ValueError("unexpected guest qualifier or adapter")
-    pinned = json.loads((expected.ROOT / "tagged-qualification.json").read_bytes())
-    for field in ("approvedGraphSha256", "publicCaseIds", "comparedOperationResults", "mixedPeers",
-                  "mutation"):
-        if receipt[field] != pinned[field]:
-            raise ValueError(f"public receipt differs at {field}")
-    if receipt["upstreamRevision"] != PIN or receipt["originalCaller"]["cargoLockSha256"] != LOCK:
-        raise ValueError("unexpected original revision or lock")
-    if receipt["build"]["generatedSourceSha256"] != pinned["build"]["generatedSourceSha256"]:
-        raise ValueError("public receipt has unexpected generated source")
+    verified = json.loads(subprocess.check_output(
+        [_tool()[1], "verify-tagged", args.framework], input=receipt_bytes))
     oracle.write(args.output, {"framework": REVISION, "upstream": PIN,
-        "frozenCapsuleSha256": freeze["holdout"]["fileSha256"],
-        "guestReceiptSha256": hashlib.sha256(receipt_bytes).hexdigest(),
-        "generatedSourceSha256": receipt["build"]["generatedSourceSha256"],
+        "frozenCapsuleSha256": freeze["holdout"]["fileSha256"], **verified,
         "sealedCasesPerRole": len(cases), "comparedOperationsPerRole": len(wanted),
         "passedRoles": ["rust", "typescript"], "boundary": {"guestHost": "127.0.0.1",
         "agentForwarding": False, "sharedMounts": [], "hostSentinelAbsentInGuest": True,

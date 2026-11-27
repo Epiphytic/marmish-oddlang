@@ -58,6 +58,14 @@ python3 -B "$QUALIFIER/qualify_tagged.py" --linux-privileged-mounts \
   --original-revision af54339d250290490d62d4475a77539b7e739071 --receipt /tmp/data-public.json
 ```
 
+The macOS judge checks the guest receipt against the baseline framework in Rust. To repeat the public receipt check using the archived Linux ARM64 run, execute the following from the companion root. The output identifies the exact guest receipt bytes and the Rust and TypeScript sources they qualify.
+
+```sh
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin baseline-framework -- verify-tagged "$FROZEN_FRAMEWORK" \
+  < verification/whole/linux/aarch64-unknown-linux-gnu/data-release.json
+```
+
 For the sealed comparison, use the same guest command from the macOS judge, supplying absolute guest paths as arguments. The judge appends the receipt path and blind input mode. Use a new guest receipt path per run. The guest executes the public cases and the blind inputs supplied by the host. It reports raw adapter results to the judge over SSH. The judge compares expected outcomes on the host and publishes only counts and commitments. Copy the guest receipt alongside the judge receipt and compare its SHA-256 against `guestReceiptSha256`.
 
 ```sh
