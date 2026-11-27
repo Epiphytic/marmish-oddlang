@@ -23,6 +23,9 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    PublicImports { original: PathBuf, host: String },
+    ImportControl { work: PathBuf, host: String },
+    PrototypeSurface { host: String },
     OfflineCliCase {
         binary: PathBuf,
         home: PathBuf,
@@ -206,6 +209,15 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
+        Action::ImportControl { work, host } => {
+            let data = input()?;
+            imports::probe(&host, &data["role"], &work, public_data_qualification::text(&data["body"])?)?
+        }
+        Action::PrototypeSurface { host } => {
+            let data = input()?;
+            imports::prototype(&host, &data["roles"], &data["links"])?
+        }
         Action::RuntimeStatusCaller { work, native } => {
             domains::runtime_from_cargo(io::stdin().lock(), &work, native.as_deref())?
         }

@@ -23,9 +23,27 @@ const LOCK: &str = "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f2
 fn object(v: &Value) -> Result<&serde_json::Map<String, Value>> {
     Ok(v.as_object().ok_or("expected an object")?)
 }
+const IMPORT_ERRORS: &[&str] = &["E0432", "E0433", "E0603", "ambiguous_glob_imports"];
+
 pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value> {
+    compile_probe(host, role, work, body, None, IMPORT_ERRORS)
+}
+
+fn compile_probe(
+    host: &str,
+    role: &Value,
+    work: &Path,
+    body: &str,
+    binary_links: Option<&[String]>,
+    allowed: &[&str],
+) -> Result<Value> {
     fs::write(work.join("caller.rs"), body)?;
     let meta = Path::new(text(&role[0])?);
+    let external = if binary_links.is_some() {
+        text(&role[1])?
+    } else {
+        text(&role[0])?
+    };
     let mut cmd = Command::new("rustc");
     cmd.current_dir(work)
         .args([
@@ -39,7 +57,7 @@ pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value>
             "separate_caller",
             "--extern",
         ])
-        .arg(format!("observed={}", meta.display()))
+        .arg(format!("observed={external}"))
         .arg("-L")
         .arg(format!(
             "dependency={}",
@@ -47,8 +65,16 @@ pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value>
         ))
         .arg("-L")
         .arg(format!("dependency={}", text(&role[3])?))
-        .args(["caller.rs", "--crate-type", "lib", "--emit", "metadata"])
+        .arg("caller.rs")
         .env("CARGO_NET_OFFLINE", "true");
+    if let Some(links) = binary_links {
+        cmd.args(["-C", "opt-level=3", "-o", "constant"]);
+        for link in links {
+            cmd.arg("-L").arg(link);
+        }
+    } else {
+        cmd.args(["--crate-type", "lib", "--emit", "metadata"]);
+    }
     for (key, _) in env::vars_os() {
         if key.to_str().is_some_and(|s| {
             [
@@ -74,7 +100,7 @@ pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value>
         if r["level"] == "error" && !r["code"].is_null() {
             let code = text(&r["code"]["code"])?;
             require(
-                ["E0432", "E0433", "E0603", "ambiguous_glob_imports"].contains(&code),
+                allowed.contains(&code),
                 format!("unexpected import diagnostic: {code}"),
             )?;
             diagnostics.push(json!({"code":code,"message":r["message"],"rendered":r["rendered"]}));
@@ -86,7 +112,13 @@ pub fn probe(host: &str, role: &Value, work: &Path, body: &str) -> Result<Value>
     )?;
     Ok(json!({"compiles":result.status.success(),"diagnostics":diagnostics}))
 }
-pub fn library(name: &str, count: usize, host: &str, role: &Value, original: &Path) -> Result<Value> {
+pub fn library(
+    name: &str,
+    count: usize,
+    host: &str,
+    role: &Value,
+    original: &Path,
+) -> Result<Value> {
     let root = whole()
         .join("public-types")
         .join(format!("original-{name}"));
@@ -191,6 +223,58 @@ pub fn library(name: &str, count: usize, host: &str, role: &Value, original: &Pa
         "imports": results,
     }))
 }
+pub fn library_set(host: &str, original: &Path, roles: &Value) -> Result<Value> {
+    let mut libraries = json!({});
+    for (name, count) in COUNT {
+        let package = format!("marmish-{name}");
+        let role = roles
+            .get(&package)
+            .ok_or_else(|| format!("missing library: {package}"))?;
+        libraries[name] = library(name, count, host, role, original)?;
+    }
+    Ok(libraries)
+}
+
+pub fn prototype(host: &str, roles: &Value, links: &Value) -> Result<Value> {
+    const CONSTANT: &str =
+        "const BOUND: usize = observed::MAX_LINE;\nfn main() { println!(\"{BOUND}\"); }\n";
+    const SIGNATURE: &str = "pub fn signature<R: std::io::Read, W: std::io::Write>()\n    -> fn(R, W) -> std::io::Result<()>\n{\n    observed::serve\n}\n";
+    let temp = tempfile::tempdir()?;
+    let work = temp.path();
+    let mut results = json!({});
+    for name in ["original", "generated"] {
+        let role = &roles[name];
+        let paths: Vec<String> = serde_json::from_value(links[name].clone())?;
+        let mut bound = compile_probe(
+            host,
+            role,
+            work,
+            CONSTANT,
+            Some(&paths),
+            &["E0425", "E0603"],
+        )?;
+        if bound["compiles"] == true {
+            let output = stdout(&mut Command::new(work.join("constant")))?;
+            bound["value"] = output.trim().parse::<usize>()?.into();
+        }
+        let serve = compile_probe(
+            host,
+            role,
+            work,
+            SIGNATURE,
+            None,
+            &["E0425", "E0603", "E0308", "E0277"],
+        )?;
+        results[name] = json!({"MAX_LINE":bound,"serve":serve,"librarySha256":sha(Path::new(text(&role[1])?))?});
+    }
+    require(
+        results["original"]["MAX_LINE"]["value"] == 131072
+            && results["original"]["serve"]["compiles"] == true,
+        "upstream prototype constant or function signature changed",
+    )?;
+    Ok(results)
+}
+
 pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Result<Value> {
     let previous = if host == HOST {
         let archive = load(&whole().join("canonical-workspace/aarch64-apple-darwin.json"))?;

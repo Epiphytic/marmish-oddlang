@@ -43,7 +43,7 @@ pub struct Artifacts {
     pub serde: PathBuf,
     pub serde_json: PathBuf,
 }
-pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Result<Artifacts> {
+fn cargo_rows(bytes: &[u8]) -> Result<Vec<Value>> {
     let rows: Vec<Value> = std::str::from_utf8(bytes)?
         .lines()
         .map(serde_json::from_str)
@@ -52,30 +52,33 @@ pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Res
         rows.last() == Some(&json!({"reason":"build-finished","success":true})),
         "incomplete Cargo build",
     )?;
+    Ok(rows)
+}
+
+pub fn selected_libraries(
+    rows: &[Value],
+    package_root: &Path,
+    target: &Path,
+    packages: &[&str],
+) -> Result<(Value, BTreeSet<String>)> {
     let mut roles = json!({});
     let mut links = BTreeSet::new();
-    let mut files = BTreeMap::new();
-    let mut libs: BTreeMap<String, BTreeSet<PathBuf>> = BTreeMap::new();
     for row in rows {
         if row["reason"] == "build-script-executed" {
-            for p in list(&row["linked_paths"])? {
-                links.insert(text(p)?.to_owned());
+            for link in list(&row["linked_paths"])? {
+                links.insert(text(link)?.to_owned());
             }
-            continue;
         }
         if row["reason"] != "compiler-artifact" {
             continue;
         }
-        let paths = list(&row["filenames"])?
-            .iter()
-            .map(|v| Ok(PathBuf::from(text(v)?)))
-            .collect::<Result<Vec<_>>>()?;
-        let name = text(&row["target"]["name"])?;
-        let package = name.replace('_', "-");
-        if row["target"]["kind"] == json!(["lib"])
-            && PKGS.iter().any(|n| package == format!("marmish-{n}"))
-        {
-            let dir = product.join(&package);
+        let package = text(&row["target"]["name"])?.replace('_', "-");
+        if row["target"]["kind"] == json!(["lib"]) && packages.contains(&package.as_str()) {
+            let paths = list(&row["filenames"])?
+                .iter()
+                .map(|v| Ok(PathBuf::from(text(v)?)))
+                .collect::<Result<Vec<_>>>()?;
+            let dir = package_root.join(&package);
             require(
                 Path::new(text(&row["manifest_path"])?).canonicalize()? == dir.join("Cargo.toml")
                     && Path::new(text(&row["target"]["src_path"])?)
@@ -106,6 +109,35 @@ pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Res
                 row["fresh"]
             ]);
         }
+    }
+    require(
+        roles.as_object().is_some_and(|v| v.len() == packages.len()),
+        "incomplete native library inventory",
+    )?;
+    Ok((roles, links))
+}
+pub fn selected_build(
+    bytes: &[u8],
+    package_root: &Path,
+    target: &Path,
+    packages: &[&str],
+) -> Result<(Value, BTreeSet<String>)> {
+    selected_libraries(&cargo_rows(bytes)?, package_root, target, packages)
+}
+pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Result<Artifacts> {
+    let rows = cargo_rows(bytes)?;
+    let (roles, links) = selected_libraries(&rows, product, target, &crate::product::PACKAGES)?;
+    let mut files = BTreeMap::new();
+    let mut libs: BTreeMap<String, BTreeSet<PathBuf>> = BTreeMap::new();
+    for row in rows {
+        if row["reason"] != "compiler-artifact" {
+            continue;
+        }
+        let paths = list(&row["filenames"])?
+            .iter()
+            .map(|v| Ok(PathBuf::from(text(v)?)))
+            .collect::<Result<Vec<_>>>()?;
+        let name = text(&row["target"]["name"])?;
         for p in paths {
             let ext = p.extension().and_then(|e| e.to_str()).unwrap_or("");
             if ext == "rlib"

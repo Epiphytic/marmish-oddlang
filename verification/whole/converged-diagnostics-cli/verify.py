@@ -1,6 +1,5 @@
 """Probe CLI and public imports from the same isolated seven-member build."""
 import argparse
-from concurrent.futures import ThreadPoolExecutor
 import json
 import os
 from pathlib import Path
@@ -152,9 +151,7 @@ def cli_observations(args, generated, scratch):
 def imports_and_behavior(args, raw, scratch):
     packages = [f"marmish-{key}" for key in IMPORTS["COUNTS"]]
     found, links = IMPORTS["artifacts"](raw, args.product, packages, args.target, generated=True)
-    with ThreadPoolExecutor(max_workers=7) as jobs:
-        observed = dict(zip(IMPORTS["COUNTS"], jobs.map(
-            lambda crate: IMPORTS["imports"](crate, found[f"marmish-{crate}"], args.original), IMPORTS["COUNTS"])))
+    observed = IMPORTS["library_imports"](found, args.original)
     previous = load(HERE.parent / "converged-public-api/darwin-imports.json")["imports"]
     delta = []
     for crate, result in observed.items():

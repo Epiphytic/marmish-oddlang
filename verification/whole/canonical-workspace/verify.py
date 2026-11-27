@@ -1,6 +1,5 @@
 """Exercise all selected contracts on the same sealed native workspace."""
 import argparse
-import concurrent.futures
 import json
 from pathlib import Path
 import runpy
@@ -137,10 +136,7 @@ def imports(args, product, build):
     inventory = CLI["IMPORTS"]
     package_names = [f"marmish-{crate}" for crate in inventory["COUNTS"]]
     bound, _ = inventory["artifacts"](build, product, package_names, product / "target", generated=True)
-    with concurrent.futures.ThreadPoolExecutor(max_workers=7) as jobs:
-        def measure(crate):
-            return inventory["imports"](crate, bound[f"marmish-{crate}"], args.original)
-        observed = dict(zip(inventory["COUNTS"], jobs.map(measure, inventory["COUNTS"])))
+    observed = inventory["library_imports"](bound, args.original)
     before = data(WHOLE / "converged-diagnostics-cli/aarch64-apple-darwin.json")["publicApi"]["libraries"]
     additions = []
     for crate, output in observed.items():

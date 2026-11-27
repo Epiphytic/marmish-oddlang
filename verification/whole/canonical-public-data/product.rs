@@ -116,7 +116,9 @@ pub fn six(product: &Path) -> Result<Value> {
     Ok(lock)
 }
 pub fn pinned(path: &Path, rev: &str) -> Result {
-    let root = whole().ancestors().nth(2).unwrap();
+    pinned_at(crate::assembly::root(), path, rev)
+}
+fn pinned_at(root: &Path, path: &Path, rev: &str) -> Result {
     let name = path.strip_prefix(root)?.to_str().ok_or("non-UTF-8 path")?;
     require(
         fs::read(path)?
@@ -127,10 +129,20 @@ pub fn pinned(path: &Path, rev: &str) -> Result {
     )
 }
 pub fn public_product(product: &Path, release: &str, rev: &str, hash: &str) -> Result<Value> {
-    let manifest = portable().join(format!("{release}.json"));
-    let reference = portable().join(release).join("workspace.lock");
+    public_product_at(product, crate::assembly::root(), release, rev, hash)
+}
+pub fn public_product_at(
+    product: &Path,
+    inputs: &Path,
+    release: &str,
+    rev: &str,
+    hash: &str,
+) -> Result<Value> {
+    let portable = inputs.join("oddlang/portable");
+    let manifest = portable.join(format!("{release}.json"));
+    let reference = portable.join(release).join("workspace.lock");
     for path in [&manifest, &reference] {
-        pinned(path, rev)?;
+        pinned_at(inputs, path, rev)?;
     }
     let p = product.join("workspace.lock");
     require(
@@ -167,10 +179,7 @@ pub fn public_product(product: &Path, release: &str, rev: &str, hash: &str) -> R
     check_members(product, &lock, true)?;
     for (name, member) in props(&lock["members"])? {
         let pin = &manifest["members"][name]["manifest"];
-        checked(
-            &portable().join(text(&pin["path"])?),
-            &member["inputSha256"],
-        )?;
+        checked(&portable.join(text(&pin["path"])?), &member["inputSha256"])?;
         require(
             pin["sha256"] == member["inputSha256"],
             "workspace manifest member digest mismatch",

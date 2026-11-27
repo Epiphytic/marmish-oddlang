@@ -103,3 +103,7 @@ path = "../copy-frame/check_pipe.rs"
 [[bin]]
 name = "build-offline-cli"
 path = "../offline-cli/build.rs"
+
+[[bin]]
+name = "seven-public-imports"
+path = "../seven-public-imports/verify.rs"
