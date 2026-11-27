@@ -95,3 +95,7 @@ path = "../mdk-json-input/verify.rs"
 [[bin]]
 name = "check-public-types"
 path = "../public-types/check_workspace.rs"
+
+[[bin]]
+name = "check-copy-frame-pipe"
+path = "../copy-frame/check_pipe.rs"
