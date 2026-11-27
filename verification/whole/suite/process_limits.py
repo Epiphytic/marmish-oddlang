@@ -10,7 +10,7 @@ import shutil
 import subprocess
 import tempfile
 
-from inventory import PIN, git
+from upstream import PIN, git
 
 SOURCE = "crates/marmish-native/tests/process_limits.rs"
 CASE = "actual_native_entrypoints_accept_inherited_limits"

@@ -10,6 +10,7 @@ use std::{
 };
 
 pub type Result<T> = std::result::Result<T, Box<dyn Error>>;
+pub const UPSTREAM_PIN: &str = "af54339d250290490d62d4475a77539b7e739071";
 type Cases = BTreeMap<String, Vec<String>>;
 const CORE: &str = "marmish-core/test/contracts";
 const STREAM: &str = "marmish-stream/lib/marmish_stream";
@@ -26,6 +27,12 @@ pub fn suite() -> &'static Path {
 pub fn read(path: &Path) -> Result<Value> {
     Ok(serde_json::from_slice(&fs::read(path)?)?)
 }
+pub fn file_digest(path: &Path) -> Result<String> {
+    let mut hash = Sha256::new();
+    std::io::copy(&mut fs::File::open(path)?, &mut hash)?;
+    Ok(format!("{:x}", hash.finalize()))
+}
+
 fn sha(bytes: &[u8]) -> String {
     format!("{:x}", Sha256::digest(bytes))
 }

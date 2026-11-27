@@ -6,7 +6,7 @@ against an independent checkout of that commit. The upstream checkout is an
 oracle input and belongs outside the source-free candidate build.
 
 ```sh
-python3 verification/whole/suite/inventory.py "$UPSTREAM" > /tmp/marmish-upstream-tests.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin suite-inventory -- "$UPSTREAM" > /tmp/marmish-upstream-tests.json
 cmp verification/whole/suite/inventory.json /tmp/marmish-upstream-tests.json
 ```
 
@@ -103,7 +103,7 @@ The full original release workspace suite on macOS 26.6 exposed an additional ba
 Rebuild the pinned original in a private directory with a prepopulated Cargo registry, then list its test harnesses. For the subsequent execution run, set umask 077 before creating the checkout and build directories. The engine exercises path-permission checks on its working directory and executable.
 
 ```sh
-python3 -B verification/whole/suite/list_cargo.py "$UPSTREAM" "$CARGO_TARGET_DIR" /tmp/marmish-release-tests.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin list-cargo -- "$UPSTREAM" "$CARGO_TARGET_DIR" /tmp/marmish-release-tests.json
 ```
 
 Each row identifies a Cargo workspace package, target kind and target name, source path, the package’s own features and executable digest. The two harness listings distinguish default runnable cases from ignored cases. The inventory covers compiled host-default release harnesses. Doctests, fault-injection builds, installed checks and interpreted suites have separate entry points. Harness digests identify a particular build and may vary across build directories.
@@ -123,7 +123,7 @@ git clone --no-local "$UPSTREAM" "$root/reference"
 git -C "$root/reference" checkout --detach af54339d250290490d62d4475a77539b7e739071
 mkdir "$root/build"
 (cd "$root/reference" && CARGO_TARGET_DIR="$root/build" cargo +1.97.1 test --locked --offline --release --workspace --no-fail-fast -- --test-threads=1) > "$root/test.log" 2>&1 &&
-python3 -B verification/whole/suite/list_cargo.py "$root/reference" "$root/build" "$root/named.json" &&
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin list-cargo -- "$root/reference" "$root/build" "$root/named.json" &&
 cargo +1.97.1 run --locked --offline --manifest-path verification/whole/suite/Cargo.toml --bin summarize-cargo -- "$root/test.log" "$root/named.json" "$root/result.json"
 ```
 

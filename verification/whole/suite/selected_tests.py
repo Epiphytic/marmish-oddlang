@@ -4,7 +4,7 @@ from pathlib import Path
 import runpy
 import subprocess
 
-from inventory import PIN
+from upstream import PIN
 
 VAULT = "marmish-vault/lib/marmish_vault"
 ENGINE = "marmish-engine/lib/marmish_engine"

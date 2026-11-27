@@ -13,7 +13,7 @@ import tomllib
 from typing import NamedTuple
 import tempfile
 
-from inventory import PIN
+from upstream import PIN
 import process_limits
 import selected_tests
 import parser_cases

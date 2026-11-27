@@ -1,15 +1,8 @@
 //! Bind Cargo test results to the exact harness binaries in the named inventory.
 use regex::Regex;
 use serde_json::{Value, json};
-use sha2::{Digest, Sha256};
-use std::{collections::BTreeMap, env, fs, io, path::Path};
-use suite_receipts::Result;
-
-fn digest(path: &Path) -> Result<String> {
-    let mut hash = Sha256::new();
-    io::copy(&mut fs::File::open(path)?, &mut hash)?;
-    Ok(format!("{:x}", hash.finalize()))
-}
+use std::{collections::BTreeMap, env, fs, path::Path};
+use suite_receipts::{Result, file_digest};
 
 struct Section {
     key: String,
@@ -67,7 +60,9 @@ fn summarize(log: &Path, inventory: &Path) -> Result<Value> {
             if !path.is_absolute() {
                 return Err("Cargo target must be absolute".into());
             }
-            let key = keys.get(digest(path)?.as_str()).ok_or("unknown harness")?;
+            let key = keys
+                .get(file_digest(path)?.as_str())
+                .ok_or("unknown harness")?;
             Some((key.to_string(), false))
         } else {
             docs.captures(line).map(|c| (c[1].to_owned(), true))
@@ -104,7 +99,7 @@ fn summarize(log: &Path, inventory: &Path) -> Result<Value> {
     }
     Ok(
         json!({"upstream":baseline.get("upstream").ok_or("missing upstream")?,
-        "namedInventorySha256":digest(inventory)?,"logSha256":digest(log)?,
+        "namedInventorySha256":file_digest(inventory)?,"logSha256":file_digest(log)?,
         "selection":baseline.get("selection").ok_or("missing selection")?,
         "harnesses":binaries,"doctests":doctests}),
     )
