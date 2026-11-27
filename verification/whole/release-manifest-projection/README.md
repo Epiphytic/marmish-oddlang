@@ -57,3 +57,5 @@ Both [ARM64 macOS](aarch64-apple-darwin.json) and
 with 34 baseline acceptances. The changed input matched all 224
 changed-source rows with 35 acceptances. The two generated result streams
 have identical bytes across the hosts.
+
+The [Rust verifier replay on ARM64 macOS](rust-replay-macos-arm64.json) used the pinned historical compiler source with development debug information and incremental compilation disabled. All five source-denial probes passed. Both result streams, package locks, generated sources and Rustdoc digests matched the archived macOS values. The compiler executable digest reflects that local build. The changed graph and changed source both admitted exactly `size-3-16777217`. The two lane records also match the archived Linux values. The integrated workspace uses the same `compare-records` command to check its compiler-observed fields, traits, methods and visibility.
