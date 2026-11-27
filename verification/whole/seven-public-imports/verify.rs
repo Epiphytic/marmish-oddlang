@@ -189,7 +189,7 @@ fn main() -> Result {
         &["--package", "marmish-prototype", "--target", DARWIN],
         args.original_artifacts.as_deref(),
     )?;
-    let packages: Vec<_> = checked["members"]
+    let packages: Vec<_> = checked.0["members"]
         .as_object()
         .ok_or("missing workspace members")?
         .keys()

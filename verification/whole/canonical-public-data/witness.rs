@@ -23,6 +23,8 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    ImportManifest { product: PathBuf, inputs: PathBuf, release: String, revision: String, digest: String },
+    ImportArtifacts { package_root: PathBuf, target: PathBuf, #[arg(required = true)] packages: Vec<String> },
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
@@ -209,6 +211,17 @@ enum Action {
 fn main() -> Result {
     let input = || serde_json::from_reader(io::stdin().lock());
     let report = match Args::parse().action {
+        Action::ImportManifest { product, inputs, release, revision, digest } => {
+            product::public_product_at(&product, &inputs, &release, &revision, &digest)?.1
+        }
+        Action::ImportArtifacts { package_root, target, packages } => {
+            let names: Vec<_> = packages.iter().map(String::as_str).collect();
+            let log: String = serde_json::from_reader(io::stdin().lock())?;
+            let artifacts = public_data_qualification::artifacts::selected_build(
+                log.as_bytes(), &package_root.canonicalize()?, &target.canonicalize()?, &names,
+            )?;
+            serde_json::to_value(artifacts)?
+        }
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
         Action::ImportControl { work, host } => {
             let data = input()?;

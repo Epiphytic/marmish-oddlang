@@ -129,7 +129,7 @@ fn pinned_at(root: &Path, path: &Path, rev: &str) -> Result {
     )
 }
 pub fn public_product(product: &Path, release: &str, rev: &str, hash: &str) -> Result<Value> {
-    public_product_at(product, crate::assembly::root(), release, rev, hash)
+    Ok(public_product_at(product, crate::assembly::root(), release, rev, hash)?.0)
 }
 pub fn public_product_at(
     product: &Path,
@@ -137,7 +137,7 @@ pub fn public_product_at(
     release: &str,
     rev: &str,
     hash: &str,
-) -> Result<Value> {
+) -> Result<(Value, Value)> {
     let portable = inputs.join("oddlang/portable");
     let manifest = portable.join(format!("{release}.json"));
     let reference = portable.join(release).join("workspace.lock");
@@ -185,7 +185,7 @@ pub fn public_product_at(
             "workspace manifest member digest mismatch",
         )?;
     }
-    Ok(lock)
+    Ok((lock, manifest))
 }
 fn delta(before: &Value, after: &Value) -> Result<(BTreeSet<String>, BTreeSet<String>)> {
     let a = props(&before["generatedFiles"])?;

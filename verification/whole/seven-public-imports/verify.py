@@ -61,59 +61,18 @@ DEFAULT_CANDIDATE = Candidate(RELEASE, INPUT_REVISION, RUNTIME, WORKSPACE_LOCK)
 
 
 def verify_product(product, inputs, profile=DEFAULT_CANDIDATE):
-    portable = inputs / "oddlang/portable"
-    release = portable / f"{profile.release}.json"
-    for path in (release, portable / profile.release / "workspace.lock"):
-        assert path.read_bytes() == git(inputs, "show", f"{profile.input_revision}:{path.relative_to(inputs)}")
-    locked = (product / "workspace.lock").read_bytes()
-    assert sha(locked) == profile.lock_sha256
-    assert locked == (portable / profile.release / "workspace.lock").read_bytes()
-    workspace = json.loads(locked)
-    assert sha(release.read_bytes()) == workspace["inputSha256"]
-    assert set(workspace["members"]) == {f"marmish-{name}" for name in COUNTS}
-    assert set(p.name for p in product.iterdir()) == set(workspace["members"]) | {
-        "Cargo.toml", "Cargo.lock", "workspace.lock"}
-    assert not any(path.is_symlink() for path in product.rglob("*"))
-    assert sha((product / "Cargo.toml").read_bytes()) == workspace["workspaceCargoManifestSha256"]
-    assert sha((product / "Cargo.lock").read_bytes()) == workspace["cargoLockSha256"]
-    manifest = read(release)
-    for name, member in workspace["members"].items():
-        package = product / name
-        pin = manifest["members"][name]["manifest"]
-        assert pin["sha256"] == member["inputSha256"] == sha((portable / pin["path"]).read_bytes())
-        assert sha((package / "Cargo.toml").read_bytes()) == member["workspaceCargoManifestSha256"]
-        lock = package / "package.lock"
-        assert sha(lock.read_bytes()) == member["standalonePackageLockSha256"]
-        files = {
-            p.relative_to(package).as_posix(): sha(p.read_bytes())
-            for p in package.rglob("*") if p.is_file() and p not in (package / "Cargo.toml", lock)
-        }
-        assert files == read(lock)["generatedFiles"], name
-    return manifest
+    return product_witness("import-manifest", product, inputs, profile.release,
+                           profile.input_revision, profile.lock_sha256)
 
 
 def artifacts(raw, root, packages, target, *, generated):
-    rows = [json.loads(line) for line in raw.splitlines()]
-    assert rows[-1] == {"reason": "build-finished", "success": True}
-    matches = {}
-    for row in rows:
-        if row["reason"] != "compiler-artifact":
-            continue
-        name = row["target"]["name"].replace("_", "-")
-        if name not in packages or row["target"]["kind"] != ["lib"]:
-            continue
-        package = (root if generated else root / "crates") / name
-        assert Path(row["manifest_path"]).resolve() == package / "Cargo.toml"
-        assert Path(row["target"]["src_path"]).resolve().is_relative_to(package)
-        assert row["profile"]["opt_level"] == "3" and not row["profile"]["test"]
-        rmeta, = [Path(f).resolve() for f in row["filenames"] if f.endswith(".rmeta")]
-        rlib, = [Path(f).resolve() for f in row["filenames"] if f.endswith(".rlib")]
-        assert rmeta.is_relative_to(target) and rlib.is_relative_to(target)
-        assert name not in matches
-        matches[name] = (rmeta, rlib, row["features"], target / "release/deps", row["fresh"])
-    assert matches.keys() == set(packages)
-    return matches, sorted({path for row in rows if row["reason"] == "build-script-executed"
-                            for path in row["linked_paths"]})
+    package_root = root if generated else root / "crates"
+    log = raw.decode() if isinstance(raw, bytes) else raw
+    roles, links = product_witness("import-artifacts", package_root, target, *packages, current=log)
+    return {
+        name: (Path(meta), Path(lib), features, Path(deps), fresh)
+        for name, (meta, lib, features, deps, fresh) in roles.items()
+    }, links
 
 
 def compiler_probe(work, artifact, body, *, target=HOST):
