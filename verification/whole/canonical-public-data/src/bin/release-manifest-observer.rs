@@ -1,6 +1,6 @@
 //! Observe the upstream release manifest parser on a pinned temporary source tree.
 use clap::Parser;
-use public_data_qualification::{Result, capture, json_bytes, load, require, sha, text, whole};
+use public_data_qualification::{Result, capture, json_bytes, require, sha, whole};
 use serde_json::{Value, json};
 use sha2::{Digest, Sha256};
 use std::{
@@ -79,27 +79,8 @@ fn corpus(tool: &Path, mode: &str, path: &Path) -> Result {
 fn prepare_inputs(tool: &Path, work: &Path) -> Result<PathBuf> {
     let generated = work.join("corpus-inputs.json");
     corpus(tool, "inputs", &generated)?;
-    let doc = load(&generated)?;
-    let mut buffer = String::from("[");
-    for (i, v) in doc
-        .as_array()
-        .ok_or("expected input rows")?
-        .iter()
-        .enumerate()
-    {
-        // The original native test received these ordered objects as one ASCII line.
-        if i > 0 {
-            buffer.push_str(", ");
-        }
-        buffer.push_str(&format!(
-            "{{\"case\": {}, \"hex\": {}}}",
-            serde_json::to_string(text(&v["case"])?)?,
-            serde_json::to_string(text(&v["hex"])?)?
-        ));
-    }
-    buffer.push(']');
     let path = work.join("cases.json");
-    fs::write(&path, buffer)?;
+    public_data_qualification::manifest_native::write_native_inputs(&generated, &path)?;
     require(
         sha(&path)? == INPUTS_SHA,
         "historical native input bytes changed",

@@ -149,6 +149,30 @@ fn tool(package: &str, binary: &str, target: &Path) -> Command {
     .args(["--bin", binary, "--"]);
     c
 }
+/// Encode the case and byte-pair stream exactly as received by the pinned upstream test.
+pub fn write_native_inputs(generated: &Path, path: &Path) -> Result {
+    let doc = load(generated)?;
+    let mut buffer = String::from("[");
+    for (i, v) in doc
+        .as_array()
+        .ok_or("expected input rows")?
+        .iter()
+        .enumerate()
+    {
+        // The original native test received these ordered objects as one ASCII line.
+        if i > 0 {
+            buffer.push_str(", ");
+        }
+        buffer.push_str(&format!(
+            "{{\"case\": {}, \"hex\": {}}}",
+            serde_json::to_string(text(&v["case"])?)?,
+            serde_json::to_string(text(&v["hex"])?)?
+        ));
+    }
+    buffer.push(']');
+    fs::write(path, buffer)?;
+    Ok(())
+}
 pub struct ParserRun<'a> {
     pub product: &'a Path,
     pub original: &'a Path,
@@ -207,11 +231,18 @@ impl ParserRun<'_> {
                 && official["unchangedPureTests"] == json!(passed),
             "original parser witness or tests changed",
         )?;
+        let generated = scratch.join("corpus-inputs.json");
         let blind = scratch.join("blind-manifest-inputs.json");
         run(
             tool("release-manifest", "release-manifest-conformance", &tools)
                 .arg("inputs")
-                .arg(&blind),
+                .arg(&generated),
+        )?;
+        write_native_inputs(&generated, &blind)?;
+        let caller = whole().join("release-manifest/probe.rs");
+        require(
+            official["inputsSha256"] == sha(&blind)? && official["callerSha256"] == sha(&caller)?,
+            "native parser inputs or caller differ from pinned upstream observation",
         )?;
         let result = scratch.join("integrated.json");
         let tmp = buffered::test_workspace(product)?;
@@ -231,7 +262,7 @@ impl ParserRun<'_> {
         )?;
         fs::create_dir_all(parent(&target)?)?;
         fs::copy(&vectors, target)?;
-        fs::copy(whole().join("release-manifest/probe.rs"), &probe)?;
+        fs::copy(&caller, &probe)?;
         use std::io::Write;
         let mut f = fs::OpenOptions::new().append(true).open(staged_leaf)?;
         f.write_all(b"\n")?;
@@ -307,5 +338,32 @@ impl ParserRun<'_> {
                   "nativeRecords":shape,"privateDownstreamImport":private,"unchangedTestModuleSha256":bytes_sha(&tests),
                   "originalVectorIncludeSha256":sha(&vectors)?,"unchangedPureTests":names}),
         )
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn upstream_witness_receives_identical_blind_bytes() -> Result {
+        let lane = whole().join("release-manifest");
+        let archive = load(&lane.join("aarch64-apple-darwin.json"))?;
+        let temp = tempfile::tempdir()?;
+        let cases = temp.path().join("inputs.json");
+        write_native_inputs(&lane.join("vectors.json"), &cases)?;
+        assert_eq!(archive["inputsSha256"], sha(&cases)?);
+        assert_eq!(archive["callerSha256"], sha(&lane.join("probe.rs"))?);
+        let selected = load(&cases)?;
+        let input_rows = list(&selected)?;
+        assert_eq!(input_rows.len(), 224);
+        assert!(
+            input_rows
+                .iter()
+                .all(|row| row.as_object().is_some_and(|obj| obj.len() == 2
+                    && obj.contains_key("case")
+                    && obj.contains_key("hex")))
+        );
+        Ok(())
     }
 }
