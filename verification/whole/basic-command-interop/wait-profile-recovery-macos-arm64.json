@@ -1,0 +1,100 @@
+{
+  "buildReceiptSha256": "311b4e8142d7292bcc5212749492c592b48b829cd766ed9bfb28bb04128795d1",
+  "clientSha256": "21216b4cbdd425ba0712c1d5b3a878a27f7b83bd31f0bf7f8a650b97154e8ed8",
+  "fixtureSha256": "b3677ca6ef88305b57350d6728f06bb20e9b0272e7346dcd82115d7877ec8cc2",
+  "format": "marmish-retained-local-poll-recovery-v1",
+  "recovery": {
+    "beforeStop": [
+      "status",
+      "command_unconsumed",
+      "command_cursors",
+      "command_poll"
+    ],
+    "exactHandleOnRefusal": false,
+    "exit": 7,
+    "finalCursors": [
+      16,
+      16
+    ],
+    "fixtureRetainedAnswer": true,
+    "initialCursors": [
+      8,
+      9
+    ],
+    "restartOperations": [
+      "status",
+      "command_unconsumed",
+      "command_response",
+      "command_cursors",
+      "command_consume"
+    ],
+    "stderrHex": "7464657272ff0a",
+    "stdoutHex": "7374646f7574000a",
+    "workspaceRemoved": true
+  },
+  "refusals": {
+    "changed_cursors": {
+      "consumed": false,
+      "exit": 255,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_response",
+        "command_cursors"
+      ],
+      "output": false,
+      "priorCursors": [
+        9,
+        9
+      ],
+      "workspaceRemoved": true
+    },
+    "corrupt_digest": {
+      "consumed": false,
+      "exit": 255,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_response"
+      ],
+      "output": false,
+      "priorCursors": [
+        8,
+        9
+      ],
+      "workspaceRemoved": true
+    },
+    "wrong_request_hash": {
+      "consumed": false,
+      "exit": 255,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_response",
+        "command_cursors"
+      ],
+      "output": false,
+      "priorCursors": [
+        8,
+        9
+      ],
+      "workspaceRemoved": true
+    },
+    "wrong_session": {
+      "consumed": false,
+      "exit": 255,
+      "operations": [
+        "status",
+        "command_unconsumed",
+        "command_response"
+      ],
+      "output": false,
+      "priorCursors": [
+        8,
+        9
+      ],
+      "workspaceRemoved": true
+    }
+  },
+  "restartFixtureSha256": "388222f4e05bf3b81cd8186e9915e69f6e7762d0bb61ed7d88a2add91523f042"
+}
