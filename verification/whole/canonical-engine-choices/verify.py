@@ -8,7 +8,6 @@ import os
 from pathlib import Path
 import runpy
 import subprocess
-import sys
 import tempfile
 
 
@@ -25,6 +24,7 @@ INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
 STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
 LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
+RECOVERY_PIN = "d45ac05ae29feba3379f488caacc3b18e6e38ed9"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
 ADDED = [("engine", "Stream"), ("engine", "SubmitDisposition")]
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
@@ -40,11 +40,11 @@ def pin_bytes(path, revision):
 
 
 HELPER_PINS = {
-    ENGINE_STANDALONE / "verify.py": STANDALONE_PIN,
-    ENGINE_STANDALONE / "compose.py": STANDALONE_PIN,
+    ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
+    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "vault-mode/verify.py": STANDALONE_PIN,
-    WHOLE / "workspace/verify.py": "6d87add48e3e2857ad4213d7ae81ca037522a03d",
+    WHOLE / "workspace/verify.py": "a5b32e8fa246aa93df730a66943fdf3c4707254c",
     WHOLE / "canonical-linux-imports/verify.py": LINUX_IMPORT_PIN,
     WHOLE / "seven-public-imports/verify.py": LINUX_IMPORT_PIN,
 }
@@ -64,10 +64,10 @@ JOURNAL_INPUT_PINS = {
 }
 for relative, expected in JOURNAL_INPUT_PINS.items():
     path = WHOLE / relative
-    digest = hashlib.sha256(path.read_bytes()).hexdigest()
-    if digest != expected:
+    actual_digest = digest(path)
+    if actual_digest != expected:
         raise ValueError(f"pinned journal input helper changed: {path}")
-    HELPER_HASHES[path.relative_to(ROOT).as_posix()] = digest
+    HELPER_HASHES[path.relative_to(ROOT).as_posix()] = actual_digest
 
 # Earlier receipts bind this deleted verifier to its release commit.
 ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
@@ -80,15 +80,7 @@ LINUX = PREVIOUS["HOST"]
 
 
 def engine_lane():
-    native = sys.modules.pop("compose", None)
-    sys.path.insert(0, str(ENGINE_STANDALONE))
-    try:
-        return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
-    finally:
-        sys.path.pop(0)
-        sys.modules.pop("compose", None)
-        if native is not None:
-            sys.modules["compose"] = native
+    return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
 
 
 def pinned(path, commit):
@@ -298,7 +290,9 @@ def qualify(args):
         "compilerSha256"
     ] == digest(args.compiler)
     PREVIOUS["frozen_inputs"](ROOT)
-    assert digest(ENGINE_STANDALONE / "verify.py") == standalone["verifierSha256"]
+    archived_verifier = subprocess.check_output(
+        ["git", "show", f"{STANDALONE_PIN}:verification/whole/engine-fieldless-choices/verify.py"], cwd=ROOT)
+    assert hashlib.sha256(archived_verifier).hexdigest() == standalone["verifierSha256"]
     assert digest(ENGINE_STANDALONE / "probe.rs") == standalone["probeSha256"]
     profile = AUDIT.Candidate(CANDIDATE.stem, INPUT_REVISION, FRAMEWORK, LOCK_SHA256)
     before = snapshots(args, profile)
