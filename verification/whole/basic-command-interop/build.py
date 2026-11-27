@@ -12,7 +12,6 @@ import runpy
 import shutil
 import subprocess
 import tempfile
-import tomllib
 
 
 HERE = Path(__file__).resolve().parent
@@ -57,35 +56,6 @@ def pinned_json(path, expected):
     return json.loads(body)
 
 
-def copy_registry(locks, source, target):
-    """Stage archives by lock checksum and unpack them only inside Seatbelt."""
-    rows = (row for lock in locks for row in tomllib.loads(lock.read_text())["package"])
-    source_cache = source / "cache"
-    shutil.copytree(source / "index", target / "index",
-                    ignore=shutil.ignore_patterns(".git", ".DS_Store"))
-    staged = {}
-    for row in rows:
-        if "checksum" not in row:
-            continue
-        if row.get("source") != "registry+https://github.com/rust-lang/crates.io-index":
-            raise ValueError(f"unexpected registry: {row}")
-        filename = f"{row['name']}-{row['version']}.crate"
-        if filename in staged:
-            if staged[filename] != row["checksum"]:
-                raise ValueError(f"inconsistent lock checksums for {filename}")
-            continue
-        matches = list(source_cache.glob(f"index.crates.io-*/{filename}"))
-        if len(matches) != 1 or sha(matches[0]) != row["checksum"]:
-            raise ValueError(f"missing or mismatched cached archive: {filename}")
-        output = target / "cache" / matches[0].relative_to(source_cache)
-        output.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copyfile(matches[0], output)
-        if sha(output) != row["checksum"]:
-            raise ValueError(f"copied archive fails its lock checksum: {filename}")
-        staged[filename] = row["checksum"]
-    return staged
-
-
 def verified_binaries(messages, product):
     tool = TOOLS.qualification_tool("workspace-inputs")[1]
     paths = subprocess.check_output([tool, "release-artifacts", product], input=messages, timeout=1200)
@@ -121,7 +91,7 @@ def qualify(work, compiler, export, probes, checkout, pins):
     registry_link = Path(env["CARGO_HOME"]) / "registry"
     registry_source = registry_link.resolve(strict=True)
     registry_link.unlink()
-    archives = copy_registry(locks, registry_source, registry_link)
+    archives = ASSEMBLY["workspace_inputs"]("registry-archives", registry_source, registry_link, *locks)
     providers = ASSEMBLY["stage_provider_git_cache"](cargo_lock, Path(env["CARGO_HOME"]) / "git")
     developer = Path(env["DEVELOPER_DIR"])
     xcode = next(path for path in developer.parents if path.suffix == ".app")

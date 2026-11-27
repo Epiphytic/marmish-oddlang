@@ -3,6 +3,8 @@
 mod candidate_roles;
 #[path = "../../../workspace/library_tests.rs"]
 mod library_tests;
+#[path = "../../../basic-command-interop/registry.rs"]
+mod registry;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{Result, assembly};
 use std::path::PathBuf;
@@ -29,6 +31,13 @@ enum Action {
     ExportProduct {
         product: PathBuf,
         pinned_lock: PathBuf,
+    },
+    /// Stage the registry index and the checksummed crate archives for locked offline builds.
+    RegistryArchives {
+        source: PathBuf,
+        destination: PathBuf,
+        #[arg(required = true)]
+        locks: Vec<PathBuf>,
     },
     /// Populate the offline Cargo Git cache from its locked local providers.
     WorkspaceProviders { lock: PathBuf, destination: PathBuf },
@@ -69,6 +78,11 @@ fn main() -> Result {
             product,
             pinned_lock,
         } => public_data_qualification::product::export_product(&product, &pinned_lock)?,
+        Action::RegistryArchives {
+            source,
+            destination,
+            locks,
+        } => registry::stage(&locks, &source, &destination)?,
         Action::WorkspaceProviders { lock, destination } => {
             assembly::providers(&lock, &destination)?
         }
