@@ -1,0 +1,12 @@
+{
+  "sourceFrameworkRevision": "25ea63ce1aea475d7a3a3fa050a4042c46345409",
+  "sourceRevision": "af54339d250290490d62d4475a77539b7e739071",
+  "compilerBinarySha256": "2a4f8dca8a8e0483194bb1dbba28f713ae4c56a945eaa711143e57c12b364e05",
+  "host": "aarch64-apple-darwin",
+  "structuralShapeObservations": 17,
+  "canonicalEnvelopePairs": 12,
+  "malformedControls": 15,
+  "operationCases": 81,
+  "originalAndCandidateOutputSha256": "6568116ecb35ccfc4ec550c6dd9f7811a7d532eae4bb4295be7ce73ae01f48c2",
+  "byteIdenticalArchivedReceipts": ["stream-wire/reference.json", "stream-wire-operations/reference.json"]
+}

@@ -3,7 +3,7 @@
 Use a clean Marmish checkout at `af54339d250290490d62d4475a77539b7e739071`, Rust 1.97.1 and the Oddlang JSON wire-schema generator. The verifier reproduces the archived graph and binding from the pinned input, then uses only those contract files for generation. It builds the original stream crate locked and offline and runs one Rust 2021 caller against both shapes.
 
 ```sh
-python3 -B verification/whole/stream-wire/verify.py /path/to/oddlang /path/to/original /tmp/reference.json
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/stream-wire/Cargo.toml --bin stream-wire-replay -- /path/to/oddlang /path/to/original /tmp/reference.json
 ```
 
 The caller matched 17 public shape observations covering the binding, six request variants, six response variants and four terminal variants. Twelve original canonical request and response envelopes parsed and re-encoded byte for byte in the projected shape, and the original accepted the reproduced bytes. Fifteen malformed controls exercised closed shape rejection at the body and envelope levels, lowercase hexadecimal and bounded Base64-list diagnostic precedence.

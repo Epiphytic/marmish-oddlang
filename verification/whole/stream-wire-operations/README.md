@@ -12,7 +12,7 @@ cargo +1.97.1 build --manifest-path /tmp/stream-wire-package/Cargo.toml --locked
 Reproduce the independent native comparison.
 
 ```sh
-python3 -B verification/whole/stream-wire-operations/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/stream-wire/Cargo.toml --bin replay-wire-operations -- \
   --oddlang /path/to/oddlang \
   --framework-revision 25ea63ce1aea475d7a3a3fa050a4042c46345409 \
   --original /path/to/original \

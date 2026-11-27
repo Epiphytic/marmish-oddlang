@@ -1,0 +1,17 @@
+[package]
+name = "stream-wire-replay"
+version = "0.1.0"
+edition = "2024"
+publish = false
+
+[workspace]
+
+[dependencies]
+clap = {version="4",features=["derive"]}
+public-data-qualification = {path="../canonical-public-data"}
+serde_json = {version="1",features=["preserve_order"]}
+tempfile = "3"
+
+[[bin]]
+name = "replay-wire-operations"
+path = "../stream-wire-operations/verify.rs"
