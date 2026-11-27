@@ -75,3 +75,7 @@ path = "../gap-range-endpoint/native.rs"
 [[bin]]
 name = "collect-range-rustdoc"
 path = "../gap-range-recovery/rustdoc.rs"
+
+[[bin]]
+name = "compose-local-file-catalog"
+path = "../local-file-catalog/compose.rs"

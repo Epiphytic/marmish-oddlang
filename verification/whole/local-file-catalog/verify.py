@@ -8,7 +8,12 @@ import shutil
 import subprocess
 import tempfile
 
-from compose import FILE, HERE, MEMBER, ORIGINAL, OUTPUT, PACKAGE, PORTABLE, SCOPE, compose
+HERE = Path(__file__).resolve().parent
+FILE = runpy.run_path(str(HERE.parent / "local-file-integrity/verify.py"))
+PORTABLE, ORIGINAL, MEMBER = (FILE[name] for name in ("PORTABLE", "PIN", "MEMBER"))
+OUTPUT = "workspace-v7-local-file-catalog.json"
+PACKAGE = "native-local-file-catalog-package.json"
+SCOPE = "local-file-catalog-v1"
 
 SOURCE = FILE["SOURCE"]
 ASSEMBLY, JOURNAL, sha, run = (FILE[name] for name in ("ASSEMBLY", "JOURNAL", "sha", "run"))
@@ -180,7 +185,10 @@ def main():
     root = HERE.parents[2]
     if run("git", "status", "--porcelain", cwd=root):
         raise ValueError("expected clean companion checkout")
-    compose(args.original, check=True)
+    with tempfile.TemporaryDirectory(prefix="catalog-tools-") as target:
+        run("cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline",
+            "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
+            "--target-dir", target, "--bin", "compose-local-file-catalog", "--", args.original, "--check")
     version = run("rustc", "+1.97.1", "-vV").decode()
     host, = (line[6:] for line in version.splitlines() if line.startswith("host: "))
     run("cargo", "+1.96.1", "build", "--offline", "--locked", "--bin", "oddlang",
