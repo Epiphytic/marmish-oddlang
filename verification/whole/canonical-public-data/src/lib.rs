@@ -1,3 +1,5 @@
+#[path = "../../vault-mode/observe.rs"]
+pub mod vault_mode;
 #[path = "../../gap-range-endpoint/contract.rs"]
 pub mod endpoint_contract;
 #[path = "../../engine-native-records/verify.rs"]

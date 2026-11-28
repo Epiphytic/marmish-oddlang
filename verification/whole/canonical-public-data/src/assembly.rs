@@ -26,16 +26,21 @@ pub fn resolved(path: &Path) -> Result<PathBuf> {
     Ok(resolved(parent)?.join(path.file_name().ok_or("invalid target path")?))
 }
 
+pub fn reject_local_cargo_config(path: &Path) -> Result {
+    for p in path.ancestors() {
+        for name in [".cargo/config", ".cargo/config.toml"] {
+            require(
+                !p.join(name).is_file(),
+                format!("unexpected Cargo configuration in {}", p.display()),
+            )?;
+        }
+    }
+    Ok(())
+}
+
 pub fn checkout(path: &Path, revision: &str, reject_config: bool) -> Result {
     if reject_config {
-        for p in path.ancestors() {
-            for name in [".cargo/config", ".cargo/config.toml"] {
-                require(
-                    !p.join(name).is_file(),
-                    format!("unexpected Cargo configuration in {}", p.display()),
-                )?;
-            }
-        }
+        reject_local_cargo_config(path)?;
     }
     require(
         stdout(

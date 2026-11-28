@@ -11,9 +11,16 @@ cmp "$out/vault/package.lock" oddlang/portable/vault-mode-v1/package.lock
 cargo +1.97.1 build --locked --offline --release --manifest-path "$out/vault/Cargo.toml"
 ```
 
-The verification script compiles the pinned Oddlang source, recovers the pure type from the pinned original helper module, then projects the package with the original source and caller hidden. A downstream Rust caller checks exhaustive matching, copying, cloning and discriminants. Seven independent compile checks require E0277 for missing capabilities. Reversing the original cases in a temporary checkout reverses their native ordinals in both the original and generated package. The verifier gives baseline and mutant original Cargo builds distinct target directories. The callers only inspect the public enum.
+The Rust verifier compiles the pinned Oddlang source, recovers the pure type from the pinned original helper module, then projects the package with the original source and caller hidden. A downstream Rust caller checks exhaustive matching, copying, cloning and discriminants. Seven independent compile checks require E0277 for missing capabilities. Reversing the original cases in a temporary checkout reverses their native ordinals in both the original and generated package. The verifier gives baseline and mutant original Cargo builds distinct target directories. The callers only inspect the public enum.
 
-Run `python3 -B verify.py ORIGINAL ODDLANG COMPILER_CACHE REFERENCE_CACHE RECEIPT.json` from this directory. Use the pinned upstream Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Keep the reference cache separate from other qualifiers.
+From this directory, run the Rust verifier with separate compiler and reference build caches.
+
+```sh
+cargo +1.97.1 run --locked --offline --manifest-path ../canonical-public-data/Cargo.toml \
+    --bin qualify-vault-mode -- ORIGINAL ODDLANG COMPILER_CACHE REFERENCE_CACHE RECEIPT.json
+```
+
+Use the pinned upstream Marmish commit `af54339d250290490d62d4475a77539b7e739071`. Keep the reference cache separate from other qualifiers.
 
 The [macOS ARM64 receipt](aarch64-apple-darwin.json) and [Linux ARM64 receipt](aarch64-unknown-linux-gnu.json) record identical baseline and mutated graph and package lock hashes. Both hosts observed the same values and all seven rejected trait bounds. These measurements cover the vault package independently.
 
