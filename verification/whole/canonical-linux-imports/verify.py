@@ -70,7 +70,8 @@ def build(root, target):
 
 
 def closure(raw, target, host=HOST):
-    return audit.product_witness("library-closure", target, host, current=raw.decode())
+    log = raw if isinstance(raw, str) else raw.decode()
+    return audit.product_witness("library-closure", target, host, current=log)
 
 
 def import_rows(role, root, target, original, *, generated):
