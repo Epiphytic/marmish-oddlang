@@ -1,6 +1,6 @@
 //! Independently recover the build report, journal and MDK data from the original tree.
-use public_data_qualification::{assembly::*, *};
-use serde_json::{Value, json};
+use public_data_qualification::*;
+use serde_json::Value;
 use std::path::Path;
 
 #[path = "../release-info-structure/ingest.rs"]
@@ -13,27 +13,7 @@ pub fn report(
     workspace: &Value,
     scratch: &Path,
 ) -> Result<Value> {
-    let member = load(&inputs.join(text(
-        &workspace["members"]["marmish-native"]["manifest"]["path"],
-    )?))?;
-    let reports: Vec<_> = list(&member["components"])?
-        .iter()
-        .filter(|r| r["kind"] == "build-report")
-        .collect();
-    let [component] = reports.as_slice() else {
-        return Err("expected one build-report component".into());
-    };
-    let receipt = whole().join("release-info-structure/darwin-arm64/receipt.json");
-    let prior = load(&receipt)?;
-    let lane = &prior["lanes"]["baseline"];
-    let graph = sha(&inputs.join(text(&component["graph"]["path"])?))?;
-    require(
-        prior["representedRevision"] == ORIGINAL
-            && lane["sourceRevision"] == ORIGINAL
-            && lane["composedGraphSha256"] == graph
-            && component["graph"]["sha256"] == graph,
-        "recovered report differs from standalone qualification",
-    )?;
+    let baseline = recovered_vault::report(inputs, workspace)?;
     let extracted = scratch.join("original-report");
     release_ingest::recover(
         cli,
@@ -48,7 +28,7 @@ pub fn report(
         candidate == load(&inputs.join("native-build-report-recovered-v1/graph.json"))?,
         "source-recovered report graph changed",
     )?;
-    Ok(json!({"graphSha256":graph,"recoveryReceiptSha256":sha(&receipt)?}))
+    Ok(baseline)
 }
 #[path = "../journal-records/recovery.rs"]
 mod journal_recovery;
