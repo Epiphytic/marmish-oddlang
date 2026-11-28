@@ -200,15 +200,9 @@ pub fn qualify(
         }
     };
     let tmp = tempfile::tempdir()?;
-    let mixed = tmp.path().join("mixed.json");
-    run(Command::new("python3")
-        .arg("-B")
-        .arg(status.join("observe.py"))
-        .arg(&original_bins)
-        .arg(&mixed)
-        .arg("--candidate")
-        .arg(&candidate))?;
-    let mut evidence = load(&mixed)?;
+    let mut evidence = crate::status_reference::observe(
+        &original_bins, Some(&candidate), &whole().join("bridge/aarch64-apple-darwin.json"),
+    )?;
     require(
         evidence["candidateSha256"] == digest,
         "independent observation did not bind the generated client",
