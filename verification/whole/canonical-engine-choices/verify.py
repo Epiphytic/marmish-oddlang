@@ -59,7 +59,7 @@ HELPER_PINS = {
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": "58d6ef3279a6110e0cb07f53710c5085ef628121",
+    WHOLE / "canonical-linux-imports/verify.py": "e4eb77e2b85789388cb4d14a623b9abe949449bc",
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
     WHOLE / "canonical-public-data/witness.rs": IMPORT_EVIDENCE_PIN,

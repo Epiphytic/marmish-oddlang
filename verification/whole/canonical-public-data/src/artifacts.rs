@@ -137,7 +137,7 @@ pub fn library_closure(
     let root = target.canonicalize()?;
     let mut files = BTreeMap::new();
     for row in rows {
-        if row["reason"] != "compiler-artifact" {
+        if text(&row["reason"])? != "compiler-artifact" {
             continue;
         }
         for file in list(&row["filenames"])? {
