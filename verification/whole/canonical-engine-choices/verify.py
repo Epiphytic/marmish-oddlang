@@ -43,7 +43,7 @@ WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
-QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
+CLOSURE_PIN = "dfa8827098aefdc4e30700c9b3d8d8d36b04bf67"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 IMPORT_COMPARISON_PIN = "89cef9e89a28d51437404580a7d366db967950aa"
 ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
@@ -59,12 +59,12 @@ HELPER_PINS = {
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-linux-imports/verify.py": CLOSURE_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_COMPARISON_PIN,
-    WHOLE / "canonical-public-data/witness.rs": ENGINE_SNAPSHOT_PIN,
+    WHOLE / "canonical-public-data/witness.rs": CLOSURE_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
-    WHOLE / "canonical-public-data/src/artifacts.rs": QUALIFICATION_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": CLOSURE_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
