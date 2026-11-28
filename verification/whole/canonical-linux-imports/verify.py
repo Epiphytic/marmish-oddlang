@@ -4,10 +4,7 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import os
 from pathlib import Path
-import subprocess
-import tempfile
 
 HERE = Path(__file__).resolve().parent
 audit_spec = importlib.util.spec_from_file_location(
@@ -24,7 +21,6 @@ CANONICAL = audit.Candidate(
 )
 DARWIN_EVIDENCE = "55da1b628138d48d1984f87f173a061886d48ea8"
 DARWIN = HERE.parent / "canonical-workspace/aarch64-apple-darwin.json"
-NAMES = [f"marmish-{name}" for name in audit.COUNTS]
 
 
 def file_sha(path):
@@ -40,32 +36,8 @@ def frozen_inputs(inputs):
     audit.product_witness("frozen-import-inventory", inputs)
 
 
-def build(root, target):
-    # Execute Cargo afresh even for an existing target. Cargo's own build decisions
-    # and emitted artifact paths are used instead of trusting an external log.
-    command = [
-        "cargo",
-        "+1.97.1",
-        "build",
-        "--release",
-        "--workspace",
-        "--lib",
-        "--target",
-        HOST,
-        "--locked",
-        "--offline",
-        "--target-dir",
-        str(target),
-        "--message-format=json",
-    ]
-    env = {
-        key: os.environ[key]
-        for key in ("HOME", "PATH", "CARGO_HOME", "TMPDIR")
-        if key in os.environ
-    }
-    return subprocess.check_output(
-        command, cwd=root, env=env | {"CARGO_NET_OFFLINE": "true", "LC_ALL": "C"}
-    )
+def build(root, target, host=HOST):
+    return audit.product_witness("build-import-libraries", root, target, host).encode()
 
 
 def closure(raw, target, host=HOST):
@@ -73,39 +45,11 @@ def closure(raw, target, host=HOST):
     return audit.product_witness("library-closure", target, host, current=log)
 
 
-def import_rows(role, root, target, original, *, generated):
-    raw = build(root, target)
-    artifacts, _ = audit.artifacts(raw, root, NAMES, target, generated=generated)
-    release = target / HOST / "release"
-    for artifact in artifacts.values():
-        assert all(path.is_relative_to(release) for path in artifact[:2])
-    before = closure(raw, target)
-    rows = audit.library_imports(artifacts, original, target=HOST)
-    controls = {}
-    with tempfile.TemporaryDirectory(prefix="linux-import-controls-") as temp:
-        for label, path, code in (
-            ("absent", "NoSuchAuditSentinel", "E0432"),
-            ("private", "config", "E0603"),
-        ):
-            probe = audit.compiler_probe(
-                Path(temp),
-                artifacts["marmish-core"],
-                f"pub use observed::{path} as witness;",
-                target=HOST,
-            )
-            assert not probe["compiles"] and [
-                row["code"] for row in probe["diagnostics"]
-            ] == [code]
-            controls[label] = probe
-    assert before == closure(raw, target), (
-        f"{role} Cargo closure changed while probing imports"
-    )
-    return {
-        "cargoArtifactLogSha256": audit.sha(raw),
-        "cargoArtifactClosure": before,
-        "negativeImportControls": controls,
-        "libraries": rows,
-    }
+def import_rows(root, target, original, *, generated):
+    raw = build(root, target).decode()
+    options = ["--generated"] if generated else []
+    return audit.product_witness(
+        "import-role-report", root, target, original, HOST, *options, current=raw)
 
 
 def summary(original, generated, darwin):
@@ -137,10 +81,10 @@ def main():
     frozen_inputs(args.inputs)
     manifest = audit.verify_product(args.product, args.inputs, CANONICAL)
     original = import_rows(
-        "original", args.original, args.original_target, args.original, generated=False
+        args.original, args.original_target, args.original, generated=False
     )
     generated = import_rows(
-        "generated", args.product, args.generated_target, args.original, generated=True
+        args.product, args.generated_target, args.original, generated=True
     )
     darwin = audit.read(DARWIN)["darwinPublicImports"]["libraries"]
     results = summary(original["libraries"], generated["libraries"], darwin)

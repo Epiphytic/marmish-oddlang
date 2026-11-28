@@ -6,6 +6,8 @@ mod diagnostics;
 mod buffer_trace;
 #[path = "../canonical-linux-imports/summary.rs"]
 mod platform_imports;
+#[path = "../canonical-linux-imports/role.rs"]
+mod import_role;
 use public_data_qualification::endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
@@ -32,6 +34,8 @@ enum Action {
     EngineSerde { target: PathBuf, host: String },
     CompareEngineImports,
     ComparePlatformImports,
+    BuildImportLibraries { root: PathBuf, target: PathBuf, host: String },
+    ImportRoleReport { root: PathBuf, target: PathBuf, original: PathBuf, host: String, #[arg(long)] generated: bool },
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
@@ -249,6 +253,11 @@ fn main() -> Result {
         Action::CompareEngineImports => {
             let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
             imports::compare_engine(&previous, libraries)?
+        }
+        Action::BuildImportLibraries { root, target, host } => import_role::build(&root, &target, &host)?.into(),
+        Action::ImportRoleReport { root, target, original, host, generated } => {
+            let raw: String = serde_json::from_reader(io::stdin().lock())?;
+            import_role::report(&raw, &root, &target, &original, &host, generated)?
         }
         Action::ComparePlatformImports => platform_imports::compare(&input()?)?,
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
