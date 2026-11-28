@@ -10,8 +10,7 @@ Run with clean pinned checkouts and already populated offline Cargo caches.
 
 ```sh
 cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
-  --bin compose-local-file-catalog -- "$ORIGINAL" --check
-python3 -B verification/whole/local-file-catalog/verify.py \
+  --bin qualify-local-file-catalog -- \
   "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL" "$ORIGINAL_TARGET" /tmp/local-file-catalog.json \
   --framework-revision 3543b8cb296c24f2b77a6e98ef4f502b92e4e589
 ```
