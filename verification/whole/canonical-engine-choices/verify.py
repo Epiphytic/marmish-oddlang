@@ -145,8 +145,12 @@ def qualify(args):
         for root in (args.product, args.baseline, args.original, args.framework, ROOT)
     )
     assert args.target != args.original_target
-    rustc = subprocess.check_output(["rustc", "+1.97.1", "-vV"], cwd=HERE,
-        env={k: v for k, v in os.environ.items() if not k.startswith(("RUST", "CARGO_BUILD_", "CARGO_ENCODED_", "CARGO_PROFILE_", "CARGO_TARGET_"))}).decode().splitlines()
+    build_overrides = ("RUST", "CARGO_BUILD_", "CARGO_ENCODED_", "CARGO_PROFILE_", "CARGO_TARGET_")
+    environment = {key: value for key, value in os.environ.items() if not key.startswith(build_overrides)}
+    rustc = subprocess.check_output(
+        ["rustc", "+1.97.1", "-vV"], cwd=HERE, env={**environment, "CARGO_NET_OFFLINE": "true"},
+        text=True,
+    ).splitlines()
     (host,) = (line[6:] for line in rustc if line.startswith("host: "))
     assert host in (DARWIN, LINUX) and os.uname().machine == (
         "arm64" if host == DARWIN else "aarch64"

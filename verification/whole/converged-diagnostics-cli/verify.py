@@ -159,7 +159,7 @@ def cli_observations(args, generated, scratch):
 
 def imports_and_behavior(args, raw, scratch):
     selected = SIX["product_witness"]("inherited-imports", "diagnostics", args.product, args.target,
-                                      args.original, current=raw.decode())
+                                      args.original, current=raw.decode() if isinstance(raw, bytes) else raw)
     found, links = selected["roles"], selected["links"]
     artifact = SIX["artifact"]
     ref_engine = SIX["cargo_reference"](args, "marmish-engine")

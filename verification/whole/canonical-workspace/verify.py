@@ -134,7 +134,7 @@ def vault_mode(args, host, work, scratch, product, build):
 
 def imports(args, product, build):
     return SIX["product_witness"]("inherited-imports", "canonical", product, product / "target",
-                                  args.original, current=build.decode())
+                                  args.original, current=build.decode() if isinstance(build, bytes) else build)
 
 
 def denied(args, host):
