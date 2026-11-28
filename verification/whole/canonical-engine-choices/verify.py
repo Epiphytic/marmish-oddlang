@@ -48,6 +48,7 @@ PLATFORM_IMPORT_PIN = "7519e0085608a9e16d3a5bab2e7ef96052774a23"
 ROLE_AUDIT_PIN = "07759feb808eff49a59577b5a554f464b5ea1352"
 LINUX_AUDIT_PIN = "16c6c7d3be3ca1792ae8fa0e43eacb8bae7af606"
 INHERITED_IMPORTS_PIN = "d6b6afc91b06d86dd92efdc509c252b4f0c1a9da"
+TERMINAL_ARGUMENTS_PIN = "8055a304c4fa0f7a9429ce981031573f73956f33"
 HELPER_PINS = {
     WHOLE / "seven-public-imports/inherited.rs": INHERITED_IMPORTS_PIN,
     WHOLE / "canonical-linux-imports/role.rs": ROLE_AUDIT_PIN,
@@ -66,7 +67,9 @@ HELPER_PINS = {
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-linux-imports/verify.rs": LINUX_AUDIT_PIN,
     WHOLE / "canonical-public-data/imports.rs": LINUX_AUDIT_PIN,
-    WHOLE / "canonical-public-data/witness.rs": INHERITED_IMPORTS_PIN,
+    WHOLE / "canonical-public-data/witness.rs": TERMINAL_ARGUMENTS_PIN,
+    WHOLE / "offline-cli/observe.rs": TERMINAL_ARGUMENTS_PIN,
+    WHOLE / "terminal-prefix/arguments.json": TERMINAL_ARGUMENTS_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
