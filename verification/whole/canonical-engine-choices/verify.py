@@ -47,7 +47,9 @@ ENGINE_SERDE_PIN = "0efc1e0a4e073ba8a50a2bf34e5554a71a73b7fe"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 IMPORT_EVIDENCE_PIN = "9f4d43404ba4bed053af3ffb7218de5c955a47fa"
 ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
+PLATFORM_IMPORT_PIN = "7519e0085608a9e16d3a5bab2e7ef96052774a23"
 HELPER_PINS = {
+    WHOLE / "canonical-linux-imports/summary.rs": PLATFORM_IMPORT_PIN,
     ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
     WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
@@ -59,10 +61,10 @@ HELPER_PINS = {
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": "e4eb77e2b85789388cb4d14a623b9abe949449bc",
+    WHOLE / "canonical-linux-imports/verify.py": PLATFORM_IMPORT_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
-    WHOLE / "canonical-public-data/witness.rs": ENGINE_SERDE_PIN,
+    WHOLE / "canonical-public-data/witness.rs": PLATFORM_IMPORT_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
