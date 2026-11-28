@@ -1191,7 +1191,8 @@
 {"path":"verification/whole/canonical-public-data-terminal/README.md","language":"inventory","mode":"100644","sha256":"1196f43437c74083b67ad7e3b4d79234483fe45923462133022fb9327f585233","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data-terminal/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"43ac236185c2e1acf031152122572ae4b679df29c645025331354dbda62decfe","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data-terminal/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"15f2c04672f2b47f6a49e1bf918aabde6ae55d7b43c56f1225b23b7eaadf9cc8","parse_status":"inventory"}
-{"path":"verification/whole/canonical-public-data-terminal/verify.py","language":"python","mode":"100644","sha256":"de2f0a149c72f58c513435406925f5ca637ae13671617e119e4cfad0959298eb","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data-terminal/replay.rs","language":"rust","mode":"100644","sha256":"4ccdddc60c751d98bef96a2cfc829702b07bb80e4a3241fa8be5527775e5a963","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data-terminal/verify.py","language":"python","mode":"100644","sha256":"8770ebcfbb2db111793ee690de30be796f537ea553de3260666a41d2ee032008","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/Cargo.lock","language":"inventory","mode":"100644","sha256":"9439088a5080426989179ff80befa78dc07cbe6178ad4aab6b64dec5cafd4f12","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/Cargo.toml","language":"inventory","mode":"100644","sha256":"8e0f2c748b535665cc1432602d966256d81c9e288b1e2278e6c5891b6c6b0aac","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/README.md","language":"inventory","mode":"100644","sha256":"21432c5c2a43e1ead74f6b53c02efd9bec03b1f5a2ed1f67282c7d3c56995d31","parse_status":"inventory"}
@@ -1256,7 +1257,7 @@
 {"path":"verification/whole/canonical-public-data/src/bin/status-replies.rs","language":"rust","mode":"100644","sha256":"aa78c4828fe524fcc11a2a6cde700afdc8f8cbc26dbc05a90d6113ecd8506d0d","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/stream-replay.rs","language":"rust","mode":"100644","sha256":"68305a8664eff542f0833365d5cc0e292358356c7035f2313199b3a17e4c43bf","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/structure-replay.rs","language":"rust","mode":"100644","sha256":"bc4118b481d2e292a6a4e621dea9eb3597f464bc1f98a669161afae64ce5ed1e","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/src/bin/terminal-case-inventory.rs","language":"rust","mode":"100644","sha256":"18eab7c0836ffdeee6405d25f739285308045b11e3839af6a2a96e75cf5b2c5e","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/src/bin/terminal-case-inventory.rs","language":"rust","mode":"100644","sha256":"b928c0e685ae7cbf3ba2b20b907291f4f47597b7c318d1d03b2860caa3b92c18","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/typed-status-project.rs","language":"rust","mode":"100644","sha256":"cf006e98ac862254a7084c14b9907746b0657e7dd7db965a2087797af4749340","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/vault-mode-observer.rs","language":"rust","mode":"100644","sha256":"a127b3b99706e7b379bd71d0256aeb96303ffd4e5d0a90b7086c34da14eeb954","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/bin/workspace-inputs.rs","language":"rust","mode":"100644","sha256":"4d209b6c300a34844218612fa320ee75592a781796c77257fed971f02ca962bf","parse_status":"parsed"}

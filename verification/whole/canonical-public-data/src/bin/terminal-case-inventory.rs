@@ -13,6 +13,9 @@ use std::{
     path::{Path, PathBuf},
 };
 
+#[path = "../../../canonical-public-data-terminal/replay.rs"]
+mod replay;
+
 const ROLES: [&str; 2] = ["marmish", "marmishd"];
 
 const ROOT_FORMS: [&str; 5] = ["--help", "-h", "--version", "-V", "help"];
@@ -73,6 +76,8 @@ struct Args {
 
 #[derive(Subcommand)]
 enum Action {
+    /// Replay the archived help/version corpus on both pairs of binaries.
+    Replay(replay::Args),
     /// Read a successful Cargo JSON event stream and identify both release executables.
     LinkedBinaries {
         product: PathBuf,
@@ -115,6 +120,7 @@ fn linked_binaries(product: &Path, target: &Path, host: &str, log: &[u8]) -> Res
 
 fn main() -> Result {
     let report = match Args::parse().action {
+        Some(Action::Replay(args)) => args.run(&serde_json::from_reader(io::stdin().lock())?)?,
         None => classify(&serde_json::from_reader(io::stdin().lock())?)?,
         Some(Action::LinkedBinaries {
             product,

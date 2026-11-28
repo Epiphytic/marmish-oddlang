@@ -41,7 +41,6 @@ closure = PREVIOUS["closure"]
 NATIVE = local("unified-mdk", "workspace_compat.py")
 run, data, digest = NATIVE["run"], NATIVE["data"], NATIVE["sha"]
 WORKSPACE = local("workspace")
-LINUX_CLI = local("converged-diagnostics-cli", "linux_cli.py")
 TOOLKIT = WORKSPACE["envtools"]
 
 
@@ -88,16 +87,12 @@ def build(work, scratch, host):
     return bins, launcher, raw
 
 
-def observe(binary, argv, home, launcher):
-    if launcher is not None:
-        return LINUX_CLI["confined_cli"](launcher, binary, argv, home)
-    result = subprocess.run(
-        [*TOOLKIT.isolated(home, [binary]), binary, *argv],
-        cwd=home, env={"PATH": "/usr/bin:/bin", "LANG": "C", "HOME": str(home)},
-        input=b"", capture_output=True, timeout=8, umask=0o077,
-    )
-    return {"exit": result.returncode, "stdout": result.stdout.decode("ascii"),
-            "stderr": result.stderr.decode("ascii")}
+def replay(archived, originals, binaries, scratch, launcher):
+    modes = {None: "seatbelt", ("bwrap",): "bwrap", ("sudo", "-n", "bwrap"): "sudo-bwrap"}
+    mode = modes[tuple(launcher) if launcher is not None else None]
+    _, tool = TOOLKIT.qualification_tool("terminal-case-inventory")
+    return json.loads(subprocess.check_output(
+        [tool, "replay", mode, originals, binaries, scratch], input=json.dumps(archived).encode()))
 
 
 def verify(args, scratch):
@@ -116,7 +111,7 @@ def verify(args, scratch):
         if path.read_bytes() != AUDIT.git(ROOT, "show", f"{revision}:{path.relative_to(ROOT)}"):
             raise ValueError(f"archived native receipt changed: {path.name}")
     base, archived = map(data, paths)
-    selected = classify(archived)
+    classify(archived)
     originals = {role: (args.original_bin_dir / role).resolve() for role in ROLES}
     original_hashes = {role: digest(path) for role, path in originals.items()}
     if original_hashes != {role: archived["roles"][role]["originalSha256"] for role in ROLES}:
@@ -144,23 +139,7 @@ def verify(args, scratch):
     if closure(link_log, target, host) != files:
         raise ValueError("binary build linked a different Cargo library closure")
     binary_hashes = {role: digest(path) for role, path in binaries.items()}
-    results = {}
-    for role, (cases, excluded, outside) in selected.items():
-        home = scratch / role
-        home.mkdir()
-        verified = []
-        for row in cases:
-            argv = row["args"]
-            wanted = {key: value for key, value in row.items() if key != "args"}
-            first = observe(originals[role], argv, home, launcher)
-            second = observe(binaries[role], argv, home, launcher)
-            if first != wanted or second != wanted or any(home.iterdir()):
-                raise ValueError(f"unexpected terminal output or filesystem change for {role} {argv!r}")
-            verified.append({"args": argv, "exit": second["exit"],
-                             "stdoutSha256": hashlib.sha256(second["stdout"].encode("ascii")).hexdigest(),
-                             "stderrSha256": hashlib.sha256(second["stderr"].encode("ascii")).hexdigest()})
-        results[role] = {"observations": verified, "excludedArchivedRows": excluded,
-                         "excludedPostParseControl": outside}
+    results = replay(archived, args.original_bin_dir, releases, scratch, launcher)
     AUDIT.verify_product(product, ROOT, profile)
     if any(digest(path) != binary_hashes[role] for role, path in binaries.items()) or any(
         digest(path) != original_hashes[role] for role, path in originals.items()
