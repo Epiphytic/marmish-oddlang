@@ -59,3 +59,7 @@ reproduced both archived graph, overlay and package-lock digests. Reordering
 the variants changed their ordinals from `0, 1` to `1, 0` in both libraries.
 Adding `Copy` to the original `SubmitDisposition` also made the generated type
 pass the same Rust trait check.
+
+The `observe` subcommand compiles the downstream caller and checks the eight
+trait bounds for each enum and the visibility of the model module. The
+standalone and canonical workspace verifiers use the same Rust observer.

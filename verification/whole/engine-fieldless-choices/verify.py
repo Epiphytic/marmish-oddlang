@@ -16,7 +16,6 @@ BASE = "engine-observational-records-package.json"
 PACKAGE = "engine-fieldless-choices-package.json"
 ORIGINAL = "af54339d250290490d62d4475a77539b7e739071"
 SOURCE = Path("crates/marmish-engine/src/model.rs")
-TYPES = ("Stream", "SubmitDisposition")
 
 FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 RUSTC = "8bab26f4f68e0e26f0bb7960be334d5b520ea452"
@@ -69,45 +68,24 @@ def reference(checkout, env, host, target):
     return library(rows, checkout / "crates/marmish-engine/Cargo.toml", target), serde, sorted(links)
 
 
-def observe(library, serde, host_deps, links, host, work, copy_disposition, env):
-    work.mkdir()
-    options = ["rustc", "+1.97.1", "--target", host, "--edition=2024",
-               "--extern", f"marmish_engine={library}", "--extern", f"serde={serde}"]
-    dependencies = dict.fromkeys((library.parent, library.parent / "deps", serde.parent, host_deps))
-    options += [part for path in dependencies for part in ("-L", f"dependency={path}")]
-    options += [part for path in links for part in ("-L", path)]
-    binary = work / "probe"
-    run(*options, HERE / "probe.rs", "-o", binary, env=env)
-    observed = run(binary).decode().splitlines()
-    bounds = {"Copy": "Copy", "Default": "Default", "Ord": "Ord", "PartialOrd": "PartialOrd",
-              "Hash": "std::hash::Hash", "Display": "std::fmt::Display",
-              "Serialize": "serde::Serialize", "Deserialize": "for<'de> serde::Deserialize<'de>"}
-    checks = {
-        f"{kind}.{trait}": (
-            None if trait == "Copy" and (kind == "Stream" or copy_disposition) else "E0277",
-            f"fn require<T: {bound}>() {{}} fn main() {{ require::<marmish_engine::{kind}>(); }}",
-        )
-        for kind in TYPES for trait, bound in bounds.items()
-    }
-    checks["privateModule"] = ("E0603", "use marmish_engine::model::Stream; fn main() {}")
-    verified = {}
-    for label, (expected, source) in checks.items():
-        attempt = subprocess.run([*options, "--emit=metadata", "--error-format=json", "-", "-o", work / "check.rmeta"],
-                                 input=source.encode(), capture_output=True, env=env, timeout=60)
-        codes = [row["code"]["code"] for line in attempt.stderr.splitlines()
-                 if (row := json.loads(line)).get("code") and row["level"] == "error"]
-        if (attempt.returncode == 0) != (expected is None) or codes != ([expected] if expected else []):
-            raise ValueError(f"unexpected public trait or visibility result for {label}: {attempt.stderr!r}")
-        verified[label] = expected or "available"
-    return {"values": observed, "traits": verified}
+def observe(tool, library, serde, host_deps, links, host, work, copy_disposition, env):
+    args = [tool, "observe", library, serde, host_deps, host, work]
+    if copy_disposition:
+        args.append("--copy-disposition")
+    for link in links:
+        args.extend(("--link", link))
+    return json.loads(run(*args, env=env))
 
 
-def qualify(args, host, work, scratch, compiler, env):
-    target = scratch / "input-tool-target"
+def build_tool(target, env):
     run("cargo", "+1.97.1", "build", "--quiet", "--locked", "--offline", "--manifest-path",
         HERE.parent / "canonical-public-data/Cargo.toml", "--bin", "engine-choice-inputs",
         "--target-dir", target, env=env)
-    tool = target / "debug/engine-choice-inputs"
+    return target / "debug/engine-choice-inputs"
+
+
+def qualify(args, host, work, scratch, compiler, env):
+    tool = build_tool(scratch / "input-tool-target", env)
     run(tool, "compose", compiler, args.original)
     staged = Path(shutil.copy2(compiler, work / "oddlang"))
     sandbox, build_env = JOURNAL["sandbox"](WORKSPACE, work,
@@ -146,8 +124,8 @@ def qualify(args, host, work, scratch, compiler, env):
         reference_target = args.original_target / case
         original, serde, links = reference(reference_source, env, host, reference_target)
         host_deps = reference_target / "release/deps"
-        expected = observe(original, serde, host_deps, links, host, scratch / (case + "-original"), copy_disposition, env)
-        actual = observe(generated, serde, host_deps, [], host, scratch / (case + "-generated"), copy_disposition, env)
+        expected = observe(tool, original, serde, host_deps, links, host, scratch / (case + "-original"), copy_disposition, env)
+        actual = observe(tool, generated, serde, host_deps, [], host, scratch / (case + "-generated"), copy_disposition, env)
         names = (("Stream", "Stdout"), ("Stream", "Stderr"),
                  ("SubmitDisposition", "Accepted"), ("SubmitDisposition", "Existing"))
         ordinals = [1, 0, 1, 0] if copy_disposition else [0, 1, 0, 1]

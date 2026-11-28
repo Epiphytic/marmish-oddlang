@@ -1,4 +1,6 @@
 //! Recover the two reviewed fieldless engine enums and stage their pinned package inputs.
+#[path = "../../../engine-fieldless-choices/observer.rs"]
+mod observer;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
     Result,
@@ -29,6 +31,7 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    Observe(observer::Observer),
     Compose {
         compiler: PathBuf,
         original: PathBuf,
@@ -181,6 +184,7 @@ fn original(path: &Path) -> Result<String> {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::Observe(args) => println!("{}", serde_json::to_string(&args.observe()?)?),
         Action::Mutate { original: path } => print!("{}", mutate(original(&path)?)?),
         Action::Compose {
             compiler,
