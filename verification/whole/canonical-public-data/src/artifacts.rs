@@ -179,6 +179,39 @@ pub fn library_closure(
     Ok(files)
 }
 
+/// Select the derive-enabled dependency linked into the canonical engine caller.
+pub fn engine_serde(rows: &[Value], target: &Path, host: &str) -> Result<PathBuf> {
+    let release = match host {
+        DARWIN => target.join("release"),
+        LINUX => target.join(host).join("release"),
+        _ => return Err("unsupported engine caller host".into()),
+    };
+    let root = release.canonicalize()?;
+    require(root.starts_with(target.canonicalize()?), "release outside build target")?;
+    let mut libraries = Vec::new();
+    for row in rows {
+        if row["reason"] != "compiler-artifact"
+            || row["target"]["name"] != "serde"
+            || row["target"]["kind"] != json!(["lib"])
+            || row["profile"]["opt_level"] != "3"
+            || !list(&row["features"])?.iter().any(|feature| feature == "derive")
+        {
+            continue;
+        }
+        for filename in list(&row["filenames"])? {
+            let path = Path::new(text(filename)?);
+            if path.extension().is_some_and(|ext| ext == "rlib")
+                && (path.starts_with(&release) || path.starts_with(&root))
+            {
+                let library = path.canonicalize()?;
+                require(library.is_file() && library.starts_with(&root), "invalid engine serde library")?;
+                libraries.push(library);
+            }
+        }
+    }
+    one(libraries.into_iter())
+}
+
 pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Result<Artifacts> {
     let rows = cargo_rows(bytes)?;
     let (roles, links) = selected_libraries(&rows, product, target, &crate::product::PACKAGES)?;
