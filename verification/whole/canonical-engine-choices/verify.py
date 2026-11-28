@@ -47,7 +47,7 @@ HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "qualification.rs": REFERENCE_PIN,
+    ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
     WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
     ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
