@@ -11,8 +11,6 @@ import stat
 import subprocess
 import tempfile
 
-from observe import expect
-
 HERE = Path(__file__).resolve().parent
 ORDER = 0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEBAAEDCE6AF48A03BBFD25E8CD0364141
 PRIME = 2**256 - 2**32 - 977
@@ -20,6 +18,11 @@ BASE = (
     0x79BE667EF9DCBBAC55A06295CE870B07029BFCDB2DCE28D959F2815B16F81798,
     0x483ADA7726A3C4655DA4FBFC0E1108A8FD17B448A68554199C47D08FFB10D4B8,
 )
+
+
+def expect(actual, expected, case):
+    if actual != expected:
+        raise ValueError(f"{case}: expected {expected!r}, observed {actual!r}")
 
 
 def sha(value):

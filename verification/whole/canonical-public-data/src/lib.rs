@@ -41,6 +41,7 @@ pub mod cli_composition;
 pub mod status_package;
 pub mod owner_projection;
 pub mod status_peer;
+pub mod status_reference;
 pub mod macos_build;
 pub mod status_qualification;
 #[path = "../../unified-buffered/buffer.rs"]

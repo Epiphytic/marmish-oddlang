@@ -8,16 +8,35 @@ from pathlib import Path
 import platform
 import socket
 import stat
+import struct
 import subprocess
 import sys
 import tempfile
 import time
 
-from observe import ACTIVATING, STATUS, expect, frame, result
+from file_profile_probe import expect
 
 HERE = Path(__file__).resolve().parent
 PROFILE_ID = "11" * 16
 READY_KEY = "22" * 32
+
+
+ACTIVATING = '{"ok":true,"result":{"state":"activating"},"error":null}\n'
+STATUS = b'{"operation":"status"}'
+
+
+def frame(body):
+    return struct.pack(">I", len(body)) + body
+
+
+def result(child):
+    try:
+        out, err = child.communicate(timeout=5)
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.communicate()
+    return {"exit": child.returncode, "stdout": out.decode(), "stderr": err.decode()}
 
 
 def private(path):

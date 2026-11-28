@@ -14,7 +14,7 @@ use std::{
     time::{Duration, Instant},
 };
 
-fn exchange(listener: &UnixListener, payload: &[u8]) -> io::Result<()> {
+fn exchange(listener: &UnixListener, wire: &[u8]) -> io::Result<()> {
     let timeout = Duration::from_secs(4);
     let deadline = Instant::now() + timeout;
     let mut socket = loop {
@@ -40,12 +40,25 @@ fn exchange(listener: &UnixListener, payload: &[u8]) -> io::Result<()> {
             "expected exactly one status request followed by write EOF",
         ));
     }
-    let size = u32::try_from(payload.len()).map_err(io::Error::other)?;
-    socket.write_all(&size.to_be_bytes())?;
-    socket.write_all(payload)
+    socket.write_all(wire)
 }
 
 pub fn replay(binary: &Path, cases: &Value) -> Result<Value> {
+    let mut framed = Vec::new();
+    for (name, reply) in cases.as_object().ok_or("expected named cases")? {
+        let body = ascii_json(&serde_json::to_string(reply)?);
+        framed.push((name.as_str(), frame(&body)?));
+    }
+    replay_frames(binary, &framed)
+}
+
+pub(crate) fn frame(body: &[u8]) -> Result<Vec<u8>> {
+    let mut bytes = u32::try_from(body.len())?.to_be_bytes().to_vec();
+    bytes.extend_from_slice(body);
+    Ok(bytes)
+}
+
+pub(crate) fn replay_frames(binary: &Path, cases: &[(&str, Vec<u8>)]) -> Result<Value> {
     let home = tempfile::Builder::new()
         .prefix("odshape-")
         .tempdir_in("/tmp")?;
@@ -55,7 +68,7 @@ pub fn replay(binary: &Path, cases: &Value) -> Result<Value> {
     let listener = UnixListener::bind(&socket)?;
     listener.set_nonblocking(true)?;
     let mut results = json!({});
-    for (name, reply) in cases.as_object().ok_or("expected named cases")? {
+    for (name, wire) in cases {
         let mut cmd = Command::new(binary);
         cmd.arg("--state-dir")
             .arg(&state)
@@ -75,9 +88,8 @@ pub fn replay(binary: &Path, cases: &Value) -> Result<Value> {
                 Ok(())
             });
         }
-        let wire = ascii_json(&serde_json::to_string(reply)?);
         let output = thread::scope(|scope| -> Result<_> {
-            let peer = scope.spawn(|| exchange(&listener, &wire));
+            let peer = scope.spawn(|| exchange(&listener, wire));
             let process = capture(&mut cmd, 9, None);
             peer.join().map_err(|_| "status peer panicked")??;
             process
@@ -87,7 +99,7 @@ pub fn replay(binary: &Path, cases: &Value) -> Result<Value> {
             .code()
             .or_else(|| output.status.signal().map(|s| -s))
             .ok_or("missing exit status")?;
-        results[name] = json!({"exit":exit,"stdout":String::from_utf8(output.stdout)?,"stderr":String::from_utf8(output.stderr)?});
+        results[*name] = json!({"exit":exit,"stdout":String::from_utf8(output.stdout)?,"stderr":String::from_utf8(output.stderr)?});
     }
     Ok(results)
 }
