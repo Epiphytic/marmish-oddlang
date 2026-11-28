@@ -148,3 +148,7 @@ path = "../basic-command-interop/preflight.rs"
 [[bin]]
 name = "native-error-replay"
 path = "../native-error/replay.rs"
+
+[[bin]]
+name = "qualify-local-file-integrity"
+path = "../local-file-integrity/qualify.rs"

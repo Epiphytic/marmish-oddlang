@@ -9,7 +9,8 @@ The projection uses Unix metadata. Its extra file-type preflight, nonblocking op
 Replay from clean checkouts. The compiler cache and the upstream test cache are writable, and provider dependencies must already be available offline.
 
 ```sh
-python3 -B verification/whole/local-file-integrity/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin qualify-local-file-integrity -- \
   "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL" "$ORIGINAL_TARGET" /tmp/local-file-integrity.json \
   --framework-revision f658d2acff192008ad62c9079d8b14aadf81ccd3
 ```
