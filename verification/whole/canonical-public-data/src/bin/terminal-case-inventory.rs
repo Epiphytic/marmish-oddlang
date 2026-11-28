@@ -1,7 +1,19 @@
 //! Select the sealed terminal gate's immediate help and version observations.
-use public_data_qualification::{Result, list, require, text};
+use clap::{Parser, Subcommand};
+use public_data_qualification::{
+    Result,
+    artifacts::cargo_rows,
+    assembly::{DARWIN, LINUX},
+    list, require, text,
+};
 use serde_json::{Value, json};
-use std::{collections::BTreeSet, io};
+use std::{
+    collections::BTreeSet,
+    io::{self, Read},
+    path::{Path, PathBuf},
+};
+
+const ROLES: [&str; 2] = ["marmish", "marmishd"];
 
 const ROOT_FORMS: [&str; 5] = ["--help", "-h", "--version", "-V", "help"];
 const HELP_TOPICS: &str =
@@ -25,7 +37,7 @@ fn classify(archive: &Value) -> Result<Value> {
         )
         .collect();
     let mut result = json!({});
-    for role in ["marmish", "marmishd"] {
+    for role in ROLES {
         let record = &archive["roles"][role];
         let mut remaining = expected.clone();
         let mut selected = Vec::new();
@@ -53,8 +65,67 @@ fn classify(archive: &Value) -> Result<Value> {
     Ok(result)
 }
 
+#[derive(Parser)]
+struct Args {
+    #[command(subcommand)]
+    action: Option<Action>,
+}
+
+#[derive(Subcommand)]
+enum Action {
+    /// Read a successful Cargo JSON event stream and identify both release executables.
+    LinkedBinaries {
+        product: PathBuf,
+        target: PathBuf,
+        host: String,
+    },
+}
+
+fn linked_binaries(product: &Path, target: &Path, host: &str, log: &[u8]) -> Result<Value> {
+    require(matches!(host, DARWIN | LINUX), "unsupported terminal host")?;
+    let manifest = product.canonicalize()?.join("marmish-native/Cargo.toml");
+    let release = target.canonicalize()?.join(host).join("release");
+    let mut binaries = json!({});
+    for row in cargo_rows(log)? {
+        if text(&row["reason"])? != "compiler-artifact" || row["target"]["kind"] != json!(["bin"]) {
+            continue;
+        }
+        let role = text(&row["target"]["name"])?;
+        require(
+            ROLES.contains(&role) && binaries.get(role).is_none(),
+            "unexpected or duplicate terminal executable",
+        )?;
+        let path = Path::new(text(&row["executable"])?).canonicalize()?;
+        require(
+            row["profile"]["test"] == false
+                && row["profile"]["opt_level"] == "3"
+                && Path::new(text(&row["manifest_path"])?).canonicalize()? == manifest
+                && path == release.join(role)
+                && path.is_file(),
+            "wrong terminal executable provenance",
+        )?;
+        binaries[role] = json!(path);
+    }
+    require(
+        ROLES.iter().all(|role| binaries.get(role).is_some()),
+        "missing terminal executable",
+    )?;
+    Ok(binaries)
+}
+
 fn main() -> Result {
-    let archive = serde_json::from_reader(io::stdin().lock())?;
-    serde_json::to_writer(io::stdout().lock(), &classify(&archive)?)?;
+    let report = match Args::parse().action {
+        None => classify(&serde_json::from_reader(io::stdin().lock())?)?,
+        Some(Action::LinkedBinaries {
+            product,
+            target,
+            host,
+        }) => {
+            let mut log = Vec::new();
+            io::stdin().lock().read_to_end(&mut log)?;
+            linked_binaries(&product, &target, &host, &log)?
+        }
+    };
+    serde_json::to_writer(io::stdout().lock(), &report)?;
     Ok(())
 }
