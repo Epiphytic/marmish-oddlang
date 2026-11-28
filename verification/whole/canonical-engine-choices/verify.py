@@ -25,7 +25,6 @@ STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
 LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
 RECOVERY_PIN = "7fcbdfc396e0a5ea4c7b4f691dfea965e0244919"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
-ADDED = [("engine", "Stream"), ("engine", "SubmitDisposition")]
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
 
 
@@ -46,6 +45,7 @@ BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
+IMPORT_COMPARISON_PIN = "89cef9e89a28d51437404580a7d366db967950aa"
 HELPER_PINS = {
     ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
@@ -60,7 +60,8 @@ HELPER_PINS = {
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
-    WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/imports.rs": IMPORT_COMPARISON_PIN,
+    WHOLE / "canonical-public-data/witness.rs": IMPORT_COMPARISON_PIN,
     WHOLE / "canonical-public-data/product.rs": "58b9e203c946429008ca54ebbfb16d62fc10fe8f",
     WHOLE / "canonical-public-data/src/artifacts.rs": QUALIFICATION_PIN,
 }
@@ -217,47 +218,8 @@ def build(args, host):
 
 
 def imports(host, artifacts, original):
-    previous = prior(host)
-    result = AUDIT.library_imports(artifacts, original, target=host)
-    additions = []
-    for name, library in result.items():
-        assert all(
-            library[key] == previous[name][key]
-            for key in (
-                "inventorySha256",
-                "inventoryLockSha256",
-                "inventoryEvidenceSha256",
-            )
-        )
-        for old, new in zip(previous[name]["imports"], library["imports"], strict=True):
-            assert (
-                old["spelling"] == new["spelling"]
-                and old["originalInventoryKind"] == new["originalInventoryKind"]
-            )
-            if new["compiles"] and not old["compiles"]:
-                assert [item["code"] for item in old["diagnostics"]] == ["E0432"]
-                additions.append((name, new["spelling"]))
-            else:
-                assert new["compiles"] == old["compiles"], "inherited import was lost"
-                assert [(d["code"], d["message"]) for d in new["diagnostics"]] == [
-                    (d["code"], d["message"]) for d in old["diagnostics"]
-                ], "inherited import diagnostic changed"
-    attempted = sum(len(library["imports"]) for library in result.values())
-    baseline = sum(library["importable"] for library in previous.values())
-    current = sum(library["importable"] for library in result.values())
-    assert (
-        attempted == 140
-        and baseline == 77
-        and current == baseline + len(ADDED)
-        and additions == ADDED
-    )
-    return {
-        "attempted": attempted,
-        "baseline": baseline,
-        "candidate": current,
-        "added": additions,
-        "libraries": result,
-    }
+    libraries = AUDIT.library_imports(artifacts, original, target=host)
+    return NATIVE["product_witness"]("compare-engine-imports", current=[prior(host), libraries])
 
 
 def candidate_serde(raw, target, host):
