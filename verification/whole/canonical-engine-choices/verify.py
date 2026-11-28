@@ -43,7 +43,7 @@ WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
-CLOSURE_PIN = "3e116156addc0d731122e4697b3c0b68fca05c46"
+ENGINE_SERDE_PIN = "0efc1e0a4e073ba8a50a2bf34e5554a71a73b7fe"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 IMPORT_EVIDENCE_PIN = "9f4d43404ba4bed053af3ffb7218de5c955a47fa"
 ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
@@ -62,9 +62,9 @@ HELPER_PINS = {
     WHOLE / "canonical-linux-imports/verify.py": "e4eb77e2b85789388cb4d14a623b9abe949449bc",
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
-    WHOLE / "canonical-public-data/witness.rs": IMPORT_EVIDENCE_PIN,
+    WHOLE / "canonical-public-data/witness.rs": ENGINE_SERDE_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
-    WHOLE / "canonical-public-data/src/artifacts.rs": CLOSURE_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
@@ -162,19 +162,8 @@ def imports(host, artifacts, original):
 
 
 def candidate_serde(raw, target, host):
-    release = target / host / "release" if host == LINUX else target / "release"
-    (rlib,) = (
-        Path(path).resolve()
-        for line in raw.splitlines()
-        if (row := json.loads(line))["reason"] == "compiler-artifact"
-        and row["target"]["kind"] == ["lib"]
-        and row["target"]["name"] == "serde"
-        and row["profile"]["opt_level"] == "3"
-        and "derive" in row["features"]
-        for path in row["filenames"]
-        if path.endswith(".rlib") and Path(path).is_relative_to(release)
-    )
-    return rlib
+    log = raw.decode() if isinstance(raw, bytes) else raw
+    return Path(NATIVE["product_witness"]("engine-serde", target, host, current=log))
 
 
 def qualify(args):
