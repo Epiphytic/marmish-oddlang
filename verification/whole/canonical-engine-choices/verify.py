@@ -45,12 +45,13 @@ VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
+REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "qualification.rs": QUALIFICATION_PIN,
+    ENGINE_STANDALONE / "qualification.rs": REFERENCE_PIN,
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
     WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
     ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
-    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": QUALIFICATION_PIN,
+    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": REFERENCE_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_MODE_PIN,
     WHOLE / "vault-mode/observe.rs": VAULT_MODE_PIN,
@@ -321,20 +322,10 @@ def qualify(args):
         closure = PREVIOUS["closure"](built, args.target)
         import_results = imports(host, roles, args.original)
         source = json.loads(subprocess.check_output(
-            [tool, "reference", args.original, host, args.original_target], env=env))
-        source_library, serde = Path(source["library"]), Path(source["serde"])
-        original_links = source["links"]
+            [tool, "reference", args.original, host, args.original_target,
+             "--work", work / "original"], env=env))
+        reference = source["observations"]
         library = roles[ENGINE][1]
-        reference = observe(
-            tool,
-            source_library,
-            serde,
-            args.original_target / "release/deps",
-            original_links,
-            host,
-            work / "original",
-            env,
-        )
         generated_serde = candidate_serde(built, args.target, host)
         generated = observe(
             tool,
@@ -372,9 +363,9 @@ def qualify(args):
         "imports": import_results,
         "engine": {
             "observations": generated,
-            "originalLibrarySha256": digest(source_library),
+            "originalLibrarySha256": source["originalLibrarySha256"],
             "candidateLibrarySha256": digest(library),
-            "originalSerdeWitnessSha256": digest(serde),
+            "originalSerdeWitnessSha256": source["originalSerdeWitnessSha256"],
             "candidateSerdeWitnessSha256": digest(generated_serde),
         },
         "standaloneReceiptSha256": digest(ENGINE_STANDALONE / f"{host}.json"),
