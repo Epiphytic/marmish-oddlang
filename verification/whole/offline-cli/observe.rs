@@ -184,3 +184,51 @@ pub fn compare(
     }
     Ok(())
 }
+
+#[derive(Clone, Copy, clap::ValueEnum)]
+pub enum Profile {
+    Prefix,
+    LinuxHelp,
+}
+
+fn help_or_version(args: &[String]) -> bool {
+    args.first().is_some_and(|arg| arg == "help")
+        || args
+            .last()
+            .is_some_and(|arg| matches!(arg.as_str(), "--help" | "-h" | "--version" | "-V"))
+}
+
+pub fn terminal_arguments(profile: Profile, role: &str) -> Result<Value> {
+    require(ROLES.contains(&role), "unknown terminal role")?;
+    let transcript = load(&whole().join("cli/transcript.json"))?;
+    let mut cases = Vec::new();
+    let selected = |args: &[String]| matches!(profile, Profile::Prefix) || help_or_version(args);
+    for row in list(&transcript[role])? {
+        let args: Vec<String> = serde_json::from_value(row["args"].clone())?;
+        require(!args.is_empty(), "empty historical argument vector")?;
+        if selected(&args) {
+            require(
+                historical(&args),
+                format!("unexpected historical invocation: {args:?}"),
+            )?;
+            cases.push(args);
+        }
+    }
+    let offline: Vec<Vec<String>> = serde_json::from_slice(include_bytes!("cases.json"))?;
+    cases.extend(offline.into_iter().filter(|args| selected(args)));
+    match profile {
+        Profile::LinuxHelp => Ok(json!({ "cases": cases })),
+        Profile::Prefix => {
+            #[derive(serde::Deserialize)]
+            #[serde(rename_all = "camelCase")]
+            struct Prefix {
+                additional: Vec<Vec<String>>,
+                post_parse: Vec<String>,
+            }
+            let prefix: Prefix =
+                serde_json::from_slice(include_bytes!("../terminal-prefix/arguments.json"))?;
+            cases.extend(prefix.additional);
+            Ok(json!({ "cases": cases, "postParse": prefix.post_parse }))
+        }
+    }
+}

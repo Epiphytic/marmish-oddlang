@@ -66,7 +66,8 @@ def terminal(args, host, work, scratch, product, build):
         original_witness = captured["roles"][role]
         if sha(orig) != original_witness["originalSha256"]:
             raise ValueError(f"wrong original release executable: {role}")
-        cases = CLI["corpus"](role)
+        inventory = CLI["terminal_arguments"]("prefix", role)
+        cases = inventory["cases"]
         if cases != [row["args"] for row in original_witness["cases"]]:
             raise ValueError(f"unexpected terminal argument corpus: {role}")
         home = scratch / f"terminal-{role}"
@@ -78,7 +79,7 @@ def terminal(args, host, work, scratch, product, build):
             if original != reference or generated != reference or original["exit"] not in (0, 255):
                 raise ValueError(f"canonical {role} terminal output differs for {argv!r}")
         control = original_witness["outsideTerminalProfile"]
-        argv = CLI["POST_PARSE"]
+        argv = inventory["postParse"]
         original = CLI["observe"](orig, argv, home, launcher)
         generated = CLI["observe"](binaries[role], argv, home, launcher)
         if control != {"args": argv, "original": original, "candidate": generated} or any(home.iterdir()):

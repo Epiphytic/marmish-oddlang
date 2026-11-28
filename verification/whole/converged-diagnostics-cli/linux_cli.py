@@ -8,24 +8,13 @@ import subprocess
 import tempfile
 
 from verify import HERE, OUTPUT, PORTABLE, check_composition, load, sha
-from verify import CLI_CASES, FRAMEWORK, COMPILER, ORIGINAL, verify_product, observe_cli, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
+from verify import SIX, FRAMEWORK, COMPILER, ORIGINAL, verify_product, observe_cli, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
 
 HOST = "aarch64-unknown-linux-gnu"
 
 
-def help_or_version(argv):
-    return argv[0] == "help" or argv[-1] in ("--help", "-h", "--version", "-V")
-
-
-def safe_catalog(role):
-    legacy = load(HERE.parent / "cli/transcript.json")[role]
-    historical = [row["args"] for row in legacy if help_or_version(row["args"])]
-    for argv in historical:
-        if not (argv in (["--help"], ["--version"]) or len(argv) == 2 and argv[0] == "help"
-                and argv[1].isascii() and argv[1].replace("-", "").isalnum()):
-            raise ValueError(f"unsupported historical help case: {argv!r}")
-    appended = [argv for argv in CLI_CASES if help_or_version(argv)]
-    return historical + appended
+def terminal_arguments(profile, role):
+    return SIX["product_witness"]("terminal-arguments", profile, role)
 
 
 def confined_cli(launcher, executable, argv, home):
@@ -99,7 +88,7 @@ def verify(args):
         for role, executable in generated.items():
             rows = [{"args": argv, "original": confined_cli(launcher, originals[role], argv, home),
                       "candidate": confined_cli(launcher, executable, argv, home)}
-                    for argv in safe_catalog(role)]
+                    for argv in terminal_arguments("linux-help", role)["cases"]]
             gaps = [row["args"] for row in rows if row["original"] != row["candidate"]]
             if gaps != [["--debug", "rsh", "--help"], ["--user=audit", "rsh", "--help"]]:
                 raise ValueError(f"unexpected native Linux CLI differences for {role}: {gaps!r}")
