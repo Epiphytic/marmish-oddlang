@@ -113,6 +113,21 @@ pub fn bytes_sha(bytes: &[u8]) -> String {
     use sha2::{Digest, Sha256};
     format!("{:x}", Sha256::digest(bytes))
 }
+// The archived digest uses Python's sorted ASCII JSON with spaces after separators.
+pub fn closure_digest(files: &BTreeMap<String, String>) -> Result<String> {
+    let rows = files
+        .iter()
+        .map(|(p, h)| {
+            Ok(format!(
+                "{}: {}",
+                serde_json::to_string(p)?,
+                serde_json::to_string(h)?
+            ))
+        })
+        .collect::<Result<Vec<_>>>()?;
+    Ok(bytes_sha(&ascii_json(&format!("{{{}}}", rows.join(", ")))))
+}
+
 pub fn inventory(root: &Path) -> Result<Value> {
     fn visit(base: &Path, dir: &Path, rows: &mut BTreeMap<PathBuf, String>) -> Result {
         for e in fs::read_dir(dir)? {
@@ -282,6 +297,20 @@ pub fn seatbelt_policy(work: &Path, read_roots: &[&Path], denied: &[&Path]) -> R
 }
 impl Sandbox {
     pub fn new(host: &str, work: &Path, denied: &[&Path], providers: &Path) -> Result<Self> {
+        Self::open(host, work, denied, providers, false)
+    }
+
+    pub fn retained(host: &str, work: &Path, denied: &[&Path], providers: &Path) -> Result<Self> {
+        Self::open(host, work, denied, providers, true)
+    }
+
+    fn open(
+        host: &str,
+        work: &Path,
+        denied: &[&Path],
+        providers: &Path,
+        retained: bool,
+    ) -> Result<Self> {
         let toolchain = PathBuf::from(command_text("rustc", &["+1.97.1", "--print", "sysroot"])?)
             .canonicalize()?;
         let registry = cargo_home()?.join("registry").canonicalize()?;
@@ -431,11 +460,23 @@ impl Sandbox {
             .find(|p| p.extension() == Some(OsStr::new("app")))
             .ok_or("expected Xcode app directory")?;
         let home = work.join("candidate-cargo");
-        fs::create_dir(&home)?;
-        symlink(&registry, home.join("registry"))?;
-        symlink(providers, home.join("git"))?;
         let tmp = work.join("tmp");
-        fs::create_dir(&tmp)?;
+        if retained {
+            require(
+                home.canonicalize()? == home
+                    && tmp.canonicalize()? == tmp
+                    && home.is_dir()
+                    && tmp.is_dir()
+                    && home.join("registry").canonicalize()? == registry
+                    && home.join("git").canonicalize()? == providers.canonicalize()?,
+                "unexpected retained Cargo directories",
+            )?;
+        } else {
+            fs::create_dir(&home)?;
+            symlink(&registry, home.join("registry"))?;
+            symlink(providers, home.join("git"))?;
+            fs::create_dir(&tmp)?;
+        }
         let policy = seatbelt_policy(
             work,
             &[

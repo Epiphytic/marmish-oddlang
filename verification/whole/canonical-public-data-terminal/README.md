@@ -9,7 +9,8 @@ The verifier links the release executables from the retained sealed candidate, c
 From a clean checkout, use the retained build directory produced by the [combined data gate](../canonical-public-data/README.md) and the original release executables pinned by the [terminal receipt](../terminal-prefix/README.md).
 
 ```sh
-python3 -B verification/whole/canonical-public-data-terminal/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin terminal-case-inventory -- qualify \
   SEALED_BUILD ORIGINAL_BIN_DIRECTORY RECEIPT
 ```
 

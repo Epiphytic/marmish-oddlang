@@ -14,7 +14,7 @@ use std::{
 };
 
 #[derive(Clone, clap::ValueEnum)]
-enum Sandbox {
+pub(super) enum Sandbox {
     Seatbelt,
     Bwrap,
     SudoBwrap,
@@ -108,10 +108,10 @@ impl Sandbox {
 #[derive(clap::Args)]
 pub struct Args {
     #[arg(value_enum)]
-    sandbox: Sandbox,
-    originals: PathBuf,
-    binaries: PathBuf,
-    scratch: PathBuf,
+    pub(super) sandbox: Sandbox,
+    pub(super) originals: PathBuf,
+    pub(super) binaries: PathBuf,
+    pub(super) scratch: PathBuf,
 }
 
 impl Args {

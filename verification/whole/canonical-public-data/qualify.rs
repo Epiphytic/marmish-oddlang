@@ -201,18 +201,6 @@ fn execute(a: Args) -> Result {
         source == source_pin(&original)?,
         "pinned original inputs changed",
     )?;
-    // Match Python's sorted, space-separated map encoding for the native Cargo closure seal.
-    let rows = selected
-        .files
-        .iter()
-        .map(|(path, digest)| {
-            Ok(format!(
-                "{}: {}",
-                serde_json::to_string(path)?,
-                serde_json::to_string(digest)?
-            ))
-        })
-        .collect::<Result<Vec<_>>>()?;
     let report = json!({
         "format": "marmish-canonical-public-data-v1",
         "host": host,
@@ -224,7 +212,7 @@ fn execute(a: Args) -> Result {
         "candidateManifestSha256": sha(&spec)?,
         "artifactLogSha256": bytes_sha(&raw),
         "cargoLibraryClosureEntries": selected.files.len(),
-        "cargoLibraryClosureSha256": bytes_sha(format!("{{{}}}",rows.join(", ")).as_bytes()),
+        "cargoLibraryClosureSha256": closure_digest(&selected.files)?,
         "sourceDenials": denied.len(),
         "gitProviders": git,
         "stagedInputs": staged,
