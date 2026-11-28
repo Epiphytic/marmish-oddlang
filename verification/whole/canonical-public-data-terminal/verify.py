@@ -72,14 +72,7 @@ def classify(archived):
     return prepared
 
 
-def closure(raw, target, host):
-    if host == LINUX:
-        return COMBINED["PREVIOUS"]["closure"](raw, target)
-    return {
-        Path(file).relative_to(target).as_posix(): digest(Path(file))
-        for line in raw.splitlines() if (row := json.loads(line))["reason"] == "compiler-artifact"
-        for file in row["filenames"] if Path(file).suffix in {".rlib", ".rmeta", ".dylib"}
-    }
+closure = COMBINED["PREVIOUS"]["closure"]
 
 
 def closure_digest(files):

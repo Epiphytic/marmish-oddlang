@@ -98,21 +98,8 @@ def build(root, target):
     )
 
 
-def closure(raw, target):
-    files = {}
-    for line in raw.splitlines():
-        row = json.loads(line)
-        if row["reason"] != "compiler-artifact":
-            continue
-        for filename in row["filenames"]:
-            path = Path(filename)
-            if path.suffix not in {".rlib", ".rmeta", ".so"}:
-                continue
-            resolved = path.resolve(strict=True)
-            assert path == resolved and resolved.is_relative_to(target)
-            files[resolved.relative_to(target).as_posix()] = file_sha(resolved)
-    assert files
-    return dict(sorted(files.items()))
+def closure(raw, target, host=HOST):
+    return audit.product_witness("library-closure", target, host, current=raw.decode())
 
 
 def import_rows(role, root, target, original, *, generated):
