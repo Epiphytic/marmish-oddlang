@@ -60,6 +60,18 @@ fn with_reference_libraries<T>(
     host: &str,
     observe: impl FnOnce(&dyn Fn() -> Command, &Path) -> Result<T>,
 ) -> Result<(T, Value)> {
+    // The original and disposable checkouts use the same Cargo package identity.
+    // Separate their release artifacts even when a caller supplies one cache root.
+    let target = target
+        .join("gap-data")
+        .join(sha(&original.join("crates/marmish-engine/src/model.rs"))?);
+    fs::create_dir_all(&target)?;
+    let guard = fs::OpenOptions::new()
+        .create(true)
+        .truncate(false)
+        .write(true)
+        .open(target.join(".observation.lock"))?;
+    guard.lock()?;
     let build = checked(
         command("cargo", original)
             .args([
@@ -75,7 +87,7 @@ fn with_reference_libraries<T>(
                 host,
                 "--target-dir",
             ])
-            .arg(target)
+            .arg(&target)
             .arg("--message-format=json"),
         None,
     )?;

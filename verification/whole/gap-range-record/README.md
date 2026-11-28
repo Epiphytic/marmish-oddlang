@@ -8,6 +8,8 @@ Native [macOS ARM64](aarch64-apple-darwin.json) and [Linux ARM64](aarch64-unknow
 
 The packaging gate denies reads of original and mutant source and the two callers before building the standalone library. The test lane uses inert data and supplies no engine operations or deployment changes.
 
+The original target cache keeps separate build directories for each model source digest, so the original and mutated callers can reuse one cache root.
+
 Replay with clean pinned checkouts, Rust 1.96.1 for the compiler, Rust 1.97.1 for the native callers and populated offline Cargo caches.
 
 ```sh
