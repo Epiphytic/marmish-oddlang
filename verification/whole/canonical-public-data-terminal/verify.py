@@ -17,13 +17,8 @@ DARWIN, LINUX = "aarch64-apple-darwin", "aarch64-unknown-linux-gnu"
 BASE = "8f945d725dea3f4d4812eb6ea24bc7a1aff8d75b"
 PREFIX = "946850f3242203e5901f6fc14ff143adc67b5b55"
 ROLES = ("marmish", "marmishd")
-ROOT_TERMINALS = {("--help",), ("-h",), ("--version",), ("-V",), ("help",)}
-HELP_COMMANDS = frozenset("""
-copy-receipts put get rsh stream streams stream-reconcile keychain-authorize release-info
-install install-status uninstall setup init commands command-status cancel wait output daemon
-status open-conversation send received foundation-check command-check help command-evidence
-command-cleanup-status command-local-cancel command-prepare-cleanup
-""".split())
+OUTPUT = "workspace-v7-canonical-public-data"
+MANIFEST = ROOT / "oddlang/portable" / f"{OUTPUT}.json"
 
 
 def local(directory, name="verify.py"):
@@ -40,39 +35,19 @@ def local(directory, name="verify.py"):
         sys.modules.update(saved)
 
 
-COMBINED = local("canonical-public-data", "workspace_compat.py")
-AUDIT = COMBINED["AUDIT"]
-run, data = COMBINED["run"], COMBINED["data"]
-digest = COMBINED["digest"]
+PREVIOUS = local("canonical-linux-imports")
+AUDIT = PREVIOUS["audit"]
+closure = PREVIOUS["closure"]
+NATIVE = local("unified-mdk", "workspace_compat.py")
+run, data, digest = NATIVE["run"], NATIVE["data"], NATIVE["sha"]
 WORKSPACE = local("workspace")
 LINUX_CLI = local("converged-diagnostics-cli", "linux_cli.py")
 TOOLKIT = WORKSPACE["envtools"]
 
 
 def classify(archived):
-    def admits(argv):
-        return tuple(argv) in ROOT_TERMINALS or (
-            len(argv) == 2 and argv[0] == "help" and argv[1] in HELP_COMMANDS
-        )
-
-    expected = ROOT_TERMINALS | {("help", name) for name in HELP_COMMANDS}
-    prepared = {}
-    for role in ROLES:
-        rec = archived["roles"][role]
-        selected = [row for row in rec["cases"] if admits(row["args"])]
-        excluded = [row["args"] for row in rec["cases"] if not admits(row["args"])]
-        if len(selected) != len(expected) or {tuple(row["args"]) for row in selected} != expected or (
-            any(row["exit"] != 0 or row["stderr"] or not row["stdout"] for row in selected)
-        ):
-            raise ValueError(f"unexpected help/version case set for {role}")
-        outside = rec["outsideTerminalProfile"]["args"]
-        if admits(outside) or len(excluded) != 46:
-            raise ValueError("terminal profile exclusion drift")
-        prepared[role] = selected, excluded, outside
-    return prepared
-
-
-closure = COMBINED["PREVIOUS"]["closure"]
+    _, tool = TOOLKIT.qualification_tool("terminal-case-inventory")
+    return json.loads(subprocess.check_output([tool], input=json.dumps(archived).encode()))
 
 
 def closure_digest(files):
@@ -98,7 +73,7 @@ def build(work, scratch, host):
         xcode = next(parent for parent in Path(env["DEVELOPER_DIR"]).parents if parent.suffix == ".app")
         prefix = TOOLKIT.isolated(work, (*readable, xcode), ROOT)
         launcher = None
-    denied = subprocess.run([*prefix, "/bin/cat", COMBINED["MANIFEST"]], cwd=product, env=env, capture_output=True)
+    denied = subprocess.run([*prefix, "/bin/cat", MANIFEST], cwd=product, env=env, capture_output=True)
     if denied.returncode != 1 or denied.stdout or not any(
         message in denied.stderr for message in (b"Operation not permitted", b"No such file")
     ):
@@ -175,7 +150,7 @@ def verify(args, scratch):
     files = closure(raw, target, host)
     if len(files) != base["cargoLibraryClosureEntries"] or closure_digest(files) != base["cargoLibraryClosureSha256"]:
         raise ValueError("sealed Cargo library closure changed before linking")
-    profile = AUDIT.Candidate(COMBINED["OUTPUT"], base["companion"], base["framework"],
+    profile = AUDIT.Candidate(OUTPUT, base["companion"], base["framework"],
                               base["workspace"]["candidateWorkspaceLockSha256"])
     AUDIT.verify_product(product, ROOT, profile)
     binaries, launcher, link_log = build(work, scratch, host)
