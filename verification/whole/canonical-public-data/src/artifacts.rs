@@ -43,7 +43,7 @@ pub struct Artifacts {
     pub serde: PathBuf,
     pub serde_json: PathBuf,
 }
-fn cargo_rows(bytes: &[u8]) -> Result<Vec<Value>> {
+pub fn cargo_rows(bytes: &[u8]) -> Result<Vec<Value>> {
     let rows: Vec<Value> = std::str::from_utf8(bytes)?
         .lines()
         .map(serde_json::from_str)
@@ -124,10 +124,65 @@ pub fn selected_build(
 ) -> Result<(Value, BTreeSet<String>)> {
     selected_libraries(&cargo_rows(bytes)?, package_root, target, packages)
 }
+pub fn library_closure(
+    rows: &[Value],
+    target: &Path,
+    host: &str,
+) -> Result<BTreeMap<String, String>> {
+    let dynamic_extension = match host {
+        DARWIN => "dylib",
+        LINUX => "so",
+        _ => return Err("unsupported Cargo closure host".into()),
+    };
+    let root = target.canonicalize()?;
+    let mut files = BTreeMap::new();
+    for row in rows {
+        if text(&row["reason"])? != "compiler-artifact" {
+            continue;
+        }
+        for file in list(&row["filenames"])? {
+            let path = Path::new(text(file)?);
+            if !path
+                .extension()
+                .and_then(|e| e.to_str())
+                .is_some_and(|e| ["rlib", "rmeta", dynamic_extension].contains(&e))
+            {
+                continue;
+            }
+            let relative = path
+                .strip_prefix(target)
+                .or_else(|_| path.strip_prefix(&root))?;
+            require(
+                relative
+                    .components()
+                    .all(|part| matches!(part, std::path::Component::Normal(_))),
+                "invalid Cargo artifact path",
+            )?;
+            let resolved = path.canonicalize()?;
+            require(
+                resolved.starts_with(&root) && resolved.is_file(),
+                "library outside target directory",
+            )?;
+            if host == LINUX {
+                require(path == resolved, "library closure contains symlink")?;
+            }
+            files.insert(
+                relative
+                    .to_str()
+                    .ok_or("non-UTF-8 artifact name")?
+                    .to_owned(),
+                sha(&resolved)?,
+            );
+        }
+    }
+    require(!files.is_empty(), "empty Cargo library closure")?;
+    Ok(files)
+}
+
 pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Result<Artifacts> {
     let rows = cargo_rows(bytes)?;
     let (roles, links) = selected_libraries(&rows, product, target, &crate::product::PACKAGES)?;
-    let mut files = BTreeMap::new();
+    let files = library_closure(&rows, target, host)?;
     let mut libs: BTreeMap<String, BTreeSet<PathBuf>> = BTreeMap::new();
     for row in rows {
         if row["reason"] != "compiler-artifact" {
@@ -147,18 +202,6 @@ pub fn artifacts(bytes: &[u8], product: &Path, target: &Path, host: &str) -> Res
                 && p.starts_with(target.join(host).join("release"))
             {
                 libs.entry(name.into()).or_default().insert(p.clone());
-            }
-            if ["rmeta", "rlib", if host == LINUX { "so" } else { "dylib" }].contains(&ext) {
-                if host == LINUX {
-                    require(p == p.canonicalize()?, "library closure contains symlink")?;
-                }
-                files.insert(
-                    p.strip_prefix(target)?
-                        .to_str()
-                        .ok_or("non-UTF-8 path")?
-                        .into(),
-                    sha(&p)?,
-                );
             }
         }
     }

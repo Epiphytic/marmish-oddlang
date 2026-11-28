@@ -1,5 +1,7 @@
 """Compatibility entry points for callers of the native core-package verifier."""
+import atexit
 import json
+import os
 from functools import lru_cache
 from pathlib import Path
 import subprocess
@@ -21,12 +23,34 @@ def run(*args, cwd=None, env=None, fail=None, input_text=None):
     return result.stdout
 
 
+@lru_cache(maxsize=1)
+def build_host():
+    scratch = tempfile.TemporaryDirectory(prefix="engine-build-host-")
+    atexit.register(scratch.cleanup)
+    binary = Path(scratch.name) / "build-host"
+    run("rustc", "+1.97.1", "--edition=2024", HERE.parent / "engine-fieldless-choices/build-host.rs", "-o", binary)
+    return binary
+
+
+def host_build_env(cargo_home):
+    env = os.environ.copy()
+    for record in subprocess.check_output([build_host(), "prepare", cargo_home]).split(b"\0"):
+        if record:
+            name, assigned, value = os.fsdecode(record).partition("=")
+            if assigned:
+                env[name] = value
+            else:
+                env.pop(name, None)
+    return env
+
+
 @lru_cache(maxsize=2)
 def qualification_tool(name="core-package-inputs"):
     target = tempfile.TemporaryDirectory(prefix="core-package-tools-")
     run("cargo", f"+{RUST}", "build", "--quiet", "--locked", "--offline",
         "--manifest-path", HERE.parent / "canonical-public-data/Cargo.toml",
-        "--bin", name, "--target-dir", target.name)
+        "--bin", name, "--target-dir", target.name, cwd=target.name,
+        env=host_build_env(Path(target.name) / "cargo-home"))
     return target, Path(target.name) / "debug" / name
 
 

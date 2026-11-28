@@ -23,9 +23,8 @@ INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
 STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
 LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
-RECOVERY_PIN = "d45ac05ae29feba3379f488caacc3b18e6e38ed9"
+RECOVERY_PIN = "7fcbdfc396e0a5ea4c7b4f691dfea965e0244919"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
-ADDED = [("engine", "Stream"), ("engine", "SubmitDisposition")]
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
 
 
@@ -41,20 +40,31 @@ def pin_bytes(path, revision):
 IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
 VAULT_OBSERVER_PIN = "50b38f6113b553797e6e51871af4d2f4e5b13ba3"
 WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
+VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
+BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
+HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
+CLOSURE_PIN = "3e116156addc0d731122e4697b3c0b68fca05c46"
+REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
+IMPORT_EVIDENCE_PIN = "9f4d43404ba4bed053af3ffb7218de5c955a47fa"
+ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
-    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
+    ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
+    ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
+    WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
+    ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
+    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": REFERENCE_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
-    WHOLE / "vault-mode/verify.py": VAULT_OBSERVER_PIN,
-    WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_OBSERVER_PIN,
+    WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_MODE_PIN,
+    WHOLE / "vault-mode/observe.rs": VAULT_MODE_PIN,
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
-    WHOLE / "core-package/verify.py": VAULT_OBSERVER_PIN,
+    WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-linux-imports/verify.py": "e4eb77e2b85789388cb4d14a623b9abe949449bc",
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
-    WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
-    WHOLE / "canonical-public-data/product.rs": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-public-data/src/artifacts.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
+    WHOLE / "canonical-public-data/witness.rs": IMPORT_EVIDENCE_PIN,
+    WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": CLOSURE_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
@@ -87,8 +97,14 @@ DARWIN = AUDIT.HOST
 LINUX = PREVIOUS["HOST"]
 
 
-def engine_lane():
-    return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
+CORE = runpy.run_path(str(WHOLE / "core-package/verify.py"))
+
+
+def observe(tool, library, serde, host_deps, links, host, work, env):
+    args = [tool, "observe", library, serde, host_deps, host, work]
+    for link in links:
+        args.extend(("--link", link))
+    return json.loads(subprocess.check_output(args, env=env))
 
 
 def pinned(path, commit):
@@ -109,71 +125,9 @@ def prior(host):
 
 
 def snapshots(args, profile):
-    NATIVE["check_api_release"]("canonical-engine-choices", PORTABLE)
-    prior_input = PREVIOUS["CANONICAL"]
-    AUDIT.verify_product(args.baseline, ROOT, prior_input)
-    AUDIT.verify_product(args.product, ROOT, profile)
-    old_workspace, workspace = map(
-        AUDIT.read, [args.baseline / "workspace.lock", args.product / "workspace.lock"]
+    return NATIVE["product_witness"](
+        "engine-choice-snapshot", args.baseline, args.product, profile.input_revision, profile.lock_sha256
     )
-    assert old_workspace.keys() == workspace.keys()
-    assert all(
-        workspace[k] == old_workspace[k]
-        for k in workspace
-        if k not in ("inputSha256", "members")
-    )
-    assert len(workspace["members"]) == 7
-    old_engine, new_engine = (
-        value["members"][ENGINE] for value in (old_workspace, workspace)
-    )
-    assert all(
-        old_engine[key] == new_engine[key]
-        for key in ("dependencies", "workspaceCargoManifestSha256")
-    )
-    old_packages = {
-        name: AUDIT.read(args.baseline / name / "package.lock")
-        for name in old_workspace["members"]
-    }
-    locks = {
-        name: digest(args.product / name / "package.lock")
-        for name in workspace["members"]
-    }
-    for name in workspace["members"]:
-        if name == ENGINE:
-            continue
-        assert workspace["members"][name] == old_workspace["members"][name]
-        assert locks[name] == digest(args.baseline / name / "package.lock")
-
-    engine = args.product / ENGINE
-    expected = PORTABLE / "engine-fieldless-choices-v1/package.lock"
-    standalone = pinned(expected, STANDALONE_PIN)
-    assert (engine / "package.lock").read_bytes() == expected.read_bytes()
-    before = old_packages[ENGINE]
-    assert standalone["components"][:-1] == before["components"]
-    assert standalone["components"][-1]["reexports"] == ["Stream", "SubmitDisposition"]
-    assert standalone["cargoLockSha256"] == before["cargoLockSha256"]
-    inherited, generated = before["generatedFiles"], standalone["generatedFiles"]
-    changed = {path for path in inherited if inherited[path] != generated[path]}
-    added = generated.keys() - inherited.keys()
-    assert changed == {"src/lib.rs", "src/group_1/mod.rs"}
-    assert added == {"src/group_1/__projection_3.rs"}
-    for path, line in (
-        ("src/lib.rs", "pub use model::{Stream, SubmitDisposition};\n"),
-        (
-            "src/group_1/mod.rs",
-            "mod __projection_3;\npub use __projection_3::{Stream, SubmitDisposition};\n",
-        ),
-    ):
-        assert (engine / path).read_bytes() == (
-            args.baseline / ENGINE / path
-        ).read_bytes() + line.encode()
-    return {
-        "rootCargoLockSha256": workspace["cargoLockSha256"],
-        "rootCargoManifestSha256": workspace["workspaceCargoManifestSha256"],
-        "packageLocks": locks,
-        "changedEngineSources": sorted(changed),
-        "addedEngineSources": sorted(added),
-    }
 
 
 def build(args, host):
@@ -203,47 +157,8 @@ def build(args, host):
 
 
 def imports(host, artifacts, original):
-    previous = prior(host)
-    result = AUDIT.library_imports(artifacts, original, target=host)
-    additions = []
-    for name, library in result.items():
-        assert all(
-            library[key] == previous[name][key]
-            for key in (
-                "inventorySha256",
-                "inventoryLockSha256",
-                "inventoryEvidenceSha256",
-            )
-        )
-        for old, new in zip(previous[name]["imports"], library["imports"], strict=True):
-            assert (
-                old["spelling"] == new["spelling"]
-                and old["originalInventoryKind"] == new["originalInventoryKind"]
-            )
-            if new["compiles"] and not old["compiles"]:
-                assert [item["code"] for item in old["diagnostics"]] == ["E0432"]
-                additions.append((name, new["spelling"]))
-            else:
-                assert new["compiles"] == old["compiles"], "inherited import was lost"
-                assert [(d["code"], d["message"]) for d in new["diagnostics"]] == [
-                    (d["code"], d["message"]) for d in old["diagnostics"]
-                ], "inherited import diagnostic changed"
-    attempted = sum(len(library["imports"]) for library in result.values())
-    baseline = sum(library["importable"] for library in previous.values())
-    current = sum(library["importable"] for library in result.values())
-    assert (
-        attempted == 140
-        and baseline == 77
-        and current == baseline + len(ADDED)
-        and additions == ADDED
-    )
-    return {
-        "attempted": attempted,
-        "baseline": baseline,
-        "candidate": current,
-        "added": additions,
-        "libraries": result,
-    }
+    libraries = AUDIT.library_imports(artifacts, original, target=host)
+    return NATIVE["product_witness"]("compare-engine-imports", current=[prior(host), libraries])
 
 
 def candidate_serde(raw, target, host):
@@ -264,10 +179,10 @@ def candidate_serde(raw, target, host):
 
 def qualify(args):
     assert args.input_revision == INPUT_REVISION and digest(LOCK) == LOCK_SHA256
-    runtime = engine_lane()
+    tool = CORE["qualification_tool"]("engine-choice-inputs")[1]
     companion = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    runtime["checkout"](ROOT, companion)
-    runtime["checkout"](args.framework, FRAMEWORK)
+    subprocess.run([tool, "checkout", ROOT, companion], check=True)
+    subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
     original = PREVIOUS["source_pin"](args.original)
     assert all(
         not target.is_relative_to(root)
@@ -296,7 +211,7 @@ def qualify(args):
         prefix="canonical-engine-choice-observer-"
     ) as scratch:
         work = Path(scratch).resolve()
-        env = runtime["SHARED"]["host_build_env"](work / "cargo-home")
+        env = CORE["host_build_env"](work / "cargo-home")
         built = build(args, host)
         roles, links = AUDIT.artifacts(
             built,
@@ -307,29 +222,20 @@ def qualify(args):
         )
         closure = PREVIOUS["closure"](built, args.target)
         import_results = imports(host, roles, args.original)
-        source_library, serde, original_links = runtime["reference"](
-            args.original, env, host, args.original_target
-        )
+        source = json.loads(subprocess.check_output(
+            [tool, "reference", args.original, host, args.original_target,
+             "--work", work / "original"], env=env))
+        reference = source["observations"]
         library = roles[ENGINE][1]
-        reference = runtime["observe"](
-            source_library,
-            serde,
-            args.original_target / "release/deps",
-            original_links,
-            host,
-            work / "original",
-            False,
-            env,
-        )
         generated_serde = candidate_serde(built, args.target, host)
-        generated = runtime["observe"](
+        generated = observe(
+            tool,
             library,
             generated_serde,
             args.target / "release/deps",
             links,
             host,
             work / "generated",
-            False,
             env,
         )
         baseline = standalone["scenarios"]["baseline"]
@@ -341,8 +247,8 @@ def qualify(args):
         assert closure == PREVIOUS["closure"](built, args.target)
     assert before == snapshots(args, profile)
     assert original == PREVIOUS["source_pin"](args.original)
-    runtime["checkout"](args.framework, FRAMEWORK)
-    runtime["checkout"](ROOT, companion)
+    subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
+    subprocess.run([tool, "checkout", ROOT, companion], check=True)
     return {
         "platform": host,
         "rustc": rustc,
@@ -358,9 +264,9 @@ def qualify(args):
         "imports": import_results,
         "engine": {
             "observations": generated,
-            "originalLibrarySha256": digest(source_library),
+            "originalLibrarySha256": source["originalLibrarySha256"],
             "candidateLibrarySha256": digest(library),
-            "originalSerdeWitnessSha256": digest(serde),
+            "originalSerdeWitnessSha256": source["originalSerdeWitnessSha256"],
             "candidateSerdeWitnessSha256": digest(generated_serde),
         },
         "standaloneReceiptSha256": digest(ENGINE_STANDALONE / f"{host}.json"),

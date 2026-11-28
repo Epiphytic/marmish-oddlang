@@ -24,6 +24,10 @@ struct Args {
 enum Action {
     ImportManifest { product: PathBuf, inputs: PathBuf, release: String, revision: String, digest: String },
     ImportArtifacts { package_root: PathBuf, target: PathBuf, #[arg(required = true)] packages: Vec<String> },
+    ImportSourcePin { original: PathBuf },
+    FrozenImportInventory { inputs: PathBuf },
+    LibraryClosure { target: PathBuf, host: String },
+    CompareEngineImports,
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
@@ -121,6 +125,7 @@ enum Action {
     Six {
         product: PathBuf,
     },
+    EngineChoiceSnapshot { baseline: PathBuf, product: PathBuf, revision: String, lock_sha: String },
     Canonical {
         baseline: PathBuf,
         product: PathBuf,
@@ -225,6 +230,17 @@ fn main() -> Result {
             )?;
             serde_json::to_value(artifacts)?
         }
+        Action::ImportSourcePin { original } => public_data_qualification::artifacts::source_pin(&original)?,
+        Action::FrozenImportInventory { inputs } => { imports::frozen_inventory(&inputs)?; Value::Null }
+        Action::LibraryClosure { target, host } => {
+            use public_data_qualification::artifacts::{cargo_rows, library_closure};
+            let raw: String = serde_json::from_reader(io::stdin().lock())?;
+            serde_json::to_value(library_closure(&cargo_rows(raw.as_bytes())?, &target, &host)?)?
+        }
+        Action::CompareEngineImports => {
+            let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
+            imports::compare_engine(&previous, libraries)?
+        }
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
         Action::ImportControl { work, host } => {
             let data = input()?;
@@ -324,6 +340,10 @@ fn main() -> Result {
             Value::Null
         }
         Action::Six { product: p } => product::six(&p)?,
+        Action::EngineChoiceSnapshot { baseline, product: path, revision, lock_sha } => {
+            api_composition::compose(api_composition::Release::CanonicalEngineChoices, &public_data_qualification::portable(), true)?;
+            product::engine_choice_snapshot(&baseline, &path, &revision, &lock_sha)?
+        }
         Action::Canonical {
             baseline,
             product: p,

@@ -316,6 +316,109 @@ fn delta(before: &Value, after: &Value) -> Result<(BTreeSet<String>, BTreeSet<St
         b.keys().filter(|k| !a.contains_key(*k)).cloned().collect(),
     ))
 }
+fn check_appended_exports(base: &Path, product: &Path, paths: &[(&str, &str)]) -> Result {
+    for &(path, tail) in paths {
+        let mut expected = fs::read(base.join(ENGINE).join(path))?;
+        expected.extend(tail.bytes());
+        require(
+            fs::read(product.join(ENGINE).join(path))? == expected,
+            format!("unexpected engine export structure: {path}"),
+        )?;
+    }
+    Ok(())
+}
+
+pub fn engine_choice_snapshot(
+    base: &Path,
+    product: &Path,
+    revision: &str,
+    lock_sha: &str,
+) -> Result<Value> {
+    let before = public_product(base, BEFORE, BASE_REV, BASE_LOCK)?;
+    let after = public_product(
+        product,
+        "workspace-v7-canonical-engine-choices",
+        revision,
+        lock_sha,
+    )?;
+    let old_root = props(&before)?;
+    let new_root = props(&after)?;
+    require(
+        old_root.len() == new_root.len()
+            && old_root.iter().all(|(key, old)| {
+                new_root.get(key).is_some_and(|new| {
+                    matches!(key.as_str(), "inputSha256" | "members") || new == old
+                })
+            }),
+        "root workspace structure changed",
+    )?;
+
+    let mut locks = BTreeMap::new();
+    for name in PACKAGES {
+        let prior = &before["members"][name];
+        let next = &after["members"][name];
+        let digest = sha(&product.join(name).join("package.lock"))?;
+        if name == ENGINE {
+            for key in ["dependencies", "workspaceCargoManifestSha256"] {
+                require(prior[key] == next[key], format!("engine {key} changed"))?;
+            }
+        } else {
+            require(
+                prior == next && digest == sha(&base.join(name).join("package.lock"))?,
+                format!("inherited member changed: {name}"),
+            )?;
+        }
+        locks.insert(name, digest);
+    }
+
+    let seal = portable().join("engine-fieldless-choices-v1/package.lock");
+    pinned(&seal, "042f018252c9ed04bea97e10f7da1df16da1e0b0")?;
+    require(
+        fs::read(&seal)? == fs::read(product.join(ENGINE).join("package.lock"))?,
+        "generated engine differs from its standalone package",
+    )?;
+    let next = load(&seal)?;
+    let prior = load(&base.join(ENGINE).join("package.lock"))?;
+    let (choice, inherited) = list(&next["components"])?
+        .split_last()
+        .ok_or("missing engine choice component")?;
+    require(
+        inherited == list(&prior["components"])?
+            && choice["reexports"] == json!(["Stream", "SubmitDisposition"])
+            && next["cargoLockSha256"] == prior["cargoLockSha256"],
+        "unexpected engine package change",
+    )?;
+    let (changed, added) = delta(&prior, &next)?;
+    require(
+        changed
+            .iter()
+            .map(String::as_str)
+            .eq(["src/group_1/mod.rs", "src/lib.rs"])
+            && added
+                .iter()
+                .map(String::as_str)
+                .eq(["src/group_1/__projection_3.rs"]),
+        "unexpected engine source changes",
+    )?;
+    check_appended_exports(
+        base,
+        product,
+        &[
+            (
+                "src/lib.rs",
+                "pub use model::{Stream, SubmitDisposition};\n",
+            ),
+            (
+                "src/group_1/mod.rs",
+                "mod __projection_3;\npub use __projection_3::{Stream, SubmitDisposition};\n",
+            ),
+        ],
+    )?;
+    Ok(json!({"rootCargoLockSha256":after["cargoLockSha256"],
+        "rootCargoManifestSha256":after["workspaceCargoManifestSha256"],"packageLocks":locks,
+        "changedEngineSources":changed,"addedEngineSources":added}))
+}
+
 pub fn snapshots(base: &Path, product: &Path, revision: &str) -> Result<Value> {
     let candidate_hash = sha(&portable().join(AFTER).join("workspace.lock"))?;
     let before = public_product(base, BEFORE, BASE_REV, BASE_LOCK)?;
@@ -398,23 +501,20 @@ pub fn snapshots(base: &Path, product: &Path, revision: &str) -> Result<Value> {
                 ]),
         "unexpected generated engine source changes",
     )?;
-    for (path, tail) in [
-        (
-            "src/lib.rs",
-            "pub use model::{Stream, SubmitDisposition};\npub use model::{MissingReason};\n",
-        ),
-        (
-            "src/group_1/mod.rs",
-            "mod __projection_3;\npub use __projection_3::{Stream, SubmitDisposition};\nmod __projection_4;\npub use __projection_4::{MissingReason};\n",
-        ),
-    ] {
-        let mut expected = fs::read(base.join(ENGINE).join(path))?;
-        expected.extend(tail.bytes());
-        require(
-            fs::read(product.join(ENGINE).join(path))? == expected,
-            format!("unexpected engine export structure: {path}"),
-        )?;
-    }
+    check_appended_exports(
+        base,
+        product,
+        &[
+            (
+                "src/lib.rs",
+                "pub use model::{Stream, SubmitDisposition};\npub use model::{MissingReason};\n",
+            ),
+            (
+                "src/group_1/mod.rs",
+                "mod __projection_3;\npub use __projection_3::{Stream, SubmitDisposition};\nmod __projection_4;\npub use __projection_4::{MissingReason};\n",
+            ),
+        ],
+    )?;
     let nat0 = pkg(base, NATIVE)?;
     let nat1 = pkg(product, NATIVE)?;
     require(

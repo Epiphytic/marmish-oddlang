@@ -1,3 +1,5 @@
+#[path = "../../vault-mode/observe.rs"]
+pub mod vault_mode;
 #[path = "../../gap-range-endpoint/contract.rs"]
 pub mod endpoint_contract;
 #[path = "../../engine-native-records/verify.rs"]
@@ -25,6 +27,7 @@ mod range_binding;
 mod offline_composition;
 pub use offline_composition::check_product as check_canonical_offline;
 pub mod assembly;
+pub mod build_host;
 pub mod command_output;
 pub mod gap_callers;
 pub mod gap_reason;

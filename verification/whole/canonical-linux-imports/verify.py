@@ -3,16 +3,18 @@
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import subprocess
-import sys
 import tempfile
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent / "seven-public-imports"))
-import verify as audit  # noqa: E402
+audit_spec = importlib.util.spec_from_file_location(
+    "seven_public_imports", HERE.parent / "seven-public-imports/verify.py")
+audit = importlib.util.module_from_spec(audit_spec)
+audit_spec.loader.exec_module(audit)
 
 HOST = "aarch64-unknown-linux-gnu"
 CANONICAL = audit.Candidate(
@@ -32,42 +34,11 @@ def file_sha(path):
 
 
 def source_pin(original):
-    revision, tree = (
-        audit.git(original, "rev-parse", "HEAD", "HEAD^{tree}").decode().splitlines()
-    )
-    assert revision == audit.ORIGINAL
-    assert not audit.git(original, "status", "--porcelain", "--untracked-files=all")
-    paths = [
-        "Cargo.toml",
-        "Cargo.lock",
-        *(f"crates/{name}/Cargo.toml" for name in NAMES),
-    ]
-    return {
-        "revision": revision,
-        "tree": tree,
-        "files": {name: file_sha(original / name) for name in paths},
-    }
+    return audit.product_witness("import-source-pin", original)
 
 
 def frozen_inputs(inputs):
-    paths = [
-        audit.INVENTORY / "provenance.json",
-        *(
-            audit.INVENTORY / f"original-{name}" / suffix
-            for name in audit.COUNTS
-            for suffix in ("exports.json", "exports.lock", "evidence.json")
-        ),
-    ]
-    for path in paths:
-        relative = path.relative_to(audit.ROOT).as_posix()
-        assert path.read_bytes() == audit.git(
-            inputs, "show", f"{CANONICAL.input_revision}:{relative}"
-        )
-    relative = DARWIN.relative_to(audit.ROOT).as_posix()
-    assert DARWIN.read_bytes() == audit.git(
-        audit.ROOT, "show", f"{DARWIN_EVIDENCE}:{relative}"
-    )
-    assert audit.read(DARWIN)["workspaceLockSha256"] == CANONICAL.lock_sha256
+    audit.product_witness("frozen-import-inventory", inputs)
 
 
 def build(root, target):
@@ -98,21 +69,9 @@ def build(root, target):
     )
 
 
-def closure(raw, target):
-    files = {}
-    for line in raw.splitlines():
-        row = json.loads(line)
-        if row["reason"] != "compiler-artifact":
-            continue
-        for filename in row["filenames"]:
-            path = Path(filename)
-            if path.suffix not in {".rlib", ".rmeta", ".so"}:
-                continue
-            resolved = path.resolve(strict=True)
-            assert path == resolved and resolved.is_relative_to(target)
-            files[resolved.relative_to(target).as_posix()] = file_sha(resolved)
-    assert files
-    return dict(sorted(files.items()))
+def closure(raw, target, host=HOST):
+    log = raw if isinstance(raw, str) else raw.decode()
+    return audit.product_witness("library-closure", target, host, current=log)
 
 
 def import_rows(role, root, target, original, *, generated):

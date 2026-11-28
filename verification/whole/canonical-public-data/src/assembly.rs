@@ -12,7 +12,7 @@ use std::{
 };
 pub const DARWIN: &str = "aarch64-apple-darwin";
 pub const LINUX: &str = "aarch64-unknown-linux-gnu";
-pub const ORIGINAL: &str = "af54339d250290490d62d4475a77539b7e739071";
+pub use crate::build_host::ORIGINAL;
 pub const COMPILER: &str = "8bab26f4f68e0e26f0bb7960be334d5b520ea452";
 pub fn root() -> &'static Path {
     whole().ancestors().nth(2).unwrap()
@@ -26,16 +26,11 @@ pub fn resolved(path: &Path) -> Result<PathBuf> {
     Ok(resolved(parent)?.join(path.file_name().ok_or("invalid target path")?))
 }
 
+pub use crate::build_host::reject_local_cargo_config;
+
 pub fn checkout(path: &Path, revision: &str, reject_config: bool) -> Result {
     if reject_config {
-        for p in path.ancestors() {
-            for name in [".cargo/config", ".cargo/config.toml"] {
-                require(
-                    !p.join(name).is_file(),
-                    format!("unexpected Cargo configuration in {}", p.display()),
-                )?;
-            }
-        }
+        reject_local_cargo_config(path)?;
     }
     require(
         stdout(

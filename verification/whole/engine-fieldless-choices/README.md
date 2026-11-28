@@ -26,8 +26,8 @@ Rust 1.97.1 toolchain. Keep the compiler and original Cargo targets
 outside the checkouts.
 
 ```sh
-lane=verification/whole/engine-fieldless-choices
-python3 -B "$lane/verify.py" "$INPUT_REVISION" "$FRAMEWORK" "$ORIGINAL" \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin engine-choice-inputs -- qualify "$INPUT_REVISION" "$FRAMEWORK" "$ORIGINAL" \
   "$COMPILER_TARGET" "$ORIGINAL_TARGET" "$RECEIPT"
 ```
 
@@ -59,3 +59,7 @@ reproduced both archived graph, overlay and package-lock digests. Reordering
 the variants changed their ordinals from `0, 1` to `1, 0` in both libraries.
 Adding `Copy` to the original `SubmitDisposition` also made the generated type
 pass the same Rust trait check.
+
+The `observe` subcommand compiles the downstream caller and checks the eight
+trait bounds for each enum and the visibility of the model module. The
+standalone and canonical workspace verifiers use the same Rust observer.
