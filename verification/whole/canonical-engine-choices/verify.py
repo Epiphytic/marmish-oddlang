@@ -42,12 +42,14 @@ IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
 VAULT_OBSERVER_PIN = "50b38f6113b553797e6e51871af4d2f4e5b13ba3"
 WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
+BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
+    ENGINE_STANDALONE / "verify.py": BUILD_HOST_PIN,
+    ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
+    WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
     ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
     WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
-    WHOLE / "vault-mode/verify.py": VAULT_MODE_PIN,
     WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_MODE_PIN,
     WHOLE / "vault-mode/observe.rs": VAULT_MODE_PIN,
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
@@ -299,7 +301,7 @@ def qualify(args):
         prefix="canonical-engine-choice-observer-"
     ) as scratch:
         work = Path(scratch).resolve()
-        env = runtime["SHARED"]["host_build_env"](work / "cargo-home")
+        env = runtime["host_build_env"](work / "cargo-home")
         tool = runtime["build_tool"](work / "input-tool-target", env)
         built = build(args, host)
         roles, links = AUDIT.artifacts(
