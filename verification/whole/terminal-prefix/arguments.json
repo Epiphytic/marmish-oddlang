@@ -1,0 +1,21 @@
+{
+  "additional": [
+    ["--debug", "rsh", "-h"],
+    ["-iaudit", "rsh", "--help"],
+    ["-i", "audit", "rsh", "--help"],
+    ["--identity=audit", "rsh", "-h"],
+    ["--identity", "audit", "rsh", "--help"],
+    ["-uaudit", "rsh", "--help"],
+    ["-u", "audit", "rsh", "--help"],
+    ["--debug", "rsh"],
+    ["--debug", "rsh", "--idle-seconds=0"],
+    ["--identity", "rsh", "--help"],
+    ["--help", "rsh"],
+    ["--no-such-option", "rsh", "--help"],
+    ["--user=audit", "rsh"],
+    ["--user=audit", "rsh", "--version"],
+    ["--debug", "--user=audit", "rsh", "-h"],
+    ["--version", "rsh"]
+  ],
+  "postParse": ["--debug", "rsh", "--version"]
+}

@@ -41,31 +41,7 @@ load, sha = PRIOR["load"], PRIOR["sha"]
 WORKSPACE, COMPILER, verify_product = (PRIOR[key] for key in ("WORKSPACE", "COMPILER", "verify_product"))
 exact_checkout, execute = (PRIOR[key] for key in ("exact_checkout", "execute"))
 
-EXTRA = [
-    ["--debug", "rsh", "-h"],
-    ["-iaudit", "rsh", "--help"], ["-i", "audit", "rsh", "--help"],
-    ["--identity=audit", "rsh", "-h"], ["--identity", "audit", "rsh", "--help"],
-    ["-uaudit", "rsh", "--help"], ["-u", "audit", "rsh", "--help"],
-    ["--debug", "rsh"], ["--debug", "rsh", "--idle-seconds=0"],
-    ["--identity", "rsh", "--help"], ["--help", "rsh"],
-    ["--no-such-option", "rsh", "--help"],
-    ["--user=audit", "rsh"], ["--user=audit", "rsh", "--version"],
-    ["--debug", "--user=audit", "rsh", "-h"], ["--version", "rsh"],
-]
-# This token parses as a positional in the independent auxiliary grammar.
-# Original host validation rejects its leading dash before any operation.
-POST_PARSE = ["--debug", "rsh", "--version"]
-
-
-def corpus(role):
-    archived = load(HERE.parent / "cli/transcript.json")[role]
-    for row in archived:
-        argv = row["args"]
-        if not (argv in (["--help"], ["--version"], ["--oddlang-unrecognized-option"])
-                or len(argv) == 2 and argv[0] == "help" and argv[1].isascii()
-                and argv[1].replace("-", "").isalnum()):
-            raise ValueError(f"unexpected archived invocation: {argv!r}")
-    return [row["args"] for row in archived] + PRIOR["CLI_CASES"] + EXTRA
+terminal_arguments = PRIOR["terminal_arguments"]
 
 
 def build(args, work, compiler, host, lock_digest):
@@ -160,7 +136,9 @@ def verify(args):
             home = work / role
             home.mkdir()
             witness_rows = []
-            for argv in corpus(role):
+            inventory = terminal_arguments("prefix", role)
+            post_parse = inventory["postParse"]
+            for argv in inventory["cases"]:
                 expected = observe(originals[role], argv, home, launcher)
                 actual = observe(generated[role], argv, home, launcher)
                 if actual != expected or expected["exit"] not in (0, 255):
@@ -168,15 +146,15 @@ def verify(args):
                 witness_rows.append({"args": argv, **actual})
             if any(home.iterdir()):
                 raise ValueError("CLI changed its empty home")
-            original_post_parse = observe(originals[role], POST_PARSE, home, launcher)
-            candidate_post_parse = observe(generated[role], POST_PARSE, home, launcher)
+            original_post_parse = observe(originals[role], post_parse, home, launcher)
+            candidate_post_parse = observe(generated[role], post_parse, home, launcher)
             if (original_post_parse["exit"] != 255 or candidate_post_parse["exit"] != 255
                     or "invalid host identity or relay" not in original_post_parse["stderr"]
                     or original_post_parse == candidate_post_parse):
                 raise ValueError(f"unexpected post-parse control: {role}")
             rows[role] = {"cases": witness_rows, "originalSha256": original_hashes[role],
                           "generatedSha256": sha(generated[role].read_bytes()),
-                          "outsideTerminalProfile": {"args": POST_PARSE, "original": original_post_parse,
+                          "outsideTerminalProfile": {"args": post_parse, "original": original_post_parse,
                                                      "candidate": candidate_post_parse}}
     return {"platform": host, "original": ORIGINAL, "framework": FRAMEWORK, "workspaceInputRevision": args.input_revision,
             "rustc": rustc, "workspaceLockSha256": lock_digest, "compilerSha256": sha(compiler.read_bytes()),

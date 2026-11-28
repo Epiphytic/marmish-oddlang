@@ -43,6 +43,7 @@ enum Action {
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
+    TerminalArguments { profile: offline_cli::Profile, role: String },
     OfflineCliCase {
         binary: PathBuf,
         home: PathBuf,
@@ -293,6 +294,7 @@ fn main() -> Result {
             )?;
             Value::Null
         }
+        Action::TerminalArguments { profile, role } => offline_cli::terminal_arguments(profile, &role)?,
         Action::OfflineCliCase {binary, home, argv} => offline_cli::observe(&binary, &home, &argv)?,
         Action::CompareOfflineCli { original, baseline, output, baseline_build, successor, successor_build } => {
             offline_cli::compare(&original, &baseline, &baseline_build, &successor, &successor_build, &output)?;
