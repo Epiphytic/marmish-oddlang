@@ -43,8 +43,9 @@ VAULT_OBSERVER_PIN = "50b38f6113b553797e6e51871af4d2f4e5b13ba3"
 WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
+HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "verify.py": BUILD_HOST_PIN,
+    ENGINE_STANDALONE / "verify.py": HOST_ADAPTER_PIN,
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
     WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
     ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
@@ -53,7 +54,7 @@ HELPER_PINS = {
     WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_MODE_PIN,
     WHOLE / "vault-mode/observe.rs": VAULT_MODE_PIN,
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
-    WHOLE / "core-package/verify.py": VAULT_OBSERVER_PIN,
+    WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
