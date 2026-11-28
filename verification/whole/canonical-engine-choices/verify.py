@@ -44,12 +44,13 @@ WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
+QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
 HELPER_PINS = {
-    ENGINE_STANDALONE / "verify.py": HOST_ADAPTER_PIN,
+    ENGINE_STANDALONE / "qualification.rs": QUALIFICATION_PIN,
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
     WHOLE / "canonical-public-data/src/build_host.rs": BUILD_HOST_PIN,
     ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
-    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
+    WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": QUALIFICATION_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "canonical-public-data/src/bin/vault-mode-observer.rs": VAULT_MODE_PIN,
     WHOLE / "vault-mode/observe.rs": VAULT_MODE_PIN,
@@ -60,7 +61,7 @@ HELPER_PINS = {
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/product.rs": "58b9e203c946429008ca54ebbfb16d62fc10fe8f",
-    WHOLE / "canonical-public-data/src/artifacts.rs": IMPORT_TOOLING_PIN,
+    WHOLE / "canonical-public-data/src/artifacts.rs": QUALIFICATION_PIN,
 }
 HELPER_HASHES = {
     path.relative_to(ROOT).as_posix(): hashlib.sha256(
@@ -93,8 +94,14 @@ DARWIN = AUDIT.HOST
 LINUX = PREVIOUS["HOST"]
 
 
-def engine_lane():
-    return runpy.run_path(str(ENGINE_STANDALONE / "verify.py"))
+CORE = runpy.run_path(str(WHOLE / "core-package/verify.py"))
+
+
+def observe(tool, library, serde, host_deps, links, host, work, env):
+    args = [tool, "observe", library, serde, host_deps, host, work]
+    for link in links:
+        args.extend(("--link", link))
+    return json.loads(subprocess.check_output(args, env=env))
 
 
 def pinned(path, commit):
@@ -270,10 +277,10 @@ def candidate_serde(raw, target, host):
 
 def qualify(args):
     assert args.input_revision == INPUT_REVISION and digest(LOCK) == LOCK_SHA256
-    runtime = engine_lane()
+    tool = CORE["qualification_tool"]("engine-choice-inputs")[1]
     companion = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
-    runtime["checkout"](ROOT, companion)
-    runtime["checkout"](args.framework, FRAMEWORK)
+    subprocess.run([tool, "checkout", ROOT, companion], check=True)
+    subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
     original = PREVIOUS["source_pin"](args.original)
     assert all(
         not target.is_relative_to(root)
@@ -302,8 +309,7 @@ def qualify(args):
         prefix="canonical-engine-choice-observer-"
     ) as scratch:
         work = Path(scratch).resolve()
-        env = runtime["host_build_env"](work / "cargo-home")
-        tool = runtime["build_tool"](work / "input-tool-target", env)
+        env = CORE["host_build_env"](work / "cargo-home")
         built = build(args, host)
         roles, links = AUDIT.artifacts(
             built,
@@ -314,11 +320,12 @@ def qualify(args):
         )
         closure = PREVIOUS["closure"](built, args.target)
         import_results = imports(host, roles, args.original)
-        source_library, serde, original_links = runtime["reference"](
-            args.original, env, host, args.original_target
-        )
+        source = json.loads(subprocess.check_output(
+            [tool, "reference", args.original, host, args.original_target], env=env))
+        source_library, serde = Path(source["library"]), Path(source["serde"])
+        original_links = source["links"]
         library = roles[ENGINE][1]
-        reference = runtime["observe"](
+        reference = observe(
             tool,
             source_library,
             serde,
@@ -326,11 +333,10 @@ def qualify(args):
             original_links,
             host,
             work / "original",
-            False,
             env,
         )
         generated_serde = candidate_serde(built, args.target, host)
-        generated = runtime["observe"](
+        generated = observe(
             tool,
             library,
             generated_serde,
@@ -338,7 +344,6 @@ def qualify(args):
             links,
             host,
             work / "generated",
-            False,
             env,
         )
         baseline = standalone["scenarios"]["baseline"]
@@ -350,8 +355,8 @@ def qualify(args):
         assert closure == PREVIOUS["closure"](built, args.target)
     assert before == snapshots(args, profile)
     assert original == PREVIOUS["source_pin"](args.original)
-    runtime["checkout"](args.framework, FRAMEWORK)
-    runtime["checkout"](ROOT, companion)
+    subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
+    subprocess.run([tool, "checkout", ROOT, companion], check=True)
     return {
         "platform": host,
         "rustc": rustc,
