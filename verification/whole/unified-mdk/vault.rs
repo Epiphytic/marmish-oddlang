@@ -1,6 +1,5 @@
 //! Independent native vault corpus and unchanged original strict/holdout tests.
 use public_data_qualification::{
-    assembly::*,
     vault_witness::{self as witness, link, reference},
     *,
 };
@@ -45,58 +44,13 @@ pub fn observe(
         "sealed vault public values differ",
     )?;
     witness::strict(original, target, host, work, library, &deps)?;
-    let receipt = whole().join("vault-fixed-bytes/aarch64-apple-darwin.json");
-    let prior = load(&receipt)?;
-    let package = &workspace["members"]["marmish-vault"]["manifest"];
-    let vault = load(&inputs.join(text(&package["path"])?))?;
-    let values: Vec<_> = list(&vault["components"])?
-        .iter()
-        .filter(|c| {
-            c["reexports"]
-                .as_array()
-                .is_some_and(|r| r.iter().any(|n| n == "Secret"))
-        })
-        .collect();
-    let [value] = values.as_slice() else {
-        return Err("expected a fixed vault component".into());
-    };
-    let package_hash = if let Some(p) = predecessor {
-        let mut baseline = load(p)?;
-        let mut successor = vault.clone();
-        let inherited = baseline
-            .as_object_mut()
-            .and_then(|v| v.shift_remove("components"))
-            .ok_or("missing predecessor components")?;
-        let components = successor
-            .as_object_mut()
-            .and_then(|v| v.shift_remove("components"))
-            .ok_or("missing successor components")?;
-        let inherited = list(&inherited)?;
-        let components = list(&components)?;
-        require(
-            baseline == successor
-                && components.len() > inherited.len()
-                && components.starts_with(inherited),
-            "vault predecessor differs beyond appended components",
-        )?;
-        sha(p)?
-    } else {
-        text(&package["sha256"])?.to_owned()
-    };
-    require(
-        prior["original"] == ORIGINAL
-            && prior["framework"] == "595fb7a55dc2016cfab70c5b131bf2f6acfe9983"
-            && prior["unchangedModuleSha256"] == witness::MODULE
-            && prior["graphSha256"] == value["graph"]["sha256"]
-            && prior["packageManifestSha256"] == package_hash,
-        "fixed-value package differs from exact native precedent",
-    )?;
+    let receipt_sha = recovered_vault::fixed(&inputs, workspace, witness::MODULE, predecessor)?;
     let holdout = witness::holdout(original, work, library, &deps)?;
     Ok(json!({
         "name": witness::STRICT,
         "unchangedModuleSha256": witness::MODULE,
         "originalAndGeneratedPassed": true,
-        "standaloneReceiptSha256": sha(&receipt)?,
+        "standaloneReceiptSha256": receipt_sha,
         "fromBytesHoldout":holdout,
         "librarySha256": sha(library)?,
         "publicValueRows": rows.len(),

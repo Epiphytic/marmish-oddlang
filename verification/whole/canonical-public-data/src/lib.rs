@@ -1,3 +1,4 @@
+pub mod recovered_vault;
 #[path = "../../vault-mode/observe.rs"]
 pub mod vault_mode;
 #[path = "../../gap-range-endpoint/contract.rs"]
