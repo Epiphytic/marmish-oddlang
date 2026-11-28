@@ -23,7 +23,7 @@ pub(super) struct Inputs {
     pub(super) host: String,
 }
 
-fn generated_sources(product: &Path, label: &str) -> Result<Value> {
+pub(super) fn generated_sources(product: &Path) -> Result<Value> {
     let lock = load(&product.join("package.lock"))?;
     let files = lock["generatedFiles"]
         .as_object()
@@ -40,14 +40,6 @@ fn generated_sources(product: &Path, label: &str) -> Result<Value> {
         require(
             *digest == sha(&product.join(path))?,
             "generated Rust differs from package lock",
-        )?;
-    }
-    if label == "baseline" {
-        let authored = portable().join("engine-gap-range-v1/package.lock");
-        pinned(&authored, LEGACY)?;
-        require(
-            lock["generatedFiles"] == load(&authored)?["generatedFiles"],
-            "recovered baseline changed generated Rust",
         )?;
     }
     Ok(lock["generatedFiles"].clone())
@@ -156,7 +148,16 @@ pub(super) fn check(args: Inputs, expected: &Value) -> Result<Value> {
         let manifest = lane.join("inputs").join(PACKAGE);
         let product = lane.join("product");
         let lock = product.join("package.lock");
-        let sources = generated_sources(&product, label)?;
+        let sources = generated_sources(&product)?;
+        if label == "baseline" {
+            let authored = portable().join("engine-gap-range-v1/package.lock");
+            pinned(&authored, LEGACY)?;
+            require(
+                sources == load(&authored)?["generatedFiles"],
+                "recovered baseline changed generated Rust",
+            )?;
+        }
+
         let cases = fs::read(whole().join("gap-range-reference/cases.json"))?;
         let rows = observe(&sandbox, &lane, &cases, &expected[label], label)?;
         observations[label] = json!({"observations":rows,"manifestSha256":sha(&manifest)?,

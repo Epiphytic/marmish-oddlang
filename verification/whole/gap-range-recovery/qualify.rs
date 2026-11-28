@@ -55,7 +55,7 @@ pub(super) fn version(toolchain: &str, revision: &str, host: &str) -> Result<Val
     Ok(json!(info.lines().collect::<Vec<_>>()))
 }
 
-fn mutate(original: &Path, dest: &Path) -> Result<PathBuf> {
+pub(super) fn mutate(original: &Path, dest: &Path) -> Result<PathBuf> {
     run(Command::new("git")
         .args(["clone", "--quiet", "--local", "--no-checkout"])
         .arg(original)

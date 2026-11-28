@@ -7,6 +7,8 @@ mod endpoint;
 mod evidence;
 #[path = "../../../gap-range-recovery/qualify.rs"]
 mod qualify;
+#[path = "../../../gap-range-record/verify.rs"]
+mod record;
 #[path = "../../../gap-range-recovery/sealed.rs"]
 mod sealed;
 #[path = "../../../gap-range-compact-source-api/verify.rs"]
@@ -46,6 +48,8 @@ enum Action {
     QualifySourceApi(derived::Args),
     /// Replay native endpoint profiles and the optional TypeScript caller.
     QualifyEndpoint(endpoint::EndpointArgs),
+    /// Compare authored native packages with an independently compiled source mutation.
+    QualifyRecord(record::RecordArgs),
     /// Stage the compact manifest and its pinned recovery inputs at a fresh destination.
     StageDerived { output: PathBuf },
     /// Recover both source variants and qualify their generated native packages.
@@ -202,6 +206,7 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::QualifyRecord(args) => record::check(args),
         Action::QualifyEndpoint(args) => endpoint::check(args),
         Action::QualifySourceApi(args) => derived::run_qualification(
             args,

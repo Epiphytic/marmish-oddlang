@@ -13,7 +13,11 @@ fn ids(rows: &[Value]) -> Result<Vec<&str>> {
     rows.iter().map(|row| text(&row["id"])).collect()
 }
 
-fn check_observations(cases: &[Value], baseline: &[Value], mutation: &[Value]) -> Result {
+pub(super) fn check_observations(
+    cases: &[Value],
+    baseline: &[Value],
+    mutation: &[Value],
+) -> Result {
     let names = ids(cases)?;
     require(
         names.len() == 35
@@ -40,6 +44,29 @@ fn check_observations(cases: &[Value], baseline: &[Value], mutation: &[Value]) -
     )
 }
 
+pub(super) fn original_reference(original: &Path, host: &str) -> Result<Value> {
+    let fixture = whole().join("gap-range-reference");
+    let reference = load(&fixture.join(format!("original-{host}.json")))?;
+    let source = sha(&original.join(super::MODEL))?;
+    let cases_sha = sha(&fixture.join("cases.json"))?;
+    let probe_sha = sha(&fixture.join("probe.rs"))?;
+    let observer = super::evidence::historical_digest(
+        "2c69f8c38cbd57136eb684f5b515ef1490f017b3",
+        "verification/whole/gap-range-reference/observe.py",
+    )?;
+    require(
+        reference["original"] == ORIGINAL
+            && reference["host"] == host
+            && reference["modelSha256"] == source
+            && reference["cargoLockSha256"] == sha(&original.join("Cargo.lock"))?
+            && reference["casesSha256"] == cases_sha
+            && reference["probeSha256"] == probe_sha
+            && reference["observerSha256"] == observer,
+        "original reference provenance differs",
+    )?;
+    Ok(reference)
+}
+
 pub fn check(original: &Path, mutation: &Path, host: &str, rustc: &Value) -> Result<Value> {
     require(
         [DARWIN, LINUX].contains(&host),
@@ -59,25 +86,11 @@ pub fn check(original: &Path, mutation: &Path, host: &str, rustc: &Value) -> Res
     pinned(&native_path, super::LEGACY)?;
     let native = load(&native_path)?;
     let reference_path = fixture.join(format!("original-{host}.json"));
-    let reference = load(&reference_path)?;
+    let reference = original_reference(original, host)?;
     let cases = fixture.join("cases.json");
     let cases_sha = sha(&cases)?;
     let probe_sha = sha(&fixture.join("probe.rs"))?;
     let reference_sha = sha(&reference_path)?;
-    let observer = super::evidence::historical_digest(
-        "2c69f8c38cbd57136eb684f5b515ef1490f017b3",
-        "verification/whole/gap-range-reference/observe.py",
-    )?;
-    require(
-        reference["original"] == ORIGINAL
-            && reference["host"] == host
-            && reference["modelSha256"] == source
-            && reference["cargoLockSha256"] == sha(&original.join("Cargo.lock"))?
-            && reference["casesSha256"] == cases_sha
-            && reference["probeSha256"] == probe_sha
-            && reference["observerSha256"] == observer,
-        "original reference provenance differs",
-    )?;
     require(
         native["format"] == "marmish-public-gap-range-v1"
             && native["original"] == ORIGINAL
