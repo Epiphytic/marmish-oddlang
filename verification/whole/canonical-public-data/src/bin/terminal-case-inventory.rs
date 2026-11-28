@@ -13,6 +13,8 @@ use std::{
     path::{Path, PathBuf},
 };
 
+#[path = "../../../canonical-public-data-terminal/qualify.rs"]
+mod qualify;
 #[path = "../../../canonical-public-data-terminal/replay.rs"]
 mod replay;
 
@@ -78,6 +80,8 @@ struct Args {
 enum Action {
     /// Replay the archived help/version corpus on both pairs of binaries.
     Replay(replay::Args),
+    /// Link and qualify both terminal roles against the sealed public-data build.
+    Qualify(qualify::Args),
     /// Read a successful Cargo JSON event stream and identify both release executables.
     LinkedBinaries {
         product: PathBuf,
@@ -120,6 +124,7 @@ fn linked_binaries(product: &Path, target: &Path, host: &str, log: &[u8]) -> Res
 
 fn main() -> Result {
     let report = match Args::parse().action {
+        Some(Action::Qualify(args)) => return args.run(),
         Some(Action::Replay(args)) => args.run(&serde_json::from_reader(io::stdin().lock())?)?,
         None => classify(&serde_json::from_reader(io::stdin().lock())?)?,
         Some(Action::LinkedBinaries {
