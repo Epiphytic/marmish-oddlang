@@ -26,7 +26,8 @@ Use the pinned original checkout and the framework revision recorded
 by the verifier. Build inputs must be available offline under Rust 1.96.1.
 
 ```sh
-python3 -B verification/whole/gap-range-assembly/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin range-contract-inputs -- qualify-derived \
   "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RECEIPT" --package-lock "$PACKAGE_LOCK"
 ```
 

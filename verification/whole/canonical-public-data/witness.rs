@@ -4,8 +4,7 @@ mod offline_cli;
 mod diagnostics;
 #[path = "../private-buffer-inference/source.rs"]
 mod buffer_trace;
-#[path = "../gap-range-endpoint/contract.rs"]
-mod endpoint_contract;
+use public_data_qualification::endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
 #[path = "../suite/selected.rs"]

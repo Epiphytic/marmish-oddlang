@@ -1,6 +1,20 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
+#[path = "../../../gap-range-assembly/verify.rs"]
+mod derived;
+#[path = "../../../gap-range-endpoint/verify.rs"]
+mod endpoint;
 #[path = "../../../gap-range-recovery/evidence.rs"]
 mod evidence;
+#[path = "../../../gap-range-recovery/qualify.rs"]
+mod qualify;
+#[path = "../../../gap-range-record/verify.rs"]
+mod record;
+#[path = "../../../gap-range-recovery/sealed.rs"]
+mod sealed;
+#[path = "../../../gap-range-compact-source-api/verify.rs"]
+mod source_api;
+#[path = "../../../gap-range-recovery/witnesses.rs"]
+mod witnesses;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
     Result, json_bytes, load, pin, portable, product::pinned, require, run, sha, text,
@@ -11,7 +25,6 @@ use std::{
     collections::BTreeSet,
     fs,
     path::{Path, PathBuf},
-    process::Command,
 };
 
 const MODEL: &str = "crates/marmish-engine/src/model.rs";
@@ -29,6 +42,24 @@ struct Args {
 }
 #[derive(Subcommand)]
 enum Action {
+    /// Verify compact recovery-based package assembly against the sealed explicit package.
+    QualifyDerived(derived::Args),
+    /// Check the compact package against the native range endpoint source API.
+    QualifySourceApi(derived::Args),
+    /// Replay native endpoint profiles and the optional TypeScript caller.
+    QualifyEndpoint(endpoint::EndpointArgs),
+    /// Compare authored native packages with an independently compiled source mutation.
+    QualifyRecord(record::RecordArgs),
+    /// Stage the compact manifest and its pinned recovery inputs at a fresh destination.
+    StageDerived { output: PathBuf },
+    /// Recover both source variants and qualify their generated native packages.
+    Qualify(qualify::Args),
+    /// Verify native caller receipts using the rustc -vV lines supplied as JSON on stdin.
+    CheckWitnesses {
+        original: PathBuf,
+        mutation: PathBuf,
+        host: String,
+    },
     /// Verify both collected Rustdoc files and print their checked provenance receipt.
     CheckEvidence {
         directory: PathBuf,
@@ -96,7 +127,7 @@ fn recover(compiler: &Path, source: &Path, doc: &Path, work: &Path) -> Result {
         }),
     )?;
     let out = work.join("recovered");
-    run(Command::new(compiler)
+    run(qualify::tool(compiler)
         .args(["recover", "serde-public-record"])
         .arg(source)
         .arg(doc)
@@ -175,6 +206,27 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
+        Action::QualifyRecord(args) => record::check(args),
+        Action::QualifyEndpoint(args) => endpoint::check(args),
+        Action::QualifySourceApi(args) => derived::run_qualification(
+            args,
+            source_api::FRAMEWORK,
+            None,
+            "product/package.lock",
+            source_api::verify,
+        ),
+        Action::QualifyDerived(args) => derived::qualify(args),
+        Action::StageDerived { output } => publish(output, derived::stage),
+        Action::Qualify(args) => qualify::qualify(args),
+        Action::CheckWitnesses {
+            original,
+            mutation,
+            host,
+        } => {
+            let rustc = serde_json::from_reader(std::io::stdin().lock())?;
+            println!("{}", witnesses::check(&original, &mutation, &host, &rustc)?);
+            Ok(())
+        }
         Action::CheckEvidence {
             directory,
             original,
@@ -194,5 +246,16 @@ fn main() -> Result {
             output,
         } => publish(output, |work| recover(&compiler, &source, &rustdoc, work)),
         Action::Stage { recovered, output } => publish(output, |work| stage(&recovered, work)),
+    }
+}
+
+#[cfg(test)]
+mod cli_tests {
+    use super::Args;
+    use clap::CommandFactory;
+
+    #[test]
+    fn all_subcommands_have_valid_argument_groups() {
+        Args::command().debug_assert();
     }
 }

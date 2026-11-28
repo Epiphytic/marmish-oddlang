@@ -1,5 +1,5 @@
 //! Check the pinned range endpoint contract and stage its representation-hint variants.
-use public_data_qualification::{
+use crate::{
     Result, assembly, json_bytes, list, load, pin, portable, product, require, sha, text, whole,
 };
 use serde_json::{Value, json};

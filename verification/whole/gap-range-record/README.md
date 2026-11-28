@@ -8,10 +8,13 @@ Native [macOS ARM64](aarch64-apple-darwin.json) and [Linux ARM64](aarch64-unknow
 
 The packaging gate denies reads of original and mutant source and the two callers before building the standalone library. The test lane uses inert data and supplies no engine operations or deployment changes.
 
+The original target cache keeps separate build directories for each model source digest, so the original and mutated callers can reuse one cache root.
+
 Replay with clean pinned checkouts, Rust 1.96.1 for the compiler, Rust 1.97.1 for the native callers and populated offline Cargo caches.
 
 ```sh
-python3 -B verification/whole/gap-range-record/verify.py \
+cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin range-contract-inputs -- qualify-record \
   "$ODDLANG" "$COMPILER_CACHE" "$ORIGINAL" "$ORIGINAL_TARGET" /tmp/gap-range-record.json \
   --framework-revision a5167dea515ee6196c0cd312fe71c2c4444a0789
 ```

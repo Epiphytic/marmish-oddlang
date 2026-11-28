@@ -54,15 +54,24 @@ fn errors(messages: &[Value]) -> Vec<String> {
         .collect()
 }
 
-pub fn reference(
+fn with_reference_libraries<T>(
     original: &Path,
     target: &Path,
     host: &str,
-    probe: &Path,
-    rustc_args: &[&str],
-    args: &[&str],
-    vectors: &[u8],
-) -> Result<(Value, Value, Value)> {
+    observe: impl FnOnce(&dyn Fn() -> Command, &Path) -> Result<T>,
+) -> Result<(T, Value)> {
+    // The original and disposable checkouts use the same Cargo package identity.
+    // Separate their release artifacts even when a caller supplies one cache root.
+    let target = target
+        .join("gap-data")
+        .join(sha(&original.join("crates/marmish-engine/src/model.rs"))?);
+    fs::create_dir_all(&target)?;
+    let guard = fs::OpenOptions::new()
+        .create(true)
+        .truncate(false)
+        .write(true)
+        .open(target.join(".observation.lock"))?;
+    guard.lock()?;
     let build = checked(
         command("cargo", original)
             .args([
@@ -78,7 +87,7 @@ pub fn reference(
                 host,
                 "--target-dir",
             ])
-            .arg(target)
+            .arg(&target)
             .arg("--message-format=json"),
         None,
     )?;
@@ -150,36 +159,86 @@ pub fn reference(
         }
         c
     };
-    let exe = work.join("probe");
-    checked(
-        rustc().args(rustc_args).arg(probe).arg("-o").arg(&exe),
-        None,
-    )?;
-    let control = work.join("copy_control.rs");
-    fs::write(&control, COPY)?;
-    let result = capture(
-        rustc()
-            .args(["--error-format=json", "--emit=metadata"])
-            .arg(control)
-            .arg("-o")
-            .arg(work.join("control.rmeta")),
-        120,
-        None,
-    )?;
-    let codes = errors(&rows(&result.stderr)?);
-    require(
-        !result.status.success() && codes == ["E0277"],
-        "unexpected Copy control",
-    )?;
-    let observed: Value = serde_json::from_slice(&checked(
-        command(exe.to_str().ok_or("UTF-8 probe path")?, work).args(args),
-        Some(vectors),
-    )?)?;
+    let observations = observe(&rustc, work)?;
     require(
         hashes == seal()?,
         "selected release library changed during probe",
     )?;
-    Ok((observed, json!(codes), json!(hashes)))
+    Ok((observations, json!(hashes)))
+}
+
+pub fn reference(
+    original: &Path,
+    target: &Path,
+    host: &str,
+    probe: &Path,
+    rustc_args: &[&str],
+    args: &[&str],
+    vectors: &[u8],
+) -> Result<(Value, Value, Value)> {
+    let ((observed, codes), hashes) =
+        with_reference_libraries(original, target, host, |rustc, work| {
+            let exe = work.join("probe");
+            checked(
+                rustc().args(rustc_args).arg(probe).arg("-o").arg(&exe),
+                None,
+            )?;
+            let control = work.join("copy_control.rs");
+            fs::write(&control, COPY)?;
+            let result = capture(
+                rustc()
+                    .args(["--error-format=json", "--emit=metadata"])
+                    .arg(control)
+                    .arg("-o")
+                    .arg(work.join("control.rmeta")),
+                120,
+                None,
+            )?;
+            let codes = errors(&rows(&result.stderr)?);
+            require(
+                !result.status.success() && codes == ["E0277"],
+                "unexpected Copy control",
+            )?;
+            let observed: Value = serde_json::from_slice(&checked(
+                command(exe.to_str().ok_or("UTF-8 probe path")?, work).args(args),
+                Some(vectors),
+            )?)?;
+            Ok((observed, json!(codes)))
+        })?;
+    Ok((observed, codes, hashes))
+}
+
+pub fn mutated_range(
+    original: &Path,
+    target: &Path,
+    host: &str,
+    cases: &[u8],
+) -> Result<(Value, Value)> {
+    with_reference_libraries(original, target, host, |rustc, work| {
+        let exe = work.join("range-caller");
+        let compile = |source: &Path| -> Result<()> {
+            checked(
+                rustc()
+                    .args(["--cfg", "with_range"])
+                    .arg(source)
+                    .arg("-o")
+                    .arg(&exe),
+                None,
+            )?;
+            Ok(())
+        };
+        compile(&whole().join("gap-range-record/traits.rs"))?;
+        require(
+            checked(&mut command(&exe, work), None)?
+                == b"public fields, reversed interval, Clone and Eq\n",
+            "original range traits differ",
+        )?;
+        compile(&whole().join("gap-range-reference/probe.rs"))?;
+        Ok(serde_json::from_slice(&checked(
+            &mut command(&exe, work),
+            Some(cases),
+        )?)?)
+    })
 }
 
 pub fn candidate(

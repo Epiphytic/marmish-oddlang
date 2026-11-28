@@ -7,7 +7,7 @@ use public_data_qualification::{
 use serde_json::{Value, json};
 use std::{fs, path::Path, process::Command};
 
-fn historical_digest(revision: &str, relative: &str) -> Result<String> {
+pub(super) fn historical_digest(revision: &str, relative: &str) -> Result<String> {
     let bytes = run(Command::new("git")
         .current_dir(root())
         .args(["show", &format!("{revision}:{relative}")]))?;

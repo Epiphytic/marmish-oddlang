@@ -35,7 +35,7 @@ check with Node 22 and cached TypeScript 5.9.3 by adding `--typescript`.
 ```sh
 lane=verification/whole/gap-range-endpoint
 cargo +1.97.1 run --quiet --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml --bin qualify-range-endpoint -- "$ORIGINAL" "$ORIGINAL_TARGET" "$RETAINED" "$REFERENCE_RECEIPT"
-python3 -B "$lane/verify.py" "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$BINDING_RECEIPT" --typescript
+cargo +1.97.1 run --quiet --locked --offline --manifest-path "$lane/../canonical-public-data/Cargo.toml" --bin range-contract-inputs -- qualify-endpoint "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$BINDING_RECEIPT" --typescript
 ```
 
 The verifier stages the published hints, alternative representations,
@@ -44,7 +44,7 @@ portable wire contract and case bytes, generates the standalone package
 with the explicit Rust field requirement, and compares every emitted file.
 The compiler runs with original sources and caller sources denied. After
 comparing all five native packages, the verifier compiles the unchanged
-wire and Rust trait callers against the baseline bytes and replays each
+wire and Rust trait callers against each generated package and replays its
 profile's corpus. The TypeScript probe likewise consumes every profile's
 corpus. A private-field declaration is rejected for the Rust drop-in
 binding. The replacement hint strings are advisory input controls;
