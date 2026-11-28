@@ -210,12 +210,14 @@ fn verify(work: &Path, args: &Args, host: &str, builder: &Value, companion: &str
 }
 
 pub(super) fn qualify(args: Args) -> Result {
-    run_qualification(args, FRAMEWORK, verify)
+    run_qualification(args, FRAMEWORK, None, "product/package.lock", verify)
 }
 
 pub(super) fn run_qualification(
     mut args: Args,
     revision: &str,
+    allowed_change: Option<&str>,
+    lock_path: &str,
     verify: impl FnOnce(&Path, &Args, &str, &Value, &str) -> Result<Value>,
 ) -> Result {
     args.original = args.original.canonicalize()?;
@@ -228,14 +230,19 @@ pub(super) fn run_qualification(
             .current_dir(assembly::root())
             .args(["rev-parse", "HEAD"]),
     )?;
+    let changed = run(Command::new("git").current_dir(assembly::root()).args([
+        "diff",
+        "--name-only",
+        "-z",
+        "HEAD",
+        "--",
+    ]))?;
     require(
-        run(Command::new("git").current_dir(assembly::root()).args([
-            "status",
-            "--porcelain",
-            "--untracked-files=no",
-        ]))?
-        .is_empty(),
-        "expected clean tracked companion inputs",
+        changed
+            .split(|byte| *byte == 0)
+            .filter(|p| !p.is_empty())
+            .all(|p| Some(p) == allowed_change.map(str::as_bytes)),
+        "unexpected tracked companion edits",
     )?;
     let host = qualify::host()?;
     let builder = qualify::version("+1.96.1", qualify::BUILDER, host)?;
@@ -257,7 +264,7 @@ pub(super) fn run_qualification(
     let mut result = verify(&work, &args, host, &builder, companion.trim())?;
     result.sort_all_objects();
     if let Some(dest) = args.package_lock {
-        fs::copy(work.join("product/package.lock"), dest)?;
+        fs::copy(work.join(lock_path), dest)?;
     }
     fs::write(args.receipt, json_bytes(&result)?)?;
     Ok(())

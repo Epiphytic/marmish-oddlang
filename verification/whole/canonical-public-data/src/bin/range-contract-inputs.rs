@@ -1,6 +1,8 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
 #[path = "../../../gap-range-compact-source-api/verify.rs"]
 mod source_api;
+#[path = "../../../gap-range-endpoint/verify.rs"]
+mod endpoint;
 #[path = "../../../gap-range-assembly/verify.rs"]
 mod derived;
 #[path = "../../../gap-range-recovery/evidence.rs"]
@@ -42,6 +44,8 @@ enum Action {
     QualifyDerived(derived::Args),
     /// Check the compact package against the native range endpoint source API.
     QualifySourceApi(derived::Args),
+    /// Replay native endpoint profiles and the optional TypeScript caller.
+    QualifyEndpoint(endpoint::Args),
     /// Stage the compact manifest and its pinned recovery inputs at a fresh destination.
     StageDerived { output: PathBuf },
     /// Recover both source variants and qualify their generated native packages.
@@ -198,7 +202,8 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 }
 fn main() -> Result {
     match Args::parse().action {
-        Action::QualifySourceApi(args) => derived::run_qualification(args, source_api::FRAMEWORK, source_api::verify),
+        Action::QualifyEndpoint(args) => endpoint::check(args),
+        Action::QualifySourceApi(args) => derived::run_qualification(args, source_api::FRAMEWORK,None,"product/package.lock", source_api::verify),
         Action::QualifyDerived(args) => derived::qualify(args),
         Action::StageDerived { output } => publish(output, derived::stage),
         Action::Qualify(args) => qualify::qualify(args),
