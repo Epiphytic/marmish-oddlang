@@ -36,12 +36,16 @@ def lane(name, filename):
 
 
 WORKSPACE = lane("workspace", "verify.py")
-IMPORTS = lane("seven-public-imports", "verify.py")
 CLI_CASES = json.loads((HERE.parent / "offline-cli/cases.json").read_bytes())
 SIX = lane("unified-mdk", "workspace_compat.py")
 QUALIFICATION = lane("core-package", "verify.py")
 
 
+if not __debug__:
+    raise RuntimeError("verification requires Python assertions")
+
+ORIGINAL = SIX["ORIGINAL"]
+COMPILER = QUALIFICATION["RUST_COMMIT"]
 load = SIX["data"]
 sha = SIX["JOURNAL"]["sha"]
 
@@ -75,7 +79,11 @@ def build_compiler(args):
     return args.compiler_target / "release/oddlang"
 
 
-def build(args, scratch, profile, executable):
+def verify_product(product, release, revision, lock_digest):
+    return SIX["product_witness"]("import-manifest", product, ROOT, release, revision, lock_digest)
+
+
+def build(args, scratch, lock_digest, executable):
     manifest = PORTABLE / f"{OUTPUT}.json"
     inputs = scratch / "inputs"
     inputs.mkdir()
@@ -90,10 +98,10 @@ def build(args, scratch, profile, executable):
             raise ValueError(f"isolation unexpectedly read {probe}")
     execute(*sandbox, compiler, "build", "native-workspace", "rust", inputs / manifest.name, args.product,
             env={**os.environ, "RUSTUP_TOOLCHAIN": "1.97.1"})
-    IMPORTS["verify_product"](args.product, ROOT, profile)
+    verify_product(args.product, OUTPUT, args.input_revision, lock_digest)
     raw = execute(*sandbox, "cargo", "+1.97.1", "build", "--release", "--workspace", "--lib", "--bins",
                   "--locked", "--offline", "--target-dir", args.target, "--message-format=json", cwd=args.product)
-    IMPORTS["verify_product"](args.product, ROOT, profile)
+    verify_product(args.product, OUTPUT, args.input_revision, lock_digest)
     return raw
 
 
@@ -150,36 +158,28 @@ def cli_observations(args, generated, scratch):
 
 
 def imports_and_behavior(args, raw, scratch):
-    packages = [f"marmish-{key}" for key in IMPORTS["COUNTS"]]
-    found, links = IMPORTS["artifacts"](raw, args.product, packages, args.target, generated=True)
-    observed = IMPORTS["library_imports"](found, args.original)
-    previous = load(HERE.parent / "converged-public-api/darwin-imports.json")["imports"]
-    delta = []
-    for crate, result in observed.items():
-        before = {row["spelling"]: row["compiles"] for row in previous[crate]["imports"]}
-        after = {row["spelling"]: row["compiles"] for row in result["imports"]}
-        if before.keys() != after.keys() or any(before[key] and not after[key] for key in before):
-            raise ValueError(f"lost inherited public import in {crate}")
-        delta.extend((crate, key) for key in sorted(after) if after[key] and not before[key])
-    if delta != [("native", "diagnostics")] or sum(v["importable"] for v in observed.values()) != 71:
-        raise ValueError(f"unexpected import delta: {delta!r}")
-
+    selected = SIX["product_witness"]("inherited-imports", "diagnostics", args.product, args.target,
+                                      args.original, current=raw.decode())
+    found, links = selected["roles"], selected["links"]
     artifact = SIX["artifact"]
     ref_engine = SIX["cargo_reference"](args, "marmish-engine")
     ref_native = SIX["cargo_reference"](args, "marmish-native")
     ref_prototype_raw = execute("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--lib",
                                 "-p", "marmish-prototype", "--target", HOST, "--target-dir", args.original_target,
                                 "--message-format=json", cwd=args.original)
-    ref_prototype, ref_links = IMPORTS["artifacts"](ref_prototype_raw, args.original, ["marmish-prototype"],
-                                                  args.original_target, generated=False)
-    constant = IMPORTS["prototype_probe"](ref_prototype["marmish-prototype"], found["marmish-prototype"],
-                                           ref_links, links)
+    ref_prototype, ref_links = SIX["product_witness"](
+        "import-artifacts", args.original / "crates", args.original_target, "marmish-prototype",
+        current=ref_prototype_raw.decode())
+    constant = SIX["product_witness"]("prototype-surface", HOST, current={
+        "roles": {"original": ref_prototype["marmish-prototype"], "generated": found["marmish-prototype"]},
+        "links": {"original": ref_links, "generated": links},
+    })
     if constant["generated"]["MAX_LINE"].get("value") != 131072 or constant["generated"]["serve"]["compiles"]:
         raise ValueError("prototype public probes regressed")
 
     engine, serde = artifact(ref_engine, "marmish_engine"), artifact(ref_engine, "serde")
     original_engine = SIX["product_witness"]("engine-caller", "errors", engine, engine.parent / "deps", serde, scratch / "original-engine")
-    generated_engine = SIX["product_witness"]("engine-caller", "errors", found["marmish-engine"][1], found["marmish-engine"][0].parent,
+    generated_engine = SIX["product_witness"]("engine-caller", "errors", found["marmish-engine"][1], Path(found["marmish-engine"][0]).parent,
                                           artifact(raw, "serde"), scratch / "generated-engine")
     native, serde = artifact(ref_native, "marmish_native"), artifact(ref_native, "serde")
     _, choice = QUALIFICATION["qualification_tool"]("backend-choice")
@@ -187,19 +187,19 @@ def imports_and_behavior(args, raw, scratch):
                                            serde, serde.parent, scratch / "original-identity"))
     candidate_serde = artifact(raw, "serde")
     generated_identity = json.loads(execute(choice, "observe", found["marmish-native"][1],
-                                            found["marmish-native"][0].parent, candidate_serde,
+                                            Path(found["marmish-native"][0]).parent, candidate_serde,
                                             candidate_serde.parent, scratch / "generated-identity"))
     if original_engine != generated_engine or original_identity != generated_identity:
         raise ValueError("inherited engine or identity public behavior changed")
     diag = load(HERE.parent / "public-diagnostics" / f"{HOST}.json")
     probe = HERE.parent / "public-diagnostics/probe.rs"
-    if (diag["original"] != IMPORTS["ORIGINAL"] or diag["probeSha256"] != sha(probe.read_bytes())
+    if (diag["original"] != ORIGINAL or diag["probeSha256"] != sha(probe.read_bytes())
             or diag["sourceSha256"] != sha((args.original / "crates/marmish-native/src/diagnostics.rs").read_bytes())):
         raise ValueError("diagnostic baseline pin differs")
     generated_diag = SIX["product_witness"]("diagnostic-caller", found["marmish-native"][1], HOST, "0.3.1", scratch)
     if generated_diag != diag["observations"]:
         raise ValueError("public diagnostic behavior differs")
-    return {"spellingCount": 140, "importable": 71, "delta": delta, "libraries": observed,
+    return {**selected["publicApi"],
             "prototype": constant, "engine": {"outputs": generated_engine[0], "negative": generated_engine[1]},
             "identity": generated_identity,
             "diagnostics": generated_diag}
@@ -207,17 +207,17 @@ def imports_and_behavior(args, raw, scratch):
 
 def verify(args):
     exact_checkout(ROOT, args.input_revision)
-    exact_checkout(args.original, IMPORTS["ORIGINAL"])
+    exact_checkout(args.original, ORIGINAL)
     exact_checkout(args.framework, FRAMEWORK)
     if (args.target.is_relative_to(args.product) or args.target.is_relative_to(args.original)
             or args.original_target.is_relative_to(args.original)):
         raise ValueError("use an external target directory")
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
-    if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
+    if f"host: {HOST}" not in rustc or f"commit-hash: {COMPILER}" not in rustc:
         raise ValueError("requires a native Darwin ARM64 toolchain")
     check_composition()
     lock = PORTABLE / OUTPUT / "workspace.lock"
-    profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock.read_bytes()))
+    lock_digest = sha(lock.read_bytes())
     parent_locks = {name: load(PORTABLE / name / "workspace.lock") for name in (PUBLIC, CLI, DIAGNOSTICS)}
     current = load(lock)
     for name, member in parent_locks[PUBLIC]["members"].items():
@@ -229,12 +229,12 @@ def verify(args):
     compiler = build_compiler(args)
     with tempfile.TemporaryDirectory(prefix="odd-converged-diagnostics-") as temporary:
         scratch = Path(temporary).resolve()
-        raw = build(args, scratch, profile, compiler)
+        raw = build(args, scratch, lock_digest, compiler)
         cli = cli_observations(args, binaries(raw, args.product, args.target), scratch)
         public_api = imports_and_behavior(args, raw, scratch)
-        IMPORTS["verify_product"](args.product, ROOT, profile)
-    return {"platform": HOST, "frameworkRevision": FRAMEWORK, "originalRevision": IMPORTS["ORIGINAL"],
-            "workspaceInputRevision": args.input_revision, "workspaceLockSha256": profile.lock_sha256,
+        verify_product(args.product, OUTPUT, args.input_revision, lock_digest)
+    return {"platform": HOST, "frameworkRevision": FRAMEWORK, "originalRevision": ORIGINAL,
+            "workspaceInputRevision": args.input_revision, "workspaceLockSha256": lock_digest,
             "compilerSha256": sha(compiler.read_bytes()), "cargoArtifactLogSha256": sha(raw),
             "rustc": rustc, "verifierSha256": sha(Path(__file__).read_bytes()),
             "parents": {name: sha((PORTABLE / name / "workspace.lock").read_bytes()) for name in parent_locks},

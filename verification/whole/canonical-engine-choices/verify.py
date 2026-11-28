@@ -2,7 +2,6 @@
 
 import argparse
 import hashlib
-import importlib.util
 import json
 import os
 from pathlib import Path
@@ -37,7 +36,6 @@ def pin_bytes(path, revision):
     return want
 
 
-IMPORT_TOOLING_PIN = "e434a48817f2456498ae3de689939b84d931315c"
 VAULT_OBSERVER_PIN = "50b38f6113b553797e6e51871af4d2f4e5b13ba3"
 WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
@@ -49,7 +47,9 @@ ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
 PLATFORM_IMPORT_PIN = "7519e0085608a9e16d3a5bab2e7ef96052774a23"
 ROLE_AUDIT_PIN = "07759feb808eff49a59577b5a554f464b5ea1352"
 LINUX_AUDIT_PIN = "16c6c7d3be3ca1792ae8fa0e43eacb8bae7af606"
+INHERITED_IMPORTS_PIN = "d6b6afc91b06d86dd92efdc509c252b4f0c1a9da"
 HELPER_PINS = {
+    WHOLE / "seven-public-imports/inherited.rs": INHERITED_IMPORTS_PIN,
     WHOLE / "canonical-linux-imports/role.rs": ROLE_AUDIT_PIN,
     WHOLE / "unified-mdk/workspace_compat.py": ROLE_AUDIT_PIN,
     WHOLE / "canonical-linux-imports/summary.rs": PLATFORM_IMPORT_PIN,
@@ -65,9 +65,8 @@ HELPER_PINS = {
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
     WHOLE / "canonical-linux-imports/verify.rs": LINUX_AUDIT_PIN,
-    WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": LINUX_AUDIT_PIN,
-    WHOLE / "canonical-public-data/witness.rs": LINUX_AUDIT_PIN,
+    WHOLE / "canonical-public-data/witness.rs": INHERITED_IMPORTS_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
@@ -96,11 +95,10 @@ for relative, expected in JOURNAL_INPUT_PINS.items():
 ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
 ARCHIVED_COMPOSER_SHA = hashlib.sha256(subprocess.check_output(
     ["git", "show", f"{INPUT_REVISION}:{ARCHIVED_COMPOSER}"], cwd=ROOT)).hexdigest()
-audit_spec = importlib.util.spec_from_file_location(
-    "seven_public_imports", WHOLE / "seven-public-imports/verify.py")
-AUDIT = importlib.util.module_from_spec(audit_spec)
-audit_spec.loader.exec_module(AUDIT)
-DARWIN = AUDIT.HOST
+if not __debug__:
+    raise RuntimeError("verification requires Python assertions")
+
+DARWIN = "aarch64-apple-darwin"
 LINUX = "aarch64-unknown-linux-gnu"
 
 
@@ -118,14 +116,14 @@ def pinned(path, commit):
     return json.loads(pin_bytes(path, commit))
 
 
-def snapshots(args, profile):
+def snapshots(args):
     return NATIVE["product_witness"](
-        "engine-choice-snapshot", args.baseline, args.product, profile.input_revision, profile.lock_sha256
+        "engine-choice-snapshot", args.baseline, args.product, INPUT_REVISION, LOCK_SHA256
     )
 
 
 def imports(host, artifacts, original):
-    libraries = AUDIT.library_imports(artifacts, original, target=host)
+    libraries = NATIVE["product_witness"]("public-imports", original, host, current=artifacts)
     return NATIVE["product_witness"]("compare-engine-imports", current=[NATIVE["product_witness"]("canonical-import-baseline", host), libraries])
 
 
@@ -147,12 +145,13 @@ def qualify(args):
         for root in (args.product, args.baseline, args.original, args.framework, ROOT)
     )
     assert args.target != args.original_target
-    rustc = AUDIT.run(["rustc", "+1.97.1", "-vV"], HERE).stdout.decode().splitlines()
+    rustc = subprocess.check_output(["rustc", "+1.97.1", "-vV"], cwd=HERE,
+        env={k: v for k, v in os.environ.items() if not k.startswith(("RUST", "CARGO_BUILD_", "CARGO_ENCODED_", "CARGO_PROFILE_", "CARGO_TARGET_"))}).decode().splitlines()
     (host,) = (line[6:] for line in rustc if line.startswith("host: "))
     assert host in (DARWIN, LINUX) and os.uname().machine == (
         "arm64" if host == DARWIN else "aarch64"
     )
-    assert f"commit-hash: {AUDIT.COMPILER}" in rustc
+    assert f"commit-hash: {CORE['RUST_COMMIT']}" in rustc
     standalone = pinned(ENGINE_STANDALONE / f"{host}.json", STANDALONE_PIN)
     assert standalone["framework"] == FRAMEWORK and standalone[
         "compilerSha256"
@@ -162,28 +161,22 @@ def qualify(args):
         ["git", "show", f"{STANDALONE_PIN}:verification/whole/engine-fieldless-choices/verify.py"], cwd=ROOT)
     assert hashlib.sha256(archived_verifier).hexdigest() == standalone["verifierSha256"]
     assert digest(ENGINE_STANDALONE / "probe.rs") == standalone["probeSha256"]
-    profile = AUDIT.Candidate(CANDIDATE.stem, INPUT_REVISION, FRAMEWORK, LOCK_SHA256)
-    before = snapshots(args, profile)
+    before = snapshots(args)
     with tempfile.TemporaryDirectory(
         prefix="canonical-engine-choice-observer-"
     ) as scratch:
         work = Path(scratch).resolve()
         env = CORE["host_build_env"](work / "cargo-home")
         built = NATIVE["product_witness"]("build-import-libraries", args.product, args.target, host)
-        roles, links = AUDIT.artifacts(
-            built,
-            args.product,
-            list(before["packageLocks"]),
-            args.target,
-            generated=True,
-        )
+        roles, links = NATIVE["product_witness"]("import-artifacts", args.product, args.target,
+                                               *before["packageLocks"], current=built)
         closure = NATIVE["product_witness"]("library-closure", args.target, host, current=built)
         import_results = imports(host, roles, args.original)
         source = json.loads(subprocess.check_output(
             [tool, "reference", args.original, host, args.original_target,
              "--work", work / "original"], env=env))
         reference = source["observations"]
-        library = roles[ENGINE][1]
+        library = Path(roles[ENGINE][1])
         generated_serde = candidate_serde(built, args.target, host)
         generated = observe(
             tool,
@@ -202,21 +195,22 @@ def qualify(args):
             == {key: baseline[key] for key in ("values", "traits")}
         )
         assert closure == NATIVE["product_witness"]("library-closure", args.target, host, current=built)
-    assert before == snapshots(args, profile)
+    assert before == snapshots(args)
     assert original == NATIVE["product_witness"]("import-source-pin", args.original)
     subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
     subprocess.run([tool, "checkout", ROOT, companion], check=True)
     return {
         "platform": host,
         "rustc": rustc,
-        "candidate": profile._asdict(),
+        "candidate": {"release": CANDIDATE.stem, "input_revision": INPUT_REVISION,
+                      "framework_revision": FRAMEWORK, "lock_sha256": LOCK_SHA256},
         "original": original,
         "compilerSha256": digest(args.compiler),
         "inputs": before,
-        "cargoArtifactLogSha256": AUDIT.sha(built.encode()),
-        "cargoStaticAndMetadataClosureSha256": AUDIT.sha(
+        "cargoArtifactLogSha256": hashlib.sha256(built.encode()).hexdigest(),
+        "cargoStaticAndMetadataClosureSha256": hashlib.sha256(
             json.dumps(closure, sort_keys=True).encode()
-        ),
+        ).hexdigest(),
         "cargoStaticAndMetadataClosureEntries": len(closure),
         "imports": import_results,
         "engine": {

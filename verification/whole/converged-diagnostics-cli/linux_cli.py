@@ -8,7 +8,7 @@ import subprocess
 import tempfile
 
 from verify import HERE, OUTPUT, PORTABLE, check_composition, load, sha
-from verify import CLI_CASES, FRAMEWORK, IMPORTS, observe_cli, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
+from verify import CLI_CASES, FRAMEWORK, COMPILER, ORIGINAL, verify_product, observe_cli, ROOT, WORKSPACE, binaries, build_compiler, exact_checkout, execute
 
 HOST = "aarch64-unknown-linux-gnu"
 
@@ -54,15 +54,15 @@ def verify(args):
     if (os.uname().sysname, os.uname().machine) != ("Linux", "aarch64"):
         raise ValueError("requires a native ARM64 Linux host")
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
-    if f"host: {HOST}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
+    if f"host: {HOST}" not in rustc or f"commit-hash: {COMPILER}" not in rustc:
         raise ValueError("requires the selected native Rust toolchain")
     exact_checkout(ROOT, args.input_revision)
-    exact_checkout(args.original, IMPORTS["ORIGINAL"])
+    exact_checkout(args.original, ORIGINAL)
     exact_checkout(args.framework, FRAMEWORK)
     check_composition()
     manifest = PORTABLE / f"{OUTPUT}.json"
     lock = (PORTABLE / OUTPUT / "workspace.lock").read_bytes()
-    profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock))
+    lock_digest = sha(lock)
     host_release = HERE.parent / "unified-buffered" / f"{HOST}.json"
     sealed = load(host_release)
     originals = {role: args.original_bin_dir / role for role in sealed["releaseInfo"]["originalBinaries"]}
@@ -87,7 +87,7 @@ def verify(args):
         target = work / "target"
         execute(*sandbox, compiler, "build", "native-workspace", "rust", inputs / manifest.name,
                 product, env=env)
-        IMPORTS["verify_product"](product, ROOT, profile)
+        verify_product(product, OUTPUT, args.input_revision, lock_digest)
         sandbox[sandbox.index("--chdir") + 1] = str(product)
         cargo = execute(*sandbox, "cargo", "build", "--release", "--workspace", "--lib", "--bins",
                         "--locked", "--offline", "--target-dir", target, "--message-format=json", env=env)
@@ -108,11 +108,11 @@ def verify(args):
                              "generatedSha256": sha(executable.read_bytes())}
         if any(home.iterdir()):
             raise ValueError("offline CLI modified the empty home")
-        IMPORTS["verify_product"](product, ROOT, profile)
-    return {"platform": HOST, "rustc": rustc, "originalRevision": IMPORTS["ORIGINAL"],
+        verify_product(product, OUTPUT, args.input_revision, lock_digest)
+    return {"platform": HOST, "rustc": rustc, "originalRevision": ORIGINAL,
             "originalReleaseReceiptSha256": sha(host_release.read_bytes()), "frameworkRevision": FRAMEWORK,
             "compilerSha256": sha(source_compiler.read_bytes()), "workspaceInputRevision": args.input_revision,
-            "workspaceLockSha256": profile.lock_sha256, "verifierSha256": sha(Path(__file__).read_bytes()),
+            "workspaceLockSha256": lock_digest, "verifierSha256": sha(Path(__file__).read_bytes()),
             "observations": emitted}
 
 

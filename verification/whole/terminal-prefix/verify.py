@@ -38,7 +38,7 @@ def inherited():
 
 PRIOR = inherited()
 load, sha = PRIOR["load"], PRIOR["sha"]
-WORKSPACE, IMPORTS = PRIOR["WORKSPACE"], PRIOR["IMPORTS"]
+WORKSPACE, COMPILER, verify_product = (PRIOR[key] for key in ("WORKSPACE", "COMPILER", "verify_product"))
 exact_checkout, execute = (PRIOR[key] for key in ("exact_checkout", "execute"))
 
 EXTRA = [
@@ -68,7 +68,7 @@ def corpus(role):
     return [row["args"] for row in archived] + PRIOR["CLI_CASES"] + EXTRA
 
 
-def build(args, work, compiler, host, profile):
+def build(args, work, compiler, host, lock_digest):
     manifest = PORTABLE / f"{OUTPUT}.json"
     inputs = work / "inputs"
     inputs.mkdir()
@@ -91,7 +91,7 @@ def build(args, work, compiler, host, profile):
         if subprocess.run([*sandbox, "/bin/cat", source], env=env, capture_output=True).returncode == 0:
             raise ValueError(f"source isolation unexpectedly read {source}")
     execute(*sandbox, staged, "build", "native-workspace", "rust", inputs / manifest.name, product, env=env)
-    IMPORTS["verify_product"](product, ROOT, profile)
+    verify_product(product, OUTPUT, args.input_revision, lock_digest)
     if host == LINUX:
         sandbox[sandbox.index("--chdir") + 1] = str(product)
         cargo = ["cargo"]
@@ -101,7 +101,7 @@ def build(args, work, compiler, host, profile):
         launcher = None
     raw = execute(*sandbox, *cargo, "build", "--release", "--workspace", "--lib", "--bins",
                   "--locked", "--offline", "--target-dir", target, "--message-format=json", cwd=product, env=env)
-    IMPORTS["verify_product"](product, ROOT, profile)
+    verify_product(product, OUTPUT, args.input_revision, lock_digest)
     return PRIOR["binaries"](raw, product, target), launcher
 
 
@@ -118,7 +118,7 @@ def verify(args):
     if host is None:
         raise ValueError("requires native ARM64 Linux or Darwin")
     rustc = execute("rustc", "+1.97.1", "-vV").decode().splitlines()
-    if f"host: {host}" not in rustc or f"commit-hash: {IMPORTS['COMPILER']}" not in rustc:
+    if f"host: {host}" not in rustc or f"commit-hash: {COMPILER}" not in rustc:
         raise ValueError("requires the exact native Rust toolchain")
     exact_checkout(ROOT, args.input_revision)
     exact_checkout(args.original, ORIGINAL)
@@ -145,7 +145,7 @@ def verify(args):
                    for name, old in parent["members"].items())
             or any(lock[key] != parent[key] for key in ("cargoLockSha256", "workspaceCargoManifestSha256"))):
         raise ValueError("workspace composition differs outside the native member or changes sibling edges")
-    profile = IMPORTS["Candidate"](OUTPUT, args.input_revision, FRAMEWORK, sha(lock_path.read_bytes()))
+    lock_digest = sha(lock_path.read_bytes())
     witness = HERE.parent / "unified-buffered" / f"{host}.json"
     originals = {role: args.original_bin_dir / role for role in ROLES}
     original_hashes = load(witness)["releaseInfo"]["originalBinaries"]
@@ -154,7 +154,7 @@ def verify(args):
 
     with tempfile.TemporaryDirectory(prefix="odd-cli-prefix-") as temp:
         work = Path(temp).resolve()
-        generated, launcher = build(args, work, compiler, host, profile)
+        generated, launcher = build(args, work, compiler, host, lock_digest)
         rows = {}
         for role in ROLES:
             home = work / role
@@ -179,7 +179,7 @@ def verify(args):
                           "outsideTerminalProfile": {"args": POST_PARSE, "original": original_post_parse,
                                                      "candidate": candidate_post_parse}}
     return {"platform": host, "original": ORIGINAL, "framework": FRAMEWORK, "workspaceInputRevision": args.input_revision,
-            "rustc": rustc, "workspaceLockSha256": profile.lock_sha256, "compilerSha256": sha(compiler.read_bytes()),
+            "rustc": rustc, "workspaceLockSha256": lock_digest, "compilerSha256": sha(compiler.read_bytes()),
             "verifierSha256": sha(Path(__file__).read_bytes()), "originalReleaseReceiptSha256": sha(witness.read_bytes()),
             "roles": rows}
 
