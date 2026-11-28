@@ -1,16 +1,16 @@
 //! Recover the linked range from Rust and stage its pinned native package inputs.
-#[path = "../../../gap-range-compact-source-api/verify.rs"]
-mod source_api;
-#[path = "../../../gap-range-endpoint/verify.rs"]
-mod endpoint;
 #[path = "../../../gap-range-assembly/verify.rs"]
 mod derived;
+#[path = "../../../gap-range-endpoint/verify.rs"]
+mod endpoint;
 #[path = "../../../gap-range-recovery/evidence.rs"]
 mod evidence;
 #[path = "../../../gap-range-recovery/qualify.rs"]
 mod qualify;
 #[path = "../../../gap-range-recovery/sealed.rs"]
 mod sealed;
+#[path = "../../../gap-range-compact-source-api/verify.rs"]
+mod source_api;
 #[path = "../../../gap-range-recovery/witnesses.rs"]
 mod witnesses;
 use clap::{Parser, Subcommand};
@@ -45,7 +45,7 @@ enum Action {
     /// Check the compact package against the native range endpoint source API.
     QualifySourceApi(derived::Args),
     /// Replay native endpoint profiles and the optional TypeScript caller.
-    QualifyEndpoint(endpoint::Args),
+    QualifyEndpoint(endpoint::EndpointArgs),
     /// Stage the compact manifest and its pinned recovery inputs at a fresh destination.
     StageDerived { output: PathBuf },
     /// Recover both source variants and qualify their generated native packages.
@@ -203,7 +203,13 @@ fn publish(output: PathBuf, prepare: impl FnOnce(&Path) -> Result) -> Result {
 fn main() -> Result {
     match Args::parse().action {
         Action::QualifyEndpoint(args) => endpoint::check(args),
-        Action::QualifySourceApi(args) => derived::run_qualification(args, source_api::FRAMEWORK,None,"product/package.lock", source_api::verify),
+        Action::QualifySourceApi(args) => derived::run_qualification(
+            args,
+            source_api::FRAMEWORK,
+            None,
+            "product/package.lock",
+            source_api::verify,
+        ),
         Action::QualifyDerived(args) => derived::qualify(args),
         Action::StageDerived { output } => publish(output, derived::stage),
         Action::Qualify(args) => qualify::qualify(args),
@@ -235,5 +241,16 @@ fn main() -> Result {
             output,
         } => publish(output, |work| recover(&compiler, &source, &rustdoc, work)),
         Action::Stage { recovered, output } => publish(output, |work| stage(&recovered, work)),
+    }
+}
+
+#[cfg(test)]
+mod cli_tests {
+    use super::Args;
+    use clap::CommandFactory;
+
+    #[test]
+    fn all_subcommands_have_valid_argument_groups() {
+        Args::command().debug_assert();
     }
 }

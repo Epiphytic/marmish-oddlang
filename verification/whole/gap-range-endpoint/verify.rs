@@ -24,7 +24,7 @@ const PROFILES: [&str; 5] = [
 ];
 
 #[derive(clap::Args)]
-pub(super) struct Args {
+pub(super) struct EndpointArgs {
     #[command(flatten)]
     common: derived::Args,
     #[arg(long)]
@@ -153,7 +153,7 @@ fn compare_contract(cases: &Value, rows: &Value) -> Result {
     Ok(())
 }
 
-pub(super) fn check(args: Args) -> Result {
+pub(super) fn check(args: EndpointArgs) -> Result {
     let ts = args.typescript;
     derived::run_qualification(
         args.common,
