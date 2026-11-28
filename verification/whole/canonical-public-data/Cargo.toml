@@ -152,3 +152,7 @@ path = "../native-error/replay.rs"
 [[bin]]
 name = "qualify-local-file-integrity"
 path = "../local-file-integrity/qualify.rs"
+
+[[bin]]
+name = "canonical-linux-imports"
+path = "../canonical-linux-imports/verify.rs"

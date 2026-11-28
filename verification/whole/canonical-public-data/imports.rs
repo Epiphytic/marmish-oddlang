@@ -397,32 +397,49 @@ pub fn compare_engine(previous: &Value, libraries: Value) -> Result<Value> {
     Ok(report)
 }
 
-pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Result<Value> {
-    let previous = if host == HOST {
-        let archive = load(&whole().join("canonical-workspace/aarch64-apple-darwin.json"))?;
+pub fn canonical_profile() -> Value {
+    json!({
+        "release": "workspace-v7-canonical-offline",
+        "input_revision": "0f9e57396530fa1c11127e3fff7d8d0018514f00",
+        "framework_revision": "8a20ea283d0d43da42f054a7c7774eb9e6a20da7",
+        "lock_sha256": LOCK,
+    })
+}
+
+pub fn canonical_libraries(host: &str, verify_pin: bool) -> Result<Value> {
+    let (directory, pin) = match host {
+        HOST => (
+            "canonical-workspace",
+            "55da1b628138d48d1984f87f173a061886d48ea8",
+        ),
+        crate::assembly::LINUX => (
+            "canonical-linux-imports",
+            "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f",
+        ),
+        _ => return Err("unsupported import host".into()),
+    };
+    let path = whole().join(directory).join(format!("{host}.json"));
+    if verify_pin {
+        crate::product::pinned(&path, pin)?;
+    }
+    let archive = load(&path)?;
+    if host == HOST {
         require(
             archive["workspaceLockSha256"] == LOCK,
             "wrong canonical Darwin evidence",
         )?;
-        archive["darwinPublicImports"]["libraries"].clone()
+        Ok(archive["darwinPublicImports"]["libraries"].clone())
     } else {
         require(
-            host == "aarch64-unknown-linux-gnu",
-            "unsupported import host",
-        )?;
-        let archive = load(&whole().join(format!("canonical-linux-imports/{host}.json")))?;
-        require(
-            archive["candidate"]
-                == json!({
-                    "release": "workspace-v7-canonical-offline",
-                    "input_revision": "0f9e57396530fa1c11127e3fff7d8d0018514f00",
-                    "framework_revision": "8a20ea283d0d43da42f054a7c7774eb9e6a20da7",
-                    "lock_sha256": LOCK,
-                }),
+            archive["candidate"] == canonical_profile(),
             "wrong canonical Linux evidence",
         )?;
-        archive["generatedBuild"]["libraries"].clone()
-    };
+        Ok(archive["generatedBuild"]["libraries"].clone())
+    }
+}
+
+pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Result<Value> {
+    let previous = canonical_libraries(host, false)?;
     let libraries = library_set(host, original, roles)?;
     let mut report = compare(
         &previous,
