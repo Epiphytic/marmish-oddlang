@@ -48,7 +48,10 @@ REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 IMPORT_EVIDENCE_PIN = "9f4d43404ba4bed053af3ffb7218de5c955a47fa"
 ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
 PLATFORM_IMPORT_PIN = "7519e0085608a9e16d3a5bab2e7ef96052774a23"
+ROLE_AUDIT_PIN = "07759feb808eff49a59577b5a554f464b5ea1352"
 HELPER_PINS = {
+    WHOLE / "canonical-linux-imports/role.rs": ROLE_AUDIT_PIN,
+    WHOLE / "unified-mdk/workspace_compat.py": ROLE_AUDIT_PIN,
     WHOLE / "canonical-linux-imports/summary.rs": PLATFORM_IMPORT_PIN,
     ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
@@ -61,10 +64,10 @@ HELPER_PINS = {
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": PLATFORM_IMPORT_PIN,
+    WHOLE / "canonical-linux-imports/verify.py": ROLE_AUDIT_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
-    WHOLE / "canonical-public-data/witness.rs": PLATFORM_IMPORT_PIN,
+    WHOLE / "canonical-public-data/witness.rs": ROLE_AUDIT_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
@@ -132,32 +135,6 @@ def snapshots(args, profile):
     )
 
 
-def build(args, host):
-    if host == LINUX:
-        return PREVIOUS["build"](args.product, args.target)
-    argv = [
-        "cargo",
-        "+1.97.1",
-        "build",
-        "--workspace",
-        "--lib",
-        "--release",
-        "--locked",
-        "--offline",
-        "--target-dir",
-        str(args.target),
-        "--message-format=json",
-    ]
-    env = {
-        key: os.environ[key]
-        for key in ("HOME", "PATH", "CARGO_HOME", "TMPDIR", "SDKROOT")
-        if key in os.environ
-    }
-    return subprocess.check_output(
-        argv, cwd=args.product, env=env | {"CARGO_NET_OFFLINE": "true", "LC_ALL": "C"}
-    )
-
-
 def imports(host, artifacts, original):
     libraries = AUDIT.library_imports(artifacts, original, target=host)
     return NATIVE["product_witness"]("compare-engine-imports", current=[prior(host), libraries])
@@ -203,7 +180,7 @@ def qualify(args):
     ) as scratch:
         work = Path(scratch).resolve()
         env = CORE["host_build_env"](work / "cargo-home")
-        built = build(args, host)
+        built = PREVIOUS["build"](args.product, args.target, host)
         roles, links = AUDIT.artifacts(
             built,
             args.product,
@@ -211,7 +188,7 @@ def qualify(args):
             args.target,
             generated=True,
         )
-        closure = PREVIOUS["closure"](built, args.target)
+        closure = PREVIOUS["closure"](built, args.target, host)
         import_results = imports(host, roles, args.original)
         source = json.loads(subprocess.check_output(
             [tool, "reference", args.original, host, args.original_target,
@@ -235,7 +212,7 @@ def qualify(args):
             == generated
             == {key: baseline[key] for key in ("values", "traits")}
         )
-        assert closure == PREVIOUS["closure"](built, args.target)
+        assert closure == PREVIOUS["closure"](built, args.target, host)
     assert before == snapshots(args, profile)
     assert original == PREVIOUS["source_pin"](args.original)
     subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
