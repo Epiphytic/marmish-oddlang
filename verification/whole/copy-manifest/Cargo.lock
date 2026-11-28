@@ -320,6 +320,7 @@ dependencies = [
  "libc",
  "regex",
  "rustix",
+ "serde",
  "serde_json",
  "sha2",
  "tempfile",

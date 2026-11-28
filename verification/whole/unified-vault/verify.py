@@ -196,6 +196,8 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
 
 
 def main():
+    if not __debug__:
+        raise RuntimeError("vault verification requires Python assertions")
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("manifest", "original", "framework", "compiler_target", "reference_target", "receipt"):
         parser.add_argument(name, type=lambda value: Path(value).resolve())
