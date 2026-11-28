@@ -122,6 +122,7 @@ enum Action {
     Six {
         product: PathBuf,
     },
+    EngineChoiceSnapshot { baseline: PathBuf, product: PathBuf, revision: String, lock_sha: String },
     Canonical {
         baseline: PathBuf,
         product: PathBuf,
@@ -329,6 +330,10 @@ fn main() -> Result {
             Value::Null
         }
         Action::Six { product: p } => product::six(&p)?,
+        Action::EngineChoiceSnapshot { baseline, product: path, revision, lock_sha } => {
+            api_composition::compose(api_composition::Release::CanonicalEngineChoices, &public_data_qualification::portable(), true)?;
+            product::engine_choice_snapshot(&baseline, &path, &revision, &lock_sha)?
+        }
         Action::Canonical {
             baseline,
             product: p,
