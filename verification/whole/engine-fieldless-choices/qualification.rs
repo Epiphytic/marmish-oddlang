@@ -56,14 +56,28 @@ fn engine_library(rows: &[Value], manifest: &Path, target: &Path) -> Result<Path
 }
 
 pub struct Reference {
+    _lock: fs::File,
+    target: PathBuf,
     library: PathBuf,
     serde: PathBuf,
     links: BTreeSet<String>,
 }
 
 impl Reference {
-    pub fn as_json(&self) -> Value {
-        json!({"library":self.library,"serde":self.serde,"links":self.links})
+    pub fn observations(&self, host: &str, work: PathBuf) -> Result<Value> {
+        let probe = super::observer::Observer {
+            library: self.library.clone(),
+            serde: self.serde.clone(),
+            host_deps: self.target.join("release/deps"),
+            host: host.into(),
+            work,
+            copy_disposition: false,
+            link: self.links.iter().map(Into::into).collect(),
+        };
+        Ok(
+            json!({"observations":probe.observe()?, "originalLibrarySha256":sha(&self.library)?,
+            "originalSerdeWitnessSha256":sha(&self.serde)?}),
+        )
     }
 }
 
@@ -74,6 +88,17 @@ pub fn reference(
     target: &Path,
 ) -> Result<Reference> {
     build_host::reject_local_cargo_config(checkout)?;
+    let target = target
+        .join("engine-choice-cache")
+        .join(sha(&checkout.join(MODEL))?);
+    fs::create_dir_all(&target)?;
+    let lock = fs::OpenOptions::new()
+        .write(true)
+        .create(true)
+        .truncate(false)
+        .open(target.join(".observation.lock"))?;
+    lock.lock()?;
+
     let bytes = run(cargo
         .current_dir(checkout)
         .args([
@@ -87,13 +112,13 @@ pub fn reference(
             host,
             "--target-dir",
         ])
-        .arg(target)
+        .arg(&target)
         .args(["-p", "marmish-engine", "--message-format=json"]))?;
     let rows = cargo_rows(&bytes)?;
     let library = engine_library(
         &rows,
         &checkout.join("crates/marmish-engine/Cargo.toml"),
-        target,
+        &target,
     )?;
     let release = target.join(host).join("release").canonicalize()?;
     let mut serde = Vec::new();
@@ -125,6 +150,8 @@ pub fn reference(
         return Err("expected one target serde library".into());
     };
     Ok(Reference {
+        _lock: lock,
+        target,
         library,
         serde: serde.clone(),
         links,
@@ -267,7 +294,7 @@ pub fn qualify(args: Args) -> Result {
             cmd.arg("observe")
                 .arg(library)
                 .arg(&reference.serde)
-                .arg(reference_target.join("release/deps"))
+                .arg(reference.target.join("release/deps"))
                 .arg(host)
                 .arg(scratch.join(format!("{name}-{role}")));
             if is_mutant {

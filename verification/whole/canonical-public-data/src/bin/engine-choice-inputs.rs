@@ -36,6 +36,8 @@ enum Action {
     Observe(observer::Observer),
     Qualify(qualification::Args),
     Reference {
+        #[arg(long)]
+        work: PathBuf,
         checkout: PathBuf,
         host: String,
         target: PathBuf,
@@ -219,12 +221,13 @@ fn main() -> Result {
             revision,
         } => public_data_qualification::assembly::checkout(&directory, &revision, true)?,
         Action::Reference {
+            work,
             checkout,
             host,
             target,
         } => {
             let r = qualification::reference(Command::new("cargo"), &checkout, &host, &target)?;
-            println!("{}", serde_json::to_string(&r.as_json())?);
+            println!("{}", serde_json::to_string(&r.observations(&host, work)?)?);
         }
         Action::Observe(args) => println!("{}", serde_json::to_string(&args.observe()?)?),
         Action::Mutate { original: path } => print!("{}", mutate(original(&path)?)?),
