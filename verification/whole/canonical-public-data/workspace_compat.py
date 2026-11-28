@@ -32,7 +32,6 @@ SIX = lane("unified-mdk", "workspace_compat.py")
 JOURNAL = SIX["JOURNAL"]
 PREVIOUS = lane("canonical-linux-imports")
 AUDIT = PREVIOUS["audit"]
-ENGINE_DATA = lane("engine-fieldless-choices")
 run, data, digest = SIX["run"], SIX["data"], SIX["sha"]
 
 

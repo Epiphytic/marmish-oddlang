@@ -1275,7 +1275,7 @@
 {"path":"verification/whole/canonical-public-data/src/status_qualification.rs","language":"rust","mode":"100644","sha256":"b51e072adef9c1c99ea3b74c890f38c7e112d30848215d63aa48b1c20517efd1","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/src/stream_caller.rs","language":"rust","mode":"100644","sha256":"f540f4562224211b03edc5115bbe8fc42f1bc4aea73b61d972e2013ff36c69e0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/witness.rs","language":"rust","mode":"100644","sha256":"737e21545fad664a63804c215f2c6ef5763a811bb831b7982a5b30f891e47675","parse_status":"recovered"}
-{"path":"verification/whole/canonical-public-data/workspace_compat.py","language":"python","mode":"100644","sha256":"2064f1b808d692d6e79eb09aac4782d4f029710f08064ce81e07af9cda772863","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/workspace_compat.py","language":"python","mode":"100644","sha256":"6034d69d66e2cd1f7b720e109021bbab4bfe401c90b808f890827fc2f6987228","parse_status":"parsed"}
 {"path":"verification/whole/canonical-range-data/README.md","language":"inventory","mode":"100644","sha256":"a97c26ba682d41d843be6decc77a6504bb223cd9216e6875e6e5adf841f31975","parse_status":"inventory"}
 {"path":"verification/whole/canonical-range-data/aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"4b90f3dd77dace69b8cf3e2719bda5a773c28ea77fc899991977b44073c426bf","parse_status":"inventory"}
 {"path":"verification/whole/canonical-range-data/aarch64-unknown-linux-gnu.json","language":"inventory","mode":"100644","sha256":"2b110da6015e490d937fa88b18bfc0f6eacb8d8a19af8f482411b657909bcec9","parse_status":"inventory"}
