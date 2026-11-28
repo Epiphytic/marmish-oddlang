@@ -26,8 +26,8 @@ Rust 1.97.1 toolchain. Keep the compiler and original Cargo targets
 outside the checkouts.
 
 ```sh
-lane=verification/whole/engine-fieldless-choices
-python3 -B "$lane/verify.py" "$INPUT_REVISION" "$FRAMEWORK" "$ORIGINAL" \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin engine-choice-inputs -- qualify "$INPUT_REVISION" "$FRAMEWORK" "$ORIGINAL" \
   "$COMPILER_TARGET" "$ORIGINAL_TARGET" "$RECEIPT"
 ```
 

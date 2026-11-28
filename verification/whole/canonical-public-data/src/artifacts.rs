@@ -43,7 +43,7 @@ pub struct Artifacts {
     pub serde: PathBuf,
     pub serde_json: PathBuf,
 }
-fn cargo_rows(bytes: &[u8]) -> Result<Vec<Value>> {
+pub fn cargo_rows(bytes: &[u8]) -> Result<Vec<Value>> {
     let rows: Vec<Value> = std::str::from_utf8(bytes)?
         .lines()
         .map(serde_json::from_str)

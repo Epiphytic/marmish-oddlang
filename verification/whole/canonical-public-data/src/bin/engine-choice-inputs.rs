@@ -1,6 +1,8 @@
 //! Recover the two reviewed fieldless engine enums and stage their pinned package inputs.
 #[path = "../../../engine-fieldless-choices/observer.rs"]
 mod observer;
+#[path = "../../../engine-fieldless-choices/qualification.rs"]
+mod qualification;
 use clap::{Parser, Subcommand};
 use public_data_qualification::{
     Result,
@@ -32,6 +34,16 @@ struct Args {
 #[derive(Subcommand)]
 enum Action {
     Observe(observer::Observer),
+    Qualify(qualification::Args),
+    Reference {
+        checkout: PathBuf,
+        host: String,
+        target: PathBuf,
+    },
+    Checkout {
+        directory: PathBuf,
+        revision: String,
+    },
     Compose {
         compiler: PathBuf,
         original: PathBuf,
@@ -182,8 +194,38 @@ fn write_file(path: &Path, data: &[u8]) -> Result {
 fn original(path: &Path) -> Result<String> {
     Ok(String::from_utf8(pinned(path, MODEL, MODEL_SHA)?)?)
 }
+fn prepare(compiler: &Path, model: &Path, inputs: &Path) -> Result<Value> {
+    let destination = std::path::absolute(inputs)?;
+    let stage = tempfile::tempdir_in(destination.parent().ok_or("missing staging parent")?)?;
+    let data = recover(compiler, &fs::read_to_string(model)?)?;
+    let base = portable();
+    pinned_copy(&base, &data.inherited["cargoLock"], stage.path())?;
+    for component in list(&data.inherited["components"])? {
+        for key in ["graph", "overlay"] {
+            pinned_copy(&base, &component[key], stage.path())?;
+        }
+    }
+    for (rel, bytes) in data.files {
+        write_file(&stage.path().join(rel), &bytes)?;
+    }
+    renameat_with(CWD, stage.path(), CWD, destination, RenameFlags::NOREPLACE)?;
+    Ok(data.evidence)
+}
 fn main() -> Result {
     match Args::parse().action {
+        Action::Qualify(args) => qualification::qualify(args)?,
+        Action::Checkout {
+            directory,
+            revision,
+        } => public_data_qualification::assembly::checkout(&directory, &revision, true)?,
+        Action::Reference {
+            checkout,
+            host,
+            target,
+        } => {
+            let r = qualification::reference(Command::new("cargo"), &checkout, &host, &target)?;
+            println!("{}", serde_json::to_string(&r.as_json())?);
+        }
         Action::Observe(args) => println!("{}", serde_json::to_string(&args.observe()?)?),
         Action::Mutate { original: path } => print!("{}", mutate(original(&path)?)?),
         Action::Compose {
@@ -208,22 +250,10 @@ fn main() -> Result {
             model,
             inputs,
         } => {
-            let destination = std::path::absolute(inputs)?;
-            let stage =
-                tempfile::tempdir_in(destination.parent().ok_or("missing staging parent")?)?;
-            let data = recover(&compiler, &fs::read_to_string(model)?)?;
-            let base = portable();
-            pinned_copy(&base, &data.inherited["cargoLock"], stage.path())?;
-            for component in list(&data.inherited["components"])? {
-                for key in ["graph", "overlay"] {
-                    pinned_copy(&base, &component[key], stage.path())?;
-                }
-            }
-            for (rel, bytes) in data.files {
-                write_file(&stage.path().join(rel), &bytes)?;
-            }
-            renameat_with(CWD, stage.path(), CWD, destination, RenameFlags::NOREPLACE)?;
-            println!("{}", serde_json::to_string(&data.evidence)?);
+            println!(
+                "{}",
+                serde_json::to_string(&prepare(&compiler, &model, &inputs)?)?
+            );
         }
     }
     Ok(())
