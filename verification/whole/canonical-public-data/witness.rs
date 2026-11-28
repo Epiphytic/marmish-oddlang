@@ -24,6 +24,7 @@ struct Args {
 enum Action {
     ImportManifest { product: PathBuf, inputs: PathBuf, release: String, revision: String, digest: String },
     ImportArtifacts { package_root: PathBuf, target: PathBuf, #[arg(required = true)] packages: Vec<String> },
+    CompareEngineImports,
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
@@ -224,6 +225,10 @@ fn main() -> Result {
                 log.as_bytes(), &package_root.canonicalize()?, &target.canonicalize()?, &names,
             )?;
             serde_json::to_value(artifacts)?
+        }
+        Action::CompareEngineImports => {
+            let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
+            imports::compare_engine(&previous, libraries)?
         }
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
         Action::ImportControl { work, host } => {

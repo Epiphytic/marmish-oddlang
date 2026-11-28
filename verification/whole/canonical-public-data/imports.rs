@@ -275,6 +275,96 @@ pub fn prototype(host: &str, roles: &Value, links: &Value) -> Result<Value> {
     Ok(results)
 }
 
+fn compare(previous: &Value, libraries: &Value, expected: &[(&str, &str)]) -> Result<Value> {
+    require(
+        object(previous)?.len() == COUNT.len() && object(libraries)?.len() == COUNT.len(),
+        "expected seven import inventories",
+    )?;
+    let mut gains = BTreeSet::new();
+    let (mut old_count, mut new_count, mut attempted) = (0, 0, 0);
+    for (name, count) in COUNT {
+        let fresh = &libraries[name];
+        let old = &previous[name];
+        for key in [
+            "inventorySha256",
+            "inventoryLockSha256",
+            "inventoryEvidenceSha256",
+        ] {
+            require(
+                text(&fresh[key])? == text(&old[key])?,
+                "public import inventory changed",
+            )?;
+        }
+        let first = list(&old["imports"])?;
+        let last = list(&fresh["imports"])?;
+        require(
+            first.len() == count && last.len() == count,
+            "public import count changed",
+        )?;
+        let (old_start, new_start) = (old_count, new_count);
+        for (a, b) in first.iter().zip(last) {
+            let spelling = text(&a["spelling"])?;
+            require(
+                b["spelling"] == spelling
+                    && text(&a["originalInventoryKind"])? == text(&b["originalInventoryKind"])?,
+                "public import identity changed",
+            )?;
+            let old = a["compiles"].as_bool().ok_or("missing prior outcome")?;
+            let new = b["compiles"].as_bool().ok_or("missing current outcome")?;
+            attempted += 1;
+            old_count += usize::from(old);
+            new_count += usize::from(new);
+            let diagnostics = |r: &Value| -> Result<Vec<(String, String)>> {
+                list(&r["diagnostics"])?
+                    .iter()
+                    .map(|d| Ok((text(&d["code"])?.into(), text(&d["message"])?.into())))
+                    .collect()
+            };
+            if new && !old {
+                let codes = diagnostics(a)?;
+                require(
+                    codes.iter().map(|v| v.0.as_str()).eq(["E0432"]),
+                    "unexpected prior error for new import",
+                )?;
+                require(
+                    diagnostics(b)?.is_empty(),
+                    "newly available import reported errors",
+                )?;
+                gains.insert((name, spelling));
+            } else {
+                require(
+                    old == new && diagnostics(a)? == diagnostics(b)?,
+                    format!("inherited import outcome changed: {name}::{spelling}"),
+                )?;
+            }
+        }
+        for (library, available) in [(old, old_count - old_start), (fresh, new_count - new_start)] {
+            require(
+                library["importable"] == available && library["missing"] == count - available,
+                format!("inconsistent import totals for {name}"),
+            )?;
+        }
+    }
+    require(
+        attempted == 140
+            && old_count == 77
+            && new_count == old_count + expected.len()
+            && gains.iter().copied().eq(expected.iter().copied()),
+        "unexpected public import totals or gains",
+    )?;
+    Ok(json!({"attempted":attempted,"baseline":old_count,"candidate":new_count,"added":expected}))
+}
+
+pub fn compare_engine(previous: &Value, libraries: Value) -> Result<Value> {
+    let mut report = compare(
+        previous,
+        &libraries,
+        &[("engine", "Stream"), ("engine", "SubmitDisposition")],
+    )?;
+    report["libraries"] = libraries;
+    Ok(report)
+}
+
 pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Result<Value> {
     let previous = if host == HOST {
         let archive = load(&whole().join("canonical-workspace/aarch64-apple-darwin.json"))?;
@@ -301,75 +391,16 @@ pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Resul
         )?;
         archive["generatedBuild"]["libraries"].clone()
     };
-    let mut libs = json!({});
-    let mut gains = BTreeSet::new();
-    let (mut old_count, mut new_count, mut attempted) = (0, 0, 0);
-    for (name, count) in COUNT {
-        let fresh = library(
-            name,
-            count,
-            host,
-            &roles[format!("marmish-{name}")],
-            original,
-        )?;
-        let old = &previous[name];
-        for key in [
-            "inventorySha256",
-            "inventoryLockSha256",
-            "inventoryEvidenceSha256",
-        ] {
-            require(fresh[key] == old[key], "public import inventory changed")?;
-        }
-        let first = list(&old["imports"])?;
-        let last = list(&fresh["imports"])?;
-        require(first.len() == last.len(), "public import count changed")?;
-        for (a, b) in first.iter().zip(last) {
-            let spelling = text(&a["spelling"])?;
-            require(
-                b["spelling"] == spelling
-                    && a["originalInventoryKind"] == b["originalInventoryKind"],
-                "public import identity changed",
-            )?;
-            let old = a["compiles"].as_bool().ok_or("missing prior outcome")?;
-            let new = b["compiles"].as_bool().ok_or("missing current outcome")?;
-            attempted += 1;
-            old_count += usize::from(old);
-            new_count += usize::from(new);
-            let diagnostics = |r: &Value| -> Result<Vec<(String, String)>> {
-                list(&r["diagnostics"])?
-                    .iter()
-                    .map(|d| Ok((text(&d["code"])?.into(), text(&d["message"])?.into())))
-                    .collect()
-            };
-            if new && !old {
-                let codes = diagnostics(a)?;
-                require(
-                    codes.iter().map(|v| v.0.as_str()).eq(["E0432"]),
-                    "unexpected prior error for new import",
-                )?;
-                gains.insert((name.to_owned(), spelling.to_owned()));
-            } else {
-                require(
-                    old == new && diagnostics(a)? == diagnostics(b)?,
-                    format!("inherited import outcome changed: {name}::{spelling}"),
-                )?;
-            }
-        }
-        libs[name] = fresh;
-    }
-    let added = [
-        ("engine", "MissingReason"),
-        ("engine", "Stream"),
-        ("engine", "SubmitDisposition"),
-        ("native", "mdk_adapter::RuntimeStatus"),
-    ]
-    .map(|(a, b)| (a.to_owned(), b.to_owned()));
-    require(
-        attempted == 140
-            && old_count == 77
-            && new_count == 81
-            && gains.into_iter().eq(added.clone()),
-        "unexpected public import totals or gains",
+    let libraries = library_set(host, original, roles)?;
+    let mut report = compare(
+        &previous,
+        &libraries,
+        &[
+            ("engine", "MissingReason"),
+            ("engine", "Stream"),
+            ("engine", "SubmitDisposition"),
+            ("native", "mdk_adapter::RuntimeStatus"),
+        ],
     )?;
     let mut controls = json!({});
     for (case, spelling, code) in [
@@ -390,7 +421,7 @@ pub fn observe(host: &str, original: &Path, work: &Path, roles: &Value) -> Resul
         )?;
         controls[case] = actual;
     }
-    Ok(
-        json!({"attempted":attempted,"baseline":old_count,"candidate":new_count,"added":added,"controls":controls,"libraries":libs}),
-    )
+    report["controls"] = controls;
+    report["libraries"] = libraries;
+    Ok(report)
 }
