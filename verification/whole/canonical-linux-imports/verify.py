@@ -3,16 +3,18 @@
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
 import subprocess
-import sys
 import tempfile
 
 HERE = Path(__file__).resolve().parent
-sys.path.insert(0, str(HERE.parent / "seven-public-imports"))
-import verify as audit  # noqa: E402
+audit_spec = importlib.util.spec_from_file_location(
+    "seven_public_imports", HERE.parent / "seven-public-imports/verify.py")
+audit = importlib.util.module_from_spec(audit_spec)
+audit_spec.loader.exec_module(audit)
 
 HOST = "aarch64-unknown-linux-gnu"
 CANONICAL = audit.Candidate(
