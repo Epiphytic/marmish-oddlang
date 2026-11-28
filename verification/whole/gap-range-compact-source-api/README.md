@@ -29,7 +29,8 @@ Rust 1.96.1 and run the unchanged callers with Rust 1.97.1 on Darwin
 ARM64.
 
 ```sh
-python3 -B verification/whole/gap-range-compact-source-api/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin range-contract-inputs -- qualify-source-api \
   "$FRAMEWORK" "$COMPILER_TARGET" "$ORIGINAL" "$RECEIPT"
 ```
 

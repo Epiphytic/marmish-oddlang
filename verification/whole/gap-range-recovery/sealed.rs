@@ -53,7 +53,13 @@ fn generated_sources(product: &Path, label: &str) -> Result<Value> {
     Ok(lock["generatedFiles"].clone())
 }
 
-fn observe(sandbox: &Sandbox, lane: &Path, expected: &Value, label: &str) -> Result<Value> {
+pub(super) fn observe(
+    sandbox: &Sandbox,
+    lane: &Path,
+    cases: &[u8],
+    expected: &Value,
+    label: &str,
+) -> Result<Value> {
     let caller = lane.join("caller");
     fs::create_dir_all(caller.join("src"))?;
     let reference = whole().join("gap-range-reference");
@@ -75,11 +81,7 @@ fn observe(sandbox: &Sandbox, lane: &Path, expected: &Value, label: &str) -> Res
         "with_range",
     ]))?;
     let exe = caller.join("target/release/gap-observer");
-    let observed = capture(
-        sandbox.command(&caller)?.arg(&exe),
-        600,
-        Some(&fs::read(reference.join("cases.json"))?),
-    )?;
+    let observed = capture(sandbox.command(&caller)?.arg(&exe), 600, Some(cases))?;
     require(
         observed.status.success(),
         format!(
@@ -155,7 +157,8 @@ pub(super) fn check(args: Inputs, expected: &Value) -> Result<Value> {
         let product = lane.join("product");
         let lock = product.join("package.lock");
         let sources = generated_sources(&product, label)?;
-        let rows = observe(&sandbox, &lane, &expected[label], label)?;
+        let cases = fs::read(whole().join("gap-range-reference/cases.json"))?;
+        let rows = observe(&sandbox, &lane, &cases, &expected[label], label)?;
         observations[label] = json!({"observations":rows,"manifestSha256":sha(&manifest)?,
             "packageLockSha256":sha(&lock)?,"generatedFiles":sources});
         let recovered = args.scratch.join(label).join("recovered");

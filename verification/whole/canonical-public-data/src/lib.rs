@@ -1,3 +1,5 @@
+#[path = "../../gap-range-endpoint/contract.rs"]
+pub mod endpoint_contract;
 #[path = "../../engine-native-records/verify.rs"]
 pub mod public_types;
 #[path = "../../prototype-constant/verify.rs"]

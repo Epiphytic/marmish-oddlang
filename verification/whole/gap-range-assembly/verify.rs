@@ -18,13 +18,13 @@ use std::{
 const FRAMEWORK: &str = "2e2c37e53ed52676017b25e3143eca48a0daff13";
 const SEALED: &str = "6355ae8504a7eb64ae01fc0591f29e3879c38128";
 const RECOVERED: &str = "fb3199bcbdb334c1914228f56efa99fb00dd3d42";
-const MANIFEST: &str = "engine-gap-range-derived-package.json";
+pub(super) const MANIFEST: &str = "engine-gap-range-derived-package.json";
 
 #[derive(clap::Args)]
 pub(super) struct Args {
-    framework: PathBuf,
-    compiler_target: PathBuf,
-    original: PathBuf,
+    pub(super) framework: PathBuf,
+    pub(super) compiler_target: PathBuf,
+    pub(super) original: PathBuf,
     receipt: PathBuf,
     #[arg(long)]
     package_lock: Option<PathBuf>,
@@ -102,25 +102,12 @@ fn recoveries(manifest: &Path, lock_path: &Path, reference: &Value) -> Result<Va
     Ok(json!(rows))
 }
 
-fn package_files(root: &Path, dir: &Path, hashes: &mut Value) -> Result {
-    for entry in fs::read_dir(dir)? {
-        let entry = entry?;
-        let path = entry.path();
-        let kind = entry.file_type()?;
-        if kind.is_dir() {
-            package_files(root, &path, hashes)?;
-        } else {
-            require(kind.is_file(), "expected a regular package file")?;
-            let name = path
-                .strip_prefix(root)?
-                .to_str()
-                .ok_or("invalid package filename")?;
-            if name != "package.lock" {
-                hashes[name] = json!(sha(&path)?);
-            }
-        }
-    }
-    Ok(())
+pub(super) fn package_files(root: &Path) -> Result<Value> {
+    let mut entries = public_data_qualification::product::file_digests(root)?;
+    entries
+        .remove("package.lock")
+        .ok_or("missing generated package lock")?;
+    Ok(json!(entries))
 }
 
 fn verify(work: &Path, args: &Args, host: &str, builder: &Value, companion: &str) -> Result<Value> {
@@ -187,8 +174,7 @@ fn verify(work: &Path, args: &Args, host: &str, builder: &Value, companion: &str
     let mut expected = reference["generatedFiles"].clone();
     expected["Cargo.toml"] = reference["cargoManifestSha256"].clone();
     expected["Cargo.lock"] = reference["cargoLockSha256"].clone();
-    let mut files = json!({});
-    package_files(&product, &product, &mut files)?;
+    let files = package_files(&product)?;
     require(
         files == expected,
         "package files differ from sealed package",
@@ -223,12 +209,20 @@ fn verify(work: &Path, args: &Args, host: &str, builder: &Value, companion: &str
     )
 }
 
-pub(super) fn qualify(mut args: Args) -> Result {
+pub(super) fn qualify(args: Args) -> Result {
+    run_qualification(args, FRAMEWORK, verify)
+}
+
+pub(super) fn run_qualification(
+    mut args: Args,
+    revision: &str,
+    verify: impl FnOnce(&Path, &Args, &str, &Value, &str) -> Result<Value>,
+) -> Result {
     args.original = args.original.canonicalize()?;
     args.framework = args.framework.canonicalize()?;
     args.compiler_target = assembly::resolved(&std::path::absolute(&args.compiler_target)?)?;
     assembly::checkout(&args.original, ORIGINAL, false)?;
-    assembly::checkout(&args.framework, FRAMEWORK, false)?;
+    assembly::checkout(&args.framework, revision, false)?;
     let companion = stdout(
         Command::new("git")
             .current_dir(assembly::root())
