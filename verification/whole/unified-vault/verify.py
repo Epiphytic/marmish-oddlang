@@ -196,15 +196,22 @@ def qualify(work, manifest, original, framework, compiler, reference_target):
 
 
 def main():
+    if not __debug__:
+        raise RuntimeError("vault verification requires Python assertions")
     parser = argparse.ArgumentParser(description=__doc__)
     for name in ("manifest", "original", "framework", "compiler_target", "reference_target", "receipt"):
         parser.add_argument(name, type=lambda value: Path(value).resolve())
     args = parser.parse_args()
+    frameworks = {
+        PORTABLE / "workspace-v7-vault-engine.json": FRAMEWORK,
+        PORTABLE / "workspace-v7-recovered-vault-engine.json": "6e2d1ef00f286b6132b84e27a61805c659dfd437",
+    }
+    if args.manifest not in frameworks:
+        raise ValueError(f"unsupported vault workspace: {args.manifest}")
     assert run("git", "-C", args.original, "rev-parse", "HEAD").decode().strip() == ORIGINAL
     assert not run("git", "-C", args.original, "status", "--porcelain", "--untracked-files=no")
-    assert run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() == FRAMEWORK
+    assert run("git", "-C", args.framework, "rev-parse", "HEAD").decode().strip() == frameworks[args.manifest]
     assert not run("git", "-C", args.framework, "status", "--porcelain", "--untracked-files=no")
-    assert args.manifest == PORTABLE / "workspace-v7-vault-engine.json"
     assert not run("git", "-C", ROOT, "status", "--porcelain", "--untracked-files=all", "--",
                    "oddlang/portable", "verification/whole")
     run("cargo", "+1.97.1", "build", "--bin", "oddlang", "--offline", "--locked",
@@ -215,8 +222,18 @@ def main():
         "--target-dir", args.reference_target, cwd=args.original)
     system_temp = run("/usr/bin/getconf", "DARWIN_USER_TEMP_DIR").decode().strip()
     with tempfile.TemporaryDirectory(prefix="odd-unified-vault-", dir=system_temp) as temp:
-        receipt, lock = qualify(Path(temp).resolve(), args.manifest, args.original, args.framework,
+        work = Path(temp).resolve()
+        receipt, lock = qualify(work, args.manifest, args.original, args.framework,
                                 compiler, args.reference_target)
+        if args.manifest.name == "workspace-v7-recovered-vault-engine.json":
+            fixed = vault_check(work, "check-vault-fixed-bytes", args.original, work / "product",
+                                args.reference_target, "aarch64-apple-darwin", work)
+            receipt = json.loads(subprocess.check_output([
+                "cargo", "+1.97.1", "run", "--quiet", "--locked", "--offline", "--manifest-path",
+                HERE.parent / "canonical-public-data/Cargo.toml", "--target-dir", work / "copy-test-tools",
+                "--bin", "recovered-vault-receipt", "--", work / "inputs" / args.manifest.name,
+                work / "product/workspace.lock",
+            ], input=json.dumps({"receipt": receipt, "fixed": fixed}).encode()))
     args.receipt.parent.mkdir(parents=True, exist_ok=True)
     args.receipt.write_text(json.dumps(receipt, indent=2) + "\n")
     args.receipt.with_name("workspace.lock").write_bytes(lock)

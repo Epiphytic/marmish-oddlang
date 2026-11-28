@@ -9,7 +9,8 @@ The fixed vault test uses local byte literals. Credential storage, platform key 
 Use clean checkouts of the original at `af54339d250290490d62d4475a77539b7e739071` and Oddlang at `6e2d1ef00f286b6132b84e27a61805c659dfd437`.
 
 ```sh
-python verification/whole/unified-recovered-vault/verify.py \
+python verification/whole/unified-vault/verify.py \
+  oddlang/portable/workspace-v7-recovered-vault-engine.json \
   /path/to/original /path/to/framework /path/to/compiler-target \
   /path/to/reference-target /tmp/unified-recovered-vault/receipt.json
 ```
