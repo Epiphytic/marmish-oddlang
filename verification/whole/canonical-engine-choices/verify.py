@@ -46,6 +46,7 @@ HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 QUALIFICATION_PIN = "19be68fb7350dffbb79e902d9bea5c4c5d3dd1e5"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
 IMPORT_COMPARISON_PIN = "89cef9e89a28d51437404580a7d366db967950aa"
+ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
 HELPER_PINS = {
     ENGINE_STANDALONE / "qualification.rs": "82342ef7cf85f5e6cf6291ec3eb171de320b2b9c",
     ENGINE_STANDALONE / "build-host.rs": BUILD_HOST_PIN,
@@ -61,8 +62,8 @@ HELPER_PINS = {
     WHOLE / "canonical-linux-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
     WHOLE / "canonical-public-data/imports.rs": IMPORT_COMPARISON_PIN,
-    WHOLE / "canonical-public-data/witness.rs": IMPORT_COMPARISON_PIN,
-    WHOLE / "canonical-public-data/product.rs": "58b9e203c946429008ca54ebbfb16d62fc10fe8f",
+    WHOLE / "canonical-public-data/witness.rs": ENGINE_SNAPSHOT_PIN,
+    WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": QUALIFICATION_PIN,
 }
 HELPER_HASHES = {
@@ -124,71 +125,9 @@ def prior(host):
 
 
 def snapshots(args, profile):
-    NATIVE["check_api_release"]("canonical-engine-choices", PORTABLE)
-    prior_input = PREVIOUS["CANONICAL"]
-    AUDIT.verify_product(args.baseline, ROOT, prior_input)
-    AUDIT.verify_product(args.product, ROOT, profile)
-    old_workspace, workspace = map(
-        AUDIT.read, [args.baseline / "workspace.lock", args.product / "workspace.lock"]
+    return NATIVE["product_witness"](
+        "engine-choice-snapshot", args.baseline, args.product, profile.input_revision, profile.lock_sha256
     )
-    assert old_workspace.keys() == workspace.keys()
-    assert all(
-        workspace[k] == old_workspace[k]
-        for k in workspace
-        if k not in ("inputSha256", "members")
-    )
-    assert len(workspace["members"]) == 7
-    old_engine, new_engine = (
-        value["members"][ENGINE] for value in (old_workspace, workspace)
-    )
-    assert all(
-        old_engine[key] == new_engine[key]
-        for key in ("dependencies", "workspaceCargoManifestSha256")
-    )
-    old_packages = {
-        name: AUDIT.read(args.baseline / name / "package.lock")
-        for name in old_workspace["members"]
-    }
-    locks = {
-        name: digest(args.product / name / "package.lock")
-        for name in workspace["members"]
-    }
-    for name in workspace["members"]:
-        if name == ENGINE:
-            continue
-        assert workspace["members"][name] == old_workspace["members"][name]
-        assert locks[name] == digest(args.baseline / name / "package.lock")
-
-    engine = args.product / ENGINE
-    expected = PORTABLE / "engine-fieldless-choices-v1/package.lock"
-    standalone = pinned(expected, STANDALONE_PIN)
-    assert (engine / "package.lock").read_bytes() == expected.read_bytes()
-    before = old_packages[ENGINE]
-    assert standalone["components"][:-1] == before["components"]
-    assert standalone["components"][-1]["reexports"] == ["Stream", "SubmitDisposition"]
-    assert standalone["cargoLockSha256"] == before["cargoLockSha256"]
-    inherited, generated = before["generatedFiles"], standalone["generatedFiles"]
-    changed = {path for path in inherited if inherited[path] != generated[path]}
-    added = generated.keys() - inherited.keys()
-    assert changed == {"src/lib.rs", "src/group_1/mod.rs"}
-    assert added == {"src/group_1/__projection_3.rs"}
-    for path, line in (
-        ("src/lib.rs", "pub use model::{Stream, SubmitDisposition};\n"),
-        (
-            "src/group_1/mod.rs",
-            "mod __projection_3;\npub use __projection_3::{Stream, SubmitDisposition};\n",
-        ),
-    ):
-        assert (engine / path).read_bytes() == (
-            args.baseline / ENGINE / path
-        ).read_bytes() + line.encode()
-    return {
-        "rootCargoLockSha256": workspace["cargoLockSha256"],
-        "rootCargoManifestSha256": workspace["workspaceCargoManifestSha256"],
-        "packageLocks": locks,
-        "changedEngineSources": sorted(changed),
-        "addedEngineSources": sorted(added),
-    }
 
 
 def build(args, host):
