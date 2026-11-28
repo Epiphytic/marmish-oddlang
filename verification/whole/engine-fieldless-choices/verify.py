@@ -1,7 +1,5 @@
 """Compare unchanged external data callers with full original and generated engine libraries."""
 import argparse
-import atexit
-from functools import cache
 import json
 import os
 from pathlib import Path
@@ -27,29 +25,11 @@ JOURNAL = runpy.run_path(str(HERE.parent / "journal-records/verify.py"))
 run, sha = JOURNAL["run"], JOURNAL["sha"]
 
 
-@cache
-def build_host():
-    scratch = tempfile.TemporaryDirectory(prefix="engine-build-host-")
-    atexit.register(scratch.cleanup)
-    binary = Path(scratch.name) / "build-host"
-    run("rustc", "+1.97.1", "--edition=2024", HERE / "build-host.rs", "-o", binary)
-    return binary
-
-
-def host_build_env(cargo_home):
-    env = os.environ.copy()
-    for record in run(build_host(), "prepare", cargo_home).split(b"\0"):
-        if record:
-            name, assigned, value = os.fsdecode(record).partition("=")
-            if assigned:
-                env[name] = value
-            else:
-                env.pop(name, None)
-    return env
+host_build_env = WORKSPACE["envtools"].host_build_env
 
 
 def checkout(path, revision):
-    run(build_host(), "check-config", path)
+    run(WORKSPACE["envtools"].build_host(), "check-config", path)
     if (run("git", "rev-parse", "HEAD", cwd=path).decode().strip() != revision
             or run("git", "status", "--porcelain", "--untracked-files=all", cwd=path)):
         raise ValueError(f"expected a clean checkout at {revision}: {path}")
