@@ -3,16 +3,14 @@ use clap::Parser;
 use public_data_qualification::{
     Result,
     assembly::{self, ORIGINAL, Sandbox},
+    build_host::{self, cargo_command},
     capture, json_bytes, load, portable, require, run, sha, stdout,
     vault_mode::observe,
     whole,
 };
 use serde_json::{Value, json};
 use std::{
-    env,
-    ffi::OsString,
-    fs,
-    os::unix::fs::symlink,
+    env, fs,
     path::{Path, PathBuf},
     process::Command,
 };
@@ -31,34 +29,6 @@ struct Args {
     receipt: PathBuf,
 }
 
-fn private_home(home: &Path, cache: &Path) -> Result {
-    fs::create_dir(home)?;
-    for name in ["registry", "git"] {
-        let src = cache.join(name);
-        if src.is_dir() {
-            symlink(src.canonicalize()?, home.join(name))?;
-        }
-    }
-    Ok(())
-}
-
-fn cargo_command(home: &Path, dir: &Path, keys: impl Iterator<Item = OsString>) -> Command {
-    let mut cmd = Command::new("cargo");
-    cmd.current_dir(dir);
-    for key in keys {
-        if ["CARGO_", "RUSTC", "RUSTDOC", "RUSTFLAGS"]
-            .iter()
-            .any(|p| key.as_encoded_bytes().starts_with(p.as_bytes()))
-        {
-            cmd.env_remove(key);
-        }
-    }
-    cmd.env("RUSTUP_TOOLCHAIN", "1.97.1")
-        .env("MARMISH_BUILD_COMMIT", ORIGINAL)
-        .env("CARGO_HOME", home)
-        .env("CARGO_NET_OFFLINE", "true");
-    cmd
-}
 fn cargo(home: &Path, dir: &Path) -> Command {
     cargo_command(home, dir, env::vars_os().map(|(k, _)| k))
 }
@@ -176,11 +146,7 @@ fn main() -> Result {
     let isolated = tempfile::tempdir()?;
     let work = isolated.path().canonicalize()?;
     let home = scratch.join("cargo-home");
-    let cache = match env::var_os("CARGO_HOME") {
-        Some(p) => PathBuf::from(p),
-        None => PathBuf::from(env::var_os("HOME").ok_or("missing HOME")?).join(".cargo"),
-    };
-    private_home(&home, &cache)?;
+    build_host::prepare(&home)?;
     run(cargo(&home, &framework)
         .args([
             "+1.96.1",
@@ -324,6 +290,7 @@ fn main() -> Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::ffi::OsString;
 
     #[test]
     fn build_environment_uses_only_dependency_caches() -> Result {
@@ -333,7 +300,7 @@ mod tests {
         fs::create_dir_all(ambient.join("registry"))?;
         fs::create_dir(ambient.join("git"))?;
         fs::write(ambient.join("config.toml"), "[build]\njobs = 7\n")?;
-        private_home(&home, &ambient)?;
+        build_host::private_home(&home, &ambient)?;
         assert_eq!(fs::read_dir(&home)?.count(), 2);
         for name in ["git", "registry"] {
             assert_eq!(

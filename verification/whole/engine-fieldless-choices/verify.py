@@ -1,5 +1,7 @@
 """Compare unchanged external data callers with full original and generated engine libraries."""
 import argparse
+import atexit
+from functools import cache
 import json
 import os
 from pathlib import Path
@@ -20,15 +22,34 @@ SOURCE = Path("crates/marmish-engine/src/model.rs")
 FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 RUSTC = "8bab26f4f68e0e26f0bb7960be334d5b520ea452"
 HOSTS = ("aarch64-apple-darwin", "aarch64-unknown-linux-gnu")
-SHARED = runpy.run_path(str(HERE.parent / "vault-mode/verify.py"))
-WORKSPACE, JOURNAL, run = (SHARED[key] for key in ("WORKSPACE", "JOURNAL", "run"))
+WORKSPACE = runpy.run_path(str(HERE.parent / "workspace/verify.py"))
+JOURNAL = runpy.run_path(str(HERE.parent / "journal-records/verify.py"))
+run, sha = JOURNAL["run"], JOURNAL["sha"]
 
 
-sha = JOURNAL["sha"]
+@cache
+def build_host():
+    scratch = tempfile.TemporaryDirectory(prefix="engine-build-host-")
+    atexit.register(scratch.cleanup)
+    binary = Path(scratch.name) / "build-host"
+    run("rustc", "+1.97.1", "--edition=2024", HERE / "build-host.rs", "-o", binary)
+    return binary
+
+
+def host_build_env(cargo_home):
+    env = os.environ.copy()
+    for record in run(build_host(), "prepare", cargo_home).split(b"\0"):
+        if record:
+            name, assigned, value = os.fsdecode(record).partition("=")
+            if assigned:
+                env[name] = value
+            else:
+                env.pop(name, None)
+    return env
 
 
 def checkout(path, revision):
-    SHARED["reject_local_cargo_config"](path)
+    run(build_host(), "check-config", path)
     if (run("git", "rev-parse", "HEAD", cwd=path).decode().strip() != revision
             or run("git", "status", "--porcelain", "--untracked-files=all", cwd=path)):
         raise ValueError(f"expected a clean checkout at {revision}: {path}")
@@ -156,7 +177,7 @@ def verify(args):
     with tempfile.TemporaryDirectory(prefix="engine-choices-source-") as temp, tempfile.TemporaryDirectory(
             prefix="engine-choices-isolated-") as area:
         scratch, work = Path(temp).resolve(), Path(area).resolve()
-        env = SHARED["host_build_env"](scratch / "cargo-home")
+        env = host_build_env(scratch / "cargo-home")
         run("cargo", "+1.97.1", "build", "--release", "--locked", "--offline", "--bin", "oddlang",
             "--target-dir", args.compiler_target, cwd=args.framework, env=env)
         compiler = args.compiler_target / "release/oddlang"
