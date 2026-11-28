@@ -20,6 +20,38 @@ pub const COUNT: [(&str, usize); 7] = [
     ("vault", 10),
 ];
 const LOCK: &str = "5abf57c811d641ba126c32dde208334d85d47374bbfbb983231783a403f24df4";
+pub fn frozen_inventory(inputs: &Path) -> Result {
+    const INPUT_REVISION: &str = "0f9e57396530fa1c11127e3fff7d8d0018514f00";
+    const DARWIN_EVIDENCE: &str = "55da1b628138d48d1984f87f173a061886d48ea8";
+    let inventory = whole().join("public-types");
+    let mut paths = vec![inventory.join("provenance.json")];
+    for (name, _) in COUNT {
+        let package = inventory.join(format!("original-{name}"));
+        for file in ["exports.json", "exports.lock", "evidence.json"] {
+            paths.push(package.join(file));
+        }
+    }
+    for path in paths {
+        let relative = path
+            .strip_prefix(crate::assembly::root())?
+            .to_str()
+            .ok_or("non-UTF-8 inventory path")?;
+        let expected = run(Command::new("git")
+            .current_dir(inputs)
+            .args(["show", &format!("{INPUT_REVISION}:{relative}")]))?;
+        require(
+            fs::read(&path)? == expected,
+            format!("inventory differs from Git pin: {relative}"),
+        )?;
+    }
+    let receipt = whole().join("canonical-workspace/aarch64-apple-darwin.json");
+    crate::product::pinned(&receipt, DARWIN_EVIDENCE)?;
+    require(
+        load(&receipt)?["workspaceLockSha256"] == LOCK,
+        "unexpected canonical Darwin workspace lock",
+    )
+}
+
 fn object(v: &Value) -> Result<&serde_json::Map<String, Value>> {
     Ok(v.as_object().ok_or("expected an object")?)
 }

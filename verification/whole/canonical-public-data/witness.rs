@@ -24,6 +24,8 @@ struct Args {
 enum Action {
     ImportManifest { product: PathBuf, inputs: PathBuf, release: String, revision: String, digest: String },
     ImportArtifacts { package_root: PathBuf, target: PathBuf, #[arg(required = true)] packages: Vec<String> },
+    ImportSourcePin { original: PathBuf },
+    FrozenImportInventory { inputs: PathBuf },
     LibraryClosure { target: PathBuf, host: String },
     CompareEngineImports,
     PublicImports { original: PathBuf, host: String },
@@ -228,6 +230,8 @@ fn main() -> Result {
             )?;
             serde_json::to_value(artifacts)?
         }
+        Action::ImportSourcePin { original } => public_data_qualification::artifacts::source_pin(&original)?,
+        Action::FrozenImportInventory { inputs } => { imports::frozen_inventory(&inputs)?; Value::Null }
         Action::LibraryClosure { target, host } => {
             use public_data_qualification::artifacts::{cargo_rows, library_closure};
             let raw: String = serde_json::from_reader(io::stdin().lock())?;

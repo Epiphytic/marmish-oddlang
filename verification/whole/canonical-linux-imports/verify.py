@@ -32,42 +32,11 @@ def file_sha(path):
 
 
 def source_pin(original):
-    revision, tree = (
-        audit.git(original, "rev-parse", "HEAD", "HEAD^{tree}").decode().splitlines()
-    )
-    assert revision == audit.ORIGINAL
-    assert not audit.git(original, "status", "--porcelain", "--untracked-files=all")
-    paths = [
-        "Cargo.toml",
-        "Cargo.lock",
-        *(f"crates/{name}/Cargo.toml" for name in NAMES),
-    ]
-    return {
-        "revision": revision,
-        "tree": tree,
-        "files": {name: file_sha(original / name) for name in paths},
-    }
+    return audit.product_witness("import-source-pin", original)
 
 
 def frozen_inputs(inputs):
-    paths = [
-        audit.INVENTORY / "provenance.json",
-        *(
-            audit.INVENTORY / f"original-{name}" / suffix
-            for name in audit.COUNTS
-            for suffix in ("exports.json", "exports.lock", "evidence.json")
-        ),
-    ]
-    for path in paths:
-        relative = path.relative_to(audit.ROOT).as_posix()
-        assert path.read_bytes() == audit.git(
-            inputs, "show", f"{CANONICAL.input_revision}:{relative}"
-        )
-    relative = DARWIN.relative_to(audit.ROOT).as_posix()
-    assert DARWIN.read_bytes() == audit.git(
-        audit.ROOT, "show", f"{DARWIN_EVIDENCE}:{relative}"
-    )
-    assert audit.read(DARWIN)["workspaceLockSha256"] == CANONICAL.lock_sha256
+    audit.product_witness("frozen-import-inventory", inputs)
 
 
 def build(root, target):
