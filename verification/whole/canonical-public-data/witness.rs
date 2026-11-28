@@ -8,6 +8,8 @@ mod buffer_trace;
 mod platform_imports;
 #[path = "../canonical-linux-imports/role.rs"]
 mod import_role;
+#[path = "../seven-public-imports/inherited.rs"]
+mod inherited_imports;
 use public_data_qualification::endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
@@ -35,6 +37,7 @@ enum Action {
     CompareEngineImports,
     CanonicalImportBaseline { host: String },
     ComparePlatformImports,
+    InheritedImports { profile: String, product: PathBuf, target: PathBuf, original: PathBuf },
     BuildImportLibraries { root: PathBuf, target: PathBuf, host: String },
     ImportRoleReport { root: PathBuf, target: PathBuf, original: PathBuf, host: String, #[arg(long)] generated: bool },
     PublicImports { original: PathBuf, host: String },
@@ -260,6 +263,10 @@ fn main() -> Result {
         Action::ImportRoleReport { root, target, original, host, generated } => {
             let raw: String = serde_json::from_reader(io::stdin().lock())?;
             import_role::report(&raw, &root, &target, &original, &host, generated)?
+        }
+        Action::InheritedImports { profile, product, target, original } => {
+            let log: String = serde_json::from_reader(io::stdin().lock())?;
+            inherited_imports::observe(&profile, &product, &target, &original, &log)?
         }
         Action::ComparePlatformImports => platform_imports::compare(&input()?)?,
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,

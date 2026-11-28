@@ -39,7 +39,8 @@ def lane(name, program="verify.py"):
 
 SIX = lane("unified-mdk", "workspace_compat.py")
 CLI = lane("terminal-prefix")
-VAULT_API = lane("vault-mode")
+QUALIFICATION = lane("core-package")
+VAULT_SOURCE = "crates/marmish-vault/src/helper.rs"
 run, data, sha = (SIX[name] for name in ("run", "data", "sha"))
 
 
@@ -116,11 +117,12 @@ def vault_mode(args, host, work, scratch, product, build):
     if expected["original"] != SIX["ORIGINAL"] or expected["probeSha256"] != sha(WHOLE / "vault-mode/probe.rs"):
         raise ValueError("unexpected original vault mode pin")
     generated = SIX["artifact"](build, "marmish_vault")
-    actual = VAULT_API["observe"](generated, root, product / "target/release/deps")
+    _, observer = QUALIFICATION["qualification_tool"]("vault-mode-observer")
+    actual = json.loads(run(observer, generated, root, product / "target/release/deps"))
     expected_result = {field: expected["results"]["baseline"][field] for field in ("values", "absentTraits")}
     if actual != expected_result:
         raise ValueError("canonical vault helper differs from paired original observations")
-    source = args.original / VAULT_API["SOURCE"]
+    source = args.original / VAULT_SOURCE
     recovered = root / "recovered"
     run(work / "oddlang", "recover", "plain-choice", source, WHOLE / "vault-mode/selection.json", recovered)
     for name in ("graph.json", "rust.json"):
@@ -131,23 +133,8 @@ def vault_mode(args, host, work, scratch, product, build):
 
 
 def imports(args, product, build):
-    inventory = CLI["IMPORTS"]
-    package_names = [f"marmish-{crate}" for crate in inventory["COUNTS"]]
-    bound, _ = inventory["artifacts"](build, product, package_names, product / "target", generated=True)
-    observed = inventory["library_imports"](bound, args.original)
-    before = data(WHOLE / "converged-diagnostics-cli/aarch64-apple-darwin.json")["publicApi"]["libraries"]
-    additions = []
-    for crate, output in observed.items():
-        old = {row["spelling"]: row["compiles"] for row in before[crate]["imports"]}
-        new = {row["spelling"]: row["compiles"] for row in output["imports"]}
-        if old.keys() != new.keys() or any(value and not new[k] for k, value in old.items()):
-            raise ValueError(f"public native import regression: {crate}")
-        additions.extend([crate, name] for name in sorted(new) if new[name] and not old[name])
-    return {"darwinPublicImports": {
-        "attempted": sum(len(v["imports"]) for v in observed.values()),
-        "importable": sum(v["importable"] for v in observed.values()),
-        "additional": additions, "libraries": observed,
-    }}
+    return SIX["product_witness"]("inherited-imports", "canonical", product, product / "target",
+                                  args.original, current=build.decode() if isinstance(build, bytes) else build)
 
 
 def denied(args, host):
@@ -170,7 +157,7 @@ def denied(args, host):
         "native-record-caller": WHOLE / "engine-native-records/native.rs",
         "original-native-diagnostics": args.original / "crates/marmish-native/src/diagnostics.rs",
         "diagnostic-caller": WHOLE / "public-diagnostics/probe.rs",
-        "original-vault-mode": args.original / VAULT_API["SOURCE"],
+        "original-vault-mode": args.original / VAULT_SOURCE,
         "vault-mode-caller": WHOLE / "vault-mode/probe.rs",
         "terminal-original-witness": WHOLE / "terminal-prefix" / f"{host}.json",
     }
