@@ -2,6 +2,7 @@
 
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -22,7 +23,6 @@ FRAMEWORK = "8e3320aacb0106d543c3e21ab1faf60a02132c04"
 INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
 STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
-LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
 RECOVERY_PIN = "7fcbdfc396e0a5ea4c7b4f691dfea965e0244919"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
@@ -45,10 +45,10 @@ BUILD_HOST_PIN = "0c044a81304af090567eec0b70c56614833c378a"
 HOST_ADAPTER_PIN = "95db5976653db21e48457b4a1f2b2d6cefd08bbc"
 ENGINE_SERDE_PIN = "0efc1e0a4e073ba8a50a2bf34e5554a71a73b7fe"
 REFERENCE_PIN = "b4ce5421ff0c1eab7f454ab514260cae47633e0e"
-IMPORT_EVIDENCE_PIN = "9f4d43404ba4bed053af3ffb7218de5c955a47fa"
 ENGINE_SNAPSHOT_PIN = "cb59e073e75116b37d72eae545ce0ea2a1c17d3d"
 PLATFORM_IMPORT_PIN = "7519e0085608a9e16d3a5bab2e7ef96052774a23"
 ROLE_AUDIT_PIN = "07759feb808eff49a59577b5a554f464b5ea1352"
+LINUX_AUDIT_PIN = "16c6c7d3be3ca1792ae8fa0e43eacb8bae7af606"
 HELPER_PINS = {
     WHOLE / "canonical-linux-imports/role.rs": ROLE_AUDIT_PIN,
     WHOLE / "unified-mdk/workspace_compat.py": ROLE_AUDIT_PIN,
@@ -64,10 +64,10 @@ HELPER_PINS = {
     WHOLE / "vault-fixed-bytes/witness.rs": VAULT_OBSERVER_PIN,
     WHOLE / "core-package/verify.py": HOST_ADAPTER_PIN,
     WHOLE / "workspace/verify.py": WORKSPACE_TOOLING_PIN,
-    WHOLE / "canonical-linux-imports/verify.py": ROLE_AUDIT_PIN,
+    WHOLE / "canonical-linux-imports/verify.rs": LINUX_AUDIT_PIN,
     WHOLE / "seven-public-imports/verify.py": IMPORT_TOOLING_PIN,
-    WHOLE / "canonical-public-data/imports.rs": IMPORT_EVIDENCE_PIN,
-    WHOLE / "canonical-public-data/witness.rs": ROLE_AUDIT_PIN,
+    WHOLE / "canonical-public-data/imports.rs": LINUX_AUDIT_PIN,
+    WHOLE / "canonical-public-data/witness.rs": LINUX_AUDIT_PIN,
     WHOLE / "canonical-public-data/product.rs": ENGINE_SNAPSHOT_PIN,
     WHOLE / "canonical-public-data/src/artifacts.rs": ENGINE_SERDE_PIN,
 }
@@ -96,10 +96,12 @@ for relative, expected in JOURNAL_INPUT_PINS.items():
 ARCHIVED_COMPOSER = "verification/whole/canonical-engine-choices/compose.py"
 ARCHIVED_COMPOSER_SHA = hashlib.sha256(subprocess.check_output(
     ["git", "show", f"{INPUT_REVISION}:{ARCHIVED_COMPOSER}"], cwd=ROOT)).hexdigest()
-PREVIOUS = runpy.run_path(str(WHOLE / "canonical-linux-imports/verify.py"))
-AUDIT = PREVIOUS["audit"]
+audit_spec = importlib.util.spec_from_file_location(
+    "seven_public_imports", WHOLE / "seven-public-imports/verify.py")
+AUDIT = importlib.util.module_from_spec(audit_spec)
+audit_spec.loader.exec_module(AUDIT)
 DARWIN = AUDIT.HOST
-LINUX = PREVIOUS["HOST"]
+LINUX = "aarch64-unknown-linux-gnu"
 
 
 CORE = runpy.run_path(str(WHOLE / "core-package/verify.py"))
@@ -116,19 +118,6 @@ def pinned(path, commit):
     return json.loads(pin_bytes(path, commit))
 
 
-def prior(host):
-    if host == DARWIN:
-        receipt = pinned(PREVIOUS["DARWIN"], PREVIOUS["DARWIN_EVIDENCE"])
-        assert receipt["workspaceLockSha256"] == PREVIOUS["CANONICAL"].lock_sha256
-        return receipt["darwinPublicImports"]["libraries"]
-    receipt = pinned(
-        WHOLE / "canonical-linux-imports/aarch64-unknown-linux-gnu.json",
-        LINUX_IMPORT_PIN,
-    )
-    assert receipt["candidate"] == PREVIOUS["CANONICAL"]._asdict()
-    return receipt["generatedBuild"]["libraries"]
-
-
 def snapshots(args, profile):
     return NATIVE["product_witness"](
         "engine-choice-snapshot", args.baseline, args.product, profile.input_revision, profile.lock_sha256
@@ -137,7 +126,7 @@ def snapshots(args, profile):
 
 def imports(host, artifacts, original):
     libraries = AUDIT.library_imports(artifacts, original, target=host)
-    return NATIVE["product_witness"]("compare-engine-imports", current=[prior(host), libraries])
+    return NATIVE["product_witness"]("compare-engine-imports", current=[NATIVE["product_witness"]("canonical-import-baseline", host), libraries])
 
 
 def candidate_serde(raw, target, host):
@@ -151,7 +140,7 @@ def qualify(args):
     companion = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     subprocess.run([tool, "checkout", ROOT, companion], check=True)
     subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
-    original = PREVIOUS["source_pin"](args.original)
+    original = NATIVE["product_witness"]("import-source-pin", args.original)
     assert all(
         not target.is_relative_to(root)
         for target in (args.target, args.original_target)
@@ -168,7 +157,7 @@ def qualify(args):
     assert standalone["framework"] == FRAMEWORK and standalone[
         "compilerSha256"
     ] == digest(args.compiler)
-    PREVIOUS["frozen_inputs"](ROOT)
+    NATIVE["product_witness"]("frozen-import-inventory", ROOT)
     archived_verifier = subprocess.check_output(
         ["git", "show", f"{STANDALONE_PIN}:verification/whole/engine-fieldless-choices/verify.py"], cwd=ROOT)
     assert hashlib.sha256(archived_verifier).hexdigest() == standalone["verifierSha256"]
@@ -180,7 +169,7 @@ def qualify(args):
     ) as scratch:
         work = Path(scratch).resolve()
         env = CORE["host_build_env"](work / "cargo-home")
-        built = PREVIOUS["build"](args.product, args.target, host)
+        built = NATIVE["product_witness"]("build-import-libraries", args.product, args.target, host)
         roles, links = AUDIT.artifacts(
             built,
             args.product,
@@ -188,7 +177,7 @@ def qualify(args):
             args.target,
             generated=True,
         )
-        closure = PREVIOUS["closure"](built, args.target, host)
+        closure = NATIVE["product_witness"]("library-closure", args.target, host, current=built)
         import_results = imports(host, roles, args.original)
         source = json.loads(subprocess.check_output(
             [tool, "reference", args.original, host, args.original_target,
@@ -212,9 +201,9 @@ def qualify(args):
             == generated
             == {key: baseline[key] for key in ("values", "traits")}
         )
-        assert closure == PREVIOUS["closure"](built, args.target, host)
+        assert closure == NATIVE["product_witness"]("library-closure", args.target, host, current=built)
     assert before == snapshots(args, profile)
-    assert original == PREVIOUS["source_pin"](args.original)
+    assert original == NATIVE["product_witness"]("import-source-pin", args.original)
     subprocess.run([tool, "checkout", args.framework, FRAMEWORK], check=True)
     subprocess.run([tool, "checkout", ROOT, companion], check=True)
     return {
@@ -224,7 +213,7 @@ def qualify(args):
         "original": original,
         "compilerSha256": digest(args.compiler),
         "inputs": before,
-        "cargoArtifactLogSha256": AUDIT.sha(built),
+        "cargoArtifactLogSha256": AUDIT.sha(built.encode()),
         "cargoStaticAndMetadataClosureSha256": AUDIT.sha(
             json.dumps(closure, sort_keys=True).encode()
         ),
