@@ -1201,7 +1201,7 @@
 {"path":"verification/whole/canonical-public-data/compose_cli.rs","language":"rust","mode":"100644","sha256":"1692e46be69e215208b3c10149ca93d46cee19af28294c20306ec2b3cc5ef0c0","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/domains.rs","language":"rust","mode":"100644","sha256":"7b7e122f3d3a593a2b99a0124ca103f0e16ab1652edb16e3d941d7106e9cc30b","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/imports.rs","language":"rust","mode":"100644","sha256":"4b44640e1037e946e8063fa52c9bc484b8732df8eaa6e22de977d64345b79325","parse_status":"parsed"}
-{"path":"verification/whole/canonical-public-data/product.rs","language":"rust","mode":"100644","sha256":"f14e8d1f837f8713a54fef477a28e362717df67a73be7b26186fa05414772ece","parse_status":"parsed"}
+{"path":"verification/whole/canonical-public-data/product.rs","language":"rust","mode":"100644","sha256":"9f4c3dd61e9629606e71bba0ff0ad2f0c6f448309565ca1f9379b19427c58aac","parse_status":"parsed"}
 {"path":"verification/whole/canonical-public-data/qualify.rs","language":"rust","mode":"100644","sha256":"a2b816e4c8cc288500e3d35171fa109728ddf3603a42aebda0429c869f70cf8b","parse_status":"recovered"}
 {"path":"verification/whole/canonical-public-data/rust-aarch64-apple-darwin.json","language":"inventory","mode":"100644","sha256":"a5b5102ed6e65a90d364856b8750775dd31ff78a57fbbc088e0e3f03f36a7f73","parse_status":"inventory"}
 {"path":"verification/whole/canonical-public-data/rust-qualification-macos-arm64.json","language":"inventory","mode":"100644","sha256":"6b94d04941aa0ebb35e4a0388f4bedff40069b753e3045aa80c363af3c858b5a","parse_status":"inventory"}

@@ -228,7 +228,12 @@ pub fn pinned(path: &Path, rev: &str) -> Result {
     pinned_at(crate::assembly::root(), path, rev)
 }
 fn pinned_at(root: &Path, path: &Path, rev: &str) -> Result {
-    let name = path.strip_prefix(root)?.to_str().ok_or("non-UTF-8 path")?;
+    // Checked inputs may already use the physical path to a symlinked checkout.
+    let relative = match path.strip_prefix(root) {
+        Ok(name) => name,
+        Err(_) => path.strip_prefix(root.canonicalize()?)?,
+    };
+    let name = relative.to_str().ok_or("non-UTF-8 path")?;
     require(
         fs::read(path)?
             == run(Command::new("git")
