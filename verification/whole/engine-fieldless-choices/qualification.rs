@@ -92,6 +92,7 @@ pub fn reference(
         .join("engine-choice-cache")
         .join(sha(&checkout.join(MODEL))?);
     fs::create_dir_all(&target)?;
+    let target = target.canonicalize()?;
     let lock = fs::OpenOptions::new()
         .write(true)
         .create(true)
