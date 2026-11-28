@@ -81,23 +81,10 @@ def build(work, scratch, host):
     raw = run(*prefix, "cargo", "build", "--release", "--locked", "--offline", "--target", host,
               "--target-dir", target, "--message-format=json", "--workspace", "--lib", "--bins",
               cwd=product, env=env)
-    rows = [json.loads(line) for line in raw.splitlines()]
-    if rows[-1] != {"reason": "build-finished", "success": True}:
-        raise ValueError("incomplete binary build")
-    bins = {}
-    for row in rows:
-        if row["reason"] != "compiler-artifact" or row["target"]["kind"] != ["bin"]:
-            continue
-        role = row["target"]["name"]
-        path = Path(row["executable"]).resolve()
-        if role not in ROLES or role in bins or row["profile"]["test"] or row["profile"]["opt_level"] != "3" or (
-            Path(row["manifest_path"]).resolve() != product / "marmish-native/Cargo.toml"
-            or path != target / host / "release" / role
-        ):
-            raise ValueError(f"unexpected generated release executable: {role}")
-        bins[role] = path
-    if bins.keys() != set(ROLES):
-        raise ValueError("missing original application roles")
+    _, tool = TOOLKIT.qualification_tool("terminal-case-inventory")
+    selected = json.loads(subprocess.check_output(
+        [tool, "linked-binaries", product, target, host], input=raw))
+    bins = {role: Path(path) for role, path in selected.items()}
     return bins, launcher, raw
 
 
