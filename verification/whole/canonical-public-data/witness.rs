@@ -33,6 +33,7 @@ enum Action {
     LibraryClosure { target: PathBuf, host: String },
     EngineSerde { target: PathBuf, host: String },
     CompareEngineImports,
+    CanonicalImportBaseline { host: String },
     ComparePlatformImports,
     BuildImportLibraries { root: PathBuf, target: PathBuf, host: String },
     ImportRoleReport { root: PathBuf, target: PathBuf, original: PathBuf, host: String, #[arg(long)] generated: bool },
@@ -250,6 +251,7 @@ fn main() -> Result {
             let raw: String = serde_json::from_reader(io::stdin().lock())?;
             serde_json::to_value(engine_serde(&cargo_rows(raw.as_bytes())?, &target, &host)?)?
         }
+        Action::CanonicalImportBaseline { host } => imports::canonical_libraries(&host, true)?,
         Action::CompareEngineImports => {
             let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
             imports::compare_engine(&previous, libraries)?

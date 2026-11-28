@@ -43,7 +43,8 @@ and the pinned dependencies available offline:
 ```sh
 "$ODDLANG" build native-workspace rust \
   "$CANONICAL_INPUTS/oddlang/portable/workspace-v7-canonical-offline.json" "$PRODUCT"
-python3 -B verification/whole/canonical-linux-imports/verify.py \
+cargo +1.97.1 run --locked --offline --manifest-path verification/whole/canonical-public-data/Cargo.toml \
+  --bin canonical-linux-imports -- \
   "$PRODUCT" "$GENERATED_TARGET" "$CANONICAL_INPUTS" \
   "$ORIGINAL" "$ORIGINAL_TARGET" "$RECEIPT"
 ```
