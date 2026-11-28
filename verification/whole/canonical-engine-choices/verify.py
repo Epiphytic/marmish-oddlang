@@ -23,7 +23,7 @@ INPUT_REVISION = "934bd7c96af85e0c502cf943b1c1d72f36692a8e"
 LOCK_SHA256 = "a72d0b0538b3afc272fcd7f5cf8cc900935fd4cc920261fa4bd6bcea46270292"
 STANDALONE_PIN = "042f018252c9ed04bea97e10f7da1df16da1e0b0"
 LINUX_IMPORT_PIN = "a5c9b34e04ffdc1fd4836916ffaa75df1d225f9f"
-RECOVERY_PIN = "d45ac05ae29feba3379f488caacc3b18e6e38ed9"
+RECOVERY_PIN = "7fcbdfc396e0a5ea4c7b4f691dfea965e0244919"
 ENGINE_STANDALONE = WHOLE / "engine-fieldless-choices"
 ADDED = [("engine", "Stream"), ("engine", "SubmitDisposition")]
 LOCK = CANDIDATE.with_suffix("") / "workspace.lock"
@@ -44,6 +44,7 @@ WORKSPACE_TOOLING_PIN = "b0cd9f99ad03d87054420fcaca9d4964bdd9d7d6"
 VAULT_MODE_PIN = "ff41a8961c5de372e15f0067705920a95eb7fb31"
 HELPER_PINS = {
     ENGINE_STANDALONE / "verify.py": RECOVERY_PIN,
+    ENGINE_STANDALONE / "observer.rs": RECOVERY_PIN,
     WHOLE / "canonical-public-data/src/bin/engine-choice-inputs.rs": RECOVERY_PIN,
     ENGINE_STANDALONE / "probe.rs": STANDALONE_PIN,
     WHOLE / "vault-mode/verify.py": VAULT_MODE_PIN,
@@ -299,6 +300,7 @@ def qualify(args):
     ) as scratch:
         work = Path(scratch).resolve()
         env = runtime["SHARED"]["host_build_env"](work / "cargo-home")
+        tool = runtime["build_tool"](work / "input-tool-target", env)
         built = build(args, host)
         roles, links = AUDIT.artifacts(
             built,
@@ -314,6 +316,7 @@ def qualify(args):
         )
         library = roles[ENGINE][1]
         reference = runtime["observe"](
+            tool,
             source_library,
             serde,
             args.original_target / "release/deps",
@@ -325,6 +328,7 @@ def qualify(args):
         )
         generated_serde = candidate_serde(built, args.target, host)
         generated = runtime["observe"](
+            tool,
             library,
             generated_serde,
             args.target / "release/deps",
