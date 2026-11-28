@@ -27,6 +27,7 @@ enum Action {
     ImportSourcePin { original: PathBuf },
     FrozenImportInventory { inputs: PathBuf },
     LibraryClosure { target: PathBuf, host: String },
+    EngineSerde { target: PathBuf, host: String },
     CompareEngineImports,
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
@@ -236,6 +237,11 @@ fn main() -> Result {
             use public_data_qualification::artifacts::{cargo_rows, library_closure};
             let raw: String = serde_json::from_reader(io::stdin().lock())?;
             serde_json::to_value(library_closure(&cargo_rows(raw.as_bytes())?, &target, &host)?)?
+        }
+        Action::EngineSerde { target, host } => {
+            use public_data_qualification::artifacts::{cargo_rows, engine_serde};
+            let raw: String = serde_json::from_reader(io::stdin().lock())?;
+            serde_json::to_value(engine_serde(&cargo_rows(raw.as_bytes())?, &target, &host)?)?
         }
         Action::CompareEngineImports => {
             let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
