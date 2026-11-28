@@ -4,6 +4,8 @@ mod offline_cli;
 mod diagnostics;
 #[path = "../private-buffer-inference/source.rs"]
 mod buffer_trace;
+#[path = "../canonical-linux-imports/summary.rs"]
+mod platform_imports;
 use public_data_qualification::endpoint_contract;
 #[path = "../suite/controls.rs"]
 mod suite_controls;
@@ -29,6 +31,7 @@ enum Action {
     LibraryClosure { target: PathBuf, host: String },
     EngineSerde { target: PathBuf, host: String },
     CompareEngineImports,
+    ComparePlatformImports,
     PublicImports { original: PathBuf, host: String },
     ImportControl { work: PathBuf, host: String },
     PrototypeSurface { host: String },
@@ -247,6 +250,7 @@ fn main() -> Result {
             let (previous, libraries): (Value, Value) = serde_json::from_reader(io::stdin().lock())?;
             imports::compare_engine(&previous, libraries)?
         }
+        Action::ComparePlatformImports => platform_imports::compare(&input()?)?,
         Action::PublicImports { original, host } => imports::library_set(&host, &original, &input()?)?,
         Action::ImportControl { work, host } => {
             let data = input()?;

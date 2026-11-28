@@ -1,7 +1,6 @@
 """Compile the frozen Darwin import corpus against both native Linux ARM64 libraries."""
 
 import argparse
-from collections import Counter
 import hashlib
 import importlib.util
 import json
@@ -110,73 +109,9 @@ def import_rows(role, root, target, original, *, generated):
 
 
 def summary(original, generated, darwin):
-    counts = {}
-    differences = []
-    diagnostic_differences = []
-    rejection_codes = {
-        role: Counter()
-        for role in ("originalLinux", "generatedLinux", "generatedDarwin")
-    }
-    for name in audit.COUNTS:
-        baseline = original[name]["imports"]
-        candidate = generated[name]["imports"]
-        mac = darwin[name]["imports"]
-        counts[name] = {
-            "attempted": len(baseline),
-            "originalLinux": 0,
-            "generatedLinux": 0,
-            "generatedDarwin": 0,
-        }
-        for first, second, third in zip(baseline, candidate, mac, strict=True):
-            assert first["spelling"] == second["spelling"] == third["spelling"]
-            assert (
-                first["originalInventoryKind"]
-                == second["originalInventoryKind"]
-                == third["originalInventoryKind"]
-            )
-            counts[name]["originalLinux"] += first["compiles"]
-            counts[name]["generatedLinux"] += second["compiles"]
-            counts[name]["generatedDarwin"] += third["compiles"]
-            for role, case in zip(rejection_codes, (first, second, third), strict=True):
-                rejection_codes[role].update(row["code"] for row in case["diagnostics"])
-            linux_diagnostics = [
-                (row["code"], row["message"]) for row in second["diagnostics"]
-            ]
-            darwin_diagnostics = [
-                (row["code"], row["message"]) for row in third["diagnostics"]
-            ]
-            if linux_diagnostics != darwin_diagnostics:
-                diagnostic_differences.append(
-                    {
-                        "library": name,
-                        "spelling": first["spelling"],
-                        "generatedLinux": linux_diagnostics,
-                        "generatedDarwin": darwin_diagnostics,
-                    }
-                )
-            if not first["compiles"] or second["compiles"] != third["compiles"]:
-                differences.append(
-                    {
-                        "library": name,
-                        "spelling": first["spelling"],
-                        "originalLinux": first["compiles"],
-                        "generatedLinux": second["compiles"],
-                        "generatedDarwin": third["compiles"],
-                        "originalDarwin": True,
-                    }
-                )
-    totals = {key: sum(row[key] for row in counts.values()) for key in counts["core"]}
-    assert (
-        totals["attempted"] == 140
-        and counts["core"]["originalLinux"] == counts["core"]["generatedLinux"] == 6
-    )
-    return {
-        "counts": counts,
-        "totals": totals,
-        "platformOutcomeDifferences": differences,
-        "generatedDiagnosticDifferences": diagnostic_differences,
-        "rejectionDiagnosticsByCode": rejection_codes,
-    }
+    return audit.product_witness("compare-platform-imports", current={
+        "originalLinux": original, "generatedLinux": generated, "generatedDarwin": darwin,
+    })
 
 
 def main():
